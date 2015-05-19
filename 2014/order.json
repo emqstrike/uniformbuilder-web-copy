@@ -1,0 +1,184 @@
+{
+    "base1": "#d00000",
+    "base2": "#ffffff",
+    "base3": "#000000",
+    "base4": "#e0e0e0",
+    "panels": {
+        "front_jersey": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "mesh_material",
+            "infusion": ""
+        },
+        "base_color": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "back_jersey": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "mesh_material",
+            "infusion": ""
+        },
+        "back_panels": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "mesh_material",
+            "infusion": ""
+        },
+        "bottom_sleeve": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": "fill:url('#NewBalance_Camo');stroke-width:0;"
+        },
+        "side_panel": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": "fill:url('#NewBalance_Camo');stroke-width:0;"
+        },
+        "sleeve_color": {
+            "fill": "#d00000",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "back_pant": {
+            "fill": "",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "loops_tunnels": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "pockets": {
+            "fill": "#d00000",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "back_knee": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": ""
+        },
+        "bottom_pants": {
+            "fill": "#ffffff",
+            "piping": "",
+            "material": "",
+            "infusion": "fill:url('#NewBalance_Camo');stroke-width:0;"
+        }
+    },
+    "pipings": {
+        "arm_end": {
+            "stroke": ""
+        },
+        "back_piping": {
+            "stroke": ""
+        },
+        "belt_loop": {
+            "stroke": "#000000"
+        },
+        "center_piping": {
+            "stroke": ""
+        },
+        "raglan": {
+            "stroke": "#000000"
+        },
+        "side_pant": {
+            "stroke": ""
+        },
+        "side_panel_piping": {
+            "stroke": "#000000"
+        },
+        "sleeve_piping": {
+            "stroke": "#000000"
+        },
+        "back_pants": {
+            "stroke": ""
+        }
+    },
+    "name": {
+        "team_name": "HAWKS",
+        "configuration": "Straight",
+        "color": "#000000",
+        "outline_color": "#d00000",
+        "material": "none",
+        "back_material": "none",
+        "typeface": "1-prolook_spartans_0",
+        "back_name": "yes",
+        "back_name_color": "#d00000",
+        "back_name_outline": "#000000",
+        "back_name_typeface": "1-prolook_athletic"
+    },
+    "number": {
+        "positions": "flb",
+        "color": "#d00000",
+        "outline_color": "#000000",
+        "typeface": "1-prolook_spartans_0",
+        "material": "none",
+        "back_material": "none",
+        "back_name": "yes",
+        "back_color": "#000000",
+        "back_outline": "#d00000"
+    },
+    "logo": {
+        "file": "http://demos.marcellus.tv.s3.amazonaws.com/newbalance/baseball/logos/b17.svg",
+        "position_1": "no",
+        "position_2": "no",
+        "position_3": "no",
+        "position_6": "yes"
+    },
+    "team_information": {
+        "jersey_number": "1",
+        "pants_number": "1",
+        "jersey_info": [
+            {
+                "count": "1",
+                "size": "30",
+                "number": "22",
+                "last_name": "",
+                "application": "DIRECT TO JERSEY"
+            }
+        ],
+        "pant_info": [
+            {
+                "count": "1",
+                "size": "22",
+                "inseam": "24",
+                "hem_style": "elastic_cuff"
+            }
+        ],
+        "order_info": {
+            "Attn": "---",
+            "Address_1": "---",
+            "Address_2": "---",
+            "City": "---",
+            "State": "---",
+            "Zip": "---",
+            "Email": "---",
+            "Special_Notes": "---",
+            "Billing_attn": "---",
+            "Billing_address_1": "---",
+            "Billing_address_2": "---",
+            "Billing_city": "---",
+            "Billing_state": "---",
+            "Billing_zip": "---",
+            "Billing_email": "---",
+            "upload": "---"
+        }
+    },
+    "orderId": 1415962469577,
+    "infbase1": "#d00000",
+    "infbase2": "#000000",
+    "infbase3": "#000000",
+    "infbase4": "#e0e0e0"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "newbalance_customizer",
+  "version": "0.0.0",
+  "description": "Uniform customizer based on SVG/jQuery",
+  "main": "index.html",
+  "scripts": {
+    "test": "test/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://leonardo_farroco@bitbucket.org/leonardo_farroco/newbalance-customizer.git"
+  },
+  "author": "Leonardo Farroco - leonardo.farroco@gmail.com",
+  "license": "MIT"
+}

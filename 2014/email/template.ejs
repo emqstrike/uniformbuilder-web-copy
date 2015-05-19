@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../../css/report.css" />
+<script src="../../js/jquery-2.1.1.js"></script>
+<script src="../../js/libs.js"></script>
+<script src="../../js/scripts.js"></script>
+<script>
+
+function extract(obj) {
+
+  myid = obj.attr('id');
+  var svg = document.getElementById(myid);
+  var svg = svg.contentDocument;
+  var svg = svg.documentElement;
+
+  $('#' + myid).replaceWith(svg);
+  
+  setting();
+  
+}
+
+$(document).ready(function(){
+
+	setTimeout(setting , 100);
+	$("#loadfonts").append(
+			"<style>@font-face {	font-family:'<%= prolook.name.typeface %>';"+
+			"src: url('../../assets/fonts/<%= prolook.name.typeface %>.eot');"+
+			"src: local('?'), url('../../assets/fonts/<%= prolook.name.typeface %>.woff') format('woff'),"+
+			" url('../../assets/fonts/<%= prolook.name.typeface %>.ttf') format('truetype');}</style>");
+			$("#loadfonts").append(
+			"<style>@font-face {	font-family:'<%= prolook.name.back_name_typeface %>';"+
+			"src: url('../../assets/fonts/<%= prolook.name.back_name_typeface %>.eot');"+
+			"src: local('?'), url('../../assets/fonts/<%= prolook.name.back_name_typeface %>.woff') format('woff'), url('../../assets/fonts/<%= prolook.name.back_name_typeface %>.ttf') format('truetype');}</style>");
+			$("#loadfonts").append(
+			"<style>@font-face {	font-family:'<%= prolook.number.typeface %>';"+
+			"src: url('../../assets/fonts/<%= prolook.number.typeface %>.eot');"+
+			"src: local('?'), url('../../assets/fonts/<%= prolook.number.typeface %>.woff') format('woff'), url('../../assets/fonts/<%= prolook.number.typeface %>.ttf') format('truetype');}</style>");
+			
+			
+			setTimeout(function(){
+	
+		freshLogos();
+	
+	},2500);
+	
+});
+function setting(){
+	$('.infbase1').css("background-color" , $("#infbase1").css("background-color")).css("fill" , $("#infbase1").css("background-color"));
+	$('.infbase2').css("background-color" , $("#infbase2").css("background-color")).css("fill" , $("#infbase2").css("background-color"));
+	$('.infbase3').css("background-color" , $("#infbase3").css("background-color")).css("fill" , $("#infbase3").css("background-color"));
+	$('.infbase4').css("background-color" , $("#infbase4").css("background-color")).css("fill" , $("#infbase4").css("background-color"));
+	$('#gradstop1').css('stop-color', $("#infbase1").css("background-color"));
+	$('#gradstop2').css('stop-color', $("#infbase2").css("background-color"));
+	$('.half svg').css('height' , '300px');
+	
+}
+
+function freshLogos(){
+
+	//REDEFINE IMAGE LINKS
+	
+	$.each($('image'),function(){
+	
+		if($(this).attr('href') == '' || typeof $(this).attr('href') == 'undefined')
+			return;
+		
+		var img = document.createElementNS('http://www.w3.org/2000/svg','image');
+		
+		img.setAttributeNS('http://www.w3.org/1999/xlink','href',$(this).attr('href'));
+		img.setAttributeNS(null,'height','30');
+		img.setAttributeNS(null,'width','30');
+		
+		img.setAttributeNS(null,'clip-path',$(this).attr('clip-path'));
+		img.setAttributeNS(null,'transform',$(this).attr('transform'));
+		img.setAttributeNS(null,'x',$(this).attr('x'));
+		img.setAttributeNS(null,'y',$(this).attr('y'));
+		img.setAttributeNS(null, 'visibility', 'visible');
+		$(this).parent('g').append(img);
+	
+	});
+
+}
+
+
+</script>
+</head>
+
+
+<body class="report">
+	<div id="infusions">
+		<object data="../../assets/img/infusions/camo.svg"type="image/svg+xml"onload="extract($(this));"id="camoinf"></object>
+		<object data="../../assets/img/infusions/gradient.svg"type="image/svg+xml"onload="extract($(this));"id="gradi"></object>
+		<object data="../../assets/img/infusions/bubble.svg"type="image/svg+xml"onload="extract($(this));"id="bubble"></object>
+		<object data="../../assets/img/infusions/grid.svg"type="image/svg+xml"onload="extract($(this));"id="grid"></object>
+		<object data="../../assets/img/infusions/halftone.svg"type="image/svg+xml"onload="extract($(this));"id="halft"></object>
+		<object data="../../assets/img/infusions/nbcamo.svg"type="image/svg+xml"onload="extract($(this));"id="nbcamo"></object>
+	</div>
+	<div id="materials">
+		<object data="../../assets/img/materials/mesh.svg"type="image/svg+xml"onload="extract($(this));"id="dots"></object>
+	</div>
+	<div class="page">
+	
+	
+	<h3>Order ID: <%= orderId %> - <%= today %></h3>
+	
+	
+	
+	<h4>Order Information</h4> 
+    <table class="left half table"> 
+    <tbody> 
+    <tr><th colspan=2>Shipping Address</th></tr> 
+    <tr><td>Attn:</td>			<td> <%= prolook.team_information.order_info.Attn  %></td></tr> 
+    <tr><td>Address 1:</td>		<td> <%= prolook.team_information.order_info.Address_1 %> </td></tr> 
+    <tr><td>Address 2:</td>		<td><%=  prolook.team_information.order_info.Address_2 %> </td></tr> 
+    <tr><td>City:</td>			<td> <%= prolook.team_information.order_info.City %> </td></tr> 
+    <tr><td>State:</td>			<td> <%= prolook.team_information.order_info.State  %></td></tr> 
+    <tr><td>Zip:</td>			<td> <%= prolook.team_information.order_info.Zip %> </td></tr> 
+    <tr><td>Email</td>			<td> <%= prolook.team_information.order_info.Email %> </td></tr> 
+
+    </tbody> 
+
+    </table>
+	
+	
+	 <table class="left half table">
+
+    <tbody>
+    <tr><th colspan=2>Billing Address</th></tr>
+    <tr><td>Attn:</td>			<td><%= prolook.team_information.order_info.Billing_attn %> </td></tr>
+    <tr><td>Address 1:</td>		<td><%= prolook.team_information.order_info.Billing_address_1 %> </td></tr>
+    <tr><td>Address 2:</td>		<td><%= prolook.team_information.order_info.Billing_address_2 %> </td></tr>
+    <tr><td>City:</td>			<td><%= prolook.team_information.order_info.Billing_city %> </td></tr>
+    <tr><td>State:</td>			<td><%= prolook.team_information.order_info.Billing_state %> </td></tr>
+    <tr><td>Zip:</td>			<td><%= prolook.team_information.order_info.Billing_zip %> </td></tr>
+    <tr><td>Email</td>			<td><%= prolook.team_information.order_info.Billing_email %> </td></tr>
+
+    </tbody>
+
+    </table>
+
+  <table class="whole table">
+
+    <tbody>
+
+    <tr><td>Special Notes</td></tr>
+    <tr><td><%= prolook.team_information.order_info.Special_Notes %></td></tr>
+
+    </tbody>
+
+    </table>
+	
+	  <table class="whole table">
+
+    <tbody>
+
+    <tr><td>Uploaded file</td></tr>
+    <tr><td><%= prolook.team_information.order_info.upload  %></td></tr>
+
+    </tbody>
+
+    </table>
+
+  <h3 class="left">Panels</h3>
+    <div class="clear"></div>
+    <table class="left half table">
+
+    <tbody>
+	
+    <tr><th colspan=3>Fill Colors</th></tr>
+    <tr><td>Front Jersey:</td>		<td style="background-color= <%= prolook.panels.front_jersey.fill %>"></td>		<td><%= transColor(prolook.panels.front_jersey.fill)  %></td></tr>
+    <tr><td>Base Color:</td>		<td style="background-color= <%= prolook.panels.base_color.fill %>"></td>		<td><%= transColor(prolook.panels.base_color.fill)  %></td></tr>
+    <tr><td>Back Jersey:</td>		<td style="background-color= <%= prolook.panels.back_jersey.fill %>"></td>		<td><%= transColor(prolook.panels.back_jersey.fill)  %></td></tr>
+    <tr><td>Back Panels::</td>		<td style="background-color= <%= prolook.panels.back_panels.fill %>"></td>		<td><%= transColor(prolook.panels.back_panels.fill)  %></td></tr>
+    <tr><td>Bottom Sleeve:</td>		<td style="background-color= <%= prolook.panels.bottom_sleeve.fill %>"></td>		<td><%= transColor(prolook.panels.bottom_sleeve.fill)  %></td></tr>
+    <tr><td>Back Pant:</td>			<td style="background-color= <%= prolook.panels.back_pant.fill%>" ></td>			<td><%= transColor(prolook.panels.back_pant.fill)  %></td></tr>
+    <tr><td>Loops Tunnels</td>		<td style="background-color= <%= prolook.panels.loops_tunnels.fill %>"></td>		<td><%= transColor(prolook.panels.loops_tunnels.fill)  %></td></tr>
+    <tr><td>Pockets:</td>			<td style="background-color= <%= prolook.panels.pockets.fill %>"></td>			<td><%= transColor(prolook.panels.pockets.fill)  %></td></tr>
+    <tr><td>Back Knee:</td>			<td style="background-color= <%= prolook.panels.back_knee.fill %>"></td>			<td><%= transColor(prolook.panels.back_knee.fill)  %></td></tr>
+    <tr><td>Bottom Pants:</td>		<td style="background-color= <%= prolook.panels.bottom_pants.fill %>"></td>		<td><%= transColor(prolook.panels.bottom_pants.fill)  %></td></tr>
+    </tbody>
+
+    </table>
+	
+    <table class="left half table">
+    <tbody>
+    <tr><th colspan=3>Materials</th></tr>
+
+	<%
+	  for (i in prolook.panels)
+	  {
+
+		if (prolook.panels[i].material != '')
+		{
+
+		  b = prolook.panels[i].material;
+		  b = b.replace('url(#', '').replace(')', '').replace('_', ' ');
+	%>
+		   <tr><td><%= i %></td><td><%= b %></td></tr>
+	<% 
+		}
+	  }
+	%>
+  </tbody>
+
+    </table>
+
+  
+    <table class="left half table">
+    <tbody>
+    <tr><th colspan=3>Infusions</th></tr>
+
+  <tr><td colspan="2">
+    <table class="table">
+    <tr>
+    <td>Infusion Colors:</td>
+    <td id="infbase1" style="background-color: <%= infbase1 %>; text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;"><%= transColor(infbase1)  %></td>
+    <td id="infbase2" style="background-color: <%= infbase2 %>; text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;"><%= transColor(infbase2)  %></td>
+    <td id="infbase3" style="background-color: <%= infbase3 %>; text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;"><%= transColor(infbase3)  %></td>
+    <td id="infbase4" style="background-color: <%= infbase4 %>; text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;"><%= transColor(infbase4)  %></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+	
+<%
+  for (i in prolook.panels) {
+
+    if (prolook.panels[i].infusion != '') {
+
+      b = prolook.panels[i].infusion;
+      c = b.split("'");
+	  d = c[1].replace('#','').replace('_',' ');
+	  
+	  a = i.replace('_',' ');
+	  
+	  function capitalise(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+		}
+	  
+	  a = capitalise(a);
+	  
+	%>
+	  
+     <tr><td><%= a  %>:</td>		<td><%= d  %></td></tr>
+	<%
+    }
+  }
+  %>
+  
+
+  </tbody>
+
+    </table>
+
+    </div>
+    <div class="page">
+    <div class="clear"></div>
+
+  <table class="left half table">
+
+    <tbody>
+    <tr><th colspan=3>Name Information</th></tr>
+    <tr><td>Team Name:</td>					<td><%= prolook.name.team_name  %></td></tr>
+    <tr><td>Typeface:</td>					<td><%= prolook.name.typeface  %></td></tr>
+    <tr><td>Configuration:</td>				<td><%= prolook.name.configuration  %></td></tr>
+    <tr><td>Color:</td>						<td><%= transColor(prolook.name.color)  %></td></tr>
+    <tr><td>Outline:</td>					<td><%= transColor(prolook.name.outline_color)  %></td></tr>
+    <tr><td>Material:</td>					<td><%= prolook.name.material  %></td></tr>
+    <tr><td>Back Name:</td>					<td><%= prolook.name.back_name  %></td></tr>
+    <tr><td>Back Name Typeface:</td>		<td><%= prolook.name.back_name_typeface  %></td></tr>
+    <tr><td>Back Name Color:</td>			<td><%= transColor(prolook.name.back_name_color)  %></td></tr>
+    <tr><td>Back Name Outline Color:</td>	<td><%= transColor(prolook.name.back_name_outline)  %></td></tr>
+    <tr><td>Back Name Material:</td>		<td><%= prolook.name.back_material  %></td></tr>
+
+    </tbody>
+
+    </table>
+
+ 
+    <table class="left half table">
+    <tbody>
+    <tr><th colspan=3>Number Information</th></tr>
+    <tr><td>Positions:</td>				<td><%= prolook.number.positions  %></td></tr>
+    <tr><td>Typeface:</td>				<td><%= prolook.number.typeface  %></td></tr>
+    <tr><td>Color:</td>					<td><%= transColor(prolook.number.color)  %></td></tr>
+    <tr><td>Outline Color:</td>			<td><%= transColor(prolook.number.outline_color)  %></td></tr>
+    <tr><td>Back Color:</td>			<td><%= transColor(prolook.number.back_color)  %></td></tr>
+    <tr><td>Back Outline Color:</td>	<td><%= transColor(prolook.number.outline_color)  %></td></tr>
+    </tbody>
+    </table>
+
+  <div class="clear"></div>
+
+      <h3 class="left">Pipings</h3>
+    
+    <table class="left half table">
+
+    <tbody>
+    <tr><th colspan=3>Pipings</th></tr>
+    <tr>
+		<td>Arm End:</td>
+		<td style="background-color:<%= prolook.pipings.arm_end.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.arm_end.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Back Pipings:</td>
+		<td style="background-color:<%= prolook.pipings.back_piping.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.back_piping.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Belt Loop:</td>
+		<td style="background-color:<%= prolook.pipings.belt_loop.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.belt_loop.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Center Piping:</td>
+		<td style="background-color:<%= prolook.pipings.center_piping.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.center_piping.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Raglan:</td>
+		<td style="background-color:<%= prolook.pipings.raglan.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.raglan.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Side Pant:</td>
+		<td style="background-color:<%= prolook.pipings.side_pant.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.side_pant.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Side Panel Piping:</td>
+		<td style="background-color:<%= prolook.pipings.side_panel_piping.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.side_panel_piping.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Sleeve Piping:</td>
+		<td style="background-color:<%= prolook.pipings.sleeve_piping.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.sleeve_piping.stroke)  %></td>
+	</tr>
+    <tr>
+		<td>Back Pants:</td>
+		<td style="background-color:<%= prolook.pipings.back_pants.stroke %>"></td>
+		<td><%= transColor(prolook.pipings.back_pants.stroke)  %></td>
+	</tr>
+
+    </tbody>
+
+    <div class="clear"></div>
+
+    </table>
+	
+	<div class="clear"></div>
+	
+	  <h4>Team Information</h4>
+
+    <table class="left half table">
+
+    <tbody>
+    <tr><th colspan=5>Jersey Information</th></tr>
+    <tr>
+    <th>Count</th>
+    <th>Size</th>
+    <th>Number</th>
+    <th>Last Name</th>
+    <th>Application</th>
+    </tr>
+	
+<%
+  for (i in prolook.team_information.jersey_info) {
+%>
+    <tr>
+		<td><%= prolook.team_information.jersey_info[i].count  %></td>
+		<td><%= prolook.team_information.jersey_info[i].size  %></td>
+		<td><%= prolook.team_information.jersey_info[i].number  %></td>
+		<td><%= prolook.team_information.jersey_info[i].last_name  %></td>
+		<td><%= prolook.team_information.jersey_info[i].application  %></td>
+	</tr>
+<%
+  }
+%>
+ 
+    <tr>
+    <td colspan=4>Jersey Amount</td> <td><%= prolook.team_information.jersey_number %></td>
+    </tr>
+    </tbody>
+    </table>
+
+  <table class="left half table">
+
+    <tbody>
+    <tr><th colspan=4>Pants Information</th></tr>
+    <tr>
+    <th>Count</th>
+    <th>Size</th>
+    <th>Inseam</th>
+    <th>Hem Style</th>
+    </tr>
+<%
+  for (i in prolook.team_information.jersey_info) {
+%>
+    <tr>
+		<td><%= prolook.team_information.pant_info[i].count  %></td>
+		<td><%= prolook.team_information.pant_info[i].size  %></td>
+		<td><%= prolook.team_information.pant_info[i].inseam  %></td>
+		<td><%= prolook.team_information.pant_info[i].hem_style  %></td>
+	</tr>
+<%
+
+  }
+%>
+ 
+    <tr>
+    <td colspan=3>Pants Amount</td> <td><%= prolook.team_information.pants_number  %></td>
+    </tr>
+    </tbody>
+    </table>
+
+   <div class="clear"></div>
+	
+   </div>
+    <div class="page">
+	
+
+	<div class="clear"></div>
+
+	<%
+		svgs = $('#sidebar svg');
+		for (i = 0; i < svgs.length; i++) {
+	%>
+     <div class="svgthumb half">
+	<%
+		var svg = svgs.get(i);
+		var serializer = new XMLSerializer();
+		var svg = serializer.serializeToString(svg);
+		
+		console.log('**********svg**********');
+		console.log(svg);
+		
+		svg = svg.replace(/fill\s*\:\s*(\#.+\_material)/g , 'fill:url($1)');
+		
+		svg = svg.replace(/xml:space="preserve"/g , 'space="preserve"');
+		svg = svg.replace(/space="preserve"/g , 'xml:space="preserve"');
+		
+		svg = svg.replace(/xlink:href="#path3027"/g , 'href="#path3027"');
+		svg = svg.replace(/href="#path3027"/g , 'xlink:href="#path3027"');
+	%>
+	<%= svg %>
+	</div>
+	<%
+		}
+	%>
+  
+    </div>
+	<div id="loadfonts"><div>
+</body>
+</html>

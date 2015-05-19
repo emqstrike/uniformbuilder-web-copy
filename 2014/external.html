@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      New Balance HTML5 Baseball customizer
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js">
+	</script>
+	<![endif]-->
+	
+	<script src="js/utils.js" type="text/javascript"></script>
+	<script src="js/jquery-2.1.1.js" type="text/javascript"></script>
+	<script src="js/libs.js" type="text/javascript"></script>
+	<script src="js/scripts.js" type="text/javascript"></script>
+	<script src="js/core.js" type="text/javascript"></script>
+     
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/flat-ui.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<style>
+
+.svg-thumb{
+
+	width:300px;
+	margin: 20px auto;
+	float:left;
+
+}
+
+</style>
+	
+  </head>
+  
+  <body>
+
+<div id="infusions">
+	<object data="assets/img/infusions/camo.svg" type="image/svg+xml" onload="extract($(this));" id="camoinf"></object>
+	<object data="assets/img/infusions/gradient.svg" type="image/svg+xml" onload="extract($(this));" id="gradi"></object>
+	<object data="assets/img/infusions/bubble.svg" type="image/svg+xml" onload="extract($(this));" id="bubble"></object>
+	<object data="assets/img/infusions/grid.svg" type="image/svg+xml" onload="extract($(this));" id="grid"></object>
+	<object data="assets/img/infusions/halftone.svg" type="image/svg+xml" onload="extract($(this));" id="halft"></object>
+	<object data="assets/img/infusions/nbcamo.svg" type="image/svg+xml" onload="extract($(this));" id="nbcamo"></object>
+</div>
+	 
+<div id="materials">
+	<object data="assets/img/materials/mesh.svg" type="image/svg+xml" onload="extract($(this));" id="dots"></object>
+</div>
+
+<div id="fonts">
+	<div class="name"> <style></style> </div>
+	<div class="backname"> <style></style> </div>
+	<div class="number"> <style></style> </div>
+</div>
+  
+  <div class="svg-thumb">
+	<object id="jersey_front" data="assets/img/jersey_front_3000.svg" type="image/svg+xml" onload="extract($(this));"></object>
+  </div>
+  
+  <div class="svg-thumb">
+	<object id="jersey_back" data="assets/img/jersey_back_3000.svg" type="image/svg+xml" onload="extract($(this));"></object>
+  </div>
+  
+  <!--
+  <div class="svg-thumb">
+	<object id="pant_front" data="assets/img/pant_front_3000.svg" type="image/svg+xml" onload="extract($(this));"></object>
+  </div>
+  
+  <div class="svg-thumb">
+	<object id="pant_back" data="assets/img/pant_back_4040.svg" type="image/svg+xml" onload="extract($(this));"></object>
+  </div>
+  
+  <div class="svg-thumb">
+  <object id="pant_side" data="assets/img/pant_side_4040.svg" type="image/svg+xml" onload="extract($(this));"></object>
+  </div>
+  -->
+  <script>
+  
+  order = styles[3]
+  
+  prolook = order;
+  
+  $('.svg-thumb').each(function(){ stilize($(this).find('svg'),order) });
+  
+	function extract(obj) {
+
+		myid = obj.attr('id');
+		var svg = document.getElementById(myid);
+		var svg = svg.contentDocument;
+		var svg = svg.documentElement;
+
+		$('#' + myid).replaceWith(svg);
+	
+	}
+
+
+function stilize(piece,style){
+
+	//APPLY PANELS
+	for (var i in bldr.panels){
+	
+		if(typeof i == 'undefined') continue;
+	
+			for(var p in bldr.panels[i]){
+			
+				piece.find(bldr.panels[i][p]+'back').css({
+				
+					'fill'	:	style.panels[i].fill
+
+				});
+				
+			}
+		
+	}
+	
+	//APPLY PIPINGS
+	for (var i in bldr.pipings){
+	
+		if(typeof i == 'undefined') break;
+	
+		//IF EMPTY, DON'T PAINT
+		if(style.pipings[i].stroke == ""){
+			
+			var opacity = 0;
+			
+		}else{
+		
+			var opacity = 1;
+		
+		}
+	
+		for(var s in bldr.pipings[i]){
+		
+			piece.find(bldr.pipings[i][s]).css({
+					
+					'fill'			:	style.pipings[i].stroke,
+					'fill-opacity'	:	opacity
+			
+			});
+		}
+	
+	}
+	
+	//APPLY NAME COLORS
+	
+	piece.find('#tspan3017').css({
+		'fill'		:	style.name.color,
+		'stroke'	:	style.name.outline_color
+		});
+		
+	//INFUSIONS
+	for(i=1;i<5;i++){
+	
+
+	
+		$('.infbase'+i)
+			.css('background-color',style['infbase'+i])
+			.css('fill',style['base'+i]);
+	
+	}
+
+	piece.find('#gradstop1').css('stop-color', style.infbase1);
+	piece.find('#gradstop1').css('stop-color', style.infbase2);
+
+	
+	//NUMBER POSITIONS
+	
+	var positions  = style.number.positions;
+	
+	if (positions === 'frb') {
+		piece.find('#tnleft,#tnleftmat, #tnright,#tnrightmat, #backnumber,#backnumbermat').css('opacity', '0').css('display', 'none');
+		piece.find('#tnright,#tnrightmat, #backnumber,#backnumbermat').css('opacity', '1').css('display', 'block');
+	}
+	if (positions === 'flb') {
+		piece.find('#tnleft,#tnleftmat, #tnright,#tnrightmat, #backnumber,#backnumbermat').css('opacity', '0').css('display', 'none');
+		piece.find('#tnleft, #tnleftmat, #backnumber,#backnumbermat').css('opacity', '1').css('display', 'block');
+	}
+	
+	//NUMBER COLORS
+	piece.find('#tnleft, #tnright').css('fill',style.number.color);
+	
+	//APPLY INFUSION
+	
+	if(style.panels.sleeve_color.infusion != ''){
+		
+		piece.find('#path3333inf, #path3325inf').attr("style","fill:url('#camoInfusion'); stroke-width:0;;opacity:1");
+	
+	}else{
+	
+		piece.find('#path3333inf, #path3325inf').attr("style","fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none");
+	
+	}
+	
+	piece.find('#tspan3017, #tspanmat')
+		.text(style.name.team_name);
+	
+	var teamNameColor = style.name.color;
+	var teamNameOutline = style.name.outline;
+	var teamNameFont = style.name.typeface;
+	var teamNameFontSize = fontSizeMe(teamNameFont);
+	
+	if (factor = $('#fontcfg option:selected').attr('data-uppercase') == 'true') {
+
+		ulcase = "uppercase";
+
+	} else {
+
+		ulcase = "none";
+
+	}
+
+	piece.find('#tspan3017')
+	.attr('style', 'stroke:' + teamNameOutline + ';font-family:"' + teamNameFont + '";font-size:' + teamNameFontSize + 'px;text-align: left; text-anchor: middle; fill: ' + teamNameColor + ';text-transform:' + ulcase);
+	
+	$('#fonts .name style').replaceWith("<style>@font-face {	font-family: '" + teamNameFont + "';src: url(assets/fonts/" + teamNameFont + ".eot);src: local('?'), url('assets/fonts/" + teamNameFont + ".woff') format('woff'), url('assets/fonts/" + teamNameFont + ".ttf') format('truetype');}</style>");
+	
+	//BACK NAME
+	
+	var backNameFont = style.name.back_name_typeface;
+	var backNameColor = style.name.back_name_color;
+	var backNameOutline = style.name.back_name_outline_color;
+	
+	$("#backname").css({
+		'font-size' : '26px',
+		'fill'		:	backNameColor,
+		'stroke'	:	backNameOutline
+	});
+	
+	if(prolook.name.back_name == 'yes')
+		$("#backname").css('display','block');
+	else
+		$("#backname").css('display','none');
+	
+	if (backNameFont == "1-prolook_upright") {
+		$("#backname").css('font-size', '12px');
+	} else if (backNameFont == '1-prolook_skyline') {
+		$("#backname").css('font-size', '17px');
+	} else if (backNameFont == '1-prolook_spartans_0') {
+		$("#backname").css('font-size', '16px');
+	} else if (backNameFont == 'francebold') {
+		$("#backname").css('font-size', '18px');
+	} else if (backNameFont == '1-prolook_brushscript') {
+		$("#backname").css('font-size', '15px');
+	}
+	
+	$('#backname').css('font-family', '"' + backNameFont + '"');
+	
+	$('#fonts .backname style').replaceWith("<style>@font-face {	font-family: '" + backNameFont + "';src: url(assets/fonts/" + backNameFont + ".eot);src: local('?'), url('assets/fonts/" + backNameFont + ".woff') format('woff'), url('assets/fonts/" + backNameFont + ".ttf') format('truetype');}</style>");
+	
+	//NUMBERS
+	
+	var teamNumberFont = style.number.typeface;
+	
+	var teamFrontNumberColor = style.number.color;
+	var teamFrontNumberOutline = style.number.outline_color;
+	
+	var teamBackNumberColor = style.number.back_color;
+	var teamBackNumberOutline = style.number.back_outline;
+	
+	$('#tnleft, #tnright, #backnumber').css('font-family', '"' + teamNumberFont + '"');
+
+	$('#tnright, #tnleft').css({
+		'font-size'		:	'35px',
+		'fill'		:	teamFrontNumberColor,
+		'stroke'	:	teamFrontNumberOutline
+		});
+	
+	$('#backnumber').css({
+		'font-size'		:	'58px',
+		'fill'		:	teamBackNumberColor,
+		'stroke'	:	teamBackNumberOutline
+		});
+	
+	$('#backnumber').css({
+		'fill'		:	teamBackNumberColor,
+		'stroke'	:	teamBackNumberColor
+		});
+	
+	if (teamNumberFont == '1-prolook_upright') {
+		$('#backnumber').css('font-size', '48px');
+		$('#tnright, #tnleft').css('font-size', "28px");
+	}
+	
+	$('#fonts .number style').replaceWith("<style>@font-face {	font-family: '" + teamNumberFont + "';src: url(assets/fonts/" + teamNumberFont + ".eot);src: local('?'), url('assets/fonts/" + teamNumberFont + ".woff') format('woff'), url('assets/fonts/" + teamNumberFont + ".ttf') format('truetype');}</style>");
+	
+	
+}
+  
+  $(document).ready(function(){
+  
+		setTimeout(function(){
+		
+		  $.getJSON('order.json',function(res){
+		  
+				$('.svg-thumb svg').each(function(){
+				
+					stilize($(this),res);
+
+				});
+		  
+		  });
+		
+		
+		},1000);
+  
+  });
+  
+  
+  
+  
+  </script>
+  
+</body>
+</html>

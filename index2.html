@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      QSTRIKE: Baseball Uniform Builder
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js">
+	</script>
+	<![endif]-->
+	
+	<script src="js/utils.js" type="text/javascript"></script>
+	<script src="js/jquery-2.1.1.js" type="text/javascript"></script>
+	<script src="js/libs.js" type="text/javascript"></script>
+	<script src="js/scripts.js" type="text/javascript"></script>
+     	<script src="js/ejs.js" type="text/javascript"></script>
+
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/flat-ui.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+      <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+     <style>
+      
+      .header {
+    width:100%;
+    height:50px;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+              margin-top:15px;
+
+          background-repeat: no-repeat;
+          background-position: center top;
+}
+        .center{
+         margin-left: auto;
+            margin-right: auto;
+        }
+      </style>
+      
+      
+  </head>
+  
+  <body onload="start()">
+  
+  <div id="welcome" class="panel">
+	<!--<img src="assets/img/newbalance_logo.svg" class="logo">-->
+	<br/>
+    <p>Welcome to the QStrike Uniform Builder.  We are excited to see what styles you come up with as you play around.  For the best experience possible we suggest using <strong>Chrome</strong>, <strong>Firefox</strong> or <strong>Safari</strong> as your browser.  Once you come up with a design (or two) that you like, go ahead and submit it and we will get a hold of you to continue the process of ordering.</p>
+	<br/>
+	
+	<button class="btn btn-success col-xs-12">Let's go!</button>
+	
+  </div>
+   
+    
+    
+	<div id="infusions">
+      <object data="assets/img/infusions/camo.svg" type="image/svg+xml" onload="extract($(this));" id="camoinf"></object>
+      <object data="assets/img/infusions/gradient.svg" type="image/svg+xml" onload="extract($(this));" id="gradi"></object>
+      <object data="assets/img/infusions/bubble.svg" type="image/svg+xml" onload="extract($(this));" id="bubble"></object>
+      <object data="assets/img/infusions/grid.svg" type="image/svg+xml" onload="extract($(this));" id="grid"></object>
+      <object data="assets/img/infusions/halftone.svg" type="image/svg+xml" onload="extract($(this));" id="halft"></object>
+	  <object data="assets/img/infusions/nbcamo.svg" type="image/svg+xml" onload="extract($(this));" id="nbcamo"></object>
+  </div>
+	 
+     <div id="materials">
+       
+	   <object data="assets/img/materials/mesh.svg" type="image/svg+xml" onload="extract($(this));" id="dots">
+       </object>
+       
+     </div>
+     
+     <div class="container" style="width:100%;">
+         <div class="header"></div>
+         <script>
+         	var clientId = GetURLParameter('clientid'),
+         		image = clientId == 10? 'bsn-reverse.png' : clientId == 5? 'nblogo.png' : 'nblogo.png'
+         	;
+         	
+         	console.log($('.header'));
+         	
+         	$('.header').css('background-image', 'url(brand/' + image + ')');
+         </script>
+       <div class="row">
+         
+         <div class="panel-group col1" id="accordion">
+           <div class="panel panel-default colors" data-intro="Start here. Select which colors will be used in your uniform." data-position="right">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+               <h4 class="panel-title">
+                 <a class="accordion-toggle">
+                   MY COLORS
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseOne" class="panel-collapse collapse in">
+               <div class="panel-body">
+				 <div class="helptip" data-section="colors">?</div>
+                 <div class="btn-group cpicker">
+                   <input title="Maroon" class="picker btn base1" data-base="base1" />
+                   <div class="colorname"></div>
+                 </div>
+                 <div class="btn-group cpicker">
+                   <input title="Gold" class="picker btn base2" data-base="base2" />
+                   <div class="colorname"></div>
+                 </div>
+                 <div class="btn-group cpicker">
+                   <input title="Old Gold" class="picker btn base3" data-base="base3" />
+                   <div class="colorname"></div>
+                 </div>
+                 <div class="btn-group cpicker">
+                   <input title="Texas Orange" class="picker btn base4" data-base="base4" />
+                   <div class="colorname"></div>
+                 </div>
+                 
+               </div>
+             </div>
+           </div>
+           
+           <div class="panel panel-default quickstyles">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseStyles">
+               <h4 class="panel-title">
+                 <a class="accordion-toggle">
+                   QUICK STYLES
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseStyles" class="panel-collapse collapse">
+               <div class="panel-body">
+                 <div class="helptip" data-section="quickstyles">?</div>
+				 
+				 <div id="jsonpieces">
+				 
+				 </div>
+				 
+               </div>
+             </div>
+           </div>
+           
+           <div class="panel panel-default panels" data-intro="Change the colors in the panels of your uniform. Select a color and then click on the desired panel." data-position="right">
+             <div class="panel-heading panels" data-toggle="collapse" data-parent="#accordion" href="#collapsePanels">
+               <h4 class="panel-title">
+                 <a>
+                   PANELS
+                 </a>
+               </h4>
+             </div>
+             <div id="collapsePanels" class="panel-collapse collapse">
+               <div class="panel-body">
+			    <div class="helptip" data-section="panels">?</div>
+                 <h6>
+                   Your Colors
+                 </h6>
+                 
+                 <div class="colorsel center">
+                   <input type="button" class="btn base1" data-base="base1" value="#000" />
+                   <input type="button" class="btn base2" data-base="base2" value="#000" />
+                   <input type="button" class="btn base3" data-base="base3" value="#000" />
+                   <input type="button" class="btn base4" data-base="base4" value="#000" />
+                 </div>
+                 
+                 <h5>
+                   Current Color
+                 </h5>
+                 <input type="button" class="btn current" />
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default pipings" >
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapsePipings">
+               <h4 class="panel-title pipings">
+                 <a>
+                   PIPINGS
+                 </a>
+               </h4>
+             </div>
+             <div id="collapsePipings" class="panel-collapse collapse">
+               <div class="panel-body">
+			   <div class="helptip" data-section="pipings">?</div>
+                 <h6>
+                   Your Colors
+                 </h6>
+                 
+                 <div class="colorsel center">
+                   <input type="button" class="btn base1" data-base="base1" value="#000" />
+                   <input type="button" class="btn base2" data-base="base2" value="#000" />
+                   <input type="button" class="btn base3" data-base="base3" value="#000" />
+                   <input type="button" class="btn base4" data-base="base4" value="#000" />
+                 </div>
+                 
+                 <h5>
+                   Current Color
+                 </h5>
+                 <input type="button" class="btn current" />
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default infusions">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseInf">
+               <h4 class="panel-title infusions">
+                 <a>
+                   INFUSIONS
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseInf" class="panel-collapse collapse">
+               <div class="panel-body">
+			   <div class="helptip" data-section="infusions">?</div>
+                 
+                 <div id="infusionsShow">
+				 
+					<h6>Pick an infusion</h6>
+				 
+					<div class="btn-group inf">
+					<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100" style="fill:url('#camoInfusion'); stroke-width:0;"/>
+						</svg>
+						<label>Camo</label>
+					</div>
+					
+					<div class="btn-group inf">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100" style="fill:url('#linearGradient');stroke-width:0;"/>
+						</svg>
+						<label>Gradient</label>
+					</div>
+					
+					<div class="btn-group inf">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100" style="fill:url('#BubblesInfusion');stroke-width:0;"/>
+						</svg>
+						<label>Bubbles</label>
+					</div>
+					
+					<div class="btn-group inf">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100"
+							style="fill:url('#GridInfusion');stroke-width:0;"/>
+						</svg>
+						<label>Grid</label>
+					</div>
+					
+					<div class="btn-group inf">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100"
+							style="fill:url('#halftone_fade');stroke-width:0;"/>
+						</svg>
+						<label>Halftone Fade</label>
+					</div>
+					
+					<div class="btn-group inf">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+							<rect width="100" height="100" style="fill:url('#NewBalance_Camo');stroke-width:0;"/>
+						</svg>
+						<label>NB <br>Camo</label>
+					</div>
+					
+				 
+                 </div>
+                 
+                 <h6>
+                   Infusion Colors
+                 </h6>
+                 
+                 <div class="btn-group infpicker">
+                   <input value="#680000" title="Maroon" class="picker btn infbase1" data-base="infbase1"/>
+                   <div class="colorname"></div>
+                  </div>
+				  <div class="btn-group infpicker">
+                   <input value="#680000" title="Maroon" class="picker btn infbase2" data-base="infbase2" />
+                   <div class="colorname"></div>
+                  </div>
+				  <div class="btn-group infpicker">
+                   <input value="#680000" title="Maroon" class="picker btn infbase3" data-base="infbase3" />
+                   <div class="colorname"></div>
+                  </div>
+				  <div class="btn-group infpicker">
+                   <input value="#680000" title="Maroon" class="picker btn infbase4" data-base="infbase4" />
+                   <div class="colorname"></div>
+                  </div>
+				   
+               </div>
+               
+             </div>
+           </div>
+           <div class="panel panel-default materials">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseMat">
+               <h4 class="panel-title materials">
+                 <a>
+                   MATERIALS
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseMat" class="panel-collapse collapse">
+               <div class="panel-body">
+			   <div class="helptip" data-section="materials">?</div>
+			   
+			   <h6>Pick a material</h6>
+			   
+			   <div class="btn-group mat">
+						<svg xmlns="http://www.w3.org/2000/svg" data-material="#mesh_material" version="1.1">
+							<rect width="300" height="100"
+							style="fill:url(#mesh_material);stroke-width:1;"/>
+						</svg>
+						<label>Mesh</label>
+					</div>
+					
+					<div class="btn-group mat">
+						<svg xmlns="http://www.w3.org/2000/svg" data-material="#ffffff"  version="1.1">
+							<rect width="300" height="100"
+							style="fill:#ffffff;stroke-width:1;"/>
+						</svg>
+						<label>Solid</label>
+					</div>
+                 
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default name">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
+               <h4 class="panel-title">
+                 <a>
+                   NAME
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseSeven" class="panel-collapse collapse">
+               <div class="panel-body">
+			   <div class="helptip" data-section="name">?</div>
+                 
+                 <input type="text" name="name" id="nameinput" class="form-control" maxlength="12" placeholder="Team name" />
+                 
+				 
+				 <h6>
+                   Configuration
+                 </h6>
+                 <select name="namecfg" id="namecfg" class="selectpicker show-tick fontconfig" data-container="body" data-style="btn-primary">
+                   <option value="straight">Straight</option>
+                   <option value="arched">Arched</option>
+                   <option value="inclining">Inclining</option>
+                   <option value="padres">Padres</option>
+                 </select>
+                 <h6>
+                   Font: Team name
+                 </h6>
+                <select name="fontcfg" id="fontcfg" class="selectpicker show-tick fonts" data-container="body" style="display: none;">
+                    <option value="1-prolook_athletic" data-uppercase="true" data-factor="1.5" selected="selected">
+                     Athletic
+                   </option>
+                   <option value="1-prolook_baccusexpanded" data-factor="1.8">
+                     Baccus Expanded
+                   </option>
+                   <option value="1-prolook_brushscript" data-factor="1.3">
+                     Brush Script
+                   </option>
+                   <option value="1-prolook_fancyblock" data-uppercase="true" data-factor="1.6">
+                     Fancy Block
+                   </option>
+				    <option value="francebold" data-factor="1.4">
+                     France Bold
+                   </option>
+                   <option value="1-prolook_skyline" data-factor="1.4">
+                     Skyline
+                   </option>
+                   <option value="1-prolook_spartans_0" data-factor="1.4">
+                     Spartans</option>
+                   <option value="1-prolook_upright" data-factor="1.1">
+                     Upright
+                   </option>
+                 </select>
+				
+				<div id="textstyle"></div>
+                 
+				<!-- Font Color -->
+				<div class="basepicker col-xs-6" >
+
+					<h5>Fill</h5>
+
+					<button type="button" class="btn choosebase" data-base="base2" data-target="#namereceiver tspan" data-mode="fill" data-obj="name.color" data-callback="refreshText"></button>
+
+				</div>
+
+				<!-- Outline Color -->
+				<div class="basepicker col-xs-6">
+
+					<h5>Outline</h5>
+
+					<button type="button" class="btn choosebase" data-base="base3" data-target="#namereceiver tspan" data-mode="stroke" data-obj="name.outline" data-callback="refreshText"></button>
+
+				</div>
+				
+				<!-- Back name -->
+				
+                 <h6 class="cold-xs-12">Back name information</H6>
+				 
+                 <small class="cold-xs-6">Apply last name?</small>
+                 
+                 <select class="cold-xs-6" name="lastnameyn" id="lastnameyn" data-container="body" class="backnameyn">
+                   <option selected="selected">
+                     No
+                   </option>
+                   <option>
+                     Yes
+                   </option>
+                 </select>
+                 
+                 <div class="backnameoptions">
+                   
+                   <h6>Back name font</h6>
+				   
+                    <select name="backnamecfg" id="backnamecfg" class="selectpicker show-tick fonts"  data-container="body" style="display: none;">
+                   <option value="1-prolook_athletic" data-uppercase="true" data-factor="1.5" selected="selected">
+                     Athletic
+                   </option>
+                   <option value="1-prolook_baccusexpanded" data-factor="1.8">
+                     Baccus Expanded
+                   </option>
+                   <option value="1-prolook_brushscript" data-factor="1.4">
+                     Brush Script
+                   </option>
+                   <option value="1-prolook_fancyblock" data-uppercase="true" data-factor="1.6">
+                     Fancy Block
+                   </option>
+				    <option value="francebold" data-factor="1.4">
+                     France Bold
+                   </option>
+                   <option value="1-prolook_skyline" data-factor="1.4">
+                     Skyline
+                   </option>
+                   <option value="1-prolook_spartans_0" data-factor="1.4">
+                     Spartans</option>
+                   <option value="1-prolook_upright" data-factor="1.6">
+                     Upright
+                   </option>
+                 </select>
+				
+                     
+                     
+                   
+					<!-- Back name color -->
+					<div class="basepicker col-xs-6">
+
+						<h6>Fill</h6>
+
+						<button type="button" class="btn choosebase"  data-base="base4" data-base="base3" data-target="#backname" data-mode="fill" data-obj="name.back_name_color" data-callback="refreshBackname"></button>
+
+					</div>
+
+					<div class="basepicker col-xs-6">
+
+						<h6>Outline</h6>
+
+						<button type="button" class="btn choosebase"  data-base="base3" data-base="base3" data-target="#backname" data-mode="stroke" data-obj="name.back_name_outline" data-callback="refreshBackname"></button>
+
+					</div>
+                   
+                 </div>
+                 
+                 <div id="backnamestyle">
+                 </div>
+                 
+                 
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default number">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseNumber">
+               <h4 class="panel-title">
+                 <a>
+                   NUMBER
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseNumber" class="panel-collapse collapse">
+               <div class="panel-body">
+			    <div class="helptip" data-section="number">?</div>
+                 <h6>
+                   Select positions
+                 </h6>
+                 <select name="numberlocation" id="numberlocation" data-container="body">
+					<option value="flb">
+                     Left Front & Back
+					</option>
+					<option value="frb" selected="selected">
+                     Right Front & Back
+                   </option>
+				   <option value="bo">
+                     Back only
+                   </option>
+                 </select>
+                 <h6>
+                   Choose font
+                 </h6>
+                <select name="numbercfg" id="numbercfg" class="bootstrap-select fonts" data-container="body" style="display: none;">
+                    <option value="1-prolook_athletic" data-uppercase="true" data-factor="1.5" selected="selected">
+                     Athletic
+                   </option>
+                   <option value="1-prolook_baccusexpanded" data-factor="1.8">
+                     Baccus Expanded
+                   </option>
+                   <option value="1-prolook_brushscript" data-factor="1.4">
+                     Brush Script
+                   </option>
+                   <option value="1-prolook_fancyblock" data-uppercase="true" data-factor="1.6">
+                     Fancy Block
+                   </option>
+				    <option value="francebold" data-factor="1.4">
+                     France Bold
+                   </option>
+                   <option value="1-prolook_skyline" data-factor="1.4">
+                     Skyline
+                   </option>
+                   <option value="1-prolook_spartans_0" data-factor="1.4">
+                     Spartans</option>
+                   <option value="1-prolook_upright" data-factor="1.2">
+                     Upright
+                   </option>
+                 </select>
+				
+                   
+                 <h6>
+                   Customize colors
+                 </h6>
+                 <div id="numberstyles">
+                 </div>
+				 
+				 
+				<div class="basepicker col-xs-6" >
+
+					<h5>Front Base</h5>
+
+					<button type="button" class="btn choosebase" data-base="base2" data-target="#tnleft, #tnright" data-mode="fill" data-obj="number.color" data-callback="refreshNumber"></button>
+
+				</div>
+
+				
+				<div class="basepicker col-xs-6">
+
+					<h5>Front Outline</h5>
+
+					<button type="button" class="btn choosebase" data-base="base3" data-target="#tnleft, #tnright" data-mode="stroke" data-obj="number.outline" data-callback="refreshNumber"></button>
+
+				</div>
+				
+				<div class="basepicker col-xs-6" >
+
+					<h5>Back Base</h5>
+
+					<button type="button" class="btn choosebase" data-base="base2" data-target="#backnumber" data-mode="fill" data-obj="number.back_color" data-callback="refreshNumber"></button>
+
+				</div>
+
+				
+				<div class="basepicker col-xs-6">
+
+					<h5>Back Outline</h5>
+
+					<button type="button" class="btn choosebase" data-base="base3" data-target="#backnumber" data-mode="stroke" data-obj="number.back_outline" data-callback="refreshNumber"></button>
+
+				</div>
+				
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default logo">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseLogo">
+               <h4 class="panel-title">
+                 <a>
+                   LOGO
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseLogo" class="panel-collapse collapse">
+               <div class="panel-body">
+			    <div class="helptip" data-section="logo">?</div>
+                 
+                 <div id="logoup">
+				 
+				<form id="fileform" action='http://ddweaver-host.s3.amazonaws.com' method="post" enctype="multipart/form-data" >
+
+					<label for="file">Send your logo</label>
+					<input id="myImage" class="btn btn-primary" type="file" name="file" />
+
+				</form>
+				
+				<button id="btnSave" class="btn btn-primary disabled" type="submit">
+					<span class="glyphicon glyphicon-upload"> </span>
+					Upload Image
+				</button>
+				
+				<div class="heading">
+					<div class="thumb">
+						<img id="imagePreview" src='' />
+					</div>
+				</div>
+				 
+                 </div>
+                 
+                 <button id="logogallery" class="btn btn-primary" data-toggle="modal" href="#logosmodal">
+                   <span class="glyphicon fui-photo">
+                   </span>
+                   Choose from Gallery
+                 </button>
+                 
+               </div>
+             </div>
+           </div>
+           <div class="panel panel-default teaminfo">
+             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapseTeaminfo">
+               <h4 class="panel-title">
+                 <a>
+                   TEAM INFO
+                 </a>
+               </h4>
+             </div>
+             <div id="collapseTeaminfo" class="panel-collapse collapse">
+               <div class="panel-body">
+			   <div class="helptip" data-section="teaminfo">?</div>
+                 <div class="fifty-p">
+                   <h6>
+                     Choose number of jerseys
+                   </h6>
+                   
+                   <input type="number" data-tgt="jersey_number" id="hmjerseys" name="hmjerseys" class="btn" max="100" min="0" value="0"/>
+                   
+                 </div>
+                 <div class="fifty-p">
+                   <h6>
+                     Choose number of pants
+                   </h6>
+                   
+                   <input type="number" data-tgt="pants_number" id="hmpants" name="hmpants" class="btn" max="100" min="0" value="0"/>
+                   
+                 </div>
+                 <div class="clear">
+                 </div>
+                 <h6>
+                   Enter player information
+                 </h6>
+                 <a data-toggle="modal"  href="#jerseymodal" class="btn btn-primary btn-sm">
+                   Jerseys
+                 </a>
+                 <a data-toggle="modal"  href="#pantsmodal"  class="btn btn-primary btn-sm">
+                   Pants
+                 </a>
+                 <a data-toggle="modal" href="#yourmodal" class="btn btn-success">
+                   Save Options
+                 </a>
+                 
+               </div>
+             </div>
+           </div>
+           
+         </div>
+         <!-- panel -->
+		 
+         <div class="col2">
+           
+           <section class="customizer-container" id="cc">
+             <div class="customizer-main-panel">
+               <div id="zoomin">
+                 <div class="fui-search icon">
+                 </div>
+                 +
+               </div>
+               <div id="zoomout">
+                 <div class="fui-search icon">
+                 </div>
+                 -
+               </div>
+               <div id="selected">
+			   
+               </div>
+               <div id="nameloader">
+                 <object data="assets/img/straight_text.svg" type="image/svg+xml" onload="extract($(this));" id="sel_piece">
+                 </object>
+               </div>
+               
+               <div id="eraser" data-intro="Erase panels and pipings with this tool." data-position="right">
+                 <span>
+                 </span>
+               </div>
+               <div id="help">
+                 ?
+               </div>
+               
+               <div id="sidebar">
+                 
+                 <div class="sideoptions first" data-intro="Here you may change the currently selected piece of the uniform." data-position="bottom">
+                   <div class="col option selected">
+                     <div class="selector">
+                     </div>
+                     <svg></svg>
+                     
+                     <span>
+                       FRONT
+                     </span>
+                   </div>
+                   <div class="col option">
+                     <div class="selector">
+                     </div>
+                     <svg></svg>
+                     <span>
+                       BACK
+                     </span>
+                   </div>
+                 </div>
+                 <div>
+                 </div>
+                 
+                 <div class="sideoptions option second">
+                   <div class="selector">
+                   </div>
+                   
+				   <svg></svg>
+				   
+                   <span>
+                     PANT
+                   </span>
+				   </div>
+                 <div class="sideoptions third">
+                   <div class="col option">
+                     <div class="selector">
+                     </div>
+                     
+					 <svg></svg>
+					 
+                     <span>
+                       FRONT
+                     </span>
+					 </div>
+                   <div class="col option">
+                     <div class="selector">
+                     </div>
+                     
+					 <svg></svg>
+					 
+                     <span>
+                       BACK
+                     </span>
+                   </div>
+                 </div>
+            
+               </div>
+               
+             </div>
+           </section>
+         </div>
+         <div id="fontstyles">
+         </div>
+       </div>
+       <!-- /.col-sm-8 -->
+     </div>
+     <!-- Modals -->
+     <div class="modal fade" id="jerseymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+               &times;
+             </button>
+             <h4 class="modal-title">
+               Jersey Information
+             </h4>
+           </div>
+           <div class="modal-body">
+             <div id="jerseyinfo" class="info">
+               <form>
+                 <fieldset>
+                   
+                   <b class="left">
+                     Please refer to sizing chart for suggested sizes.
+                   </b>
+                   
+                   <table class="table teamdata">
+                     <tr>
+                       <th>
+                         COUNT
+                       </th>
+                       <th>
+                         SIZE
+                       </th>
+                       <th>
+                         NUMBER
+                       </th>
+                       <th>
+                         LAST NAME
+                       </th>
+                       <th>
+                         APPLICATION
+                       </th>
+                     </tr>
+                     <tr>
+                       <td>
+                         1
+                       </td>
+                      <td>
+                           <!-- <select  data-tgt="size" class="jerseynumber">
+                                <option value="24">24</option>
+                                <option value="26">26</option>
+                                <option value="28">28</option>
+                                <option value="30">30</option>
+                                <option value="32">32</option>
+                                <option value="34">34</option>
+                                <option value="36">36</option>
+                                <option value="38">38</option>
+                                <option value="40">40</option>
+                                <option value="42">42</option>
+                                <option value="44">44</option>
+                                <option value="46">46</option>
+                                <option value="48">48</option>
+                                <option value="50">50</option>
+                                <option value="52">52</option>
+                                <option value="54">54</option>
+                        </select>-->
+                        <!-- <input type="number" data-tgt="size" class="jerseynumber" value="30" min="24" max="54" step="2" />-->
+                          <input data-tgt="size" type="number" value="30" min="24" max="54" step="2" class="jerseynumber" />
+
+                       </td>
+                       <td>
+                         <input type="number" data-tgt="number" value="22" max="46" min="0" step="1" class="formcontrol" />
+                       </td>
+                       <td>
+                         <input type="text" class="inseam" data-tgt="last_name" >
+                       </td>
+                       <td>
+
+                        
+                         <select name="application01" data-tgt="application" id="app01" class="jerseynumber">
+                           <option>
+                             DIRECT TO JERSEY
+                           </option>
+                           <option>
+                             NAME PLATE (SEWN)
+                           </option>
+                         </select>
+                       </td>
+                     </tr>
+                   </table>
+                 </fieldset>
+               </form>
+             </div>
+           </div>
+           <div class="modal-footer">
+		   
+		     <table class="table table-striped table-bordered table-condensed sizes">
+                     <tbody>
+                       <tr>
+                         <th colspan="2">
+                           Jersey size
+                         </th>
+                         <th>
+                           24
+                         </th>
+                         <th>
+                           26
+                         </th>
+                         <th>
+                           28
+                         </th>
+                         <th>
+                           30
+                         </th>
+                         <th>
+                           32
+                         </th>
+                         <th>
+                           34
+                         </th>
+                         <th>
+                           36
+                         </th>
+                         <th>
+                           38
+                         </th>
+                         <th>
+                           40
+                         </th>
+                         <th>
+                           42
+                         </th>
+                         <th>
+                           44
+                         </th>
+                         <th>
+                           46
+                         </th>
+                         <th>
+                           48
+                         </th>
+                         <th>
+                           50
+                         </th>
+                         <th>
+                           52
+                         </th>
+                         <th>
+                           54
+                         </th>
+                       </tr>
+                       <tr>
+                         <th colspan="2">
+                           Player's Chest Measurement
+                         </th>
+                         <td>
+                           24
+                         </td>
+                         <td>
+                           26
+                         </td>
+                         <td>
+                           28
+                         </td>
+                         <td>
+                           30
+                         </td>
+                         <td>
+                           32
+                         </td>
+                         <td>
+                           34
+                         </td>
+                         <td>
+                           36
+                         </td>
+                         <td>
+                           38
+                         </td>
+                         <td>
+                           40
+                         </td>
+                         <td>
+                           42
+                         </td>
+                         <td>
+                           44
+                         </td>
+                         <td>
+                           46
+                         </td>
+                         <td>
+                           48
+                         </td>
+                         <td>
+                           50
+                         </td>
+                         <td>
+                           52
+                         </td>
+                         <td>
+                           54
+                         </td>
+                       </tr>
+                     </tbody>
+                   </table>
+                   
+             
+             <p>
+               The way you type the name is EXACTLY how it will show on the jersey. For example, the three names below will show differently, based on how you capitalize the letters:
+             </p>
+             <ul>
+               <li>
+                 McKINLEY
+               </li>
+               <li>
+                 McKinley
+               </li>
+               <li>
+                 mckinley
+               </li>
+             </ul>
+             <p>
+               In the example above if you type it all in lowercase it will be made in lower case! We will not change it to what you “wanted”, but will make it exactly how you type it.
+             </p>
+             
+           </div>
+         </div>
+         <!-- /.modal-content -->
+       </div>
+       <!-- /.modal-dialog -->
+     </div>
+     <!-- /.modal -->
+     <div class="modal fade" id="yourmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+               &times;
+             </button>
+             <h4 class="modal-title">
+SAVE OPTIONS             </h4>
+           </div>
+           <div class="modal-body">
+             <!--<fieldset>
+               <h5>
+                 Shipping Information
+               </h5>
+               <label>
+                 ATTN
+               </label>
+               <input data-tgt="Attn" type="text" class="form-control" id="attn" required/>
+               <label>
+                 ADDRESS 1
+               </label>
+               <input data-tgt="Address_1" type="text" class="form-control" required/>
+               <label>
+                 ADDRESS 2
+               </label>
+               <input data-tgt="Address_2" type="text" class="form-control" />
+               <label>
+                 CITY
+               </label>
+               <input data-tgt="City" type="text" class="form-control" required/>
+               <label>
+                 STATE
+               </label>
+               <input data-tgt="State" type="text" class="form-control" required/>
+               <label>
+                 ZIP
+               </label>
+               <input data-tgt="Zip" type="text" class="form-control"required />
+               <label>
+                 EMAIL
+               </label>
+               <input data-tgt="Email" type="email" class="form-control" required/>
+             </fieldset>-->
+             <fieldset>
+             <!--  <h5>
+                 Billing Information
+               </h5>
+               <div class="checkbox">
+                 <label>
+                   <span class="icons">
+                     <span class="first-icon fui-checkbox-unchecked">
+                     </span>
+                     <span class="second-icon fui-checkbox-checked">
+                     </span>
+                   </span>
+                   <input type="checkbox" name="sameship" id="sameship">
+                   Use the same address from Shipping Information
+                 </label>
+               </div>
+               <label>
+                 ATTN
+               </label>
+               <input data-tgt="Billing_attn" type="text" class="form-control" required/>
+               <label>
+                 ADDRESS 1
+               </label>
+               <input data-tgt="Billing_address_1" type="text" class="form-control" required/>
+               <label>
+                 ADDRESS 2
+               </label>
+               <input data-tgt="Billing_address_2" type="text" class="form-control" />
+               <label>
+                 CITY
+               </label>
+               <input data-tgt="Billing_city" type="text" class="form-control" required/>
+               <label>
+                 STATE
+               </label>
+               <input data-tgt="Billing_state" type="text" class="form-control" required/>
+               <label>
+                 ZIP
+               </label>
+               <input data-tgt="Billing_zip" type="text" class="form-control" required/>
+               <label>
+                 EMAIL
+               </label>
+               <input data-tgt="Billing_email" type="email" class="form-control" required/>-->
+               <label>
+                 SPECIAL NOTES
+               </label>
+               <textarea name="youinfota" data-tgt="Special_Notes" class="form-control" id="Special_Notes" cols="30" rows="10">
+               </textarea>
+               <!--<label>
+                 Additional uploads
+               </label>
+               <input  data-tgt="upload" type="file" class="form-control" />-->
+             </fieldset>
+             
+             <form id="saveStyle" action="http://ddweaver-host.s3.amazonaws.com" method="post" enctype="multipart/form-data">
+               
+               <input type="hidden" id="key" name="key" value="dddd">
+               <input type="hidden" name="AWSAccessKeyId" value="AKIAJYPPZOTE3N7J7XBA">
+               
+               <input type="hidden" name="acl" value="public-read">
+               
+               <input type="hidden" name="success_action_redirect" id="redirect" value="dddd">
+               <input type="hidden" name="policy" id="policy" value="dddd">
+               <input type="hidden" name="signature" id="signature" value="dddd">
+               <input type="hidden" name="Content-Type" value="application/json;charset=UTF-8">
+               <input type="hidden" name="file" id="submitstyle" value="json">
+               <input type="hidden" id="saveForLater" value="1" />
+               
+               <button type="button" id="saveToLocker" class="btn btn-success form-control">
+                 SAVE TO LOCKER
+               </button>
+                 <small style="text-align:left;display:block;">
+                Clicking this will send the order to your locker where a Customer Service Rep can finalize the order and submit it to the factory.
+                 </small>
+                <button type="button" id="saveLater" class="btn btn-success form-control">
+                 SAVE FOR LATER
+               </button>
+               <small style="text-align:left;display:block;">
+                If you are working on something and would like to finish it later or you like the design so much you want to keep it for later then use this button.
+               </small>
+
+           
+                 
+               
+               
+             </form>
+              <form id="saveOrder" action="http://ddweaver-host.s3.amazonaws.com" method="post" enctype="multipart/form-data">
+               
+               
+               <input type="hidden" class="key" name="key" value="">
+               <input type="hidden" name="AWSAccessKeyId" value="AKIAJYPPZOTE3N7J7XBA">
+               
+               <input type="hidden" name="acl" value="public-read">
+               
+               <input type="hidden" name="success_action_redirect" class="redirect" value="">
+               <input type="hidden" name="policy" class="policy" value="">
+               <input type="hidden" name="signature" class="signature" value="">
+               <input type="hidden" name="Content-Type" class="type" value="application/json;charset=UTF-8">
+               <input type="hidden" name="file" class="file" value="json">
+               
+             </form>
+             
+             
+             <form id="sendSvg" action="http://ddweaver-host.s3.amazonaws.com" method="post" enctype="multipart/form-data">
+               
+               
+               <input type="hidden" class="key" name="key" value="">
+               <input type="hidden" name="AWSAccessKeyId" value="AKIAJYPPZOTE3N7J7XBA">
+               
+               <input type="hidden" name="acl" value="public-read">
+               
+               <input type="hidden" name="success_action_redirect" class="redirect" value="">
+               <input type="hidden" name="policy" class="policy" value="">
+               <input type="hidden" name="signature" class="signature" value="">
+               <input type="hidden" name="Content-Type" class="type" value="image/svg+xml">
+               <input type="hidden" name="file" class="file" value="svg">
+               
+             </form>
+             
+             
+           </div>
+           
+           
+           <div class="modal-footer">
+             <small style="text-align:left;display:block;">
+            *If you save this mock-up to a locker it will NOT be submitted as an order yet.  That will take place after someone contacts you to see if you’d like to finalize the process. Don’t worry about this going to the factory and being made, that isn’t until later.
+             </small>
+             
+             
+           </div>
+         </div>
+       </div>
+       <!-- /.modal-content -->
+     </div>
+     <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div class="modal fade" id="pantsmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title">
+            Pants Information
+          </h4>
+        </div>
+        <div class="modal-body">
+		
+          <h6>Pant Information</h6>
+		  
+          <div id="pantinfo" class="info">
+            
+            <table class="table teamdata">
+              <tr>
+                <th>COUNT</th>
+                <th>SIZE</th>
+                <th>INSEAM</th>
+                <th>HEM STYLE</th>
+              </tr>
+              <tr>
+                <td>1<td>
+                  <input data-tgt="size" type="number" value="24" min="24" max="54" step="2" class="pantnumber" />
+                </td>
+                <td>
+                  <input data-tgt="inseam" type="number" value="24" class="inseam" />
+                </td>
+                <td>
+                  
+                  <div class="btn-group" data-toggle="buttons" data-tgt="hem_style">
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="elasticcuff" value="elastic_cuff">
+                      Elastic Cuff
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="opencuff" value="open_cuff">
+                      Open Cuff
+                    </label>
+                  </div>
+                  
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          
+		  <table class="table table-striped table-bordered table-condensed sizes">
+              <tbody>
+                <tr>
+                  <th colspan="2">
+                    Pants size
+                  </th>
+                  <th>
+                    24
+                  </th>
+                  <th>
+                    26
+                  </th>
+                  <th>
+                    28
+                  </th>
+                  <th>
+                    30
+                  </th>
+                  <th>
+                    32
+                  </th>
+                  <th>
+                    34
+                  </th>
+                  <th>
+                    36
+                  </th>
+                  <th>
+                    38
+                  </th>
+                  <th>
+                    40
+                  </th>
+                  <th>
+                    42
+                  </th>
+                  <th>
+                    44
+                  </th>
+                  <th>
+                    46
+                  </th>
+                  <th>
+                    48
+                  </th>
+                  <th>
+                    50
+                  </th>
+                  <th>
+                    52
+                  </th>
+                  <th>
+                    54
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    Player's Waist Measurement
+                  </th>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    28
+                  </td>
+                  <td>
+                    30
+                  </td>
+                  <td>
+                    32
+                  </td>
+                  <td>
+                    34
+                  </td>
+                  <td>
+                    36
+                  </td>
+                  <td>
+                    38
+                  </td>
+                  <td>
+                    40
+                  </td>
+                  <td>
+                    42
+                  </td>
+                  <td>
+                    44
+                  </td>
+                  <td>
+                    46
+                  </td>
+                  <td>
+                    48
+                  </td>
+                  <td>
+                    50
+                  </td>
+                  <td>
+                    52
+                  </td>
+                  <td>
+                    54
+                  </td>
+                </tr>
+                <tr>
+                  <th rowspan="4" style="writing-mode: tb-rl;vertical-align:middle;width: 30px;">
+                    <span style="
+-webkit-transform: rotate(-90deg);
+display: block;
+width: 78px;;
+font-size: 16px;
+text-align: center;
+">
+  Suggested Inseams
+                    </span>
+                  </th>
+                  
+                </tr>
+                <tr>
+                  <th>
+                    Standard Inseam (Elastic Cuff)
+                  </th>
+                  <td>
+                    24
+                  </td>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    28
+                  </td>
+                  <td>
+                    30
+                  </td>
+                  <td colspan="2">
+                    32
+                  </td>
+                  <td colspan="2">
+                    34
+                  </td>
+                  <td colspan="8">
+                    34
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Standard Inseam (Open Cuff)
+                  </th>
+                  <td>
+                    26
+                  </td>
+                  <td>
+                    28
+                  </td>
+                  <td>
+                    30
+                  </td>
+                  <td>
+                    32
+                  </td>
+                  <td colspan="2">
+                    34
+                  </td>
+                  <td colspan="2">
+                    36
+                  </td>
+                  <td colspan="8">
+                    36
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Knicker Inseam (Elastic Cuff)
+                  </th>
+                  <td>
+                    14
+                  </td>
+                  <td>
+                    14
+                  </td>
+                  <td>
+                    14
+                  </td>
+                  <td>
+                    14
+                  </td>
+                  <td colspan="2">
+                    16
+                  </td>
+                  <td colspan="2">
+                    18
+                  </td>
+                  <td colspan="8">
+                    20
+                  </td>
+                </tr>
+                
+                
+                
+              </tbody>
+            </table>
+            
+		  
+          <b class="left">
+            Please refer to sizing chart for suggested sizes. 
+          </b>
+          
+          
+          
+        </div>
+        
+        
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div class="modal fade" id="submittedmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title">
+            Order submitted
+          </h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Your order has been processed!
+          </p>
+          <p>
+            Your choices will be available in the "Quick Styles" section.
+          </p>
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+        
+        
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  
+  <div class="modal fade" id="logosmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+      </button>
+      <h4 class="modal-title">
+        Choose a logo from the gallery below
+      </h4>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+    <div class="modal-footer">
+      
+    </div>
+    
+    
+  </div>
+  <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  
+  <div id="processing" style="display: none;">
+    Processing, please wait..
+  </div>
+
+   <div class="modal fade" id="endmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+      </button>
+      <h4 class="modal-title">
+       THANKS FOR SUBMITTING TO YOUR LOCKER!
+      </h4>
+    </div>
+    <div class="modal-body">
+      
+	  <p>Someone will be in contact with you to finalize this order.  Feel free to design up a new one while waiting.</p>
+	  
+    </div>
+    <div class="modal-footer">
+
+    </div>
+    
+    
+  </div>
+  <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  
+   <div class="modal fade" id="switch_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+      </button>
+      <h4 class="modal-title">
+       Change pant type
+      </h4>
+    </div>
+    <div class="modal-body">
+      
+        <h4>Change pant type</h4>
+        <div class="row">
+        
+        
+        
+	  
+        <div class="col-md-6">
+        
+            <h5>4040</h5>
+            <img src="assets/img/4040.jpg" width="60">
+            <button  class="btn btn-lg">Choose 4040</button>
+        
+        </div>
+        <div class="col-md-6">
+        
+            <h5>3000</h5>
+            <img src="assets/img/3000.jpg" width="60">
+            <button class="btn btn-lg">Choose 3000</button>
+            
+        </div>
+      </div>
+        
+	  <button></button>
+	  
+    </div>
+    <div class="modal-footer">
+      
+    </div>
+    
+    
+  </div>
+  <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  
+   
+  
+  <div id="styleload">
+
+ 
+    <!-- <script src="http://demos.marcellus.tv.s3.amazonaws.com/newbalance/baseball/styles.json" type="text/javascript">
+    
+     <script src ="styles.json" type="text/javascript">
+     </script>
+ -->
+    
+  </div>
+  
+</div>
+<!-- /.container -->
+
+<div id="basePicker">
+	<input type="button" class="btn picker base1" data-base="base1" />
+	<input type="button" class="btn picker base2" data-base="base2" />
+	<input type="button" class="btn picker base3" data-base="base3" />
+	<input type="button" class="btn picker base4" data-base="base4" />
+	<input type="button" class="btn picker nocolor" data-base="nocolor" />
+</div>
+
+<div id="colorPicker">
+	<input data-original-title="Black" style="background-color: rgb(0, 0, 0);"  class="picker btn" value="#000000" type="button">
+	<input data-original-title="White" style="background-color: rgb(255, 255, 255);"  class="picker btn" value="#ffffff" type="button">
+	<input data-original-title="Red" style="background-color: rgb(208, 0, 0);"  class="picker btn" value="#d00000" type="button">
+	<input data-original-title="Cardinal" style="background-color: rgb(160, 0, 0);"  class="picker btn" value="#a00000" type="button">
+	<input data-original-title="Maroon" style="background-color: rgb(104, 0, 0);"  class="picker btn" value="#680000" type="button">
+	<input data-original-title="Purple" style="background-color: rgb(73, 47, 145);"  class="picker btn" value="#492f91" type="button">
+	<input data-original-title="Navy Blue" style="background-color: rgb(0, 45, 98);"  class="picker btn" value="#002D62" type="button">
+	<input data-original-title="Royal Blue" style="background-color: rgb(0, 92, 169);"  class="picker btn" value="#005CA9" type="button">
+	<input data-original-title="Columbia Blue" style="background-color: rgb(143, 198, 230);"  class="picker btn" value="#8fc6e6" type="button">
+	<input data-original-title="Turquoise " style="background-color: rgb(57, 186, 217);"  class="picker btn" value="#39bad9" type="button">
+	<input data-original-title="Kelly Green" style="background-color: rgb(0, 128, 0);"  class="picker btn" value="#008000" type="button">
+	<input data-original-title="Forest Green" style="background-color: rgb(0, 82, 0);"  class="picker btn" value="#005200" type="button">
+	<input data-original-title="Yellow" style="background-color: rgb(255, 255, 0);"  class="picker btn" value="#FFFF00" type="button">
+	<input data-original-title="Gold" style="background-color: rgb(255, 217, 0);"  class="picker btn" value="#FFD900" type="button">
+	<input data-original-title="Old Gold" style="background-color: rgb(218, 165, 32);"  class="picker btn" value="#DAA520" type="button">
+	<input data-original-title="Vegas Gold" style="background-color: rgb(210, 180, 140);"  class="picker btn" value="#D2B48C" type="button">
+	<input data-original-title="Silver Grey" style="background-color: rgb(224, 224, 224);"  class="picker btn" value="#e0e0e0" type="button">
+	<input data-original-title="Grey" style="background-color: rgb(168, 168, 168);"  class="picker btn" value="#A8A8A8" type="button">
+	<input data-original-title="Charcoal Grey" style="background-color: rgb(88, 88, 88);"  class="picker btn" value="#585858" type="button">
+	<input data-original-title="Brown" style="background-color: rgb(77, 45, 1);"  class="picker btn" value="#4d2d01" type="button">
+	<input data-original-title="Orange" style="background-color: rgb(245, 131, 0);"  class="picker btn" value="#F58300" type="button">
+	<input data-original-title="Texas Orange" style="background-color: rgb(209, 115, 7);"  class="picker btn" value="#d17307" type="button">
+	<input data-original-title="Tennesse Orange" style="background-color: rgb(252, 171, 53);"  class="picker btn" value="#FCAB35" type="button">
+</ul>
+
+
+<script src="js/core.js" type="text/javascript"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46265285-1', 'qstrike.com');
+  ga('send', 'pageview');
+
+</script>
+	 
+</body>
+</html>
