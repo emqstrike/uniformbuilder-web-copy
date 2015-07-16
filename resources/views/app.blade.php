@@ -26,6 +26,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="/css/libs/normalize/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/acc-wizard/acc-wizard.min.css">
     <link rel="stylesheet" type="text/css" href="/css/master-editor.css">
 </head>
 <body>
@@ -37,10 +38,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="/js/libs/prototype/prototype.js"></script>
+    <script src="/js/libs/acc-wizard/acc-wizard.min.js"></script>
     <script type="text/javascript">
     jQuery.noConflict();
     jQuery.ready(function(){
-        jQuery('.menu').css('height', '100vh').css('background-color', 'red');
+        jQuery(window).load(function() {
+            $(".acc-wizard").accwizard();
+        });
     });
     // use Prototype with $(...), etc.
     </script>
