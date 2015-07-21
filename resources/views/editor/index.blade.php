@@ -47,6 +47,23 @@
 
 	</div>
 
+
+		<div class="sidebar-panel">
+
+		<h3>
+			
+			Piping Color
+
+		</h3>	
+					
+		<button onclick="change_piping_color('0x8c2332')">Cardinal</button>
+
+		<button onclick="change_piping_color('0xf36c24')">Orange</button>
+			
+		<button onclick="change_piping_color('0x1d5732')">Forest Green</button>
+
+	</div>
+
 @endsection('properties')
 
 
