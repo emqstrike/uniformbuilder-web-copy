@@ -40,6 +40,7 @@
     <script src="/js/libs/prototype/prototype.js"></script>
     <script src="/js/libs/acc-wizard/acc-wizard.min.js"></script>
     <script type="text/javascript">
+
     jQuery.noConflict();
     jQuery.ready(function(){
         jQuery(window).load(function() {
@@ -47,6 +48,7 @@
         });
     });
     // use Prototype with $(...), etc.
+    
     </script>
     <!-- Latest compiled and minified JavaScript -->
 </body>

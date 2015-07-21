@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('uniformbuilder', 'UniformBuilderController@index');
+Route::get('uniform-builder', 'UniformBuilderController@index');
