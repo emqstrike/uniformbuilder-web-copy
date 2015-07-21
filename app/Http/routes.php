@@ -20,8 +20,8 @@ Route::get('uniformbuilder', 'UniformBuilderController@index');
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
     // Login
-    Route::get('/auth/login', 'AuthenticationController@loginForm');
-    Route::get('/auth/register', 'AuthenticationController@registerForm');
+    Route::get('/auth/login', 'Administration\AuthenticationController@loginForm');
+    Route::get('/auth/register', 'Administration\AuthenticationController@registerForm');
 
     // // Users
     // Route::get('users', 'UserController@users');
