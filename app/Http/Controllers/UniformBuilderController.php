@@ -16,6 +16,8 @@ class UniformBuilderController extends Controller
         return view('editor.index', [
 
             'page_title' => 'QuickStrike Uniform Builder',
+            'asset_version' => '?v=0.001',
+            'asset_storage' => '',
 
         ]);
 

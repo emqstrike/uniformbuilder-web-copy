@@ -5,14 +5,6 @@
 
 		<link rel="icon" type="image/png" href="/images/branding/fav-ico.png" />
 
-
-		<?php 
-
-			$asset_version = "?v=0.2";
-			$asset_storage = ""; // blank is local, specify s3 url on production
-
-		?>
-		
 		<title>{{ $page_title }}</title>
 
 		<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
