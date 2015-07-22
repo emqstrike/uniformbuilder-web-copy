@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Laravel</title>
+        <title>QuickStrike Uniform Builder</title>
 
         <link href="//fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -37,8 +37,11 @@
     </head>
     <body>
         <div class="container">
+            @if (Session::has('flash_message'))
+            <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
+            @endif
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title">QuickStrike Uniform Builder</div>
             </div>
         </div>
     </body>

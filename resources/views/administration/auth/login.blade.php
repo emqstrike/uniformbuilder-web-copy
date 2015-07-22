@@ -21,8 +21,12 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/auth/login">
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/login">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                        @if (Session::has('flash_message'))
+                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
+                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">E-Mail Address</label>
@@ -53,7 +57,6 @@
                                 <button type="submit" class="btn btn-primary" style="margin-right: 15px;">
                                     Login
                                 </button>
-
                                 <!-- <a href="/password/email">Forgot Your Password?</a> -->
                             </div>
                         </div>

@@ -19,18 +19,11 @@ Route::get('uniformbuilder', 'UniformBuilderController@index');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
+    Route::get('/', 'Administration\AdministrationController@index');
+
     // Login
-    Route::get('/auth/login', 'Administration\AuthenticationController@loginForm');
-
-    // // Users
-    Route::get('users', 'Administration\AuthenticationController@users');
-    // Route::get('user', 'UserController@index');
-    // Route::get('user/{id}', 'UserController@show');
-    // Route::post('user', 'UserController@store');
-
-    // // Uniform Categories
-    // Route::get('categories', 'UniformCategoriesController@categories');
-    // Route::get('category', 'UniformCategoriesController@index');
-    // Route::get('category/{id}', 'UniformCategoriesController@show');
+    Route::get('login', 'Administration\AuthenticationController@loginForm');
+    Route::post('login', 'Administration\AuthenticationController@login');
+    Route::get('logout', 'Administration\AuthenticationController@logout');
 });
 
