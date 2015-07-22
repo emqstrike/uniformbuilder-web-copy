@@ -20,6 +20,7 @@
 	<body>
 
 		<!-- sidebar -->
+
 		@include('partials.sidebar')
 
 		<div class="main-content">
