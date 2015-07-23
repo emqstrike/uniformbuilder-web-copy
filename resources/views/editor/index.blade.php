@@ -33,10 +33,93 @@
 
 		<h3>
 			
-			Materials
+			Panels - Top Color
 
 		</h3>	
+					
+		<button onclick="change_color('panels_top','0x8c2332')">Cardinal</button>
 
+		<button onclick="change_color('panels_top','0xf36c24')">Orange</button>
+			
+		<button onclick="change_color('panels_top','0x1d5732')">Forest Green</button>
+
+	</div>
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Panels - Side Color
+
+		</h3>	
+					
+		<button onclick="change_color('panels_side','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('panels_side','0xf36c24')">Orange</button>
+			
+		<button onclick="change_color('panels_side','0x1d5732')">Forest Green</button>
+
+	</div>
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Belt Color
+
+		</h3>	
+					
+		<button onclick="change_color('belt','0x4f4f4f')">Charcoal Gray</button>
+
+		<button onclick="change_color('belt','0x8a8c8c')">Gray</button>
+			
+		<button onclick="change_color('belt','0x000000')">Black</button>
+
+	</div>
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Pants Color
+
+		</h3>	
+					
+		<button onclick="change_color('pants','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
+
+		<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
+		
+	</div>
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Pants Piping Color
+
+		</h3>	
+					
+		<button onclick="change_color('pants_piping','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('pants_piping','0xf36c24')">Orange</button>
+			
+		<button onclick="change_color('pants_piping','0x1d5732')">Forest Green</button>
+
+	</div>
+
+	<hr />
+
+
+	<!-- 
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Shirt Material
+
+		</h3>	
 					
 		<button onclick="change_material('shirt', '1')">Material 1</button>
 
@@ -46,77 +129,7 @@
 
 	</div>
 
-
-		<div class="sidebar-panel">
-
-		<h3>
-			
-			Piping Color
-
-		</h3>	
-					
-		<button onclick="change_color('piping','s0x8c2332')">Cardinal</button>
-
-		<button onclick="change_color('piping','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('piping','0x1d5732')">Forest Green</button>
-
-		</div>
-
-		<div class="sidebar-panel">
-
-			<h3>
-				
-				Pants Color
-
-			</h3>	
-						
-			<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
-
-			<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
-				
-			<button onclick="change_color('pants','0x000000')">Black</button>
-
-		</div>
-
-		<div class="sidebar-panel">
-
-			<h3>
-				
-				Belt Color
-
-			</h3>	
-						
-			<button onclick="change_color('belt','0x4f4f4f')">Charcoal Gray</button>
-
-			<button onclick="change_color('belt','0x8a8c8c')">Gray</button>
-				
-			<button onclick="change_color('belt','0x000000')">Black</button>
-
-		</div>
-
-		<div class="sidebar-panel">
-
-			<h3>
-				
-				Buckle Color
-
-			</h3>	
-						
-			<button onclick="change_color('buckle','0x4f4f4f')">Charcoal Gray</button>
-
-			<button onclick="change_color('buckle','0x8a8c8c')">Gray</button>
-				
-			<button onclick="change_color('buckle','0x000000')">Black</button>
-
-		</div>
-
-
-
-	</div>
-
-
-
+	-->
 
 @endsection('properties')
 
