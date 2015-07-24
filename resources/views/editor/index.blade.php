@@ -112,24 +112,77 @@
 	<hr />
 
 
-	<!-- 
+
 	<div class="sidebar-panel">
 
 		<h3>
 			
-			Shirt Material
+			Cube Material
 
 		</h3>	
 					
-		<button onclick="change_material('shirt', '1')">Material 1</button>
+		<!-- 
 
-		<button onclick="change_material('shirt', '2')">Material 2</button>
+		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
+
+		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
+
+		-->
 			
-		<button onclick="change_material('shirt','4')">Material 3</button>
+		<button onclick="change_material('shirt_textured','4')">Material 4</button>
+
+
 
 	</div>
 
-	-->
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Apply Second Layer
+
+		</h3>	
+					
+		<!-- <button onclick="change_material('shirt_textured', '6')">Material 1</button> -->
+
+		<!-- <button onclick="change_material('shirt_textured', '5')">Material 2</button> -->
+			
+		<button onclick="apply_second_layer('shirt_textured','4')">Test Layer</button>
+
+	</div>
+
+	<span id="vertex_shh" style="color: white;">
+		varying vec2 vUv;
+
+		void main()
+		{
+		    vUv = uv;
+		    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+		    gl_Position = projectionMatrix * mvPosition;
+		}
+	</span>
+	<span id="fragment_shh" style="color: white;">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		uniform sampler2D tOne;
+		uniform sampler2D tSec;
+
+		varying vec2 vUv;
+
+		void main(void)
+		{
+		    vec3 c;
+		    vec4 Ca = texture2D(tOne, vUv);
+		    vec4 Cb = texture2D(tSec, vUv);
+		    c = Ca.rgb * Ca.a + Cb.rgb * Cb.a * (1.0 - Ca.a);  // blending equation
+		    gl_FragColor= vec4(c, 1.0);
+		}
+	</span>
+
+
 
 @endsection('properties')
 

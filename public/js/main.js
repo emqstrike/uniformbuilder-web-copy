@@ -30,6 +30,11 @@
 		load_model('panels_side','panels_side','0x1a468d', false);
 		load_model('panels_top','panels_top','0x1a468d', false);
 
+		load_model('shirt_textured','shirt_textured','0x8c2332', true);
+
+		// load_model('cube','cube','0x1a468d', false);
+
+
 		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
@@ -151,6 +156,15 @@
 
 			}
 
+			if(name_of_obj == 'shirt_textured'){
+
+				mesh.position.y = -0.5;
+				mesh.position.x =  0;
+				mesh.position.z =  1;
+
+
+			}
+
 			console.log(name_of_obj);
 
 	    });
@@ -160,16 +174,97 @@
 	window.camera_position_to = {};
 	window.camera_rotation_to = {};
 
+
+	function apply_second_layer(name_of_obj, file_name){
+
+		//////////
+
+		var vertShader = document.getElementById('vertex_shh').innerHTML;
+		var fragShader = document.getElementById('fragment_shh').innerHTML;
+
+		var attributes = {}; // custom attributes
+
+		var uniforms = {    // custom uniforms (your textures)
+
+		  tOne: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/materials/test_number.png" ) },
+		  tSec: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/materials/material_4.png" ) }
+
+		};
+
+		var material_shh = new THREE.ShaderMaterial({
+
+		  uniforms: uniforms,
+		  attributes: attributes,
+		  vertexShader: vertShader,
+		  fragmentShader: fragShader
+
+		});
+
+
+		obj = window.UniformBuilder.models[name_of_obj];
+
+		//obj.material.color.setHex('0xead8c7');
+	
+		obj.material = material_shh;
+        obj.material.needsUpdate = true;
+        obj.geometry.computeTangents();
+
+        //move_camera(name_of_obj);
+
+		// //////////
+
+		// var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
+	
+		// texture.wrapS = THREE.RepeatWrapping;
+		// texture.wrapT = THREE.RepeatWrapping;
+		// texture.repeat.set(1,1);
+
+		// var texture_color = '0x8c2332';
+
+		// if(name_of_obj = 'shirt_textured'){
+
+		// 	color = '0xf4dfcb';
+
+		// }
+
+		// var material = new THREE.MeshPhongMaterial({ 
+		// 	    texture_color: 0x8c2332, 
+		// 	    specular: 0x050505,
+		// 	    shininess: 100,
+		// 	    map: texture,
+		// 	});
+	
+		// obj = window.UniformBuilder.models[name_of_obj];
+
+		// //obj.material.color.setHex('0xead8c7');
+	
+		// obj.material = material;
+  //       obj.material.needsUpdate = true;
+  //       obj.geometry.computeTangents();
+
+  //       //move_camera(name_of_obj);
+
+	}
+
+
 	function change_material(name_of_obj, file_name){
 
 		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
 	
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(3,7);
+		texture.repeat.set(1,1);
+
+		var texture_color = '0x8c2332';
+
+		if(name_of_obj = 'shirt_textured'){
+
+			color = '0xf4dfcb';
+
+		}
 
 		var material = new THREE.MeshPhongMaterial({ 
-			    color: 0x8c2332, 
+			    texture_color: 0x8c2332, 
 			    specular: 0x050505,
 			    shininess: 100,
 			    map: texture,
@@ -183,7 +278,7 @@
         obj.material.needsUpdate = true;
         obj.geometry.computeTangents();
 
-        move_camera(name_of_obj);
+        //move_camera(name_of_obj);
 
 	}
 	
