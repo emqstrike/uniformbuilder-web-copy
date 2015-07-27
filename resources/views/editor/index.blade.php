@@ -111,13 +111,11 @@
 
 	<hr />
 
-
-
 	<div class="sidebar-panel">
 
 		<h3>
 			
-			Cube Material
+			Cloth Material
 
 		</h3>	
 					
@@ -128,10 +126,32 @@
 		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
 
 		-->
+		
+		<button onclick="change_material('shirt','1')">Cloth 1</button>
+		<button onclick="change_material('shirt','3')">Camo</button>
+		<button onclick="change_material('shirt','4')">Material 4</button>
+		<button onclick="change_material('shirt','5')">Material 5</button>
+
+	</div>
+
+
+	<div class="sidebar-panel">
+
+		<h3>
 			
-		<button onclick="change_material('shirt_textured','4')">Material 4</button>
+			Side Panel Material
 
+		</h3>	
+					
+		<!-- 
 
+		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
+
+		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
+
+		-->
+		
+		<button onclick="change_material('panels_side','3')">Camo</button>
 
 	</div>
 

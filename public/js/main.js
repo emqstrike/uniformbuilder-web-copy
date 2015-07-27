@@ -17,20 +17,20 @@
 		window.UniformBuilder.scene = new THREE.Scene();
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 
-		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true });
+		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		window.UniformBuilder.renderer.setSize(width, height);
 
 		container.appendChild( window.UniformBuilder.renderer.domElement );
 
-		load_model('pants','pants','0x8a8c8c', false);
-		load_model('shirt','shirt','0x8c2332', true);
-		load_model('buttons','buttons','0x8a8c8c', false);
+		load_model('pants','pants','0xffffff', false);
+		load_model('shirt','shirt','0xffffff', true);
+		load_model('buttons','buttons','0x000000', false);
 		load_model('belt','belt','0x000000', false);
 		load_model('pants_piping','pants_piping','0x1a468d', false);
 		load_model('panels_side','panels_side','0x1a468d', false);
 		load_model('panels_top','panels_top','0x1a468d', false);
 
-		load_model('shirt_textured','shirt_textured','0x8c2332', true);
+	//	load_model('shirt_textured','shirt_textured','0x8c2332', true);
 
 		// load_model('cube','cube','0x1a468d', false);
 
@@ -69,7 +69,7 @@
 
 		};
 
-		// change_color('shirt', '0x8c2332');
+		//schange_color('shirt', '0x8c2332');
 
 		controls = new THREE.OrbitControls( window.UniformBuilder.camera, UniformBuilder.renderer.domElement );
 
@@ -98,7 +98,7 @@
 		window.UniformBuilder.models = {};
 		window.UniformBuilder.config = {
 			
-			'model_folder': '/models/florida/',
+			'model_folder': '/models/florida_2/',
 
 		};
 
@@ -118,8 +118,9 @@
 			var material = new THREE.MeshPhongMaterial({ 
 
 			    color: 0xffffff, 
-			    specular: 0x050505,
-			    shininess: 100
+			    specular: 0x000000,
+			    shininess: 30,
+			    side: THREE.DoubleSide,
 
 			});
 
@@ -136,9 +137,12 @@
 
 			}	
 
-			if(name_of_obj === 'shirt'){ // HACK: Last to beloaded because of size
+			if(name_of_obj === 'pants'){ // HACK: Last to beloaded because of size
 
 				reset_camera();
+
+				change_material('pants','7');
+				change_material('shirt','7');
 
 				var render = function () {
 
@@ -155,16 +159,6 @@
 				render();
 
 			}
-
-			if(name_of_obj == 'shirt_textured'){
-
-				mesh.position.y = -0.5;
-				mesh.position.x =  0;
-				mesh.position.z =  1;
-
-
-			}
-
 			console.log(name_of_obj);
 
 	    });
@@ -250,24 +244,41 @@
 	function change_material(name_of_obj, file_name){
 
 		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
-	
+		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + file_name + "_bump.png", {}, function(){});
+
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
+		texture.wrapS = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		texture.minFilter = THREE.LinearFilter;
 		texture.repeat.set(1,1);
+
+
+		// bmap.wrapS = THREE.RepeatWrapping;
+		// bmap.wrapT = THREE.RepeatWrapping;
+		// bmap.wrapS = THREE.ClampToEdgeWrapping;
+		// bmap.wrapT = THREE.ClampToEdgeWrapping;
+		bmap.minFilter = THREE.LinearFilter;
+		// bmap.repeat.set(1,1);
+
 
 		var texture_color = '0x8c2332';
 
-		if(name_of_obj = 'shirt_textured'){
+		if(name_of_obj === 'shirt_textured'){
 
 			color = '0xf4dfcb';
 
 		}
+
 
 		var material = new THREE.MeshPhongMaterial({ 
 			    texture_color: 0x8c2332, 
 			    specular: 0x050505,
 			    shininess: 100,
 			    map: texture,
+			    bumpMap: bmap,
+			    bumpScale: 0.020,
+			    side: THREE.DoubleSide,
 			});
 	
 		obj = window.UniformBuilder.models[name_of_obj];
@@ -416,17 +427,17 @@
 
 		window.camera_position_to = {
 
-			x: -1.3008674774636555,
-			y: -2.0833214929138437,
-			z: 3.7500968261751804,
+			x: -0.7428245379145085,
+			y: 1.6595636550994113,
+			z: 2.291040906395211,
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.08483824052434566,
-			y: -0.2711062762370936,
-			z: -0.02277019296841999,
+			x: -0.28979214996541103,
+			y: -0.21640415332749163,
+			z: -0.06393903248650991,
 
 		};
 
@@ -438,81 +449,81 @@
 		window.rotations = {};
 
 		window.positions.shirt = {
-			x:  -0.19976456030689105,
-			y: 0.1324062887268571,
-			z: 2.2922348711520897,
+			x:  -0.01921775697642224,
+			y: 1.3326683797695802,
+			z: 2.3131022224243365,
 		};
 
 		window.rotations.shirt = {
-			x: -0.27600869062030725,
-			y: -0.03377405743696692,
-			z: -0.009563983486980124,
+			x: -0.21213326177654301,
+			y: -7.146840492458159e-15,
+			z: -1.5392410831238418e-15,
 		};
 
 
 		window.positions.pants = {
-			x: 0.52,
-			y: -3.19,
-			z: 2.71,
+			x: -0.05344707952736038,
+			y: -3.142688276208788,
+			z: 2.789509817516254,
 		};
 
 
 		window.rotations.pants = {
-			x: -0.205,
-			y: 0.186,
-			z: 0.038,
+			x: 0,
+			y: 0,
+			z: 0,
 		};
 
 	
 		window.positions.pants_piping = {
-			x: -2.6781975301699212,
-			y: -3.8581404307616722,
-			z: 1.7699339971580332,
+			x: -1.6937581521805667,
+			y: -1.2923868443648558,
+			z: 1.8739121482908139,
 		};
 
 		window.rotations.pants_piping = {
-			x: -0.07110669014362422,
-			y: -0.9581410287121326,
-			z: -0.058206511204333414,
+			x: -0.5339865098805464,
+			y: -0.5973254606793372,
+			z: -0.3210526002448725,
 		};
 
 
 		window.positions.belt = {
-			x: -0.36,
-			y: -2.08,
-			z: 1.43,
+			x: -0.03179201981709706,
+			y: -1.1554708238701281,
+			z: 1.6699244085908918,
 		};
 
 		window.rotations.belt = {
-			x: 0.010,
-			y: -0.14,
-			z: 0.001,
+			x: -0.070719615541104,
+			y: -0.015513570194327487,
+			z: -0.001098901824182265,
 		};
 
 
 		window.positions.panels_side = {
-			x: -1.8810692560580533,
-			y: -0.6364223075279003,
-			z: 1.6756919591980666,
+			x: -1.6891620626184387,
+			y: 1.4725625731680165,
+			z: 2.039780418307582,
 		};
 
 		window.rotations.panels_side = {
-			x: -0.050627832542014854,
-			y: -0.6312177576830472,
-			z: -0.02989356185828975,
+			x: -0.23946047245251106,
+			y: -0.5623024998700163,
+			z: -0.12943465550489144,
 		};
 
 
 		window.positions.panels_top = {
-			x:  -1.0909956098221447,
-			y: 1.078217060622181,
-			z: 1.6947644637862527,
+			x:  -0.5719156773987263,
+			y: 3.5792693270092064,
+			z: 0.5059831012518798,
 		};
 
 		window.rotations.panels_top = {
-			x:  -0.6235809578529675,
-			y: -0.29637395286224966,
-			z: -0.2070716989645836,
+			x: -1.118396683806076,
+			y: -0.22078297948124712,
+			z: -0.42334240666926354,
 		};
 
 		window.positions.buttons = {
