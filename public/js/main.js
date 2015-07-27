@@ -26,9 +26,9 @@
 		load_model('shirt','shirt','0xffffff', true);
 		load_model('buttons','buttons','0x000000', false);
 		load_model('belt','belt','0x000000', false);
-		load_model('pants_piping','pants_piping','0x1a468d', false);
-		load_model('panels_side','panels_side','0x1a468d', false);
-		load_model('panels_top','panels_top','0x1a468d', false);
+		load_model('pants_piping','pants_piping','0x8c2332', false);
+		load_model('panels_side','panels_side','0x8c2332', false);
+		load_model('panels_top','panels_top','0x8c2332', false);
 
 	//	load_model('shirt_textured','shirt_textured','0x8c2332', true);
 
@@ -38,6 +38,11 @@
 		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
+
+		// var ambientLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.2 );
+		// //ambientLight.position.set(1,1,2);
+		// window.UniformBuilder.camera.add(ambientLight);
+
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
 
 		window.addEventListener('resize', function() {
@@ -103,10 +108,26 @@
 		};
 
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
+
+		window.free_rotate = false;
 		
 	}	
 
+	function toggle_free_rotate(){
 
+		window.free_rotate = !window.free_rotate;
+
+			if(window.free_rotate){
+
+				$('#btn_free_form').addClass('btn-danger');
+
+			}
+			else{
+
+				$('#btn_free_form').removeClass('btn-danger');
+			}
+
+	}
 
 	function load_model(file_name, name_of_obj, color, active){
 
@@ -146,8 +167,12 @@
 
 				var render = function () {
 
-					move_camera_to();
-					rotate_camera_to();
+					if(!window.free_rotate){
+
+						move_camera_to();
+						rotate_camera_to();
+
+					}
 					
 					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
 
@@ -289,7 +314,7 @@
         obj.material.needsUpdate = true;
         obj.geometry.computeTangents();
 
-        //move_camera(name_of_obj);
+        move_camera(name_of_obj);
 
 	}
 	
@@ -297,6 +322,11 @@
 
 		obj = window.UniformBuilder.models[name_of_obj];
 		obj.material.color.setHex(color);
+
+		if(name_of_obj === "panels_side"){
+
+			change_color('buttons',color);
+		}
 
 		move_camera(name_of_obj);
 

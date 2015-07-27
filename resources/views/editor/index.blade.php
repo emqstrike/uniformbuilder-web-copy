@@ -2,8 +2,24 @@
  
 
 @section('contentarea')
+	
+		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
+			
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()">Free Form</button>	
+			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()">Reset Camera</button>	
+
+		</div>
+
+		<style type="text/css">
+
+
+
+		</style>
+	
 
 	<div id="mycanvas" class="mycanvas">
+
+
 		
 	</div>
 	
@@ -20,7 +36,9 @@
 			Shirt Color
 
 		</h3>	
-					
+		
+		<button onclick="change_color('shirt','0xffffff')">White</button>
+
 		<button onclick="change_color('shirt','0x8c2332')">Cardinal</button>
 
 		<button onclick="change_color('shirt','0xf36c24')">Orange</button>
@@ -84,9 +102,9 @@
 			Pants Color
 
 		</h3>	
-					
-		<button onclick="change_color('pants','0x8c2332')">Cardinal</button>
 
+		<button onclick="change_color('pants','0xffffff')">White</button>
+				
 		<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
 
 		<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
@@ -127,10 +145,10 @@
 
 		-->
 		
-		<button onclick="change_material('shirt','1')">Cloth 1</button>
+		<button onclick="change_material('shirt','7')">Plain</button>
 		<button onclick="change_material('shirt','3')">Camo</button>
-		<button onclick="change_material('shirt','4')">Material 4</button>
-		<button onclick="change_material('shirt','5')">Material 5</button>
+		<button onclick="change_material('shirt','8')">Stripes</button>
+		
 
 	</div>
 
@@ -139,7 +157,7 @@
 
 		<h3>
 			
-			Side Panel Material
+			Pants Material
 
 		</h3>	
 					
@@ -151,24 +169,9 @@
 
 		-->
 		
-		<button onclick="change_material('panels_side','3')">Camo</button>
-
-	</div>
-
-
-	<div class="sidebar-panel">
-
-		<h3>
-			
-			Apply Second Layer
-
-		</h3>	
-					
-		<!-- <button onclick="change_material('shirt_textured', '6')">Material 1</button> -->
-
-		<!-- <button onclick="change_material('shirt_textured', '5')">Material 2</button> -->
-			
-		<button onclick="apply_second_layer('shirt_textured','4')">Test Layer</button>
+		<button onclick="change_material('pants','7')">Plain</button>
+		<button onclick="change_material('pants','3')">Camo</button>
+		
 
 	</div>
 
