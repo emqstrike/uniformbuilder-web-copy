@@ -25,5 +25,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('login', 'Administration\AuthenticationController@loginForm');
     Route::post('login', 'Administration\AuthenticationController@login');
     Route::get('logout', 'Administration\AuthenticationController@logout');
+
+    // Colors
+    Route::get('colors', 'Administration\AdministrationController@colors');
+
+    // Textures
+    Route::get('textures', 'Administration\AdministrationController@textures');
+    Route::post('texture', 'Administration\AdministrationController@createTexture');
+    Route::get('addTextureForm', 'Administration\AdministrationController@addTextureForm');
 });
 

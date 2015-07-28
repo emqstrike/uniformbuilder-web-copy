@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/psr-http-message-bridge": "0.2",
-        "webmozart/json": "^1.0"
+        "webmozart/json": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
