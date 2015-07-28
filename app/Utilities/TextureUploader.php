@@ -12,7 +12,7 @@ class TextureUploader
      * @param String $bucket
      * @param String $textureName
      */
-    public static function upload(UploadedFile $uploadedFile, $bucket, $textureName)
+    public static function upload(UploadedFile $uploadedFile, $textureName)
     {
         $filename = $uploadedFile->getClientOriginalName();
 
@@ -35,10 +35,10 @@ class TextureUploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
-error_log("{$protocol}://{$host}/{$bucket}/{$targetUploadFilePath}");
+
             return "{$protocol}://{$host}/{$bucket}/{$targetUploadFilePath}";
         }
-        error_log('S3 File Upload Failed');
+
         return null;
 
     }

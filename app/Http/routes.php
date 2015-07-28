@@ -30,8 +30,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('colors', 'Administration\AdministrationController@colors');
 
     // Textures
-    Route::get('textures', 'Administration\AdministrationController@textures');
-    Route::post('texture', 'Administration\AdministrationController@createTexture');
-    Route::get('addTextureForm', 'Administration\AdministrationController@addTextureForm');
+    Route::get('textures', 'Administration\TexturesController@index');
+    Route::post('texture', 'Administration\TexturesController@createTexture');
+    Route::get('addTextureForm', 'Administration\TexturesController@addTextureForm');
+    Route::get('texture/delete/{id}', 'Administration\TexturesController@delete');
 });
 
