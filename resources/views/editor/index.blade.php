@@ -1,20 +1,16 @@
 @extends('main-container')
  
-
 @section('contentarea')
 	
 		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
 			
 			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()">Free Form</button>	
 			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()">Reset Camera</button>	
-
 		</div>
 
 		<div id="mycanvas" class="mycanvas"></div>
 	
 @endsection('contentarea')
-
-
 
 @section('properties')
 
@@ -50,11 +46,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Panels - Side Color
-
-		</h3>
+		<h3>Panels - Side Color</h3>
 		@forelse ($colors as $color)
 			<button class='btn change-color' data-target='panels_side' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
 		@empty
@@ -65,11 +57,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Belt Color
-
-		</h3>
+		<h3>Belt Color</h3>
 		@forelse ($colors as $color)
 			<button class='btn change-color' data-target='belt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
 		@empty
@@ -80,11 +68,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Pants Color
-
-		</h3>
+		<h3>Pants Color</h3>
 		@forelse ($colors as $color)
 			<button class='btn change-color' data-target='pants' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
 		@empty
@@ -95,11 +79,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Pants Piping Color
-
-		</h3>
+		<h3>Pants Piping Color</h3>
 		@forelse ($colors as $color)
 			<button class='btn change-color' data-target='pants_piping' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
 		@empty
@@ -112,12 +92,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Cloth Material
-
-		</h3>
-		<!-- Sample Loading of Textures -->
+		<h3>Cloth Material</h3>
 		@forelse ($textures as $texture)
 			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
 		@empty
@@ -130,11 +105,7 @@
 
 	<div class="sidebar-panel">
 
-		<h3>
-			
-			Pants Material
-
-		</h3>
+		<h3>Pants Material</h3>
 		@forelse ($textures as $texture)
 			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='pants' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
 		@empty
@@ -177,17 +148,21 @@
 @endsection('properties')
 
 @section('custom-styles')
+	body, h1, h2, h3, h4, h5, h6, button, a, p {
+		font-family: Lato;
+		font-weight: bold;
+	}
 	.mycanvas {  height: 100%; width: 100%; }
 	canvas {
 		width: 100%;
 		height: 100%;
 	}
 	.change-color {
-		padding-right: 20px;
-		margin-right: 20px;
+		padding: 40px;
+		margin: 10px;
 	}
-@endsection('custom-styles')
-
+@endsection('custom-styles'
+)
 @section('additional-scripts')
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>

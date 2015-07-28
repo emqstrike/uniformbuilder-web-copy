@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
+	<meta http-equiv="Access-Control-Allow-Origin" content="*"/>
 
 	<head>
-
+		<link href="//fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/png" href="/images/branding/fav-ico.png" />
 
 		<title>{{ $page_title }}</title>
