@@ -15,10 +15,10 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
- 
+     
     <!-- Fonts -->
     <!--<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>-->
- 
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,6 +26,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="/css/libs/normalize/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/acc-wizard/acc-wizard.min.css">
     <link rel="stylesheet" type="text/css" href="/css/master-editor.css">
 </head>
 <body>
@@ -33,17 +34,21 @@
     @yield('content')
  
     <!-- Scripts -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+    <script src="/js/libs/prototype/prototype.js"></script>
+    <script src="/js/libs/acc-wizard/acc-wizard.min.js"></script>
     <script type="text/javascript">
+
     jQuery.noConflict();
     jQuery.ready(function(){
-        jQuery(document).load(function() {
-            // ...
+        jQuery(window).load(function() {
+            $(".acc-wizard").accwizard();
         });
     });
     // use Prototype with $(...), etc.
+    
     </script>
     <!-- Latest compiled and minified JavaScript -->
 </body>

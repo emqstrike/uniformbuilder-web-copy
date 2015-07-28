@@ -42,6 +42,9 @@
             @endif
             <div class="content">
                 <div class="title">QuickStrike Uniform Builder</div>
+                <div>
+                    <a href="uniform-builder/">Click Here</a>
+                </div>
             </div>
         </div>
     </body>

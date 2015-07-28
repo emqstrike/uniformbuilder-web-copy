@@ -4,7 +4,7 @@
 
 
 <nav class="col-md-1 menu">
-    <!-- <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/Qx.png"> -->
+    <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/Qx.png">
     <ul class="list-group">
         <li class="list-group-item">
             Open Design
@@ -19,9 +19,9 @@
 </nav>
 
 
-<div class="col-md-8" id='main-canvas'>
+<section class="col-md-8 main-canvas">
 
-</div>
+</section>
 
 
 <section class="col-md-3 properties">

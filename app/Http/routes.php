@@ -36,3 +36,4 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('texture/delete/{id}', 'Administration\TexturesController@delete');
 });
 
+Route::get('uniform-builder', 'UniformBuilderController@index');
