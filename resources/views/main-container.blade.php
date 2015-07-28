@@ -20,6 +20,7 @@
 	<body>
 
 		<!-- sidebar -->
+
 		@include('partials.sidebar')
 
 		<div class="main-content">
@@ -38,7 +39,6 @@
 				@yield('properties')
 
 			</div>
-			
 
 		</div>	
 
@@ -61,8 +61,6 @@
 
 		<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
-
-
 
 	</body>
 
