@@ -10,18 +10,7 @@
 
 		</div>
 
-		<style type="text/css">
-
-
-
-		</style>
-	
-
-	<div id="mycanvas" class="mycanvas">
-
-
-		
-	</div>
+		<div id="mycanvas" class="mycanvas"></div>
 	
 @endsection('contentarea')
 
@@ -130,18 +119,10 @@
 		</h3>
 		<!-- Sample Loading of Textures -->
 		@forelse ($textures as $texture)
-			<p>
-				{{ $texture->name }}
-				<li>{{ $texture->texture_path }}</li>
-				<li>{{ $texture->bump_map_path }}</li>
-			</p>
+			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
 		@empty
 
-		@endforelse	
-
-		<button onclick="change_material('shirt','7')">Plain</button>
-		<button onclick="change_material('shirt','3')">Camo</button>
-		<button onclick="change_material('shirt','8')">Stripes</button>
+		@endforelse
 		
 
 	</div>
@@ -153,18 +134,12 @@
 			
 			Pants Material
 
-		</h3>	
-					
-		<!-- 
+		</h3>
+		@forelse ($textures as $texture)
+			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='pants' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
+		@empty
 
-		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
-
-		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
-
-		-->
-		
-		<button onclick="change_material('pants','7')">Plain</button>
-		<button onclick="change_material('pants','3')">Camo</button>
+		@endforelse
 		
 
 	</div>
@@ -224,11 +199,19 @@
 		// Enable Objects tooltips
 		$('[data-toggle="tooltip"]').tooltip();
 
-		// Do stuff here
+		// Change Color
 		$('.change-color').on('mouseover', function(){
 			var target = $(this).data('target');
 			var color = $(this).data('color');
 			change_color(target, color);
+		});
+
+		// Change Texture
+		$('.change-material').on('mouseover', function(){
+			var target = $(this).data('target');
+			var texture = $(this).data('texture');
+			var bumpMap = $(this).data('bump-map');
+			change_material(target, texture, bumpMap);
 		});
 	});
 @endsection('custom-scripts')
