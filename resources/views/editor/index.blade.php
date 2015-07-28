@@ -35,15 +35,12 @@
 			
 			Shirt Color
 
-		</h3>	
-		
-		<button onclick="change_color('shirt','0xffffff')">White</button>
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='shirt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('shirt','0x8c2332')">Cardinal</button>
-
-		<button onclick="change_color('shirt','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('shirt','0x1d5732')">Forest Green</button>
+		@endforelse
 
 	</div>
 
@@ -53,13 +50,12 @@
 			
 			Panels - Top Color
 
-		</h3>	
-					
-		<button onclick="change_color('panels_top','0x8c2332')">Cardinal</button>
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='panels_top' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('panels_top','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('panels_top','0x1d5732')">Forest Green</button>
+		@endforelse
 
 	</div>
 
@@ -69,13 +65,12 @@
 			
 			Panels - Side Color
 
-		</h3>	
-					
-		<button onclick="change_color('panels_side','0x8c2332')">Cardinal</button>
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='panels_side' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('panels_side','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('panels_side','0x1d5732')">Forest Green</button>
+		@endforelse
 
 	</div>
 
@@ -85,13 +80,12 @@
 			
 			Belt Color
 
-		</h3>	
-					
-		<button onclick="change_color('belt','0x4f4f4f')">Charcoal Gray</button>
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='belt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('belt','0x8a8c8c')">Gray</button>
-			
-		<button onclick="change_color('belt','0x000000')">Black</button>
+		@endforelse
 
 	</div>
 
@@ -101,13 +95,12 @@
 			
 			Pants Color
 
-		</h3>	
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='pants' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('pants','0xffffff')">White</button>
-				
-		<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
-
-		<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
+		@endforelse
 		
 	</div>
 
@@ -117,13 +110,12 @@
 			
 			Pants Piping Color
 
-		</h3>	
-					
-		<button onclick="change_color('pants_piping','0x8c2332')">Cardinal</button>
+		</h3>
+		@forelse ($colors as $color)
+			<button class='btn change-color' data-target='pants_piping' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+		@empty
 
-		<button onclick="change_color('pants_piping','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('pants_piping','0x1d5732')">Forest Green</button>
+		@endforelse
 
 	</div>
 
@@ -135,16 +127,18 @@
 			
 			Cloth Material
 
-		</h3>	
-					
-		<!-- 
+		</h3>
+		<!-- Sample Loading of Textures -->
+		@forelse ($textures as $texture)
+			<p>
+				{{ $texture->name }}
+				<li>{{ $texture->texture_path }}</li>
+				<li>{{ $texture->bump_map_path }}</li>
+			</p>
+		@empty
 
-		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
+		@endforelse	
 
-		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
-
-		-->
-		
 		<button onclick="change_material('shirt','7')">Plain</button>
 		<button onclick="change_material('shirt','3')">Camo</button>
 		<button onclick="change_material('shirt','8')">Stripes</button>
@@ -205,28 +199,36 @@
 		}
 	</span>
 
-
-
 @endsection('properties')
 
-
-@section('custom-scripts')
-
-
-
-@endsection('custom-scripts')
-
-
-
 @section('custom-styles')
-
-	
 	.mycanvas {  height: 100%; width: 100%; }
-
 	canvas {
 		width: 100%;
 		height: 100%;
 	}
-
-
+	.change-color {
+		padding-right: 20px;
+		margin-right: 20px;
+	}
 @endsection('custom-styles')
+
+@section('additional-scripts')
+	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
+@endsection
+
+@section('custom-scripts')
+	$(document).ready(function(){
+		// Enable Objects tooltips
+		$('[data-toggle="tooltip"]').tooltip();
+
+		// Do stuff here
+		$('.change-color').on('mouseover', function(){
+			var target = $(this).data('target');
+			var color = $(this).data('color');
+			change_color(target, color);
+		});
+	});
+@endsection('custom-scripts')
