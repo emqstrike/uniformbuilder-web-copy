@@ -162,8 +162,8 @@
 
 				reset_camera();
 
-				change_material('pants','7');
-				change_material('shirt','7');
+				// change_material('pants','7');
+				// change_material('shirt','7');
 
 				var render = function () {
 
@@ -266,10 +266,11 @@
 	}
 
 
-	function change_material(name_of_obj, file_name){
+	function change_material(target, textureImage, bumpMapImage){
 
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
-		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + file_name + "_bump.png", {}, function(){});
+		THREE.ImageUtils.crossOrigin = '';
+		var texture = THREE.ImageUtils.loadTexture(textureImage);
+		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
@@ -289,7 +290,7 @@
 
 		var texture_color = '0x8c2332';
 
-		if(name_of_obj === 'shirt_textured'){
+		if(target === 'shirt_textured'){
 
 			color = '0xf4dfcb';
 
@@ -306,7 +307,7 @@
 			    side: THREE.DoubleSide,
 			});
 	
-		obj = window.UniformBuilder.models[name_of_obj];
+		obj = window.UniformBuilder.models[target];
 
 		//obj.material.color.setHex('0xead8c7');
 	
@@ -314,7 +315,7 @@
         obj.material.needsUpdate = true;
         obj.geometry.computeTangents();
 
-        move_camera(name_of_obj);
+        move_camera(target);
 
 	}
 	
