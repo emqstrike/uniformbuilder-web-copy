@@ -27,7 +27,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
     // Colors
-    Route::get('colors', 'Administration\AdministrationController@colors');
+    Route::get('colors', 'Administration\ColorsController@index');
 
     // Textures
     Route::get('textures', 'Administration\TexturesController@index');

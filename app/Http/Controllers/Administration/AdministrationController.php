@@ -39,25 +39,4 @@ class AdministrationController extends Controller
         }
         return redirect('administration/login');
     }
-
-    /**
-     * Colors
-     */
-    public function colors()
-    {
-        $response = $this->client->get('colors');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-
-        $colors = [];
-        if ($result->success)
-        {
-            $colors = $result->colors;
-        }
-
-        return view('administration/colors', [
-            'colors' => $colors
-        ]);
-    }
-
 }
