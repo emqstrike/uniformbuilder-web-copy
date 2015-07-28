@@ -43,11 +43,6 @@
 		</div>	
 
 		<!-- custom mods -->
-		<script type="text/javascript">
-			
-			@yield('custom-scripts')
-
-		</script>	
 
 		<style type="text/css">
 		
@@ -57,11 +52,14 @@
 
 		<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
+		
+		@yield('additional-scripts')
 
-		<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
+		<script type="text/javascript">
+			
+			@yield('custom-scripts')
 
+		</script>
 	</body>
 
 </html>
