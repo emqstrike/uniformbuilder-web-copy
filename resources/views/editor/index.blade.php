@@ -51,15 +51,41 @@
 
 		<h3>
 			
-			Panels - Top Color
+			Mid Piping - Color
 
 		</h3>	
-					
-		<button onclick="change_color('panels_top','0x8c2332')">Cardinal</button>
 
-		<button onclick="change_color('panels_top','0xf36c24')">Orange</button>
+		<button onclick="change_color('shirt_mid_piping','0xffffff')">White</button>
+
+		<button onclick="change_color('shirt_mid_piping','0x000000')">Black</button>
+					
+		<button onclick="change_color('shirt_mid_piping','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('shirt_mid_piping','0xf36c24')">Orange</button>
 			
-		<button onclick="change_color('panels_top','0x1d5732')">Forest Green</button>
+		<button onclick="change_color('shirt_mid_piping','0x1d5732')">Forest Green</button>
+
+	</div>
+
+	<hr />
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Sleeve - Color
+
+		</h3>	
+
+		<button onclick="change_color('sleeve','0xffffff')">White</button>
+
+		<button onclick="change_color('sleeve','0x000000')">Black</button>
+					
+		<button onclick="change_color('sleeve','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('sleeve','0xf36c24')">Orange</button>
+			
+		<button onclick="change_color('sleeve','0x1d5732')">Forest Green</button>
 
 	</div>
 
@@ -67,15 +93,58 @@
 
 		<h3>
 			
-			Panels - Side Color
+			Piping - Color
 
 		</h3>	
-					
-		<button onclick="change_color('panels_side','0x8c2332')">Cardinal</button>
+		
+		<button onclick="change_color('sleeve_piping','0xffffff')">White</button>
 
-		<button onclick="change_color('panels_side','0xf36c24')">Orange</button>
+		<button onclick="change_color('sleeve_piping','0x000000')">Black</button>
+
+		<button onclick="change_color('sleeve_piping','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('sleeve_piping','0xf36c24')">Orange</button>
 			
-		<button onclick="change_color('panels_side','0x1d5732')">Forest Green</button>
+		<button onclick="change_color('sleeve_piping','0x1d5732')">Forest Green</button>
+
+	</div>
+
+	<hr />
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Pants Color
+
+		</h3>	
+
+		<button onclick="change_color('pants','0xffffff')">White</button>
+
+		<button onclick="change_color('pants','0x000000')">Black</button>
+				
+		<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
+
+		<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
+		
+	</div>
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Piping Color
+
+		</h3>	
+
+		<button onclick="change_color('pants_piping','0xffffff')">White</button>
+
+		<button onclick="change_color('pants_piping','0x000000')">Black</button>
+					
+		<button onclick="change_color('pants_piping','0x8c2332')">Cardinal</button>
+
+		<button onclick="change_color('pants_piping','0xf36c24')">Orange</button>
+			
+		<button onclick="change_color('pants_piping','0x1d5732')">Forest Green</button>
 
 	</div>
 
@@ -92,38 +161,6 @@
 		<button onclick="change_color('belt','0x8a8c8c')">Gray</button>
 			
 		<button onclick="change_color('belt','0x000000')">Black</button>
-
-	</div>
-
-	<div class="sidebar-panel">
-
-		<h3>
-			
-			Pants Color
-
-		</h3>	
-
-		<button onclick="change_color('pants','0xffffff')">White</button>
-				
-		<button onclick="change_color('pants','0x4f4f4f')">Charcoal Gray</button>
-
-		<button onclick="change_color('pants','0x8a8c8c')">Gray</button>
-		
-	</div>
-
-	<div class="sidebar-panel">
-
-		<h3>
-			
-			Pants Piping Color
-
-		</h3>	
-					
-		<button onclick="change_color('pants_piping','0x8c2332')">Cardinal</button>
-
-		<button onclick="change_color('pants_piping','0xf36c24')">Orange</button>
-			
-		<button onclick="change_color('pants_piping','0x1d5732')">Forest Green</button>
 
 	</div>
 
@@ -148,6 +185,7 @@
 		<button onclick="change_material('shirt','7')">Plain</button>
 		<button onclick="change_material('shirt','3')">Camo</button>
 		<button onclick="change_material('shirt','8')">Stripes</button>
+		<button onclick="change_material('shirt_textured','9')">Test Wrinkle</button>
 		
 
 	</div>
@@ -174,6 +212,8 @@
 		
 
 	</div>
+
+	<hr />
 
 	<span id="vertex_shh" style="color: white;">
 		varying vec2 vUv;
