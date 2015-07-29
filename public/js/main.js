@@ -151,6 +151,7 @@
 
 				// change_material('pants','7');
 				// change_material('shirt','7');
+
 				// change_material('emirates','9');
 
 				//change_color('shirt','0xffffff')
@@ -256,7 +257,13 @@
 	}
 
 
-	function change_material(name_of_obj, file_name){
+	function change_material(target, textureImage, bumpMapImage){
+
+
+		THREE.ImageUtils.crossOrigin = '';
+		var texture = THREE.ImageUtils.loadTexture(textureImage);
+		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+
 
 		if(name_of_obj === 'shirt'){
 
@@ -296,7 +303,7 @@
 
 		var texture_color = '0x8c2332';
 
-		if(name_of_obj === 'shirt_textured'){
+		if(target === 'shirt_textured'){
 
 			color = '0xf4dfcb';
 
@@ -313,7 +320,7 @@
 			    side: THREE.DoubleSide,
 			});
 	
-		obj = window.UniformBuilder.models[name_of_obj];
+		obj = window.UniformBuilder.models[target];
 
 		//obj.material.color.setHex('0xead8c7');
 	
@@ -321,7 +328,7 @@
         obj.material.needsUpdate = true;
         obj.geometry.computeTangents();
 
-        move_camera(name_of_obj);
+        move_camera(target);
 
 	}
 	
