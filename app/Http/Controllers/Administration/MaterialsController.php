@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administration;
 
 use \Session;
+use \Redirect;
 use GuzzleHttp\Client;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -72,6 +73,13 @@ class MaterialsController extends Controller
         $result = $decoder->decode($response->getBody());
         if (!$result->success)
         {
+            $materialData = [
+                'name' => $materialName,
+                'material_path' => null,
+                'bump_map_path' => null,
+                'factory_code' => $factoryCode,
+                'thumbnail_path' => null
+            ];
             // Bump Map File
             $bumpMapFile = $request->file('bump_map_path');
             $materialFile = $request->file('material_path');
@@ -81,7 +89,7 @@ class MaterialsController extends Controller
             {
                 if ($bumpMapFile->isValid())
                 {
-                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
+                    $materialData['bump_map_path'] = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
                 }
             }
 
@@ -94,23 +102,29 @@ class MaterialsController extends Controller
             {
                 if ($materialFile->isValid())
                 {
-                    $materialPath = MaterialUploader::upload($materialFile, $materialName);
+                    $materialData['material_path'] = MaterialUploader::upload($materialFile, $materialName);
                     // Thumbnail
-                    $thumbnailPath = MaterialUploader::upload($materialFile, $materialName, 'thumbnail');
+                    $materialData['thumbnail_path'] = MaterialUploader::upload($materialFile, $materialName, 'thumbnail');
+                    error_log('THUMBNAIL: ' .$thumbnailPath);
                 }
             }
 
             $response = $this->client->post('material', [
-                'json' => [
-                    'name' => $materialName,
-                    'material_path' => $materialPath,
-                    'bump_map_path' => $bumpMapPath,
-                    'factory_code' => $factoryCode,
-                    'thumbnail_path' => $thumbnailPath
-                ]
+                'json' => $materialData
             ]);
 
-            return $response;
+            $decoder = new JsonDecoder();
+            $result = $decoder->decode($response->getBody());
+            if ($result->success)
+            {
+                return Redirect::to('administration/materials')
+                                ->with('message', 'Successfully saved new material');
+            }
+            else
+            {
+                return Redirect::to('administration/materials')
+                                ->with('message', 'There was a problem saving your material');
+            }
         }
 
         return [

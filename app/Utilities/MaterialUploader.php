@@ -84,7 +84,7 @@ class MaterialUploader
         error_log('FILENAME: ' . $filename);
 
         // Upload to S3
-        $materialFolder = 'materials/';
+        $materialFolder = 'materials/' . env('APP_ENV') . '/';
         $folder = $materialFolder . self::makeSlug($materialName);
         $s3TargetPath = "{$folder}/{$filename}";
         error_log('S3 Target Path: ' . $s3TargetPath);
@@ -127,7 +127,8 @@ class MaterialUploader
         // Upload thumbnail to S3
         if ($image->save($targetDestinationPath))
         {
-            return self::uploadToS3($targetDestinationPath, $materialName, 'thumbnail');
+            $thumbnailPath = self::uploadToS3($targetDestinationPath, $materialName, 'thumbnail');
+            return $thumbnailPath;
         }
     }
 }
