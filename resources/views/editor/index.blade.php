@@ -4,8 +4,11 @@
 	
 		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
 			
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()">Free Form</button>	
-			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()">Reset Camera</button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
+			
+			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
+			</button>	
+
 		</div>
 
 		<div id="mycanvas" class="mycanvas"></div>
@@ -14,94 +17,200 @@
 
 @section('properties')
 
-	<div class="sidebar-panel">
+	
+	<div class="row">
 
-		<h3>
-			
-			Shirt Color
+		<div class="col-md-2">
 
-		</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='shirt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+		<hr />
 
-		@endforelse
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Sh</button>
+		</div>
 
-	</div>
+		<br />
 
-	<div class="sidebar-panel">
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#sleeve_panel')">Sl</button>	
+		</div>
 
-		<h3>
-			
-			Panels - Top Color
+		<br />
 
-		</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='panels_top' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button>
+		</div>
 
-		@endforelse
 
-	</div>
+		<hr />	
 
-	<div class="sidebar-panel">
+		</div>
 
-		<h3>Panels - Side Color</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='panels_side' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+		<div class="col-md-10">
 
-		@endforelse
+			<div class="panels">
 
-	</div>
+				<hr />
 
-	<div class="sidebar-panel">
+				<div class="option_panel" id="shirt_panel">
 
-		<h3>Belt Color</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='belt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+					<h2>Shirt</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'shirt',])
+					<br />
 
-		@endforelse
+					<br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+					<br />
 
-	</div>
+					<br /><h4>Material Tests</h4><br />
+					<button onclick="change_material('shirt','7')">Plain</button>
+					<button onclick="change_material('shirt','3')">Camo</button>
+					<button onclick="change_material('shirt','8')">Stripes</button> 
+					<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+					<br />
 
-	<div class="sidebar-panel">
 
-		<h3>Pants Color</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='pants' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+					<hr />
 
-		@endforelse
+				</div>
+
+
+
+				<div class="option_panel" id="sleeve_panel">
+
+					<h2>Sleeves</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'sleeve',])
+
+					<br /><br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'sleeve_piping',])
+
+					<hr />
+
+				</div>
+
+
+
+				<div class="option_panel" id="pants_panel">
+		
+					<h2>Pants</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'pants',])
+
+					<br /><br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'pants_piping',])
+
+					<br /><br /><h4>Belt Color</h4><br />
+					@include('partials.colors',['data_target' =>'belt',])
+
+					<br /><br /><h4>Pants Material Test</h4><br />
+					<button onclick="change_material('pants','7')">Plain</button>
+					<button onclick="change_material('pants','3')">Camo</button>
+
+					<hr />
+
+				</div>
+
+			</div>
+
+
+
+	
+
+
+		</div>
 		
 	</div>
 
-	<div class="sidebar-panel">
+	<!--
 
-		<h3>Pants Piping Color</h3>
-		@forelse ($colors as $color)
-			<button class='btn change-color' data-target='pants_piping' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-		@empty
+	<div class="col-xs-3" style="height: 100%;">
 
-		@endforelse
+        <ul class="nav nav-tabs tabs-left">
 
-	</div>
+        <li role="presentation" class="active"><a href="#shirt" aria-controls="shirt" role="tab" data-toggle="tab">Shirt</a></li>
+        <li role="presentation"><a href="#pants" aria-controls="pants" role="tab" data-toggle="tab">Pants</a></li>
+        <li role="presentation"><a href="#pipings" aria-controls="pants" role="tab" data-toggle="tab">Pipings</a></li>
 
-	<hr />
+        </ul>
 
-	<div class="sidebar-panel">
+    </div>
 
-		<h3>Cloth Material</h3>
-		@forelse ($materials as $material)
-			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
-		@empty
+    <div class="col-xs-9">
 
-		@endforelse
-		
+        <div class="tab-content">
 
-	</div>
+		    <div role="tabpanel" class="tab-pane active" id="shirt">
+		    	<div class="panel-group">
+				    <div class="panel panel-default" id="panel1">
+				        <div class="panel-heading">
+				            <h4 class="panel-title">
+						        <a data-toggle="collapse" data-target="#shirtColor" href="#shirtColor">
+						          	base color
+						        </a>
+						    </h4>
 
+				        </div>
+				        <div id="shirtColor" class="panel-collapse collapse in">
+				            <div class="panel-body">
+									@forelse ($colors as $color)
+										<button class='btn change-color' data-target='shirt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+									@empty
+
+									@endforelse
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
+		    </div>
+
+		    <div role="tabpanel" class="tab-pane fade" id="pants">
+		    	<div class="panel panel-default" id="panel1">
+			    	<div class="panel-heading">
+			            <h4 class="panel-title">
+					        <a data-toggle="collapse" data-target="#pantsColor" href="#pantsColor">
+					          	base color
+					        </a>
+					    </h4>
+
+			        </div>
+			        <div id="pantsColor" class="panel-collapse collapse in">
+			            <div class="panel-body">
+								@forelse ($colors as $color)
+									<button class='btn change-color' data-target='pants' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+								@empty
+
+								@endforelse
+			            </div>
+			        </div>
+			    </div>
+		    </div>
+
+		    <div role="tabpanel" class="tab-pane fade" id="pipings">
+		    	<div class="panel panel-default" id="panel1">
+			    	<div class="panel-heading">
+			            <h4 class="panel-title">
+					        <a data-toggle="collapse" data-target="#shirtMidPipeColor" href="#shirtMidPipeColor">
+					          	Middle piping
+					        </a>
+					    </h4>
+
+			        </div>
+			        <div id="shirtMidPipeColor" class="panel-collapse collapse in">
+			            <div class="panel-body">
+								@forelse ($colors as $color)
+									<button class='btn change-color' data-target='panels_top' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
+								@empty
+
+								@endforelse
+			            </div>
+			        </div>
+			    </div>
+		    </div>
+  		</div>
+
+    </div>
 
 	<div class="sidebar-panel">
 
@@ -111,9 +220,61 @@
 		@empty
 
 		@endforelse
+
+		<h3>shirt Material</h3>
+		@forelse ($materials as $material)
+			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
+		@empty
+
+		@endforelse
+
+		<h3>shirt Material</h3>
+		@forelse ($materials as $material)
+			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt_textured' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
+		@empty
+
+		@endforelse
+
+
+
+		-->
+
+
+<!---  /// //////////////// -->
+
+		<!-- 
+		<button onclick="change_material('shirt','7')">Plain</button>
+		<button onclick="change_material('shirt','3')">Camo</button>
+		<button onclick="change_material('shirt','8')">Stripes</button> 
+		<button onclick="change_material('shirt_textured','9')">Test Wrinkle</button>
+	
+
+	</div>
+
+
+	<div class="sidebar-panel">
+
+		<h3>
+			
+			Pants Material
+
+		</h3>	
+					
+
+
+		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
+
+		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
+
+		
+		
+		<button onclick="change_material('pants','7')">Plain</button>
+		<button onclick="change_material('pants','3')">Camo</button>
 		
 
 	</div>
+
+	<hr />
 
 	<span id="vertex_shh" style="color: white;">
 		varying vec2 vUv;
@@ -143,24 +304,67 @@
 		    c = Ca.rgb * Ca.a + Cb.rgb * Cb.a * (1.0 - Ca.a);  // blending equation
 		    gl_FragColor= vec4(c, 1.0);
 		}
-	</span>
+	</span>-->
+	</div> 
+
 
 @endsection('properties')
 
 @section('custom-styles')
 	body, h1, h2, h3, h4, h5, h6, button, a, p {
-		font-family: Lato;
+		font-family: raleway;
 		font-weight: bold;
+	}
+	a{
+		color: #000;
+		outline: 0;
+	}
+	a:hover{
+		color: #000;
+		-webkit-transform: scale(1.2);
+	  	-moz-transform: scale(1.2);
+	  	-o-transform: scale(1.2);
+	  	transform: scale(1.2);
+	}
+	a:active{
+		outline: 0;
 	}
 	.mycanvas {  height: 100%; width: 100%; }
 	canvas {
 		width: 100%;
 		height: 100%;
 	}
-	.change-color {
+	.btn .change-color{
+		height: 10px;
+		width: 10px;
 		padding: 40px;
 		margin: 10px;
 	}
+	a{
+		-webkit-transition: all 0.2s ease-out;
+	  	-moz-transition: all 0.2s ease-out;
+	  	-o-transition: all 0.2s ease-out;
+	  	transition: all 0.2s ease-out;
+	}
+	.tab-pane{
+		margin-left: -30px;
+		right: 0;
+	}
+
+	.panels {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-right: 10px;
+		border-right: 1px solid lightgrey;
+
+	}
+
+	.btn-tab {
+
+		width: 100%;
+
+	}
+
 @endsection('custom-styles'
 )
 @section('additional-scripts')
@@ -170,14 +374,30 @@
 @endsection
 
 @section('custom-scripts')
+
+	function switch_panel(panel){
+
+		$('.option_panel').hide();
+
+		$(panel).fadeIn();
+
+	}
+
 	$(document).ready(function(){
+
+
+	switch_panel('#shirt_panel');
+
+	var default_color = "0x000";
+	var selected_item;
+	var color;
 		// Enable Objects tooltips
 		$('[data-toggle="tooltip"]').tooltip();
 
 		// Change Color
-		$('.change-color').on('mouseover', function(){
+		$('.change-color').on('click', function(){
 			var target = $(this).data('target');
-			var color = $(this).data('color');
+			color = $(this).data('color');
 			change_color(target, color);
 		});
 
@@ -187,6 +407,23 @@
 			var material = $(this).data('material');
 			var bumpMap = $(this).data('bump-map');
 			change_material(target, material, bumpMap);
+			selected_item=target;
+		});
+
+		// Show tabs
+		$('.preventDefault').click(function(e) {
+		    e.preventDefault();
+		    $(this).tab('show')
+		});
+
+		// Hover on tabs
+		$('.nav a').on('mouseover', function(){
+			var target = $(this).data('target');
+			change_color(target, color);
 		});
 	});
+
+
+
+
 @endsection('custom-scripts')
