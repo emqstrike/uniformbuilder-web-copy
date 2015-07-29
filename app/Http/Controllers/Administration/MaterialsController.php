@@ -51,35 +51,39 @@ class MaterialsController extends Controller
 
     public function delete($id)
     {
-        $response = $this->client->get('Material/delete/' . $id);
+        $response = $this->client->get('material/delete/' . $id);
         return $response;
     }
 
     public function addMaterialForm()
     {
-        return view('administration/Material-create');
+        return view('administration/material-create');
     }
 
     public function createMaterial(Request $request)
     {
+        $factoryCode = $request->input('factory_code');
         $materialName = $request->input('name');
-        $slug = str_replace(' ', '-', strtolower($materialName));
+        $slug = MaterialUploader::makeSlug($materialName);
+
+        // Does this Material Exist
         $response = $this->client->get('material/' . $slug);
         $decoder = new JsonDecoder();
         $result = $decoder->decode($response->getBody());
-
         if (!$result->success)
         {
-            $destinationPath = '/tmp/';
-
             // Material Material File
             $materialFile = $request->file('material_path');
+
             $materialPath = '';
+            $thumbnailPath = '';
             if (is_object($materialFile))
             {
                 if ($materialFile->isValid())
                 {
                     $materialPath = MaterialUploader::upload($materialFile, $materialName);
+                    // Thumbnail
+                    $thumbnailPath = MaterialUploader::upload($materialFile, $materialName, 'thumbnail');
                 }
             }
 
@@ -90,7 +94,7 @@ class MaterialsController extends Controller
             {
                 if ($bumpMapFile->isValid())
                 {
-                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName);
+                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
                 }
             }
 
@@ -98,7 +102,9 @@ class MaterialsController extends Controller
                 'json' => [
                     'name' => $materialName,
                     'material_path' => $materialPath,
-                    'bump_map_path' => $bumpMapPath
+                    'bump_map_path' => $bumpMapPath,
+                    'factory_code' => $factoryCode,
+                    'thumbnail_path' => $thumbnailPath
                 ]
             ]);
 

@@ -8,7 +8,7 @@
             <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/Qx.png" style='height: 10vh'>
         </div>
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">Material</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
@@ -39,14 +39,25 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material File</label>
                             <div class="col-md-6">
-                                <input type="file" class="form-control" name="material_path">
+                                <input type="file" class="form-control" name="material_path" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Bump Map File</label>
                             <div class="col-md-6">
-                                <input type="file" class="form-control" name="bump_map_path">
+                                <input type="file" class="form-control" name="bump_map_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Factory</label>
+                            <div class="col-md-6">
+                                <select name='factory_code' class="form-control">
+                                    <option value='PHP'>PHP</option>
+                                    <option value='MZT'>MZT</option>
+                                    <option value='BLB'>BLB</option>
+                                </select>
                             </div>
                         </div>
 

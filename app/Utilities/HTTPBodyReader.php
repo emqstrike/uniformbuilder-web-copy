@@ -37,7 +37,7 @@ class HTTPBodyReader
                 {
                     if (empty($tmp[$requiredField]))
                     {
-                        $error = strtoupper($requiredField) . ' cannot be null';
+                        $error = '[Builder] "' . $requiredField . '" cannot be null';
                         throw new RequiredFieldException($error);
                     }
                 }
