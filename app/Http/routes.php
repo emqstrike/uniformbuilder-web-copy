@@ -29,11 +29,11 @@ Route::group(array('prefix' => 'administration'), function() {
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');
 
-    // Textures
-    Route::get('textures', 'Administration\TexturesController@index');
-    Route::post('texture', 'Administration\TexturesController@createTexture');
-    Route::get('addTextureForm', 'Administration\TexturesController@addTextureForm');
-    Route::get('texture/delete/{id}', 'Administration\TexturesController@delete');
+    // Materials
+    Route::get('materials', 'Administration\MaterialsController@index');
+    Route::post('material', 'Administration\MaterialsController@createMaterial');
+    Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
+    Route::get('material/delete/{id}', 'Administration\MaterialsController@delete');
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');

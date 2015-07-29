@@ -7,10 +7,10 @@ use GuzzleHttp\Client;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
-use App\Utilities\TextureUploader;
+use App\Utilities\MaterialUploader;
 use App\Http\Controllers\Controller;
 
-class TexturesController extends Controller
+class MaterialsController extends Controller
 {
     protected $client;
     protected $apiHost;
@@ -30,41 +30,41 @@ class TexturesController extends Controller
     }
 
     /**
-     * Textures
+     * Materials
      */
     public function index()
     {
-        $response = $this->client->get('textures');
+        $response = $this->client->get('materials');
         $decoder = new JsonDecoder();
         $result = $decoder->decode($response->getBody());
 
-        $textures = [];
+        $materials = [];
         if ($result->success)
         {
-            $textures = $result->textures;
+            $materials = $result->materials;
         }
 
-        return view('administration/textures', [
-            'textures' => $textures
+        return view('administration/materials', [
+            'materials' => $materials
         ]);
     }
 
     public function delete($id)
     {
-        $response = $this->client->get('texture/delete/' . $id);
+        $response = $this->client->get('Material/delete/' . $id);
         return $response;
     }
 
-    public function addTextureForm()
+    public function addMaterialForm()
     {
-        return view('administration/texture-create');
+        return view('administration/Material-create');
     }
 
-    public function createTexture(Request $request)
+    public function createMaterial(Request $request)
     {
-        $textureName = $request->input('name');
-        $slug = str_replace(' ', '-', strtolower($textureName));
-        $response = $this->client->get('texture/' . $slug);
+        $materialName = $request->input('name');
+        $slug = str_replace(' ', '-', strtolower($materialName));
+        $response = $this->client->get('material/' . $slug);
         $decoder = new JsonDecoder();
         $result = $decoder->decode($response->getBody());
 
@@ -72,14 +72,14 @@ class TexturesController extends Controller
         {
             $destinationPath = '/tmp/';
 
-            // Texture Material File
-            $textureFile = $request->file('texture_path');
-            $texturePath = '';
-            if (is_object($textureFile))
+            // Material Material File
+            $materialFile = $request->file('material_path');
+            $materialPath = '';
+            if (is_object($materialFile))
             {
-                if ($textureFile->isValid())
+                if ($materialFile->isValid())
                 {
-                    $texturePath = TextureUploader::upload($textureFile, $textureName);
+                    $materialPath = MaterialUploader::upload($materialFile, $materialName);
                 }
             }
 
@@ -90,14 +90,14 @@ class TexturesController extends Controller
             {
                 if ($bumpMapFile->isValid())
                 {
-                    $bumpMapPath = TextureUploader::upload($bumpMapFile, $textureName);
+                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName);
                 }
             }
 
-            $response = $this->client->post('texture', [
+            $response = $this->client->post('material', [
                 'json' => [
-                    'name' => $textureName,
-                    'texture_path' => $texturePath,
+                    'name' => $materialName,
+                    'material_path' => $materialPath,
                     'bump_map_path' => $bumpMapPath
                 ]
             ]);
@@ -107,7 +107,7 @@ class TexturesController extends Controller
 
         return [
             'success' => false,
-            'message' => 'Texture Name already exists'
+            'message' => 'Material Name already exists'
         ];
     }
 }

@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Texture</div>
+                <div class="panel-heading">Material</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/texture" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/material" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         @if (Session::has('flash_message'))
@@ -30,16 +30,16 @@
                         @endif
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Texture Name</label>
+                            <label class="col-md-4 control-label">Material Name</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Texture File</label>
+                            <label class="col-md-4 control-label">Material File</label>
                             <div class="col-md-6">
-                                <input type="file" class="form-control" name="texture_path">
+                                <input type="file" class="form-control" name="material_path">
                             </div>
                         </div>
 
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" style="margin-right: 15px;">
-                                    Add New Texture
+                                    Add New Material
                                 </button>
                             </div>
                         </div>

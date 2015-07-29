@@ -19,50 +19,96 @@
     <![endif]-->
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">QuickStrike</a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                @if (Auth::guest())
-                    <li><a href="/administration/login">Login</a></li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/administration/logout">Logout</a></li>
-                        </ul>
-                    </li>
-                @endif
-                </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
-            </div>
-        </div>
-    </nav>
-
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar">
-                    <li><a href="/administration">Home</a></li>
-                    <li><a href="/administration/colors">Colors</a></li>
-                    <li><a href="/administration/textures">Textures</a></li>
-                </ul>
-            </div>
+            <div class="col-md-12">
+                <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+                    <div class="navbar-header">
+                         
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                             <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button> <a class="navbar-brand" href="#">QuickStrike</a>
+                    </div>
+                    
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown top-menu">
+                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="colors">Colors</a>
+                                    </li>
+                                    <li>
+                                        <a href="materials">Materials</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Something else here</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="#">Separated link</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="#">One more separated link</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="top-menu">
+                                <a href="#">Orders</a>
+                            </li>
+                            <li class="top-menu">
+                                <a href="#">Users</a>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                            </div> 
+                            <button type="submit" class="btn btn-default">
+                                Submit
+                            </button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome [User name]<strong class="caret"></strong></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="accountSettings">Account Settings</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="logout">Sign out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </nav>
+                <div class="alert alert-success alert-dismissable">
+                     
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4>
+                        Alert!
+                    </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
+                </div>
 
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                @yield('content')
+                <div class="row">
+                    <div class="col-md-12">
+                        @yield('content')
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
             </div>
         </div>
     </div>
