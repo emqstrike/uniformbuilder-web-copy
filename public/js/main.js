@@ -265,7 +265,7 @@
 		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
 
 
-		if(name_of_obj === 'shirt'){
+		if(target === 'shirt'){
 
 			UniformBuilder.models['shirt'].visible = true;
 			UniformBuilder.models['shirt_textured'].visible = false;
@@ -282,8 +282,8 @@
 
 		reset_camera();
 
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
-		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + file_name + "_bump.png", {}, function(){});
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;

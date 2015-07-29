@@ -14,6 +14,62 @@
 @endsection('contentarea')
 
 @section('properties')
+
+	<div class="row">
+
+		<div class="col-md-12">
+
+			<h2>Shirt</h2>
+			<h4>Base Color</h4>
+			@include('partials.colors',['data_target' =>'shirt',])
+
+			<h4>Piping Color</h4>
+			@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+
+			<h4>Material Tests</h4>
+			<button onclick="change_material('shirt','7')">Plain</button>
+			<button onclick="change_material('shirt','3')">Camo</button>
+			<button onclick="change_material('shirt','8')">Stripes</button> 
+			<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+
+			<hr />
+
+			<h2>Sleeves</h2>
+			<h4>Base Color</h4>
+			@include('partials.colors',['data_target' =>'sleeve',])
+
+			<h4>Piping Color</h4>
+			@include('partials.colors',['data_target' =>'sleeve_piping',])
+
+			<hr />
+
+			<h2>Pants</h2>
+			<h4>Base Color</h4>
+			@include('partials.colors',['data_target' =>'pants',])
+
+			<h4>Piping Color</h4>
+			@include('partials.colors',['data_target' =>'pants_piping',])
+
+			<h4>Belt Color</h4>
+			@include('partials.colors',['data_target' =>'belt',])
+
+			<h4>Pants Material Test</h4>
+			<button onclick="change_material('pants','7')">Plain</button>
+			<button onclick="change_material('pants','3')">Camo</button>
+
+			<hr />
+
+
+
+	
+
+
+		</div>
+		
+	</div>
+
+	<!--
+
 	<div class="col-xs-3" style="height: 100%;">
 
         <ul class="nav nav-tabs tabs-left">
@@ -101,6 +157,7 @@
   		</div>
 
     </div>
+
 	<div class="sidebar-panel">
 
 		<h3>Pants Material</h3>
@@ -123,10 +180,18 @@
 		@empty
 
 		@endforelse
+
+
+
+		-->
+
+
+<!---  /// //////////////// -->
+
 		<!-- 
 		<button onclick="change_material('shirt','7')">Plain</button>
 		<button onclick="change_material('shirt','3')">Camo</button>
-		<button onclick="change_material('shirt','8')">Stripes</button>
+		<button onclick="change_material('shirt','8')">Stripes</button> 
 		<button onclick="change_material('shirt_textured','9')">Test Wrinkle</button>
 	
 
@@ -248,7 +313,7 @@
 		$('[data-toggle="tooltip"]').tooltip();
 
 		// Change Color
-		$('.change-color').on('mouseover', function(){
+		$('.change-color').on('click', function(){
 			var target = $(this).data('target');
 			color = $(this).data('color');
 			change_color(target, color);
