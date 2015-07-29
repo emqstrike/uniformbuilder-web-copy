@@ -127,7 +127,7 @@ class MaterialUploader
         // Upload thumbnail to S3
         if ($image->save($targetDestinationPath))
         {
-            self::uploadToS3($targetDestinationPath, $materialName, 'thumbnail');
+            return self::uploadToS3($targetDestinationPath, $materialName, 'thumbnail');
         }
     }
 }

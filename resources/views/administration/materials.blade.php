@@ -16,7 +16,7 @@
 
     <div class="col-md-1">
         <div class="thumbnail">
-            <img src="{{ $material->material_path }}" width="100px" height="100px" alt="{{ $material->name }}">
+            <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->name }}">
             <div class="caption">
                 <h3 class="panel-title">{{ $material->name }}</h3>
                 <a href="#" class="btn btn-danger btn-xs pull-right" role="button">×</a>
