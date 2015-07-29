@@ -67,18 +67,18 @@ class MaterialUploader
      */
     public static function uploadToS3($filePath, $materialName, $type)
     {
-        $filename = 'material.png';
+        $filename = 'material.jpg';
         if ($type == 'material')
         {
-            $filename = 'material.png';
+            $filename = 'material.jpg';
         }
         elseif ($type == 'bump')
         {
-            $filename = 'bump.png';
+            $filename = 'bump.jpg';
         }
         elseif ($type == 'thumbnail')
         {
-            $filename = 'thumbnail.png';
+            $filename = 'thumbnail.jpg';
         }
         error_log('TYPE: ' . $type);
         error_log('FILENAME: ' . $filename);

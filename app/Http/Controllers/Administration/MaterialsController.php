@@ -72,6 +72,19 @@ class MaterialsController extends Controller
         $result = $decoder->decode($response->getBody());
         if (!$result->success)
         {
+            // Bump Map File
+            $bumpMapFile = $request->file('bump_map_path');
+            $materialFile = $request->file('material_path');
+
+            $bumpMapPath = '';
+            if (is_object($bumpMapFile))
+            {
+                if ($bumpMapFile->isValid())
+                {
+                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
+                }
+            }
+
             // Material Material File
             $materialFile = $request->file('material_path');
 
@@ -84,17 +97,6 @@ class MaterialsController extends Controller
                     $materialPath = MaterialUploader::upload($materialFile, $materialName);
                     // Thumbnail
                     $thumbnailPath = MaterialUploader::upload($materialFile, $materialName, 'thumbnail');
-                }
-            }
-
-            // Bump Map File
-            $bumpMapFile = $request->file('bump_map_path');
-            $bumpMapPath = '';
-            if (is_object($bumpMapFile))
-            {
-                if ($bumpMapFile->isValid())
-                {
-                    $bumpMapPath = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
                 }
             }
 
