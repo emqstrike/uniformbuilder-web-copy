@@ -4,9 +4,11 @@
 	
 		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
 			
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-arrows"></i></button>	
-			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-camera"></i>
-</button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
+			
+			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
+			</button>	
+
 		</div>
 
 		<div id="mycanvas" class="mycanvas"></div>
@@ -17,47 +19,90 @@
 
 	<div class="row">
 
-		<div class="col-md-12">
+		<div class="col-md-2">
 
-			<h2>Shirt</h2>
-			<h4>Base Color</h4>
-			@include('partials.colors',['data_target' =>'shirt',])
+		<hr />
 
-			<h4>Piping Color</h4>
-			@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+		<span class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>
+		</span>
 
-			<h4>Material Tests</h4>
-			<button onclick="change_material('shirt','7')">Plain</button>
-			<button onclick="change_material('shirt','3')">Camo</button>
-			<button onclick="change_material('shirt','8')">Stripes</button> 
-			<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+		<br />
 
-			<hr />
+		<span class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
+		</span>
 
-			<h2>Sleeves</h2>
-			<h4>Base Color</h4>
-			@include('partials.colors',['data_target' =>'sleeve',])
+		<br />
 
-			<h4>Piping Color</h4>
-			@include('partials.colors',['data_target' =>'sleeve_piping',])
+		<span class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>
+		</span>
 
-			<hr />
 
-			<h2>Pants</h2>
-			<h4>Base Color</h4>
-			@include('partials.colors',['data_target' =>'pants',])
+		<hr />	
 
-			<h4>Piping Color</h4>
-			@include('partials.colors',['data_target' =>'pants_piping',])
+		</div>
 
-			<h4>Belt Color</h4>
-			@include('partials.colors',['data_target' =>'belt',])
-
-			<h4>Pants Material Test</h4>
-			<button onclick="change_material('pants','7')">Plain</button>
-			<button onclick="change_material('pants','3')">Camo</button>
+		<div class="col-md-10">
 
 			<hr />
+
+			<div class="option_panel" id="shirt_panel">
+
+				<h2>Shirt</h2>
+				<h4>Base Color</h4>
+				@include('partials.colors',['data_target' =>'shirt',])
+
+				<h4>Piping Color</h4>
+				@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+
+				<h4>Material Tests</h4>
+				<button onclick="change_material('shirt','7')">Plain</button>
+				<button onclick="change_material('shirt','3')">Camo</button>
+				<button onclick="change_material('shirt','8')">Stripes</button> 
+				<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+
+				<hr />
+
+			</div>
+
+
+
+			<div class="option_panel" id="sleeve_panel">
+
+				<h2>Sleeves</h2>
+				<h4>Base Color</h4>
+				@include('partials.colors',['data_target' =>'sleeve',])
+
+				<h4>Piping Color</h4>
+				@include('partials.colors',['data_target' =>'sleeve_piping',])
+
+				<hr />
+
+			</div>
+
+
+
+			<div class="option_panel" id="pants_panel">
+	
+				<h2>Pants</h2>
+				<h4>Base Color</h4>
+				@include('partials.colors',['data_target' =>'pants',])
+
+				<h4>Piping Color</h4>
+				@include('partials.colors',['data_target' =>'pants_piping',])
+
+				<h4>Belt Color</h4>
+				@include('partials.colors',['data_target' =>'belt',])
+
+				<h4>Pants Material Test</h4>
+				<button onclick="change_material('pants','7')">Plain</button>
+				<button onclick="change_material('pants','3')">Camo</button>
+
+				<hr />
+
+			</div>
 
 
 
@@ -306,6 +351,7 @@
 
 @section('custom-scripts')
 	$(document).ready(function(){
+
 	var default_color = "0x000";
 	var selected_item;
 	var color;
@@ -340,4 +386,8 @@
 			change_color(target, color);
 		});
 	});
+
+
+	
+	
 @endsection('custom-scripts')
