@@ -40,17 +40,17 @@ class APIClient
         return $colors;
     }
 
-    public function getTextures()
+    public function getMaterials()
     {
-        $response = $this->client->get('textures');
+        $response = $this->client->get('materials');
         $decoder = new JsonDecoder();
         $result = $decoder->decode($response->getBody());
 
-        $textures = [];
+        $materials = [];
         if ($result->success)
         {
-            $textures = $result->textures;
+            $materials = $result->materials;
         }
-        return $textures;
+        return $materials;
     }
 }

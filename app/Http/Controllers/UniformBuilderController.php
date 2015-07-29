@@ -22,14 +22,14 @@ class UniformBuilderController extends Controller
         $client = new APIClient($accessToken);
 
         $colors = $client->getColors();
-        $textures = $client->getTextures();
+        $materials = $client->getMaterials();
 
         return view('editor.index', [
             'page_title' => $title,
             'asset_version' => $asset['version'],
             'asset_storage' => $asset['storage'],
             'colors' => $colors,
-            'textures' => $textures
+            'materials' => $materials
         ]);
 
     }

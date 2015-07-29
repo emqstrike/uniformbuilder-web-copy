@@ -93,8 +93,8 @@
 	<div class="sidebar-panel">
 
 		<h3>Cloth Material</h3>
-		@forelse ($textures as $texture)
-			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
+		@forelse ($materials as $material)
+			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
 		@empty
 
 		@endforelse
@@ -106,8 +106,8 @@
 	<div class="sidebar-panel">
 
 		<h3>Pants Material</h3>
-		@forelse ($textures as $texture)
-			<img src="{{ $texture->texture_path }}" width="70px" height="70px" class="change-material" data-target='pants' data-texture="{{ $texture->texture_path }}" data-bump-map="{{ $texture->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $texture->name }}">
+		@forelse ($materials as $material)
+			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='pants' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
 		@empty
 
 		@endforelse
@@ -181,12 +181,12 @@
 			change_color(target, color);
 		});
 
-		// Change Texture
+		// Change Material
 		$('.change-material').on('mouseover', function(){
 			var target = $(this).data('target');
-			var texture = $(this).data('texture');
+			var material = $(this).data('material');
 			var bumpMap = $(this).data('bump-map');
-			change_material(target, texture, bumpMap);
+			change_material(target, material, bumpMap);
 		});
 	});
 @endsection('custom-scripts')
