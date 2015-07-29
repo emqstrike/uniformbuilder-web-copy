@@ -17,27 +17,28 @@
 
 @section('properties')
 
+	
 	<div class="row">
 
 		<div class="col-md-2">
 
 		<hr />
 
-		<span class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>
-		</span>
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Sh</button>
+		</div>
 
 		<br />
 
-		<span class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
-		</span>
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#sleeve_panel')">Sl</button>	
+		</div>
 
 		<br />
 
-		<span class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>
-		</span>
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button>
+		</div>
 
 
 		<hr />	
@@ -46,61 +47,69 @@
 
 		<div class="col-md-10">
 
-			<hr />
-
-			<div class="option_panel" id="shirt_panel">
-
-				<h2>Shirt</h2>
-				<h4>Base Color</h4>
-				@include('partials.colors',['data_target' =>'shirt',])
-
-				<h4>Piping Color</h4>
-				@include('partials.colors',['data_target' =>'shirt_mid_piping',])
-
-				<h4>Material Tests</h4>
-				<button onclick="change_material('shirt','7')">Plain</button>
-				<button onclick="change_material('shirt','3')">Camo</button>
-				<button onclick="change_material('shirt','8')">Stripes</button> 
-				<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+			<div class="panels">
 
 				<hr />
 
-			</div>
+				<div class="option_panel" id="shirt_panel">
+
+					<h2>Shirt</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'shirt',])
+					<br />
+
+					<br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+					<br />
+
+					<br /><h4>Material Tests</h4><br />
+					<button onclick="change_material('shirt','7')">Plain</button>
+					<button onclick="change_material('shirt','3')">Camo</button>
+					<button onclick="change_material('shirt','8')">Stripes</button> 
+					<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+					<br />
+
+
+					<hr />
+
+				</div>
 
 
 
-			<div class="option_panel" id="sleeve_panel">
+				<div class="option_panel" id="sleeve_panel">
 
-				<h2>Sleeves</h2>
-				<h4>Base Color</h4>
-				@include('partials.colors',['data_target' =>'sleeve',])
+					<h2>Sleeves</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'sleeve',])
 
-				<h4>Piping Color</h4>
-				@include('partials.colors',['data_target' =>'sleeve_piping',])
+					<br /><br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'sleeve_piping',])
 
-				<hr />
+					<hr />
 
-			</div>
+				</div>
 
 
 
-			<div class="option_panel" id="pants_panel">
-	
-				<h2>Pants</h2>
-				<h4>Base Color</h4>
-				@include('partials.colors',['data_target' =>'pants',])
+				<div class="option_panel" id="pants_panel">
+		
+					<h2>Pants</h2>
+					<h4>Base Color</h4><br />
+					@include('partials.colors',['data_target' =>'pants',])
 
-				<h4>Piping Color</h4>
-				@include('partials.colors',['data_target' =>'pants_piping',])
+					<br /><br /><h4>Piping Color</h4><br />
+					@include('partials.colors',['data_target' =>'pants_piping',])
 
-				<h4>Belt Color</h4>
-				@include('partials.colors',['data_target' =>'belt',])
+					<br /><br /><h4>Belt Color</h4><br />
+					@include('partials.colors',['data_target' =>'belt',])
 
-				<h4>Pants Material Test</h4>
-				<button onclick="change_material('pants','7')">Plain</button>
-				<button onclick="change_material('pants','3')">Camo</button>
+					<br /><br /><h4>Pants Material Test</h4><br />
+					<button onclick="change_material('pants','7')">Plain</button>
+					<button onclick="change_material('pants','3')">Camo</button>
 
-				<hr />
+					<hr />
+
+				</div>
 
 			</div>
 
@@ -341,6 +350,21 @@
 		margin-left: -30px;
 		right: 0;
 	}
+
+	.panels {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-right: 10px;
+		border-right: 1px solid lightgrey;
+
+	}
+
+	.btn-tab {
+
+		width: 100%;
+
+	}
+
 @endsection('custom-styles'
 )
 @section('additional-scripts')
@@ -350,7 +374,19 @@
 @endsection
 
 @section('custom-scripts')
+
+	function switch_panel(panel){
+
+		$('.option_panel').hide();
+
+		$(panel).fadeIn();
+
+	}
+
 	$(document).ready(function(){
+
+
+	switch_panel('#shirt_panel');
 
 	var default_color = "0x000";
 	var selected_item;
@@ -388,6 +424,6 @@
 	});
 
 
-	
-	
+
+
 @endsection('custom-scripts')
