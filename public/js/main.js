@@ -15,7 +15,9 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
+		
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		window.UniformBuilder.renderer.setSize(width, height);
@@ -367,13 +369,13 @@
 		// Basic Easing
 	
 		if(delta > 4){
-			_increment = 0.03;
+			_increment = 0.3;
 		}
 		else if(delta < 4 && delta > 2){
-			_increment = 0.02;
+			_increment = 0.2;
 		}
 		else {
-			_increment = 0.01;	
+			_increment = 0.1;	
 		}
 
 		if(current_camera[axis] > camera_to[axis]){
