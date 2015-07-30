@@ -33,24 +33,26 @@ class UploadImageController extends Controller
 
     /**
      * Upload file to S3 and return path
-     * Note: file variable name should be `image`
      * @param Request $request
      * @return String URL from S3
      */
     public function upload(Request $request)
     {
-        $file = $request->file('image');
+        $uploaded = $request->file();
+        $keys = array_keys($uploaded);
+
+        $file = $uploaded[$keys[0]];
         $filename = $file->getClientOriginalName();
         $ext = $file->getClientOriginalExtension();
         $mime = $file->getClientMimeType();
         error_log(print_r([$filename, $ext, $mime], true));
 
-        $result = S3Uploader::upload($file);
+        $uploadResult = S3Uploader::upload($file);
 
         $response = $this->client->post('image', [
             'json' => [
-                'image_path' => $result['image_path'],
-                'thumbnail_path' => $result['thumbnail_path']
+                'image_path' => $uploadResult['image_path'],
+                'thumbnail_path' => $uploadResult['thumbnail_path']
             ]
         ]);
 
@@ -59,8 +61,13 @@ class UploadImageController extends Controller
 
         if ($result->success)
         {
-            return Redirect::to('uploadImageForm')
-                            ->with('message', 'Successfully uploaded image');
+            echo '<pre>';
+            echo 'Upload Result:';
+            print_r($uploadResult);
+            echo 'Save to DB Result:';
+            print_r($result);
+            echo '</pre>';
+            echo '<a href="/uploadImageForm">Back to Upload Images Form</a>';
         }
         else
         {
