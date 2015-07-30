@@ -33,13 +33,15 @@ class UploadImageController extends Controller
 
     /**
      * Upload file to S3 and return path
-     * Note: file variable name should be `image`
      * @param Request $request
      * @return String URL from S3
      */
     public function upload(Request $request)
     {
-        $file = $request->file('image');
+        $uploaded = $request->file();
+        $keys = array_keys($uploaded);
+
+        $file = $uploaded[$keys[0]];
         $filename = $file->getClientOriginalName();
         $ext = $file->getClientOriginalExtension();
         $mime = $file->getClientMimeType();
