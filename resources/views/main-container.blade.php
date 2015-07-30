@@ -17,7 +17,6 @@
 
 		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
-		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.vertical-tabs.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
 
 		<link rel="stylesheet" href="{{$asset_storage}}/css/main.css{{$asset_version}}">

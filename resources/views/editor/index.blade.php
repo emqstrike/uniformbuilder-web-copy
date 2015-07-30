@@ -25,7 +25,7 @@
 		<hr />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Sh</button>
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Jr</button>
 		</div>
 
 		<br />
@@ -53,9 +53,9 @@
 
 				<div class="option_panel" id="shirt_panel">
 
-					<h2>Shirt</h2>
+					<h2>Jersey</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'shirt',])
+					@include('partials.colors',['data_target' =>'jersey',])
 					<br />
 
 					<br /><h4>Piping Color</h4><br />
@@ -63,10 +63,10 @@
 					<br />
 
 					<br /><h4>Material Tests</h4><br />
-					<button onclick="change_material('shirt','7')">Plain</button>
-					<button onclick="change_material('shirt','3')">Camo</button>
-					<button onclick="change_material('shirt','8')">Stripes</button> 
-					<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
+					<button onclick="change_material('jersey','7')">Plain</button>
+					<button onclick="change_material('jersey','3')">Camo</button>
+					<button onclick="change_material('jersey','8')">Stripes</button> 
+					<button onclick="change_material('jersey','9')">Wrinkled via Shadows Test</button>
 					<br />
 
 					<hr />

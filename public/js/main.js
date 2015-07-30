@@ -24,15 +24,15 @@
 
 		container.appendChild( window.UniformBuilder.renderer.domElement );
 
-		load_model('shirt','shirt','0xffffff', true);
-		load_model('shirt_textured','shirt_textured','0xffffff', true);
-		load_model('sleeve','sleeve','0x8c2332', true);
-		load_model('shirt_mid_piping','shirt_mid_piping','0x8c2332', true);
-		load_model('sleeve_piping','sleeve_piping','0xffffff', false);
-		load_model('pants','pants','0xffffff', false);
-		load_model('pants_piping','pants_piping','0x8c2332', false);
-		load_model('belt','belt','0x000000', false);
-		load_model('buttons','buttons','0x000000', false);
+		load_model('jersey','jersey','0xffffff', true);
+		// load_model('shirt_textured','shirt_textured','0xffffff', true);
+		// load_model('sleeve','sleeve','0x8c2332', true);
+		// load_model('shirt_mid_piping','shirt_mid_piping','0x8c2332', true);
+		// load_model('sleeve_piping','sleeve_piping','0xffffff', false);
+		// load_model('pants','pants','0xffffff', false);
+		// load_model('pants_piping','pants_piping','0x8c2332', false);
+		// load_model('belt','belt','0x000000', false);
+		// load_model('buttons','buttons','0x000000', false);
 		
 		// load_model('emirates','emirates','0x8c2332', false);
 		// load_model('shirt_textured','shirt_textured','0x8c2332', true);
@@ -106,7 +106,7 @@
 		window.UniformBuilder.models = {};
 		window.UniformBuilder.config = {
 			
-			'model_folder': '/models/baseball_1/',
+			'model_folder': '/models/baseball_2/',
 
 		};
 
@@ -145,7 +145,7 @@
 
 			}	
 
-			if(name_of_obj === 'pants'){ // HACK: Last to beloaded because of size
+			if(name_of_obj === 'jersey'){ // HACK: Last to beloaded because of size
 
 				reset_camera();
 
@@ -263,22 +263,6 @@
 		THREE.ImageUtils.crossOrigin = '';
 		var texture = THREE.ImageUtils.loadTexture(textureImage);
 		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
-
-
-		if(target === 'shirt'){
-
-			UniformBuilder.models['shirt'].visible = true;
-			UniformBuilder.models['shirt_textured'].visible = false;
-			UniformBuilder.models['shirt_mid_piping'].visible = true;
-
-		}
-		else{
-
-			UniformBuilder.models['shirt'].visible = false;
-			UniformBuilder.models['shirt_textured'].visible = true;
-			UniformBuilder.models['shirt_mid_piping'].visible = false;
-
-		}
 
 		reset_camera();
 
@@ -487,17 +471,17 @@
 
 		window.camera_position_to = {
 
-			x: -0.9271527553014807,
-			y: 1.3907883520542415,
-			z: 2.174774063315093,
+			x: -0.2884069715599567,
+			y: 2.4678456274583342,
+			z: 2.2391787352108334,
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.42324077443088554,
-			y: -0.22995811846282813,
-			z: -0.10231902732401421,
+			x: -0.19840521524628751,
+			y: 0.0013470901758039742,
+			z: 0.00027083272717196076,
 
 		};
 
@@ -525,28 +509,16 @@
 		window.positions = {};
 		window.rotations = {};
 
-		window.positions.shirt_textured = {
-			x:  -0.01921775697642224,
-			y: 1.3326683797695802,
-			z: 2.3131022224243365,
+		window.positions.jersey = {
+			x:  -0.14530375000038792,
+			y: 3.418446903080106,
+			z: 1.4233432943044306,
 		};
 
-		window.rotations.shirt_textured = {
-			x: -0.21213326177654301,
-			y: -7.146840492458159e-15,
-			z: -1.5392410831238418e-15,
-		};
-
-		window.positions.shirt = {
-			x:  -0.01921775697642224,
-			y: 1.3326683797695802,
-			z: 2.3131022224243365,
-		};
-
-		window.rotations.shirt = {
-			x: -0.21213326177654301,
-			y: -7.146840492458159e-15,
-			z: -1.5392410831238418e-15,
+		window.rotations.jersey = {
+			x: -0.41083495274445686,
+			y: 0.036908597761710606,
+			z: 0.01607324623784986,
 		};
 
 
