@@ -69,7 +69,6 @@
 					<button onclick="change_material('shirt_textured','9')">Wrinkled via Shadows Test</button>
 					<br />
 
-
 					<hr />
 
 				</div>
