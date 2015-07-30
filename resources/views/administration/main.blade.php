@@ -58,14 +58,13 @@
                     </div>
                     
                 </nav>
-                <div class="alert alert-success alert-dismissable" style="display: none;">
-                     
+                <div class="alert alert-dismissable flash-alert" style="display: none;">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                         ×
                     </button>
-                    <h4>
-                        Alert!
-                    </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
+                    <h4 class='flash-title'></h4>
+                    <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/progress.gif" class='flash-progress' style="display: none;">
+                    <strong class='flash-sub-title'></strong> <span class='flash-message'></span>
                 </div>
 
                 <div class="row">

@@ -19,9 +19,9 @@
             <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->name }}">
             <div class="caption">
                 <h3 class="panel-title">{{ $material->name }}</h3>
-                <a href="#" class="btn btn-danger btn-xs pull-right" role="button">×</a>
-                <a href="#" class="btn btn-info btn-xs" role="button">On</a>
-                <a href="#" class="btn btn-default btn-xs" role="button">Off</a>
+                <a href="#" class="btn btn-info btn-xs" role="button">Enable</a>
+                <a href="#" class="btn btn-default btn-xs" role="button">Disable</a>
+                <a href="#" class="btn btn-danger btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">Delete</a>
             </div>
         </div>
     </div>
@@ -33,8 +33,55 @@ No materials
 @endforelse
 </div>
 
+<div id="response"></div>
+
+@include('partials.confirmation-modal')
+
 @endsection
 
 @section('custom-styles')
+
+@endsection
+
+@section('custom-scripts')
+
+$(document).ready(function(){
+    $('.delete-material').on('click', function(){
+        var id = $(this).data('material-id');
+        modalConfirm('Remove Material', 'Are you sure you want to delete the Material?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        $.ajax({
+            url: "//{{ $api_host }}/api/material/delete/" + id + "?callback=?",
+            method: 'GET',
+            dataType: 'jsonp',
+            contentType: 'application/json',
+            jsonp: 'jsonp',
+            jsonpCallback: 'jsonCallback',
+            crossDomain: true,
+            success: function(json) {
+                console.log('SUCCESS');
+                console.log(json);
+            },
+            error: function(error) {
+                console.log('ERROR');
+                console.log(error);
+            }
+        });
+        function jsonCallback(x){
+            console.log(x);
+        }
+    });
+
+    function modalConfirm(title, message, value)
+    {
+        $('#confirmation-modal .modal-title').text(title);
+        $('#confirmation-modal .modal-body').text(message);
+        $('#confirmation-modal .confirm-yes').data('value', value);
+        $('#confirmation-modal').modal('show');
+    }
+});
 
 @endsection

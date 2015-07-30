@@ -46,7 +46,8 @@ class MaterialsController extends Controller
         }
 
         return view('administration/materials', [
-            'materials' => $materials
+            'materials' => $materials,
+            'api_host' => env('API_HOST')
         ]);
     }
 
