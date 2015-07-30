@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');
+
+Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
+Route::post('uploadImage', 'UploadImageController@upload');
