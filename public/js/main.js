@@ -257,12 +257,82 @@
 	}
 
 
+	function change_material_from_image(target, dataUrl){
+
+
+		// THREE.ImageUtils.crossOrigin = '';
+		// var texture = THREE.ImageUtils.loadTexture(textureImage);
+		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+
+		var texture_image = new Image();
+		texture_image.src = dataUrl;
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+
+
+
+
+
+
+
+		reset_camera();
+
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.wrapS = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		texture.minFilter = THREE.LinearFilter;
+		texture.repeat.set(1,1);
+
+
+		// bmap.wrapS = THREE.RepeatWrapping;
+		// bmap.wrapT = THREE.RepeatWrapping;
+		// bmap.wrapS = THREE.ClampToEdgeWrapping;
+		// bmap.wrapT = THREE.ClampToEdgeWrapping;
+		bmap.minFilter = THREE.LinearFilter;
+		// bmap.repeat.set(1,1);
+
+
+		var texture_color = '0x8c2332';
+
+		if(target === 'shirt_textured'){
+
+			color = '0xf4dfcb';
+
+		}
+
+
+		var material = new THREE.MeshPhongMaterial({ 
+			    texture_color: 0x8c2332, 
+			    specular: 0x050505,
+			    shininess: 100,
+			    map: texture,
+			    bumpMap: bmap,
+			    bumpScale: 0.020,
+			    side: THREE.DoubleSide,
+			});
+	
+		obj = window.UniformBuilder.models[target];
+
+		//obj.material.color.setHex('0xead8c7');
+	
+		obj.material = material;
+        obj.material.needsUpdate = true;
+        obj.geometry.computeTangents();
+
+        move_camera(target);
+
+	}
+
+
 	function change_material(target, textureImage, bumpMapImage){
 
 
-		THREE.ImageUtils.crossOrigin = '';
-		var texture = THREE.ImageUtils.loadTexture(textureImage);
-		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+		// THREE.ImageUtils.crossOrigin = '';
+		// var texture = THREE.ImageUtils.loadTexture(textureImage);
+		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
 
 		reset_camera();
 

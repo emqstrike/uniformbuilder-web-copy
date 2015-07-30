@@ -63,10 +63,10 @@
 					<br />
 
 					<br /><h4>Material Tests</h4><br />
-					<button onclick="change_material('jersey','7')">Plain</button>
-					<button onclick="change_material('jersey','3')">Camo</button>
-					<button onclick="change_material('jersey','8')">Stripes</button> 
-					<button onclick="change_material('jersey','9')">Wrinkled via Shadows Test</button>
+					<button onclick="change_material('jersey','7','7')">Plain</button>
+					<button onclick="change_material('jersey','3','7')">Camo</button>
+					<button onclick="change_material('jersey','8','7')">Stripes</button> 
+					<button onclick="change_material('jersey','9','7')">Wrinkled via Shadows Test</button>
 					<br />
 
 					<hr />
@@ -103,8 +103,8 @@
 					@include('partials.colors',['data_target' =>'belt',])
 
 					<br /><br /><h4>Pants Material Test</h4><br />
-					<button onclick="change_material('pants','7')">Plain</button>
-					<button onclick="change_material('pants','3')">Camo</button>
+					<button onclick="change_material('pants','7','7')">Plain</button>
+					<button onclick="change_material('pants','3','7')">Camo</button>
 
 					<hr />
 
@@ -112,104 +112,32 @@
 
 			</div>
 
-
-
-	
-
-
 		</div>
 		
 	</div>
 
+	<div class="row">
+		
+	<div class="col-md-12">
+		
+		<strong>
+			
+			Canvas Test
+
+		</strong>
+
+
+		<canvas id="texture_canvas">
+
+		</canvas>
+
+		<img id="destination_image" />
+
+	</div>
+
+	</div>
+
 	<!--
-
-	<div class="col-xs-3" style="height: 100%;">
-
-        <ul class="nav nav-tabs tabs-left">
-
-        <li role="presentation" class="active"><a href="#shirt" aria-controls="shirt" role="tab" data-toggle="tab">Shirt</a></li>
-        <li role="presentation"><a href="#pants" aria-controls="pants" role="tab" data-toggle="tab">Pants</a></li>
-        <li role="presentation"><a href="#pipings" aria-controls="pants" role="tab" data-toggle="tab">Pipings</a></li>
-
-        </ul>
-
-    </div>
-
-    <div class="col-xs-9">
-
-        <div class="tab-content">
-
-		    <div role="tabpanel" class="tab-pane active" id="shirt">
-		    	<div class="panel-group">
-				    <div class="panel panel-default" id="panel1">
-				        <div class="panel-heading">
-				            <h4 class="panel-title">
-						        <a data-toggle="collapse" data-target="#shirtColor" href="#shirtColor">
-						          	base color
-						        </a>
-						    </h4>
-
-				        </div>
-				        <div id="shirtColor" class="panel-collapse collapse in">
-				            <div class="panel-body">
-									@forelse ($colors as $color)
-										<button class='btn change-color' data-target='shirt' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-									@empty
-
-									@endforelse
-				            </div>
-				        </div>
-				    </div>
-				</div>
-
-		    </div>
-
-		    <div role="tabpanel" class="tab-pane fade" id="pants">
-		    	<div class="panel panel-default" id="panel1">
-			    	<div class="panel-heading">
-			            <h4 class="panel-title">
-					        <a data-toggle="collapse" data-target="#pantsColor" href="#pantsColor">
-					          	base color
-					        </a>
-					    </h4>
-
-			        </div>
-			        <div id="pantsColor" class="panel-collapse collapse in">
-			            <div class="panel-body">
-								@forelse ($colors as $color)
-									<button class='btn change-color' data-target='pants' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-								@empty
-
-								@endforelse
-			            </div>
-			        </div>
-			    </div>
-		    </div>
-
-		    <div role="tabpanel" class="tab-pane fade" id="pipings">
-		    	<div class="panel panel-default" id="panel1">
-			    	<div class="panel-heading">
-			            <h4 class="panel-title">
-					        <a data-toggle="collapse" data-target="#shirtMidPipeColor" href="#shirtMidPipeColor">
-					          	Middle piping
-					        </a>
-					    </h4>
-
-			        </div>
-			        <div id="shirtMidPipeColor" class="panel-collapse collapse in">
-			            <div class="panel-body">
-								@forelse ($colors as $color)
-									<button class='btn change-color' data-target='panels_top' data-color='0x{{ $color->hex_code }}' style='background-color: #{{ $color->hex_code }};' data-toggle="tooltip" data-placement="bottom" title="{{ $color->name }}"></button>
-								@empty
-
-								@endforelse
-			            </div>
-			        </div>
-			    </div>
-		    </div>
-  		</div>
-
-    </div>
 
 	<div class="sidebar-panel">
 
@@ -238,78 +166,13 @@
 
 		-->
 
-
-<!---  /// //////////////// -->
-
-		<!-- 
-		<button onclick="change_material('shirt','7')">Plain</button>
-		<button onclick="change_material('shirt','3')">Camo</button>
-		<button onclick="change_material('shirt','8')">Stripes</button> 
-		<button onclick="change_material('shirt_textured','9')">Test Wrinkle</button>
-	
-
-	</div>
-
-
-	<div class="sidebar-panel">
-
-		<h3>
-			
-			Pants Material
-
-		</h3>	
-					
-
-
-		<button onclick="change_material('shirt_textured', '6')">Material 1</button>
-
-		<button onclick="change_material('shirt_textured', '5')">Material 2</button>
-
-		
-		
-		<button onclick="change_material('pants','7')">Plain</button>
-		<button onclick="change_material('pants','3')">Camo</button>
-		
-
-	</div>
-
-	<hr />
-
-	<span id="vertex_shh" style="color: white;">
-		varying vec2 vUv;
-
-		void main()
-		{
-		    vUv = uv;
-		    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-		    gl_Position = projectionMatrix * mvPosition;
-		}
-	</span>
-	<span id="fragment_shh" style="color: white;">
-		#ifdef GL_ES
-		precision highp float;
-		#endif
-
-		uniform sampler2D tOne;
-		uniform sampler2D tSec;
-
-		varying vec2 vUv;
-
-		void main(void)
-		{
-		    vec3 c;
-		    vec4 Ca = texture2D(tOne, vUv);
-		    vec4 Cb = texture2D(tSec, vUv);
-		    c = Ca.rgb * Ca.a + Cb.rgb * Cb.a * (1.0 - Ca.a);  // blending equation
-		    gl_FragColor= vec4(c, 1.0);
-		}
-	</span>-->
-	</div> 
+</div> 
 
 
 @endsection('properties')
 
 @section('custom-styles')
+
 	body, h1, h2, h3, h4, h5, h6, button, a, p {
 		font-family: raleway;
 		font-weight: bold;
@@ -364,12 +227,16 @@
 
 	}
 
-@endsection('custom-styles'
-)
+@endsection('custom-styles')
+
 @section('additional-scripts')
+
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
+
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
+
 @endsection
 
 @section('custom-scripts')
@@ -377,19 +244,17 @@
 	function switch_panel(panel){
 
 		$('.option_panel').hide();
-
 		$(panel).fadeIn();
 
 	}
 
 	$(document).ready(function(){
 
+		switch_panel('#shirt_panel');
 
-	switch_panel('#shirt_panel');
-
-	var default_color = "0x000";
-	var selected_item;
-	var color;
+		var default_color = "0x000";
+		var selected_item;
+		var color;
 		// Enable Objects tooltips
 		$('[data-toggle="tooltip"]').tooltip();
 
@@ -420,9 +285,7 @@
 			var target = $(this).data('target');
 			change_color(target, color);
 		});
+
 	});
-
-
-
 
 @endsection('custom-scripts')
