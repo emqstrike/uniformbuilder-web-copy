@@ -11,7 +11,17 @@
 
 		</div>
 
+		<div id="model_view" style="position: absolute; margin-top: 55%; margin-left: 44%;">
+			
+			<button class="btn btn-default mv" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
+			<button class="btn btn-default mv" id="rotate_right"><i class="fa fa-chevron-right"></i></button>
+			<button class="btn btn-default mv" id="play"><i class="fa fa-play"></i></button>
+
+		</div>
+
 		<div id="mycanvas" class="mycanvas"></div>
+		
+
 	
 @endsection('contentarea')
 
@@ -226,6 +236,21 @@
 		width: 100%;
 
 	}
+
+	.mv, i{
+		border-radius: 50% !important;
+		-webkit-transition: all 0.2s ease-out;
+	  	-moz-transition: all 0.2s ease-out;
+	  	-o-transition: all 0.2s ease-out;
+	  	transition: all 0.2s ease-out;
+	}
+
+	.mv:hover,i:hover{
+		background-color: #e9e9e9 !important;
+		color: #98012E !important;
+	}
+
+}
 
 @endsection('custom-styles')
 

@@ -2,7 +2,8 @@
 	$( document ).ready(function() {
 
 		render_scene();
-
+		model_view();
+	
 	});
 
 	function render_scene(){
@@ -16,8 +17,9 @@
 
 		window.UniformBuilder.scene = new THREE.Scene();
 		
-		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
-		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		var v = 128;
+		window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		window.UniformBuilder.renderer.setSize(width, height);
@@ -38,9 +40,11 @@
 		// load_model('shirt_textured','shirt_textured','0x8c2332', true);
 		// load_model('cube','cube','0x1a468d', false);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
-		pointLight.position.set(1,1,2);
-		window.UniformBuilder.camera.add(pointLight);
+		//var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
+		//pointLight.position.set(1,1,2);
+		var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+		directionalLight.position.set( 1, 1, 2 );
+		window.UniformBuilder.camera.add(directionalLight);
 
 		// var ambientLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.2 );
 		// //ambientLight.position.set(1,1,2);
@@ -522,12 +526,13 @@
 
 	function move_camera(model){
 
-		var _model = model;
+		// var _model = model;
 
-		set_active_part(model);
+		// set_active_part(model);
 
-		window.camera_position_to = positions[_model];
-		window.camera_rotation_to = rotations[_model];
+		// window.camera_position_to = positions[_model];
+		// window.camera_rotation_to = rotations[_model];
+		reset_camera();
 
 	}
 
@@ -541,19 +546,21 @@
 
 		window.camera_position_to = {
 
-			x: -0.2884069715599567,
-			y: 2.4678456274583342,
-			z: 2.2391787352108334,
+			x: 0.3278637925403716,
+			y: 0.08435212366005695,
+			z: 4.289716248324682 ,
+
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.19840521524628751,
-			y: 0.0013470901758039742,
-			z: 0.00027083272717196076,
+			x: 0.048319539389081956,
+			y: 0.10349508215725498,
+			z: -0.004995758915489389,
 
 		};
+
 
 	}
 
@@ -695,6 +702,78 @@
 		};
 
 	}
+
+
+	function model_view(){ // Rotate the model left - right, or play depending on the selected direction
+
+
+		var direction = 0.02, timeout, pauser, play = 0;
+
+		$("#rotate_left").mousedown(function(){
+
+				direction = 0.02;
+
+			timeout = setInterval(function(){
+			window.UniformBuilder.models.jersey.rotateY(direction)
+			}, 10);
+
+		}).mouseup(function(){clearInterval(timeout); // Obvious events here . . .
+		}).mouseleave(function(){clearInterval(timeout);});
+
+		$("#rotate_right").mousedown(function(){
+
+			direction = -0.02;
+
+			timeout = setInterval(function(){
+			window.UniformBuilder.models.jersey.rotateY(direction)
+			}, 10);
+
+		}).mouseup(function(){clearInterval(timeout); // Obvious events here . . .
+		}).mouseleave(function(){clearInterval(timeout);});
+
+
+		function rotate(){
+		window.UniformBuilder.models.jersey.rotateY(direction)
+		}
+
+		$("#play").click(function() {
+		$(this).children().removeClass('fa fa-play');
+		$(this).children().removeClass('fa fa-pause');
+			if(play == 1){
+				play = 0;
+
+				$(this).children().addClass('fa fa-play');
+			}
+
+			else{
+				play = 1;
+				$(this).children().addClass('fa fa-pause');
+			}
+			rotate_model(play);
+		});
+
+		function rotate_model(is_played){
+			if(is_played == 1){
+				timeout = setInterval(function(){
+					window.UniformBuilder.models.jersey.rotateY(direction)
+				}, 10);
+				console.log('PLAYED');
+			}
+			else{
+				pauser = clearInterval(timeout);
+				console.log('PAUSED')
+			}
+		}
+
+
+		function rotate(){
+		window.UniformBuilder.models.jersey.rotateY(direction)
+		}
+
+
+	}
+		
+
 
 
 
