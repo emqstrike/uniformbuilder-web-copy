@@ -3,6 +3,11 @@
 
 		render_scene();
 
+		// for material preview
+		$("#myModal").draggable({
+			handle: ".modal-header"
+		});
+
 	});
 
 	function render_scene(){
@@ -38,7 +43,7 @@
 		// load_model('shirt_textured','shirt_textured','0x8c2332', true);
 		// load_model('cube','cube','0x1a468d', false);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.0, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
 
@@ -101,7 +106,7 @@
 
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 		window.UniformBuilder.scene = new THREE.Scene();
-		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true });;
+		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: false });;
 
 		window.UniformBuilder.models = {};
 		window.UniformBuilder.config = {
@@ -266,18 +271,22 @@
 
 		var texture_image = new Image();
 		texture_image.src = dataUrl;
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
 
 
+		var texture = new THREE.Texture(texture_image);
+		var bmap = new THREE.Texture(texture_image);
 
 
+		texture.needsUpdate = true;
+		bmap.needsUpdate = true;
+		//var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
 
 
 
 		reset_camera();
 
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
-		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
+	//	var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+	//	var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
@@ -302,17 +311,26 @@
 			color = '0xf4dfcb';
 
 		}
-
-
+		
 		var material = new THREE.MeshPhongMaterial({ 
 			    texture_color: 0x8c2332, 
 			    specular: 0x050505,
-			    shininess: 100,
+			    shininess: 0,
 			    map: texture,
-			    bumpMap: bmap,
-			    bumpScale: 0.020,
+			    bumpMap: texture,
+			    bumpScale: 0.010,
 			    side: THREE.DoubleSide,
-			});
+		});
+
+		// var material = new THREE.MeshPhongMaterial({ 
+		// 	    texture_color: 0x8c2332, 
+		// 	    specular: 0x050505,
+		// 	    shininess: 100,
+		// 	    map: texture,
+		// 	    bumpMap: bmap,
+		// 	    bumpScale: 0.020,
+		// 	    side: THREE.DoubleSide,
+		// 	});
 	
 		obj = window.UniformBuilder.models[target];
 
@@ -322,7 +340,7 @@
         obj.material.needsUpdate = true;
         obj.geometry.computeTangents();
 
-        move_camera(target);
+        // move_camera(target);
 
 	}
 
@@ -336,8 +354,8 @@
 
 		reset_camera();
 
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
-		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".png" );
+		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
@@ -367,10 +385,10 @@
 		var material = new THREE.MeshPhongMaterial({ 
 			    texture_color: 0x8c2332, 
 			    specular: 0x050505,
-			    shininess: 100,
+			    shininess: 0,
 			    map: texture,
 			    bumpMap: bmap,
-			    bumpScale: 0.020,
+			    bumpScale: 0.010,
 			    side: THREE.DoubleSide,
 			});
 	
