@@ -31,7 +31,7 @@
 		<br />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#sleeve_panel')">Sl</button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab">Sl</button>	
 		</div>
 
 		<br />
@@ -221,7 +221,7 @@
 
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
-	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
+	<!-- <script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script> -->
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 
 @endsection

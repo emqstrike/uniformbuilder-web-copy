@@ -414,17 +414,18 @@
 
 		}
 
-		reset_camera();
+		//reset_camera();
 
-		obj = window.UniformBuilder.models[name_of_obj];
-		obj.material.color.setHex(color);
+		// obj = window.UniformBuilder.models[name_of_obj];
+		// obj.material.color.setHex(color);
 
 		if(name_of_obj === "shirt_mid_piping"){
 
 			change_color('buttons',color);
+			
 		}
 
-		move_camera(name_of_obj);
+		//move_camera(name_of_obj);
 
 	}
 
