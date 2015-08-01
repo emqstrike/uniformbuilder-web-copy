@@ -14,7 +14,7 @@ class UniformBuilderController extends Controller
     {
         $title = 'QuickStrike Uniform Builder';
         $asset = [
-            'version' => '?v=0.002',
+            'version' => '?v=0.003',
             'storage' => ''
         ];
 

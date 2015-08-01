@@ -274,7 +274,7 @@
 
 
 		var texture = new THREE.Texture(texture_image);
-		var bmap = new THREE.Texture(texture_image);
+		//var bmap = new THREE.Texture(texture_image);
 
 
 		texture.needsUpdate = true;
@@ -354,8 +354,8 @@
 
 		reset_camera();
 
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".png" );
-		var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".jpg" );
+		//var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
@@ -369,7 +369,7 @@
 		// bmap.wrapT = THREE.RepeatWrapping;
 		// bmap.wrapS = THREE.ClampToEdgeWrapping;
 		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		bmap.minFilter = THREE.LinearFilter;
+		//bmap.minFilter = THREE.LinearFilter;
 		// bmap.repeat.set(1,1);
 
 
@@ -387,7 +387,7 @@
 			    specular: 0x050505,
 			    shininess: 0,
 			    map: texture,
-			    bumpMap: bmap,
+			    bumpMap: texture,
 			    bumpScale: 0.010,
 			    side: THREE.DoubleSide,
 			});
@@ -598,15 +598,15 @@
 		window.rotations = {};
 
 		window.positions.jersey = {
-			x:  -0.14530375000038792,
-			y: 3.418446903080106,
-			z: 1.4233432943044306,
+			x:  -0.4366205684461612,
+			y: 1.9384160512919781,
+			z: 2.3340333701070572,
 		};
 
 		window.rotations.jersey = {
-			x: -0.41083495274445686,
-			y: 0.036908597761710606,
-			z: 0.01607324623784986,
+			x: -0.09518675326179131,
+			y: -0.0277641656671205,
+			z: -0.0026504447817013417,
 		};
 
 
