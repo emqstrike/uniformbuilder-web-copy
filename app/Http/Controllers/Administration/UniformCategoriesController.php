@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 
-class ColorsController extends Controller
+class UniformCategoriesController extends Controller
 {
     protected $client;
 
@@ -27,15 +27,12 @@ class ColorsController extends Controller
         $this->client = new APIClient($settings);
     }
 
-    /**
-     * Colors
-     */
     public function index()
     {
-        $colors = $this->client->getColors();
+        $categories = $this->client->getUniformCategories();
 
-        return view('administration/colors', [
-            'colors' => $colors
+        return view('administration/categories', [
+            'categories' => $categories
         ]);
     }
 }

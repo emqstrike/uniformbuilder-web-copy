@@ -26,6 +26,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('login', 'Administration\AuthenticationController@login');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
+    // Uniform Categories
+    Route::get('categories', 'Administration\UniformCategoriesController@index');
+
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');
 

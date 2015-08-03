@@ -26,6 +26,19 @@ class APIClient extends Client
         $this->decoder = new JsonDecoder();
     }
 
+    public function getUniformCategories()
+    {
+        $response = $this->get('categories');
+        $result = $this->decoder->decode($response->getBody());
+
+        $categories = [];
+        if ($result->success)
+        {
+            $categories = $result->categories;
+        }
+        return $categories;
+    }
+
     public function getColors()
     {
         $response = $this->get('colors');

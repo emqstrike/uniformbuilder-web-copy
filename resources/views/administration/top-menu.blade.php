@@ -15,6 +15,12 @@
             <li class="divider">
 
             <li>
+                <a href="categories">Uniform Categories</a>
+            </li>
+
+            <li class="divider">
+
+            <li>
                 <a href="colors">Colors</a>
             </li>
             <li>
