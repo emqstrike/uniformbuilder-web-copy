@@ -88,7 +88,8 @@ class UploadImageController extends Controller
         }
 
         return view('upload-image-form', [
-           'images' => $images
+           'images' => $images,
+           'api_upload_image_endpoint' => 'http://' . env('API_HOST') . '/api/image/upload'
         ]);
     }
 }
