@@ -1,12 +1,44 @@
 
 	$( document ).ready(function() {
 
+		var play = 0, temp = 0;
 		render_scene();
-		model_view();
 
 		// for material preview
 		$("#myModal").draggable({
 			handle: ".modal-header"
+		});
+
+		//  play/pause
+		$("#play").click(function() {
+		$(this).children().removeClass('fa fa-play');
+		$(this).children().removeClass('fa fa-pause');
+			if(play == 0){
+				$(this).children().addClass('fa fa-pause');
+				play = 1;
+				window.UniformBuilder.rotateY = temp;
+			}
+			else{
+				$(this).children().addClass('fa fa-play');
+				play = 0;
+				window.UniformBuilder.rotateY = 0;
+			}
+			console.log(play);
+		});
+
+		$("#rb_left").click(function() {
+			if(play == 1){
+				window.UniformBuilder.rotateY = -0.04;
+				temp = window.UniformBuilder.rotateY;
+			}
+			
+		});
+
+		$("#rb_right").click(function() {
+			if(play == 1){
+				window.UniformBuilder.rotateY = 0.04;
+				temp = window.UniformBuilder.rotateY;
+			}
 		});
 
 
@@ -22,6 +54,8 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
+
+		window.UniformBuilder.rotateY = 0;
 		
 		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 		var v = 128;
@@ -152,9 +186,9 @@
 
 				set_active_part(name_of_obj);
 
-			}	
+			}
 
-			if(name_of_obj === 'jersey'){ // HACK: Last to beloaded because of size
+			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
 
 				reset_camera();
 
@@ -171,6 +205,11 @@
 
 						move_camera_to();
 						rotate_camera_to();
+
+						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;	
+
+												
+						model_view();
 
 					}
 					
@@ -725,69 +764,78 @@
 
 	function model_view(){ // Rotate the model left - right, or play depending on the selected direction
 
+		$("#rotate_right").mousedown(function(){
 
-		var direction = 0.02, timeout, pauser, play = 0;
+			window.UniformBuilder.rotateY = 0.04;
+
+		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
+		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
 
 		$("#rotate_left").mousedown(function(){
 
-				direction = 0.02;
+			window.UniformBuilder.rotateY = -0.04;
 
-			timeout = setInterval(function(){
-			window.UniformBuilder.models.jersey.rotateY(direction)
-			}, 10);
+		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
+		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
 
-		}).mouseup(function(){clearInterval(timeout); // Obvious events here . . .
-		}).mouseleave(function(){clearInterval(timeout);});
+		$("#model_view input[type='radio']:checked").click(function() {
+			var direction = $(this).val();
+			if(play==1){
 
-		$("#rotate_right").mousedown(function(){
+				if(direction=="left"){
+					window.UniformBuilder.rotateY = -0.04
+				}
 
-			direction = -0.02;
+				else{
+					window.UniformBuilder.rotateY = 0.04
+				}
 
-			timeout = setInterval(function(){
-			window.UniformBuilder.models.jersey.rotateY(direction)
-			}, 10);
-
-		}).mouseup(function(){clearInterval(timeout); // Obvious events here . . .
-		}).mouseleave(function(){clearInterval(timeout);});
-
-
-		function rotate(){
-		window.UniformBuilder.models.jersey.rotateY(direction)
-		}
-
-		$("#play").click(function() {
-		$(this).children().removeClass('fa fa-play');
-		$(this).children().removeClass('fa fa-pause');
-			if(play == 1){
-				play = 0;
-
-				$(this).children().addClass('fa fa-play');
 			}
-
-			else{
-				play = 1;
-				$(this).children().addClass('fa fa-pause');
-			}
-			rotate_model(play);
+			console.log(direction);
 		});
 
-		function rotate_model(is_played){
-			if(is_played == 1){
-				timeout = setInterval(function(){
-					window.UniformBuilder.models.jersey.rotateY(direction)
-				}, 10);
-				console.log('PLAYED');
-			}
-			else{
-				pauser = clearInterval(timeout);
-				console.log('PAUSED')
-			}
-		}
+		// var direction = 0.02, timeout, pauser, play = 0;
 
+		// $("#rotate_left").mousedown(function(){
 
-		function rotate(){
-		window.UniformBuilder.models.jersey.rotateY(direction)
-		}
+		// 	window.UniformBuilder.rotateY = 0.02;
+
+		// }).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
+		// }).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
+
+		// $("#rotate_right").mousedown(function(){
+
+		// 	window.UniformBuilder.rotateY = -0.02;
+
+		// }).mouseup(function(){window.UniformBuilder.rotateY = 0;); // Obvious events here . . .
+		// }).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
+
+		// $("#play").click(function() {
+		// $(this).children().removeClass('fa fa-play');
+		// $(this).children().removeClass('fa fa-pause');
+		// 	if(play == 1){
+		// 		play = 0;
+
+		// 		$(this).children().addClass('fa fa-play');
+		// 	}
+
+		// 	else{
+		// 		play = 1;
+		// 		$(this).children().addClass('fa fa-pause');
+		// 	}
+		// 	rotate_model(play);
+		// });
+
+		// function rotate_model(is_played){
+		// 	if(is_played == 1){
+		// 		//window.UniformBuilder.rotate = window.UniformBuilder.rotateY;
+		// 		console.log('PLAYED');
+		// 	}
+		// 	else{
+		// 		window.UniformBuilder.rotateY = 0;
+		// 		console.log('PAUSED')
+		// 	}
+		// }
 
 
 	}

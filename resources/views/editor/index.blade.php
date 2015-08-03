@@ -11,11 +11,14 @@
 
 		</div>
 
-		<div id="model_view" style="position: absolute; margin-top: 55%; margin-left: 44%;">
+		<div id="model_view" style="position: absolute; top: 25px; left: 25px;">
 			
-			<button class="btn btn-default mv" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
-			<button class="btn btn-default mv" id="rotate_right"><i class="fa fa-chevron-right"></i></button>
-			<button class="btn btn-default mv" id="play"><i class="fa fa-play"></i></button>
+			</br ></br >
+			<button class="btn btn-default" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
+			<button class="btn btn-default" id="rotate_right"><i class="fa fa-chevron-right"></i></button></br ></br >
+			<button class="btn btn-default" id="play"><i class="fa fa-play"></i></button>
+			<input type="radio" name="direction" value="left" id="rb_left">Left
+			<input type="radio" name="direction" value="right" id="rb_right">Right
 
 		</div>
 
@@ -222,19 +225,6 @@
 
 		width: 100%;
 
-	}
-
-	.mv, i{
-		border-radius: 50% !important;
-		-webkit-transition: all 0.2s ease-out;
-	  	-moz-transition: all 0.2s ease-out;
-	  	-o-transition: all 0.2s ease-out;
-	  	transition: all 0.2s ease-out;
-	}
-
-	.mv:hover,i:hover{
-		background-color: #e9e9e9 !important;
-		color: #98012E !important;
 	}
 
 }
