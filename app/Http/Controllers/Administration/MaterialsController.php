@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use GuzzleHttp\Client;
 use App\Http\Requests;
+use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Utilities\MaterialUploader;
@@ -14,7 +14,6 @@ use App\Http\Controllers\Controller;
 class MaterialsController extends Controller
 {
     protected $client;
-    protected $apiHost;
 
     public function __construct($accessToken = null)
     {
@@ -27,7 +26,7 @@ class MaterialsController extends Controller
                 'accessToken' => $accessToken
             ];
         }
-        $this->client = new Client($settings);
+        $this->client = new APIClient($settings);
     }
 
     /**
@@ -35,15 +34,7 @@ class MaterialsController extends Controller
      */
     public function index()
     {
-        $response = $this->client->get('materials');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-
-        $materials = [];
-        if ($result->success)
-        {
-            $materials = $result->materials;
-        }
+        $materials = $this->client->getMaterials();
 
         return view('administration/materials', [
             'materials' => $materials,
@@ -53,8 +44,7 @@ class MaterialsController extends Controller
 
     public function delete($id)
     {
-        $response = $this->client->get('material/delete/' . $id);
-        return $response;
+        return $this->client->deleteMaterial($id);
     }
 
     public function addMaterialForm()
@@ -110,9 +100,7 @@ class MaterialsController extends Controller
                 }
             }
 
-            $response = $this->client->post('material', [
-                'json' => $materialData
-            ]);
+            $response = $this->client->createMaterial($materialData);
 
             $decoder = new JsonDecoder();
             $result = $decoder->decode($response->getBody());
