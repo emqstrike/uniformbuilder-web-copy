@@ -60,6 +60,25 @@ class APIClient extends Client
         return $this->decoder->decode($response->getBody());
     }
 
+    /**
+     * @name String $name Slug Name
+     */
+    public function getMaterial($name)
+    {
+        $response = $this->get('material/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function isMaterialExist($name)
+    {
+        return !is_null($this->getMaterial($name));
+    }
+
     public function deleteMaterial($id)
     {
         $response = $this->get('material/delete/' . $id);
