@@ -19,6 +19,8 @@
 		var width = $(container).width();
 		var height = $(container).height();
 
+		window.UniformBuilder.materials_loaded = false;
+
 		window.UniformBuilder.scene = new THREE.Scene();
 		
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
@@ -104,6 +106,8 @@
 
 		window.UniformBuilder.active_part = "";
 
+		UniformBuilder.rotateY = 0;
+
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 		window.UniformBuilder.scene = new THREE.Scene();
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: false });;
@@ -150,16 +154,11 @@
 
 			}	
 
-			if(name_of_obj === 'jersey'){ // HACK: Last to beloaded because of size
+			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
 
 				reset_camera();
 
-				// change_material('pants','7');
-				// change_material('shirt','7');
-
-				// change_material('emirates','9');
-
-				//change_color('shirt','0xffffff')
+				change_material('jersey','7');
 
 				var render = function () {
 
@@ -169,6 +168,14 @@
 						rotate_camera_to();
 
 					}
+					else{
+
+					}
+
+					
+					UniformBuilder.models['jersey'].rotation.y += UniformBuilder.rotateY;
+					
+
 					
 					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
 
@@ -177,14 +184,18 @@
 
 				};
 
+
 				render();
 
 			}
+
 			console.log(name_of_obj);
 
 	    });
 
 	}
+
+
 
 	window.camera_position_to = {};
 	window.camera_rotation_to = {};
@@ -261,6 +272,65 @@
 
 	}
 
+	function change_material_from_canvas(target){
+
+		// THREE.ImageUtils.crossOrigin = '';
+		var imag = texture_canvas.canvas.toDataURL('image/png');
+		window.texture = THREE.ImageUtils.loadTexture(imag);
+
+		texture = window.texture;
+
+		texture.needsUpdate = true;
+		//bmap.needsUpdate = true;
+
+		reset_camera();
+
+		//	var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+		//	var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.wrapS = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		texture.minFilter = THREE.LinearFilter;
+		texture.maxFilter = THREE.LinearFilter;
+
+		window.texture.repeat.set(1,1);
+
+		// bmap.wrapS = THREE.RepeatWrapping;
+		// bmap.wrapT = THREE.RepeatWrapping;
+		// bmap.wrapS = THREE.ClampToEdgeWrapping;
+		// bmap.wrapT = THREE.ClampToEdgeWrapping;
+		//bmap.minFilter = THREE.LinearFilter;
+		// bmap.repeat.set(1,1);
+
+		var texture_color = '0x8c2332';
+
+		window.material = new THREE.MeshPhongMaterial({ 
+			texture_color: 0x8c2332, 
+			specular: 0x050505,
+			shininess: 0,
+			map: texture,
+			bumpMap: texture,
+			bumpScale: 0.010,
+			side: THREE.DoubleSide,
+		});
+
+		obj = window.UniformBuilder.models[target];
+
+		obj.material = window.material;
+        obj.material.needsUpdate = true;
+        obj.geometry.computeTangents();
+
+        // move_camera(target);
+
+		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+		//var bmap = new THREE.Texture(texture_image);
+
+		
+
+	}
+
 
 	function change_material_from_image(target, dataUrl){
 
@@ -278,7 +348,7 @@
 
 
 		texture.needsUpdate = true;
-		bmap.needsUpdate = true;
+		//bmap.needsUpdate = true;
 		//var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
 
 
@@ -300,7 +370,7 @@
 		// bmap.wrapT = THREE.RepeatWrapping;
 		// bmap.wrapS = THREE.ClampToEdgeWrapping;
 		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		bmap.minFilter = THREE.LinearFilter;
+		//bmap.minFilter = THREE.LinearFilter;
 		// bmap.repeat.set(1,1);
 
 
