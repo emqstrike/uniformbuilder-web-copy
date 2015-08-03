@@ -36,7 +36,8 @@ class ColorsController extends Controller
         $colors = $this->client->getColors();
 
         return view('administration/colors', [
-            'colors' => $colors
+            'colors' => $colors,
+            'api_host' => env('API_HOST')
         ]);
     }
 }
