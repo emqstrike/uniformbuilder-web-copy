@@ -3,7 +3,7 @@
 @section('content')
 
 @if (Session::has('message'))
-<div class="alert alert-warning alert-dismissable flash-alert">
+<div class="alert alert-info alert-dismissable flash-alert">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
         ×
     </button>
@@ -12,8 +12,8 @@
 </div>
 @endif
 
-<div class="col-md-12">
-    <h1>
+<div class="col-md-12"
+>    <h1>
         Materials
         <small>
             <a href="addMaterialForm" class='btn btn-xs btn-success'>Add New Material</a>
@@ -24,14 +24,14 @@
 <div class="row-fluid col-md-12">
 @forelse ($materials as $material)
 
-    <div class="col-md-1">
-        <div class="thumbnail">
+    <div class="col-md-1 material-{{ $material->id }}">
+        <div class="thumbnail{{ (!$material->active) ? ' inactive' : '' }}" id="active-status-material-{{ $material->id }}">
             <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->name }}">
             <div class="caption">
                 <h3 class="panel-title">{{ $material->name }}</h3>
-                <a href="#" class="btn btn-info btn-xs" role="button">Enable</a>
-                <a href="#" class="btn btn-default btn-xs" role="button">Disable</a>
-                <a href="#" class="btn btn-danger btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">Delete</a>
+                <a href="#" class="btn btn-danger btn-xs pull-right delete-material" data-material-id="{{ $material->id }}" role="button">×</a>
+                <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button">On</a>
+                <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button">Off</a>
             </div>
         </div>
     </div>
@@ -50,12 +50,32 @@ No materials
 @endsection
 
 @section('custom-styles')
-
+.inactive {background-color: #ccc;}
 @endsection
 
 @section('custom-scripts')
 
 $(document).ready(function(){
+    $('.enable-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var url = "//{{ $api_host }}/api/material/" + id + "/enable/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                $('#active-status-material-' + id).removeClass('inactive');
+            }
+        });
+    });
+
+    $('.disable-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var url = "//{{ $api_host }}/api/material/" + id + "/disable/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                $('#active-status-material-' + id).addClass('inactive');
+            }
+        });
+    });
+
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
         modalConfirm('Remove Material', 'Are you sure you want to delete the Material?', id);
@@ -63,26 +83,13 @@ $(document).ready(function(){
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        $.ajax({
-            url: "//{{ $api_host }}/api/material/delete/" + id + "?callback=?",
-            method: 'GET',
-            dataType: 'jsonp',
-            contentType: 'application/json',
-            jsonp: 'jsonp',
-            jsonpCallback: 'jsonCallback',
-            crossDomain: true,
-            success: function(json) {
-                console.log('SUCCESS');
-                console.log(json);
-            },
-            error: function(error) {
-                console.log('ERROR');
-                console.log(error);
+        var url = "//{{ $api_host }}/api/material/" + id + "/delete/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                $('#confirmation-modal').modal('hide');
+                $('.material-' + id).fadeOut();
             }
         });
-        function jsonCallback(x){
-            console.log(x);
-        }
     });
 
     function modalConfirm(title, message, value)

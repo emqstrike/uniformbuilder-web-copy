@@ -28,7 +28,7 @@
 
 @empty
 
-No Textures
+No Colors
 
 @endforelse
 </div>
