@@ -41,17 +41,22 @@
 		<br />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#sleeve_panel')">Sl</button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab">Sl</button>	
 		</div>
 
 		<br />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button>
+			<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button> -->
 		</div>
 
-
 		<hr />	
+
+		<div class="tab_button">
+			<a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a>
+		</div>
+
+		<hr />
 
 		</div>
 
@@ -72,11 +77,10 @@
 					@include('partials.colors',['data_target' =>'shirt_mid_piping',])
 					<br />
 
-					<br /><h4>Material Tests</h4><br />
+					<br /><h4>Material Test</h4><br />
 					<button onclick="change_material('jersey','7','7')">Plain</button>
-					<button onclick="change_material('jersey','3','7')">Camo</button>
-					<button onclick="change_material('jersey','8','7')">Stripes</button> 
-					<button onclick="change_material('jersey','9','7')">Wrinkled via Shadows Test</button>
+					<button onclick="change_material('jersey','camouflage','camouflage')">Camo</button>
+
 					<br />
 
 					<hr />
@@ -126,26 +130,9 @@
 		
 	</div>
 
-	<div class="row">
-		
-	<div class="col-md-12">
-		
-		<strong>
-			
-			Canvas Test
-
-		</strong>
+	
 
 
-		<canvas id="texture_canvas">
-
-		</canvas>
-
-		<img id="destination_image" />
-
-	</div>
-
-	</div>
 
 	<!--
 
@@ -259,7 +246,6 @@
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
-
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 
 @endsection

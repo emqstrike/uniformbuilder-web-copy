@@ -115,13 +115,16 @@
 	}
 
 	.properties {
+
+	  padding-left: 30px;
+	  padding-right: 30px;
+
 	  float: right;
 	  width: 33.33%;
 	  height: 100%;
 	  background: #fff;
 	  font-size: 12px;
 	  line-height: 16px;
-	  overflow-y: auto;
 	  /*border-left: 1px solid #E1E1E1;*/
 	  -moz-transform: translateX(0);
 	  -ms-transform: translateX(0);
@@ -139,6 +142,35 @@
 	}
 
 
+
+
 /* end properties */  
+
+
+/* for material editor */
+
+	.modal-content {
+	    
+	    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	    width: 2700px;
+
+	}
+
+	.modal
+	{
+
+	    overflow: auto;
+
+	}
+	
+	.modal-dialog{
+
+	    margin-right: 0;
+	    margin-left: 0;
+
+	}
+
+/* end material editor */
 
 

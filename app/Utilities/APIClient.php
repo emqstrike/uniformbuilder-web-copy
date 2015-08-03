@@ -30,13 +30,14 @@ class APIClient
     {
         $response = $this->client->get('colors');
         $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
+        // dd($response);
+        // $result = $decoder->decode($response->getBody());
 
         $colors = [];
-        if ($result->success)
-        {
-            $colors = $result->colors;
-        }
+        // if ($result->success)
+        // {
+        //     $colors = $result->colors;
+        // }
         return $colors;
     }
 
@@ -44,13 +45,13 @@ class APIClient
     {
         $response = $this->client->get('materials');
         $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
+        // $result = $decoder->decode($response->getBody());
 
         $materials = [];
-        if ($result->success)
-        {
-            $materials = $result->materials;
-        }
+        // if ($result->success)
+        // {
+        //     $materials = $result->materials;
+        // }
         return $materials;
     }
 }
