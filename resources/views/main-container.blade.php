@@ -12,11 +12,13 @@
         <meta name="author" content="QuickStrike Engineering">
 
 		<link rel="icon" type="image/png" href="/images/branding/fav-ico.png" />
-		<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+		<!-- <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'> -->
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
 		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
 
 		<link rel="stylesheet" href="{{$asset_storage}}/css/main.css{{$asset_version}}">
 		
@@ -45,7 +47,11 @@
 
 			</div>
 
-		</div>	
+		</div>
+
+		<!-- Material Preview / Editor-->
+		@include('partials.material_editor')
+
 
 		<!-- custom mods -->
 
@@ -56,8 +62,12 @@
 		</style>
 
 		<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
-		
+		<script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/processingjs/processing.min.js{{$asset_version}}"></script>
+
+			
 		@yield('additional-scripts')
 
 		<script type="text/javascript">

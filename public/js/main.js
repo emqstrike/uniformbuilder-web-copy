@@ -3,6 +3,11 @@
 
 		render_scene();
 
+		// for material preview
+		$("#myModal").draggable({
+			handle: ".modal-header"
+		});
+
 	});
 
 	function render_scene(){
@@ -15,27 +20,30 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
+		
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		window.UniformBuilder.renderer.setSize(width, height);
 
 		container.appendChild( window.UniformBuilder.renderer.domElement );
 
-		load_model('pants','pants','0xffffff', false);
-		load_model('shirt','shirt','0xffffff', true);
-		load_model('buttons','buttons','0x000000', false);
-		load_model('belt','belt','0x000000', false);
-		load_model('pants_piping','pants_piping','0x8c2332', false);
-		load_model('panels_side','panels_side','0x8c2332', false);
-		load_model('panels_top','panels_top','0x8c2332', false);
-
-	//	load_model('shirt_textured','shirt_textured','0x8c2332', true);
-
+		load_model('jersey','jersey','0xffffff', true);
+		// load_model('shirt_textured','shirt_textured','0xffffff', true);
+		// load_model('sleeve','sleeve','0x8c2332', true);
+		// load_model('shirt_mid_piping','shirt_mid_piping','0x8c2332', true);
+		// load_model('sleeve_piping','sleeve_piping','0xffffff', false);
+		// load_model('pants','pants','0xffffff', false);
+		// load_model('pants_piping','pants_piping','0x8c2332', false);
+		// load_model('belt','belt','0x000000', false);
+		// load_model('buttons','buttons','0x000000', false);
+		
+		// load_model('emirates','emirates','0x8c2332', false);
+		// load_model('shirt_textured','shirt_textured','0x8c2332', true);
 		// load_model('cube','cube','0x1a468d', false);
 
-
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.3, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.0, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
 
@@ -98,12 +106,12 @@
 
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 		window.UniformBuilder.scene = new THREE.Scene();
-		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true });;
+		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: false });;
 
 		window.UniformBuilder.models = {};
 		window.UniformBuilder.config = {
 			
-			'model_folder': '/models/florida_2/',
+			'model_folder': '/models/baseball_2/',
 
 		};
 
@@ -112,22 +120,6 @@
 		window.free_rotate = false;
 		
 	}	
-
-	function toggle_free_rotate(){
-
-		window.free_rotate = !window.free_rotate;
-
-			if(window.free_rotate){
-
-				$('#btn_free_form').addClass('btn-danger');
-
-			}
-			else{
-
-				$('#btn_free_form').removeClass('btn-danger');
-			}
-
-	}
 
 	function load_model(file_name, name_of_obj, color, active){
 
@@ -158,12 +150,16 @@
 
 			}	
 
-			if(name_of_obj === 'pants'){ // HACK: Last to beloaded because of size
+			if(name_of_obj === 'jersey'){ // HACK: Last to beloaded because of size
 
 				reset_camera();
 
 				// change_material('pants','7');
 				// change_material('shirt','7');
+
+				// change_material('emirates','9');
+
+				//change_color('shirt','0xffffff')
 
 				var render = function () {
 
@@ -266,11 +262,31 @@
 	}
 
 
-	function change_material(target, textureImage, bumpMapImage){
+	function change_material_from_image(target, dataUrl){
 
-		THREE.ImageUtils.crossOrigin = '';
-		var texture = THREE.ImageUtils.loadTexture(textureImage);
-		var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+
+		// THREE.ImageUtils.crossOrigin = '';
+		// var texture = THREE.ImageUtils.loadTexture(textureImage);
+		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+
+		var texture_image = new Image();
+		texture_image.src = dataUrl;
+
+
+		var texture = new THREE.Texture(texture_image);
+		//var bmap = new THREE.Texture(texture_image);
+
+
+		texture.needsUpdate = true;
+		bmap.needsUpdate = true;
+		//var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+
+
+
+		reset_camera();
+
+	//	var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
+	//	var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
 
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
@@ -295,15 +311,84 @@
 			color = '0xf4dfcb';
 
 		}
+		
+		var material = new THREE.MeshPhongMaterial({ 
+			    texture_color: 0x8c2332, 
+			    specular: 0x050505,
+			    shininess: 0,
+			    map: texture,
+			    bumpMap: texture,
+			    bumpScale: 0.010,
+			    side: THREE.DoubleSide,
+		});
+
+		// var material = new THREE.MeshPhongMaterial({ 
+		// 	    texture_color: 0x8c2332, 
+		// 	    specular: 0x050505,
+		// 	    shininess: 100,
+		// 	    map: texture,
+		// 	    bumpMap: bmap,
+		// 	    bumpScale: 0.020,
+		// 	    side: THREE.DoubleSide,
+		// 	});
+	
+		obj = window.UniformBuilder.models[target];
+
+		//obj.material.color.setHex('0xead8c7');
+	
+		obj.material = material;
+        obj.material.needsUpdate = true;
+        obj.geometry.computeTangents();
+
+        // move_camera(target);
+
+	}
+
+
+	function change_material(target, textureImage, bumpMapImage){
+
+
+		// THREE.ImageUtils.crossOrigin = '';
+		// var texture = THREE.ImageUtils.loadTexture(textureImage);
+		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
+
+		reset_camera();
+
+		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".jpg" );
+		//var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.wrapS = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		texture.minFilter = THREE.LinearFilter;
+		texture.repeat.set(1,1);
+
+
+		// bmap.wrapS = THREE.RepeatWrapping;
+		// bmap.wrapT = THREE.RepeatWrapping;
+		// bmap.wrapS = THREE.ClampToEdgeWrapping;
+		// bmap.wrapT = THREE.ClampToEdgeWrapping;
+		//bmap.minFilter = THREE.LinearFilter;
+		// bmap.repeat.set(1,1);
+
+
+		var texture_color = '0x8c2332';
+
+		if(target === 'shirt_textured'){
+
+			color = '0xf4dfcb';
+
+		}
 
 
 		var material = new THREE.MeshPhongMaterial({ 
 			    texture_color: 0x8c2332, 
 			    specular: 0x050505,
-			    shininess: 100,
+			    shininess: 0,
 			    map: texture,
-			    bumpMap: bmap,
-			    bumpScale: 0.020,
+			    bumpMap: texture,
+			    bumpScale: 0.010,
 			    side: THREE.DoubleSide,
 			});
 	
@@ -321,15 +406,26 @@
 	
 	function change_color(name_of_obj, color){
 
-		obj = window.UniformBuilder.models[name_of_obj];
-		obj.material.color.setHex(color);
+		if(name_of_obj === 'shirt'){
 
-		if(name_of_obj === "panels_side"){
+			UniformBuilder.models['shirt'].visible = true;
+			UniformBuilder.models['shirt_textured'].visible = false;
+			UniformBuilder.models['shirt_mid_piping'].visible = true;
 
-			change_color('buttons',color);
 		}
 
-		move_camera(name_of_obj);
+		//reset_camera();
+
+		// obj = window.UniformBuilder.models[name_of_obj];
+		// obj.material.color.setHex(color);
+
+		if(name_of_obj === "shirt_mid_piping"){
+
+			change_color('buttons',color);
+			
+		}
+
+		//move_camera(name_of_obj);
 
 	}
 
@@ -353,13 +449,13 @@
 		// Basic Easing
 	
 		if(delta > 4){
-			_increment = 0.03;
+			_increment = 0.3;
 		}
 		else if(delta < 4 && delta > 2){
-			_increment = 0.02;
+			_increment = 0.2;
 		}
 		else {
-			_increment = 0.01;	
+			_increment = 0.1;	
 		}
 
 		if(current_camera[axis] > camera_to[axis]){
@@ -456,66 +552,89 @@
 
 	function reset_camera(){
 
+		if(window.free_rotate){
+
+			toggle_free_rotate();
+
+		}
+
 		window.camera_position_to = {
 
-			x: -0.7428245379145085,
-			y: 1.6595636550994113,
-			z: 2.291040906395211,
+			x: -0.2884069715599567,
+			y: 2.4678456274583342,
+			z: 2.2391787352108334,
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.28979214996541103,
-			y: -0.21640415332749163,
-			z: -0.06393903248650991,
+			x: -0.19840521524628751,
+			y: 0.0013470901758039742,
+			z: 0.00027083272717196076,
 
 		};
 
 	}
+
+	function toggle_free_rotate(){
+
+		window.free_rotate = !window.free_rotate;
+
+			if(window.free_rotate){
+
+				$('#btn_free_form').addClass('btn-danger');
+
+			}
+			else{
+
+				$('#btn_free_form').removeClass('btn-danger');
+			}
+
+	}
+
 
 	function set_positions_and_rotations(){
 
 		window.positions = {};
 		window.rotations = {};
 
-		window.positions.shirt = {
-			x:  -0.01921775697642224,
-			y: 1.3326683797695802,
-			z: 2.3131022224243365,
+		window.positions.jersey = {
+			x:  -0.4366205684461612,
+			y: 1.9384160512919781,
+			z: 2.3340333701070572,
 		};
 
-		window.rotations.shirt = {
-			x: -0.21213326177654301,
-			y: -7.146840492458159e-15,
-			z: -1.5392410831238418e-15,
+		window.rotations.jersey = {
+			x: -0.09518675326179131,
+			y: -0.0277641656671205,
+			z: -0.0026504447817013417,
 		};
 
 
 		window.positions.pants = {
-			x: -0.05344707952736038,
-			y: -3.142688276208788,
-			z: 2.789509817516254,
+			x: -1.0784808740311191,
+			y: -1.9630470142566372,
+			z: 2.3445335728414123,
 		};
 
 
 		window.rotations.pants = {
-			x: 0,
-			y: 0,
-			z: 0,
+			x: -0.27837498206610445,
+			y: -0.38845994767522,
+			z: -0.10782914562637556,
 		};
 
 	
 		window.positions.pants_piping = {
-			x: -1.6937581521805667,
-			y: -1.2923868443648558,
-			z: 1.8739121482908139,
+			x: -1.9476911080490493,
+			y: -2.0712394448113005,
+			z: 1.7894626068969837,
 		};
 
 		window.rotations.pants_piping = {
-			x: -0.5339865098805464,
-			y: -0.5973254606793372,
-			z: -0.3210526002448725,
+			x: -0.3241990092875424,
+			y: -0.752888555571492,
+			z: -0.22585765366064456,
 		};
 
 
@@ -532,29 +651,42 @@
 		};
 
 
-		window.positions.panels_side = {
-			x: -1.6891620626184387,
-			y: 1.4725625731680165,
-			z: 2.039780418307582,
+		window.positions.sleeve = {
+			x: -0.019886818094479564,
+			y: 1.5876441529922463,
+			z: 1.4709376664252658,
 		};
 
-		window.rotations.panels_side = {
-			x: -0.23946047245251106,
-			y: -0.5623024998700163,
-			z: -0.12943465550489144,
+		window.rotations.sleeve = {
+			x: -0.2103529208875758,
+			y: -0.008403948711036814,
+			z: -0.0017943157731050569,
 		};
 
 
-		window.positions.panels_top = {
-			x:  -0.5719156773987263,
-			y: 3.5792693270092064,
-			z: 0.5059831012518798,
+		window.positions.sleeve_piping = {
+			x: -0.7354262735028584,
+			y: 1.5890866805637862,
+			z: 1.2934493322382592,
 		};
 
-		window.rotations.panels_top = {
-			x: -1.118396683806076,
-			y: -0.22078297948124712,
-			z: -0.42334240666926354,
+		window.rotations.sleeve_piping = {
+			x: -0.22126663472710814,
+			y: -0.1367994577002023,
+			z: -0.030667498294651083,
+		};
+
+
+		window.positions.shirt_mid_piping = {
+			x:  -0.6753447124994271,
+			y: 2.1349975547370033,
+			z: 0.9239430716975422,
+		};
+
+		window.rotations.shirt_mid_piping = {
+			x: -0.5939690872423217,
+			y: -0.2398772407528139,
+			z: -0.1590888170236442,
 		};
 
 		window.positions.buttons = {
@@ -564,6 +696,18 @@
 		};
 
 		window.rotations.buttons = {
+			x: 0,
+			y: 0,
+			z: 0,
+		};
+
+		window.positions.emirates = {
+			x: 0,
+			y: 0,
+			z: 0,
+		};
+
+		window.rotations.emirates = {
 			x: 0,
 			y: 0,
 			z: 0,
