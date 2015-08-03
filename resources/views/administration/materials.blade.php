@@ -43,8 +43,6 @@ No materials
 @endforelse
 </div>
 
-<div id="response"></div>
-
 @include('partials.confirmation-modal')
 
 @endsection
