@@ -40,11 +40,10 @@
 			<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button> -->
 		</div>
 
-
 		<hr />	
 
 		<div class="tab_button">
-			<!-- <a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a> -->
+			<a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a>
 		</div>
 
 		<hr />
@@ -70,7 +69,7 @@
 
 					<br /><h4>Material Test</h4><br />
 					<button onclick="change_material('jersey','7','7')">Plain</button>
-					<button onclick="change_material('jersey','camo','camo')">Camo</button>
+					<button onclick="change_material('jersey','camouflage','camouflage')">Camo</button>
 
 					<br />
 
@@ -221,7 +220,7 @@
 
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
-	<!-- <script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script> -->
+	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 
 @endsection
