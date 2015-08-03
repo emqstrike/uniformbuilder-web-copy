@@ -17,7 +17,6 @@
 
 @section('properties')
 
-	
 	<div class="row">
 
 		<div class="col-md-2">
@@ -31,7 +30,7 @@
 		<br />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab">Sl</button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab"  onclick="switch_panel('#sleeve_panel')">Sl</button>	
 		</div>
 
 		<br />
@@ -40,11 +39,10 @@
 			<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button> -->
 		</div>
 
-
 		<hr />	
 
 		<div class="tab_button">
-			<!-- <a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a> -->
+			<a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a>
 		</div>
 
 		<hr />
@@ -65,12 +63,13 @@
 					<br />
 
 					<br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'shirt_mid_piping',])
+					@include('partials.colors',['data_target' =>'pipings',])
+
 					<br />
 
-					<br /><h4>Material Test</h4><br />
-					<button onclick="change_material('jersey','7','7')">Plain</button>
-					<button onclick="change_material('jersey','camo','camo')">Camo</button>
+					<br /><h4>Material Test (Change Base)</h4><br />
+					<button onclick="change_base('base.jpg')">Plain</button>
+					<button onclick="change_base('camouflage.jpg')">Camo</button>
 
 					<br />
 
@@ -84,10 +83,7 @@
 
 					<h2>Sleeves</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'sleeve',])
-
-					<br /><br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'sleeve_piping',])
+					@include('partials.colors',['data_target' =>'sleeves',])
 
 					<hr />
 
@@ -221,7 +217,7 @@
 
 	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
-	<!-- <script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script> -->
+	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 
 @endsection
@@ -249,7 +245,8 @@
 		$('.change-color').on('click', function(){
 			var target = $(this).data('target');
 			color = $(this).data('color');
-			change_color(target, color);
+			// change_color(target, color);
+			change_color_fabric(target,color)
 		});
 
 		// Change Material
