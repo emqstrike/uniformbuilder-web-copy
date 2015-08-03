@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use GuzzleHttp\Client;
 use App\Http\Requests;
+use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Utilities\MaterialUploader;
 use App\Http\Controllers\Controller;
+use Aws\S3\Exception\S3Exception;
 
 class MaterialsController extends Controller
 {
     protected $client;
-    protected $apiHost;
 
     public function __construct($accessToken = null)
     {
@@ -27,7 +27,7 @@ class MaterialsController extends Controller
                 'accessToken' => $accessToken
             ];
         }
-        $this->client = new Client($settings);
+        $this->client = new APIClient($settings);
     }
 
     /**
@@ -35,15 +35,7 @@ class MaterialsController extends Controller
      */
     public function index()
     {
-        $response = $this->client->get('materials');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-
-        $materials = [];
-        if ($result->success)
-        {
-            $materials = $result->materials;
-        }
+        $materials = $this->client->getMaterials();
 
         return view('administration/materials', [
             'materials' => $materials,
@@ -53,8 +45,7 @@ class MaterialsController extends Controller
 
     public function delete($id)
     {
-        $response = $this->client->get('material/delete/' . $id);
-        return $response;
+        return $this->client->deleteMaterial($id);
     }
 
     public function addMaterialForm()
@@ -69,57 +60,98 @@ class MaterialsController extends Controller
         $slug = MaterialUploader::makeSlug($materialName);
 
         // Does this Material Exist
-        $response = $this->client->get('material/' . $slug);
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-        if (!$result->success)
+        $isMaterialExist = $this->client->isMaterialExist($slug);
+
+        if (!$isMaterialExist)
         {
-            $materialData = [
+            $data = [
                 'name' => $materialName,
                 'material_path' => null,
                 'bump_map_path' => null,
+                'shadow_path' => null,
+                'highlight_path' => null,
                 'factory_code' => $factoryCode,
                 'thumbnail_path' => null
             ];
-            // Bump Map File
-            $bumpMapFile = $request->file('bump_map_path');
-            $materialFile = $request->file('material_path');
 
-            $bumpMapPath = '';
-            if (is_object($bumpMapFile))
-            {
-                if ($bumpMapFile->isValid())
+
+            try {
+                // Bump Map File
+                $bumpMapFile = $request->file('bump_map_path');
+                if (is_object($bumpMapFile))
                 {
-                    $materialData['bump_map_path'] = MaterialUploader::upload($bumpMapFile, $materialName, 'bump');
+                    if ($bumpMapFile->isValid())
+                    {
+                        $data['bump_map_path'] = MaterialUploader::upload(
+                                                        $bumpMapFile,
+                                                        $materialName,
+                                                        'bump'
+                                                    );
+                    }
+                }
+
+                // Material File
+                $materialFile = $request->file('material_path');
+                if (is_object($materialFile))
+                {
+                    if ($materialFile->isValid())
+                    {
+                        // Material
+                        $data['material_path'] = MaterialUploader::upload(
+                                                        $materialFile,
+                                                        $materialName
+                                                    );
+                        // Thumbnail
+                        $data['thumbnail_path'] = MaterialUploader::upload(
+                                                        $materialFile,
+                                                        $materialName,
+                                                        'thumbnail'
+                                                    );
+                    }
+                }
+
+                // Shadow File
+                $shadowFile = $request->file('shadow_path');
+                if (is_object($shadowFile))
+                {
+                    if ($shadowFile->isValid())
+                    {
+                        // Shadow
+                        $data['shadow_path'] = MaterialUploader::upload(
+                                                    $shadowFile,
+                                                    $materialName,
+                                                    'shadow'
+                                                );
+                    }
+                }
+
+                // Highlight File
+                $highlightFile = $request->file('highlight_path');
+                if (is_object($highlightFile))
+                {
+                    if ($highlightFile->isValid())
+                    {
+                        // Highlight
+                        $data['highlight_path'] = MaterialUploader::upload(
+                                                        $highlightFile,
+                                                        $materialName,
+                                                        'highlight'
+                                                    );
+                    }
                 }
             }
-
-            // Material Material File
-            $materialFile = $request->file('material_path');
-
-            $materialPath = '';
-            $thumbnailPath = '';
-            if (is_object($materialFile))
+            catch (S3Exception $e)
             {
-                if ($materialFile->isValid())
-                {
-                    $materialData['material_path'] = MaterialUploader::upload($materialFile, $materialName);
-                    // Thumbnail
-                    $materialData['thumbnail_path'] = MaterialUploader::upload($materialFile, $materialName, 'thumbnail');
-                    error_log('THUMBNAIL: ' .$thumbnailPath);
-                }
+                $message = $e->getMessage();
+                return Redirect::to('administration/materials')
+                                ->with('message', 'There was a problem uploading your files');
             }
+            $response = $this->client->createMaterial($data);
 
-            $response = $this->client->post('material', [
-                'json' => $materialData
-            ]);
-
-            $decoder = new JsonDecoder();
-            $result = $decoder->decode($response->getBody());
-            if ($result->success)
+            if ($response->success)
             {
                 return Redirect::to('administration/materials')
-                                ->with('message', 'Successfully saved new material');
+                                ->with('message', $response->message);
             }
             else
             {
@@ -128,9 +160,8 @@ class MaterialsController extends Controller
             }
         }
 
-        return [
-            'success' => false,
-            'message' => 'Material Name already exists'
-        ];
+        return Redirect::to('administration/materials')
+                        ->with('message', 'Material Name already exists');
+
     }
 }

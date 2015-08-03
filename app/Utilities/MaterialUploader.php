@@ -80,14 +80,21 @@ class MaterialUploader
         {
             $filename = 'thumbnail.jpg';
         }
-        error_log('TYPE: ' . $type);
-        error_log('FILENAME: ' . $filename);
+        elseif ($type == 'shadow')
+        {
+            $filename = 'shadow.png';
+        }
+        elseif ($type == 'highlight')
+        {
+            $filename = 'highlight.png';
+        }
 
-        // Upload to S3
+        // Prepare PATH
         $materialFolder = 'materials/' . env('APP_ENV') . '/';
         $folder = $materialFolder . self::makeSlug($materialName);
         $s3TargetPath = "{$folder}/{$filename}";
-        error_log('S3 Target Path: ' . $s3TargetPath);
+
+        // Upload to S3
         $s3 = Storage::disk('s3');
         if ($s3->put($s3TargetPath, file_get_contents($filePath)))
         {
@@ -95,7 +102,6 @@ class MaterialUploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
-            error_log('S3 PATH: ' . "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}");
             return "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}";
         }
         return null;

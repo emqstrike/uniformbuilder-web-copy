@@ -51,6 +51,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Shadow File</label>
+                            <div class="col-md-6 shadow">
+                                <input type="file" class="form-control shadow-file" name="shadow_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Highlight File</label>
+                            <div class="col-md-6 highlight">
+                                <input type="file" class="form-control highlight-file" name="highlight_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_code' class="form-control factory-code">
