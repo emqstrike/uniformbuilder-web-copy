@@ -7,6 +7,7 @@
 			handle: ".modal-header"
 		});
 
+
 	});
 
 	function render_scene(){
@@ -31,7 +32,14 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
-		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+
+
+		window.UniformBuilder.rotateY = 0;
+		
+		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		var v = 128;
+		window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
+
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		
 		window.UniformBuilder.renderer.setSize(width, height);
@@ -98,7 +106,44 @@
 
 				set_active_part(name_of_obj);
 
-			}	
+			}
+
+			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
+
+				reset_camera();
+
+				// change_material('pants','7');
+				// change_material('shirt','7');
+
+				// change_material('emirates','9');
+
+				//change_color('shirt','0xffffff')
+
+				var render = function () {
+
+					if(!window.free_rotate){
+
+						move_camera_to();
+						rotate_camera_to();
+
+						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
+												
+						rotate_direction();
+
+					}
+					
+					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
+
+					requestAnimationFrame( render );
+					window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
+
+				};
+
+				render();
+
+			}
+			console.log(name_of_obj);
+
 
 	    });
 
@@ -218,12 +263,13 @@
 
 	function move_camera(model){
 
-		var _model = model;
+		// var _model = model;
 
-		set_active_part(model);
+		// set_active_part(model);
 
-		window.camera_position_to = positions[_model];
-		window.camera_rotation_to = rotations[_model];
+		// window.camera_position_to = positions[_model];
+		// window.camera_rotation_to = rotations[_model];
+		reset_camera();
 
 	}
 
@@ -237,19 +283,21 @@
 
 		window.camera_position_to = {
 
-			x: -0.2884069715599567,
-			y: 2.4678456274583342,
-			z: 2.2391787352108334,
+			x: 0.3278637925403716,
+			y: 0.08435212366005695,
+			z: 4.289716248324682 ,
+
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.19840521524628751,
-			y: 0.0013470901758039742,
-			z: 0.00027083272717196076,
+			x: 0.048319539389081956,
+			y: 0.10349508215725498,
+			z: -0.004995758915489389,
 
 		};
+
 
 	}
 
@@ -406,6 +454,8 @@
 		};
 
 	}
+		
+
 
 
 

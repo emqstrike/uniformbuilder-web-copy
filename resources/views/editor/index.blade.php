@@ -11,7 +11,20 @@
 
 		</div>
 
+		<div id="model_view" style="position: absolute; top: 25px; left: 25px;">
+			
+			</br ></br >
+			<button class="btn btn-default" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
+			<button class="btn btn-default" id="rotate_right"><i class="fa fa-chevron-right"></i></button></br ></br >
+			<button class="btn btn-default" id="play"><i class="fa fa-play"></i></button>
+			<input type="radio" name="direction" value="left" id="rb_left">Left
+			<input type="radio" name="direction" value="right" id="rb_right">Right
+
+		</div>
+
 		<div id="mycanvas" class="mycanvas"></div>
+		
+
 	
 @endsection('contentarea')
 
@@ -215,6 +228,8 @@
 
 	}
 
+}
+
 @endsection('custom-styles')
 
 @section('additional-scripts')
@@ -223,6 +238,7 @@
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
 
 @endsection
 
