@@ -26,14 +26,20 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('login', 'Administration\AuthenticationController@login');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
+    // Uniform Categories
+    Route::get('categories', 'Administration\UniformCategoriesController@index');
+
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');
+    Route::post('color/add', 'Administration\ColorsController@store');
+    Route::post('color/update', 'Administration\ColorsController@store');
+    Route::get('addColorForm', 'Administration\ColorsController@addColorForm');
+    Route::get('editColorForm/{id}', 'Administration\ColorsController@editColorForm');
 
     // Materials
     Route::get('materials', 'Administration\MaterialsController@index');
-    Route::post('material', 'Administration\MaterialsController@createMaterial');
+    Route::post('material', 'Administration\MaterialsController@store');
     Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
-    Route::get('material/delete/{id}', 'Administration\MaterialsController@delete');
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');

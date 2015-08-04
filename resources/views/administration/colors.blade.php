@@ -21,7 +21,7 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-4">
+<div class="row-fluid col-md-5">
     <table class='table table-bordered'>
     <tr>
         <th colspan='3'>
@@ -35,12 +35,13 @@
             {{ $color->name }}
         </td>
         <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
+            <span class='badge'>{{ $color->color_code }}</span>
+            <a href="editColorForm/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">Edit</a>
         </td>
         <td>
-            <a href="#" class="btn btn-danger btn-xs pull-right delete-color" data-color-id="{{ $color->id }}" role="button">×</a>
-            <a href="#" class="btn btn-info btn-xs enable-color" data-color-id="{{ $color->id }}" role="button">On</a>
-            <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button">Off</a>
-
+            <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>Disable</a>
+            <a href="#" class="btn btn-info btn-xs enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>Enable</a>
+            <a href="#" class="btn btn-danger btn-xs delete-color" data-color-id="{{ $color->id }}" role="button">Remove</a>
         </td>
     </tr>
 
@@ -72,7 +73,11 @@ $(document).ready(function(){
         var url = "//{{ $api_host }}/api/color/" + id + "/enable/";
         $.getJSON(url, function(response){
             if (response.success) {
-                $('.color-' + id).removeClass('inactive');
+                var elem = '.color-' + id;
+                alert(response.message);
+                $(elem + ' .disable-color').removeAttr('disabled');
+                $(elem + ' .enable-color').attr('disabled', 'disabled');
+                $(elem).removeClass('inactive');
             }
         });
     });
@@ -82,7 +87,11 @@ $(document).ready(function(){
         var url = "//{{ $api_host }}/api/color/" + id + "/disable/";
         $.getJSON(url, function(response){
             if (response.success) {
-                $('.color-' + id).addClass('inactive');
+                var elem = '.color-' + id;
+                alert(response.message);
+                $(elem + ' .enable-color').removeAttr('disabled');
+                $(elem + ' .disable-color').attr('disabled', 'disabled');
+                $(elem).addClass('inactive');
             }
         });
     });
