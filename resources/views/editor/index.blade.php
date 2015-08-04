@@ -237,6 +237,7 @@
 	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
 
 @endsection
 
