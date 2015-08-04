@@ -33,12 +33,11 @@
 
 		window.UniformBuilder.scene = new THREE.Scene();
 
-
 		window.UniformBuilder.rotateY = 0;
 		
-		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
 		var v = 128;
-		window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
+		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
 		
@@ -74,29 +73,30 @@
 				move_camera_to();
 				rotate_camera_to();
 
+				//window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
+				rotate_direction();
+
 			}
 
-			requestAnimationFrame( render );
+			requestAnimationFrame(render);
 			window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
 
 		};
 
 		render();
 
-		load_model('jersey','jersey','0xffffff', true);
-
 	}
 
 	//// Refactored Utils start here ... ////
 
-	function load_model(file_name, name_of_obj, color, active){
+	function load_model(file_name, name_of_obj, material, active){
 
 	    var loader = new THREE.JSONLoader();
 	    var filename = window.UniformBuilder.config.model_folder + file_name + ".json";
 
 	    loader.load(filename, function(geometry){
 
-			mesh = new THREE.Mesh(geometry);
+			mesh = new THREE.Mesh(geometry, material);
 
 			window.UniformBuilder.scene.add(mesh);
 
@@ -107,43 +107,6 @@
 				set_active_part(name_of_obj);
 
 			}
-
-			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
-
-				reset_camera();
-
-				// change_material('pants','7');
-				// change_material('shirt','7');
-
-				// change_material('emirates','9');
-
-				//change_color('shirt','0xffffff')
-
-				var render = function () {
-
-					if(!window.free_rotate){
-
-						move_camera_to();
-						rotate_camera_to();
-
-						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
-												
-						rotate_direction();
-
-					}
-					
-					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
-
-					requestAnimationFrame( render );
-					window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
-
-				};
-
-				render();
-
-			}
-			console.log(name_of_obj);
-
 
 	    });
 
@@ -283,18 +246,18 @@
 
 		window.camera_position_to = {
 
-			x: 0.3278637925403716,
-			y: 0.08435212366005695,
-			z: 4.289716248324682 ,
+			x: -0.6186451979911265,
+			y: 2.363289470093312,
+			z: 3.2400342257358523,
 
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: 0.048319539389081956,
-			y: 0.10349508215725498,
-			z: -0.004995758915489389,
+			x: -0.1537253113008051,
+			y: -0.06305853984132435,
+			z: -0.009763996410213097,
 
 		};
 
