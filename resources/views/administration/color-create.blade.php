@@ -62,6 +62,9 @@
                                 <button type="submit" class="btn btn-primary create-color" style="margin-right: 15px;">
                                     Add New Color
                                 </button>
+                                <a href="/administration/colors" class="btn btn-danger" style="margin-right: 15px;">
+                                    Cancel
+                                </a>
                             </div>
                         </div>
                     </form>
