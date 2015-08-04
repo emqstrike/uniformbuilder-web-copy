@@ -1,0 +1,176 @@
+/* resets */
+
+	ol, ul {
+	  
+		list-style: none;
+	
+	}
+
+/* end resets */
+
+
+/* sidebar nav */
+
+	.sidebar-panel {
+
+		padding: 30px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+	}
+
+	.side-nav {
+
+		padding-top: 30px;	
+
+
+		position: fixed;
+	  	top: 0;
+	  	left: 0;
+	  	width: 125px;
+	  	height: 100%;
+	  	background: #1e2226;
+	  	z-index: 1001;
+	  	-moz-user-select: -moz-none;
+	  	-ms-user-select: none;
+	  	-webkit-user-select: none;
+	  	user-select: none;
+
+	}
+
+	.root-nav {
+
+	  display: block;
+	  position: absolute;
+	  top: 50%;
+	  left: 0;
+	  width: 100%;
+	  z-index: 9999;
+	  overflow: hidden;
+	  -moz-transform: translateY(-50%);
+	  -ms-transform: translateY(-50%);
+	  -webkit-transform: translateY(-50%);
+	  transform: translateY(-50%);
+
+	}
+
+
+	.img-logo {
+
+	  display: block;
+	  width: 70px;
+	  margin: 0 auto;
+	  border: none;
+	  outline: none;
+	  text-indent: -99999px;
+
+	}
+
+	.root-nav > ul > li > a {
+	 
+	  font-size: 1.5em;
+	  color: white;
+
+	  display: block;
+	  position: relative;
+	  padding: 15px 0;
+	  cursor: pointer;
+
+	  margin-left: 15px;
+
+	}
+
+/* end sidebar nav */
+
+
+/* properties */ 
+
+	.main-content{
+
+	  position: absolute;
+	  left: 125px;
+	  right: 0;
+	  height: 100%;
+	  -moz-transform: translate3d(0px, 0px, 0px);
+	  -ms-transform: translate3d(0px, 0px, 0px);
+	  -webkit-transform: translate3d(0px, 0px, 0px);
+	  transform: translate3d(0px, 0px, 0px);
+	  background-color: #ffffff;
+	  overflow: hidden;
+
+	}	
+
+	.content-area {
+
+	  position: absolute;
+	  left: 125px;
+	  right: 33.33%;
+	  left: 0px;
+	  height: 100%;
+	  -moz-transition: right 0.3s ease-in-out;
+	  -o-transition: right 0.3s ease-in-out;
+	  -webkit-transition: right 0.3s ease-in-out;
+	  transition: right 0.3s ease-in-out;
+
+	}
+
+	.properties {
+
+	  padding-left: 30px;
+	  padding-right: 30px;
+
+	  float: right;
+	  width: 33.33%;
+	  height: 100%;
+	  background: #fff;
+	  font-size: 12px;
+	  line-height: 16px;
+	  /*border-left: 1px solid #E1E1E1;*/
+	  -moz-transform: translateX(0);
+	  -ms-transform: translateX(0);
+	  -webkit-transform: translateX(0);
+	  transform: translateX(0);
+	  -moz-transition: -moz-transform 0.3s ease-in-out;
+	  -o-transition: -o-transform 0.3s ease-in-out;
+	  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+	  transition: transform 0.3s ease-in-out;
+	}
+
+	@media screen and (max-width: 1279px)
+	.properties {
+	  width: 33.33%;
+	}
+
+
+
+
+/* end properties */  
+
+
+/* for material editor */
+
+	.modal-content {
+	    
+	    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+	    width: 2700px;
+
+	}
+
+	.modal
+	{
+
+	    overflow: auto;
+
+	}
+	
+	.modal-dialog{
+
+	    margin-right: 0;
+	    margin-left: 0;
+
+	}
+
+/* end material editor */
+
+
