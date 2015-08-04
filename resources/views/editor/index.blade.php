@@ -250,7 +250,7 @@
 			var target = $(this).data('target');
 			color = $(this).data('color');
 			// change_color(target, color);
-			change_color_fabric(target,color)
+			texture_canvas.change_color(target,color)
 		});
 
 		// Change Material

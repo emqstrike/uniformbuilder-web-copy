@@ -3,7 +3,6 @@
 
 		render_scene();
 
-		// for material preview
 		$("#myModal").draggable({
 			handle: ".modal-header"
 		});
@@ -30,7 +29,6 @@
 		
 		var width = $(container).width();
 		var height = $(container).height();
-
 
 		window.UniformBuilder.scene = new THREE.Scene();
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
@@ -60,8 +58,6 @@
 		});
 
 		controls = new THREE.OrbitControls( window.UniformBuilder.camera, UniformBuilder.renderer.domElement );
-	
-		load_model('jersey','jersey','0xffffff', true);
 
 		var render = function () {
 
@@ -79,6 +75,7 @@
 
 		render();
 
+		load_model('jersey','jersey','0xffffff', true);
 
 	}
 
@@ -109,90 +106,6 @@
 
 	window.camera_position_to = {};
 	window.camera_rotation_to = {};
-
-	function change_material(target, textureImage, bumpMapImage){
-
-
-		// THREE.ImageUtils.crossOrigin = '';
-		// var texture = THREE.ImageUtils.loadTexture(textureImage);
-		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
-
-		reset_camera();
-
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".jpg" );
-		//var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
-
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.wrapS = THREE.ClampToEdgeWrapping;
-		texture.wrapT = THREE.ClampToEdgeWrapping;
-		texture.minFilter = THREE.LinearFilter;
-		texture.repeat.set(1,1);
-
-
-		// bmap.wrapS = THREE.RepeatWrapping;
-		// bmap.wrapT = THREE.RepeatWrapping;
-		// bmap.wrapS = THREE.ClampToEdgeWrapping;
-		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		//bmap.minFilter = THREE.LinearFilter;
-		// bmap.repeat.set(1,1);
-
-
-		var texture_color = '0x8c2332';
-
-		if(target === 'shirt_textured'){
-
-			color = '0xf4dfcb';
-
-		}
-
-
-		var material = new THREE.MeshPhongMaterial({ 
-			    texture_color: 0x8c2332, 
-			    specular: 0x050505,
-			    shininess: 0,
-			    map: texture,
-			    bumpMap: texture,
-			    bumpScale: 0.010,
-			    side: THREE.DoubleSide,
-			});
-	
-		obj = window.UniformBuilder.models[target];
-
-		//obj.material.color.setHex('0xead8c7');
-	
-		obj.material = material;
-        obj.material.needsUpdate = true;
-        obj.geometry.computeTangents();
-
-        move_camera(target);
-
-	}
-	
-	function change_color(name_of_obj, color){
-
-		if(name_of_obj === 'shirt'){
-
-			UniformBuilder.models['shirt'].visible = true;
-			UniformBuilder.models['shirt_textured'].visible = false;
-			UniformBuilder.models['shirt_mid_piping'].visible = true;
-
-		}
-
-		//reset_camera();
-
-		// obj = window.UniformBuilder.models[name_of_obj];
-		// obj.material.color.setHex(color);
-
-		if(name_of_obj === "shirt_mid_piping"){
-
-			change_color('buttons',color);
-			
-		}
-
-		//move_camera(name_of_obj);
-
-	}
 
 	function rotate_camera_to(){
 
