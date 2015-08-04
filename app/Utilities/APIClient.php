@@ -7,10 +7,9 @@ use Webmozart\Json\JsonDecoder;
 use GuzzleHttp\Exception\ClientException;
 use \Session;
 
-class APIClient
+class APIClient extends Client
 {
-    protected $client;
-    protected $apiHost;
+    protected $decoder;
 
     public function __construct($accessToken = null)
     {
@@ -23,35 +22,66 @@ class APIClient
                 'accessToken' => $accessToken
             ];
         }
-        $this->client = new Client($settings);
+        parent::__construct($settings);
+        $this->decoder = new JsonDecoder();
     }
 
     public function getColors()
     {
-        $response = $this->client->get('colors');
-        $decoder = new JsonDecoder();
-        // dd($response);
-        // $result = $decoder->decode($response->getBody());
+        $response = $this->get('colors');
+        $result = $this->decoder->decode($response->getBody());
 
         $colors = [];
-        // if ($result->success)
-        // {
-        //     $colors = $result->colors;
-        // }
+        if ($result->success)
+        {
+            $colors = $result->colors;
+        }
         return $colors;
     }
 
     public function getMaterials()
     {
-        $response = $this->client->get('materials');
-        $decoder = new JsonDecoder();
-        // $result = $decoder->decode($response->getBody());
+        $response = $this->get('materials');
+        $result = $this->decoder->decode($response->getBody());
 
         $materials = [];
-        // if ($result->success)
-        // {
-        //     $materials = $result->materials;
-        // }
+        if ($result->success)
+        {
+            $materials = $result->materials;
+        }
         return $materials;
+    }
+
+    public function createMaterial($materialData)
+    {
+        $response = $this->post('material', [
+            'json' => $materialData
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    /**
+     * @name String $name Slug Name
+     */
+    public function getMaterial($name)
+    {
+        $response = $this->get('material/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function isMaterialExist($name)
+    {
+        return !is_null($this->getMaterial($name));
+    }
+
+    public function deleteMaterial($id)
+    {
+        $response = $this->get('material/delete/' . $id);
+        return $this->decoder->decode($response->getBody());
     }
 }

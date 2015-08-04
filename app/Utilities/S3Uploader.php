@@ -49,7 +49,7 @@ class S3Uploader
         // Upload to S3
         $folder = 'uploads/' . env('APP_ENV');
         $targetPath = "{$folder}/{$filename}";
-    error_log('S3 Target Path: ' . $targetPath);
+
         $s3 = Storage::disk('s3');
         if ($s3->put($targetPath, file_get_contents($filePath)))
         {
@@ -57,7 +57,7 @@ class S3Uploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
-            error_log('S3 PATH: ' . "{$protocol}://{$host}/{$bucket}/{$targetPath}");
+
             return "{$protocol}://{$host}/{$bucket}/{$targetPath}";
         }
         return null;

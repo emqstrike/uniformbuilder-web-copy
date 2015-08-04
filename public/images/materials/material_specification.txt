@@ -1,0 +1,7 @@
+Generated from source file:
+
+	Material7.5 -> Dropbox / Arthur / _Material Sources / material_7.5.psd
+
+	Base Texture - JPG @ 90%
+
+	Parts - Transparent PNG

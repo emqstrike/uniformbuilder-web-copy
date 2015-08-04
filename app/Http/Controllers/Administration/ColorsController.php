@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Administration;
 
 use \Session;
-use GuzzleHttp\Client;
 use App\Http\Requests;
+use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
@@ -25,7 +25,7 @@ class ColorsController extends Controller
                 'accessToken' => $accessToken
             ];
         }
-        $this->client = new Client($settings);
+        $this->client = new APIClient($settings);
     }
 
     /**
@@ -33,18 +33,11 @@ class ColorsController extends Controller
      */
     public function index()
     {
-        $response = $this->client->get('colors');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-
-        $colors = [];
-        if ($result->success)
-        {
-            $colors = $result->colors;
-        }
+        $colors = $this->client->getColors();
 
         return view('administration/colors', [
-            'colors' => $colors
+            'colors' => $colors,
+            'api_host' => env('API_HOST')
         ]);
     }
 }
