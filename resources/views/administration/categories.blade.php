@@ -11,29 +11,99 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-12">
+<div class="row col-md-2">
+    <table class='table table-bordered'>
+    <tr>
+        <th colspan='2'>
+            Categories
+        </th>
+    </tr>
 @forelse ($categories as $category)
 
-    <div class="col-md-1">
-        <div class="thumbnail" align='center'>
-            <div class="caption">
-                <h3 class="panel-title">{{ $category->name }}</h3>
-                <a href="#" class="btn btn-danger btn-xs pull-right" role="button">×</a>
-                <a href="#" class="btn btn-info btn-xs" role="button">On</a>
-                <a href="#" class="btn btn-default btn-xs" role="button">Off</a>
-            </div>
-        </div>
-    </div>
+    <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
+        <td>
+            {{ $category->name }}
+        </td>
+        <td style='text-align: right'>
+            <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>Disable</a>
+            <a href="#" class="btn btn-info btn-xs enable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? 'disabled="disabled"' : '' }}>Enable</a>
+            <a href="#" class="btn btn-danger btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">Remove</a>
+        </td>
+    </tr>
 
 @empty
 
-No Uniform Categories
+    <tr>
+        <td>
+            No Uniform Categories
+        </td>
+    </tr>
 
 @endforelse
+    </table>
 </div>
+@include('partials.confirmation-modal')
 
 @endsection
 
 @section('custom-styles')
+.inactive {background-color: #ccc;}
+@endsection
+
+@section('custom-scripts')
+
+$(document).ready(function(){
+    $('.enable-category').on('click', function(){
+        var id = $(this).data('category-id');
+        var url = "//{{ $api_host }}/api/category/" + id + "/enable/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                var elem = '.category-' + id;
+                alert(response.message);
+                $(elem + ' .disable-category').removeAttr('disabled');
+                $(elem + ' .enable-category').attr('disabled', 'disabled');
+                $(elem).removeClass('inactive');
+            }
+        });
+    });
+
+    $('.disable-category').on('click', function(){
+        var id = $(this).data('category-id');
+        var url = "//{{ $api_host }}/api/category/" + id + "/disable/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                var elem = '.category-' + id;
+                alert(response.message);
+                $(elem + ' .disable-category').attr('disabled', 'disabled');
+                $(elem + ' .enable-category').removeAttr('disabled');
+                $('.category-' + id).addClass('inactive');
+            }
+        });
+    });
+
+    $('.delete-category').on('click', function(){
+        var id = $(this).data('category-id');
+        modalConfirm('Remove Uniform Category', 'Are you sure you want to delete the uniform category?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//{{ $api_host }}/api/category/" + id + "/delete/";
+        $.getJSON(url, function(response){
+            if (response.success) {
+                $('#confirmation-modal').modal('hide');
+                $('.category-' + id).fadeOut();
+            }
+        });
+    });
+
+    function modalConfirm(title, message, value)
+    {
+        $('#confirmation-modal .modal-title').text(title);
+        $('#confirmation-modal .modal-body').text(message);
+        $('#confirmation-modal .confirm-yes').data('value', value);
+        $('#confirmation-modal').modal('show');
+    }
+});
 
 @endsection

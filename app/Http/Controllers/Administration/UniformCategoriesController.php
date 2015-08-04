@@ -32,7 +32,8 @@ class UniformCategoriesController extends Controller
         $categories = $this->client->getUniformCategories();
 
         return view('administration/categories', [
-            'categories' => $categories
+            'categories' => $categories,
+            'api_host' => env('API_HOST')
         ]);
     }
 }
