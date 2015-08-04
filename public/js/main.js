@@ -9,7 +9,6 @@
 		});
 
 
-
 	});
 
 	function render_scene(){
@@ -176,7 +175,7 @@
 
 						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
 												
-						model_view();
+						rotate_direction();
 
 					}
 					
@@ -725,85 +724,6 @@
 			y: 0,
 			z: 0,
 		};
-
-	}
-
-
-	function model_view(){ // Rotate the model left - right, or play depending on the selected direction
-
-		$("#rotate_right").mousedown(function(){
-
-			window.UniformBuilder.rotateY = 0.04;
-
-		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
-		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
-
-		$("#rotate_left").mousedown(function(){
-
-			window.UniformBuilder.rotateY = -0.04;
-
-		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
-		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
-
-		$("#model_view input[type='radio']:checked").click(function() {
-			var direction = $(this).val();
-			if(play==1){
-
-				if(direction=="left"){
-					window.UniformBuilder.rotateY = -0.04
-				}
-
-				else{
-					window.UniformBuilder.rotateY = 0.04
-				}
-
-			}
-			console.log(direction);
-		});
-
-		// var direction = 0.02, timeout, pauser, play = 0;
-
-		// $("#rotate_left").mousedown(function(){
-
-		// 	window.UniformBuilder.rotateY = 0.02;
-
-		// }).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
-		// }).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
-
-		// $("#rotate_right").mousedown(function(){
-
-		// 	window.UniformBuilder.rotateY = -0.02;
-
-		// }).mouseup(function(){window.UniformBuilder.rotateY = 0;); // Obvious events here . . .
-		// }).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
-
-		// $("#play").click(function() {
-		// $(this).children().removeClass('fa fa-play');
-		// $(this).children().removeClass('fa fa-pause');
-		// 	if(play == 1){
-		// 		play = 0;
-
-		// 		$(this).children().addClass('fa fa-play');
-		// 	}
-
-		// 	else{
-		// 		play = 1;
-		// 		$(this).children().addClass('fa fa-pause');
-		// 	}
-		// 	rotate_model(play);
-		// });
-
-		// function rotate_model(is_played){
-		// 	if(is_played == 1){
-		// 		//window.UniformBuilder.rotate = window.UniformBuilder.rotateY;
-		// 		console.log('PLAYED');
-		// 	}
-		// 	else{
-		// 		window.UniformBuilder.rotateY = 0;
-		// 		console.log('PAUSED')
-		// 	}
-		// }
-
 
 	}
 		
