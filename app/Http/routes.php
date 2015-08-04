@@ -40,6 +40,18 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('materials', 'Administration\MaterialsController@index');
     Route::post('material', 'Administration\MaterialsController@store');
     Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
+
+    // TODO
+    Route::get('factories', function(){ return view('administration.oops'); });
+    Route::get('models', function(){ return view('administration.oops'); });
+    Route::get('jerseys', function(){ return view('administration.oops'); });
+    Route::get('necks', function(){ return view('administration.oops'); });
+    Route::get('sleeves', function(){ return view('administration.oops'); });
+    Route::get('pants', function(){ return view('administration.oops'); });
+    Route::get('skus', function(){ return view('administration.oops'); });
+    Route::get('orders', function(){ return view('administration.oops'); });
+    Route::get('users', function(){ return view('administration.oops'); });
+    Route::get('accountSettings', function(){ return view('administration.oops'); });
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');
