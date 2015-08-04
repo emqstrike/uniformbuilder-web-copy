@@ -3,55 +3,52 @@
 
 		render_scene();
 
-		// for material preview
 		$("#myModal").draggable({
 			handle: ".modal-header"
 		});
+
 
 	});
 
 	function render_scene(){
 
-		init();
+		window.UniformBuilder = {};
+		window.UniformBuilder.active_part = "";
+		window.UniformBuilder.models = {};
+		window.UniformBuilder.config = {
+			
+			'model_folder': '/models/baseball_2/',
+
+		};
+
+		window.free_rotate = false;
+		window.UniformBuilder.materials_loaded = false;
+
+		set_positions_and_rotations();
 
 		container = document.getElementById('mycanvas');
 		
 		var width = $(container).width();
 		var height = $(container).height();
 
-		window.UniformBuilder.materials_loaded = false;
-
 		window.UniformBuilder.scene = new THREE.Scene();
+
+
+		window.UniformBuilder.rotateY = 0;
 		
-		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
-		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		var v = 128;
+		window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
+		
 		window.UniformBuilder.renderer.setSize(width, height);
 
 		container.appendChild( window.UniformBuilder.renderer.domElement );
 
-		load_model('jersey','jersey','0xffffff', true);
-		// load_model('shirt_textured','shirt_textured','0xffffff', true);
-		// load_model('sleeve','sleeve','0x8c2332', true);
-		// load_model('shirt_mid_piping','shirt_mid_piping','0x8c2332', true);
-		// load_model('sleeve_piping','sleeve_piping','0xffffff', false);
-		// load_model('pants','pants','0xffffff', false);
-		// load_model('pants_piping','pants_piping','0x8c2332', false);
-		// load_model('belt','belt','0x000000', false);
-		// load_model('buttons','buttons','0x000000', false);
-		
-		// load_model('emirates','emirates','0x8c2332', false);
-		// load_model('shirt_textured','shirt_textured','0x8c2332', true);
-		// load_model('cube','cube','0x1a468d', false);
-
 		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.0, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
-
-		// var ambientLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.2 );
-		// //ambientLight.position.set(1,1,2);
-		// window.UniformBuilder.camera.add(ambientLight);
 
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
 
@@ -68,62 +65,29 @@
 
 		});
 
-		window.camera_position_to = {
-
-			x: -1.4642782522135471,
-			y: -2.1041140685793325,
-			z: 4.9646831419254545,
-
-		};
-
-		window.camera_rotation_to = {
-
-			x: -0.08385543601649652,
-			y: -0.2756406415063345,
-			z: -0.022872038615562237,
-
-		};
-
-		//schange_color('shirt', '0x8c2332');
-
 		controls = new THREE.OrbitControls( window.UniformBuilder.camera, UniformBuilder.renderer.domElement );
+
+		var render = function () {
+
+			if(!window.free_rotate){
+
+				move_camera_to();
+				rotate_camera_to();
+
+			}
+
+			requestAnimationFrame( render );
+			window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
+
+		};
+
+		render();
+
+		load_model('jersey','jersey','0xffffff', true);
 
 	}
 
-
 	//// Refactored Utils start here ... ////
-
-	function init(){
-
-		set_positions_and_rotations();
-
-		container = document.getElementById('mycanvas');
-		
-		var width = $(container).width();
-		var height = $(container).height();
-
-		window.UniformBuilder = {};
-
-		window.UniformBuilder.active_part = "";
-
-		UniformBuilder.rotateY = 0;
-
-		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
-		window.UniformBuilder.scene = new THREE.Scene();
-		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: false });;
-
-		window.UniformBuilder.models = {};
-		window.UniformBuilder.config = {
-			
-			'model_folder': '/models/baseball_2/',
-
-		};
-
-		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
-
-		window.free_rotate = false;
-		
-	}	
 
 	function load_model(file_name, name_of_obj, color, active){
 
@@ -131,34 +95,29 @@
 	    var filename = window.UniformBuilder.config.model_folder + file_name + ".json";
 
 	    loader.load(filename, function(geometry){
-        
-			var material = new THREE.MeshPhongMaterial({ 
 
-			    color: 0xffffff, 
-			    specular: 0x000000,
-			    shininess: 30,
-			    side: THREE.DoubleSide,
-
-			});
-
-			mesh = new THREE.Mesh(geometry, material);
+			mesh = new THREE.Mesh(geometry);
 
 			window.UniformBuilder.scene.add(mesh);
 
 			window.UniformBuilder.models[name_of_obj] = mesh;
-			change_color(name_of_obj, color);
 
 			if(active){
 
 				set_active_part(name_of_obj);
 
-			}	
+			}
 
 			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
 
 				reset_camera();
 
-				change_material('jersey','7');
+				// change_material('pants','7');
+				// change_material('shirt','7');
+
+				// change_material('emirates','9');
+
+				//change_color('shirt','0xffffff')
 
 				var render = function () {
 
@@ -167,15 +126,11 @@
 						move_camera_to();
 						rotate_camera_to();
 
-					}
-					else{
+						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
+												
+						rotate_direction();
 
 					}
-
-					
-					UniformBuilder.models['jersey'].rotation.y += UniformBuilder.rotateY;
-					
-
 					
 					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
 
@@ -184,320 +139,18 @@
 
 				};
 
-
 				render();
 
 			}
-
 			console.log(name_of_obj);
+
 
 	    });
 
 	}
 
-
-
 	window.camera_position_to = {};
 	window.camera_rotation_to = {};
-
-
-	function apply_second_layer(name_of_obj, file_name){
-
-		//////////
-
-		var vertShader = document.getElementById('vertex_shh').innerHTML;
-		var fragShader = document.getElementById('fragment_shh').innerHTML;
-
-		var attributes = {}; // custom attributes
-
-		var uniforms = {    // custom uniforms (your textures)
-
-		  tOne: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/materials/test_number.png" ) },
-		  tSec: { type: "t", value: THREE.ImageUtils.loadTexture( "/images/materials/material_4.png" ) }
-
-		};
-
-		var material_shh = new THREE.ShaderMaterial({
-
-		  uniforms: uniforms,
-		  attributes: attributes,
-		  vertexShader: vertShader,
-		  fragmentShader: fragShader
-
-		});
-
-
-		obj = window.UniformBuilder.models[name_of_obj];
-
-		//obj.material.color.setHex('0xead8c7');
-	
-		obj.material = material_shh;
-        obj.material.needsUpdate = true;
-        obj.geometry.computeTangents();
-
-        //move_camera(name_of_obj);
-
-		// //////////
-
-		// var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + file_name + ".png" );
-	
-		// texture.wrapS = THREE.RepeatWrapping;
-		// texture.wrapT = THREE.RepeatWrapping;
-		// texture.repeat.set(1,1);
-
-		// var texture_color = '0x8c2332';
-
-		// if(name_of_obj = 'shirt_textured'){
-
-		// 	color = '0xf4dfcb';
-
-		// }
-
-		// var material = new THREE.MeshPhongMaterial({ 
-		// 	    texture_color: 0x8c2332, 
-		// 	    specular: 0x050505,
-		// 	    shininess: 100,
-		// 	    map: texture,
-		// 	});
-	
-		// obj = window.UniformBuilder.models[name_of_obj];
-
-		// //obj.material.color.setHex('0xead8c7');
-	
-		// obj.material = material;
-  //       obj.material.needsUpdate = true;
-  //       obj.geometry.computeTangents();
-
-  //       //move_camera(name_of_obj);
-
-	}
-
-	function change_material_from_canvas(target){
-
-		// THREE.ImageUtils.crossOrigin = '';
-		var imag = texture_canvas.canvas.toDataURL('image/png');
-		window.texture = THREE.ImageUtils.loadTexture(imag);
-
-		texture = window.texture;
-
-		texture.needsUpdate = true;
-		//bmap.needsUpdate = true;
-
-		reset_camera();
-
-		//	var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
-		//	var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
-
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.wrapS = THREE.ClampToEdgeWrapping;
-		texture.wrapT = THREE.ClampToEdgeWrapping;
-		texture.minFilter = THREE.LinearFilter;
-		texture.maxFilter = THREE.LinearFilter;
-
-		window.texture.repeat.set(1,1);
-
-		// bmap.wrapS = THREE.RepeatWrapping;
-		// bmap.wrapT = THREE.RepeatWrapping;
-		// bmap.wrapS = THREE.ClampToEdgeWrapping;
-		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		//bmap.minFilter = THREE.LinearFilter;
-		// bmap.repeat.set(1,1);
-
-		var texture_color = '0x8c2332';
-
-		window.material = new THREE.MeshPhongMaterial({ 
-			texture_color: 0x8c2332, 
-			specular: 0x050505,
-			shininess: 0,
-			map: texture,
-			bumpMap: texture,
-			bumpScale: 0.010,
-			side: THREE.DoubleSide,
-		});
-
-		obj = window.UniformBuilder.models[target];
-
-		obj.material = window.material;
-        obj.material.needsUpdate = true;
-        obj.geometry.computeTangents();
-
-        // move_camera(target);
-
-		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
-		//var bmap = new THREE.Texture(texture_image);
-
-		
-
-	}
-
-
-	function change_material_from_image(target, dataUrl){
-
-
-		// THREE.ImageUtils.crossOrigin = '';
-		// var texture = THREE.ImageUtils.loadTexture(textureImage);
-		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
-
-		var texture_image = new Image();
-		texture_image.src = dataUrl;
-
-
-		var texture = new THREE.Texture(texture_image);
-		//var bmap = new THREE.Texture(texture_image);
-
-
-		texture.needsUpdate = true;
-		//bmap.needsUpdate = true;
-		//var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
-
-
-
-		reset_camera();
-
-	//	var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
-	//	var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
-
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.wrapS = THREE.ClampToEdgeWrapping;
-		texture.wrapT = THREE.ClampToEdgeWrapping;
-		texture.minFilter = THREE.LinearFilter;
-		texture.repeat.set(1,1);
-
-
-		// bmap.wrapS = THREE.RepeatWrapping;
-		// bmap.wrapT = THREE.RepeatWrapping;
-		// bmap.wrapS = THREE.ClampToEdgeWrapping;
-		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		//bmap.minFilter = THREE.LinearFilter;
-		// bmap.repeat.set(1,1);
-
-
-		var texture_color = '0x8c2332';
-
-		if(target === 'shirt_textured'){
-
-			color = '0xf4dfcb';
-
-		}
-		
-		var material = new THREE.MeshPhongMaterial({ 
-			    texture_color: 0x8c2332, 
-			    specular: 0x050505,
-			    shininess: 0,
-			    map: texture,
-			    bumpMap: texture,
-			    bumpScale: 0.010,
-			    side: THREE.DoubleSide,
-		});
-
-		// var material = new THREE.MeshPhongMaterial({ 
-		// 	    texture_color: 0x8c2332, 
-		// 	    specular: 0x050505,
-		// 	    shininess: 100,
-		// 	    map: texture,
-		// 	    bumpMap: bmap,
-		// 	    bumpScale: 0.020,
-		// 	    side: THREE.DoubleSide,
-		// 	});
-	
-		obj = window.UniformBuilder.models[target];
-
-		//obj.material.color.setHex('0xead8c7');
-	
-		obj.material = material;
-        obj.material.needsUpdate = true;
-        obj.geometry.computeTangents();
-
-        // move_camera(target);
-
-	}
-
-
-	function change_material(target, textureImage, bumpMapImage){
-
-
-		// THREE.ImageUtils.crossOrigin = '';
-		// var texture = THREE.ImageUtils.loadTexture(textureImage);
-		// var bmap =  THREE.ImageUtils.loadTexture(bumpMapImage, {}, function(){});
-
-		reset_camera();
-
-		var texture = THREE.ImageUtils.loadTexture( "/images/materials/" + textureImage + ".jpg" );
-		//var bmap =  THREE.ImageUtils.loadTexture("/images/materials/" + bumpMapImage + "_bump.png", {}, function(){});
-
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.wrapS = THREE.ClampToEdgeWrapping;
-		texture.wrapT = THREE.ClampToEdgeWrapping;
-		texture.minFilter = THREE.LinearFilter;
-		texture.repeat.set(1,1);
-
-
-		// bmap.wrapS = THREE.RepeatWrapping;
-		// bmap.wrapT = THREE.RepeatWrapping;
-		// bmap.wrapS = THREE.ClampToEdgeWrapping;
-		// bmap.wrapT = THREE.ClampToEdgeWrapping;
-		//bmap.minFilter = THREE.LinearFilter;
-		// bmap.repeat.set(1,1);
-
-
-		var texture_color = '0x8c2332';
-
-		if(target === 'shirt_textured'){
-
-			color = '0xf4dfcb';
-
-		}
-
-
-		var material = new THREE.MeshPhongMaterial({ 
-			    texture_color: 0x8c2332, 
-			    specular: 0x050505,
-			    shininess: 0,
-			    map: texture,
-			    bumpMap: texture,
-			    bumpScale: 0.010,
-			    side: THREE.DoubleSide,
-			});
-	
-		obj = window.UniformBuilder.models[target];
-
-		//obj.material.color.setHex('0xead8c7');
-	
-		obj.material = material;
-        obj.material.needsUpdate = true;
-        obj.geometry.computeTangents();
-
-        move_camera(target);
-
-	}
-	
-	function change_color(name_of_obj, color){
-
-		if(name_of_obj === 'shirt'){
-
-			UniformBuilder.models['shirt'].visible = true;
-			UniformBuilder.models['shirt_textured'].visible = false;
-			UniformBuilder.models['shirt_mid_piping'].visible = true;
-
-		}
-
-		//reset_camera();
-
-		// obj = window.UniformBuilder.models[name_of_obj];
-		// obj.material.color.setHex(color);
-
-		if(name_of_obj === "shirt_mid_piping"){
-
-			change_color('buttons',color);
-			
-		}
-
-		//move_camera(name_of_obj);
-
-	}
 
 	function rotate_camera_to(){
 
@@ -602,7 +255,6 @@
 
 	}
 
-
 	function set_active_part(model){
 
 		window.UniformBuilder.active_part = window.UniformBuilder.models[model];
@@ -611,12 +263,13 @@
 
 	function move_camera(model){
 
-		var _model = model;
+		// var _model = model;
 
-		set_active_part(model);
+		// set_active_part(model);
 
-		window.camera_position_to = positions[_model];
-		window.camera_rotation_to = rotations[_model];
+		// window.camera_position_to = positions[_model];
+		// window.camera_rotation_to = rotations[_model];
+		reset_camera();
 
 	}
 
@@ -630,19 +283,21 @@
 
 		window.camera_position_to = {
 
-			x: -0.2884069715599567,
-			y: 2.4678456274583342,
-			z: 2.2391787352108334,
+			x: 0.3278637925403716,
+			y: 0.08435212366005695,
+			z: 4.289716248324682 ,
+
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.19840521524628751,
-			y: 0.0013470901758039742,
-			z: 0.00027083272717196076,
+			x: 0.048319539389081956,
+			y: 0.10349508215725498,
+			z: -0.004995758915489389,
 
 		};
+
 
 	}
 
@@ -662,11 +317,26 @@
 
 	}
 
-
 	function set_positions_and_rotations(){
 
 		window.positions = {};
 		window.rotations = {};
+
+		window.camera_position_to = {
+
+			x: -1.4642782522135471,
+			y: -2.1041140685793325,
+			z: 4.9646831419254545,
+
+		};
+
+		window.camera_rotation_to = {
+
+			x: -0.08385543601649652,
+			y: -0.2756406415063345,
+			z: -0.022872038615562237,
+
+		};
 
 		window.positions.jersey = {
 			x:  -0.4366205684461612,
@@ -784,6 +454,8 @@
 		};
 
 	}
+		
+
 
 
 
