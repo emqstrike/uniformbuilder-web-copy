@@ -21,7 +21,7 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-4">
+<div class="row-fluid col-md-5">
     <table class='table table-bordered'>
     <tr>
         <th colspan='3'>
@@ -35,6 +35,8 @@
             {{ $color->name }}
         </td>
         <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
+            <span class='badge'>{{ $color->color_code }}</span>
+            <a href="editColorForm/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">Edit</a>
         </td>
         <td>
             <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>Disable</a>

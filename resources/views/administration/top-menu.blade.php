@@ -3,56 +3,56 @@
          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<strong class="caret"></strong></a>
         <ul class="dropdown-menu">
             <li>
-                <a href="factories">Factories</a>
+                <a href="/administration/factories">Factories</a>
             </li>
 
             <li class="divider">
 
             <li>
-                <a href="models">Models</a>
+                <a href="/administration/models">Models</a>
             </li>
 
             <li class="divider">
 
             <li>
-                <a href="categories">Uniform Categories</a>
+                <a href="/administration/categories">Uniform Categories</a>
             </li>
 
             <li class="divider">
 
             <li>
-                <a href="colors">Colors</a>
+                <a href="/administration/colors">Colors</a>
             </li>
             <li>
-                <a href="materials">Materials</a>
-            </li>
-
-            <li class="divider">
-
-            <li>
-                <a href="jerseys">Jerseys</a>
-            </li>
-            <li>
-                <a href="necks">Neck Styles</a>
-            </li>
-            <li>
-                <a href="sleeves">Sleeve Styles</a>
-            </li>
-            <li>
-                <a href="pants">Pants</a>
+                <a href="/administration/materials">Materials</a>
             </li>
 
             <li class="divider">
 
             <li>
-                <a href="skus">(SKU) Stockkeeping Unit</a>
+                <a href="/administration/jerseys">Jerseys</a>
+            </li>
+            <li>
+                <a href="/administration/necks">Neck Styles</a>
+            </li>
+            <li>
+                <a href="/administration/sleeves">Sleeve Styles</a>
+            </li>
+            <li>
+                <a href="/administration/pants">Pants</a>
+            </li>
+
+            <li class="divider">
+
+            <li>
+                <a href="/administration/skus">(SKU) Stockkeeping Unit</a>
             </li>
         </ul>
     </li>
     <li class="top-menu">
-        <a href="#">Orders</a>
+        <a href="/administration/orders">Orders</a>
     </li>
     <li class="top-menu">
-        <a href="#">Users</a>
+        <a href="/administration/users">Users</a>
     </li>
 </ul>

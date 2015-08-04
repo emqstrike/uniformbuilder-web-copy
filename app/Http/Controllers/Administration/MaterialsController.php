@@ -53,7 +53,7 @@ class MaterialsController extends Controller
         return view('administration/material-create');
     }
 
-    public function createMaterial(Request $request)
+    public function store(Request $request)
     {
         $factoryCode = $request->input('factory_code');
         $materialName = $request->input('name');
