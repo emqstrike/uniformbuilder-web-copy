@@ -113,7 +113,11 @@
 			canvas = window.texture_canvas.canvas;
 			selectedObject.applyFilters(canvas.renderAll.bind(canvas));
 
-			texture_canvas.refresh_model();
+			setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+			}, 50);
 
 		}
 
@@ -136,16 +140,21 @@
 		canvas.on('object:added', function(options) {
 
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
+			var sleeves_loaded = true // typeof(texture_canvas.objects.sleeves) !== 'undefined';
 			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
 			if(base_loaded && sleeves_loaded && pipings_loaded){
 
 				texture_canvas.objects.base.moveTo('1');
-				texture_canvas.objects.sleeves.moveTo('4');
+				// texture_canvas.objects.sleeves.moveTo('4');
 				texture_canvas.objects.pipings.moveTo('5');
 
-				texture_canvas.refresh_model();
+				setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+				}, 50);
+				
 
 			}
 
