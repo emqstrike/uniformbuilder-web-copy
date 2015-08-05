@@ -146,10 +146,18 @@ class APIClient extends Client
 
     public function createMaterial($data)
     {
-error_log(print_r($data, true));
         $response = $this->post('material', [
             'json' => $data
         ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateMaterial($data)
+    {
+        $response = $this->post('material/' . $data['id'], [
+            'json' => $data
+        ]);
+
         return $this->decoder->decode($response->getBody());
     }
 

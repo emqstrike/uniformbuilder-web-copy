@@ -39,7 +39,8 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials
     Route::get('materials', 'Administration\MaterialsController@index');
-    Route::post('material', 'Administration\MaterialsController@store');
+    Route::post('material/add', 'Administration\MaterialsController@store');
+    Route::post('material/update', 'Administration\MaterialsController@store');
     Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
     Route::get('editMaterialForm/{id}', 'Administration\MaterialsController@editMaterialForm');
 

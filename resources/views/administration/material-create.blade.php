@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/material" enctype="multipart/form-data" id='create-material-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/material/add" enctype="multipart/form-data" id='create-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         @if (Session::has('flash_message'))

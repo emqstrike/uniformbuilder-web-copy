@@ -19,8 +19,9 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/material" enctype="multipart/form-data" id='create-material-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/material/update" enctype="multipart/form-data" id='create-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="material_id" value="{{ $material->id }}">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
@@ -44,6 +45,7 @@
                             <label class="col-md-4 control-label">Base Material File</label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control material-file" name="material_path" accept="image/*">
+                                <img src="{{ $material->material_path }}" width="100px" height="100px">
                             </div>
                         </div>
 
@@ -114,9 +116,9 @@
 $(document).ready(function(){
     $('#create-material-form').submit(function(){
         $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New Material');
+        $('.flash-alert .flash-title').text('Updating Material');
         $('.flash-alert .flash-sub-title').text('Uploading');
-        $('.flash-alert .flash-message').text('Please wait while we are uploading the images...');
+        $('.flash-alert .flash-message').text('Please wait while we are saving your changes...');
         $('.flash-alert').addClass('alert-info');
         $('.flash-alert').show();
         $('.main-content').fadeOut('slow');

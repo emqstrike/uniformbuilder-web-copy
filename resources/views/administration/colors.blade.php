@@ -74,7 +74,8 @@ $(document).ready(function(){
         $.getJSON(url, function(response){
             if (response.success) {
                 var elem = '.color-' + id;
-                alert(response.message);
+                $('.flash-alert .flash-title').text(response.message);
+                $('.flash-alert').addClass('alert-info').fadeIn();
                 $(elem + ' .disable-color').removeAttr('disabled');
                 $(elem + ' .enable-color').attr('disabled', 'disabled');
                 $(elem).removeClass('inactive');
@@ -88,7 +89,8 @@ $(document).ready(function(){
         $.getJSON(url, function(response){
             if (response.success) {
                 var elem = '.color-' + id;
-                alert(response.message);
+                $('.flash-alert .flash-title').text(response.message);
+                $('.flash-alert').addClass('alert-info').fadeIn();
                 $(elem + ' .enable-color').removeAttr('disabled');
                 $(elem + ' .disable-color').attr('disabled', 'disabled');
                 $(elem).addClass('inactive');

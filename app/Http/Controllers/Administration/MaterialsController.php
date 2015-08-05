@@ -68,28 +68,30 @@ class MaterialsController extends Controller
         $factoryCode = $request->input('factory_code');
         $slug = MaterialUploader::makeSlug($materialName);
 
+        $materialId = null;
+        if (!empty($request->input('material_id')))
+        {
+            $materialId = $request->input('material_id');
+        }
+
         // Does the Material Name and Codes Exist?
-        if ($this->client->isMaterialExist($materialName))
+        if ($this->client->isMaterialExist($materialName, $materialId))
         {
             return Redirect::to('administration/materials')
                             ->with('message', 'Material Name already exists');
         }
-        if ($this->client->isMaterialCodeExist($materialCode))
+        if ($this->client->isMaterialCodeExist($materialCode, $materialId))
         {
             return Redirect::to('administration/materials')
                             ->with('message', 'Material Code already exists');
         }
 
         $data = [
+            'id' => $materialId,
             'name' => $materialName,
             'slug' => $slug,
             'code' => $materialCode,
-            'material_path' => null,
-            'bump_map_path' => null,
-            'shadow_path' => null,
-            'highlight_path' => null,
-            'factory_code' => $factoryCode,
-            'thumbnail_path' => null
+            'factory_code' => $factoryCode
         ];
 
         try {
@@ -182,7 +184,16 @@ class MaterialsController extends Controller
             return Redirect::to('administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-        $response = $this->client->createMaterial($data);
+
+        $response = null;
+        if (!empty($materialId))
+        {
+            $response = $this->client->updateMaterial($data);
+        }
+        else
+        {
+            $response = $this->client->createMaterial($data);
+        }
 
         if ($response->success)
         {

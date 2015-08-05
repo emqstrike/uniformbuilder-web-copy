@@ -94,16 +94,16 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-material-image" align='center'>
-                            <img src="" class="material-image">
+                            <img src="" class="material-image" width="300px" height="300px">
                         </div>
                         <div class="tab-pane" id="tab-bump-map-image" align='center'>
-                            <img src="" class="bump-map-image">
+                            <img src="" class="bump-map-image" width="300px" height="300px">
                         </div>
                         <div class="tab-pane" id="tab-shadow-image" align='center'>
-                            <img src="" class="shadow-image">
+                            <img src="" class="shadow-image" width="300px" height="300px">
                         </div>
                         <div class="tab-pane" id="tab-highlight-image" align='center'>
-                            <img src="" class="highlight-image">
+                            <img src="" class="highlight-image" width="300px" height="300px">
                         </div>
                     </div>
                 </div>
