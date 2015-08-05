@@ -4,6 +4,8 @@
 
 		/// Properties and Vars
 
+		window.initialized = false;
+
 		window.texture_canvas = {};
 		window.texture_canvas.texture_style_folder = '/images/materials/baseball_1/';
 		window.texture_canvas['objects'] = {};
@@ -23,18 +25,17 @@
 
 			target = 'jersey';
 			
-			var imag = texture_canvas.canvas.toDataURL('image/png');
-			window.texture = THREE.ImageUtils.loadTexture(imag);
+			window.mat = texture_canvas.canvas.toDataURL('image/png');
+			window.texture = THREE.ImageUtils.loadTexture(window.mat);
 			
-			texture = window.texture;
-			texture.wrapS = THREE.RepeatWrapping;
-			texture.wrapT = THREE.RepeatWrapping;
-			texture.wrapS = THREE.ClampToEdgeWrapping;
-			texture.wrapT = THREE.ClampToEdgeWrapping;
-			texture.minFilter = THREE.LinearFilter;
-			texture.maxFilter = THREE.LinearFilter;
-			texture.repeat.set(1,1);
-			texture.needsUpdate = true;
+			window.texture.wrapS = THREE.RepeatWrapping;
+			window.texture.wrapT = THREE.RepeatWrapping;
+			window.texture.wrapS = THREE.ClampToEdgeWrapping;
+			window.texture.wrapT = THREE.ClampToEdgeWrapping;
+			window.texture.minFilter = THREE.LinearFilter;
+			window.texture.maxFilter = THREE.LinearFilter;
+			window.texture.repeat.set(1,1);
+			window.texture.needsUpdate = true;
 
 			reset_camera();
 
@@ -46,23 +47,36 @@
 			// bmap.wrapT = THREE.ClampToEdgeWrapping;
 			// bmap.minFilter = THREE.LinearFilter;
 			// bmap.repeat.set(1,1);
-			//bmap.needsUpdate = true;
+			// bmap.needsUpdate = true;
 
 			window.material = new THREE.MeshPhongMaterial({ 
+
 				texture_color: 0x8c2332, 
 				specular: 0x050505,
 				shininess: 0,
 				map: texture,
-				bumpMap: texture,
+				bumpMap: window.texture,
 				bumpScale: 0.010,
 				side: THREE.DoubleSide,
+
 			});
 
-			obj = window.UniformBuilder.models[target];
+			window.obj = window.UniformBuilder.models[target];
 
-			obj.material = window.material;
-	        obj.material.needsUpdate = true;
-	        obj.geometry.computeTangents();
+			if(!window.initialized)
+			{
+				
+				load_model('jersey', 'jersey', window.material, true);
+				window.initialized = true;
+				
+			}
+			else{
+
+				window.obj.material = window.material;
+		        window.obj.material.needsUpdate = true;
+		        window.obj.geometry.computeTangents();
+
+	   		}
 
 	        // move_camera(target);
 				
@@ -84,12 +98,6 @@
 				window.texture_canvas.objects[object_name] = oImg;
 	  			texture_canvas.canvas.add(oImg);
 
-	  			setTimeout(function() {
-
-					texture_canvas.refresh_model();
-
-	  			}, 50);
-
 			});
 
 		}
@@ -105,12 +113,12 @@
 			canvas = window.texture_canvas.canvas;
 			selectedObject.applyFilters(canvas.renderAll.bind(canvas));
 
-			setTimeout(function() {
+			setTimeout(function(){
 
-				texture_canvas.refresh_model();
+					texture_canvas.refresh_model();
 
-			}, 100);
-			
+			}, 50);
+
 		}
 
 		/// End Methods
@@ -132,14 +140,21 @@
 		canvas.on('object:added', function(options) {
 
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
+			var sleeves_loaded = true // typeof(texture_canvas.objects.sleeves) !== 'undefined';
 			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
 			if(base_loaded && sleeves_loaded && pipings_loaded){
 
 				texture_canvas.objects.base.moveTo('1');
-				texture_canvas.objects.sleeves.moveTo('4');
+				// texture_canvas.objects.sleeves.moveTo('4');
 				texture_canvas.objects.pipings.moveTo('5');
+
+				setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+				}, 50);
+				
 
 			}
 
