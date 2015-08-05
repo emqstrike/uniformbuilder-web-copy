@@ -40,7 +40,7 @@
             <div class="content">
                 <div class="title">Image Uploader</div>
                 <div>
-                    <form method="POST" action="uploadImage" enctype="multipart/form-data">
+                    <form method="POST" action="{{ $api_upload_image_endpoint }}" enctype="multipart/form-data">
                         Image:
                         <input type="file" name="image">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -48,6 +48,14 @@ class MaterialsController extends Controller
         return $this->client->deleteMaterial($id);
     }
 
+    public function editMaterialForm($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration/material-edit', [
+            'material' => $material
+        ]);
+    }
+
     public function addMaterialForm()
     {
         return view('administration/material-create');
@@ -55,52 +63,66 @@ class MaterialsController extends Controller
 
     public function store(Request $request)
     {
-        $factoryCode = $request->input('factory_code');
         $materialName = $request->input('name');
+        $materialCode = $request->input('code');
+        $factoryCode = $request->input('factory_code');
         $slug = MaterialUploader::makeSlug($materialName);
 
-        // Does this Material Exist
-        $isMaterialExist = $this->client->isMaterialExist($slug);
-
-        if (!$isMaterialExist)
+        $materialId = null;
+        if (!empty($request->input('material_id')))
         {
-            $data = [
-                'name' => $materialName,
-                'material_path' => null,
-                'bump_map_path' => null,
-                'shadow_path' => null,
-                'highlight_path' => null,
-                'factory_code' => $factoryCode,
-                'thumbnail_path' => null
-            ];
+            $materialId = $request->input('material_id');
+        }
 
+        // Does the Material Name and Codes Exist?
+        if ($this->client->isMaterialExist($materialName, $materialId))
+        {
+            return Redirect::to('administration/materials')
+                            ->with('message', 'Material Name already exists');
+        }
+        if ($this->client->isMaterialCodeExist($materialCode, $materialId))
+        {
+            return Redirect::to('administration/materials')
+                            ->with('message', 'Material Code already exists');
+        }
 
-            try {
-                // Bump Map File
-                $bumpMapFile = $request->file('bump_map_path');
-                if (is_object($bumpMapFile))
+        $data = [
+            'id' => $materialId,
+            'name' => $materialName,
+            'slug' => $slug,
+            'code' => $materialCode,
+            'factory_code' => $factoryCode
+        ];
+
+        try {
+            // Bump Map File
+            $bumpMapFile = $request->file('bump_map_path');
+            if (isset($bumpMapFile))
+            {
+                if ($bumpMapFile->isValid())
                 {
-                    if ($bumpMapFile->isValid())
-                    {
-                        $data['bump_map_path'] = MaterialUploader::upload(
-                                                        $bumpMapFile,
-                                                        $materialName,
-                                                        'bump'
-                                                    );
-                    }
+                    $data['bump_map_path'] = MaterialUploader::upload(
+                                                    $bumpMapFile,
+                                                    $materialName,
+                                                    'bump'
+                                                );
                 }
+            }
 
-                // Material File
-                $materialFile = $request->file('material_path');
-                if (is_object($materialFile))
+            // Material File
+            $materialFile = $request->file('material_path');
+            if (isset($materialFile))
+            {
+                if ($materialFile->isValid())
                 {
-                    if ($materialFile->isValid())
+                    // Material
+                    $data['material_path'] = MaterialUploader::upload(
+                                                    $materialFile,
+                                                    $materialName
+                                                );
+                    // Generate a Thumbnail from the Base Material ONLY IF no thumbnail will be uploaded
+                    if (is_null($request->file('thumbnail_path')))
                     {
-                        // Material
-                        $data['material_path'] = MaterialUploader::upload(
-                                                        $materialFile,
-                                                        $materialName
-                                                    );
                         // Thumbnail
                         $data['thumbnail_path'] = MaterialUploader::upload(
                                                         $materialFile,
@@ -109,59 +131,80 @@ class MaterialsController extends Controller
                                                     );
                     }
                 }
+            }
 
-                // Shadow File
-                $shadowFile = $request->file('shadow_path');
-                if (is_object($shadowFile))
+            // Shadow File
+            $shadowFile = $request->file('shadow_path');
+            if (isset($shadowFile))
+            {
+                if ($shadowFile->isValid())
                 {
-                    if ($shadowFile->isValid())
-                    {
-                        // Shadow
-                        $data['shadow_path'] = MaterialUploader::upload(
-                                                    $shadowFile,
+                    // Shadow
+                    $data['shadow_path'] = MaterialUploader::upload(
+                                                $shadowFile,
+                                                $materialName,
+                                                'shadow'
+                                            );
+                }
+            }
+
+            // Highlight File
+            $highlightFile = $request->file('highlight_path');
+            if (isset($highlightFile))
+            {
+                if ($highlightFile->isValid())
+                {
+                    // Highlight
+                    $data['highlight_path'] = MaterialUploader::upload(
+                                                    $highlightFile,
                                                     $materialName,
-                                                    'shadow'
+                                                    'highlight'
                                                 );
-                    }
                 }
+            }
 
-                // Highlight File
-                $highlightFile = $request->file('highlight_path');
-                if (is_object($highlightFile))
+            // Thumbnail File
+            $thumbnailFile = $request->file('thumbnail_path');
+            if (isset($thumbnailFile))
+            {
+                if ($thumbnailFile->isValid())
                 {
-                    if ($highlightFile->isValid())
-                    {
-                        // Highlight
-                        $data['highlight_path'] = MaterialUploader::upload(
-                                                        $highlightFile,
-                                                        $materialName,
-                                                        'highlight'
-                                                    );
-                    }
+                    // Highlight
+                    $data['thumbnail_path'] = MaterialUploader::upload(
+                                                    $thumbnailFile,
+                                                    $materialName,
+                                                    'thumbnail'
+                                                );
                 }
-            }
-            catch (S3Exception $e)
-            {
-                $message = $e->getMessage();
-                return Redirect::to('administration/materials')
-                                ->with('message', 'There was a problem uploading your files');
-            }
-            $response = $this->client->createMaterial($data);
-
-            if ($response->success)
-            {
-                return Redirect::to('administration/materials')
-                                ->with('message', $response->message);
-            }
-            else
-            {
-                return Redirect::to('administration/materials')
-                                ->with('message', 'There was a problem saving your material');
             }
         }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
 
-        return Redirect::to('administration/materials')
-                        ->with('message', 'Material Name already exists');
+        $response = null;
+        if (!empty($materialId))
+        {
+            $response = $this->client->updateMaterial($data);
+        }
+        else
+        {
+            $response = $this->client->createMaterial($data);
+        }
+
+        if ($response->success)
+        {
+            return Redirect::to('administration/materials')
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            return Redirect::to('administration/materials')
+                            ->with('message', 'There was a problem saving your material');
+        }
 
     }
 }

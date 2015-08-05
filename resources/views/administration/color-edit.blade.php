@@ -10,9 +10,6 @@
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div align='center'>
-            <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/Qx.png" style='height: 10vh'>
-        </div>
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">Modify Color</div>
