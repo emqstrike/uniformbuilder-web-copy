@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New Material</div>
+                <div class="panel-heading">Mofidy Material</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -29,14 +29,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control material-name" name="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control material-name" name="name" value="{{ $material->name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Code</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control material-code" name="code" value="{{ old('code') }}">
+                                <input type="text" class="form-control material-code" name="code" value="{{ $material->code }}">
                             </div>
                         </div>
 
@@ -51,6 +51,7 @@
                             <label class="col-md-4 control-label">Bump Map File</label>
                             <div class="col-md-6 bump">
                                 <input type="file" class="form-control bump-map-file" name="bump_map_path" accept="image/*">
+                                <img src="{{ $material->bump_map_path }}" width="100px" height="100px">
                             </div>
                         </div>
 
@@ -58,6 +59,7 @@
                             <label class="col-md-4 control-label">Shadow File</label>
                             <div class="col-md-6 shadow">
                                 <input type="file" class="form-control shadow-file" name="shadow_path" accept="image/*">
+                                <img src="{{ $material->shadow_path }}" width="100px" height="100px">
                             </div>
                         </div>
 
@@ -65,6 +67,7 @@
                             <label class="col-md-4 control-label">Highlight File</label>
                             <div class="col-md-6 highlight">
                                 <input type="file" class="form-control highlight-file" name="highlight_path" accept="image/*">
+                                <img src="{{ $material->highlight_path }}" width="100px" height="100px">
                             </div>
                         </div>
 
@@ -72,6 +75,7 @@
                             <label class="col-md-4 control-label">Thumbnail File</label>
                             <div class="col-md-6">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                <img src="{{ $material->thumbnail_path }}" width="100px" height="100px">
                             </div>
                         </div>
 
@@ -89,7 +93,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-material" style="margin-right: 15px;">
-                                    Add New Material
+                                    Update Material
                                 </button>
                                 <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
                                     Cancel

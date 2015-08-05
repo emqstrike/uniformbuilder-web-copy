@@ -21,7 +21,7 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-5">
+<div class="row-fluid col-md-9">
     <table class='table table-bordered'>
     <tr>
         <th colspan='3'>
@@ -41,14 +41,14 @@
         <td>
             <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>Disable</a>
             <a href="#" class="btn btn-info btn-xs enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>Enable</a>
-            <a href="#" class="btn btn-danger btn-xs delete-color" data-color-id="{{ $color->id }}" role="button">Remove</a>
+            <a href="#" class="btn btn-danger pull-right btn-xs delete-color" data-color-id="{{ $color->id }}" role="button">Remove</a>
         </td>
     </tr>
 
 @empty
 
     <tr>
-        <td>
+        <td colspan='3'>
             No Colors
         </td>
     </tr>

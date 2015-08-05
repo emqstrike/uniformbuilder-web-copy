@@ -28,6 +28,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
+    Route::get('addCategoryForm', function(){ return view('administration.oops'); });
 
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');
@@ -40,6 +41,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('materials', 'Administration\MaterialsController@index');
     Route::post('material', 'Administration\MaterialsController@store');
     Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
+    Route::get('editMaterialForm/{id}', 'Administration\MaterialsController@editMaterialForm');
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
