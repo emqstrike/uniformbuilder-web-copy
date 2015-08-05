@@ -9,16 +9,18 @@
 			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
 			</button>	
 
+			<button class="btn btn-default btn-sm" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
+			<button class="btn btn-default btn-sm" id="rotate_right"><i class="fa fa-chevron-right"></i></button> 
+			<button class="btn btn-default btn-sm" id="play"><i class="fa fa-play"></i></button>
+			&nbsp; &nbsp; <input type="radio" name="direction" value="left" id="rb_left"> Left
+			<input type="radio" name="direction" value="right" id="rb_right"> Right
+
 		</div>
 
 		<div id="model_view" style="position: absolute; top: 25px; left: 25px;">
 			
 			</br ></br >
-			<button class="btn btn-default" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
-			<button class="btn btn-default" id="rotate_right"><i class="fa fa-chevron-right"></i></button></br ></br >
-			<button class="btn btn-default" id="play"><i class="fa fa-play"></i></button>
-			<input type="radio" name="direction" value="left" id="rb_left">Left
-			<input type="radio" name="direction" value="right" id="rb_right">Right
+	
 
 		</div>
 
