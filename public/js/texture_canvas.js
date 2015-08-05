@@ -82,6 +82,25 @@
 				
 		}
 
+		texture_canvas.change_texture_svg = function (object_name, base_image)	{
+
+			fabric.Image.fromURL(window.texture_canvas.texture_style_folder + base_image, function(oImg)  {
+
+		        oImg.left = 0;
+				oImg.top = 0;
+				oImg.lockMovementX = true;
+				oImg.lockMovementY = true;
+
+				if(typeof(texture_canvas.objects[object_name]) !== 'undefined'){
+				 	texture_canvas.canvas.remove(texture_canvas.objects[object_name]);
+				}
+
+				window.texture_canvas.objects[object_name] = oImg;
+	  			texture_canvas.canvas.add(oImg);
+	        });
+
+		}
+
 		texture_canvas.change_texture = function (object_name, base_image)	{
 
 			fabric.Image.fromURL(window.texture_canvas.texture_style_folder + base_image, function(oImg) {
@@ -127,9 +146,17 @@
 
 		/// Initial Textures
 		
-		texture_canvas.change_texture('base', 'base.jpg');
-		texture_canvas.change_texture('sleeves', 'sleeves.png');
-		texture_canvas.change_texture('pipings', 'pipings.png');
+		// 1
+		// texture_canvas.change_texture('base', 'base.jpg');
+		// texture_canvas.change_texture('sleeves', 'sleeves.png');
+		// texture_canvas.change_texture('pipings', 'pipings.png');
+
+		// 2
+		texture_canvas.change_texture_svg('base_svg', 'camouflage.svg');
+
+
+
+
 
 		/// End Initial Textures
 
@@ -139,23 +166,42 @@
 
 		canvas.on('object:added', function(options) {
 
-			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
-			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
+			// 1
+			// var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
+			// var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
+			// var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
-			if(base_loaded && sleeves_loaded && pipings_loaded){
+			// if(base_loaded && sleeves_loaded && pipings_loaded){
+
+			// 	texture_canvas.objects.base.moveTo('1');
+			// 	texture_canvas.objects.sleeves.moveTo('4');
+			// 	texture_canvas.objects.pipings.moveTo('5');
+
+			// 	setTimeout(function(){
+
+			// 		texture_canvas.refresh_model();
+
+			// 	}, 50);
+				
+
+			// }
+
+			// 2
+			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
+		
+			if(base_loaded){
 
 				texture_canvas.objects.base.moveTo('1');
-				texture_canvas.objects.sleeves.moveTo('4');
-				texture_canvas.objects.pipings.moveTo('5');
-
+				
 				setTimeout(function(){
 
 					texture_canvas.refresh_model();
 
 				}, 50);
+				
 
 			}
+
 
 		});
 
