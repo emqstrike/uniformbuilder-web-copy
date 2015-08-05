@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Material File</label>
+                            <label class="col-md-4 control-label">Base Material File</label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control material-file" name="material_path" accept="image/*">
                             </div>
@@ -65,6 +65,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_code' class="form-control factory-code">
@@ -80,6 +87,9 @@
                                 <button type="submit" class="btn btn-primary create-material" style="margin-right: 15px;">
                                     Add New Material
                                 </button>
+                                <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
+                                    Cancel
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -74,11 +74,10 @@ class MaterialsController extends Controller
                 'thumbnail_path' => null
             ];
 
-
             try {
                 // Bump Map File
                 $bumpMapFile = $request->file('bump_map_path');
-                if (is_object($bumpMapFile))
+                if (isset($bumpMapFile))
                 {
                     if ($bumpMapFile->isValid())
                     {
@@ -92,7 +91,7 @@ class MaterialsController extends Controller
 
                 // Material File
                 $materialFile = $request->file('material_path');
-                if (is_object($materialFile))
+                if (isset($materialFile))
                 {
                     if ($materialFile->isValid())
                     {
@@ -101,18 +100,22 @@ class MaterialsController extends Controller
                                                         $materialFile,
                                                         $materialName
                                                     );
-                        // Thumbnail
-                        $data['thumbnail_path'] = MaterialUploader::upload(
-                                                        $materialFile,
-                                                        $materialName,
-                                                        'thumbnail'
-                                                    );
+                        // Generate a Thumbnail from the Base Material ONLY IF no thumbnail will be uploaded
+                        if (is_null($request->file('thumbnail_path')))
+                        {
+                            // Thumbnail
+                            $data['thumbnail_path'] = MaterialUploader::upload(
+                                                            $materialFile,
+                                                            $materialName,
+                                                            'thumbnail'
+                                                        );
+                        }
                     }
                 }
 
                 // Shadow File
                 $shadowFile = $request->file('shadow_path');
-                if (is_object($shadowFile))
+                if (isset($shadowFile))
                 {
                     if ($shadowFile->isValid())
                     {
@@ -127,7 +130,7 @@ class MaterialsController extends Controller
 
                 // Highlight File
                 $highlightFile = $request->file('highlight_path');
-                if (is_object($highlightFile))
+                if (isset($highlightFile))
                 {
                     if ($highlightFile->isValid())
                     {
@@ -136,6 +139,21 @@ class MaterialsController extends Controller
                                                         $highlightFile,
                                                         $materialName,
                                                         'highlight'
+                                                    );
+                    }
+                }
+
+                // Thumbnail File
+                $thumbnailFile = $request->file('thumbnail_path');
+                if (isset($thumbnailFile))
+                {
+                    if ($thumbnailFile->isValid())
+                    {
+                        // Highlight
+                        $data['thumbnail_path'] = MaterialUploader::upload(
+                                                        $thumbnailFile,
+                                                        $materialName,
+                                                        'thumbnail'
                                                     );
                     }
                 }

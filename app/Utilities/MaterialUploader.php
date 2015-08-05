@@ -88,6 +88,10 @@ class MaterialUploader
         {
             $filename = 'highlight.png';
         }
+        elseif ($type == 'thumbnail')
+        {
+            $filename = 'thumbnail.png';
+        }
 
         // Prepare PATH
         $materialFolder = 'materials/' . env('APP_ENV') . '/';
