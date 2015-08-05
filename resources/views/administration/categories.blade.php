@@ -1,17 +1,17 @@
 @extends('administration.main')
- 
+
 @section('content')
 
 <div class="col-md-12">
     <h1>
         Uniform Categories
         <small>
-            <a href="addColorForm" class='btn btn-xs btn-success'>Add New Uniform Category</a>
+            <a href="/administration/addCategoryForm" class='btn btn-xs btn-success'>Add New Uniform Category</a>
         </small>
     </h1>
 </div>
 
-<div class="row col-md-2">
+<div class="row col-md-5">
     <table class='table table-bordered'>
     <tr>
         <th colspan='2'>
@@ -24,17 +24,17 @@
         <td>
             {{ $category->name }}
         </td>
-        <td style='text-align: right'>
+        <td>
             <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>Disable</a>
             <a href="#" class="btn btn-info btn-xs enable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? 'disabled="disabled"' : '' }}>Enable</a>
-            <a href="#" class="btn btn-danger btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">Remove</a>
+            <a href="#" class="btn btn-danger pull-right btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">Remove</a>
         </td>
     </tr>
 
 @empty
 
     <tr>
-        <td>
+        <td colspan='2'>
             No Uniform Categories
         </td>
     </tr>

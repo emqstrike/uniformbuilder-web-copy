@@ -88,6 +88,10 @@ class MaterialUploader
         {
             $filename = 'highlight.png';
         }
+        elseif ($type == 'thumbnail')
+        {
+            $filename = 'thumbnail.png';
+        }
 
         // Prepare PATH
         $materialFolder = 'materials/' . env('APP_ENV') . '/';
@@ -102,6 +106,7 @@ class MaterialUploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
+
             return "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}";
         }
         return null;

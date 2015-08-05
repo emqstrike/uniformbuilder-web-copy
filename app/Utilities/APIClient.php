@@ -152,9 +152,18 @@ class APIClient extends Client
         return $this->decoder->decode($response->getBody());
     }
 
-    public function getMaterial($name)
+    public function updateMaterial($data)
     {
-        $response = $this->get('material/' . $name);
+        $response = $this->post('material/' . $data['id'], [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function getMaterial($id)
+    {
+        $response = $this->get('material/' . $id);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
@@ -163,9 +172,54 @@ class APIClient extends Client
         return null;
     }
 
-    public function isMaterialExist($name)
+    public function getMaterialByName($name)
     {
-        return !is_null($this->getMaterial($name));
+        $response = $this->get('material/name/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function getMaterialByCode($code)
+    {
+        $response = $this->get('material/code/' . $code);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function isMaterialExist($name, $id = null)
+    {
+        $material = $this->getMaterialByName($name);
+        if (!is_null($material) && !is_null($id))
+        {
+            $compare = $this->getMaterial($id);
+            if ($material->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($material);
+    }
+
+    public function isMaterialCodeExist($code, $id = null)
+    {
+        $material = $this->getMaterialByCode($code);
+        if (!is_null($material) && !is_null($id))
+        {
+            $compare = $this->getMaterial($id);
+            if ($material->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($material);
     }
 
     public function deleteMaterial($id)
