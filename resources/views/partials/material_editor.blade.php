@@ -24,7 +24,7 @@
 							</strong>
 
 
-							<canvas id="texture_canvas" width="2700" height="2696">
+							<canvas id="texture_canvas" width="1600" height="1598">
 
 							</canvas>
 

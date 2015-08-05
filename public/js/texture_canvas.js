@@ -7,7 +7,7 @@
 		window.initialized = false;
 
 		window.texture_canvas = {};
-		window.texture_canvas.texture_style_folder = '/images/materials/baseball_1/';
+		window.texture_canvas.texture_style_folder = '/images/materials/baseball_2/';
 		window.texture_canvas['objects'] = {};
 		window.texture_canvas['canvas'] = new fabric.Canvas('texture_canvas');
 		
@@ -140,13 +140,13 @@
 		canvas.on('object:added', function(options) {
 
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			var sleeves_loaded = true // typeof(texture_canvas.objects.sleeves) !== 'undefined';
+			var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
 			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
 			if(base_loaded && sleeves_loaded && pipings_loaded){
 
 				texture_canvas.objects.base.moveTo('1');
-				// texture_canvas.objects.sleeves.moveTo('4');
+				texture_canvas.objects.sleeves.moveTo('4');
 				texture_canvas.objects.pipings.moveTo('5');
 
 				setTimeout(function(){
@@ -154,7 +154,6 @@
 					texture_canvas.refresh_model();
 
 				}, 50);
-				
 
 			}
 
