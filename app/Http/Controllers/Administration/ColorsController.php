@@ -37,7 +37,7 @@ class ColorsController extends Controller
     {
         $colors = $this->client->getColors();
 
-        return view('administration/colors', [
+        return view('administration.colors.colors', [
             'colors' => $colors,
             'api_host' => env('API_HOST')
         ]);
@@ -45,13 +45,13 @@ class ColorsController extends Controller
 
     public function addColorForm()
     {
-        return view('administration/color-create');
+        return view('administration.colors.color-create');
     }
 
     public function editColorForm($id)
     {
         $color = $this->client->getColor($id);
-        return view('administration/color-edit', [
+        return view('administration.colors.color-edit', [
             'color' => $color
         ]);
     }
@@ -76,14 +76,14 @@ class ColorsController extends Controller
         // Color Name should be Unique
         if ($this->client->isColorExist($colorName, $colorId))
         {
-            return Redirect::to('administration/colors')
+            return Redirect::to('administration.colors.colors')
                         ->with('message', 'Color name already exists');
         }
 
         // Color Code should be Unique
         if ($this->client->isColorCodeExist($colorCode, $colorId))
         {
-            return Redirect::to('administration/colors')
+            return Redirect::to('administration.colors.colors')
                         ->with('message', 'Color Code already exists');
         }
 
@@ -107,12 +107,12 @@ class ColorsController extends Controller
 
         if ($response->success)
         {
-            return Redirect::to('administration/colors')
+            return Redirect::to('administration.colors.colors')
                             ->with('message', $response->message);
         }
         else
         {
-            return Redirect::to('administration/colors')
+            return Redirect::to('administration.colors.colors')
                             ->with('message', 'There was a problem saving your color');
         }
     }
