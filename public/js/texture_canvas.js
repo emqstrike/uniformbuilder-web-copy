@@ -9,7 +9,7 @@
 		window.path_groups = {};
 
 		window.texture_canvas = {};
-		window.texture_canvas.texture_style_folder = '/images/materials/baseball_2/';
+		window.texture_canvas.texture_style_folder = '/images/materials/style_1/';
 		window.texture_canvas['objects'] = {};
 		window.texture_canvas['canvas'] = new fabric.Canvas('texture_canvas');
 		
@@ -224,9 +224,14 @@
 
 		// 2
 		//texture_canvas.change_texture_svg('base_svg', 'base.svg');
-		
+		// texture_canvas.change_texture_svg('c_1', 'camouflage.svg');
 
-		texture_canvas.change_texture_svg('c_1', 'camo_1.svg');
+
+		texture_canvas.change_texture_svg('c_1', 'c_1.svg');
+		texture_canvas.change_texture_svg('c_2', 'c_2.svg');
+		texture_canvas.change_texture_svg('c_3', 'c_3.svg');
+		texture_canvas.change_texture_svg('c_4', 'c_4.svg');
+
 		//texture_canvas.change_texture_svg('c_2', 'c_2.svg');
 		//texture_canvas.change_texture_svg('c_3', 'c_3.svg');
 		//texture_canvas.change_texture_svg('c_4', 'c_4.svg');
