@@ -1,37 +1,24 @@
 @extends('main-container')
 		
-
-		<?php include('common/navbar.php'); ?>
-
-		<div class="row"></div>
-
-		<!-- <div class="row" style="border: 1px solid black"> -->
-		<?php include('common/settings_sidepanel.php'); ?>
+@include('partials.layout.navbar')
+		<hr>
+<div class="row"><!-- start table -->
 		
+		<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
+			<div class="row"><!-- right panel table -->
+				<div class="col-md-1">1</div>
+				<div class="col-md-11">10</div>
+				<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
+				<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
+				<div class="col-md-12">12</div>		
+		</div><!-- right panel body -->
 		
-		<div class="row" style="height: 600px;">
+		<div class="col-md-5">left panel body
 
-			<?php include('common/uniformbuilder.php'); ?>			
+		</div><!-- left panel body -->
+	</div>
+</div>
 
-			<div class="panel panel-default col-md-5 col-md-offset-1">
-			<?php include('common/tab_rightpanel.php'); ?>	
-			</div>
-
-
-		</div>
-
-		<div class="row">
-
-			<div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-			<div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-
-		</div>
-
-		<div class="row">
-
-		  	<div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
-
-		</div>
 
 @section('contentarea')
 
@@ -55,25 +42,6 @@
 		font-family: raleway;
 
 	}
-
-
-
-	.navbar img {
-
-		width: 90px;
-		height: 50px;
-		margin-top: -70px;
-
-	}
-
-
-
-	.navbar {
-
-		height: 90px;
-
-	}
-
 
 
 	a {
