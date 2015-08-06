@@ -14,6 +14,7 @@
 
 <div class="col-md-12">
     <h1>
+        <span class="glyphicon glyphicon-th-list"></span>
         Colors
         <small>
             <a href="addColorForm" class='btn btn-xs btn-success'>

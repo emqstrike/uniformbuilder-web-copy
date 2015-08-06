@@ -20,6 +20,7 @@
 
 <div class="col-md-12">
     <h1>
+        <span class="glyphicon glyphicon-th-list"></span>
         Materials
         <small>
             <a href="addMaterialForm" class='btn btn-xs btn-success'>
