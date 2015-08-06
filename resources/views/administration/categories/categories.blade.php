@@ -46,10 +46,6 @@
 
 @endsection
 
-@section('custom-styles')
-.inactive {background-color: #ccc;}
-@endsection
-
 @section('custom-scripts')
 
 $(document).ready(function(){

@@ -22,7 +22,10 @@
     <h1>
         Materials
         <small>
-            <a href="addMaterialForm" class='btn btn-xs btn-success'>Add New Material</a>
+            <a href="addMaterialForm" class='btn btn-xs btn-success'>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                Add New Material
+            </a>
         </small>
     </h1>
 </div>
@@ -48,8 +51,14 @@
                     <span class="badge">{{ $material->code }}</span>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? : 'disabled="disabled"' }}>Disable</a>
-                    <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>Enable</a>
+                    <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? : 'disabled="disabled"' }}>
+                <i class="glyphicon glyphicon-eye-close"></i>
+                Disable
+            </a>
+                    <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
+                <i class="glyphicon glyphicon-eye-open"></i>
+                Enable
+            </a>
                 </td>
                 <td>
                     <a href="#" class="btn btn-default btn-xs show-material" role="button"
@@ -59,9 +68,18 @@
                         data-bump-map-path="{{ $material->bump_map_path }}"
                         data-shadow-path="{{ $material->shadow_path }}"
                         data-highlight-path="{{ $material->highlight_path }}"
-                        data-material-id="{{ $material->id }}">View</a>
-                    <a href="/administration/editMaterialForm/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">Edit</a>
-                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">Remove</a>
+                        data-material-id="{{ $material->id }}">
+                        <li class="glyphicon glyphicon-info-sign"></li>
+                        View
+                    </a>
+                    <a href="/administration/editMaterialForm/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        Edit
+                    </a>
+                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        Remove
+                    </a>
                 </td>
             </tr>
         @empty
@@ -117,10 +135,6 @@
 
 @include('partials.confirmation-modal')
 
-@endsection
-
-@section('custom-styles')
-.inactive {background-color: #ccc;}
 @endsection
 
 @section('scripts')

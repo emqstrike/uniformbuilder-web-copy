@@ -7,6 +7,10 @@
     <title>QuickStrike Uniform Builder Administration</title>
 
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/datatables/media/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/datatables/media/css/dataTables.bootstrap.css">
 
     <!-- Fonts -->
     <!-- <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> -->
@@ -44,16 +48,17 @@
                             </button>
                         </form>
                         <ul class="nav navbar-nav navbar-right">
+                            <li class="divider-vertical"></li>
                             <li class="dropdown">
-                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome [User name]<strong class="caret"></strong></a>
+                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome <span class="glyphicon glyphicon-user"></span> [User name]<strong class="caret"></strong></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="accountSettings">Account Settings</a>
+                                        <a href="accountSettings"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="logout">Sign out</a>
+                                        <a href="logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
                                     </li>
                                 </ul>
                             </li>
@@ -89,8 +94,10 @@
     </style>
 
     <!-- Scripts -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/jquery/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
     @yield('scripts')
 
     <script type="text/javascript">

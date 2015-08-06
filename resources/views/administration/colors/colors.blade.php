@@ -16,7 +16,10 @@
     <h1>
         Colors
         <small>
-            <a href="addColorForm" class='btn btn-xs btn-success'>Add New Color</a>
+            <a href="addColorForm" class='btn btn-xs btn-success'>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                Add New Color
+            </a>
         </small>
     </h1>
 </div>
@@ -36,12 +39,24 @@
         </td>
         <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
             <span class='badge'>{{ $color->color_code }}</span>
-            <a href="editColorForm/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">Edit</a>
+            <a href="editColorForm/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">
+                <i class="glyphicon glyphicon-edit"></i>
+                Edit
+            </a>
         </td>
         <td>
-            <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>Disable</a>
-            <a href="#" class="btn btn-info btn-xs enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>Enable</a>
-            <a href="#" class="btn btn-danger pull-right btn-xs delete-color" data-color-id="{{ $color->id }}" role="button">Remove</a>
+            <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
+                <i class="glyphicon glyphicon-eye-close"></i>
+                Disable
+            </a>
+            <a href="#" class="btn btn-info btn-xs enable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? 'disabled="disabled"' : '' }}>
+                <i class="glyphicon glyphicon-eye-open"></i>
+                Enable
+            </a>
+            <a href="#" class="btn btn-danger pull-right btn-xs delete-color" data-color-id="{{ $color->id }}" role="button">
+                <i class="glyphicon glyphicon-trash"></i>
+                Remove
+            </a>
         </td>
     </tr>
 
@@ -59,10 +74,6 @@
 
 @include('partials.confirmation-modal')
 
-@endsection
-
-@section('custom-styles')
-.inactive {background-color: #ccc;}
 @endsection
 
 @section('custom-scripts')
