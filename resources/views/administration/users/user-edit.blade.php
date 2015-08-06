@@ -1,12 +1,18 @@
 @extends('administration.main')
- 
+
+@section('styles')
+
+<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
+
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New User</div>
+                <div class="panel-heading">Modify User</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -19,8 +25,9 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/user/add" id='create-user-form'>
+                    <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
@@ -29,21 +36,21 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">First Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control user-first-name" name="first_name" value="{{ old('first_name') }}">
+                                <input type="text" class="form-control user-first-name" name="first_name" value="{{ $user->first_name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Last Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control user-last-name" name="last_name" value="{{ old('last_name') }}">
+                                <input type="text" class="form-control user-last-name" name="last_name" value="{{ $user->last_name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Address</label>
                             <div class="col-md-6 user">
-                                <input type="text" class="form-control user-email" name="email">
+                                <input type="text" class="form-control user-email" disabled="disabled" value="{{ $user->email }}">
                             </div>
                         </div>
 
@@ -65,17 +72,17 @@
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control user-type">
-                                    <option value='normal'>Normal</option>
-                                    <option value='dealer'>Dealer</option>
-                                    <option value='administrator'>Administrator</option>
+                                    <option value='normal' {{ ($user->type == 'normal') ? 'selected':'' }}>Normal</option>
+                                    <option value='dealer' {{ ($user->type == 'dealer') ? 'selected':'' }}>Dealer</option>
+                                    <option value='administrator' {{ ($user->type == 'administrator') ? 'selected':'' }}>Administrator</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-user" style="margin-right: 15px; display: none">
-                                    Add New User
+                                <button type="submit" class="btn btn-primary update-user" style="margin-right: 15px;">
+                                    Update User
                                 </button>
                                 <a href="/administration/users" class="btn btn-danger" style="margin-right: 15px;">
                                     Cancel
@@ -91,27 +98,30 @@
 
 @endsection
 
+@section('scripts')
+
+<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
+
+@endsection
+
 @section('custom-scripts')
 
 function isReady() {
     var firstName = $('.user-first-name');
     var lastName = $('.user-last-name');
-    var email = $('.user-email');
     var password = $('.user-password');
     var confirm = $('.user-confirm-password');
     var userType = $('.user-type');
-    if (firstName.val() && lastName.val() && email.val() && password.val()) {
-        if (!(email.val().indexOf('@') > 0 && email.val().indexOf('.') > 0)) {
-            showAlert('Please enter a valid email address');
-            return false;
-        }
-        if (password.val().length < 6) {
-            showAlert('Password should at least have a minimum of 6 characters');
-            return false;
-        }
-        if (password.val() != confirm.val()) {
-            showAlert('Passwords does not match');
-            return false;
+    if (firstName.val() && lastName.val()) {
+        if (password.val() || confirm.val()) {
+            if (password.val().length < 6) {
+                showAlert('Password should at least have a minimum of 6 characters');
+                return false;
+            }
+            if (password.val() != confirm.val()) {
+                showAlert('Passwords does not match');
+                return false;
+            }
         }
         $('.flash-alert').fadeOut();
         return true;
@@ -127,18 +137,18 @@ function showAlert(msg) {
     $('.flash-alert').show();
 }
 
-$('#create-user-form input').on('change', function(){
+$('#update-user-form input').on('change', function(){
     if (isReady()) {
-        $('#create-user-form .create-user').fadeIn();
+        $('#update-user-form .update-user').fadeIn();
     } else {
-        $('#create-user-form .create-user').fadeOut()
+        $('#update-user-form .update-user').fadeOut()
     }
 });
 
 
-$('#create-user-form').submit(function(){
+$('#update-user-form').submit(function(){
     $('.flash-alert .flash-progress').show();
-    $('.flash-alert .flash-title').text('Creating New user');
+    $('.flash-alert .flash-title').text('Updating user');
     $('.flash-alert .flash-sub-title').text('Saving');
     $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
     $('.flash-alert').addClass('alert-info');

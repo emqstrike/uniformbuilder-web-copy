@@ -61,10 +61,10 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-warning btn-xs view-user" data-user-id="{{ $user->id }}" role="button">
+                    <!-- <a href="#" class="btn btn-warning btn-xs view-user" data-user-id="{{ $user->id }}" role="button">
                         <li class="glyphicon glyphicon-info-sign"></li>
                         View
-                    </a>
+                    </a> -->
                     <a href="/administration/user/edit/{{ $user->id }}" class="btn btn-primary btn-xs edit-user" data-user-id="{{ $user->id }}" role="button">
                         <i class="glyphicon glyphicon-edit"></i>
                         Edit
@@ -95,12 +95,14 @@
 
 @section('custom-scripts')
 
-$(document).ready(function(){
-
-    $('.enable-user').on('click', function(){
-        var id = $(this).data('user-id');
-        var url = "//{{ $api_host }}/api/user/" + id + "/enable/";
-        $.getJSON(url, function(response){
+$('.enable-user').on('click', function(){
+    var id = $(this).data('user-id');
+    var url = "//{{ $api_host }}/api/user/" + id + "/enable/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 var elem = '.user-' + id;
                 $('.flash-alert .flash-title').text(response.message);
@@ -109,13 +111,19 @@ $(document).ready(function(){
                 $(elem + ' .enable-user').attr('disabled', 'disabled');
                 $(elem).removeClass('inactive');
             }
-        });
+        }
     });
+});
 
-    $('.disable-user').on('click', function(){
-        var id = $(this).data('user-id');
-        var url = "//{{ $api_host }}/api/user/" + id + "/disable/";
-        $.getJSON(url, function(response){
+$('.disable-user').on('click', function(){
+    var id = $(this).data('user-id');
+    var url = "//{{ $api_host }}/api/user/" + id + "/disable/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 var elem = '.user-' + id;
                 $('.flash-alert .flash-title').text(response.message);
@@ -124,32 +132,37 @@ $(document).ready(function(){
                 $(elem + ' .disable-user').attr('disabled', 'disabled');
                 $(elem).addClass('inactive');
             }
-        });
+        }
     });
+});
 
-    $('.delete-user').on('click', function(){
-        var id = $(this).data('user-id');
-        modalConfirm('Remove user', 'Are you sure you want to delete the user?', id);
-    });
+$('.delete-user').on('click', function(){
+    var id = $(this).data('user-id');
+    modalConfirm('Remove user', 'Are you sure you want to delete the user?', id);
+});
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//{{ $api_host }}/api/user/" + id + "/delete/";
-        $.getJSON(url, function(response){
+$('#confirmation-modal .confirm-yes').on('click', function(){
+    var id = $(this).data('value');
+    var url = "//{{ $api_host }}/api/user/" + id + "/delete/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 $('#confirmation-modal').modal('hide');
                 $('.user-' + id).fadeOut();
             }
-        });
+        }
     });
-
-    function modalConfirm(title, message, value)
-    {
-        $('#confirmation-modal .modal-title').text(title);
-        $('#confirmation-modal .modal-body').text(message);
-        $('#confirmation-modal .confirm-yes').data('value', value);
-        $('#confirmation-modal').modal('show');
-    }
 });
+
+function modalConfirm(title, message, value)
+{
+    $('#confirmation-modal .modal-title').text(title);
+    $('#confirmation-modal .modal-body').text(message);
+    $('#confirmation-modal .confirm-yes').data('value', value);
+    $('#confirmation-modal').modal('show');
+}
 
 @endsection

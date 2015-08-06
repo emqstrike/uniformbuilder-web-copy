@@ -24,7 +24,9 @@ class UsersController extends Controller
 
         return view('administration.users.users', [
             'users' => $users,
-            'api_host' => env('API_HOST')
+            'api_host' => env('API_HOST'),
+            'access_token_name' => base64_encode('accessToken'),
+            'access_token' => base64_encode(Session::get('accessToken'))
         ]);
     }
 
@@ -48,26 +50,37 @@ class UsersController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
+        $data = [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ];
+
         $userId = null;
         if (!empty($request->input('user_id')))
         {
             $userId = $request->input('user_id');
+            $data['id'] = $userId;
+        }
+        if (!empty($request->input('email')))
+        {
+            $data['email'] = $request->input('email');
+        }
+        if (!empty($request->input('password')))
+        {
+            $data['password'] = $request->input('password');
         }
 
         // Does the User exist
-        if ($this->client->isUserExist($email, $userId))
+        if ($this->client->isEmailTaken($email, $userId))
         {
             return Redirect::to('administration.users.users')
                             ->with('message', 'User email already exist');
         }
 
-        $data = [
-            'id' => $userId,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => $email,
-            'password' => $password
-        ];
+        if ($request->input('type'))
+        {
+            $data['type'] = $request->input('type');
+        }
 
         $response = null;
         if (!empty($userId))
@@ -77,6 +90,17 @@ class UsersController extends Controller
         else
         {
             $response = $this->client->createUser($data);
+        }
+
+        if ($response->success)
+        {
+            return Redirect::to('administration/users')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            return Redirect::to('administration/users')
+                            ->with('message', $response->message);
         }
     }
 

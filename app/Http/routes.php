@@ -35,7 +35,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
-    Route::get('addCategoryForm', function(){ return view('administration.oops'); });
+    Route::get('category/add', function(){ return view('administration.oops'); });
 
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');

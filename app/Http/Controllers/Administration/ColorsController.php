@@ -30,7 +30,9 @@ class ColorsController extends Controller
 
         return view('administration.colors.colors', [
             'colors' => $colors,
-            'api_host' => env('API_HOST')
+            'api_host' => env('API_HOST'),
+            'access_token_name' => base64_encode('accessToken'),
+            'access_token' => base64_encode(Session::get('accessToken'))
         ]);
     }
 

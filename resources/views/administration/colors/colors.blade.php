@@ -79,11 +79,14 @@
 
 @section('custom-scripts')
 
-$(document).ready(function(){
-    $('.enable-color').on('click', function(){
-        var id = $(this).data('color-id');
-        var url = "//{{ $api_host }}/api/color/" + id + "/enable/";
-        $.getJSON(url, function(response){
+$('.enable-color').on('click', function(){
+    var id = $(this).data('color-id');
+    var url = "//{{ $api_host }}/api/color/" + id + "/enable/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 var elem = '.color-' + id;
                 $('.flash-alert .flash-title').text(response.message);
@@ -92,13 +95,18 @@ $(document).ready(function(){
                 $(elem + ' .enable-color').attr('disabled', 'disabled');
                 $(elem).removeClass('inactive');
             }
-        });
+        }
     });
+});
 
-    $('.disable-color').on('click', function(){
-        var id = $(this).data('color-id');
-        var url = "//{{ $api_host }}/api/color/" + id + "/disable/";
-        $.getJSON(url, function(response){
+$('.disable-color').on('click', function(){
+    var id = $(this).data('color-id');
+    var url = "//{{ $api_host }}/api/color/" + id + "/disable/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 var elem = '.color-' + id;
                 $('.flash-alert .flash-title').text(response.message);
@@ -107,32 +115,37 @@ $(document).ready(function(){
                 $(elem + ' .disable-color').attr('disabled', 'disabled');
                 $(elem).addClass('inactive');
             }
-        });
+        }
     });
+});
 
-    $('.delete-color').on('click', function(){
-        var id = $(this).data('color-id');
-        modalConfirm('Remove color', 'Are you sure you want to delete the color?', id);
-    });
+$('.delete-color').on('click', function(){
+    var id = $(this).data('color-id');
+    modalConfirm('Remove color', 'Are you sure you want to delete the color?', id);
+});
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//{{ $api_host }}/api/color/" + id + "/delete/";
-        $.getJSON(url, function(response){
+$('#confirmation-modal .confirm-yes').on('click', function(){
+    var id = $(this).data('value');
+    var url = "//{{ $api_host }}/api/color/" + id + "/delete/";
+    $.ajax({
+        url: url,
+        type: "GET",
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
             if (response.success) {
                 $('#confirmation-modal').modal('hide');
                 $('.color-' + id).fadeOut();
             }
-        });
+        }
     });
-
-    function modalConfirm(title, message, value)
-    {
-        $('#confirmation-modal .modal-title').text(title);
-        $('#confirmation-modal .modal-body').text(message);
-        $('#confirmation-modal .confirm-yes').data('value', value);
-        $('#confirmation-modal').modal('show');
-    }
 });
+
+function modalConfirm(title, message, value)
+{
+    $('#confirmation-modal .modal-title').text(title);
+    $('#confirmation-modal .modal-body').text(message);
+    $('#confirmation-modal .confirm-yes').data('value', value);
+    $('#confirmation-modal').modal('show');
+}
 
 @endsection

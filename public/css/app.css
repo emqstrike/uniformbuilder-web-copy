@@ -6233,7 +6233,7 @@ label,
 }
 
 /* Records that are set to `active` = false */
-.inactive {background-user: #ccc;}
+.inactive {background-color: #ccc;}
 .divider-vertical {
   height: 50px;
   margin: 0 9px;

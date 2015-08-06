@@ -24,7 +24,9 @@ class UniformCategoriesController extends Controller
 
         return view('administration.categories.categories', [
             'categories' => $categories,
-            'api_host' => env('API_HOST')
+            'api_host' => env('API_HOST'),
+            'access_token_name' => base64_encode('accessToken'),
+            'access_token' => base64_encode(Session::get('accessToken'))
         ]);
     }
 }
