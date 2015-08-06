@@ -21,8 +21,8 @@ class UniformBuilderController extends Controller
         $accessToken = null;
         $client = new APIClient($accessToken);
 
-        $colors = $client->getColors();
-        $materials = $client->getMaterials();
+        $colors = []; //$client->getColors();
+        $materials = []; //$client->getMaterials();
 
         return view('editor.index', [
             'page_title' => $title,

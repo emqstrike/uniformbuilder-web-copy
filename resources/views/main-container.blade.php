@@ -20,7 +20,7 @@
 		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
 
-		<link rel="stylesheet" href="{{$asset_storage}}/css/main.css{{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/css/custom.css{{$asset_version}}">
 		
 	</head>
 
@@ -28,7 +28,7 @@
 
 		<!-- sidebar -->
 
-		@include('partials.sidebar')
+		<!-- @include('partials.sidebar') -->
 
 		<div class="main-content">
 		

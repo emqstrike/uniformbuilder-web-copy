@@ -1,28 +1,79 @@
 @extends('main-container')
- 
+		
+
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <h1 class="text-center">PRO LOOK UNIFORM BUILDER</h1>
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#"><img src="/images/branding//brand.jpg"></a>
+		    </div>
+		</nav>
+
+		<div class="row"></div>
+
+		<!-- <div class="row" style="border: 1px solid black"> -->
+		<div style="display: block;">
+			<button class="btn-block"><i class="fa fa-plus"></i></button>
+			<button class="btn-block"><i class="fa fa-folder"></i></button>
+			<button class="btn-block"><i class="fa fa-copy"></i></button>
+			<button class="btn-block"><i class="fa fa-save"></i></button>
+		</div>
+		
+		<div class="row" style="height: 600px;">
+
+			<div class="panel panel-default col-md-5 col-md-offset-1" style="width: 480px; box-shadow: none;"> </br >
+				<button class="btn btn-default">Jersey</button>
+				<button class="btn btn-default">Pants</button>
+				<button class="btn btn-default">All</button>
+				<div id="mycanvas" class="mycanvas" style="padding-top: -20px;"></div>
+		        <div class="camera_buttons" style="position: absolute; bottom: 20px; left: 135px;">
+		
+					<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
+					<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
+					</button>	
+
+					<button class="btn btn-default btn-sm" id="play_left"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i></button>
+					<button class="btn btn-default btn-sm" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
+					<button class="btn btn-default btn-sm" id="rotate_right"><i class="fa fa-chevron-right"></i></button>
+					<button class="btn btn-default btn-sm" id="play_right"><i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></button>
+
+				</div>
+
+			</div>
+
+			<div class="panel panel-default col-md-5 col-md-offset-1">
+				<div class="panel-body">
+			        <div class="btn-group btn-breadcrumb">
+			            <a href="#" class="btn btn-default">Materials</a>
+			            <a href="#" class="btn btn-default">Colors</a>
+			            <a href="#" class="btn btn-default">Gradient</a>
+			            <a href="#" class="btn btn-default">Pattern</a>
+			            <a href="#" class="btn btn-default">Text</a>
+			            <a href="#" class="btn btn-default">Number</a>
+			        </div>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+			<div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+
+		</div>
+
+		<div class="row">
+
+		  	<div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
+
+		</div>
+
 @section('contentarea')
-	
-		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
-			
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
-			
-			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
-			</button>	
 
-		</div>
 
-		<div id="model_view" style="position: absolute; top: 25px; left: 25px;">
-			
-			</br ></br >
-			<button class="btn btn-default" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
-			<button class="btn btn-default" id="rotate_right"><i class="fa fa-chevron-right"></i></button></br ></br >
-			<button class="btn btn-default" id="play"><i class="fa fa-play"></i></button>
-			<input type="radio" name="direction" value="left" id="rb_left">Left
-			<input type="radio" name="direction" value="right" id="rb_right">Right
-
-		</div>
-
-		<div id="mycanvas" class="mycanvas"></div>
+		<!-- <div id="mycanvas" class="mycanvas"></div> -->
 		
 
 	
@@ -30,144 +81,6 @@
 
 @section('properties')
 
-	<div class="row">
-
-		<div class="col-md-2">
-
-		<hr />
-
-		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Jr</button>
-		</div>
-
-		<br />
-
-		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab"  onclick="switch_panel('#sleeve_panel')">Sl</button>	
-		</div>
-
-		<br />
-
-		<div class="tab_button">
-			<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button> -->
-		</div>
-
-		<hr />	
-
-		<div class="tab_button">
-			<a href="#myModal" data-backdrop="false" data-toggle="modal">!!!</a>
-		</div>
-
-		<hr />
-
-		</div>
-
-		<div class="col-md-10">
-
-			<div class="panels">
-
-				<hr />
-
-				<div class="option_panel" id="shirt_panel">
-
-					<h2>Jersey</h2>
-					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'jersey',])
-					<br />
-
-					<br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'pipings',])
-
-					<br />
-
-					<br /><h4>Material Test (Base)</h4><br />
-					<button onclick="texture_canvas.change_texture('base','base.jpg')">Plain</button>
-					<button onclick="texture_canvas.change_texture('base','camouflage.jpg')">Camo</button>
-
-					<br /><h4>Material Test (Sleeve)</h4><br />
-					<button onclick="change_base('base.jpg')">Plain</button>
-					<button onclick="change_base('camouflage.jpg')">Camo</button>
-
-					<br />
-
-					<hr />
-
-				</div>
-
-
-
-				<div class="option_panel" id="sleeve_panel">
-
-					<h2>Sleeves</h2>
-					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'sleeves',])
-
-					<hr />
-
-				</div>
-
-
-
-				<div class="option_panel" id="pants_panel">
-		
-					<h2>Pants</h2>
-					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'pants',])
-
-					<br /><br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'pants_piping',])
-
-					<br /><br /><h4>Belt Color</h4><br />
-					@include('partials.colors',['data_target' =>'belt',])
-
-					<br /><br /><h4>Pants Material Test</h4><br />
-					<button onclick="change_material('pants','7','7')">Plain</button>
-					<button onclick="change_material('pants','3','7')">Camo</button>
-
-					<hr />
-
-				</div>
-
-			</div>
-
-		</div>
-		
-	</div>
-
-	
-
-
-
-	<!--
-
-	<div class="sidebar-panel">
-
-		<h3>Pants Material</h3>
-		@forelse ($materials as $material)
-			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='pants' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
-		@empty
-
-		@endforelse
-
-		<h3>shirt Material</h3>
-		@forelse ($materials as $material)
-			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
-		@empty
-
-		@endforelse
-
-		<h3>shirt Material</h3>
-		@forelse ($materials as $material)
-			<img src="{{ $material->material_path }}" width="70px" height="70px" class="change-material" data-target='shirt_textured' data-material="{{ $material->material_path }}" data-bump-map="{{ $material->bump_map_path }}" data-toggle="tooltip" data-placement="bottom" title="{{ $material->name }}">
-		@empty
-
-		@endforelse
-
-
-
-		-->
-
-</div> 
 
 
 @endsection('properties')
@@ -175,58 +88,116 @@
 @section('custom-styles')
 
 	body, h1, h2, h3, h4, h5, h6, button, a, p {
+
 		font-family: raleway;
-		font-weight: bold;
+
 	}
-	a{
+
+
+
+	.navbar img {
+
+		width: 90px;
+		height: 50px;
+		margin-top: -70px;
+
+	}
+
+
+
+	.navbar {
+
+		height: 90px;
+
+	}
+
+
+
+	a {
+
 		color: #000;
 		outline: 0;
+
 	}
-	a:hover{
-		color: #000;
-		-webkit-transform: scale(1.2);
-	  	-moz-transform: scale(1.2);
-	  	-o-transform: scale(1.2);
-	  	transform: scale(1.2);
-	}
-	a:active{
-		outline: 0;
-	}
-	.mycanvas {  height: 100%; width: 100%; }
-	canvas {
-		width: 100%;
-		height: 100%;
-	}
-	.btn .change-color{
-		height: 10px;
-		width: 10px;
-		padding: 40px;
-		margin: 10px;
-	}
-	a{
+
+
+
+	a:hover {  color: #000;  }
+
+	a:active {  outline: 0;  }
+
+	.mycanvas {  height: 75%; width: 100%;  }
+	
+
+
+	a {
 		-webkit-transition: all 0.2s ease-out;
 	  	-moz-transition: all 0.2s ease-out;
 	  	-o-transition: all 0.2s ease-out;
 	  	transition: all 0.2s ease-out;
 	}
-	.tab-pane{
-		margin-left: -30px;
-		right: 0;
-	}
 
-	.panels {
-		padding-left: 10px;
-		padding-right: 10px;
-		margin-right: 10px;
-		border-right: 1px solid lightgrey;
 
-	}
 
-	.btn-tab {
+	.btn .change-color {
 
-		width: 100%;
+		height: 10px;
+		width: 10px;
+		padding: 40px;
+		margin: 10px;
 
 	}
+
+
+
+	.btn-tab {  width: 100%;  }
+
+	.btn {  border-radius: 0;  }
+
+	.btn:hover {
+
+		/*-webkit-transform: scale(1.2);
+	  	-moz-transform: scale(1.2);
+	  	-o-transform: scale(1.2);
+	  	transform: scale(1.2);*/
+
+	}
+
+	/** The Magic **/
+		.btn-breadcrumb{
+			font-size: 11px !important;
+		}
+
+		.btn-breadcrumb .btn:not(:last-child):after {
+		  content: " ";
+		  display: block;
+		  width: 0;
+		  height: 0;
+		  border-top: 17px solid transparent;
+		  border-bottom: 17px solid transparent;
+		  border-left: 10px solid white;
+		  position: absolute;
+		  top: 50%;
+		  margin-top: -17px;
+		  left: 100%;
+		  z-index: 3;
+		}
+		.btn-breadcrumb .btn:not(:last-child):before {
+		  content: " ";
+		  display: block;
+		  width: 0;
+		  height: 0;
+		  border-top: 17px solid transparent;
+		  border-bottom: 17px solid transparent;
+		  border-left: 10px solid rgb(173, 173, 173);
+		  position: absolute;
+		  top: 50%;
+		  margin-top: -17px;
+		  margin-left: 1px;
+		  left: 100%;
+		  z-index: 3;
+		}
+
 
 }
 
