@@ -6,8 +6,10 @@
 
 		window.initialized = false;
 
+		window.path_groups = {};
+
 		window.texture_canvas = {};
-		window.texture_canvas.texture_style_folder = '/images/materials/baseball_1/';
+		window.texture_canvas.texture_style_folder = '/images/materials/baseball_2/';
 		window.texture_canvas['objects'] = {};
 		window.texture_canvas['canvas'] = new fabric.Canvas('texture_canvas');
 		
@@ -82,6 +84,94 @@
 				
 		}
 
+		 window.path_groups = {};
+
+
+		texture_canvas.change_texture_svg = function (object_name, base_image)	{
+
+
+			/// New With Path Group
+
+			var canvas = texture_canvas.canvas;
+			group = [];	       
+
+			console.log(base_image);
+
+
+	        fabric.loadSVGFromURL(window.texture_canvas.texture_style_folder + base_image,function(objects,options) {
+
+	            var loadedObjects = fabric.util.groupSVGElements(objects, options);
+
+	            console.log("Loaded Objects: ");
+	            console.log(loadedObjects);
+	            
+	            window.temp = loadedObjects;
+
+	            loadedObjects.set({
+
+	                left: 0,
+	                top: 0,
+					lockMovementX: true,
+					lockMovementY: true,
+					scaleX: 3,
+					scaleY: 3,
+
+	            });
+
+				texture_canvas.refresh_model();
+
+			 	texture_canvas.canvas.remove(texture_canvas.objects[object_name]);
+	            texture_canvas.canvas.add(loadedObjects);
+	            texture_canvas.canvas.renderAll();
+
+	            window.texture_canvas.objects[object_name] = loadedObjects;
+
+	        }, function(item, object) {
+	
+	                object.set('id',item.getAttribute('id'));
+
+	                group.push(object);
+	              //  window.path_groups[object_name].push(object);
+
+	                // console.log('Object');
+	                // console.log(object);
+	                // console.log('Item');
+	                // console.log(item);
+	                // console.log('ID: ' + item.getAttribute('id'));
+
+	        });
+
+	  //       /// Old Without Groups
+
+			// fabric.Image.fromURL(window.texture_canvas.texture_style_folder + base_image, function(oImg)  {
+
+		 //        oImg.left = 0;
+			// 	oImg.top = 0;
+			// 	oImg.lockMovementX = true;
+			// 	oImg.lockMovementY = true;
+
+			// 	oImg.scaleToWidth(1600)
+			// 	oImg.scaleToHeight(1598)
+
+			// 	if(typeof(texture_canvas.objects[object_name]) !== 'undefined'){
+			// 	 	texture_canvas.canvas.remove(texture_canvas.objects[object_name]);
+			// 	}
+
+			// 	window.texture_canvas.objects[object_name] = oImg;
+	  // 			texture_canvas.canvas.add(oImg);
+
+	  // 			setTimeout(function(){
+
+			// 		texture_canvas.refresh_model();
+
+			// 	}, 50);
+
+	  //       });
+
+	  //       /// End Old With Groups
+
+		}
+
 		texture_canvas.change_texture = function (object_name, base_image)	{
 
 			fabric.Image.fromURL(window.texture_canvas.texture_style_folder + base_image, function(oImg) {
@@ -127,9 +217,19 @@
 
 		/// Initial Textures
 		
-		texture_canvas.change_texture('base', 'base.jpg');
-		texture_canvas.change_texture('sleeves', 'sleeves.png');
-		texture_canvas.change_texture('pipings', 'pipings.png');
+		// 1
+		// texture_canvas.change_texture('base', 'base.jpg');
+		// texture_canvas.change_texture('sleeves', 'sleeves.png');
+		// texture_canvas.change_texture('pipings', 'pipings.png');
+
+		// 2
+		//texture_canvas.change_texture_svg('base_svg', 'base.svg');
+		
+
+		texture_canvas.change_texture_svg('c_1', 'camo_1.svg');
+		//texture_canvas.change_texture_svg('c_2', 'c_2.svg');
+		//texture_canvas.change_texture_svg('c_3', 'c_3.svg');
+		//texture_canvas.change_texture_svg('c_4', 'c_4.svg');
 
 		/// End Initial Textures
 
@@ -139,16 +239,33 @@
 
 		canvas.on('object:added', function(options) {
 
+			// 1
+			// var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
+			// var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
+			// var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
+
+			// if(base_loaded && sleeves_loaded && pipings_loaded){
+
+			// 	texture_canvas.objects.base.moveTo('1');
+			// 	texture_canvas.objects.sleeves.moveTo('4');
+			// 	texture_canvas.objects.pipings.moveTo('5');
+
+			// 	setTimeout(function(){
+
+			// 		texture_canvas.refresh_model();
+
+			// 	}, 50);
+				
+
+			// }
+
+			// 2
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			var sleeves_loaded = true // typeof(texture_canvas.objects.sleeves) !== 'undefined';
-			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
+		
+			if(base_loaded){
 
-			if(base_loaded && sleeves_loaded && pipings_loaded){
-
-				texture_canvas.objects.base.moveTo('1');
-				// texture_canvas.objects.sleeves.moveTo('4');
-				texture_canvas.objects.pipings.moveTo('5');
-
+				// texture_canvas.objects.base.moveTo('1');
+				
 				setTimeout(function(){
 
 					texture_canvas.refresh_model();
@@ -158,11 +275,16 @@
 
 			}
 
+
 		});
 
 		canvas.on('mouse:up', function(options) {
 		
-			update_fabric_material();
+				setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+				}, 50);
 
 		});
 
