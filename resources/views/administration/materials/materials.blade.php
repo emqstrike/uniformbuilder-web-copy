@@ -23,7 +23,7 @@
         <span class="glyphicon glyphicon-th-list"></span>
         Materials
         <small>
-            <a href="addMaterialForm" class='btn btn-xs btn-success'>
+            <a href="/administration/material/add" class='btn btn-xs btn-success'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Add New Material
             </a>
@@ -73,7 +73,7 @@
                         <li class="glyphicon glyphicon-info-sign"></li>
                         View
                     </a>
-                    <a href="/administration/editMaterialForm/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
+                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
                         <i class="glyphicon glyphicon-edit"></i>
                         Edit
                     </a>

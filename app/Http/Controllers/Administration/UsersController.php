@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
@@ -13,25 +13,16 @@ class UsersController extends Controller
 {
     protected $client;
 
-    public function __construct($accessToken = null)
+    public function __construct(APIClient $apiClient)
     {
-        $settings = [
-            'base_uri' => 'http://' . getenv('API_HOST') . '/api/',
-        ];
-        if (!is_null($accessToken))
-        {
-            $settings['headers'] = [
-                'accessToken' => $accessToken
-            ];
-        }
-        $this->client = new APIClient($settings);
+        $this->client = $apiClient;
     }
 
     public function index()
     {
-        $users = $this->client->getUser();
+        $users = $this->client->getUsers();
 
-        return view('administration/users', [
+        return view('administration.users.users', [
             'users' => $users,
             'api_host' => env('API_HOST')
         ]);
@@ -40,14 +31,14 @@ class UsersController extends Controller
     public function editUserForm($id)
     {
         $user = $this->client->getUser($id);
-        return view('administration/user-edit', [
+        return view('administration.users.user-edit', [
             'user' => $user
         ]);
     }
 
     public function addUserForm()
     {
-        return view('administration/user-create');
+        return view('administration.users.user-create');
     }
 
     public function store(Request $request)
@@ -66,7 +57,7 @@ class UsersController extends Controller
         // Does the User exist
         if ($this->client->isUserExist($email, $userId))
         {
-            return Redirect::to('administration/users')
+            return Redirect::to('administration.users.users')
                             ->with('message', 'User email already exist');
         }
 

@@ -17,7 +17,7 @@
         <span class="glyphicon glyphicon-th-list"></span>
         Colors
         <small>
-            <a href="addColorForm" class='btn btn-xs btn-success'>
+            <a href="/administration/color/add" class='btn btn-xs btn-success'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Add New Color
             </a>
@@ -40,7 +40,7 @@
         </td>
         <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
             <span class='badge'>{{ $color->color_code }}</span>
-            <a href="editColorForm/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">
+            <a href="/administration/color/edit/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">
                 <i class="glyphicon glyphicon-edit"></i>
                 Edit
             </a>

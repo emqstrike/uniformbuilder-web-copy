@@ -19,12 +19,19 @@ Route::get('uniformbuilder', 'UniformBuilderController@index');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
-    Route::get('/', 'Administration\AdministrationController@index');
+    Route::get('/',  function(){ return view('administration.oops'); });
 
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
     Route::post('login', 'Administration\AuthenticationController@login');
     Route::get('logout', 'Administration\AuthenticationController@logout');
+
+    // Users
+    Route::get('users', 'Administration\UsersController@index');
+    Route::post('user/add', 'Administration\UsersController@store');
+    Route::post('user/update', 'Administration\UsersController@store');
+    Route::get('user/add', 'Administration\UsersController@addUserForm');
+    Route::get('user/edit/{id}', 'Administration\UsersController@editUserForm');
 
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
@@ -34,15 +41,15 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('colors', 'Administration\ColorsController@index');
     Route::post('color/add', 'Administration\ColorsController@store');
     Route::post('color/update', 'Administration\ColorsController@store');
-    Route::get('addColorForm', 'Administration\ColorsController@addColorForm');
-    Route::get('editColorForm/{id}', 'Administration\ColorsController@editColorForm');
+    Route::get('color/add', 'Administration\ColorsController@addColorForm');
+    Route::get('color/edit/{id}', 'Administration\ColorsController@editColorForm');
 
     // Materials
     Route::get('materials', 'Administration\MaterialsController@index');
     Route::post('material/add', 'Administration\MaterialsController@store');
     Route::post('material/update', 'Administration\MaterialsController@store');
-    Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
-    Route::get('editMaterialForm/{id}', 'Administration\MaterialsController@editMaterialForm');
+    Route::get('material/add', 'Administration\MaterialsController@addMaterialForm');
+    Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
@@ -53,7 +60,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('pants', function(){ return view('administration.oops'); });
     Route::get('skus', function(){ return view('administration.oops'); });
     Route::get('orders', function(){ return view('administration.oops'); });
-    Route::get('users', function(){ return view('administration.oops'); });
     Route::get('accountSettings', function(){ return view('administration.oops'); });
 });
 

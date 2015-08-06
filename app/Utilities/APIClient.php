@@ -11,11 +11,12 @@ class APIClient extends Client
 {
     protected $decoder;
 
-    public function __construct($accessToken = null)
+    public function __construct()
     {
         $settings = [
             'base_uri' => 'http://' . getenv('API_HOST') . '/api/'
         ];
+        $accessToken = Session::get('accessToken');
         if (!is_null($accessToken))
         {
             $settings['headers'] = [
@@ -226,5 +227,18 @@ class APIClient extends Client
     {
         $response = $this->get('material/delete/' . $id);
         return $this->decoder->decode($response->getBody());
+    }
+
+    public function getUsers()
+    {
+        $response = $this->get('users');
+        $result = $this->decoder->decode($response->getBody());
+
+        $users = [];
+        if ($result->success)
+        {
+            $users = $result->users;
+        }
+        return $users;
     }
 }

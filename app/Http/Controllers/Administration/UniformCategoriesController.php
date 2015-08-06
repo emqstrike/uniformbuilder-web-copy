@@ -13,18 +13,9 @@ class UniformCategoriesController extends Controller
 {
     protected $client;
 
-    public function __construct($accessToken = null)
+    public function __construct(APIClient $apiClient)
     {
-        $settings = [
-            'base_uri' => 'http://' . getenv('API_HOST') . '/api/',
-        ];
-        if (!is_null($accessToken))
-        {
-            $settings['headers'] = [
-                'accessToken' => $accessToken
-            ];
-        }
-        $this->client = new APIClient($settings);
+        $this->client = $apiClient;
     }
 
     public function index()

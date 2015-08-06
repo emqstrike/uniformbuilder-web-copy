@@ -6,7 +6,7 @@
     <h1>
         Uniform Categories
         <small>
-            <a href="/administration/addCategoryForm" class='btn btn-xs btn-success'>Add New Uniform Category</a>
+            <a href="/administration/category/add" class='btn btn-xs btn-success'>Add New Uniform Category</a>
         </small>
     </h1>
 </div>
