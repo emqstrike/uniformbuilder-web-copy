@@ -10,11 +10,16 @@
 				<div class="col-md-11">10</div>
 				<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
 				<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
-				<div class="col-md-12">12</div>		
+				<div class="col-md-12">12</div>	
+			</div>	
 		</div><!-- right panel body -->
 		
-		<div class="col-md-5">left panel body
-
+		<div class="col-md-5">
+		
+			<div class="row">
+				<div class="col-md-6">6</div>
+				<div class="col-md-6">6</div>
+			</div>
 		</div><!-- left panel body -->
 	</div>
 </div>
