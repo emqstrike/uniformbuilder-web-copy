@@ -220,8 +220,12 @@
 		texture_canvas.path_change_color = function (obj,color_value,layer){
 
 
-				texture_canvas.objects.jersey_rect.opacity = 0.0;
-				texture_canvas.objects.base.opacity = 0.0;
+				texture_canvas.objects.jersey_rect.opacity = 0.0
+
+				 if(typeof(texture_canvas.objects.base) !== 'undefined'){
+					texture_canvas.objects.base.opacity = 0.0; 	
+				 }
+				
 
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
