@@ -44,6 +44,8 @@
 
 		<br />
 
+		<!-- 
+
 		<div class="tab_button">
 			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab"  onclick="switch_panel('#sleeve_panel')">Sl</button>	
 		</div>
@@ -51,7 +53,13 @@
 		<br />
 
 		<div class="tab_button">
-			<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button> -->
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pants_panel')">Pn</button>
+		</div>
+
+		-->
+
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pattern_panel')">Pt</button>
 		</div>
 
 		<hr />	
@@ -74,23 +82,29 @@
 
 					<h2>Jersey</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'jersey',])
+					@include('partials.colors',['data_target' =>'jersey', 'event_class' => 'change-color',])
 					<br />
 
+					<!--
+
 					<br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'pipings',])
+					@include('partials.colors',['data_target' =>'pipings', 'event_class' => 'change-color',])
+
+					-->
 
 					<br />
 
 					<br /><h4>Material Test (Base)</h4><br />
 					<button onclick="texture_canvas.change_texture('base','base.jpg')">Plain</button>
 					<button onclick="texture_canvas.change_texture('base','camouflage.jpg')">Camo</button>
-					<button onclick="texture_canvas.change_texture_svg('base','test.svg')">Digital Camo</button>
-
+					
+					<!-- 
 
 					<br /><h4>Material Test (Sleeve)</h4><br />
 					<button onclick="change_base('base.jpg')">Plain</button>
 					<button onclick="change_base('camouflage.jpg')">Camo</button>
+
+					-->
 
 
 					<br />
@@ -105,7 +119,7 @@
 
 					<h2>Sleeves</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'sleeves',])
+					@include('partials.colors',['data_target' =>'sleeves', 'event_class' => 'change-color',])
 
 					<hr />
 
@@ -117,17 +131,40 @@
 		
 					<h2>Pants</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'pants',])
+					@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
 
 					<br /><br /><h4>Piping Color</h4><br />
-					@include('partials.colors',['data_target' =>'pants_piping',])
+					@include('partials.colors',['data_target' =>'pants_piping', 'event_class' => 'change-color'])
 
 					<br /><br /><h4>Belt Color</h4><br />
-					@include('partials.colors',['data_target' =>'belt',])
+					@include('partials.colors',['data_target' =>'belt', 'event_class' => 'change-color'])
 
 					<br /><br /><h4>Pants Material Test</h4><br />
 					<button onclick="change_material('pants','7','7')">Plain</button>
 					<button onclick="change_material('pants','3','7')">Camo</button>
+
+					<hr />
+
+				</div>
+
+				<div class="option_panel" id="pattern_panel">
+
+					<h2>Pattern</h2>
+					<h4>Layer 1</h4><br />
+					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_1'])
+					<br />
+
+					<h4>Layer 2</h4><br />
+					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_2'])
+					<br />
+
+					<h4>Layer 3</h4><br />
+					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color', 'layer' => 'c_3'])
+					<br />
+
+					<h4>Layer 4</h4><br />
+					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_4'])
+					<br />
 
 					<hr />
 
@@ -272,6 +309,15 @@
 			color = $(this).data('color');
 			// change_color(target, color);
 			texture_canvas.change_color(target,color)
+		});
+
+		// Path Change Color
+		$('.path-change-color').on('click', function(){
+			var target = $(this).data('target');
+			color = $(this).data('color');
+			layer = $(this).data('layer');
+			// change_color(target, color);
+			texture_canvas.path_change_color(target,color,layer);
 		});
 
 		// Change Material
