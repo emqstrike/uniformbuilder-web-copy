@@ -32,25 +32,21 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
-
 		window.UniformBuilder.rotateY = 0;
-		
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+
 		var v = 128;
 		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
-		
 		window.UniformBuilder.renderer.setSize(width, height);
 
-		container.appendChild( window.UniformBuilder.renderer.domElement );
+		container.appendChild( window.UniformBuilder.renderer.domElement);
 
 		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.1, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
-
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
-
 		window.addEventListener('resize', function() {
 
 			container = document.getElementById('mycanvas');
