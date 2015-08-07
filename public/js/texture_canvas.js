@@ -1,4 +1,4 @@
-		
+
 	$(document).ready(function() {
 
 
@@ -196,9 +196,59 @@
 
 			selectedObject = window.texture_canvas.objects[obj];
 
-			selectedObject.filters.push(
-				new fabric.Image.filters.Tint({color:color_value, opacity:1})
-			);
+			if(obj === 'jersey'){
+
+				texture_canvas.objects.jersey_rect.opacity = 0.7;
+
+				texture_canvas.objects.jersey_rect.fill = color_value;
+
+				texture_canvas.objects.base.opacity = 0.0;
+				texture_canvas.objects.c_1.opacity = 0;
+				texture_canvas.objects.c_2.opacity = 0;
+				texture_canvas.objects.c_3.opacity = 0;
+				texture_canvas.objects.c_4.opacity = 0;
+
+			}
+
+			canvas = window.texture_canvas.canvas;
+
+			setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+			}, 50);
+
+		}
+
+		texture_canvas.path_change_color = function (obj,color_value,layer){
+
+
+				texture_canvas.objects.jersey_rect.opacity = 0.0
+
+				 if(typeof(texture_canvas.objects.base) !== 'undefined'){
+					texture_canvas.objects.base.opacity = 0.0; 	
+				 }
+				
+
+				texture_canvas.objects.jersey_rect.fill = color_value;
+
+
+				texture_canvas.objects.c_1.opacity = 0.7;
+				texture_canvas.objects.c_2.opacity = 0.7;
+				texture_canvas.objects.c_3.opacity = 0.7;
+				texture_canvas.objects.c_4.opacity = 0.7;
+
+			selectedObject = window.texture_canvas.objects[layer];
+
+			for(i = 0; i <= selectedObject.paths.length -1; i++){
+
+
+				path = selectedObject.paths[i];
+				console.log(path);
+
+				path.setFill(color_value);
+
+			}
 
 			canvas = window.texture_canvas.canvas;
 			selectedObject.applyFilters(canvas.renderAll.bind(canvas));
