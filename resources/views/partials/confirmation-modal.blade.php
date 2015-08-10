@@ -8,8 +8,14 @@
             </div> 
             <div class="modal-body">Message</div> 
             <div class="modal-footer">
-                <button class="btn btn-danger confirm-yes" data-value=''>Yes</button>
-                <button class="btn btn-default confirm-no" data-dismiss="modal">No</button>
+                <button class="btn btn-danger confirm-yes" data-value=''>
+                    <li class="glyphicon glyphicon-ok"></li>
+                    Yes
+                </button>
+                <button class="btn btn-default confirm-no" data-dismiss="modal">
+                    <li class="glyphicon glyphicon-remove"></li>
+                    No
+                </button>
             </div>
         </div>
     </div>
