@@ -66,12 +66,12 @@ class MaterialsController extends Controller
         // Does the Material Name and Codes Exist?
         if ($this->client->isMaterialExist($materialName, $materialId))
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'Material Name already exists');
         }
         if ($this->client->isMaterialCodeExist($materialCode, $materialId))
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'Material Code already exists');
         }
 
@@ -170,7 +170,7 @@ class MaterialsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
 
@@ -186,12 +186,12 @@ class MaterialsController extends Controller
 
         if ($response->success)
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', $response->message);
         }
         else
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem saving your material');
         }
 
