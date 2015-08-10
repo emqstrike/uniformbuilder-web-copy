@@ -151,19 +151,19 @@
 
 					<h2>Pattern</h2>
 					<h4>Layer 1</h4><br />
-					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_1'])
+					@include('partials.colors', ['data_target' =>'c_1', 'event_class' => 'path-change-color','layer' => 'c_1'])
 					<br />
 
 					<h4>Layer 2</h4><br />
-					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_2'])
+					@include('partials.colors', ['data_target' =>'c_2', 'event_class' => 'path-change-color','layer' => 'c_2'])
 					<br />
 
 					<h4>Layer 3</h4><br />
-					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color', 'layer' => 'c_3'])
+					@include('partials.colors', ['data_target' =>'c_3', 'event_class' => 'path-change-color', 'layer' => 'c_3'])
 					<br />
 
 					<h4>Layer 4</h4><br />
-					@include('partials.colors', ['data_target' =>'pattern', 'event_class' => 'path-change-color','layer' => 'c_4'])
+					@include('partials.colors', ['data_target' =>'c_4', 'event_class' => 'path-change-color','layer' => 'c_4'])
 					<br />
 
 					<hr />

@@ -12,6 +12,9 @@
 		window.texture_canvas.texture_style_folder = '/images/materials/style_1/';
 		window.texture_canvas['objects'] = {};
 		window.texture_canvas['canvas'] = new fabric.Canvas('texture_canvas');
+
+		window.texture_canvas['width'] = 1600;
+		window.texture_canvas['height'] = 1598;
 		
 		var canvas = window.texture_canvas['canvas'];
 
@@ -89,85 +92,26 @@
 
 		texture_canvas.change_texture_svg = function (object_name, base_image)	{
 
+			fabric.util.loadImage(window.texture_canvas.texture_style_folder + base_image, function (img) {
+			    	
+		    	object = new fabric.Image(img);
 
-			/// New With Path Group
+				object.set({
+					top: 0,
+			        left: 0,
+			        width: window.texture_canvas.width,
+			        height: window.texture_canvas.height,
+			        angle: 0,
+			        opacity: 1,	
+				})
 
+				window.texture_canvas.objects[object_name] = object;
 
-			var canvas = texture_canvas.canvas;
-			group = [];	       
-
-			console.log(base_image);
-
-
-	        fabric.loadSVGFromURL(window.texture_canvas.texture_style_folder + base_image,function(objects,options) {
-
-	            var loadedObjects = fabric.util.groupSVGElements(objects, options);
-
-	            window.texture_canvas.objects[object_name] = loadedObjects;
-
-
-	            window.temp = loadedObjects;
-
-	            loadedObjects.set({
-
-	                left: 0,
-	                top: 0,
-					lockMovementX: true,
-					lockMovementY: true,
-					opacity: 1,
-
-	            });
-
-	            loadedObjects.scaleX = 3;
-				loadedObjects.scaleY = 3;
-	            texture_canvas.canvas.add(loadedObjects);
-	            texture_canvas.canvas.renderAll();
-
-	            window.texture_canvas.objects[object_name] = loadedObjects;
-
-	        }, function(item, object) {
-	
-	                object.set('id',item.getAttribute('id'));
-
-	                group.push(object);
-	              //  window.path_groups[object_name].push(object);
-
-	                // console.log('Object');
-	                // console.log(object);
-	                // console.log('Item');
-	                // console.log(item);
-	                // console.log('ID: ' + item.getAttribute('id'));
-
-	        });
-
-	  //       /// Old Without Groups
-
-			// fabric.Image.fromURL(window.texture_canvas.texture_style_folder + base_image, function(oImg)  {
-
-		 //        oImg.left = 0;
-			// 	oImg.top = 0;
-			// 	oImg.lockMovementX = true;
-			// 	oImg.lockMovementY = true;
-
-			// 	oImg.scaleToWidth(1600)
-			// 	oImg.scaleToHeight(1598)
-
-			// 	if(typeof(texture_canvas.objects[object_name]) !== 'undefined'){
-			// 	 	texture_canvas.canvas.remove(texture_canvas.objects[object_name]);
-			// 	}
-
-			// 	window.texture_canvas.objects[object_name] = oImg;
-	  // 			texture_canvas.canvas.add(oImg);
-
-	  // 			setTimeout(function(){
-
-			// 		texture_canvas.refresh_model();
-
-			// 	}, 50);
-
-	  //       });
-
-	  //       /// End Old With Groups
+				canvas = window.texture_canvas.canvas;
+				canvas.add(object);	
+				canvas.renderAll.bind(canvas);
+								    
+			});
 
 		}
 
@@ -183,14 +127,12 @@
 				window.texture_canvas.objects[object_name] = oImg;
 	  		
 				if(object_name === "shadows"){
-					window.texture_canvas.objects.shadows.opacity = 0.4;
+					window.texture_canvas.objects.shadows.opacity = 0.5;
 				}
 
 				texture_canvas.canvas.add(oImg);
 
 			});
-
-
 
 		}
 
@@ -229,35 +171,31 @@
 
 		texture_canvas.path_change_color = function (obj,color_value,layer){
 
-				texture_canvas.objects.jersey_rect.opacity = 0.0;
+			texture_canvas.objects.jersey_rect.opacity = 0.0;
 
-				if(typeof(texture_canvas.objects.base) !== 'undefined'){
+			if(typeof(texture_canvas.objects.base) !== 'undefined'){
 
-					texture_canvas.objects.base.opacity = 0.0;
-
-				}
-
-				texture_canvas.objects.jersey_rect.fill = color_value;
-
-				texture_canvas.objects.c_1.opacity = 1;
-				texture_canvas.objects.c_2.opacity = 1;
-				texture_canvas.objects.c_3.opacity = 1;
-				texture_canvas.objects.c_4.opacity = 1;
-
-			selectedObject = window.texture_canvas.objects[layer];
-
-			for(i = 0; i <= selectedObject.paths.length -1; i++){
-
-
-				path = selectedObject.paths[i];
-				console.log(path);
-
-				path.setFill(color_value);
+				texture_canvas.objects.base.opacity = 0.0;
 
 			}
 
+			texture_canvas.objects.jersey_rect.fill = color_value;
+
+			texture_canvas.objects.c_1.opacity = 1;
+			texture_canvas.objects.c_2.opacity = 1;
+			texture_canvas.objects.c_3.opacity = 1;
+			texture_canvas.objects.c_4.opacity = 1;
+
+			var filter = new fabric.Image.filters.Tint({
+
+			  color: color_value,
+			  opacity: 1
+
+			});
+
+			texture_canvas.objects[obj].filters.push(filter);
 			canvas = window.texture_canvas.canvas;
-			canvas.renderAll.bind(canvas);
+			texture_canvas.objects[obj].applyFilters(canvas.renderAll.bind(canvas));
 
 			setTimeout(function(){
 
@@ -290,16 +228,15 @@
 		// texture_canvas.change_texture_svg('c_4', 'c_4.svg');
 		// texture_canvas.change_texture('shadows', 'shadows.png');
 
-
 		$rect = new fabric.Rect({
-			  
-			        top: 0,
-			        left: 0,
-			        width: 1600,
-			        height: 1598,
-			        angle: 0,
-			        fill: '#ffffff',
-			        opacity: 0,
+		  
+		        top: 0,
+		        left: 0,
+		        width: window.texture_canvas.width,
+		        height: window.texture_canvas.height,
+		        angle: 0,
+		        fill: '#ffffff',
+		        opacity: 0,
 
 		});
 
@@ -308,19 +245,19 @@
 		texture_canvas.objects['jersey_rect'] = $rect;
 
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_1', 'c_1a.svg');
+			texture_canvas.change_texture_svg('c_1', 'c_1.png');
 		}, 50);
 
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_2', 'c_2a.svg');
+			texture_canvas.change_texture_svg('c_2', 'c_2.png');
 		}, 150);
 
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_3', 'c_3a.svg');
+			texture_canvas.change_texture_svg('c_3', 'c_3.png');
 		}, 200);
 
 		setTimeout(function(){		
-			texture_canvas.change_texture_svg('c_4', 'c_4a.svg');
+			texture_canvas.change_texture_svg('c_4', 'c_4.png');
 		}, 250);
 
 		setTimeout(function(){
@@ -374,6 +311,7 @@
 			// }
 
 			// 2
+
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
 
 			var c_1_loaded = typeof(texture_canvas.objects.c_1) !== 'undefined';
@@ -383,9 +321,7 @@
 			var shadows_loaded = typeof(texture_canvas.objects.shadows) !== 'undefined';
 			var mesh_loaded = typeof(texture_canvas.objects.mesh) !== 'undefined';
 
-
 			var jersey_rect_loaded = typeof(texture_canvas.objects.jersey_rect) !== 'undefined';
-
 		
 			if(c_1_loaded && c_2_loaded && c_3_loaded && c_4_loaded && shadows_loaded && jersey_rect_loaded && mesh_loaded){
 
@@ -398,11 +334,10 @@
 				texture_canvas.objects.shadows.moveTo('7');
 				texture_canvas.objects.mesh.moveTo('8');
 
-				console.log('Loaded!!!!');
-			
+				texture_canvas.refresh_model();
+
 			}
 
-			texture_canvas.refresh_model();
 
 
 
