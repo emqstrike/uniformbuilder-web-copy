@@ -1,34 +1,29 @@
 @extends('main-container')
 		
 @include('partials.layout.navbar')
-
 <link rel="stylesheet" href="css/builder.css">
+
 		<hr>
 <div class="row"><!-- start table -->
-		
-		<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
-			<div class="row"><!-- right panel table -->
-				<div class="col-md-1">top</div>
-				<div class="col-md-11">left</div>
-				<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
-				<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
-				<div class="col-md-12">12</div>	
-			</div>	
-		</div><!-- right panel body -->
-		
-		<div class="col-md-5">		
-			<div class="row">
-				<div class="col-md-6"> 
-					<div class="row">
-						<div class="col-md-2">top</div>
-						<div class="col-md-10">10</div>
-						<div class="col-md-2">@include('partials.layout.rightpaneltab')</div>
-						<div class="col-md-10">@include('partials.layout.tab_rightpanel')</div>	
-					</div>
-				</div>
-			</div>
-		</div><!-- left panel body -->
-	</div>
+
+	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
+		<div class="row"><!-- right panel table -->
+			<div class="col-md-1">top</div>
+			<div class="col-md-11">left</div>
+			<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
+			<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
+			<div class="col-md-12">12</div>	
+		</div>	
+	</div><!-- right panel body -->
+	
+	<div class="col-md-5">				 
+		<div class="row">
+			<div class="col-md-1">top</div>
+			<div class="col-md-11">@include('partials.layout.toprightpanel')</div>
+			<div class="col-md-1">@include('partials.layout.rightpaneltab')</div>
+			<div class="col-md-11">@include('partials.layout.tab_rightpanel')</div>	
+		</div>							
+	</div><!-- left panel body -->	
 </div>
 
 
