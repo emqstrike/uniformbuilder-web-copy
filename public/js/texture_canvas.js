@@ -87,7 +87,7 @@
 				
 		}
 
-		 window.path_groups = {};
+		window.path_groups = {};
 
 
 		texture_canvas.change_texture_svg = function (object_name, base_image)	{
@@ -104,6 +104,7 @@
 			        angle: 0,
 			        opacity: 1,	
 				})
+
 
 				window.texture_canvas.objects[object_name] = object;
 
@@ -146,6 +147,7 @@
 
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
+
 				if(typeof(texture_canvas.objects.base) !== 'undefined'){
 
 					texture_canvas.objects.base.opacity = 0.0;
@@ -170,6 +172,7 @@
 		}
 
 		texture_canvas.path_change_color = function (obj,color_value,layer){
+
 
 			texture_canvas.objects.jersey_rect.opacity = 0.0;
 
@@ -206,6 +209,7 @@
 		}
 
 
+
 		/// End Methods
 
 
@@ -220,7 +224,6 @@
 		// 2
 		//texture_canvas.change_texture_svg('base_svg', 'base.svg');
 		// texture_canvas.change_texture_svg('c_1', 'camouflage.svg');
-
 
 		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
 		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
@@ -269,47 +272,11 @@
 		}, 50);
 		
 
-
 		texture_canvas.canvas.setBackgroundColor('rgba(183,176,159,255)', texture_canvas.canvas.renderAll.bind(canvas));
-
-		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
-		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
-		// texture_canvas.change_texture_svg('c_3', 'c_3.svg');
-		// texture_canvas.change_texture_svg('c_4', 'c_4.svg');
-		// texture_canvas.change_texture('shadows', 'shadows.png');
-
-		//texture_canvas.change_texture_svg('c_2', 'c_2.svg');
-		//texture_canvas.change_texture_svg('c_3', 'c_3.svg');
-		//texture_canvas.change_texture_svg('c_4', 'c_4.svg');
-
-		/// End Initial Textures
-
-
 
 		/// Events
 
 		canvas.on('object:added', function(options) {
-
-			// 1
-			// var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			// var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
-			// var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
-
-			// if(base_loaded && sleeves_loaded && pipings_loaded){
-
-			// 	texture_canvas.objects.base.moveTo('1');
-			// 	texture_canvas.objects.sleeves.moveTo('4');
-			// 	texture_canvas.objects.pipings.moveTo('5');
-
-			// 	setTimeout(function(){
-
-			// 		texture_canvas.refresh_model();
-
-			// 	}, 50);
-				
-
-			// }
-
 			// 2
 
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
@@ -337,9 +304,6 @@
 				texture_canvas.refresh_model();
 
 			}
-
-
-
 
 		});
 
