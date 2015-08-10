@@ -114,7 +114,7 @@
 	                top: 0,
 					lockMovementX: true,
 					lockMovementY: true,
-					opacity: 0.7,
+					opacity: 1,
 
 	            });
 
@@ -180,12 +180,13 @@
 				oImg.lockMovementX = true;
 				oImg.lockMovementY = true;
 
-				if(typeof(texture_canvas.objects[object_name]) !== 'undefined'){
-				 	texture_canvas.canvas.remove(texture_canvas.objects.base);
+				window.texture_canvas.objects[object_name] = oImg;
+	  		
+				if(object_name === "shadows"){
+					window.texture_canvas.objects.shadows.opacity = 0.4;
 				}
 
-				window.texture_canvas.objects[object_name] = oImg;
-	  			texture_canvas.canvas.add(oImg);
+				texture_canvas.canvas.add(oImg);
 
 			});
 
@@ -203,7 +204,12 @@
 
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
-				texture_canvas.objects.base.opacity = 0.0;
+				if(typeof(texture_canvas.objects.base) !== 'undefined'){
+
+					texture_canvas.objects.base.opacity = 0.0;
+
+				}
+
 				texture_canvas.objects.c_1.opacity = 0;
 				texture_canvas.objects.c_2.opacity = 0;
 				texture_canvas.objects.c_3.opacity = 0;
@@ -223,16 +229,20 @@
 
 		texture_canvas.path_change_color = function (obj,color_value,layer){
 
-
 				texture_canvas.objects.jersey_rect.opacity = 0.0;
-				texture_canvas.objects.base.opacity = 0.0;
+
+				if(typeof(texture_canvas.objects.base) !== 'undefined'){
+
+					texture_canvas.objects.base.opacity = 0.0;
+
+				}
+
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
-
-				texture_canvas.objects.c_1.opacity = 0.7;
-				texture_canvas.objects.c_2.opacity = 0.7;
-				texture_canvas.objects.c_3.opacity = 0.7;
-				texture_canvas.objects.c_4.opacity = 0.7;
+				texture_canvas.objects.c_1.opacity = 1;
+				texture_canvas.objects.c_2.opacity = 1;
+				texture_canvas.objects.c_3.opacity = 1;
+				texture_canvas.objects.c_4.opacity = 1;
 
 			selectedObject = window.texture_canvas.objects[layer];
 
@@ -297,22 +307,20 @@
 
 		texture_canvas.objects['jersey_rect'] = $rect;
 
-
-
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_1', 'c_1.svg');
+			texture_canvas.change_texture_svg('c_1', 'c_1a.svg');
 		}, 50);
 
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_2', 'c_2.svg');
+			texture_canvas.change_texture_svg('c_2', 'c_2a.svg');
 		}, 150);
 
 		setTimeout(function(){
-			texture_canvas.change_texture_svg('c_3', 'c_3.svg');
+			texture_canvas.change_texture_svg('c_3', 'c_3a.svg');
 		}, 200);
 
 		setTimeout(function(){		
-			texture_canvas.change_texture_svg('c_4', 'c_4.svg');
+			texture_canvas.change_texture_svg('c_4', 'c_4a.svg');
 		}, 250);
 
 		setTimeout(function(){
@@ -381,15 +389,14 @@
 		
 			if(c_1_loaded && c_2_loaded && c_3_loaded && c_4_loaded && shadows_loaded && jersey_rect_loaded && mesh_loaded){
 
-				texture_canvas.objects.shadows.moveTo('1');
+				texture_canvas.objects.c_1.moveTo('5');
+				texture_canvas.objects.c_2.moveTo('4');
+				texture_canvas.objects.c_3.moveTo('3');
+				texture_canvas.objects.c_4.moveTo('2');
 
-				texture_canvas.objects.c_1.moveTo('2');
-				texture_canvas.objects.c_2.moveTo('3');
-				texture_canvas.objects.c_3.moveTo('4');
-				texture_canvas.objects.c_4.moveTo('5');
-
-				texture_canvas.objects.jersey_rect.moveTo(6);
-				texture_canvas.objects.mesh.moveTo(7);
+				texture_canvas.objects.jersey_rect.moveTo('6');
+				texture_canvas.objects.shadows.moveTo('7');
+				texture_canvas.objects.mesh.moveTo('8');
 
 				console.log('Loaded!!!!');
 			
