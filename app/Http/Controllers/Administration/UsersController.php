@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
 use App\Http\Requests;
-use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\APIClients\UsersAPIClient as APIClient;
 
 class UsersController extends Controller
 {
@@ -24,8 +23,7 @@ class UsersController extends Controller
 
         return view('administration.users.users', [
             'users' => $users,
-            'api_host' => env('API_HOST'),
-            'access_token' => base64_encode(Session::get('accessToken'))
+            'api_host' => env('API_HOST')
         ]);
     }
 

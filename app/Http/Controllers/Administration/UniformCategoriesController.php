@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Administration;
 
 use \Session;
 use App\Http\Requests;
-use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
+use App\APIClients\UniformCategoriesAPIClient as APIClient;
 
 class UniformCategoriesController extends Controller
 {
@@ -24,9 +23,7 @@ class UniformCategoriesController extends Controller
 
         return view('administration.categories.categories', [
             'categories' => $categories,
-            'api_host' => env('API_HOST'),
-            'access_token_name' => base64_encode('accessToken'),
-            'access_token' => base64_encode(Session::get('accessToken'))
+            'api_host' => env('API_HOST')
         ]);
     }
 }

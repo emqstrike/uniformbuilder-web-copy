@@ -5,9 +5,10 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
             crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -24,13 +25,15 @@ $(document).ready(function(){
 
     $('.disable-user').on('click', function(){
         var id = $(this).data('user-id');
+        console.log('Disabling USER ID: ' + id);
         var url = "//" + api_host + "/api/user/disable/";
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
             crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -56,8 +59,10 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {

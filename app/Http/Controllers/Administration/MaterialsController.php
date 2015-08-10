@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
 use App\Http\Requests;
-use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use App\Utilities\MaterialUploader;
 use App\Http\Controllers\Controller;
 use Aws\S3\Exception\S3Exception;
+use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
 {
@@ -29,9 +28,7 @@ class MaterialsController extends Controller
 
         return view('administration.materials.materials', [
             'materials' => $materials,
-            'api_host' => env('API_HOST'),
-            'access_token_name' => base64_encode('accessToken'),
-            'access_token' => base64_encode(Session::get('accessToken'))
+            'api_host' => env('API_HOST')
         ]);
     }
 
