@@ -212,7 +212,7 @@
 
 			}
 
-f			canvas = window.texture_canvas.canvas;
+			canvas = window.texture_canvas.canvas;
 
 			setTimeout(function(){
 
