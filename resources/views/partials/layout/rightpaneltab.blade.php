@@ -1,3 +1,4 @@
+<img src="images/icons/color_cardinal.png" height="50" data-toggle="collapse" data-target="#teamcolor_tab" aria-expanded="false" aria-controls="teamcolor_tab" style="margin-top: 2px;">
 <img src="images/icons/materials.png" height="50" data-toggle="collapse" data-target="#materials_tab" aria-expanded="false" aria-controls="materials_tab" style="margin-top: 2px;">
 <img src="images/icons/color.png" height="50" data-toggle="collapse" data-target="#color_tab" aria-expanded="false" aria-controls="color_tab" style="margin-top: 2px;">
 <img src="images/icons/gradient.png" height="50" data-toggle="collapse" data-target="#gradient_tab" aria-expanded="false" aria-controls="gradient_tab" style="margin-top: 2px;">

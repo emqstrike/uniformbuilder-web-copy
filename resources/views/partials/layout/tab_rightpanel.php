@@ -1,5 +1,25 @@
-
 <div class='scroll'>
+	<div class="collapse" id="teamcolor_tab">
+	  <div class="well">
+	  	<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on left
+</button>
+
+<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on top
+</button>
+
+<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on bottom
+</button>
+
+<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on right
+</button>
+	  </div>
+	</div>
+
 	<div class="collapse" id="materials_tab">
 	  <div class="well">
 	  A     
@@ -48,5 +68,5 @@
 	  H
 	  </div>
 	</div>
-	
+
 </div>

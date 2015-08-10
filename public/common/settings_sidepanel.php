@@ -1,6 +1,4 @@
-<div style="display: block;">
-<button class="btn-block"><i class="fa fa-plus"></i></button>
-<button class="btn-block"><i class="fa fa-folder"></i></button>
-<button class="btn-block"><i class="fa fa-copy"></i></button>
-<button class="btn-block"><i class="fa fa-save"></i></button>
-</div>
+<img src="images/icons/add.png" height="50" style="marggin-top: 2px;">
+<img src="images/icons/load.png" height="50" style="marggin-top: 2px;">
+<img src="images/icons/compare.png" height="50" style="marggin-top: 2px;">
+<img src="images/icons/save.png" height="50" style="marggin-top: 2px;">
