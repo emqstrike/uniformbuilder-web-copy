@@ -26,14 +26,35 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('login', 'Administration\AuthenticationController@login');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
+    // Uniform Categories
+    Route::get('categories', 'Administration\UniformCategoriesController@index');
+    Route::get('addCategoryForm', function(){ return view('administration.oops'); });
+
     // Colors
     Route::get('colors', 'Administration\ColorsController@index');
+    Route::post('color/add', 'Administration\ColorsController@store');
+    Route::post('color/update', 'Administration\ColorsController@store');
+    Route::get('addColorForm', 'Administration\ColorsController@addColorForm');
+    Route::get('editColorForm/{id}', 'Administration\ColorsController@editColorForm');
 
     // Materials
     Route::get('materials', 'Administration\MaterialsController@index');
-    Route::post('material', 'Administration\MaterialsController@createMaterial');
+    Route::post('material/add', 'Administration\MaterialsController@store');
+    Route::post('material/update', 'Administration\MaterialsController@store');
     Route::get('addMaterialForm', 'Administration\MaterialsController@addMaterialForm');
-    Route::get('material/delete/{id}', 'Administration\MaterialsController@delete');
+    Route::get('editMaterialForm/{id}', 'Administration\MaterialsController@editMaterialForm');
+
+    // TODO
+    Route::get('factories', function(){ return view('administration.oops'); });
+    Route::get('models', function(){ return view('administration.oops'); });
+    Route::get('jerseys', function(){ return view('administration.oops'); });
+    Route::get('necks', function(){ return view('administration.oops'); });
+    Route::get('sleeves', function(){ return view('administration.oops'); });
+    Route::get('pants', function(){ return view('administration.oops'); });
+    Route::get('skus', function(){ return view('administration.oops'); });
+    Route::get('orders', function(){ return view('administration.oops'); });
+    Route::get('users', function(){ return view('administration.oops'); });
+    Route::get('accountSettings', function(){ return view('administration.oops'); });
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');

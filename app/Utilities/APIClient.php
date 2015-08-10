@@ -26,6 +26,64 @@ class APIClient extends Client
         $this->decoder = new JsonDecoder();
     }
 
+    public function getUniformCategories()
+    {
+        $response = $this->get('categories');
+        $result = $this->decoder->decode($response->getBody());
+
+        $categories = [];
+        if ($result->success)
+        {
+            $categories = $result->categories;
+        }
+        return $categories;
+    }
+
+    public function isColorExist($name, $id = null)
+    {
+        $color = $this->getColorByName($name);
+        if (!is_null($color) && !is_null($id))
+        {
+            $compare = $this->getColor($id);
+            if ($color->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($color);
+    }
+
+    public function isColorCodeExist($code, $id = null)
+    {
+        $color = $this->getColorByCode($code);
+        if (!is_null($color) && !is_null($id))
+        {
+            $compare = $this->getColor($id);
+            if ($color->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($color);
+    }
+
+    public function createColor($data)
+    {
+        $response = $this->post('color', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateColor($data)
+    {
+        $response = $this->post('color/' . $data['id'], [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
     public function getColors()
     {
         $response = $this->get('colors');
@@ -37,6 +95,40 @@ class APIClient extends Client
             $colors = $result->colors;
         }
         return $colors;
+    }
+
+    public function getColor($id)
+    {
+        $response = $this->get('color/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->color;
+        }
+        return null;
+    }
+
+    public function getColorByName($name)
+    {
+        $response = $this->get('color/name/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->color;
+        }
+        return null;
+    }
+
+    public function getColorByCode($code)
+    {
+        $response = $this->get('color/code/' . $code);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->color;
+        }
+        return null;
     }
 
     public function getMaterials()
@@ -52,20 +144,26 @@ class APIClient extends Client
         return $materials;
     }
 
-    public function createMaterial($materialData)
+    public function createMaterial($data)
     {
         $response = $this->post('material', [
-            'json' => $materialData
+            'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
     }
 
-    /**
-     * @name String $name Slug Name
-     */
-    public function getMaterial($name)
+    public function updateMaterial($data)
     {
-        $response = $this->get('material/' . $name);
+        $response = $this->post('material/' . $data['id'], [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function getMaterial($id)
+    {
+        $response = $this->get('material/' . $id);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
@@ -74,9 +172,54 @@ class APIClient extends Client
         return null;
     }
 
-    public function isMaterialExist($name)
+    public function getMaterialByName($name)
     {
-        return !is_null($this->getMaterial($name));
+        $response = $this->get('material/name/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function getMaterialByCode($code)
+    {
+        $response = $this->get('material/code/' . $code);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->material;
+        }
+        return null;
+    }
+
+    public function isMaterialExist($name, $id = null)
+    {
+        $material = $this->getMaterialByName($name);
+        if (!is_null($material) && !is_null($id))
+        {
+            $compare = $this->getMaterial($id);
+            if ($material->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($material);
+    }
+
+    public function isMaterialCodeExist($code, $id = null)
+    {
+        $material = $this->getMaterialByCode($code);
+        if (!is_null($material) && !is_null($id))
+        {
+            $compare = $this->getMaterial($id);
+            if ($material->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($material);
     }
 
     public function deleteMaterial($id)
