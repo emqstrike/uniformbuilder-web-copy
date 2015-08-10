@@ -11,11 +11,13 @@ class APIClient extends Client
 {
     protected $decoder;
 
-    public function __construct($accessToken = null)
+    public function __construct()
     {
         $settings = [
             'base_uri' => 'http://' . getenv('API_HOST') . '/api/'
         ];
+        $accessToken = Session::get('accessToken');
+
         if (!is_null($accessToken))
         {
             $settings['headers'] = [
@@ -225,6 +227,72 @@ class APIClient extends Client
     public function deleteMaterial($id)
     {
         $response = $this->get('material/delete/' . $id);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function getUsers()
+    {
+        $response = $this->get('users');
+        $result = $this->decoder->decode($response->getBody());
+
+        $users = [];
+        if ($result->success)
+        {
+            $users = $result->users;
+        }
+        return $users;
+    }
+
+    public function getUser($id)
+    {
+        $response = $this->get('user/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->user;
+        }
+        return null;
+    }
+
+    public function isEmailTaken($email, $id = null)
+    {
+        $data = ['email' => $email];
+        $response = $this->get('user/emailExist', [
+            'json' => $data
+        ]);
+        $user = null;
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            $user = $result->user;
+        }
+
+        if (!is_null($user) && !is_null($id))
+        {
+            $compare = $this->getUser($id);
+            if ($user->id == $compare->id)
+            {
+                return false;
+            }
+        }
+        return !is_null($user);
+    }
+
+    public function createUser($data)
+    {
+        $response = $this->post('user', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateUser($data)
+    {
+        $response = $this->post('user/' . $data['id'], [
+            'json' => $data
+        ]);
+
         return $this->decoder->decode($response->getBody());
     }
 }

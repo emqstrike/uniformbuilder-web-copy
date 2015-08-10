@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 
 use \Session;
 use \Redirect;
-use GuzzleHttp\Client;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Utilities\APIClient;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\Utilities\S3Uploader;
@@ -15,20 +15,10 @@ use App\Utilities\S3Uploader;
 class UploadImageController extends Controller
 {
     protected $client;
-    protected $apiHost;
 
-    public function __construct($accessToken = null)
+    public function __construct(APIClient $apiClient)
     {
-        $settings = [
-            'base_uri' => 'http://' . getenv('API_HOST') . '/api/',
-        ];
-        if (!is_null($accessToken))
-        {
-            $settings['headers'] = [
-                'accessToken' => $accessToken
-            ];
-        }
-        $this->client = new Client($settings);
+        $this->client = $apiClient;
     }
 
     /**
