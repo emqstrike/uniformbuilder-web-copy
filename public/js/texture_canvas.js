@@ -1,4 +1,4 @@
-		
+
 	$(document).ready(function() {
 
 
@@ -110,14 +110,13 @@
 	                top: 0,
 					lockMovementX: true,
 					lockMovementY: true,
-					opacity: 0.7,
+					opacity: 1,
 
 	            });
 
 	            loadedObjects.scaleX = 3;
 				loadedObjects.scaleY = 3;
 
-			 	// texture_canvas.canvas.remove(texture_canvas.objects[object_name]);
 	            texture_canvas.canvas.add(loadedObjects);
 
 	            texture_canvas.canvas.renderAll();
@@ -175,17 +174,17 @@
 				oImg.lockMovementX = true;
 				oImg.lockMovementY = true;
 
-				if(typeof(texture_canvas.objects[object_name]) !== 'undefined'){
-				 	texture_canvas.canvas.remove(texture_canvas.objects.base);
+				window.texture_canvas.objects[object_name] = oImg;
+	  		
+				if(object_name === "shadows"){
+					window.texture_canvas.objects.shadows.opacity = 0.4;
 				}
 
-				window.texture_canvas.objects[object_name] = oImg;
-	  			texture_canvas.canvas.add(oImg);
+				texture_canvas.canvas.add(oImg);
 
 			});
 
 			texture_canvas.objects.base.opacity = 1;
-
 
 		}
 
@@ -199,7 +198,13 @@
 
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
-				texture_canvas.objects.base.opacity = 0.0;
+
+				if(typeof(texture_canvas.objects.base) !== 'undefined'){
+
+					texture_canvas.objects.base.opacity = 0.0;
+
+				}
+
 				texture_canvas.objects.c_1.opacity = 0;
 				texture_canvas.objects.c_2.opacity = 0;
 				texture_canvas.objects.c_3.opacity = 0;
@@ -207,7 +212,7 @@
 
 			}
 
-			canvas = window.texture_canvas.canvas;
+f			canvas = window.texture_canvas.canvas;
 
 			setTimeout(function(){
 
@@ -258,6 +263,47 @@
 
 		}
 
+		texture_canvas.path_change_color = function (obj,color_value,layer){
+
+				texture_canvas.objects.jersey_rect.opacity = 0.0;
+
+				if(typeof(texture_canvas.objects.base) !== 'undefined'){
+
+					texture_canvas.objects.base.opacity = 0.0;
+
+				}
+
+				texture_canvas.objects.jersey_rect.fill = color_value;
+
+				texture_canvas.objects.c_1.opacity = 1;
+				texture_canvas.objects.c_2.opacity = 1;
+				texture_canvas.objects.c_3.opacity = 1;
+				texture_canvas.objects.c_4.opacity = 1;
+
+			selectedObject = window.texture_canvas.objects[layer];
+
+			for(i = 0; i <= selectedObject.paths.length -1; i++){
+
+
+				path = selectedObject.paths[i];
+				console.log(path);
+
+				path.setFill(color_value);
+
+			}
+
+			canvas = window.texture_canvas.canvas;
+			canvas.renderAll.bind(canvas);
+
+			setTimeout(function(){
+
+					texture_canvas.refresh_model();
+
+			}, 50);
+
+		}
+
+
 
 		/// End Methods
 
@@ -273,6 +319,56 @@
 		// 2
 		//texture_canvas.change_texture_svg('base_svg', 'base.svg');
 		// texture_canvas.change_texture_svg('c_1', 'camouflage.svg');
+
+		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
+		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
+		// texture_canvas.change_texture_svg('c_3', 'c_3.svg');
+		// texture_canvas.change_texture_svg('c_4', 'c_4.svg');
+		// texture_canvas.change_texture('shadows', 'shadows.png');
+
+		$rect = new fabric.Rect({
+			  
+			        top: 0,
+			        left: 0,
+			        width: 1600,
+			        height: 1598,
+			        angle: 0,
+			        fill: '#ffffff',
+			        opacity: 0,
+
+		});
+
+		window.texture_canvas.canvas.add($rect);
+
+		texture_canvas.objects['jersey_rect'] = $rect;
+
+		setTimeout(function(){
+			texture_canvas.change_texture_svg('c_1', 'c_1a.svg');
+		}, 50);
+
+		setTimeout(function(){
+			texture_canvas.change_texture_svg('c_2', 'c_2a.svg');
+		}, 150);
+
+		setTimeout(function(){
+			texture_canvas.change_texture_svg('c_3', 'c_3a.svg');
+		}, 200);
+
+		setTimeout(function(){		
+			texture_canvas.change_texture_svg('c_4', 'c_4a.svg');
+		}, 250);
+
+		setTimeout(function(){
+			texture_canvas.change_texture('shadows', 'shadows_white.png');
+		}, 50);
+
+		setTimeout(function(){
+			texture_canvas.change_texture('mesh', 'mesh.png');
+		}, 50);
+		
+
+
+		texture_canvas.canvas.setBackgroundColor('rgba(183,176,159,255)', texture_canvas.canvas.renderAll.bind(canvas));
 
 		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
 		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
@@ -327,6 +423,32 @@
 
 		texture_canvas.canvas.setBackgroundColor('rgba(183,176,159,255)', texture_canvas.canvas.renderAll.bind(canvas));
 
+
+			// 2
+			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
+
+			var c_1_loaded = typeof(texture_canvas.objects.c_1) !== 'undefined';
+			var c_2_loaded = typeof(texture_canvas.objects.c_2) !== 'undefined';
+			var c_3_loaded = typeof(texture_canvas.objects.c_3) !== 'undefined';
+			var c_4_loaded = typeof(texture_canvas.objects.c_4) !== 'undefined';
+			var shadows_loaded = typeof(texture_canvas.objects.shadows) !== 'undefined';
+			var mesh_loaded = typeof(texture_canvas.objects.mesh) !== 'undefined';
+
+
+			var jersey_rect_loaded = typeof(texture_canvas.objects.jersey_rect) !== 'undefined';
+
+		
+			if(c_1_loaded && c_2_loaded && c_3_loaded && c_4_loaded && shadows_loaded && jersey_rect_loaded && mesh_loaded){
+
+				texture_canvas.objects.c_1.moveTo('5');
+				texture_canvas.objects.c_2.moveTo('4');
+				texture_canvas.objects.c_3.moveTo('3');
+				texture_canvas.objects.c_4.moveTo('2');
+
+				texture_canvas.objects.jersey_rect.moveTo('6');
+				texture_canvas.objects.shadows.moveTo('7');
+				texture_canvas.objects.mesh.moveTo('8');
+
 		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
 		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
 		// texture_canvas.change_texture_svg('c_3', 'c_3.svg');
@@ -373,6 +495,7 @@
 			}
 
 			texture_canvas.refresh_model();
+
 
 		});
 
