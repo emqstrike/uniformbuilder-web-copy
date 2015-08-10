@@ -43,7 +43,7 @@
 
 		container.appendChild( window.UniformBuilder.renderer.domElement);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.1, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 3, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
