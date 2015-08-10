@@ -61,10 +61,6 @@
                     </a>
                 </td>
                 <td>
-                    <!-- <a href="#" class="btn btn-warning btn-xs view-user" data-user-id="{{ $user->id }}" role="button">
-                        <li class="glyphicon glyphicon-info-sign"></li>
-                        View
-                    </a> -->
                     <a href="/administration/user/edit/{{ $user->id }}" class="btn btn-primary btn-xs edit-user" data-user-id="{{ $user->id }}" role="button">
                         <i class="glyphicon glyphicon-edit"></i>
                         Edit

@@ -56,10 +56,12 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-color" style="margin-right: 15px;">
+                                <button type="submit" class="btn btn-lg btn-primary create-color">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Color
                                 </button>
-                                <a href="/administration/colors" class="btn btn-danger" style="margin-right: 15px;">
+                                <a href="/administration/colors" class="btn btn-lg btn-danger">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
                             </div>

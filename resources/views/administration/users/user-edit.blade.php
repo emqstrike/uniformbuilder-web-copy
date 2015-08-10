@@ -81,10 +81,12 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary update-user" style="margin-right: 15px;">
+                                <button type="submit" class="btn btn-lg btn-primary update-user">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update User
                                 </button>
-                                <a href="/administration/users" class="btn btn-danger" style="margin-right: 15px;">
+                                <a href="/administration/users" class="btn btn-lg btn-danger">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
                             </div>

@@ -70,7 +70,7 @@ class UsersController extends Controller
         // Does the User exist
         if ($this->client->isEmailTaken($email, $userId))
         {
-            return Redirect::to('administration.users.users')
+            return Redirect::to('administration/users')
                             ->with('message', 'User email already exist');
         }
 
@@ -99,17 +99,6 @@ class UsersController extends Controller
             return Redirect::to('administration/users')
                             ->with('message', $response->message);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
