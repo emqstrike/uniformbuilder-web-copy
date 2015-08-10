@@ -9,7 +9,7 @@
 	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
 		<div class="row"><!-- right panel table -->
 			<div class="col-md-1">top</div>
-			<div class="col-md-11">left</div>
+			<div class="col-md-11">@include('partials.layout.topleftpanel')</div>
 			<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
 			<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
 			<div class="col-md-12">12</div>	
