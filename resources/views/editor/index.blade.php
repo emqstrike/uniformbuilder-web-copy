@@ -12,11 +12,11 @@
 			<div class="col-md-11">@include('partials.layout.topleftpanel')</div>
 			<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
 			<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
-			<div class="col-md-12">12</div>	
+			<div class="col-md-12"></div>	
 		</div>	
 	</div><!-- right panel body -->
 	
-	<div class="col-md-5">				 
+	<div class="col-md-4">				 
 		<div class="row">
 			<div class="col-md-1">top</div>
 			<div class="col-md-11">@include('partials.layout.toprightpanel')</div>
@@ -150,6 +150,14 @@
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
 
+
+<!-- for popover -->
+	<script type="text/javascript">
+	$(function () {
+	  $('[data-toggle="popover"]').popover()
+	})	
+	
+</script>
 @endsection
 
 @section('custom-scripts')
