@@ -13,27 +13,20 @@ class UniformCategoriesController extends Controller
 {
     protected $client;
 
-    public function __construct($accessToken = null)
+    public function __construct(APIClient $apiClient)
     {
-        $settings = [
-            'base_uri' => 'http://' . getenv('API_HOST') . '/api/',
-        ];
-        if (!is_null($accessToken))
-        {
-            $settings['headers'] = [
-                'accessToken' => $accessToken
-            ];
-        }
-        $this->client = new APIClient($settings);
+        $this->client = $apiClient;
     }
 
     public function index()
     {
         $categories = $this->client->getUniformCategories();
 
-        return view('administration/categories', [
+        return view('administration.categories.categories', [
             'categories' => $categories,
-            'api_host' => env('API_HOST')
+            'api_host' => env('API_HOST'),
+            'access_token_name' => base64_encode('accessToken'),
+            'access_token' => base64_encode(Session::get('accessToken'))
         ]);
     }
 }

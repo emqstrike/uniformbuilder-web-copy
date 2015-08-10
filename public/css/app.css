@@ -6232,4 +6232,13 @@ label,
   font-weight: 300;
 }
 
+/* Records that are set to `active` = false */
+.inactive {background-color: #ccc;}
+.divider-vertical {
+  height: 50px;
+  margin: 0 9px;
+  border-right: 1px solid #444444;
+  border-left: .1px solid #444444;
+}
+
 /*# sourceMappingURL=app.css.map */

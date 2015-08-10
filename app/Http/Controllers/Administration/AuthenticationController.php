@@ -5,29 +5,19 @@ namespace App\Http\Controllers\Administration;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
+use App\Utilities\APIClient;
 use Webmozart\Json\JsonDecoder;
+use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
 use \Session;
 
 class AuthenticationController extends Controller
 {
     protected $client;
-    protected $apiHost;
 
-    public function __construct($accessToken = null)
+    public function __construct(APIClient $apiClient)
     {
-        $settings = [
-            'base_uri' => 'http://' . getenv('API_HOST') . '/api/',
-        ];
-        if (!is_null($accessToken))
-        {
-            $settings['headers'] = [
-                'accessToken' => $accessToken
-            ];
-        }
-        $this->client = new Client($settings);
+        $this->client = $apiClient;
     }
 
     public function login(Request $request)
