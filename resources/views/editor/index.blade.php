@@ -1,6 +1,8 @@
 @extends('main-container')
 		
 @include('partials.layout.navbar')
+
+<link rel="stylesheet" href="css/builder.css">
 		<hr>
 <div class="row"><!-- start table -->
 		
@@ -19,9 +21,9 @@
 				<div class="col-md-6"> 
 					<div class="row">
 						<div class="col-md-2">top</div>
-						<div class="col-md-11"></div>
-						<div class="col-md-2" style="border: 1px solid gray;">@include('partials.layout.rightpaneltab')</div>
-						<div class="col-md-10" style="border: 1px solid gray;">@include('partials.layout.tab_rightpanel')</div>	
+						<div class="col-md-10">10</div>
+						<div class="col-md-2">@include('partials.layout.rightpaneltab')</div>
+						<div class="col-md-10">@include('partials.layout.tab_rightpanel')</div>	
 					</div>
 				</div>
 			</div>
