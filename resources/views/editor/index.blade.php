@@ -17,8 +17,13 @@
 		<div class="col-md-5">
 		
 			<div class="row">
-				<div class="col-md-6">6</div>
-				<div class="col-md-6">6</div>
+				<div class="col-md-6"> 
+					<div class="row">
+						<div class="col-md-2" style="border: 1px solid gray;">@include('partials.layout.rightpaneltab')</div>
+						<div class="col-md-10" style="border: 1px solid gray;">11</div>	
+					</div>
+				</div>
+				<div class="col-md-6" style="border: 1px solid gray;">6</div>
 			</div>
 		</div><!-- left panel body -->
 	</div>
