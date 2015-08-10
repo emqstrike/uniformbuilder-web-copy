@@ -102,17 +102,15 @@
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
-@yield('scripts')
-
 <script type="text/javascript">
 $(document).ready(function(){
 @if (Session::get('accessToken'))
-var headerValue = "{{ Session::get('accessToken') }}";
+window.headerValue = "{{ Session::get('accessToken') }}";
+window.api_host = "{{ $api_host }}";
 @endif
-
 @yield('custom-scripts')
-
 });
 </script>
+@yield('scripts')
 </body>
 </html>
