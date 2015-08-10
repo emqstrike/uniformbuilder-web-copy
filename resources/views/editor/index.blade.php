@@ -20,7 +20,8 @@
 		<div class="row">
 			<div class="col-md-1">top</div>
 			<div class="col-md-11">@include('partials.layout.toprightpanel')</div>
-		<!-- 	<div class="col-md-1">off</div> -->
+			<div class="col-md-1">top</div>
+			<div class="col-md-11">@include('partials.layout.teamcolor')</div>
 			<div class="col-md-1">@include('partials.layout.rightpaneltab')</div>
 			<div class="col-md-11">@include('partials.layout.tab_rightpanel')</div>	
 		</div>							
@@ -156,6 +157,13 @@
 	$(function () {
 	  $('[data-toggle="popover"]').popover()
 	})	
+
+	$("[data-toggle=popover]").popover({
+    html: true, 
+	content: function() {
+          return $('#popover-content').html();
+        }
+});
 	
 </script>
 @endsection
