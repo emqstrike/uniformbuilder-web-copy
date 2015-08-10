@@ -62,6 +62,12 @@
 			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pattern_panel')">Pt</button>
 		</div>
 
+		<br />
+
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pipings_panel')">Pp</button>
+		</div>
+
 		<hr />	
 
 		<div class="tab_button">
@@ -165,6 +171,18 @@
 					<h4>Layer 4</h4><br />
 					@include('partials.colors', ['data_target' =>'c_4', 'event_class' => 'path-change-color','layer' => 'c_4'])
 					<br />
+
+					<hr />
+
+				</div>
+
+				<div class="option_panel" id="pipings_panel">
+
+					<h2>Pipings</h2>
+					
+					@include('partials.colors', ['data_target' =>'pipings', 'event_class' => 'path-change-color','layer' => 'pipings'])
+					<br />
+
 
 					<hr />
 
