@@ -32,25 +32,21 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
-
 		window.UniformBuilder.rotateY = 0;
-		
 		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+
 		var v = 128;
 		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
-		
 		window.UniformBuilder.renderer.setSize(width, height);
 
-		container.appendChild( window.UniformBuilder.renderer.domElement );
+		container.appendChild( window.UniformBuilder.renderer.domElement);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.0, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.1, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
-
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
-
 		window.addEventListener('resize', function() {
 
 			container = document.getElementById('mycanvas');
@@ -73,7 +69,6 @@
 				move_camera_to();
 				rotate_camera_to();
 
-				//window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
 				rotate_direction();
 
 			}
@@ -246,18 +241,17 @@
 
 		window.camera_position_to = {
 
-			x: -0.6186451979911265,
-			y: 2.363289470093312,
-			z: 3.2400342257358523,
-
+			x: -0.4048810230299358,
+			y: 2.196751850044594,
+			z: 3.3721770602088754,
 
 		};
 
 		window.camera_rotation_to = {
 
-			x: -0.1537253113008051,
-			y: -0.06305853984132435,
-			z: -0.009763996410213097,
+			x: -0.12255567653446389,
+			y: 0.021384855805949884,
+			z: 0.0026338294655909133,
 
 		};
 
