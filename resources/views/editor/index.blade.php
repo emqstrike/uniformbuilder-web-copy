@@ -6,24 +6,24 @@
 		
 		<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
 			<div class="row"><!-- right panel table -->
-				<div class="col-md-1">1</div>
-				<div class="col-md-11">10</div>
+				<div class="col-md-1">top</div>
+				<div class="col-md-11">left</div>
 				<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
 				<div class="col-md-10">@include('partials.layout.uniformbuilder')</div>
 				<div class="col-md-12">12</div>	
 			</div>	
 		</div><!-- right panel body -->
 		
-		<div class="col-md-5">
-		
+		<div class="col-md-5">		
 			<div class="row">
 				<div class="col-md-6"> 
 					<div class="row">
+						<div class="col-md-2">top</div>
+						<div class="col-md-11"></div>
 						<div class="col-md-2" style="border: 1px solid gray;">@include('partials.layout.rightpaneltab')</div>
-						<div class="col-md-10" style="border: 1px solid gray;">11</div>	
+						<div class="col-md-10" style="border: 1px solid gray;">@include('partials.layout.tab_rightpanel')</div>	
 					</div>
 				</div>
-				<div class="col-md-6" style="border: 1px solid gray;">6</div>
 			</div>
 		</div><!-- left panel body -->
 	</div>

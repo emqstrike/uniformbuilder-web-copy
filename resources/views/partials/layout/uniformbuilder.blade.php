@@ -1,4 +1,4 @@
-<div class="row" style="width:70%; height:70%;">
+<div class="row" style="width:80%; height:80%;">
 	<div class="col-md-12" style="border: 1px solid gray;">
 		<div id="mycanvas" class="mycanvas"></div>
 	</div>
