@@ -25,7 +25,6 @@ class UsersController extends Controller
         return view('administration.users.users', [
             'users' => $users,
             'api_host' => env('API_HOST'),
-            'access_token_name' => base64_encode('accessToken'),
             'access_token' => base64_encode(Session::get('accessToken'))
         ]);
     }

@@ -1,68 +1,60 @@
 $(document).ready(function(){
-    $('.enable-user').on('click', function(){
-        var id = $(this).data('user-id');
-        var url = "//" + api_host + "/api/user/enable/";
+    $('.enable-color').on('click', function(){
+        var id = $(this).data('color-id');
+        var url = "//" + api_host + "/api/color/enable/";
         $.ajax({
             url: url,
-            type: "POST",
-            data: {id: id},
-            dataType: "json",
-            crossDomain: true,
+            type: "GET",
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.user-' + id;
+                    var elem = '.color-' + id;
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
-                    $(elem + ' .disable-user').removeAttr('disabled');
-                    $(elem + ' .enable-user').attr('disabled', 'disabled');
+                    $(elem + ' .disable-color').removeAttr('disabled');
+                    $(elem + ' .enable-color').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
                 }
             }
         });
     });
 
-    $('.disable-user').on('click', function(){
-        var id = $(this).data('user-id');
-        var url = "//" + api_host + "/api/user/disable/";
+    $('.disable-color').on('click', function(){
+        var id = $(this).data('color-id');
+        var url = "//" + api_host + "/api/color/disable/";
         $.ajax({
             url: url,
-            type: "POST",
-            data: {id: id},
-            dataType: "json",
-            crossDomain: true,
+            type: "GET",
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.user-' + id;
+                    var elem = '.color-' + id;
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
-                    $(elem + ' .enable-user').removeAttr('disabled');
-                    $(elem + ' .disable-user').attr('disabled', 'disabled');
+                    $(elem + ' .enable-color').removeAttr('disabled');
+                    $(elem + ' .disable-color').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
                 }
             }
         });
     });
 
-    $('.delete-user').on('click', function(){
-        var id = $(this).data('user-id');
-        modalConfirm('Remove user', 'Are you sure you want to delete the user?', id);
+    $('.delete-color').on('click', function(){
+        var id = $(this).data('color-id');
+        modalConfirm('Remove color', 'Are you sure you want to delete the color?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/user/delete/";
+        var url = "//" + api_host + "/api/color/delete/";
         $.ajax({
             url: url,
-            type: "POST",
-            data: {id: id},
-            dataType: "json",
+            type: "GET",
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
-                    $('.user-' + id).fadeOut();
+                    $('.color-' + id).fadeOut();
                 }
             }
         });
@@ -75,5 +67,4 @@ $(document).ready(function(){
         $('#confirmation-modal .confirm-yes').data('value', value);
         $('#confirmation-modal').modal('show');
     }
-
 });

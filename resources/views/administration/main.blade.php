@@ -105,8 +105,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 @if (Session::get('accessToken'))
-window.headerValue = "{{ Session::get('accessToken') }}";
-window.api_host = "{{ $api_host }}";
+window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
+window.api_host = "{{ env('API_HOST') }}";
 @endif
 @yield('custom-scripts')
 });
