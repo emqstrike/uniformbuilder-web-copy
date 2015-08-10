@@ -2,13 +2,23 @@ $(document).ready(function(){
     $('.enable-category').on('click', function(){
         var id = $(this).data('category-id');
         var url = "//" + api_host + "/api/category/enable/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                var elem = '.category-' + id;
-                alert(response.message);
-                $(elem + ' .disable-category').removeAttr('disabled');
-                $(elem + ' .enable-category').attr('disabled', 'disabled');
-                $(elem).removeClass('inactive');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.category-' + id;
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $(elem + ' .disable-category').removeAttr('disabled');
+                    $(elem + ' .enable-category').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }
             }
         });
     });
@@ -16,13 +26,23 @@ $(document).ready(function(){
     $('.disable-category').on('click', function(){
         var id = $(this).data('category-id');
         var url = "//" + api_host + "/api/category/disable/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                var elem = '.category-' + id;
-                alert(response.message);
-                $(elem + ' .disable-category').attr('disabled', 'disabled');
-                $(elem + ' .enable-category').removeAttr('disabled');
-                $('.category-' + id).addClass('inactive');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.category-' + id;
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $(elem + ' .disable-category').attr('disabled', 'disabled');
+                    $(elem + ' .enable-category').removeAttr('disabled');
+                    $('.category-' + id).addClass('inactive');
+                }
             }
         });
     });
@@ -35,10 +55,21 @@ $(document).ready(function(){
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/category/delete/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                $('#confirmation-modal').modal('hide');
-                $('.category-' + id).fadeOut();
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $('#confirmation-modal').modal('hide');
+                    $('.category-' + id).fadeOut();
+                }
             }
         });
     });

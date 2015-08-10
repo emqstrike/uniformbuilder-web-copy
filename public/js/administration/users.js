@@ -5,9 +5,10 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
             crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -28,9 +29,10 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
             crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -56,8 +58,10 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: {id: id},
+            data: JSON.stringify({id: id}),
             dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {

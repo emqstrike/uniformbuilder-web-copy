@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
 use App\Http\Requests;
-use App\Utilities\APIClient;
 use Illuminate\Http\Request;
 use App\Utilities\MaterialUploader;
 use App\Http\Controllers\Controller;
 use Aws\S3\Exception\S3Exception;
+use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
 {
@@ -29,9 +28,7 @@ class MaterialsController extends Controller
 
         return view('administration.materials.materials', [
             'materials' => $materials,
-            'api_host' => env('API_HOST'),
-            'access_token_name' => base64_encode('accessToken'),
-            'access_token' => base64_encode(Session::get('accessToken'))
+            'api_host' => env('API_HOST')
         ]);
     }
 
@@ -69,12 +66,12 @@ class MaterialsController extends Controller
         // Does the Material Name and Codes Exist?
         if ($this->client->isMaterialExist($materialName, $materialId))
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'Material Name already exists');
         }
         if ($this->client->isMaterialCodeExist($materialCode, $materialId))
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'Material Code already exists');
         }
 
@@ -173,7 +170,7 @@ class MaterialsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
 
@@ -189,12 +186,12 @@ class MaterialsController extends Controller
 
         if ($response->success)
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', $response->message);
         }
         else
         {
-            return Redirect::to('administration.materials.materials')
+            return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem saving your material');
         }
 

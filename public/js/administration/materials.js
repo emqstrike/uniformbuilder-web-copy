@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     $('.materials').bootstrapTable();
 
@@ -22,14 +21,23 @@ $(document).ready(function(){
     $('.enable-material').on('click', function(){
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/enable/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                var elem = '.material-' + id;
-                $('.flash-alert .flash-title').text(response.message);
-                $('.flash-alert').addClass('alert-info').fadeIn();
-                $(elem + ' .disable-material').removeAttr('disabled');
-                $(elem + ' .enable-material').attr('disabled', 'disabled');
-                $(elem).removeClass('inactive');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $(elem + ' .disable-material').removeAttr('disabled');
+                    $(elem + ' .enable-material').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }
             }
         });
     });
@@ -37,14 +45,23 @@ $(document).ready(function(){
     $('.disable-material').on('click', function(){
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/disable/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                var elem = '.material-' + id;
-                $('.flash-alert .flash-title').text(response.message);
-                $('.flash-alert').addClass('alert-info').fadeIn();
-                $(elem + ' .enable-material').removeAttr('disabled');
-                $(elem + ' .disable-material').attr('disabled', 'disabled');
-                $(elem).addClass('inactive');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $(elem + ' .enable-material').removeAttr('disabled');
+                    $(elem + ' .disable-material').attr('disabled', 'disabled');
+                    $(elem).addClass('inactive');
+                }
             }
         });
     });
@@ -57,10 +74,21 @@ $(document).ready(function(){
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material/delete/";
-        $.getJSON(url, function(response){
-            if (response.success) {
-                $('#confirmation-modal').modal('hide');
-                $('.material-' + id).fadeOut();
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $('#confirmation-modal').modal('hide');
+                    $('.material-' + id).fadeOut();
+                }
             }
         });
     });

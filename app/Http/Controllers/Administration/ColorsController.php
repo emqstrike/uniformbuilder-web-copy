@@ -1,16 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
 use App\Http\Requests;
-use App\Utilities\APIClient;
 use Illuminate\Http\Request;
-use Webmozart\Json\JsonDecoder;
-use App\Utilities\HTTPBodyReader;
 use App\Http\Controllers\Controller;
-use App\Common\ColorDAO;
+use App\APIClients\ColorsAPIClient as APIClient;
 
 class ColorsController extends Controller
 {
@@ -30,9 +26,7 @@ class ColorsController extends Controller
 
         return view('administration.colors.colors', [
             'colors' => $colors,
-            'api_host' => env('API_HOST'),
-            'access_token_name' => base64_encode('accessToken'),
-            'access_token' => base64_encode(Session::get('accessToken'))
+            'api_host' => env('API_HOST')
         ]);
     }
 
