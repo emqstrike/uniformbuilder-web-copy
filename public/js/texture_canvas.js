@@ -18,6 +18,8 @@
 		
 		var canvas = window.texture_canvas['canvas'];
 
+		reset_camera();
+
 		/// End Properties and Vars
 
 
@@ -42,7 +44,7 @@
 			window.texture.repeat.set(1,1);
 			window.texture.needsUpdate = true;
 
-			reset_camera();
+			// reset_camera();
 
 			// var texture = THREE.ImageUtils.loadTexture( "/images/materials/material_" + textureImage + ".png" );
 			// var bmap =  THREE.ImageUtils.loadTexture("/images/materials/material_" + bumpMapImage + "_bump.png", {}, function(){});
@@ -182,12 +184,16 @@
 
 			}
 
-			texture_canvas.objects.jersey_rect.fill = color_value;
+			//texture_canvas.objects.jersey_rect.fill = color_value;
 
-			texture_canvas.objects.c_1.opacity = 1;
-			texture_canvas.objects.c_2.opacity = 1;
-			texture_canvas.objects.c_3.opacity = 1;
-			texture_canvas.objects.c_4.opacity = 1;
+			if( obj === 'c_1' || obj === 'c_2' ||  obj === 'c_3' || obj === 'c_4' ){
+
+				texture_canvas.objects.c_1.opacity = 1;
+				texture_canvas.objects.c_2.opacity = 1;
+				texture_canvas.objects.c_3.opacity = 1;
+				texture_canvas.objects.c_4.opacity = 1;
+
+			}
 
 			var filter = new fabric.Image.filters.Tint({
 
@@ -197,6 +203,7 @@
 			});
 
 			texture_canvas.objects[obj].filters.push(filter);
+
 			canvas = window.texture_canvas.canvas;
 			texture_canvas.objects[obj].applyFilters(canvas.renderAll.bind(canvas));
 
@@ -270,6 +277,10 @@
 		setTimeout(function(){
 			texture_canvas.change_texture('mesh', 'mesh.png');
 		}, 50);
+
+		setTimeout(function(){
+			texture_canvas.change_texture('pipings', 'pipings.png');
+		}, 50);
 		
 
 		texture_canvas.canvas.setBackgroundColor('rgba(183,176,159,255)', texture_canvas.canvas.renderAll.bind(canvas));
@@ -288,9 +299,11 @@
 			var shadows_loaded = typeof(texture_canvas.objects.shadows) !== 'undefined';
 			var mesh_loaded = typeof(texture_canvas.objects.mesh) !== 'undefined';
 
+			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
+
 			var jersey_rect_loaded = typeof(texture_canvas.objects.jersey_rect) !== 'undefined';
 		
-			if(c_1_loaded && c_2_loaded && c_3_loaded && c_4_loaded && shadows_loaded && jersey_rect_loaded && mesh_loaded){
+			if(c_1_loaded && c_2_loaded && c_3_loaded && c_4_loaded && shadows_loaded && jersey_rect_loaded && mesh_loaded && pipings_loaded){
 
 				texture_canvas.objects.c_1.moveTo('5');
 				texture_canvas.objects.c_2.moveTo('4');
@@ -300,6 +313,7 @@
 				texture_canvas.objects.jersey_rect.moveTo('6');
 				texture_canvas.objects.shadows.moveTo('7');
 				texture_canvas.objects.mesh.moveTo('8');
+				texture_canvas.objects.pipings.moveTo('9');
 
 				texture_canvas.refresh_model();
 

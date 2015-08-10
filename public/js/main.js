@@ -43,9 +43,10 @@
 
 		container.appendChild( window.UniformBuilder.renderer.domElement);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 3, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 3.5, 70 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
+
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
 		window.addEventListener('resize', function() {
 
@@ -61,6 +62,10 @@
 		});
 
 		controls = new THREE.OrbitControls( window.UniformBuilder.camera, UniformBuilder.renderer.domElement );
+
+		controls.rotateSpeed = 0.35;
+		controls.zoomSpeed = 0.2;
+		controls.panSpeed = 0.05;
 
 		var render = function () {
 
