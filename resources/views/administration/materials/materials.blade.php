@@ -139,11 +139,6 @@
 @endsection
 
 @section('scripts')
-
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-
-@endsection
-
-@section('scripts')
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @endsection
