@@ -54,7 +54,13 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="divider-vertical"></li>
                         <li class="dropdown">
-                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome <span class="glyphicon glyphicon-user"></span> [User name]<strong class="caret"></strong></a>
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Welcome
+                                @if (Session::get('fullname'))
+                                {{ Session::get('fullname') }} <span class="glyphicon glyphicon-user"></span>
+                                @endif
+                                <strong class="caret"></strong>
+                            </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="/administration/accountSettings"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
