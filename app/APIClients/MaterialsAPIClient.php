@@ -31,7 +31,7 @@ class MaterialsAPIClient extends APIClient
 
     public function updateMaterial($data)
     {
-        $response = $this->post('material/' . $data['id'], [
+        $response = $this->post('material/update', [
             'json' => $data
         ]);
 
@@ -97,11 +97,5 @@ class MaterialsAPIClient extends APIClient
             }
         }
         return !is_null($material);
-    }
-
-    public function deleteMaterial($id)
-    {
-        $response = $this->get('material/delete/' . $id);
-        return $this->decoder->decode($response->getBody());
     }
 }

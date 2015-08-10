@@ -46,7 +46,7 @@ class ColorsAPIClient extends APIClient
 
     public function updateColor($data)
     {
-        $response = $this->post('color/' . $data['id'], [
+        $response = $this->post('color/update', [
             'json' => $data
         ]);
 

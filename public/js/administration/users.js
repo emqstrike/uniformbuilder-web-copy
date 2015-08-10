@@ -25,7 +25,6 @@ $(document).ready(function(){
 
     $('.disable-user').on('click', function(){
         var id = $(this).data('user-id');
-        console.log('Disabling USER ID: ' + id);
         var url = "//" + api_host + "/api/user/disable/";
         $.ajax({
             url: url,

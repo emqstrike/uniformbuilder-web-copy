@@ -67,7 +67,7 @@ class UsersAPIClient extends APIClient
 
     public function updateUser($data)
     {
-        $response = $this->post('user/' . $data['id'], [
+        $response = $this->post('user/update', [
             'json' => $data
         ]);
 
