@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Administration;
 
 use \Session;
+use \Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
@@ -25,5 +26,65 @@ class UniformCategoriesController extends Controller
             'categories' => $categories,
             'api_host' => env('API_HOST')
         ]);
+    }
+
+    public function editCategoryForm($id)
+    {
+        $category = $this->client->getCategory($id);
+        return view('administration.categories.category-edit', [
+            'category' => $category
+        ]);
+    }
+
+    public function addCategoryForm()
+    {
+        return view('administration.categories.category-create');
+    }
+
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+        $data = [
+            'name' => $name
+        ];
+
+        $id = null;
+        if (!empty($request->input('uniform_category_id')))
+        {
+            $id = $request->input('uniform_category_id');
+            $data['id'] = $id;
+        }
+        // Does the User exist
+        if ($this->client->isCategoryTaken($name, $id))
+        {
+            return Redirect::to('administration/categories')
+                            ->with('message', 'Uniform category already exist');
+        }
+
+        if ($request->input('type'))
+        {
+            $data['type'] = $request->input('type');
+        }
+
+        $response = null;
+        if (!empty($userId))
+        {
+            $response = $this->client->updateCategory($data);
+        }
+        else
+        {
+            $response = $this->client->createCategory($data);
+        }
+
+        if ($response->success)
+        {
+            return Redirect::to('administration/categories')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            return Redirect::to('administration/categories')
+                            ->with('message', $response->message);
+        }
     }
 }

@@ -94,10 +94,12 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-material" style="margin-right: 15px;">
+                                <button type="submit" class="btn btn-lg btn-primary create-user">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Material
                                 </button>
-                                <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
+                                <a href="/administration/materials" class="btn btn-lg btn-danger" style="margin-right: 15px;">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
                             </div>
