@@ -4,7 +4,11 @@ $(document).ready(function(){
         var url = "//" + api_host + "/api/color/enable/";
         $.ajax({
             url: url,
-            type: "GET",
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -24,7 +28,11 @@ $(document).ready(function(){
         var url = "//" + api_host + "/api/color/disable/";
         $.ajax({
             url: url,
-            type: "GET",
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
@@ -49,7 +57,11 @@ $(document).ready(function(){
         var url = "//" + api_host + "/api/color/delete/";
         $.ajax({
             url: url,
-            type: "GET",
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
