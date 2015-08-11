@@ -8,6 +8,9 @@ a:hover {
     background-color: red;
 }
 
-
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 .popover {max-width:400px;}
