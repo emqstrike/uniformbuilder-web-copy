@@ -172,6 +172,18 @@
 });
 	
 </script>
+
+<!-- font selector -->
+  <script>
+      function updateh1family() {
+        var selector = document.getElementById('selecth1FontFamily');
+        var family = selector.options[selector.selectedIndex].value;
+        var h1 = document.getElementById('liveh1')
+        h1.style.fontFamily = family;        
+      }
+
+    </script>
+
 @endsection
 
 @section('custom-scripts')

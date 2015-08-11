@@ -96,8 +96,21 @@
 	</div> <!-- pattern tab -->
 
 	<div class="collapse" id="text_tab"> <!-- text tab -->
-	  <div class="wcontainer-fluid">
-	  Text
+	  <div class="container-fluid">
+	  <h3>Text</h3>
+	  <hr>
+	  <h3 id="liveh1"><input type="text" placeholder="Type some text"></h3>
+	  <select id="selecth1FontFamily" name="selectFontFamily" onchange="updateh1family();">
+	    <option> Serif </option>
+	    <option> Arial </option>
+	    <option> Sans-Serif </option>                                  
+	    <option> Tahoma </option>
+	    <option> Verdana </option>
+	    <option> Lucida Sans Unicode </option>                               
+	  </select>
+   
+  
+
 	  </div>
 	</div> <!-- text tab -->
 
@@ -142,10 +155,9 @@
 				<img src="images/icons/XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
 				<img src="images/icons/2XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
 				<img src="images/icons/3XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-					
-				</center>
-				
+				</center>				
 			</div>
+
 			<div class="col-md-12">
 				<hr>
 				<h3>TEAM INFO</h3>
@@ -182,8 +194,7 @@
 					<div class="row">
 						<div class="col-md-3 col-md-offset-2">
 							<label for="sel11">Name/Number</label>
-							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
-								
+							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>								
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
@@ -223,14 +234,7 @@
 							</div>
 						</div>
 						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel12">QTY:</label>
-							  <select class="form-control" id="sel12">
-							    <option>1</option>
-							    <option>2</option>
-							    <option>3</option>
-							  </select>
-							</div>
+							<input type="text" class="form-control bfh-number" data-zeros="true" data-min="5" data-max="25">
 						</div>
 					</div>
 
