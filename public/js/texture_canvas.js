@@ -89,7 +89,7 @@
 				
 		}
 
-		 window.path_groups = {};
+		window.path_groups = {};
 
 
 		texture_canvas.change_texture_svg = function (object_name, base_image)	{
@@ -106,6 +106,7 @@
 			        angle: 0,
 			        opacity: 1,	
 				})
+
 
 				window.texture_canvas.objects[object_name] = object;
 
@@ -148,6 +149,7 @@
 
 				texture_canvas.objects.jersey_rect.fill = color_value;
 
+
 				if(typeof(texture_canvas.objects.base) !== 'undefined'){
 
 					texture_canvas.objects.base.opacity = 0.0;
@@ -173,6 +175,7 @@
 
 		texture_canvas.path_change_color = function (obj,color_value,layer){
 
+
 			texture_canvas.objects.jersey_rect.opacity = 0.0;
 
 			if(typeof(texture_canvas.objects.base) !== 'undefined'){
@@ -191,6 +194,17 @@
 				texture_canvas.objects.c_4.opacity = 1;
 
 			}
+
+			if( obj === 'pipings'){
+
+				texture_canvas.objects.number.fill = color_value;	
+				texture_canvas.objects.numberback.fill = color_value;	
+				texture_canvas.objects.name.fill = color_value;	
+
+			}
+
+
+
 
 			var filter = new fabric.Image.filters.Tint({
 
@@ -213,6 +227,127 @@
 		}
 
 
+		texture_canvas.load_logo = function (){
+
+			var img = new Image();
+			img.src = $('div.dz-image > img').attr('src');
+
+			img.onload = function () {
+			    
+			    var imgbase64 = new fabric.Image(img, {
+	        	    scaleX: 0.5,
+	            	scaleY: 0.5,
+	            	top: 1030,
+	            	left: 900,
+	        	})
+
+				window.texture_canvas.objects['logo'] = imgbase64;
+
+				canvas = window.texture_canvas.canvas;
+	        	canvas.add(imgbase64);
+				canvas.renderAll.bind(canvas);
+
+   			}
+
+   			setTimeout(function(){
+   				
+   				texture_canvas.objects.logo.moveTo(20);
+				texture_canvas.refresh_model();
+
+			}, 50);
+
+		}
+
+		texture_canvas.load_number = function (){
+
+			var txt = $('#txtNumber').val();
+
+			var number = new fabric.Text(txt, { 
+			  fontFamily: 'arial black',
+			  fontSize: 70,
+			  left: 882, 
+			  top: 1097,
+			  angle: 2,
+			  fill: '#3d3d3d',
+			})
+
+			var numberback = new fabric.Text(txt, { 
+			  fontFamily: 'arial black',
+			  fontSize: 140,
+			  left: 949, 
+			  top: 759,
+			  angle: 180,
+			  fill: '#3d3d3d',
+			})
+
+			if(typeof(texture_canvas.objects.number) === "object"){
+				texture_canvas.canvas.remove(texture_canvas.objects.number);
+			}
+
+			if(typeof(texture_canvas.objects.numberback) === "object"){
+				texture_canvas.canvas.remove(texture_canvas.objects.numberback);
+			}
+
+
+			window.texture_canvas.objects['number'] = number;
+			window.texture_canvas.objects['numberback'] = numberback;
+
+			canvas = window.texture_canvas.canvas;
+
+			setTimeout(function(){
+   				
+   				canvas.add(number);	
+
+			}, 50);
+
+			setTimeout(function(){
+   				
+   				canvas.add(numberback);
+
+			}, 50);        	
+        	
+   			setTimeout(function(){
+   				
+   				canvas.renderAll.bind(canvas);
+				texture_canvas.refresh_model();
+
+			}, 50);
+
+		}
+
+		texture_canvas.load_name = function (){
+
+			var txt = $('#txtName').val();
+
+			var name = new fabric.Text(txt, { 
+			  fontFamily: 'arial black',
+			  fontSize: 30,
+			  left: 900, 
+			  top: 792,
+			  angle: 180,
+			  textAlign: 'center',
+			  fill: '#3d3d3d',
+			})
+
+			if(typeof(texture_canvas.objects.name) === "object"){
+				texture_canvas.canvas.remove(texture_canvas.objects.name);
+			}
+
+			window.texture_canvas.objects['name'] = name;
+
+			canvas = window.texture_canvas.canvas;
+        	canvas.add(name);
+        	
+			canvas.renderAll.bind(canvas);
+
+   			setTimeout(function(){
+   				
+				texture_canvas.refresh_model();
+
+			}, 50);
+
+		}
+
 		/// End Methods
 
 
@@ -227,7 +362,6 @@
 		// 2
 		//texture_canvas.change_texture_svg('base_svg', 'base.svg');
 		// texture_canvas.change_texture_svg('c_1', 'camouflage.svg');
-
 
 		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
 		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
@@ -280,47 +414,11 @@
 		}, 50);
 		
 
-
 		texture_canvas.canvas.setBackgroundColor('rgba(183,176,159,255)', texture_canvas.canvas.renderAll.bind(canvas));
-
-		// texture_canvas.change_texture_svg('c_1', 'c_1.svg');
-		// texture_canvas.change_texture_svg('c_2', 'c_2.svg');
-		// texture_canvas.change_texture_svg('c_3', 'c_3.svg');
-		// texture_canvas.change_texture_svg('c_4', 'c_4.svg');
-		// texture_canvas.change_texture('shadows', 'shadows.png');
-
-		//texture_canvas.change_texture_svg('c_2', 'c_2.svg');
-		//texture_canvas.change_texture_svg('c_3', 'c_3.svg');
-		//texture_canvas.change_texture_svg('c_4', 'c_4.svg');
-
-		/// End Initial Textures
-
-
 
 		/// Events
 
 		canvas.on('object:added', function(options) {
-
-			// 1
-			// var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
-			// var sleeves_loaded = typeof(texture_canvas.objects.sleeves) !== 'undefined';
-			// var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
-
-			// if(base_loaded && sleeves_loaded && pipings_loaded){
-
-			// 	texture_canvas.objects.base.moveTo('1');
-			// 	texture_canvas.objects.sleeves.moveTo('4');
-			// 	texture_canvas.objects.pipings.moveTo('5');
-
-			// 	setTimeout(function(){
-
-			// 		texture_canvas.refresh_model();
-
-			// 	}, 50);
-				
-
-			// }
-
 			// 2
 
 			var base_loaded = typeof(texture_canvas.objects.base) !== 'undefined';
@@ -331,6 +429,10 @@
 			var c_4_loaded = typeof(texture_canvas.objects.c_4) !== 'undefined';
 			var shadows_loaded = typeof(texture_canvas.objects.shadows) !== 'undefined';
 			var mesh_loaded = typeof(texture_canvas.objects.mesh) !== 'undefined';
+
+			var number_loaded = typeof(texture_canvas.objects.number) !== 'undefined';
+			var numberback_loaded = typeof(texture_canvas.objects.numberback) !== 'undefined';
+			var name_loaded = typeof(texture_canvas.objects.name) !== 'undefined';
 
 			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
@@ -345,15 +447,36 @@
 
 				texture_canvas.objects.jersey_rect.moveTo('6');
 				texture_canvas.objects.shadows.moveTo('7');
-				texture_canvas.objects.mesh.moveTo('8');
-				texture_canvas.objects.pipings.moveTo('9');
+				texture_canvas.objects.mesh.moveTo('14');
+				texture_canvas.objects.pipings.moveTo('13');
 
 				texture_canvas.refresh_model();
 
 			}
 
+			if(name_loaded){
+
+				texture_canvas.objects.name.moveTo('11');
+				texture_canvas.objects.mesh.moveTo('14');
 
 
+			}
+
+			if(number_loaded){
+
+				texture_canvas.objects.number.moveTo('10');
+				texture_canvas.objects.mesh.moveTo('14');
+
+				
+			}
+
+			if(numberback_loaded){
+
+				texture_canvas.objects.numberback.moveTo('9');
+				texture_canvas.objects.mesh.moveTo('14');
+
+				
+			}
 
 		});
 

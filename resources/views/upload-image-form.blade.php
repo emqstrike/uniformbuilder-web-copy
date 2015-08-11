@@ -48,13 +48,6 @@
                     </form>
                 </div>
                 <div style='border: 1px dotted #eee; padding: 10px; margin-top: 15px'>
-                @forelse ($images as $image)
-                    <a href="{{ $image->image_path }}" target="_blank">
-                        <img src="{{ $image->thumbnail_path }}">
-                    </a>
-                @empty
-                    Zero Images
-                @endforelse
                 </div>
             </div>
         </div>

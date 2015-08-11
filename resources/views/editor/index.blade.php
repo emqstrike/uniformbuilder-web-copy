@@ -21,7 +21,6 @@
 			
 			</br ></br >
 	
-
 		</div>
 
 		<div id="mycanvas" class="mycanvas"></div>
@@ -34,12 +33,14 @@
 
 	<div class="row">
 
-		<div class="col-md-2">
+		<div class="col-md-3">
 
 		<hr />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">Jr</button>
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#shirt_panel')">
+				Jersey
+			</button>
 		</div>
 
 		<br />
@@ -59,14 +60,35 @@
 		-->
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pattern_panel')">Pt</button>
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pattern_panel')">Pattern</button>
 		</div>
 
 		<br />
 
 		<div class="tab_button">
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pipings_panel')">Pp</button>
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#pipings_panel')">Pipings</button>
 		</div>
+
+		<br />
+
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#logo_panel')">Logo</button>
+		</div>
+
+		<br />
+
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#numbers_panel')">#</button>
+		</div>
+
+		<br />
+
+		<div class="tab_button">
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm btn-tab" onclick="switch_panel('#name_panel')">Name</button>
+		</div>
+
+		<br />
+
 
 		<hr />	
 
@@ -78,7 +100,7 @@
 
 		</div>
 
-		<div class="col-md-10">
+		<div class="col-md-9">
 
 			<div class="panels">
 
@@ -188,6 +210,52 @@
 
 				</div>
 
+				<div class="option_panel" id="logo_panel">
+
+					<h2>Logo</h2>
+
+					<div class="panel panel-default">
+					 
+					  <div id="miaDropzone" class="panel-body text-center">
+					 
+					  	Drop logo here ...
+					 
+					  </div>
+
+					</div>
+
+					
+					<br />
+					<em>Please upload a transparent PNG
+					<br /> (300px x 300px)</em>
+	
+					<br />
+					<hr />
+
+				</div>
+
+				<div class="option_panel" id="numbers_panel">
+
+					<h2>Numbers</h2>
+
+				 	<input type="text" name="txtNumber" id="txtNumber" class="txtNumber" /> <button onclick="texture_canvas.load_number()">Apply</button>
+					
+					<br />
+				
+				</div>
+
+				<div class="option_panel" id="name_panel">
+
+					<h2>Name</h2>
+
+				 	<input type="text" name="txtName" id="txtName" class="txtName" /> <button onclick="texture_canvas.load_name()">Apply</button>
+					
+					<br />
+				
+				</div>
+
+
+				
 			</div>
 
 		</div>

@@ -7,6 +7,33 @@
 			handle: ".modal-header"
 		});
 
+	
+
+		// This example uses jQuery so it creates the Dropzone, only when the DOM has
+		// loaded.
+
+		// Disabling autoDiscover, otherwise Dropzone will try to attach twice.
+		Dropzone.autoDiscover = false;
+		// or disable for specific dropzone:
+		// Dropzone.options.myDropzone = false;
+
+		if ($('#miaDropzone').length) {
+
+  			var myDropzone = new Dropzone("div#miaDropzone",{url: '/uploadImage'});
+
+		  	myDropzone.on("addedfile", function(file) {
+
+
+		  		setTimeout(function(){
+
+					texture_canvas.load_logo();
+
+				}, 50);
+			  	
+
+			  });
+  		
+		}
 
 	});
 
@@ -43,7 +70,7 @@
 
 		container.appendChild( window.UniformBuilder.renderer.domElement);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 3.5, 70 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.5, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
 

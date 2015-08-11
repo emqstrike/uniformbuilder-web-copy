@@ -64,21 +64,22 @@ class UploadImageController extends Controller
             return Redirect::to('uploadImageForm')
                             ->with('message', 'There was a problem uploading your image');
         }
+
     }
 
     public function uploadImageForm()
     {
-        $response = $this->client->get('images');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-        $images = [];
-        if ($result->success)
-        {
-            $images = $result->images;
-        }
+        // $response = $this->client->get('images');
+        // $decoder = new JsonDecoder();
+        // $result = $decoder->decode($response->getBody());
+        // $images = [];
+        // if ($result->success)
+        // {
+        //     $images = $result->images;
+        // }
 
         return view('upload-image-form', [
-           'images' => $images,
+           // 'images' => $images,
            'api_upload_image_endpoint' => 'http://' . env('API_HOST') . '/api/image/upload'
         ]);
     }
