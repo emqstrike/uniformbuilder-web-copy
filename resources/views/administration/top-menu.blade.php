@@ -27,6 +27,9 @@
             <li>
                 <a href="/administration/materials"><span class="glyphicon glyphicon-th-list"></span> Materials</a>
             </li>
+            <li>
+                <a href="/administration/patterns"><span class="glyphicon glyphicon-th-list"></span> Patterns</a>
+            </li>
 
             <li class="divider">
 
