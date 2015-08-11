@@ -23,7 +23,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
-    Route::post('login', 'Administration\AuthenticationController@login');
+    Route::post('login', 'Administration\AuthenticationController@administrationLogin');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
     // Users
