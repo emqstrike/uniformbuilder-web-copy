@@ -9,6 +9,7 @@
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/datatables/media/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/datatables/media/css/dataTables.bootstrap.css">
 
