@@ -9,13 +9,11 @@
 	</div>
 
 
-	<div class="collapse" id="color_tab">
+	<div class="collapse" id="color_tab"><!-- Color tab-->
 	  <div class="container-fluid">
 
 		@include('partials.layout.teamcolor')
-
-
-		<!-- Partitions -->
+		
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 		  <div class="panel panel-default">
 		    <div class="panel-heading" role="tab" id="headingOne">
@@ -81,67 +79,197 @@
 		      </div>
 		    </div>
 		  </div>
-		</div>
-
-		<!-- Partitions -->	 
-	  
+		</div>		 	  
 	  </div>
-	</div>
+	</div><!-- Color tabs -->	
 
-	<div class="collapse" id="gradient_tab">
+	<div class="collapse" id="gradient_tab"> <!-- gradient -->
 	  <div class="container-fluid">
-	  	
-	  	<ul class="list-unstyled">
-		    <li><a data-placement="bottom" data-toggle="popover" data-container="body" data-placement="left" type="button" data-html="true" href="#" id="login"><span class="glyphicon glyphicon-search" style="margin:3px 0 0 0"></span></a></li>
-		    <div id="popover-content" class="hide">
-		      <form class="form-inline" role="form">
-		        <div class="form-group"> 
-		         @include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
-		        </div>
-		      </form>
-		    </div>
-		  </ul>
-
+	  	Gradient
 	  </div>
-	</div>
+	</div> <!-- gradient -->
 
-	<div class="collapse" id="pattern_tab">
+	<div class="collapse" id="pattern_tab"> <!-- pattern tab -->
 	  <div class="container-fluid">
-	  D
+	  Pattern
 	  </div>
-	</div>
+	</div> <!-- pattern tab -->
 
-	<div class="collapse" id="text_tab">
+	<div class="collapse" id="text_tab"> <!-- text tab -->
 	  <div class="wcontainer-fluid">
-	  E
+	  Text
 	  </div>
-	</div>
+	</div> <!-- text tab -->
 
-	<div class="collapse" id="number_tab">
+	<div class="collapse" id="number_tab"> <!-- number -->
 	  <div class="container-fluid">
-	  F
+	  Number
 	  </div>
-	</div>
+	</div> <!-- number -->
 
-	<div class="collapse" id="mascot_tab">
+	<div class="collapse" id="mascot_tab"> <!-- graphics -->
 	  <div class="container-fluid">
-	  G
+	  Graphics
 	  </div>
-	</div>
+	</div> <!-- graphics -->
 
-	<div class="collapse" id="size_tab">
+	<div class="collapse" id="size_tab"> <!-- size -->
 	  <div class="container-fluid">
-		
-	  	<div class="form-group">
-		  <label for="sel1">Select size:</label>
-		  <select class="form-control" id="sel1">
-		    <option>Small</option>
-		    <option>Medium</option>
-		    <option>Large</option>
-		  </select>
+		<div class="row">
+			<div class="col-md-12">
+				
+			</div>
+			<div class="col-md-12">
+				<h3>Style:</h3>
+				<h3>Estimate:</h3>
+				<h3>Lead Time:</h3>
+			</div>
+			<div class="col-md-12">
+				<hr>
+				<center>
+				<img src="images/icons/YXS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/YS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/YM.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/YL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/YXL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/Y2XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/Y3XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<br><br>
+				<img src="images/icons/XS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/S.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/M.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/L.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/2XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+				<img src="images/icons/3XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
+					
+				</center>
+				
+			</div>
+			<div class="col-md-12">
+				<hr>
+				<h3>TEAM INFO</h3>
+				<hr>					
+
+				<table class="table table-hover">
+  					<div class="row">
+						<div class="col-md-3 col-md-offset-2">
+							<label for="sel11">Name/Number</label>
+							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
+								
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel11">Size:</label>
+							  <select class="form-control" id="sel1">
+							    <option>Small</option>
+							    <option>Medium</option>
+							    <option>Large</option>
+							  </select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel12">QTY:</label>
+							  <select class="form-control" id="sel12">
+							    <option>1</option>
+							    <option>2</option>
+							    <option>3</option>
+							  </select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-md-offset-2">
+							<label for="sel11">Name/Number</label>
+							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
+								
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel11">Size:</label>
+							  <select class="form-control" id="sel1">
+							    <option>Small</option>
+							    <option>Medium</option>
+							    <option>Large</option>
+							  </select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel12">QTY:</label>
+							  <select class="form-control" id="sel12">
+							    <option>1</option>
+							    <option>2</option>
+							    <option>3</option>
+							  </select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-md-offset-2">
+							<label for="sel11">Name/Number</label>
+							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
+								
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel11">Size:</label>
+							  <select class="form-control" id="sel1">
+							    <option>Small</option>
+							    <option>Medium</option>
+							    <option>Large</option>
+							  </select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+							  <label for="sel12">QTY:</label>
+							  <select class="form-control" id="sel12">
+							    <option>1</option>
+							    <option>2</option>
+							    <option>3</option>
+							  </select>
+							</div>
+						</div>
+					</div>
+
+				</table>
+
+				
+
+			</div>
 		</div>
+	  	
+	  	
 
+		
+
+		<!-- modal test -->
+		<!-- Button trigger modal -->
+		
+		  
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Jersey Information</h4>
+		      </div>
+		      <div class="modal-body">
+		        ...
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- modal test -->
 	  </div>
-	</div>
+	</div> <!-- size -->
 
 </div>
