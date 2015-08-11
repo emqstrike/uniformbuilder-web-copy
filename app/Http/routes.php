@@ -63,7 +63,6 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
-    Route::get('models', function(){ return view('administration.oops'); });
     Route::get('jerseys', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });

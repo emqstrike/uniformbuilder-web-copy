@@ -1,11 +1,5 @@
 @extends('administration.main')
 
-@section('styles')
-
-<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
-@endsection
-
 @section('content')
 
 <div class="container-fluid main-content">
@@ -36,7 +30,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control color-name" name="name" value="{{ $category->name }}">
+                                <input type="name" class="form-control category-name" name="name" value="{{ $category->name }}">
                             </div>
                         </div>
 
@@ -61,23 +55,9 @@
 
 @endsection
 
-@section('scripts')
-
-<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
-
-@endsection
-
 @section('custom-scripts')
 
 $(document).ready(function(){
-    $('#colorpicker').spectrum({
-        color: "#ff0000",
-        preferredFormat: "hex",
-        showInput: true,
-        move: function(tinycolor) {
-            $('#hex-code').val(tinycolor);
-        }
-    });
 
     $('#create-color-form').submit(function(){
         $('.flash-alert .flash-progress').show();

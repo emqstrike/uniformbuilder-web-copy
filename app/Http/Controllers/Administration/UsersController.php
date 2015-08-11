@@ -22,8 +22,7 @@ class UsersController extends Controller
         $users = $this->client->getUsers();
 
         return view('administration.users.users', [
-            'users' => $users,
-            'api_host' => env('API_HOST')
+            'users' => $users
         ]);
     }
 
