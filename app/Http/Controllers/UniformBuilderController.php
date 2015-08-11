@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Utilities\APIClient;
+use App\APIClients\ColorsAPIClient;
+use App\APIClients\MaterialsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -19,10 +20,12 @@ class UniformBuilderController extends Controller
         ];
 
         $accessToken = null;
-        $client = new APIClient($accessToken);
+        $colorsClient = new ColorsAPIClient();
+        $materialsClient = new MaterialsAPIClient();
 
-        $colors = $client->getColors();
-        $materials = $client->getMaterials();
+
+        $colors = $colorsClient->getColors();
+        $materials = $materialsClient->getMaterials();
 
         return view('editor.index', [
             'page_title' => $title,

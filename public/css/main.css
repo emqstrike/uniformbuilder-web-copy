@@ -173,4 +173,19 @@
 
 /* end material editor */
 
+/* 
+
+	dropzone
+
+*/
+
+	.dz-error-message {
+
+		display: none;
+
+	}
+
+/* end dropzone */
+
+
 

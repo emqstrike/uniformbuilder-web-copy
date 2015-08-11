@@ -7,7 +7,7 @@ use \Session;
 use \Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Utilities\APIClient;
+use App\APIClients\APIClient;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\Utilities\S3Uploader;
@@ -28,57 +28,59 @@ class UploadImageController extends Controller
      */
     public function upload(Request $request)
     {
-        $uploaded = $request->file();
-        $keys = array_keys($uploaded);
+        // $uploaded = $request->file();
+        // $keys = array_keys($uploaded);
 
-        $file = $uploaded[$keys[0]];
-        $filename = $file->getClientOriginalName();
-        $ext = $file->getClientOriginalExtension();
-        $mime = $file->getClientMimeType();
-        error_log(print_r([$filename, $ext, $mime], true));
+        // $file = $uploaded[$keys[0]];
+        // $filename = $file->getClientOriginalName();
+        // $ext = $file->getClientOriginalExtension();
+        // $mime = $file->getClientMimeType();
+        // error_log(print_r([$filename, $ext, $mime], true));
 
-        $uploadResult = S3Uploader::upload($file);
+        // $uploadResult = S3Uploader::upload($file);
 
-        $response = $this->client->post('image', [
-            'json' => [
-                'image_path' => $uploadResult['image_path'],
-                'thumbnail_path' => $uploadResult['thumbnail_path']
-            ]
-        ]);
+        // $response = $this->client->post('image', [
+        //     'json' => [
+        //         'image_path' => $uploadResult['image_path'],
+        //         'thumbnail_path' => $uploadResult['thumbnail_path']
+        //     ]
+        // ]);
 
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
+        // $decoder = new JsonDecoder();
+        // $result = $decoder->decode($response->getBody());
 
-        if ($result->success)
-        {
-            echo '<pre>';
-            echo 'Upload Result:';
-            print_r($uploadResult);
-            echo 'Save to DB Result:';
-            print_r($result);
-            echo '</pre>';
-            echo '<a href="/uploadImageForm">Back to Upload Images Form</a>';
-        }
-        else
-        {
-            return Redirect::to('uploadImageForm')
-                            ->with('message', 'There was a problem uploading your image');
-        }
+        // if ($result->success)
+        // {
+        //     echo '<pre>';
+        //     echo 'Upload Result:';
+        //     print_r($uploadResult);
+        //     echo 'Save to DB Result:';
+        //     print_r($result);
+        //     echo '</pre>';
+        //     echo '<a href="/uploadImageForm">Back to Upload Images Form</a>';
+        // }
+        // else
+        // {
+        //     return Redirect::to('uploadImageForm')
+        //                     ->with('message', 'There was a problem uploading your image');
+        // }
+
+        return "ok!";
     }
 
     public function uploadImageForm()
     {
-        $response = $this->client->get('images');
-        $decoder = new JsonDecoder();
-        $result = $decoder->decode($response->getBody());
-        $images = [];
-        if ($result->success)
-        {
-            $images = $result->images;
-        }
+        // $response = $this->client->get('images');
+        // $decoder = new JsonDecoder();
+        // $result = $decoder->decode($response->getBody());
+        // $images = [];
+        // if ($result->success)
+        // {
+        //     $images = $result->images;
+        // }
 
         return view('upload-image-form', [
-           'images' => $images,
+           // 'images' => $images,
            'api_upload_image_endpoint' => 'http://' . env('API_HOST') . '/api/image/upload'
         ]);
     }
