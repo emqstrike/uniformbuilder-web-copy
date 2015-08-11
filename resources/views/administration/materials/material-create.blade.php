@@ -88,7 +88,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-user" style="display: none">
+                                <button type="submit" class="btn btn-lg btn-primary create-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Material
                                 </button>

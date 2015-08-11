@@ -5,29 +5,30 @@ use Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 
-class MaterialUploader
+class FileUploader
 {
     /**
      * Upload texture file to S3
      * @param UploadedFile $uploadedFile
-     * @param String $materialName
+     * @param String $objectName
      * @param String $type 'material' or 'bump' | 'thumbnail'
      * @return String URL of the uploade file or null
      */
     public static function upload(
         UploadedFile $uploadedFile,
-        $materialName,
-        $type = 'material'
+        $objectName,
+        $type = 'material',
+        $s3folder = 'materials'
     )
     {
         if ($type == 'thumbnail')
         {
-            return self::createThumbnail($uploadedFile, $materialName);
+            return self::createThumbnail($uploadedFile, $objectName, $type, $s3folder);
         }
         else
         {
-            $uploadedFilePath = self::moveToTemporaryFolder($uploadedFile, $materialName);
-            return self::uploadToS3($uploadedFilePath, $materialName, $type);
+            $uploadedFilePath = self::moveToTemporaryFolder($uploadedFile, $objectName);
+            return self::uploadToS3($uploadedFilePath, $objectName, $type, $s3folder);
         }
 
         return null;
@@ -40,17 +41,17 @@ class MaterialUploader
 
     /**
      * @param UploadedFile $uploadedFile
-     * @param String $materialName
+     * @param String $objectName
      * @param String File path of the uploaded file
      */
-    public static function moveToTemporaryFolder(UploadedFile $uploadedFile, $materialName)
+    public static function moveToTemporaryFolder(UploadedFile $uploadedFile, $objectName)
     {
         $filename = $uploadedFile->getClientOriginalName();
-        if (is_null($materialName))
+        if (is_null($objectName))
         {
             throw new Exception('Material name cannot be null');
         }
-        $temporaryFolder = '/tmp/' . self::makeSlug($materialName) . '/';
+        $temporaryFolder = '/tmp/' . self::makeSlug($objectName) . '/';
         $filePath = $temporaryFolder . $filename;
         if (!file_exists($filePath))
         {
@@ -61,11 +62,12 @@ class MaterialUploader
 
     /**
      * @param String $filePath Source File
-     * @param String $materialName
+     * @param String $objectName
      * @param String $type 'material' or 'bump' | 'thumbnail'
+     * @param String $s3folder 'materials'
      * @return String URL of uploaded file
      */
-    public static function uploadToS3($filePath, $materialName, $type)
+    public static function uploadToS3($filePath, $objectName, $type, $s3folder)
     {
         $filename = 'material.jpg';
         if ($type == 'material')
@@ -92,10 +94,18 @@ class MaterialUploader
         {
             $filename = 'thumbnail.png';
         }
+        elseif ($type == 'base_model')
+        {
+            $filename = 'base_model.json';
+        }
+        else
+        {
+            error_log('Unsupported File Type');
+            return null;
+        }
 
         // Prepare PATH
-        $materialFolder = 'materials/' . env('APP_ENV') . '/';
-        $folder = $materialFolder . self::makeSlug($materialName);
+        $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
         $s3TargetPath = "{$folder}/{$filename}";
 
         // Upload to S3
@@ -112,12 +122,24 @@ class MaterialUploader
         return null;
     }
 
-    public static function createThumbnail(UploadedFile $uploadedFile, $materialName)
+    /**
+     * Upload texture file to S3
+     * @param UploadedFile $uploadedFile
+     * @param String $objectName
+     * @param String $type 'material' or 'bump' | 'thumbnail'
+     * @return String URL of the uploade file or null
+     */
+    public static function createThumbnail(
+        UploadedFile $uploadedFile,
+        $objectName,
+        $type = 'material',
+        $s3folder = 'materials'
+    )
     {
         Image::configure([
             'driver' => 'imagick'
         ]);
-        $uploadedFilePath = self::moveToTemporaryFolder($uploadedFile, $materialName);
+        $uploadedFilePath = self::moveToTemporaryFolder($uploadedFile, $objectName);
 
         try
         {
@@ -131,14 +153,14 @@ class MaterialUploader
         $filename = "thumbnail.png";
 
         // Local Path (Temporary)
-        $slugFolder = self::makeSlug($materialName);
+        $slugFolder = self::makeSlug($objectName);
         $destinationFolder = "/tmp/{$slugFolder}" ;
         $targetDestinationPath = "{$destinationFolder}/{$filename}";
 
         // Upload thumbnail to S3
         if ($image->save($targetDestinationPath))
         {
-            $thumbnailPath = self::uploadToS3($targetDestinationPath, $materialName, 'thumbnail');
+            $thumbnailPath = self::uploadToS3($targetDestinationPath, $objectName, 'thumbnail', $s3folder);
             return $thumbnailPath;
         }
     }

@@ -7,7 +7,7 @@ use \Session;
 use \Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Utilities\APIClient;
+use App\APIClients\APIClient;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\Utilities\S3Uploader;
