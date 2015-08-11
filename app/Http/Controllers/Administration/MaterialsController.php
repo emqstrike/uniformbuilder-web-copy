@@ -5,9 +5,9 @@ use \Session;
 use \Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Utilities\MaterialUploader;
-use App\Http\Controllers\Controller;
+use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
+use App\Http\Controllers\Controller;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
@@ -27,8 +27,7 @@ class MaterialsController extends Controller
         $materials = $this->client->getMaterials();
 
         return view('administration.materials.materials', [
-            'materials' => $materials,
-            'api_host' => env('API_HOST')
+            'materials' => $materials
         ]);
     }
 
@@ -55,7 +54,7 @@ class MaterialsController extends Controller
         $materialName = $request->input('name');
         $materialCode = $request->input('code');
         $factoryCode = $request->input('factory_code');
-        $slug = MaterialUploader::makeSlug($materialName);
+        $slug = FileUploader::makeSlug($materialName);
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -90,7 +89,7 @@ class MaterialsController extends Controller
             {
                 if ($bumpMapFile->isValid())
                 {
-                    $data['bump_map_path'] = MaterialUploader::upload(
+                    $data['bump_map_path'] = FileUploader::upload(
                                                     $bumpMapFile,
                                                     $materialName,
                                                     'bump'
@@ -105,7 +104,7 @@ class MaterialsController extends Controller
                 if ($materialFile->isValid())
                 {
                     // Material
-                    $data['material_path'] = MaterialUploader::upload(
+                    $data['material_path'] = FileUploader::upload(
                                                     $materialFile,
                                                     $materialName
                                                 );
@@ -113,7 +112,7 @@ class MaterialsController extends Controller
                     if (is_null($request->file('thumbnail_path')))
                     {
                         // Thumbnail
-                        $data['thumbnail_path'] = MaterialUploader::upload(
+                        $data['thumbnail_path'] = FileUploader::upload(
                                                         $materialFile,
                                                         $materialName,
                                                         'thumbnail'
@@ -129,7 +128,7 @@ class MaterialsController extends Controller
                 if ($shadowFile->isValid())
                 {
                     // Shadow
-                    $data['shadow_path'] = MaterialUploader::upload(
+                    $data['shadow_path'] = FileUploader::upload(
                                                 $shadowFile,
                                                 $materialName,
                                                 'shadow'
@@ -144,7 +143,7 @@ class MaterialsController extends Controller
                 if ($highlightFile->isValid())
                 {
                     // Highlight
-                    $data['highlight_path'] = MaterialUploader::upload(
+                    $data['highlight_path'] = FileUploader::upload(
                                                     $highlightFile,
                                                     $materialName,
                                                     'highlight'
@@ -159,7 +158,7 @@ class MaterialsController extends Controller
                 if ($thumbnailFile->isValid())
                 {
                     // Highlight
-                    $data['thumbnail_path'] = MaterialUploader::upload(
+                    $data['thumbnail_path'] = FileUploader::upload(
                                                     $thumbnailFile,
                                                     $materialName,
                                                     'thumbnail'
