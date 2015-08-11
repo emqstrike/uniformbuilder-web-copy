@@ -19,6 +19,9 @@ class AuthenticationController extends Controller
         $this->client = $apiClient;
     }
 
+    /**
+     * Front-end Login
+     */
     public function login(Request $request)
     {
         $email = $request->input('email');
@@ -39,6 +42,51 @@ class AuthenticationController extends Controller
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
                 Session::put('email', $result->user->email);
+                Session::put('accountType', $result->user->type);
+                Session::put('accessToken', $result->access_token);
+                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                return redirect('/');
+            }
+            else
+            {
+                Session::flash('flash_message', $result->message);
+                return redirect('login');
+            }
+
+        }
+        catch (ClientException $e)
+        {
+            $error = $e->getMessage();
+            error_log('Error:' . $error);
+        }
+    }
+
+    /**
+     * Administration Login
+     */
+    public function administrationLogin(Request $request)
+    {
+        $email = $request->input('email');
+        $password = $request->input('password');
+        try
+        {
+            $response = $this->client->post('user/login', [
+                'json' => [
+                    'email' => $email,
+                    'password' => $password
+                ]
+            ]);
+            $decoder = new JsonDecoder();
+            $result = $decoder->decode($response->getBody());
+
+            // Only 'administrator' Account Type can login
+            if ($result->success && $result->user->type == 'administrator')
+            {
+                Session::put('isLoggedIn', $result->success);
+                Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
+                Session::put('email', $result->user->email);
+                Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
@@ -46,7 +94,7 @@ class AuthenticationController extends Controller
             }
             else
             {
-                Session::flash('flash_message', $result->message);
+                Session::flash('flash_message', 'Access Denied');
                 return redirect('administration/login');
             }
 
