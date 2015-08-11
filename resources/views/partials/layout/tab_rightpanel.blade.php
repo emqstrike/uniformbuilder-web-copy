@@ -1,10 +1,6 @@
-
-
 <div class='scroll' style="border: 1px solid gray; width:80%; height:60%;">
 	<br>
-	<div class="container-fluid">
-		@include('partials.layout.teamcolor')
-	</div>
+	
 
 	<div class="collapse" id="materials_tab">
 	  <div class="container-fluid">
@@ -16,17 +12,78 @@
 	<div class="collapse" id="color_tab">
 	  <div class="container-fluid">
 
-		<header style="border-top-style: solid; border-width: 1px;"><h4>BODY</h4></header>COLOR NAME
-		<br>
-	  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
-	  	<br><br>
-	  	<header style="border-top-style: solid; border-width: 1px;"><h4>PIPING</h4></header>COLOR NAME
-		<br>
-	  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
-	  	<br><br>
-	  	<header style="border-top-style: solid; border-width: 1px;"><h4>SLEEVES</h4></header>COLOR NAME
-		<br>
-	  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+		@include('partials.layout.teamcolor')
+
+
+		<!-- Partitions -->
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		      <h4 class="panel-title">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		          BODY
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+		      <div class="panel-body">
+			    COLOR NAME
+				<br>
+	  			@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',]) 
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingTwo">
+		      <h4 class="panel-title">
+		        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+		          PIPING 1
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+		      <div class="panel-body">
+		      	COLOR NAME
+				<br>
+	  			@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',]) 
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingThree">
+		      <h4 class="panel-title">
+		        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		          PIPING 2
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+		      <div class="panel-body">
+	        	COLOR NAME
+				<br>
+			  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+		       </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingFour">
+		      <h4 class="panel-title">
+		        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+		          SLEEVES
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+		      <div class="panel-body">
+		      	COLOR NAME
+				<br>
+			  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Partitions -->	 
 	  
 	  </div>
 	</div>
