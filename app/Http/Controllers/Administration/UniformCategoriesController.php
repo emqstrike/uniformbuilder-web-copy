@@ -23,8 +23,7 @@ class UniformCategoriesController extends Controller
         $categories = $this->client->getUniformCategories();
 
         return view('administration.categories.categories', [
-            'categories' => $categories,
-            'api_host' => env('API_HOST')
+            'categories' => $categories
         ]);
     }
 
@@ -54,7 +53,7 @@ class UniformCategoriesController extends Controller
             $id = $request->input('uniform_category_id');
             $data['id'] = $id;
         }
-        // Does the User exist
+        // Is the Category Name taken?
         if ($this->client->isCategoryTaken($name, $id))
         {
             return Redirect::to('administration/categories')

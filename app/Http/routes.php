@@ -23,7 +23,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
-    Route::post('login', 'Administration\AuthenticationController@login');
+    Route::post('login', 'Administration\AuthenticationController@administrationLogin');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
     // Users
@@ -54,9 +54,15 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/add', 'Administration\MaterialsController@addMaterialForm');
     Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
+    // Base Models
+    Route::get('models', 'Administration\BaseModelsController@index');
+    Route::post('model/add', 'Administration\BaseModelsController@store');
+    Route::post('model/update', 'Administration\BaseModelsController@store');
+    Route::get('model/add', 'Administration\BaseModelsController@addModelForm');
+    Route::get('model/edit/{id}', 'Administration\BaseModelsController@editModelForm');
+
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
-    Route::get('models', function(){ return view('administration.oops'); });
     Route::get('jerseys', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });

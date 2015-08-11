@@ -25,8 +25,7 @@ class ColorsController extends Controller
         $colors = $this->client->getColors();
 
         return view('administration.colors.colors', [
-            'colors' => $colors,
-            'api_host' => env('API_HOST')
+            'colors' => $colors
         ]);
     }
 
@@ -63,14 +62,14 @@ class ColorsController extends Controller
         // Color Name should be Unique
         if ($this->client->isColorExist($colorName, $colorId))
         {
-            return Redirect::to('administration.colors.colors')
+            return Redirect::to('administration/colors')
                         ->with('message', 'Color name already exists');
         }
 
         // Color Code should be Unique
         if ($this->client->isColorCodeExist($colorCode, $colorId))
         {
-            return Redirect::to('administration.colors.colors')
+            return Redirect::to('administration/colors')
                         ->with('message', 'Color Code already exists');
         }
 
@@ -94,12 +93,12 @@ class ColorsController extends Controller
 
         if ($response->success)
         {
-            return Redirect::to('administration.colors.colors')
+            return Redirect::to('administration/colors')
                             ->with('message', $response->message);
         }
         else
         {
-            return Redirect::to('administration.colors.colors')
+            return Redirect::to('administration/colors')
                             ->with('message', 'There was a problem saving your color');
         }
     }
