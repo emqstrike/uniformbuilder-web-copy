@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/category/add" enctype="multipart/form-data" id='create-color-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/category/edit" enctype="multipart/form-data" id='edit-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="uniform_category_id" value="{{ $category->id }}">
 
