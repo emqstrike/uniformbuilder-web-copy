@@ -109,6 +109,10 @@ class FileUploader
         {
             // Just Retain the filename
         }
+        elseif ($type == 'font')
+        {
+            $filename = 'font.ttf';
+        }
         else
         {
             error_log('Unsupported File Type');

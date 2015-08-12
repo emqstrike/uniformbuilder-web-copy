@@ -14,6 +14,7 @@
 
 <div class="col-md-12">
     <h1>
+        <span class="fa fa-male"></span>
         Base Models
         <small>
             <a href="/administration/model/add" class='btn btn-xs btn-success'>
@@ -27,7 +28,7 @@
 <div class="row col-md-5">
     <table class='table table-bordered'>
     <tr>
-        <th colspan='2'>
+        <th colspan='3'>
             Base Models
         </th>
     </tr>
@@ -69,7 +70,7 @@
 @empty
 
     <tr>
-        <td colspan='2'>
+        <td colspan='3'>
             No Base Models
         </td>
     </tr>

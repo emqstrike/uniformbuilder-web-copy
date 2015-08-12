@@ -16,7 +16,7 @@
             <li class="divider">
 
             <li>
-                <a href="/administration/categories"><span class="glyphicon glyphicon-th-list"></span> Uniform Categories</a>
+                <a href="/administration/categories"><span class="fa fa-building-o"></span> Uniform Categories</a>
             </li>
 
             <li class="divider">
@@ -25,10 +25,13 @@
                 <a href="/administration/colors"><span class="fa fa-th"></span> Colors</a>
             </li>
             <li>
-                <a href="/administration/materials"><span class="glyphicon glyphicon-th-list"></span> Materials</a>
+                <a href="/administration/materials"><span class="fa fa-cubes"></span> Materials</a>
             </li>
             <li>
                 <a href="/administration/patterns"><span class="glyphicon glyphicon-th-list"></span> Patterns</a>
+            </li>
+            <li>
+                <a href="/administration/fonts"><span class="fa fa-font"></span> Fonts</a>
             </li>
 
             <li class="divider">

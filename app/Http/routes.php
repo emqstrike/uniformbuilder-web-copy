@@ -68,6 +68,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('pattern/add', 'Administration\PatternsController@addPatternForm');
     Route::get('pattern/edit/{id}', 'Administration\PatternsController@editPatternForm');
 
+    // Fonts
+    Route::get('fonts', 'Administration\FontsController@index');
+    Route::post('font/add', 'Administration\FontsController@store');
+    Route::post('font/update', 'Administration\FontsController@store');
+    Route::get('font/add', 'Administration\FontsController@addFontForm');
+    Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
+
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
     Route::get('jerseys', function(){ return view('administration.oops'); });
