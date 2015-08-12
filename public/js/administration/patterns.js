@@ -126,7 +126,7 @@ $(document).ready(function(){
     // Edit Pattern Scripts
     $('#edit-pattern-form').submit(function(){
         $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New pattern');
+        $('.flash-alert .flash-title').text('Updating pattern');
         $('.flash-alert .flash-sub-title').text('Saving');
         $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
         $('.flash-alert').addClass('alert-info');
@@ -135,8 +135,31 @@ $(document).ready(function(){
     });
 
     $('.delete-pattern-layer').on('click', function(){
-        alert('ola');
-        var id = $(this).data('pattern-id');
-        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern layer?', id);
+        var id = $(this).data('pattern-id');console.log(id);
+        var layer = $(this).data('layer');console.log(layer);
+        $('#confirmation-modal .confirm-delete-layer').data('layer', layer);
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern layer?', id, 'confirm-delete-layer');
+    });
+
+    // Delete Layer
+    $('#confirmation-modal .confirm-delete-layer').on('click', function(){
+        var id = $(this).data('value');
+        var layer = $(this).data('layer');
+        var url = "//" + api_host + "/api/pattern/deleteLayer/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, layer: layer}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + layer).fadeOut();
+                }
+            }
+        });
     });
 });
