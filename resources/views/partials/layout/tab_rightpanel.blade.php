@@ -25,24 +25,10 @@
 		    </div>
 		    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 		      <div class="panel-body">
-			    <!-- test -->
-			
-
+			    <!-- test -->			
 					<h2>Jersey</h2>
 					<h4>Base Color</h4><br />
-					@include('partials.colors',['data_target' =>'jersey', 'event_class' => 'change-color',])
-				
-
-					<br />
-
-					<br /><h4>Material Test (Base)</h4><br />
-					<button onclick="texture_canvas.change_texture('base','base.jpg')">Plain</button>
-					<button onclick="texture_canvas.change_texture('base','camouflage.jpg')">Camo</button>
-					
-				
-
-
-				
+					@include('partials.colors',['data_target' =>'jersey', 'event_class' => 'change-color',])				
 				<!-- test -->
 		      </div>
 		    </div>
