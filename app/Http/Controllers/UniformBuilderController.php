@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Utilities\APIClient;
+use App\APIClients\ColorsAPIClient;
+use App\APIClients\MaterialsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -13,16 +14,19 @@ class UniformBuilderController extends Controller
     public function index()
     {
         $title = 'QuickStrike Uniform Builder';
+        
+        // For asset versioning, to force update scripts and stylesheets instead of being loaded from browser cache
         $asset = [
-            'version' => '?v=0.004',
+            'version' => '?v=0.005',
             'storage' => ''
         ];
 
         $accessToken = null;
-        $client = new APIClient($accessToken);
+        $colorsClient = new ColorsAPIClient();
+        $materialsClient = new MaterialsAPIClient();
 
-        $colors = $client->getColors();
-        $materials = []; //$client->getMaterials();
+        $colors = $colorsClient->getColors();
+        $materials = $materialsClient->getMaterials();
 
         return view('editor.index', [
             'page_title' => $title,

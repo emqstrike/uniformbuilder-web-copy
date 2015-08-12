@@ -7,6 +7,33 @@
 			handle: ".modal-header"
 		});
 
+	
+
+		// This example uses jQuery so it creates the Dropzone, only when the DOM has
+		// loaded.
+
+		// Disabling autoDiscover, otherwise Dropzone will try to attach twice.
+		Dropzone.autoDiscover = false;
+		// or disable for specific dropzone:
+		// Dropzone.options.myDropzone = false;
+
+		if ($('#miaDropzone').length) {
+
+  			var myDropzone = new Dropzone("div#miaDropzone",{url: '/uploadImage'});
+
+		  	myDropzone.on("addedfile", function(file) {
+
+
+		  		setTimeout(function(){
+
+					texture_canvas.load_logo();
+
+				}, 50);
+			  	
+
+			  });
+  		
+		}
 
 	});
 
@@ -32,26 +59,22 @@
 		var height = $(container).height();
 
 		window.UniformBuilder.scene = new THREE.Scene();
-
-
 		window.UniformBuilder.rotateY = 0;
-		
-		//window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+		window.UniformBuilder.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+
 		var v = 128;
-		window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
+		//window.UniformBuilder.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
 
 		window.UniformBuilder.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
-		
 		window.UniformBuilder.renderer.setSize(width, height);
 
-		container.appendChild( window.UniformBuilder.renderer.domElement );
+		container.appendChild( window.UniformBuilder.renderer.domElement);
 
-		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.0, 100 );
+		var pointLight = new THREE.PointLight( 0x8e8e8e, 2.5, 100 );
 		pointLight.position.set(1,1,2);
 		window.UniformBuilder.camera.add(pointLight);
 
 		window.UniformBuilder.scene.add(window.UniformBuilder.camera);
-
 		window.addEventListener('resize', function() {
 
 			container = document.getElementById('mycanvas');
@@ -67,6 +90,10 @@
 
 		controls = new THREE.OrbitControls( window.UniformBuilder.camera, UniformBuilder.renderer.domElement );
 
+		controls.rotateSpeed = 0.35;
+		controls.zoomSpeed = 0.2;
+		controls.panSpeed = 0.05;
+
 		var render = function () {
 
 			if(!window.free_rotate){
@@ -74,29 +101,31 @@
 				move_camera_to();
 				rotate_camera_to();
 
+				rotate_direction();
+
 			}
 
-			requestAnimationFrame( render );
+			requestAnimationFrame(render);
 			window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
 
 		};
 
 		render();
 
-		load_model('jersey','jersey','0xffffff', true);
+		reset_camera();
 
 	}
 
 	//// Refactored Utils start here ... ////
 
-	function load_model(file_name, name_of_obj, color, active){
+	function load_model(file_name, name_of_obj, material, active){
 
 	    var loader = new THREE.JSONLoader();
 	    var filename = window.UniformBuilder.config.model_folder + file_name + ".json";
 
 	    loader.load(filename, function(geometry){
 
-			mesh = new THREE.Mesh(geometry);
+			mesh = new THREE.Mesh(geometry, material);
 
 			window.UniformBuilder.scene.add(mesh);
 
@@ -107,43 +136,6 @@
 				set_active_part(name_of_obj);
 
 			}
-
-			if(name_of_obj === 'jersey'){ // HACK: Last to be loaded because of size
-
-				reset_camera();
-
-				// change_material('pants','7');
-				// change_material('shirt','7');
-
-				// change_material('emirates','9');
-
-				//change_color('shirt','0xffffff')
-
-				var render = function () {
-
-					if(!window.free_rotate){
-
-						move_camera_to();
-						rotate_camera_to();
-
-						window.UniformBuilder.models.jersey.rotation.y += window.UniformBuilder.rotateY;
-												
-						rotate_direction();
-
-					}
-					
-					// UniformBuilder.camera.lookAt(UniformBuilder.active_part.position);
-
-					requestAnimationFrame( render );
-					window.UniformBuilder.renderer.render(window.UniformBuilder.scene, window.UniformBuilder.camera);
-
-				};
-
-				render();
-
-			}
-			console.log(name_of_obj);
-
 
 	    });
 
@@ -283,26 +275,17 @@
 
 		window.camera_position_to = {
 
-			// x: 0.3278637925403716,
-			// y: 0.08435212366005695,
-			// z: 4.289716248324682 ,
-
-			x: -0.4028275089907045,
-			y: 0.9640847194476025,
-			z: 4.264606528028274,
-
+			x: -0.4048810230299358,
+			y: 2.196751850044594,
+			z: 3.3721770602088754,
 
 		};
 
 		window.camera_rotation_to = {
 
-			// x: 0.048319539389081956,
-			// y: 0.10349508215725498,
-			// z: -0.004995758915489389,
-
-			x: 0.141559000153777,
-			y: -0.08080416368600245,
-			z: -0.011502544678799109,
+			x: -0.12255567653446389,
+			y: 0.021384855805949884,
+			z: 0.0026338294655909133,
 
 		};
 
@@ -346,6 +329,19 @@
 
 		};
 
+		window.positions.number = {
+			x:  0.3436450967568141,
+			y: 2.232002002163917,
+			z: 2.510202062197731,
+		};
+
+		window.rotations.number = {
+			x: -0.11788152307711151,
+			y: 0.1988831304319421,
+			z: 0.023394610919328866,
+		};
+
+
 		window.positions.jersey = {
 			x:  -0.4366205684461612,
 			y: 1.9384160512919781,
@@ -360,9 +356,3 @@
 
 
 	}
-		
-
-
-
-
-

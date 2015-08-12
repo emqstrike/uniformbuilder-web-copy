@@ -40,7 +40,7 @@
             <div class="content">
                 <div class="title">Image Uploader</div>
                 <div>
-                    <form method="POST" action="uploadImage" enctype="multipart/form-data">
+                    <form method="POST" action="{{ $api_upload_image_endpoint }}" enctype="multipart/form-data">
                         Image:
                         <input type="file" name="image">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -48,13 +48,6 @@
                     </form>
                 </div>
                 <div style='border: 1px dotted #eee; padding: 10px; margin-top: 15px'>
-                @forelse ($images as $image)
-                    <a href="{{ $image->image_path }}" target="_blank">
-                        <img src="{{ $image->thumbnail_path }}">
-                    </a>
-                @empty
-                    Zero Images
-                @endforelse
                 </div>
             </div>
         </div>

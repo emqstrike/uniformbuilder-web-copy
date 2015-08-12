@@ -19,6 +19,7 @@
 		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
 		<link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/dropzone/dropzone.css{{$asset_version}}">
 
 		<link rel="stylesheet" href="{{$asset_storage}}/css/custom.css{{$asset_version}}">
 		
@@ -65,7 +66,11 @@
 		<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/processingjs/processing.min.js{{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
+		
+		<!-- 
+			<script src="{{$asset_storage}}/processingjs/processing.min.js{{$asset_version}}"></script>
+		-->	
 
 			
 		@yield('additional-scripts')
