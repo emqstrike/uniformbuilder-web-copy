@@ -78,5 +78,6 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/colors.js"></script>
 @endsection

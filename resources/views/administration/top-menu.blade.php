@@ -4,13 +4,13 @@
          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Settings<strong class="caret"></strong></a>
         <ul class="dropdown-menu">
             <li>
-                <a href="/administration/factories"><span class="glyphicon glyphicon-th-list"></span> Factories</a>
+                <a href="/administration/factories"><span class="fa fa-building"></span> Factories</a>
             </li>
 
             <li class="divider">
 
             <li>
-                <a href="/administration/models"><span class="glyphicon glyphicon-th-list"></span> Models</a>
+                <a href="/administration/models"><span class="fa fa-male"></span> Models</a>
             </li>
 
             <li class="divider">
@@ -22,10 +22,13 @@
             <li class="divider">
 
             <li>
-                <a href="/administration/colors"><span class="glyphicon glyphicon-th-list"></span> Colors</a>
+                <a href="/administration/colors"><span class="fa fa-th"></span> Colors</a>
             </li>
             <li>
                 <a href="/administration/materials"><span class="glyphicon glyphicon-th-list"></span> Materials</a>
+            </li>
+            <li>
+                <a href="/administration/patterns"><span class="glyphicon glyphicon-th-list"></span> Patterns</a>
             </li>
 
             <li class="divider">
