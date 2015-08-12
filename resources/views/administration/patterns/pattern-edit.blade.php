@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/pattern/update" enctype="multipart/form-data" id='create-pattern-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/pattern/update" enctype="multipart/form-data" id='edit-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="base_pattern_id" value="{{ $pattern->id }}">
 
@@ -30,31 +30,59 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control base-pattern-name" name="name" value="{{ $pattern->name }}">
+                                <input type="name" class="form-control pattern-name" name="name" value="{{ $pattern->name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                Pattern File (JSON File)
-                                @if ($pattern->pattern_path)
-                                <a href="{{ $pattern->pattern_path }}" class="btn btn-default btn-xs show-pattern" role="button" target="_blank">
-                                    <li class="glyphicon glyphicon-info-sign"></li>
-                                    View
+                            <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
+                            <div class="col-md-6 pattern">
+                                <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
+                                @if ($pattern->layer_1_path)
+                                <img src="{{ $pattern->layer_1_path }}" width="100px" height="100px">
+                                <a href="#" class="btn btn-danger btn-xs delete-pattern-layer" data-pattern-id="{{ $pattern->id }}" date-field="layer_1_path" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    Delete Layer
                                 </a>
                                 @endif
-                            </label>
-                            
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control pattern-file" name="pattern_path" accept="application/json">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
+                            <div class="col-md-6 pattern">
+                                <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
+                                @if ($pattern->layer_2_path)
+                                <img src="{{ $pattern->layer_2_path }}" width="100px" height="100px">
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
+                            <div class="col-md-6 pattern">
+                                <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
+                                @if ($pattern->layer_3_path)
+                                <img src="{{ $pattern->layer_3_path }}" width="100px" height="100px">
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
+                            <div class="col-md-6 pattern">
+                                <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
+                                @if ($pattern->layer_4_path)
+                                <img src="{{ $pattern->layer_4_path }}" width="100px" height="100px">
+                                @endif
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-pattern">
+                                <button type="submit" class="btn btn-lg btn-primary update-pattern">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Update Uniform pattern
+                                    Update Pattern
                                 </button>
                                 <a href="/administration/patterns" class="btn btn-lg btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
@@ -68,22 +96,14 @@
         </div>
     </div>
 </div>
+@include('partials.confirmation-modal')
 
 @endsection
 
 @section('custom-scripts')
 
-$(document).ready(function(){
-
-    $('#create-pattern-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New pattern');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
-
+@section('scripts')
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/administration/patterns.js"></script>
 @endsection

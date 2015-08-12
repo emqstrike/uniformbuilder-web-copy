@@ -65,8 +65,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('patterns', 'Administration\PatternsController@index');
     Route::post('pattern/add', 'Administration\PatternsController@store');
     Route::post('pattern/update', 'Administration\PatternsController@store');
-    Route::get('pattern/add', 'Administration\PatternsController@addpatternForm');
-    Route::get('pattern/edit/{id}', 'Administration\PatternsController@editModelForm');
+    Route::get('pattern/add', 'Administration\PatternsController@addPatternForm');
+    Route::get('pattern/edit/{id}', 'Administration\PatternsController@editPatternForm');
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });

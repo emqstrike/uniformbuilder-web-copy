@@ -122,4 +122,21 @@ $(document).ready(function(){
             }
         });
     });
+
+    // Edit Pattern Scripts
+    $('#edit-pattern-form').submit(function(){
+        $('.flash-alert .flash-progress').show();
+        $('.flash-alert .flash-title').text('Creating New pattern');
+        $('.flash-alert .flash-sub-title').text('Saving');
+        $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
+        $('.flash-alert').addClass('alert-info');
+        $('.flash-alert').show();
+        $('.main-content').fadeOut('slow');
+    });
+
+    $('.delete-pattern-layer').on('click', function(){
+        alert('ola');
+        var id = $(this).data('pattern-id');
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern layer?', id);
+    });
 });
