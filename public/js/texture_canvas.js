@@ -255,11 +255,11 @@
 			img.onload = function () {
 			    
 			    var imgbase64 = new fabric.Image(img, {
-	        	    scaleX: 0.5,
-	            	scaleY: 0.5,
-	            	top: 857,
-	            	left: 628,
-	            	angle: 82,
+	                scaleX: 0.5,
+	                scaleY: 0.5,
+	                top: 857,
+	                left: 628,
+	                angle: 82,
 	        	})
 
 				window.texture_canvas.objects['logo'] = imgbase64;
