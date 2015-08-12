@@ -4,7 +4,7 @@
 
 	<div class="collapse" id="materials_tab">
 	  <div class="container-fluid">
-	  Under Constructions     
+	  @include('partials.layout.material')   
 	  </div>
 	</div>
 

@@ -7,7 +7,7 @@
 <div class="row"><!-- start table -->
 
 	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
-		<div class="row"><!-- right panel table -->
+		<div class="row"><!-- left panel table -->
 			<div class="col-md-1">top</div>
 			<div class="col-md-11">@include('partials.layout.topleftpanel')</div>			
 			
@@ -16,17 +16,17 @@
 			<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
 			<div class="col-md-11">@include('partials.layout.uniformbuilder')</div>
 		</div>	
-	</div><!-- right panel body -->
+	</div><!-- left panel body -->
 	
 	<div class="col-md-5">				 
 		<div class="row">
-			<div class="col-md-1">top</div>
+			<div class="col-md-1">toap</div>
 			<div class="col-md-11">@include('partials.layout.toprightpanel')</div>
 			
 			<div class="col-md-1">@include('partials.layout.rightpaneltab')</div>
 			<div class="col-md-11">@include('partials.layout.tab_rightpanel')</div>	
 		</div>							
-	</div><!-- left panel body -->	
+	</div><!-- right panel body -->	
 
 </div>
 
