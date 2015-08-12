@@ -12,13 +12,16 @@ class FileUploader
      * @param UploadedFile $uploadedFile
      * @param String $objectName
      * @param String $type 'material' or 'bump' | 'thumbnail'
+     * @param String $s3folder
+     * @param String $filename
      * @return String URL of the uploade file or null
      */
     public static function upload(
         UploadedFile $uploadedFile,
         $objectName,
         $type = 'material',
-        $s3folder = 'materials'
+        $s3folder = 'materials',
+        $filename = 'material.jpg'
     )
     {
         if ($type == 'thumbnail')
@@ -28,7 +31,7 @@ class FileUploader
         else
         {
             $uploadedFilePath = self::moveToTemporaryFolder($uploadedFile, $objectName);
-            return self::uploadToS3($uploadedFilePath, $objectName, $type, $s3folder);
+            return self::uploadToS3($uploadedFilePath, $objectName, $type, $s3folder, $filename);
         }
 
         return null;
@@ -67,9 +70,13 @@ class FileUploader
      * @param String $s3folder 'materials'
      * @return String URL of uploaded file
      */
-    public static function uploadToS3($filePath, $objectName, $type, $s3folder)
+    public static function uploadToS3(
+        $filePath,
+        $objectName,
+        $type = 'material',
+        $s3folder = 'materials',
+        $filename = 'material.jpg')
     {
-        $filename = 'material.jpg';
         if ($type == 'material')
         {
             $filename = 'material.jpg';
@@ -97,6 +104,10 @@ class FileUploader
         elseif ($type == 'base_model')
         {
             $filename = 'base_model.json';
+        }
+        elseif ($type == 'pattern_layer')
+        {
+            // Just Retain the filename
         }
         else
         {
