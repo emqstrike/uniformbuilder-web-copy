@@ -18,7 +18,7 @@
 		
 		var canvas = window.texture_canvas['canvas'];
 
-		reset_camera();
+		// reset_camera();
 
 		/// End Properties and Vars
 
@@ -63,7 +63,7 @@
 				shininess: 0,
 				map: texture,
 				bumpMap: window.texture,
-				bumpScale: 0.010,
+				bumpScale: 0.030,
 				side: THREE.DoubleSide,
 
 			});
@@ -85,7 +85,6 @@
 
 	   		}
 
-	        // move_camera(target);
 				
 		}
 
@@ -116,6 +115,8 @@
 								    
 			});
 
+
+
 		}
 
 		texture_canvas.change_texture = function (object_name, base_image)	{
@@ -131,6 +132,10 @@
 	  		
 				if(object_name === "shadows"){
 					window.texture_canvas.objects.shadows.opacity = 0.5;
+				}
+
+				if(object_name === "pipings"){
+					oImg.fill = "#ffffff";
 				}
 
 				texture_canvas.canvas.add(oImg);
@@ -171,6 +176,13 @@
 
 			}, 50);
 
+
+		}
+
+		texture_canvas.exists = function(obj){
+
+			return typeof(texture_canvas.objects[obj]) !== 'undefined';
+
 		}
 
 		texture_canvas.path_change_color = function (obj,color_value,layer){
@@ -197,14 +209,21 @@
 
 			if( obj === 'pipings'){
 
-				texture_canvas.objects.number.fill = color_value;	
-				texture_canvas.objects.numberback.fill = color_value;	
-				texture_canvas.objects.name.fill = color_value;	
+				if(texture_canvas.exists('number')){
+					texture_canvas.objects.number.fill = color_value;	
+				}
+
+				if(texture_canvas.exists('numberback')){
+					texture_canvas.objects.numberback.fill = color_value;	
+				}
+
+				if(texture_canvas.exists('name')){
+					texture_canvas.objects.name.fill = color_value;	
+				}
+
+				texture_canvas.objects.pipings.fill = color_value;
 
 			}
-
-
-
 
 			var filter = new fabric.Image.filters.Tint({
 
@@ -224,6 +243,7 @@
 
 			}, 50);
 
+
 		}
 
 
@@ -234,11 +254,12 @@
 
 			img.onload = function () {
 			    
-			    var imgbase64 = new fabric.Image(img, {
-	        	    scaleX: 0.5,
-	            	scaleY: 0.5,
-	            	top: 1030,
-	            	left: 900,
+                var imgbase64 = new fabric.Image(img, {
+	                scaleX: 0.5,
+	                scaleY: 0.5,
+	                top: 857,
+	                left: 628,
+	                angle: 82,
 	        	})
 
 				window.texture_canvas.objects['logo'] = imgbase64;
@@ -256,11 +277,13 @@
 
 			}, 50);
 
+
 		}
 
 		texture_canvas.load_number = function (){
 
 			var txt = $('#txtNumber').val();
+			var piping_fill = texture_canvas.objects.pipings.fill;
 
 			var number = new fabric.Text(txt, { 
 			  fontFamily: 'arial black',
@@ -268,7 +291,7 @@
 			  left: 882, 
 			  top: 1097,
 			  angle: 2,
-			  fill: '#3d3d3d',
+			  fill: piping_fill,
 			})
 
 			var numberback = new fabric.Text(txt, { 
@@ -277,7 +300,7 @@
 			  left: 949, 
 			  top: 759,
 			  angle: 180,
-			  fill: '#3d3d3d',
+			  fill: piping_fill,
 			})
 
 			if(typeof(texture_canvas.objects.number) === "object"){
@@ -313,20 +336,26 @@
 
 			}, 50);
 
+
 		}
 
 		texture_canvas.load_name = function (){
 
 			var txt = $('#txtName').val();
 
+			var piping_fill = texture_canvas.objects.pipings.fill;
+
+
+			var adjustment = (10 - txt.length) * 20;
+
 			var name = new fabric.Text(txt, { 
 			  fontFamily: 'arial black',
 			  fontSize: 30,
-			  left: 900, 
-			  top: 792,
+			  left: 950 - (adjustment / 2), 
+			  top: 779,
 			  angle: 180,
 			  textAlign: 'center',
-			  fill: '#3d3d3d',
+			  fill: piping_fill,
 			})
 
 			if(typeof(texture_canvas.objects.name) === "object"){
@@ -349,7 +378,6 @@
 		}
 
 		/// End Methods
-
 
 
 		/// Initial Textures

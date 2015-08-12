@@ -4,16 +4,10 @@
 	
 		<div class="camera_buttons" style="position: absolute; top: 25px; left: 25px;">
 			
-			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
+			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()">Camera Free Rotate Mode </button>	
 			
-			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i>
+			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()">Reset Camera</i>
 			</button>	
-
-			<button class="btn btn-default btn-sm" id="rotate_left"><i class="fa fa-chevron-left"></i></button>
-			<button class="btn btn-default btn-sm" id="rotate_right"><i class="fa fa-chevron-right"></i></button> 
-			<button class="btn btn-default btn-sm" id="play"><i class="fa fa-play"></i></button>
-			&nbsp; &nbsp; <input type="radio" name="direction" value="left" id="rb_left"> Left
-			<input type="radio" name="direction" value="right" id="rb_right"> Right
 
 		</div>
 
@@ -203,7 +197,14 @@
 					<h2>Pipings</h2>
 					
 					@include('partials.colors', ['data_target' =>'pipings', 'event_class' => 'path-change-color','layer' => 'pipings'])
-					<br />
+					
+					<br /><br />
+
+					<em>
+						
+						This also updates the colors of Numbers and Names for now just for testing purposes.
+
+					</em>
 
 
 					<hr />

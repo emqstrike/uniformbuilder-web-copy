@@ -112,6 +112,8 @@
 
 		render();
 
+		reset_camera();
+
 	}
 
 	//// Refactored Utils start here ... ////
@@ -326,6 +328,19 @@
 			z: -0.022872038615562237,
 
 		};
+
+		window.positions.number = {
+			x:  0.3436450967568141,
+			y: 2.232002002163917,
+			z: 2.510202062197731,
+		};
+
+		window.rotations.number = {
+			x: -0.11788152307711151,
+			y: 0.1988831304319421,
+			z: 0.023394610919328866,
+		};
+
 
 		window.positions.jersey = {
 			x:  -0.4366205684461612,
