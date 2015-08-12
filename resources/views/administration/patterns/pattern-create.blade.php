@@ -34,9 +34,30 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Pattern File</label>
+                            <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 material">
-                                <input type="file" class="form-control pattern-file" name="pattern_path" accept="application/json">
+                                <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
                             </div>
                         </div>
 

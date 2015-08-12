@@ -64,17 +64,23 @@ class PatternsController extends Controller
 
         try
         {
-            $patternFile = $request->file('pattern_path');
-            if (isset($patternFile))
+            for ($i = 1; $i <= 4; $i++)
             {
-                if ($patternFile->isValid())
+                $fieldName = "layer_{$i}_path";
+                $filename = "layer{$i}.png";
+                $patternFile = $request->file($fieldName);
+                if (isset($patternFile))
                 {
-                    $data['base_pattern_path'] = FileUploader::upload(
-                        $patternFile,
-                        $patternName,
-                        'base_pattern',
-                        'patterns'
-                    );
+                    if ($patternFile->isValid())
+                    {
+                        $data[$fieldName] = FileUploader::upload(
+                            $patternFile,
+                            $patternName,
+                            'pattern_layer',    // Type
+                            'patterns',         // S3 Folder
+                            $filename     // Layer File Name
+                        );
+                    }
                 }
             }
         }

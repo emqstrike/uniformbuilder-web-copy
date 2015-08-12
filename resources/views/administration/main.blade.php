@@ -30,6 +30,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-md-12">
+            @if (Session::get('isLoggedIn'))
             <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                      
@@ -58,7 +59,7 @@
                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 Welcome
                                 @if (Session::get('fullname'))
-                                {{ Session::get('fullname') }} <span class="glyphicon glyphicon-user"></span>
+                                <strong>{{ Session::get('fullname') }}</strong> <span class="glyphicon glyphicon-user"></span>
                                 @endif
                                 <strong class="caret"></strong>
                             </a>
@@ -75,8 +76,9 @@
                         </li>
                     </ul>
                 </div>
-                
             </nav>
+            @endif
+
             <div class="alert alert-dismissable flash-alert" style="display: none;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                     ×

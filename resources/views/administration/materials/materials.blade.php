@@ -42,7 +42,9 @@
             </tr>
         </thead>
         <tbody>
+
         @forelse ($materials as $material)
+
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
@@ -83,13 +85,17 @@
                     </a>
                 </td>
             </tr>
+
         @empty
+
             <tr>
                 <td colspan='4' align='center'>
                     No Materials
                 </td>
             </tr>
+
         @endforelse
+
         </tbody>
     </table>
 
