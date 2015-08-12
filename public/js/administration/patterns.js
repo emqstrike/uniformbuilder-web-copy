@@ -98,7 +98,7 @@ $(document).ready(function(){
 
     $('.delete-pattern').on('click', function(){
         var id = $(this).data('pattern-id');
-        modalConfirm('Remove Material', 'Are you sure you want to delete the Material?', id);
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
@@ -122,12 +122,4 @@ $(document).ready(function(){
             }
         });
     });
-
-    function modalConfirm(title, message, value)
-    {
-        $('#confirmation-modal .modal-title').text(title);
-        $('#confirmation-modal .modal-body').text(message);
-        $('#confirmation-modal .confirm-yes').data('value', value);
-        $('#confirmation-modal').modal('show');
-    }
 });
