@@ -43,9 +43,8 @@
 		    </div>
 		    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 		      <div class="panel-body">
-		      	COLOR NAME
-				<br>
-	  			@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',]) 
+		      	<h2>Pipings</h2>
+				@include('partials.colors', ['data_target' =>'pipings', 'event_class' => 'path-change-color','layer' => 'pipings'])
 		      </div>
 		    </div>
 		  </div>
