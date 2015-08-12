@@ -4,6 +4,11 @@
 		<div class="container-fluid">
 		<center>
 			<div class="camera_buttons">
+			<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-left"></i></button>
+			<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-right"></i></button>
+			<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-up"></i></button>
+			<button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-down"></i></button>
+
 			<button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()"><i class="fa fa-refresh"></i></button>	
 			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()"><i class="fa fa-history"></i></button>	
 
