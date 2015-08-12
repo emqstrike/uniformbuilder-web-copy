@@ -254,7 +254,7 @@
 
 			img.onload = function () {
 			    
-			    var imgbase64 = new fabric.Image(img, {
+                var imgbase64 = new fabric.Image(img, {
 	                scaleX: 0.5,
 	                scaleY: 0.5,
 	                top: 857,
