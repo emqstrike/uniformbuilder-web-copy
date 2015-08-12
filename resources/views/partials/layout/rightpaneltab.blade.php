@@ -7,7 +7,7 @@
 <img src="images/icons/mascot.png" height="50" data-toggle="collapse" data-target="#mascot_tab" aria-expanded="false" aria-controls="mascot_tab" style="margin-top: 2px;">
 <img src="images/icons/size.png" height="50" data-toggle="collapse" data-target="#size_tab" aria-expanded="false" aria-controls="size_tab" style="margin-top: 2px;">
 
-<br>
+<!-- <br>
 <div class="panel-heading" role="tab" id="headingTwo">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -30,4 +30,4 @@
           <img src="images/icons/size.png" height="50"/>
         </a>
       </h4>
-    </div>
+    </div> -->
