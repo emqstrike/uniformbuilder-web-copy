@@ -14,8 +14,10 @@ class UniformBuilderController extends Controller
     public function index()
     {
         $title = 'QuickStrike Uniform Builder';
+        
+        // For asset versioning, to force update scripts and stylesheets instead of being loaded from browser cache
         $asset = [
-            'version' => '?v=0.004',
+            'version' => '?v=0.005',
             'storage' => ''
         ];
 
