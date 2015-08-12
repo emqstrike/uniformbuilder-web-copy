@@ -214,11 +214,15 @@
 				}
 
 				if(texture_canvas.exists('numberback')){
-					texture_canvas.objects.numberback.fill = color_value;	
+					texture_canvas.objects.numberback.stroke = color_value;	
 				}
 
 				if(texture_canvas.exists('name')){
 					texture_canvas.objects.name.fill = color_value;	
+				}
+
+				if(texture_canvas.exists('teamname')){
+					texture_canvas.objects.teamname.stroke = color_value;	
 				}
 
 				texture_canvas.objects.pipings.fill = color_value;
@@ -245,7 +249,6 @@
 
 
 		}
-
 
 		texture_canvas.load_logo = function (){
 
@@ -300,7 +303,9 @@
 			  left: 949, 
 			  top: 759,
 			  angle: 180,
-			  fill: piping_fill,
+			  stroke: piping_fill,
+			  fill: "#ffffff",
+			  strokeWidth: 2,
 			})
 
 			if(typeof(texture_canvas.objects.number) === "object"){
@@ -310,7 +315,6 @@
 			if(typeof(texture_canvas.objects.numberback) === "object"){
 				texture_canvas.canvas.remove(texture_canvas.objects.numberback);
 			}
-
 
 			window.texture_canvas.objects['number'] = number;
 			window.texture_canvas.objects['numberback'] = numberback;
@@ -342,11 +346,12 @@
 		texture_canvas.load_name = function (){
 
 			var txt = $('#txtName').val();
+			var txtteam = $('#txtTeamName').val();
 
 			var piping_fill = texture_canvas.objects.pipings.fill;
 
-
 			var adjustment = (10 - txt.length) * 20;
+			var adjustment_team = (9 - txtteam.length) * 38;
 
 			var name = new fabric.Text(txt, { 
 			  fontFamily: 'arial black',
@@ -358,14 +363,45 @@
 			  fill: piping_fill,
 			})
 
+			var teamname = new fabric.Text(txtteam, {
+			  fontFamily: 'arial black',
+			  fontSize: 50,
+			  left: 690 + (adjustment_team / 2),
+			  top: 1012,
+			  angle: 3,
+			  textAlign: 'center',
+			  fontStyle: 'italic',
+			  fill: "#ffffff",
+			  strokeWidth: 2,
+			  stroke: piping_fill,
+			})
+
 			if(typeof(texture_canvas.objects.name) === "object"){
 				texture_canvas.canvas.remove(texture_canvas.objects.name);
 			}
 
+			if(typeof(texture_canvas.objects.teamname) === "object"){
+				texture_canvas.canvas.remove(texture_canvas.objects.teamname);
+			}
+
 			window.texture_canvas.objects['name'] = name;
+			window.texture_canvas.objects['teamname'] = teamname;
 
 			canvas = window.texture_canvas.canvas;
-        	canvas.add(name);
+
+
+			setTimeout(function(){
+   				
+   				canvas.add(name);
+
+			}, 50);
+
+
+			setTimeout(function(){
+   				
+   				canvas.add(teamname);
+
+			}, 50);    
         	
 			canvas.renderAll.bind(canvas);
 
@@ -374,6 +410,7 @@
 				texture_canvas.refresh_model();
 
 			}, 50);
+
 
 		}
 
@@ -461,6 +498,8 @@
 			var number_loaded = typeof(texture_canvas.objects.number) !== 'undefined';
 			var numberback_loaded = typeof(texture_canvas.objects.numberback) !== 'undefined';
 			var name_loaded = typeof(texture_canvas.objects.name) !== 'undefined';
+			var teamname_loaded = typeof(texture_canvas.objects.teamname) !== 'undefined';
+
 
 			var pipings_loaded = typeof(texture_canvas.objects.pipings) !== 'undefined';
 
@@ -475,7 +514,7 @@
 
 				texture_canvas.objects.jersey_rect.moveTo('6');
 				texture_canvas.objects.shadows.moveTo('7');
-				texture_canvas.objects.mesh.moveTo('14');
+				texture_canvas.objects.mesh.moveTo('15');
 				texture_canvas.objects.pipings.moveTo('13');
 
 				texture_canvas.refresh_model();
@@ -485,25 +524,29 @@
 			if(name_loaded){
 
 				texture_canvas.objects.name.moveTo('11');
-				texture_canvas.objects.mesh.moveTo('14');
+				texture_canvas.objects.mesh.moveTo('15');
 
+			}
+
+			if(teamname_loaded){
+
+				texture_canvas.objects.teamname.moveTo('14');
+				texture_canvas.objects.mesh.moveTo('15');
 
 			}
 
 			if(number_loaded){
 
 				texture_canvas.objects.number.moveTo('10');
-				texture_canvas.objects.mesh.moveTo('14');
-
+				texture_canvas.objects.mesh.moveTo('15');
 				
 			}
 
 			if(numberback_loaded){
 
 				texture_canvas.objects.numberback.moveTo('9');
-				texture_canvas.objects.mesh.moveTo('14');
+				texture_canvas.objects.mesh.moveTo('15');
 
-				
 			}
 
 		});
@@ -513,7 +556,6 @@
 			setTimeout(function(){
 
 				texture_canvas.refresh_model();
-
 
 			}, 50);
 

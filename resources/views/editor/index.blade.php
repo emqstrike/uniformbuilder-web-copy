@@ -239,7 +239,7 @@
 
 					<h2>Numbers</h2>
 
-				 	<input type="text" name="txtNumber" id="txtNumber" class="txtNumber" /> <button onclick="texture_canvas.load_number()">Apply</button>
+				 	<input type="text" name="txtNumber" id="txtNumber" class="txtNumber" maxlength="2" /> <button onclick="texture_canvas.load_number()">Apply</button>
 					
 					<br />
 				
@@ -249,7 +249,15 @@
 
 					<h2>Name</h2>
 
-				 	<input type="text" name="txtName" id="txtName" class="txtName" /> <button onclick="texture_canvas.load_name()">Apply</button>
+					Team Name:<br />
+				 	<input type="text" name="txtTeamName" id="txtTeamName" class="txtTeamName" maxlength="9" />
+				 	<br /><br />
+
+					Last Name:<br />
+				 	<input type="text" name="txtName" id="txtName" class="txtName" maxlength="10" />
+
+				 	<br /><br />
+				 	<button onclick="texture_canvas.load_name()">Apply</button>
 					
 					<br />
 				
