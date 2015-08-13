@@ -13,7 +13,7 @@
 	  
 	  <div class="panel">   
 	    <div id="color_tab" class="panel-collapse collapse" role="tabpanel">
-	    	<div class="panel-body">
+	    	<div class="panel-body" data-step="7" data-intro="I am groot.">
 	    		  @include('partials.layout.color')
 	    	</div>	   
 	    </div>
