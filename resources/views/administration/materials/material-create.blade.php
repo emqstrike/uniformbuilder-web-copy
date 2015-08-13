@@ -87,17 +87,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sleeve Type</label>
-                            <div class="col-md-6">
-                                <select name='sleeve_type' class="form-control sleeve-type">
-                                    <option value='none'>None</option>
-                                    <option value='short'>Short</option>
-                                    <option value='long'>Long</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Lining Type</label>
                             <div class="col-md-6">
                                 <select name='lining_type' class="form-control lining-type">

@@ -78,9 +78,6 @@
                     {{ ucfirst($material->gender) }}
                 </td>
                 <td>
-                    {{ ucfirst($material->sleeve_type) }}
-                </td>
-                <td>
                     {{ ucfirst($material->lining_type) }}
                 </td>
                 <td>

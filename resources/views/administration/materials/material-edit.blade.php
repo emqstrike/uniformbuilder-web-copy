@@ -92,17 +92,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sleeve Type</label>
-                            <div class="col-md-6">
-                                <select name='sleeve_type'class="form-control sleeve-type">
-                                    <option value='none'@if($material->sleeve_type == 'none') selected="selected"@endif>None</option>
-                                    <option value='short'@if($material->sleeve_type == 'short') selected="selected"@endif>Short</option>
-                                    <option value='long'@if($material->sleeve_type == 'long') selected="selected"@endif>Long</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Lining Type</label>
                             <div class="col-md-6">
                                 <select name='lining_type' class="form-control lining-type">
