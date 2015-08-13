@@ -31,12 +31,19 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-7">
+<div class="row-fluid col-md-12">
     <table data-toggle='table' class='materials'>
         <thead>
             <tr>
                 <th>Thumbnail</th>
                 <th>Material Name</th>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Uniform Category</th>
+                <th>Base Color</th>
+                <th>Gender</th>
+                <th>Sleeve Type</th>
+                <th>Lining Type</th>
                 <th>Active Status</th>
                 <th></th>
             </tr>
@@ -50,18 +57,41 @@
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
                 </td>
                 <td>
-                    {{ $material->name }} <br>
-                    <span class="badge">{{ $material->code }}</span>
+                    {{ $material->name }}
+                </td>
+                <td>
+                    <span class="label label-default">
+                        {{ $material->code }}
+                    </span>
+                </td>
+                <td>
+                    {{ ucfirst($material->type) }}
+                </td>
+                <td>
+                    {{ $material->uniform_category }}
+                </td>
+                <td>
+                    {{ $material->color_name }}
+                    <div style="background-color: #{{ $material->hex_code }}">&nbsp;</div>
+                </td>
+                <td>
+                    {{ ucfirst($material->gender) }}
+                </td>
+                <td>
+                    {{ ucfirst($material->sleeve_type) }}
+                </td>
+                <td>
+                    {{ ucfirst($material->lining_type) }}
                 </td>
                 <td>
                     <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? : 'disabled="disabled"' }}>
-                <i class="glyphicon glyphicon-eye-close"></i>
-                Disable
-            </a>
+                        <i class="glyphicon glyphicon-eye-close"></i>
+                        Disable
+                    </a>
                     <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                <i class="glyphicon glyphicon-eye-open"></i>
-                Enable
-            </a>
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        Enable
+                    </a>
                 </td>
                 <td>
                     <a href="#" class="btn btn-default btn-xs show-material" role="button"
