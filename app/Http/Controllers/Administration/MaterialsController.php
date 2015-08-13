@@ -74,7 +74,6 @@ class MaterialsController extends Controller
         $gender = $request->input('gender');
         $uniformCategoryId = $request->input('uniform_category_id');
         $colorCode = $request->input('color_code');
-        $sleeveType = $request->input('sleeve_type');
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
 
@@ -105,7 +104,6 @@ class MaterialsController extends Controller
             'gender' => $gender,
             'uniform_category_id' => $uniformCategoryId,
             'color_code' => $colorCode,
-            'sleeve_type' => $sleeveType,
             'lining_type' => $liningType,
             'factory_code' => $factoryCode
         ];
