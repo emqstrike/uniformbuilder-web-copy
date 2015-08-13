@@ -1,6 +1,3 @@
-
-
-
 <div class="row">
 	<div class="col-md-3"><h4>Team Color</h4></div>
 	<div class="col-md-2">
