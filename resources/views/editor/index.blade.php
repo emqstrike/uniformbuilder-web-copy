@@ -33,7 +33,8 @@
 </div><!-- end table -->
 
 	<div class="col-md-12">
-		<a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
+	<button class="btn btn-default btn-lg" onclick="javascript:introJs().start();"><i class="glyphicon glyphicon-question-sign"></i></button>
+	
 	</div><!-- bottom panel body -->
 
 
