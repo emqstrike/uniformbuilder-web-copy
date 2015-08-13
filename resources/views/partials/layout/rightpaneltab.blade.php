@@ -23,4 +23,20 @@
     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#pattern_tab" aria-expanded="false" aria-controls="pattern_tab">
       <img src="images/icons/pattern.png" height="50"style="margin-top: 2px;">
     </a>
+
+    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#text_tab" aria-expanded="false" aria-controls="text_tab">
+      <img src="images/icons/text.png" height="50"style="margin-top: 2px;">
+    </a>
+
+    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#number_tab" aria-expanded="false" aria-controls="number_tab">
+      <img src="images/icons/number.png" height="50"style="margin-top: 2px;">
+    </a>
+
+    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#graphics_tab" aria-expanded="false" aria-controls="graphics_tab">
+      <img src="images/icons/mascot.png" height="50"style="margin-top: 2px;">
+    </a>
+
+    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#size_tab" aria-expanded="false" aria-controls="size_tab">
+      <img src="images/icons/size.png" height="50"style="margin-top: 2px;">
+    </a>
 <!-- Test Code -->
