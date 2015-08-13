@@ -2,6 +2,45 @@
 	<br>
 	
 
+<!-- Test Code-->
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	  
+	  <div class="panel panel-default">  
+	    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+	      <div class="panel-body">
+	        Panel 01
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="panel panel-default">    
+	    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+	      <div class="panel-body">
+	      Panel 02       
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="panel panel-default">    
+	    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+	      <div class="panel-body">
+	      Panel 03
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="panel panel-default">    
+	    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+	      <div class="panel-body">
+	      Panel 04
+	      </div>
+	    </div>
+	  </div>
+
+	</div>
+<!-- Test Code-->
+
+
 	<div class="collapse" id="materials_tab">
 	  <div class="container-fluid">
 	  @include('partials.layout.material')   
@@ -269,15 +308,10 @@
 
 			</div>
 		</div>
-	  	
-	  	
-
-		
+	  		  			
 
 		<!-- modal test -->
-		<!-- Button trigger modal -->
-		
-		  
+		<!-- Button trigger modal -->				  
 
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

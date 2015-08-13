@@ -9,7 +9,7 @@
 			<div id="popover-content" class="hide">
 			  <form class="form-inline" role="form">
 			    <div class="form-group"> 
-			     @include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+			     @include('partials.colors', ['data_target' =>'c_1', 'event_class' => 'path-change-color','layer' => 'c_1'])
 			    </div>
 			  </form>
 			</div>
@@ -21,7 +21,7 @@
 			<div id="popover-content" class="hide">
 			  <form class="form-inline" role="form">
 			    <div class="form-group"> 
-			     @include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+			     @include('partials.colors', ['data_target' =>'c_2', 'event_class' => 'path-change-color','layer' => 'c_2'])
 			    </div>
 			  </form>
 			</div>
@@ -33,7 +33,7 @@
 			<div id="popover-content" class="hide">
 			  <form class="form-inline" role="form">
 			    <div class="form-group"> 
-			     @include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+			    @include('partials.colors', ['data_target' =>'c_2', 'event_class' => 'path-change-color','layer' => 'c_3'])
 			    </div>
 			  </form>
 			</div>
@@ -45,7 +45,7 @@
 			<div id="popover-content" class="hide">
 			  <form class="form-inline" role="form">
 			    <div class="form-group"> 
-			     @include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+			     @include('partials.colors', ['data_target' =>'c_2', 'event_class' => 'path-change-color','layer' => 'c_4'])
 			    </div>
 			  </form>
 			</div>
