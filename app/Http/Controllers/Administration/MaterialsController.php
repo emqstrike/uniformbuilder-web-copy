@@ -38,15 +38,31 @@ class MaterialsController extends Controller
 
     public function editMaterialForm($id)
     {
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+
+        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
+        $colors = $colorsAPIClient->getColors();
+
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
-            'material' => $material
+            'material' => $material,
+            'uniform_categories' => $uniformCategories,
+            'colors' => $colors
         ]);
     }
 
     public function addMaterialForm()
     {
-        return view('administration.materials.material-create');
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+
+        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
+        $colors = $colorsAPIClient->getColors();
+        return view('administration.materials.material-create', [
+            'uniform_categories' => $uniformCategories,
+            'colors' => $colors
+        ]);
     }
 
     public function store(Request $request)
@@ -54,6 +70,12 @@ class MaterialsController extends Controller
         $materialName = $request->input('name');
         $materialCode = $request->input('code');
         $factoryCode = $request->input('factory_code');
+        $type = $request->input('type');
+        $gender = $request->input('gender');
+        $uniformCategoryId = $request->input('uniform_category_id');
+        $colorCode = $request->input('color_code');
+        $sleeveType = $request->input('sleeve_type');
+        $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
 
         $materialId = null;
@@ -78,7 +100,13 @@ class MaterialsController extends Controller
             'id' => $materialId,
             'name' => $materialName,
             'slug' => $slug,
+            'type' => $type,
             'code' => $materialCode,
+            'gender' => $gender,
+            'uniform_category_id' => $uniformCategoryId,
+            'color_code' => $colorCode,
+            'sleeve_type' => $sleeveType,
+            'lining_type' => $liningType,
             'factory_code' => $factoryCode
         ];
 
