@@ -113,19 +113,41 @@
 	  </select>
    	  </center>	
   
+<h2>Name</h2>
 
-	  </div>
+		Team Name:<br />
+	 	<input type="text" name="txtTeamName" id="txtTeamName" class="txtTeamName" maxlength="9" />
+	 	<br /><br />
+
+		Last Name:<br />
+	 	<input type="text" name="txtName" id="txtName" class="txtName" maxlength="10" />
+
+	 	<br /><br />
+	 	<button onclick="texture_canvas.load_name()">Apply</button>
+		
+		<br />
+</div>
 	</div> <!-- text tab -->
 
 	<div class="collapse" id="number_tab"> <!-- number -->
 	  <div class="container-fluid">
-	  Number
+	 	<h2>Numbers</h2>
+		<input type="text" name="txtNumber" id="txtNumber" class="txtNumber" maxlength="2" /> <button onclick="texture_canvas.load_number()">Apply</button>		
+		<br>
 	  </div>
 	</div> <!-- number -->
 
 	<div class="collapse" id="mascot_tab"> <!-- graphics -->
 	  <div class="container-fluid">
-	  Graphics
+		<h2>Logo</h2>
+		  <div id="miaDropzone" class="panel-body text-center">					 
+		  	Drop logo here ...					 
+		  </div>				
+		<br />
+		<em>Please upload a transparent PNG
+		<br /> (300px x 300px)</em>
+		<br />
+		<hr />	
 	  </div>
 	</div> <!-- graphics -->
 
