@@ -35,11 +35,6 @@
 		bottom
 	</div><!-- bottom panel body -->
 
-		<div id="model_view" style="position: absolute; top: 25px; left: 25px;">
-			
-			</br ></br >
-	
-		</div>
 
 @section('contentarea')
 
@@ -158,7 +153,7 @@
 	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
-
+	<script src="introjs/intro.min.js"></script>
 
 <!-- for popover -->
 	<script type="text/javascript">
