@@ -55,8 +55,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
     // Materials Options
-    // TODO: ???
-    // Shall I include it in the Materials View Page?
+    Route::post('material_option/add', 'Administration\MaterialsOptionsController@store');
 
     // Base Models
     Route::get('models', 'Administration\BaseModelsController@index');

@@ -113,6 +113,10 @@ class FileUploader
         {
             $filename = 'font.ttf';
         }
+        elseif ($type == 'material_option')
+        {
+            $filename = 'material-option.png';
+        }
         else
         {
             error_log('Unsupported File Type');

@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
 use \Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;

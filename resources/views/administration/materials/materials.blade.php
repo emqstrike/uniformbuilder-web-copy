@@ -37,6 +37,7 @@
             <tr>
                 <th>Thumbnail</th>
                 <th>Material Name</th>
+                <th>Material Options</th>
                 <th>Code</th>
                 <th>Type</th>
                 <th>Uniform Category</th>
@@ -57,6 +58,16 @@
                 </td>
                 <td>
                     {{ $material->name }}
+                </td>
+                <td>
+                    <div style="margin-top: 10px;">
+                        <a href="#" class='btn btn-xs btn-success add-material-option'
+                            data-material-name="{{ $material->name }}"
+                            data-material-id="{{ $material->id }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Add Material Option
+                        </a>
+                    </div>
                 </td>
                 <td>
                     <span class="label label-default">
@@ -90,31 +101,33 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-default btn-xs show-material" role="button"
-                        data-material-name="{{ $material->name }}"
-                        data-material-code="{{ $material->code }}"
-                        data-material-type="{{ $material->type }}"
-                        data-material-uniform-category="{{ $material->uniform_category }}"
-                        data-material-base-color="{{ $material->color_name }}"
-                        data-material-base-color-code="{{ $material->hex_code }}"
-                        data-material-gender="{{ $material->gender }}"
-                        data-material-lining-type="{{ $material->lining_type }}"
-                        data-material-path="{{ $material->material_path }}"
-                        data-bump-map-path="{{ $material->bump_map_path }}"
-                        data-shadow-path="{{ $material->shadow_path }}"
-                        data-highlight-path="{{ $material->highlight_path }}"
-                        data-material-id="{{ $material->id }}">
-                        <li class="glyphicon glyphicon-info-sign"></li>
-                        View
-                    </a>
-                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        Edit
-                    </a>
-                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        Remove
-                    </a>
+                    <div>
+                        <a href="#" class="btn btn-default btn-xs show-material" role="button"
+                            data-material-name="{{ $material->name }}"
+                            data-material-code="{{ $material->code }}"
+                            data-material-type="{{ $material->type }}"
+                            data-material-uniform-category="{{ $material->uniform_category }}"
+                            data-material-base-color="{{ $material->color_name }}"
+                            data-material-base-color-code="{{ $material->hex_code }}"
+                            data-material-gender="{{ $material->gender }}"
+                            data-material-lining-type="{{ $material->lining_type }}"
+                            data-material-path="{{ $material->material_path }}"
+                            data-bump-map-path="{{ $material->bump_map_path }}"
+                            data-shadow-path="{{ $material->shadow_path }}"
+                            data-highlight-path="{{ $material->highlight_path }}"
+                            data-material-id="{{ $material->id }}">
+                            <li class="glyphicon glyphicon-info-sign"></li>
+                            View
+                        </a>
+                        <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Edit
+                        </a>
+                        <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            Remove
+                        </a>
+                    </div>
                 </td>
             </tr>
 
@@ -133,95 +146,9 @@
 
 </div>
 
-<!-- Information Modal -->
-<div class="modal fade" id="view-material-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <table class='table table-bordered'>
-                    <tr>
-                        <td>
-                            Code:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-code">CODE</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Type:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-type">TYPE</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Uniform Category:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-uniform-category">UNIFORM CATEGORY</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Base Color:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-base-color">BASE COLOR</span>
-                            <div modal-material-base-color-code>&nbsp;</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Gender:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-gender">GENDER</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Lining Type:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-lining-type">LINING TYPE</span>
-                        </td>
-                    </tr>
-                </table>
-                <div class='tabbable'>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-material-image" data-toggle="tab">Base Material</a></li>
-                        <li><a href="#tab-bump-map-image" data-toggle="tab">Bump Map</a></li>
-                        <li><a href="#tab-shadow-image" data-toggle="tab">Shadow</a></li>
-                        <li><a href="#tab-highlight-image" data-toggle="tab">Highlight</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-material-image" align='center'>
-                            <img src="" class="material-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-bump-map-image" align='center'>
-                            <img src="" class="bump-map-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-shadow-image" align='center'>
-                            <img src="" class="shadow-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-highlight-image" align='center'>
-                            <img src="" class="highlight-image" width="300px" height="300px">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('administration.materials.material-view-modal')
+
+@include('administration.materials.material-option-create-modal')
 
 @include('partials.confirmation-modal')
 
