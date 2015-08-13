@@ -2,11 +2,12 @@
 		
 @include('partials.layout.navbar')
 <link rel="stylesheet" href="css/builder.css">
+<link rel="stylesheet" href="introjs/introjs.min.css">
 		<br><br><br>
 		<hr style="marign-top: 100px;">
 <div class="row"><!-- start table -->
 
-	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
+	<div class="col-md-5 col-md-offset-1" data-step="5" data-intro="Get it, use it."><!-- right panel body -->
 		<div class="row"><!-- left panel table -->
 			<div class="col-md-1"><!-- Free --></div>
 			<div class="col-md-11">@include('partials.layout.topleftpanel')</div>			
@@ -32,16 +33,12 @@
 </div><!-- end table -->
 
 	<div class="col-md-12">
-		bottom
+		<a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
 	</div><!-- bottom panel body -->
 
 
 @section('contentarea')
-
-
-		<!-- <div id="mycanvas" class="mycanvas"></div> -->
 		
-
 	
 @endsection('contentarea')
 
