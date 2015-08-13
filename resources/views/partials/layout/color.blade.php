@@ -24,6 +24,9 @@
 	   	COLOR NAME
 			<br>
 		  	@include('partials.colors',['data_target' =>'pants', 'event_class' => 'change-color',])
+
+		  	<br>
+		  	 @include('partials.colors', ['data_target' =>'c_1', 'event_class' => 'path-change-color','layer' => 'c_1'])
 </div>
           
      
