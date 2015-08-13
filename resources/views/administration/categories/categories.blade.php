@@ -14,6 +14,7 @@
 
 <div class="col-md-12">
     <h1>
+        <span class="fa fa-building-o"></span>
         Uniform Categories
         <small>
             <a href="/administration/category/add" class='btn btn-xs btn-success'>

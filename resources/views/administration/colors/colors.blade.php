@@ -14,7 +14,7 @@
 
 <div class="col-md-12">
     <h1>
-        <span class="glyphicon glyphicon-th-list"></span>
+        <span class="fa fa-th"></span>
         Colors
         <small>
             <a href="/administration/color/add" class='btn btn-xs btn-success'>

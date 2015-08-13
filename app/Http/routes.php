@@ -54,6 +54,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/add', 'Administration\MaterialsController@addMaterialForm');
     Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
+    // Materials Options
+    // TODO: ???
+    // Shall I include it in the Materials View Page?
+
     // Base Models
     Route::get('models', 'Administration\BaseModelsController@index');
     Route::post('model/add', 'Administration\BaseModelsController@store');
@@ -67,6 +71,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('pattern/update', 'Administration\PatternsController@store');
     Route::get('pattern/add', 'Administration\PatternsController@addPatternForm');
     Route::get('pattern/edit/{id}', 'Administration\PatternsController@editPatternForm');
+
+    // Fonts
+    Route::get('fonts', 'Administration\FontsController@index');
+    Route::post('font/add', 'Administration\FontsController@store');
+    Route::post('font/update', 'Administration\FontsController@store');
+    Route::get('font/add', 'Administration\FontsController@addFontForm');
+    Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });

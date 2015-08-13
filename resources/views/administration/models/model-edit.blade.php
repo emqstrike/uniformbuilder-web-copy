@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/model/update" enctype="multipart/form-data" id='create-model-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/model/update" enctype="multipart/form-data" id='edit-model-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="base_model_id" value="{{ $model->id }}">
 

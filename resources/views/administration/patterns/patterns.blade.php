@@ -20,6 +20,7 @@
 
 <div class="col-md-12">
     <h1>
+        <span class="glyphicon glyphicon-th-list"></span>
         Patterns
         <small>
             <a href="/administration/pattern/add" class='btn btn-xs btn-success'>
