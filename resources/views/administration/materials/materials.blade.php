@@ -42,7 +42,6 @@
                 <th>Uniform Category</th>
                 <th>Base Color</th>
                 <th>Gender</th>
-                <th>Sleeve Type</th>
                 <th>Lining Type</th>
                 <th>Active Status</th>
                 <th></th>
@@ -94,6 +93,12 @@
                     <a href="#" class="btn btn-default btn-xs show-material" role="button"
                         data-material-name="{{ $material->name }}"
                         data-material-code="{{ $material->code }}"
+                        data-material-type="{{ $material->type }}"
+                        data-material-uniform-category="{{ $material->uniform_category }}"
+                        data-material-base-color="{{ $material->color_name }}"
+                        data-material-base-color-code="{{ $material->hex_code }}"
+                        data-material-gender="{{ $material->gender }}"
+                        data-material-lining-type="{{ $material->lining_type }}"
                         data-material-path="{{ $material->material_path }}"
                         data-bump-map-path="{{ $material->bump_map_path }}"
                         data-shadow-path="{{ $material->shadow_path }}"
@@ -137,6 +142,57 @@
                 <h4 class="modal-title">Title</h4>
             </div>
             <div class="modal-body">
+                <table class='table table-bordered'>
+                    <tr>
+                        <td>
+                            Code:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-code">CODE</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Type:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-type">TYPE</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Uniform Category:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-uniform-category">UNIFORM CATEGORY</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Base Color:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-base-color">BASE COLOR</span>
+                            <div modal-material-base-color-code>&nbsp;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Gender:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-gender">GENDER</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Lining Type:
+                        </td>
+                        <td>
+                            <span class="label label-default modal-material-lining-type">LINING TYPE</span>
+                        </td>
+                    </tr>
+                </table>
                 <div class='tabbable'>
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab-material-image" data-toggle="tab">Base Material</a></li>

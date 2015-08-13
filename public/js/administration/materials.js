@@ -2,14 +2,29 @@ $(document).ready(function(){
     $('.materials').bootstrapTable();
 
     $('.show-material').on('click', function(){
-        var material = {};
-        material.id = $(this).data('material-id');
-        material.name = $(this).data('material-name');
-        material.material_path = $(this).data('material-path');
-        material.bump_map_path = $(this).data('bump-map-path');
-        material.shadow_path = $(this).data('shadow-path');
-        material.highlight_path = $(this).data('highlight-path');
+        var material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name'),
+            code: $(this).data('material-code'),
+            type: $(this).data('material-type'),
+            uniform_category: $(this).data('material-uniform-category'),
+            base_color: $(this).data('material-base-color'),
+            color_code: $(this).data('material-base-color-code'),
+            gender: $(this).data('material-gender'),
+            lining_type: $(this).data('material-lining-type'),
+            material_path: $(this).data('material-path'),
+            bump_map_path: $(this).data('bump-map-path'),
+            shadow_path: $(this).data('shadow-path'),
+            highlight_path: $(this).data('highlight-path')
+        };
         $('#view-material-modal .modal-title').text(material.name);
+        $('#view-material-modal .modal-material-code').text(material.code);
+        $('#view-material-modal .modal-material-type').text(material.type);
+        $('#view-material-modal .modal-material-uniform-category').text(material.uniform_category);
+        $('#view-material-modal .modal-material-base-color').text(material.base_color);
+        $('#view-material-modal .modal-material-base-color-code').text(material.color_code);
+        $('#view-material-modal .modal-material-gender').text(material.gender);
+        $('#view-material-modal .modal-material-lining-type').text(material.lining_type);
         $('#view-material-modal .material-image').attr('src', material.material_path);
         $('#view-material-modal .bump-map-image').attr('src', material.bump_map_path);
         $('#view-material-modal .shadow-image').attr('src', material.shadow_path);
