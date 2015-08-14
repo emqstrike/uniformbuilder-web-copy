@@ -1,4 +1,4 @@
-<div class='scroll' style="border: 1px solid gray; width:80%; height:60%; overflow-x: hidden;">
+<div class='scroll' style="border: 1px solid gray; width:90%; height:73%; overflow-x: hidden;">
 	<br>
 	
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
