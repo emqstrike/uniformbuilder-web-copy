@@ -34,7 +34,11 @@
 
 	<div class="col-md-12">
 	<button class="btn btn-default btn-lg" onclick="javascript:introJs().start();"><i class="glyphicon glyphicon-question-sign"></i></button>
-	
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+  <li><a href="#">Regular link</a></li>
+  <li class="disabled"><a href="#">Disabled link</a></li>
+  <li><a href="#">Another link</a></li>
+</ul>
 	</div><!-- bottom panel body -->
 
 
