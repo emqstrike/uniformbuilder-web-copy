@@ -55,8 +55,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
     // Materials Options
-    // TODO: ???
-    // Shall I include it in the Materials View Page?
+    Route::post('material_option/add', 'Administration\MaterialsOptionsController@store');
+    Route::post('material_option/update', 'Administration\MaterialsOptionsController@store');
 
     // Base Models
     Route::get('models', 'Administration\BaseModelsController@index');
@@ -83,7 +83,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
-    Route::get('jerseys', function(){ return view('administration.oops'); });
+    Route::get('waists', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });
     Route::get('pants', function(){ return view('administration.oops'); });

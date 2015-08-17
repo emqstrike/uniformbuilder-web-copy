@@ -1,0 +1,64 @@
+<!-- Edit Material Option Modal -->
+<div class="modal fade" id="edit-material-option-modal" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/administration/material_option/update" role="form" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" class="material-id" name="material_id">
+            <input type="hidden" class="material-option-id" name="material_option_id">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Edit a Material Option for <span style='color: blue'></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Name:</label>
+                    <input type="text" name="name" class="form-control option-name" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Setting Type:</label>
+                    <select name='setting_type' class='form-control setting-types'>
+                        <option value='pant cut'>Pant Cut</option>
+                        <option value='waist cut'>Waist Cut</option>
+                        <option value='sleeve style'>Sleeve Style</option>
+                        <option value='neck style'>Neck Style</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Setting Type Item:</label>
+                    <select name='setting_code' class='form-control setting-codes'>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Material Option File:</label>
+                    <input type="file" name="material_option_path">
+                    <img src="" class="material-option-path" width="300px" height="300px">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Layer Level:</label>
+                    <input type="number" name="layer_level" class="form-control layer-level" value='1' />
+                </div>
+                <div class='form-group'>
+                    <label class="control-label">Reference Notes</label>
+                    <div>
+                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+1.pdf" target="_blank">
+                            <span class="fa fa-info-circle"></span>
+                            Sleeve Styles Page 1
+                        </a>
+                    </div>
+                    <div>
+                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+2.pdf" target="_blank">
+                            <span class="fa fa-info-circle"></span>
+                            Sleeve Styles Page 2
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Save">
+                <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
