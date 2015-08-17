@@ -34,7 +34,22 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" class="form-control" />
+                    <input type="number" name="layer_level" class="form-control" value='1' />
+                </div>
+                <div class='form-group'>
+                    <label class="control-label">Reference Notes</label>
+                    <div>
+                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+1.pdf" target="_blank">
+                            <span class="fa fa-info-circle"></span>
+                            Sleeve Styles Page 1
+                        </a>
+                    </div>
+                    <div>
+                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+2.pdf" target="_blank">
+                            <span class="fa fa-info-circle"></span>
+                            Sleeve Styles Page 2
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

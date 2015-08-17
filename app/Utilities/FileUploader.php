@@ -77,6 +77,7 @@ class FileUploader
         $s3folder = 'materials',
         $filename = 'material.jpg')
     {
+        $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
         if ($type == 'material')
         {
             $filename = 'material.jpg';
@@ -115,7 +116,8 @@ class FileUploader
         }
         elseif ($type == 'material_option')
         {
-            $filename = 'material-option.png';
+            // Just Retain the filename
+            $folder = $s3folder . '/' . env('APP_ENV');
         }
         else
         {
@@ -123,8 +125,7 @@ class FileUploader
             return null;
         }
 
-        // Prepare PATH
-        $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
+        // Prepare PATH        
         $s3TargetPath = "{$folder}/{$filename}";
 
         // Upload to S3

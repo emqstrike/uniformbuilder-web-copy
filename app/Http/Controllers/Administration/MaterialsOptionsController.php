@@ -8,20 +8,33 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\MaterialsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient as APIClient;
 
 class MaterialsOptionsController extends Controller
 {
     protected $client;
+    protected $materialClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        MaterialsAPIClient $materialClient
+    )
     {
         $this->client = $apiClient;
+        $this->materialClient = $materialClient;
     }
 
     public function store(Request $request)
     {
         $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = $this->materialClient->getMaterial($materialId);
+        $materialFolder = null;
+        if (!is_null($materialObject))
+        {
+            $materialFolder = $materialObject->slug;
+        }
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
         $settingCode = $request->input('setting_code');
@@ -42,12 +55,13 @@ class MaterialsOptionsController extends Controller
             {
                 if ($materialOptionFile->isValid())
                 {
-                    $data['material_path'] = FileUploader::upload(
-                                                $materialOptionFile,
-                                                $materialOptionName,
-                                                'material_option',
-                                                "materials/{$settingType}/{$settingCode}"
-                                            );
+                    $data['material_option_path'] = FileUploader::upload(
+                                                                $materialOptionFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingCode}/material-option.png"
+                                                            );
                 }
             }
         }
@@ -59,7 +73,7 @@ class MaterialsOptionsController extends Controller
         }
 
         $response = null;
-        if (!empty($materialId))
+        if (!empty($materialOptionId))
         {
             $response = $this->client->update($data);
         }
