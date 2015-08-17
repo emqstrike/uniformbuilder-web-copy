@@ -73,6 +73,22 @@
 
 /* End Dropzone */
 
+/* Texturing Guide */
+
+    #texturing_guide_body {
+
+        color: white;
+
+    }
+
+    #texturing_guide_index {
+
+        color: white;
+
+    }
+
+/* End Texturing Guide */
+
 #prolook_canvas_container {
 
     margin-top: 113px;

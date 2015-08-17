@@ -34,4 +34,19 @@ class CanvasController extends Controller
         ]);
 
     }
+
+    public function texturing_guide(){
+
+        $title = 'Prolook Canvas - Texturing Guide';
+
+        return view('administration.canvas.texturing-guide', [
+            
+            'page_title' => $title,
+            'asset_version' =>  env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            
+        ]);
+
+    }
+
 }

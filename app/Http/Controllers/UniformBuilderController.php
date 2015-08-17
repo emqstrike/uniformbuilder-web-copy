@@ -38,4 +38,10 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function texturing_guide(){
+
+        
+
+    }
+
 }
