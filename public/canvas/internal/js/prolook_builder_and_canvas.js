@@ -163,18 +163,17 @@
 
                     PROLOOK_BUILDER.cameraPositionTo = {
 
-                        x: 0.006625263176336257,
-                        y: -0.00551182551985701,
-                        z: 3.089205959226261,
+                        x: 0.06213688326908633,
+                        y: 0.6688464525575273,
+                        z: 3.1477446569250085,
 
                     };
 
                     PROLOOK_BUILDER.cameraRotationTo = {
 
-                        x: 0.019600846457640125,
-                        y: 0.018638373058454793,
-                        z: -0.0003653534971145085,
-
+                        x: -0.20937041216934998,
+                        y: 0.019306642782627805,
+                        z: 0.004102081766231679,
 
                     };
 
@@ -231,10 +230,10 @@
                     var height = $(container).height();
 
                     PROLOOK_BUILDER.scene = new THREE.Scene();
-                    // PROLOOK_BUILDER.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+                    PROLOOK_BUILDER.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
                     
                     var v = 128;
-                    PROLOOK_BUILDER.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
+                    //PROLOOK_BUILDER.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
                     PROLOOK_BUILDER.camera.zoom = 2.7049675370029926;
                     PROLOOK_BUILDER.camera.updateProjectionMatrix();
 
@@ -243,13 +242,13 @@
 
                     container.appendChild( PROLOOK_BUILDER.renderer.domElement );
 
-                    var pointLight = new THREE.PointLight( 0xadaead, 1.3, 100 );
+                    var pointLight = new THREE.PointLight( 0xadaead, 1.9, 100 );
                     pointLight.position.set(1,1,2);
                     PROLOOK_BUILDER.camera.add(pointLight);
 
                     PROLOOK_BUILDER.scene.add(PROLOOK_BUILDER.camera);
 
-                    var light = new THREE.AmbientLight( 0x878787 );
+                    var light = new THREE.AmbientLight( 0x303030 );
                     PROLOOK_BUILDER.scene.add(light);
                     
                     window.addEventListener('resize', function() {
@@ -267,7 +266,7 @@
 
                     controls = new THREE.OrbitControls( PROLOOK_BUILDER.camera, PROLOOK_BUILDER.renderer.domElement );
 
-                    controls.rotateSpeed = 0.35;
+                    controls.rotateSpeed = 0.15;
                     controls.zoomSpeed = 0.2;
                     controls.panSpeed = 0.05;
 
@@ -286,7 +285,7 @@
                     };
 
                     render();
-                    
+
                     PROLOOK_BUILDER.resetCamera();
 
 

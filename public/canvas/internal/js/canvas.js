@@ -87,13 +87,13 @@
                 event.preventDefault();
 
 
-                pb.camera.position.x = 0.006625263176336257;
-                pb.camera.position.y = -0.00551182551985701;
-                pb.camera.position.z = 3.089205959226261;
+                pb.camera.position.x = pb.cameraPositionTo.x;
+                pb.camera.position.y = pb.cameraPositionTo.y;
+                pb.camera.position.z = pb.cameraPositionTo.z;
 
-                pb.camera.rotation.x = 0.019600846457640125;
-                pb.camera.rotation.y = 0.018638373058454793;
-                pb.camera.rotation.z = -0.0003653534971145085;
+                pb.camera.rotation.x =  pb.cameraRotationTo.x;
+                pb.camera.rotation.y =  pb.cameraRotationTo.y;
+                pb.camera.rotation.z =  pb.cameraRotationTo.z;
 
                 pb.camera.updateProjectionMatrix();
 
