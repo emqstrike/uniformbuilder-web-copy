@@ -24,35 +24,35 @@
 
             myDropzone.on("addedfile", function(file) {
 
-                // Create the remove button
-                var removeButton = Dropzone.createElement("<button>Remove file</button>");
+                if($('#removeUploadedFile').length > 0){
+                    $('#removeUploadedFile').click();
+                }
 
+                var temp = file.previewTemplate;
+                 var FR= new FileReader();
+                 FR.onload = function(e) {
 
-                // Capture the Dropzone instance as closure.
+                    utils.p(e.target.result,'from call');
+                    pc.loadBase(e.target.result); 
+
+                 };
+
+                 FR.readAsDataURL( file );
+
+                var removeButton = Dropzone.createElement("<button class='btn btn-default btn-sm' id='removeUploadedFile'>Remove</button><br /><br />");
                 var _this = this;
-
-                // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
-                  // Make sure the button click doesn't submit the form:
                   e.preventDefault();
                   e.stopPropagation();
 
-                  // Remove the file preview.
                   _this.removeFile(file);
+                
                   // If you want to the delete the file on the server as well,
                   // you can do the AJAX request here.
+
                 });
 
-                // Add the button to the file preview element.
                 file.previewElement.appendChild(removeButton);
-
-
-                setTimeout(function(){
-
-                    utils.p('ok!')
-                    pc.loadBase();
-
-                }, 50);
                 
 
             });
