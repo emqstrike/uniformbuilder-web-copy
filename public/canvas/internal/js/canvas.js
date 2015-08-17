@@ -39,7 +39,7 @@
 
                  FR.readAsDataURL( file );
 
-                var removeButton = Dropzone.createElement("<button id='removeUploadedFile'>Remove file</button>");
+                var removeButton = Dropzone.createElement("<button class='btn btn-default btn-sm' id='removeUploadedFile'>Remove</button><br /><br />");
                 var _this = this;
                 removeButton.addEventListener("click", function(e) {
                   e.preventDefault();
