@@ -1,6 +1,6 @@
 
     $( document ).ready(function() {
-        
+
 
         /// Material Canvas, For Direct Material Editing
         /// TODO: Transfer this to a tab
@@ -20,7 +20,7 @@
 
             if ($('div#baseDropzone').length) {
 
-                var myDropzone = new Dropzone("div#baseDropzone",{url: '/uploadImage'});
+                var myDropzone = new Dropzone("div#baseDropzone", { url: '/uploadImage' } );
 
                 myDropzone.on("addedfile", function(file) {
 
@@ -35,7 +35,6 @@
                     
                     FR.onload = function(e) {
 
-                        utils.p(e.target.result,'from call');
                         pc.loadBase(e.target.result); 
 
                     };
@@ -44,6 +43,7 @@
 
                     var removeButton = Dropzone.createElement("<button class='btn btn-default btn-sm' id='removeUploadedFile'>Remove</button><br /><br />");
                     var _this = this;
+
                     removeButton.addEventListener("click", function(e) {
                       
                         e.preventDefault();
