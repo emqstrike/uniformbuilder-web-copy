@@ -172,9 +172,11 @@ $(document).ready(function(){
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
 
         $('#edit-material-option-modal .material-id').val(material.id);
+        $('#edit-material-option-modal .material-option-id').val(material.option.id);
         $('#edit-material-option-modal .modal-title span').html(material.name);
         $('#edit-material-option-modal .option-name').val(material.option.name);
         $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
+        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
         $('#edit-material-option-modal').modal('show');
     });
 

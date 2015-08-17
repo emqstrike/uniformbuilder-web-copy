@@ -75,6 +75,7 @@ class MaterialsOptionsController extends Controller
         $response = null;
         if (!empty($materialOptionId))
         {
+            $data['id'] = $materialOptionId;
             $response = $this->client->update($data);
         }
         else

@@ -32,6 +32,7 @@
                 <div class="form-group">
                     <label class="control-label">Material Option File:</label>
                     <input type="file" name="material_option_path">
+                    <img src="" class="material-option-path" width="300px" height="300px">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Layer Level:</label>

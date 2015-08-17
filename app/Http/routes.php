@@ -56,6 +56,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials Options
     Route::post('material_option/add', 'Administration\MaterialsOptionsController@store');
+    Route::post('material_option/update', 'Administration\MaterialsOptionsController@store');
 
     // Base Models
     Route::get('models', 'Administration\BaseModelsController@index');
