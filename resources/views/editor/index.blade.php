@@ -8,18 +8,18 @@
 		<hr style="marign-top: 100px;">
 <div class="row"><!-- start table -->
 
-	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
+	<div class="col-md-5 col-md-offset-1"  data-step="1" data-intro="First panel"><!-- right panel body -->
 		<div class="row"><!-- left panel table -->
 			<div class="col-md-1"><!-- Free --></div>
-			<div class="col-md-10" data-step="1" data-intro="I am groot.">@include('partials.layout.topleftpanel')</div>						
+			<div class="col-md-10">@include('partials.layout.topleftpanel')</div>						
 		</div>
 		<div class="row">
-			<div class="col-md-1" data-step="2" data-intro="I am groot.">@include('partials.layout.settings_sidepanel')</div>
-			<div class="col-md-11" data-step="3" data-intro="I am groot.">@include('partials.layout.uniformbuilder')</div>
+			<div class="col-md-1" >@include('partials.layout.settings_sidepanel')</div>
+			<div class="col-md-11" d>@include('partials.layout.uniformbuilder')</div>
 		</div>	
 	</div><!-- left panel body -->
 	
-	<div class="col-md-5">				 
+	<div class="col-md-5" data-step="2" data-intro="Second panel">				 
 		<div class="row">
 			<div class="row">
 			<div class="col-md-1"><!-- Free --></div>
@@ -32,7 +32,7 @@
 		</div>							
 	</div><!-- right panel body -->	
 
-	<div class="col-md-12">
+	<div class="col-md-12" ata-step="3" data-intro="Third panel">
 		<button class="btn btn-default btn-lg" onclick="javascript:introJs().start();"><i class="glyphicon glyphicon-question-sign"></i></button> <!-- intro button -->
 	</div><!-- bottom panel body -->	
 </div><!-- end table -->
