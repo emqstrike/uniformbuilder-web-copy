@@ -387,23 +387,26 @@
 
                 };
 
-                PROLOOK_CANVAS.loadBase = function () {
+                PROLOOK_CANVAS.loadBase = function (img) {
 
-                    var img = new Image();
-                    img.src = $('div.dz-image > img').attr('src');
+                    var img_new = new Image();
+                    img_new.src = img;
 
-                    img.onload = function () {
+                    utils.p(img,'to load!!!');
+
+                    img_new.onload = function () {
                         
-                        var imgbase64 = new fabric.Image(img, {
-                            scaleX: 0.5,
-                            scaleY: 0.5,
-                            top: 857,
-                            left: 628,
-                            angle: 82,
+                        var imgbase64 = new fabric.Image(img_new, {
+                            top: 0,
+                            left: 0,
+                            width: PROLOOK_CANVAS.width,
+                            height: PROLOOK_CANVAS.height,
+                            angle: 0,
+                            opacity: 1, 
                         })
 
+                        canvas.remove(PROLOOK_CANVAS.objects.base);
                         PROLOOK_CANVAS.objects['base'] = imgbase64;
-
                         canvas.add(imgbase64).renderAll();
 
                     }

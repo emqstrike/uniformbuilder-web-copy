@@ -24,8 +24,25 @@
 
             myDropzone.on("addedfile", function(file) {
 
+                if($('#removeUploadedFile').length > 0){
+                    $('#removeUploadedFile').click();
+                }
+
+                var temp = file.previewTemplate;
+                 var FR= new FileReader();
+                 FR.onload = function(e) {
+
+                    utils.p(e.target.result,'from call');
+
+                     pc.loadBase(e.target.result); //This is the base64 data of file(gif) dropped
+                     //if you want to display it somewhere in your previewTemplate
+                     $('.dz-image > img').attr('src',e.target.result); //setting as src of some img tag with class 'my-preview'
+
+                 };
+                 FR.readAsDataURL( file );
+
                 // Create the remove button
-                var removeButton = Dropzone.createElement("<button>Remove file</button>");
+                var removeButton = Dropzone.createElement("<button id='removeUploadedFile'>Remove file</button>");
 
 
                 // Capture the Dropzone instance as closure.
@@ -45,14 +62,6 @@
 
                 // Add the button to the file preview element.
                 file.previewElement.appendChild(removeButton);
-
-
-                setTimeout(function(){
-
-                    utils.p('ok!')
-                    pc.loadBase();
-
-                }, 50);
                 
 
             });
