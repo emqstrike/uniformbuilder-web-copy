@@ -28,6 +28,16 @@
 
         </div>
         
+        <br />        
+        <hr />
+
+        <em >
+            
+            Free rotate on camera is enabled by default, just mouse down on the model and drag, to reset camera position double click on the model.
+
+        </em>
+
+
     </div>
 
 @endsection('modifiers')
