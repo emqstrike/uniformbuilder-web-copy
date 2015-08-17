@@ -68,5 +68,28 @@
 
         /// End Rendering
 
+        document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+        document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
+
+
+        function onDocumentMouseDown( event ) {
+
+                event.preventDefault();
+
+                utils.p('ok!');
+                pb.freeRotate = true;
+
+            
+        }
+
+        function onDocumentDoubleClick( event ) {
+
+                event.preventDefault();
+
+                utils.p('ok!');
+                pb.resetCamera();
+
+            
+        }
 
     });

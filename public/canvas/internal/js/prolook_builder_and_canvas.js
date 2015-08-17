@@ -163,17 +163,17 @@
 
                     PROLOOK_BUILDER.cameraPositionTo = {
 
-                        x: 0,
-                        y: 9.042352971331009e-17,
-                        z: 1.4767283069088406,
+                        x: 0.006625263176336257,
+                        y: -0.00551182551985701,
+                        z: 3.089205959226261,
 
                     };
 
                     PROLOOK_BUILDER.cameraRotationTo = {
 
-                        x: -6.123234262925839e-17,
-                        y: 0,
-                        z: 0,
+                        x: 0.019600846457640125,
+                        y: 0.018638373058454793,
+                        z: -0.0003653534971145085,
 
 
                     };
@@ -231,18 +231,26 @@
                     var height = $(container).height();
 
                     PROLOOK_BUILDER.scene = new THREE.Scene();
-                    PROLOOK_BUILDER.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+                    // PROLOOK_BUILDER.camera = new THREE.PerspectiveCamera( 100, width/height, 0.1, 1000 );
+                    
+                    var v = 128;
+                    PROLOOK_BUILDER.camera = new THREE.OrthographicCamera( width / - v, width / v, height / v, height / - v, 1, 500 );
+                    PROLOOK_BUILDER.camera.zoom = 2.7049675370029926;
+                    PROLOOK_BUILDER.camera.updateProjectionMatrix();
 
-                    PROLOOK_BUILDER.renderer = new THREE.WebGLRenderer({ alpha: true, precision: 'highp', antialias: true, });
+                    PROLOOK_BUILDER.renderer = new THREE.WebGLRenderer({ alpha: false, precision: 'highp', antialias: true, });
                     PROLOOK_BUILDER.renderer.setSize(width, height);
 
                     container.appendChild( PROLOOK_BUILDER.renderer.domElement );
 
-                    var pointLight = new THREE.PointLight( 0x8e8e8e, 2.5, 100 );
+                    var pointLight = new THREE.PointLight( 0xadaead, 1.3, 100 );
                     pointLight.position.set(1,1,2);
                     PROLOOK_BUILDER.camera.add(pointLight);
 
                     PROLOOK_BUILDER.scene.add(PROLOOK_BUILDER.camera);
+
+                    var light = new THREE.AmbientLight( 0x878787 );
+                    PROLOOK_BUILDER.scene.add(light);
                     
                     window.addEventListener('resize', function() {
 
