@@ -1,7 +1,6 @@
 
     $( document ).ready(function() {
 
-        
         /// Material Canvas, For Direct Material Editing
         /// TODO: Transfer this to a tab
 
@@ -74,32 +73,22 @@
 
         function onDocumentMouseDown( event ) {
 
-                event.preventDefault();
-
-                utils.p('ok!');
-                pb.freeRotate = true;
-
+            pb.freeRotate = true;
             
         }
 
         function onDocumentDoubleClick( event ) {
 
-                event.preventDefault();
+            pb.camera.position.x = pb.cameraPositionTo.x;
+            pb.camera.position.y = pb.cameraPositionTo.y;
+            pb.camera.position.z = pb.cameraPositionTo.z;
 
+            pb.camera.rotation.x =  pb.cameraRotationTo.x;
+            pb.camera.rotation.y =  pb.cameraRotationTo.y;
+            pb.camera.rotation.z =  pb.cameraRotationTo.z;
 
-                pb.camera.position.x = pb.cameraPositionTo.x;
-                pb.camera.position.y = pb.cameraPositionTo.y;
-                pb.camera.position.z = pb.cameraPositionTo.z;
-
-                pb.camera.rotation.x =  pb.cameraRotationTo.x;
-                pb.camera.rotation.y =  pb.cameraRotationTo.y;
-                pb.camera.rotation.z =  pb.cameraRotationTo.z;
-
-                pb.camera.updateProjectionMatrix();
-
-                pb.resetCamera();
-
-
+            pb.camera.updateProjectionMatrix();
+            pb.resetCamera();
             
         }
 
