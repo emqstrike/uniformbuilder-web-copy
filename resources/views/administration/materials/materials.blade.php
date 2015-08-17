@@ -60,6 +60,22 @@
                     {{ $material->name }}
                 </td>
                 <td>
+                    @foreach ($material->options as $option)
+                    <div style="margin-top: 3px;">
+                        <a href="#" class='btn btn-xs btn-info edit-material-option'
+                            data-material-option-name="{{ $option->name }}"
+                            data-material-option-layer-level="{{ $option->layer_level }}"
+                            data-material-option-setting-type="{{ $option->setting_type }}"
+                            data-material-option-setting-code="{{ $option->setting_code }}"
+                            data-material-option-path="{{ $option->material_option_path }}"
+                            data-material-option-id="{{ $option->id }}"
+                            data-material-name="{{ $material->name }}"
+                            data-material-id="{{ $material->id }}">
+                            <span class="fa fa-edit"></span>
+                            {{ $option->name }} <span class="badge">{{ $option->layer_level }}</span>
+                        </a>
+                    </div>
+                    @endforeach
                     <div style="margin-top: 10px;">
                         <a href="#" class='btn btn-xs btn-success add-material-option'
                             data-material-name="{{ $material->name }}"
@@ -149,6 +165,8 @@
 @include('administration.materials.material-view-modal')
 
 @include('administration.materials.material-option-create-modal')
+
+@include('administration.materials.material-option-edit-modal')
 
 @include('partials.confirmation-modal')
 

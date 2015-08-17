@@ -7,15 +7,21 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
 {
     protected $client;
+    protected $optionsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        MaterialsOptionsAPIClient $optionsClient
+    )
     {
         $this->client = $apiClient;
+        $this->optionsClient = $optionsClient;
     }
 
     /**
@@ -24,6 +30,11 @@ class MaterialsController extends Controller
     public function index()
     {
         $materials = $this->client->getMaterials();
+        foreach ($materials as &$material)
+        {
+            $options = $this->optionsClient->getByMaterialId($material->id);
+            $material->options = $options;
+        }
 
         return view('administration.materials.materials', [
             'materials' => $materials
