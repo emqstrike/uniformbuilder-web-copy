@@ -86,8 +86,19 @@
 
                 event.preventDefault();
 
-                utils.p('ok!');
+
+                pb.camera.position.x = 0.006625263176336257;
+                pb.camera.position.y = -0.00551182551985701;
+                pb.camera.position.z = 3.089205959226261;
+
+                pb.camera.rotation.x = 0.019600846457640125;
+                pb.camera.rotation.y = 0.018638373058454793;
+                pb.camera.rotation.z = -0.0003653534971145085;
+
+                pb.camera.updateProjectionMatrix();
+
                 pb.resetCamera();
+
 
             
         }
