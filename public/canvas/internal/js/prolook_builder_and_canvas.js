@@ -387,22 +387,23 @@
 
                 };
 
+
                 PROLOOK_CANVAS.loadBase = function (img) {
 
                     var img_new = new Image();
                     img_new.src = img;
 
-                    utils.p(img,'to load!!!');
-
                     img_new.onload = function () {
                         
                         var imgbase64 = new fabric.Image(img_new, {
+                           
                             top: 0,
                             left: 0,
                             width: PROLOOK_CANVAS.width,
                             height: PROLOOK_CANVAS.height,
                             angle: 0,
                             opacity: 1, 
+                            
                         })
 
                         canvas.remove(PROLOOK_CANVAS.objects.base);
