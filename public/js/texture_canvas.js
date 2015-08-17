@@ -280,7 +280,6 @@
 
 			}, 50);
 
-
 		}
 
 		texture_canvas.load_number = function (){
@@ -339,7 +338,6 @@
 				texture_canvas.refresh_model();
 
 			}, 50);
-
 
 		}
 

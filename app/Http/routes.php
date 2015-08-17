@@ -79,6 +79,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('font/add', 'Administration\FontsController@addFontForm');
     Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
+    Route::get('canvas', 'Administration\CanvasController@index');
+
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
     Route::get('jerseys', function(){ return view('administration.oops'); });

@@ -1,0 +1,107 @@
+/* Bootstrap Overrides */
+
+    .navbar-fixed-top, .navbar-static-top {
+        
+        height: 80px;
+
+    }
+
+    .panel {
+        border: 0;
+        color: #aaa;
+    }
+
+    .panel-body {
+
+        background-color: #26333b;
+
+    }
+
+/* End Bootstrap Overrides */
+
+/* For material editor */
+
+    .modal-content {
+        
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width: 2700px;
+
+    }
+
+    .modal
+    {
+
+        overflow: auto;
+
+    }
+    
+    .modal-dialog{
+
+        margin-right: 0;
+        margin-left: 0;
+
+    }
+
+/* End material editor */
+
+/* Dropzone */
+
+    .dz-error-message, .dz-success-mark, .dz-error-mark  {
+
+        display: none;
+
+    }
+
+/* End Dropzone */
+
+#prolook_canvas_container {
+
+    margin-top: 113px;
+    height: 100%;
+
+    min-height: 100%;
+    height: 100%;
+
+}
+#prolook_canvas_container > row {
+
+    margin-top: 113px;
+    height: 100%;
+      min-height: 100%;
+    height: 100%;
+
+}
+
+#prolook_modifiers {
+
+    color: #3d3e3d;
+
+}
+
+#prolook_modifiers > h3 {
+
+    color: #fff;
+
+}
+
+#prolook_canvas, canvas {
+    
+    width: 100%;
+    height: 500px;
+
+}
+
+
+
+body, html {
+
+    min-height: 100%;
+    height: 100%;
+
+    font-family: 'Lato', sans-serif;
+
+    color: white;
+    background-color: #000000;
+
+}
