@@ -77,6 +77,7 @@ class FileUploader
         $s3folder = 'materials',
         $filename = 'material.jpg')
     {
+        $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
         if ($type == 'material')
         {
             $filename = 'material.jpg';
@@ -113,14 +114,18 @@ class FileUploader
         {
             $filename = 'font.ttf';
         }
+        elseif ($type == 'material_option')
+        {
+            // Just Retain the filename
+            $folder = $s3folder . '/' . env('APP_ENV');
+        }
         else
         {
             error_log('Unsupported File Type');
             return null;
         }
 
-        // Prepare PATH
-        $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
+        // Prepare PATH        
         $s3TargetPath = "{$folder}/{$filename}";
 
         // Upload to S3

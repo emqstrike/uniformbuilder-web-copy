@@ -37,16 +37,16 @@
             <li class="divider">
 
             <li>
-                <a href="/administration/jerseys"><span class="glyphicon glyphicon-th-list"></span> Jerseys</a>
-            </li>
-            <li>
                 <a href="/administration/necks"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
             </li>
             <li>
                 <a href="/administration/sleeves"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
             </li>
             <li>
-                <a href="/administration/pants"><span class="glyphicon glyphicon-th-list"></span> Pants</a>
+                <a href="/administration/pants"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
+            </li>
+            <li>
+                <a href="/administration/waists"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
             </li>
 
             <li class="divider">
