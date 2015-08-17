@@ -3,6 +3,7 @@
 @include('partials.layout.navbar')
 <link rel="stylesheet" href="css/builder.css">
 <link rel="stylesheet" href="introjs/introjs.min.css">
+
 		<br><br><br>
 		<hr style="marign-top: 100px;">
 <div class="row"><!-- start table -->
@@ -10,8 +11,7 @@
 	<div class="col-md-5 col-md-offset-1"><!-- right panel body -->
 		<div class="row"><!-- left panel table -->
 			<div class="col-md-1"><!-- Free --></div>
-			<div class="col-md-11" data-step="1" data-intro="I am groot.">@include('partials.layout.topleftpanel')</div>			
-			
+			<div class="col-md-10" data-step="1" data-intro="I am groot.">@include('partials.layout.topleftpanel')</div>						
 		</div>
 		<div class="row">
 			<div class="col-md-1" data-step="2" data-intro="I am groot.">@include('partials.layout.settings_sidepanel')</div>
@@ -21,16 +21,19 @@
 	
 	<div class="col-md-5">				 
 		<div class="row">
-			<div class="col-md-1" data-step="4" data-intro="I am groot."><!-- Free --></div>
-			<div class="col-md-11">@include('partials.layout.toprightpanel')</div>
-			
-			<div class="col-md-1" data-step="5" data-intro="I am groot.">@include('partials.layout.rightpaneltab')</div>
-			<div class="col-md-11" data-step="6" data-intro="I am groot.">@include('partials.layout.tab_rightpanel')</div>	
+			<div class="row">
+			<div class="col-md-1"><!-- Free --></div>
+			<div class="col-md-10">@include('partials.layout.toprightpanel')</div>	
+			</div>
+			<div class="row">
+			<div class="col-md-1">@include('partials.layout.rightpaneltab')</div>
+			<div class="col-md-11">@include('partials.layout.tab_rightpanel')</div>		
+			</div>
 		</div>							
 	</div><!-- right panel body -->	
 
 	<div class="col-md-12">
-		<button class="btn btn-default btn-lg" onclick="javascript:introJs().start();"><i class="glyphicon glyphicon-question-sign"></i></button>
+		<button class="btn btn-default btn-lg" onclick="javascript:introJs().start();"><i class="glyphicon glyphicon-question-sign"></i></button> <!-- intro button -->
 	</div><!-- bottom panel body -->	
 </div><!-- end table -->
 
@@ -151,6 +154,8 @@
 	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
 	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
 	<script src="introjs/intro.min.js"></script>
+	<script src="js/slidemenu.min.js"></script>
+
 
 <!-- for popover -->
 	<script type="text/javascript">

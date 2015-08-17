@@ -1,4 +1,4 @@
-<div class="row" style="width:90%; height:90%;">
+<div class="row" style="width:90%; height:92%;">
 	<div class="col-md-12" style="border: 1px solid gray;">
 				<div id="mycanvas" class="mycanvas"></div><!-- builder -->
 		<div class="container-fluid">

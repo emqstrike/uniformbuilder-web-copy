@@ -1,4 +1,8 @@
 
+<div class="jumbotron"  style="height:20px;">
+	<h4>sample</h4>
+</div>
+
 
 @include('partials.layout.teamcolor')
 <hr>
