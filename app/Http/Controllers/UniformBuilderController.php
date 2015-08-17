@@ -25,7 +25,6 @@ class UniformBuilderController extends Controller
         $colorsClient = new ColorsAPIClient();
         $materialsClient = new MaterialsAPIClient();
 
-
         $colors = $colorsClient->getColors();
         $materials = $materialsClient->getMaterials();
 
