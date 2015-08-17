@@ -29,7 +29,7 @@
         </div>
 
 
-            <a href="/images/sources/arkansas09_reference.psd">Sample Base Photoshop File</a>
+            <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/sources/arkansas09_reference.psd">Sample Base Photoshop File</a>
             <br />
             <em>Just edit and export as .png or .jpg, drag the resulting file to the box above to see the material applied to the 3d model. For a guide on how to create materials, read <a href="/administration/canvas/texturing-guide">this</a>.</em>
             <br /><br />
