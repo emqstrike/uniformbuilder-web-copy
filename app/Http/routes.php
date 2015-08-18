@@ -79,6 +79,16 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('font/add', 'Administration\FontsController@addFontForm');
     Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
+    // Cut Styles
+    Route::get('cuts/necks', 'Administration\CutStylesController@necks');
+    Route::get('cuts/sleeves', 'Administration\CutStylesController@sleeves');
+    Route::get('cuts/waists', 'Administration\CutStylesController@waists');
+    Route::get('cuts/pants', 'Administration\CutStylesController@pants');
+    Route::post('cut/add', 'Administration\CutStylesController@store');
+    Route::post('cut/update', 'Administration\CutStylesController@store');
+    Route::get('cut/add', 'Administration\CutStylesController@addForm');
+    Route::get('cut/edit/{id}', 'Administration\CutStylesController@editForm');
+
     Route::get('canvas', 'Administration\CanvasController@index');
     Route::get('canvas/texturing-guide', 'Administration\CanvasController@texturing_guide');
 
