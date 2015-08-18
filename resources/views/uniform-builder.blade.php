@@ -38,7 +38,7 @@
 
                 </div>
                 
-                <h1 class="text-center">PRO LOOK UNIFORM BUILDER</h1>
+                <h1 class="text-center" id="header_text">PRO LOOK UNIFORM BUILDER</h1>
 
             </div>
 
