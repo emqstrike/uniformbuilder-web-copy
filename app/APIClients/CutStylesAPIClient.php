@@ -39,19 +39,6 @@ class CutStylesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function getCutStyles()
-    {
-        $response = $this->get('cuts');
-        $result = $this->decoder->decode($response->getBody());
-
-        $styles = [];
-        if ($result->success)
-        {
-            $styles = $result->styles;
-        }
-        return $styles;
-    }
-
     public function getByType($type)
     {
         $response = $this->get('cuts/' . $type);
@@ -91,7 +78,7 @@ class CutStylesAPIClient extends APIClient
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
-            return $result->style;
+            return $result->cut_style;
         }
         return null;
     }

@@ -86,7 +86,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('cuts/pants', 'Administration\CutStylesController@pants');
     Route::post('cut/add', 'Administration\CutStylesController@store');
     Route::post('cut/update', 'Administration\CutStylesController@store');
-    Route::get('cut/add', 'Administration\CutStylesController@addForm');
+    Route::get('cut/add/{type}', 'Administration\CutStylesController@addForm');
     Route::get('cut/edit/{id}', 'Administration\CutStylesController@editForm');
 
     Route::get('canvas', 'Administration\CanvasController@index');
@@ -101,6 +101,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('pants', function(){ return view('administration.oops'); });
     Route::get('skus', function(){ return view('administration.oops'); });
     Route::get('orders', function(){ return view('administration.oops'); });
+    Route::get('fabrics', function(){ return view('administration.oops'); });
     Route::get('accountSettings', function(){ return view('administration.oops'); });
 
 });

@@ -22,6 +22,9 @@
             <li class="divider">
 
             <li>
+                <a href="/administration/fabrics"><span class="fa fa-slack"></span> Fabrics</a>
+            </li>
+            <li>
                 <a href="/administration/colors"><span class="fa fa-th"></span> Colors</a>
             </li>
             <li>

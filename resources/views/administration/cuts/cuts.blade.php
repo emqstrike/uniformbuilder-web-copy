@@ -23,7 +23,7 @@
         <span class="fa fa-th"></span>
         {{ $title }}
         <small>
-            <a href="/administration/cut/add" class='btn btn-xs btn-success'>
+            <a href="/administration/cut/add/{{ strtolower(substr($title, 0, strlen($title) - 1)) }}" class='btn btn-xs btn-success'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Add New {{ substr($title, 0, strlen($title) - 1) }}
             </a>

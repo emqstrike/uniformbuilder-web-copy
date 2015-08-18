@@ -22,7 +22,7 @@ class CutStylesController extends Controller
     {
         $necks = $this->client->getNecks();
 
-        return view('administration.cuts.list', [
+        return view('administration.cuts.cuts', [
             'cuts' => $necks,
             'title' => 'Necks'
         ]);
@@ -32,7 +32,7 @@ class CutStylesController extends Controller
     {
         $sleeves = $this->client->getSleeves();
 
-        return view('administration.cuts.list', [
+        return view('administration.cuts.cuts', [
             'cuts' => $sleeves,
             'title' => 'Sleeves'
         ]);
@@ -42,7 +42,7 @@ class CutStylesController extends Controller
     {
         $pants = $this->client->getPants();
 
-        return view('administration.cuts.list', [
+        return view('administration.cuts.cuts', [
             'cuts' => $pants,
             'title' => 'Pants'
         ]);
@@ -52,22 +52,32 @@ class CutStylesController extends Controller
     {
         $waists = $this->client->getWaists();
 
-        return view('administration.cuts.list', [
+        return view('administration.cuts.cuts', [
             'cuts' => $waists,
             'title' => 'Waists'
         ]);
     }
 
-    public function addColorForm()
+    public function addForm($type)
     {
-        return view('administration.cuts.color-create');
+        $cutType = null;
+        switch ($type) {
+            case 'pant': $cutType = 'pant cut'; break;
+            case 'waist': $cutType = 'waist cut'; break;
+            case 'sleeve': $cutType = 'sleeve style'; break;
+            case 'neck': $cutType = 'neck style'; break;
+        }
+        return view('administration.cuts.cut-create',[
+            'type' => $type,
+            'cut_type' => $cutType
+        ]);
     }
 
-    public function editColorForm($id)
+    public function editForm($id)
     {
-        $color = $this->client->getColor($id);
-        return view('administration.cuts.color-edit', [
-            'color' => $color
+        $style = $this->client->getCutStyle($id);
+        return view('administration.cuts.cut-edit', [
+            'cut_style' => $style
         ]);
     }
 
