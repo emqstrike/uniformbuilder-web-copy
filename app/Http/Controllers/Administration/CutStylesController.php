@@ -83,62 +83,50 @@ class CutStylesController extends Controller
 
     public function store(Request $request)
     {
-        $colorName = $request->input('name');
-        $colorCode = $request->input('color_code');
-        $hexCode = $request->input('hex_code');
+        $cutName = $request->input('name');
+        $code = $request->input('code');
+        $cutType = $request->input('cut_type');
+        $type = substr($cutType, 0, strpos($cutType, ' ')) . 's';
 
-        $colorId = null;
-        if (!empty($request->input('color_id')))
+        $cutId = null;
+        if (!empty($request->input('cut_id')))
         {
-            $colorId = $request->input('color_id');
+            $cutId = $request->input('cut_id');
         }
 
-        if (strpos($hexCode, '#') > -1)
+        // Code should be Unique
+        if ($this->client->isExist($code, $cutId))
         {
-            $hexCode = str_replace('#', '', $hexCode);
-        }
-
-        // Color Name should be Unique
-        if ($this->client->isColorExist($colorName, $colorId))
-        {
-            return Redirect::to('administration/cuts')
-                        ->with('message', 'Color name already exists');
-        }
-
-        // Color Code should be Unique
-        if ($this->client->isColorCodeExist($colorCode, $colorId))
-        {
-            return Redirect::to('administration/cuts')
-                        ->with('message', 'Color Code already exists');
+            return Redirect::to('administration/cuts/' . $type)
+                        ->with('message', 'Code already exists');
         }
 
         $data = [
-            'name' => $colorName,
-            'color_code' => $colorCode,
-            'hex_code' => $hexCode
+            'name' => $cutName,
+            'code' => $code,
+            'cut_type' => $cutType
         ];
 
         $response = null;
-        if (!empty($colorId))
+        if (!empty($cutId))
         {
-            $data['id'] = $colorId;
-            $response = $this->client->updateColor($data);
+            $data['id'] = $cutId;
+            $response = $this->client->updateCutStyle($data);
         }
         else
         {
-            $response = $this->client->createColor($data);
+            $response = $this->client->createCutStyle($data);
         }
-
 
         if ($response->success)
         {
-            return Redirect::to('administration/cuts')
+            return Redirect::to('administration/cuts/' . $type)
                             ->with('message', $response->message);
         }
         else
         {
-            return Redirect::to('administration/cuts')
-                            ->with('message', 'There was a problem saving your color');
+            return Redirect::to('administration/cuts/' . $type)
+                            ->with('message', 'There was a problem saving your cut');
         }
     }
 }

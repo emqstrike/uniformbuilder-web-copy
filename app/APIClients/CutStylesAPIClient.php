@@ -8,7 +8,7 @@ class CutStylesAPIClient extends APIClient
         parent::__construct();
     }
 
-    public function isCodeExist($code, $id = null)
+    public function isExist($code, $id = null)
     {
         $style = $this->getByCode($code);
         if (!is_null($style) && !is_null($id))
@@ -27,6 +27,7 @@ class CutStylesAPIClient extends APIClient
         $response = $this->post('cut', [
             'json' => $data
         ]);
+
         return $this->decoder->decode($response->getBody());
     }
 
@@ -90,7 +91,7 @@ class CutStylesAPIClient extends APIClient
 
         if ($result->success)
         {
-            return $result->style;
+            return $result->cut_style;
         }
         return null;
     }
