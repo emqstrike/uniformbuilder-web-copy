@@ -93,6 +93,8 @@ Route::group(array('prefix' => 'administration'), function() {
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');
+Route::get('uniform-builder-index', 'UniformBuilderController@uniform_builder_index');
+
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');

@@ -17,9 +17,7 @@
 	
 		</div>
 
-		<div id="mycanvas" class="mycanvas"></div>
-		
-
+		<div id="mycanvas" class="mycanvas"> </div>
 	
 @endsection('contentarea')
 

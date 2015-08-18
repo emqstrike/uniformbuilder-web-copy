@@ -62,6 +62,7 @@
 		
 		</style>
 
+
 		<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
@@ -75,11 +76,14 @@
 			
 		@yield('additional-scripts')
 
+		
 		<script type="text/javascript">
 			
 			@yield('custom-scripts')
 
 		</script>
+
+
 	</body>
 
 </html>
