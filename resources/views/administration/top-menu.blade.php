@@ -22,6 +22,9 @@
             <li class="divider">
 
             <li>
+                <a href="/administration/fabrics"><span class="fa fa-slack"></span> Fabrics</a>
+            </li>
+            <li>
                 <a href="/administration/colors"><span class="fa fa-th"></span> Colors</a>
             </li>
             <li>
@@ -37,16 +40,16 @@
             <li class="divider">
 
             <li>
-                <a href="/administration/necks"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
+                <a href="/administration/cuts/necks"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
             </li>
             <li>
-                <a href="/administration/sleeves"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
+                <a href="/administration/cuts/sleeves"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
             </li>
             <li>
-                <a href="/administration/pants"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
+                <a href="/administration/cuts/pants"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
             </li>
             <li>
-                <a href="/administration/waists"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
+                <a href="/administration/cuts/waists"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
             </li>
 
             <li class="divider">
