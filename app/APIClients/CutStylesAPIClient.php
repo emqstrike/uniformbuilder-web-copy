@@ -14,9 +14,12 @@ class CutStylesAPIClient extends APIClient
         if (!is_null($style) && !is_null($id))
         {
             $compare = $this->getCutStyle($id);
-            if ($style->id == $compare->id)
+            if (!is_null($compare))
             {
-                return false;
+                if ($style->id == $compare->id)
+                {
+                    return false;
+                }
             }
         }
         return !is_null($style);
