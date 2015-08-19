@@ -37,6 +37,7 @@
             <tr>
                 <th>Thumbnail</th>
                 <th>Fabric Name</th>
+                <th>Code</th>
                 <th>Active Status</th>
                 <th></th>
             </tr>
@@ -51,12 +52,19 @@
             <a href="{{ $fabric->fabric_path }}">
                 <img src="{{ $fabric->fabric_path }}" height='100px' width='100px'>
             </a>
+            <a href="{{ $fabric->fabric_path }}" class="btn btn-default btn-xs show-fabric" role="button" target="_blank">
+                <li class="glyphicon glyphicon-info-sign"></li>
+                View
+            </a>
             @else
             <img src="http://dummyimage.com/100" height='100px' width='100px'>
             @endif
         </td>
         <td>
             {{ $fabric->name }}
+        </td>
+        <td>
+            <span class="badge">{{ $fabric->code }}</span>
         </td>
         <td>
             <a href="#" class="btn btn-default btn-xs disable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? : 'disabled="disabled"' }}>
@@ -72,13 +80,6 @@
             <a href="/administration/fabric/edit/{{ $fabric->id }}" class="btn btn-primary btn-xs edit-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
                 <i class="glyphicon glyphicon-edit"></i>
                 Edit
-            </a>
-            <a href="#" class="btn btn-default btn-xs show-fabric" role="button"
-                data-fabric-name="{{ $fabric->name }}"
-                data-fabric-layer-four="{{ $fabric->fabric_path }}"
-                data-fabric-id="{{ $fabric->id }}">
-                <li class="glyphicon glyphicon-info-sign"></li>
-                View
             </a>
             <a href="#" class="btn btn-danger pull-right btn-xs delete-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
                 <i class="glyphicon glyphicon-trash"></i>
