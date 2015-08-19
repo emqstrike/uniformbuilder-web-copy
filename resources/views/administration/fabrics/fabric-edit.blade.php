@@ -97,3 +97,20 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
 @endsection
+
+@section('custom-scripts')
+
+$(document).ready(function(){
+
+    $('#edit-fabric-form').submit(function(){
+        $('.flash-alert .flash-progress').show();
+        $('.flash-alert .flash-title').text('Updating fabric');
+        $('.flash-alert .flash-sub-title').text('Saving');
+        $('.flash-alert .flash-message').text('Please wait while we are saving fabric...');
+        $('.flash-alert').addClass('alert-info');
+        $('.flash-alert').show();
+        $('.main-content').fadeOut('slow');
+    });
+});
+
+@endsection
