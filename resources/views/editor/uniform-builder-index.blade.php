@@ -54,19 +54,19 @@
 
         <div id="right-sidebar" class="pane-sidebar">
             
-            <a href="" class="sidebar-buttons">
+            <a href="" class="sidebar-buttons" data-filename='placeholder'>
                 <img src="images/sidebar/placeholder.png">
             </a>
 
-            <a href="" class="sidebar-buttons">
+            <a href="" class="sidebar-buttons" data-filename='placeholder'>
                 <img src="images/sidebar/placeholder.png">
             </a>
 
-            <a href="" class="sidebar-buttons">
+            <a href="" class="sidebar-buttons" data-filename='placeholder'>
                 <img src="images/sidebar/placeholder.png">
             </a>
 
-            <a href="" class="sidebar-buttons">
+            <a href="" class="sidebar-buttons" data-filename='placeholder'>
                 <img src="images/sidebar/placeholder.png">
             </a>
 
