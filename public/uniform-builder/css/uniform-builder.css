@@ -87,6 +87,9 @@ a.active_button {
 }
 /* End UI Generic */
 /* Left Pane - Main Canvas */
+div#left-pane div#left-main-window {
+  background-image: url('/images/test-images/canvas.png');
+}
 /* End Left Pane - Main Canvas */
 /* Right Pane - Property Customizer */
 /* End Right Pane - Property Customizer */

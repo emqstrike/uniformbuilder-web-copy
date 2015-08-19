@@ -7,6 +7,13 @@
     ub.active = null;
 
 
+    function switch_panel(panel){
+
+        $('.option_panel').hide();
+        $(panel).fadeIn();
+
+    }
+
     $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
        
         
