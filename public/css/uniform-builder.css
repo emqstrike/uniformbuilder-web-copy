@@ -1,17 +1,35 @@
 
 
     body, h1, h2, h3, h4, h5, h6, button, a, p {
-        font-family: raleway;
+        font-family: 'Roboto', sans-serif;
     }
 
-    div.navbar-header {
 
-        position: absolute;
+    /* Navbar */
 
-    }
+        div.navbar-header {
 
-    #header_text {
+            position: absolute;
 
-        color: #363636
+        }
 
-    }
+        #header_text {
+
+            color: #363636;
+
+        }
+
+        a.navbar-brand {
+
+            padding: 7px;
+
+        }
+
+        a.navbar-brand > img {
+
+            padding: 3px;
+            margin: 3px;
+
+        }
+
+    /* End Navbar */
