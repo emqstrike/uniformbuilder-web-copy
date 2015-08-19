@@ -127,10 +127,17 @@
                             data-material-base-color-code="{{ $material->hex_code }}"
                             data-material-gender="{{ $material->gender }}"
                             data-material-lining-type="{{ $material->lining_type }}"
+@if (env('BUILDER_APPROACH') == '3D')
                             data-material-path="{{ $material->material_path }}"
                             data-bump-map-path="{{ $material->bump_map_path }}"
                             data-shadow-path="{{ $material->shadow_path }}"
                             data-highlight-path="{{ $material->highlight_path }}"
+@elseif (env('BUILDER_APPROACH') == '2D')
+                            data-front-view-path="{{ $material->front_view_path }}"
+                            data-back-view-path="{{ $material->back_view_path }}"
+                            data-right-side-view-path="{{ $material->right_side_view_path }}"
+                            data-left-side-view-path="{{ $material->left_side_view_path }}"
+@endif
                             data-material-id="{{ $material->id }}">
                             <li class="glyphicon glyphicon-info-sign"></li>
                             View

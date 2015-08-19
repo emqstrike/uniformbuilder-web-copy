@@ -82,6 +82,15 @@ class FileUploader
         {
             $filename = 'material.jpg';
         }
+        elseif ($type == 'material_option')
+        {
+            // Just Retain the filename
+            $folder = $s3folder . '/' . env('APP_ENV');
+        }
+        elseif ($type == 'material_perspective_view')
+        {
+            // Retain the passed filename
+        }
         elseif ($type == 'bump')
         {
             $filename = 'bump.jpg';
@@ -113,11 +122,6 @@ class FileUploader
         elseif ($type == 'font')
         {
             $filename = 'font.ttf';
-        }
-        elseif ($type == 'material_option')
-        {
-            // Just Retain the filename
-            $folder = $s3folder . '/' . env('APP_ENV');
         }
         elseif ($type == 'fabric')
         {
