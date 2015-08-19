@@ -93,7 +93,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('fabrics', 'Administration\FabricsController@index');
     Route::post('fabric/add', 'Administration\FabricsController@store');
     Route::post('fabric/update', 'Administration\FabricsController@store');
-    Route::get('fabric/add/{type}', 'Administration\FabricsController@addForm');
+    Route::get('fabric/add/', 'Administration\FabricsController@addForm');
     Route::get('fabric/edit/{id}', 'Administration\FabricsController@editForm');
 
     Route::get('canvas', 'Administration\CanvasController@index');

@@ -31,10 +31,11 @@
     </h1>
 </div>
 
-<div class="row col-md-5">
+<div class="row col-md-7">
     <table data-toggle='table' class='fabrics'>
         <thead>
             <tr>
+                <th>Thumbnail</th>
                 <th>Fabric Name</th>
                 <th>Active Status</th>
                 <th></th>
@@ -45,6 +46,15 @@
 @forelse ($fabrics as $fabric)
 
     <tr class='fabric-{{ $fabric->id }} {{ (!$fabric->active) ? ' inactive' : '' }}'>
+        <td>
+            @if ($fabric->fabric_path)
+            <a href="{{ $fabric->fabric_path }}">
+                <img src="{{ $fabric->fabric_path }}" height='100px' width='100px'>
+            </a>
+            @else
+            <img src="http://dummyimage.com/100" height='100px' width='100px'>
+            @endif
+        </td>
         <td>
             {{ $fabric->name }}
         </td>

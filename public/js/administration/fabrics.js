@@ -49,7 +49,7 @@ $(document).ready(function(){
 
     $('.delete-fabric').on('click', function(){
         var id = $(this).data('fabric-id');
-        modalConfirm('Remove Fabric', 'Are you sure you want to delete the base fabric?', id);
+        modalConfirm('Remove Fabric', 'Are you sure you want to delete the fabric?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){

@@ -27,7 +27,7 @@ class FabricsController extends Controller
         ]);
     }
 
-    public function editFabricForm($id)
+    public function editForm($id)
     {
         $fabric = $this->client->getFabric($id);
         return view('administration.fabrics.fabric-edit', [
@@ -35,7 +35,7 @@ class FabricsController extends Controller
         ]);
     }
 
-    public function addFabricForm()
+    public function addForm()
     {
         return view('administration.fabrics.fabric-create');
     }
@@ -51,9 +51,9 @@ class FabricsController extends Controller
         ];
 
         $fabricId = null;
-        if (!empty($request->input('base_fabric_id')))
+        if (!empty($request->input('fabric_id')))
         {
-            $fabricId = $request->input('base_fabric_id');
+            $fabricId = $request->input('fabric_id');
             $data['id'] = $fabricId;
         }
 
@@ -63,7 +63,6 @@ class FabricsController extends Controller
             return Redirect::to('administration/fabrics')
                             ->with('message', 'Fabric name already exist');
         }
-
         // Does the Fabric Name exist
         if ($this->client->isFabricCodeTaken($fabricCode, $fabricId))
         {
@@ -78,7 +77,7 @@ class FabricsController extends Controller
             {
                 if ($fabricFile->isValid())
                 {
-                    $data[$fieldName] = FileUploader::upload(
+                    $data['fabric_path'] = FileUploader::upload(
                         $fabricFile,
                         $fabricName,
                         'fabric',   // Type

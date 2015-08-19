@@ -42,6 +42,10 @@ class FabricsAPIClient extends APIClient
         {
             $fabric = $result->fabric;
         }
+        else
+        {
+            return false;
+        }
 
         if (!is_null($fabric) && !is_null($id))
         {
@@ -63,6 +67,10 @@ class FabricsAPIClient extends APIClient
         {
             return $result->fabric;
         }
+        else
+        {
+            return false;
+        }
         return null;
     }
 
@@ -75,6 +83,10 @@ class FabricsAPIClient extends APIClient
         if ($result->success)
         {
             $fabric = $result->fabric;
+        }
+        else
+        {
+            return false;
         }
 
         if (!is_null($fabric) && !is_null($id))
