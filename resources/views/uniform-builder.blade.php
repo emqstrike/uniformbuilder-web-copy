@@ -16,7 +16,7 @@
         <link rel="icon" type="image/png" href="/images/branding/brand.png" />
         <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
-        <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
+        <link rel="stylesheet" href="{{$asset_storage}}/frontend-bootstrap/css/bootstrap.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
@@ -47,16 +47,16 @@
 
         <div id="main_container" class="container">
 
-            <div class="row">
+            <div id="main-row" class="row">
                 
-                <div class="col-md-6">
+                <div id="left-pane-column" class="col-md-5">
                     
                     <!-- Main Preview Window -->
                     @yield('left-pane')
 
                 </div>
 
-                <div class="col-md-6">
+                <div id="right-pane-column" class="col-md-5 col-md-offset-1">
                     
                     <!-- Customizer -->
                     @yield('right-pane')
@@ -77,7 +77,7 @@
 
         <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
         <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
         <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
         <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
 

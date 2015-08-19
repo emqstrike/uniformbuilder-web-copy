@@ -1,12 +1,16 @@
-    /* Vars */
 
-        @navbar-height: 95px; 
-
-    /* End Vars */
-
+    @navbar-height: 95px; 
+    @main-container-margin: @navbar-height + 70px;
 
     body, h1, h2, h3, h4, h5, h6, button, a, p {
         font-family: 'Roboto', sans-serif;
+    }
+
+    html, body {
+
+        height: 100%;
+        width: 100%;
+
     }
 
 
@@ -14,26 +18,31 @@
 
         div.navbar-header {
 
+
             position: absolute;
+
+
+            a.navbar-brand {
+
+                padding: 7px;
+
+               
+                img {
+
+                    padding: 3px;
+                    margin: 3px;
+
+                }  
+
+
+            }
+
 
         }
 
         #header_text {
 
             color: #363636;
-
-        }
-
-        a.navbar-brand {
-
-            padding: 7px;
-
-        }
-
-        a.navbar-brand > img {
-
-            padding: 3px;
-            margin: 3px;
 
         }
 
@@ -63,9 +72,68 @@
 
         div#main_container {
 
-            margin-top: @navbar-height;
+            height: 80%;
+            margin-top: @main-container-margin;
+
+            div#main-row {
+
+                height: 100%;
+
+                div#left-pane-column {
+
+                    height: 100%;
+
+                }
+
+                div#right-pane-column {
+
+                    height: 100%;
+
+                }
+
+            }
 
         }
 
 
+
+
     /* End Main Container */
+
+    /* Generic Panes */
+
+        div.pane {
+
+        
+            div.pane-top {
+
+                width: 100%;
+
+            }
+            
+
+        }
+
+    /* End Generic Panes */
+
+
+    /* Left Pane - Main Canvas */
+
+        div#left-pane {
+
+            
+
+        }
+
+    /* End Left Pane - Main Canvas */
+
+
+    /* Right Pane - Property Customizer */
+        
+        div#right-pane {
+
+
+
+        }
+
+    /* End Right Pane - Property Customizer */
