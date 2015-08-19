@@ -119,6 +119,10 @@ class FileUploader
             // Just Retain the filename
             $folder = $s3folder . '/' . env('APP_ENV');
         }
+        elseif ($type == 'fabric')
+        {
+            $filename = 'fabric.png';
+        }
         else
         {
             error_log('Unsupported File Type');
