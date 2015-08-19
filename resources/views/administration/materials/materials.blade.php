@@ -68,6 +68,7 @@
                             data-material-option-setting-type="{{ $option->setting_type }}"
                             data-material-option-setting-code="{{ $option->setting_code }}"
                             data-material-option-path="{{ $option->material_option_path }}"
+                            data-material-perspective="{{ $option->perspective }}"
                             data-material-option-id="{{ $option->id }}"
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">

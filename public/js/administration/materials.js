@@ -171,6 +171,7 @@ $(document).ready(function(){
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-perspective'),
             }
         };
 
@@ -178,6 +179,7 @@ $(document).ready(function(){
         $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
         loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
+        $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
 
         $('#edit-material-option-modal .material-id').val(material.id);
         $('#edit-material-option-modal .material-option-id').val(material.option.id);
