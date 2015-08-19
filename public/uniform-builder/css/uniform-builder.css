@@ -58,7 +58,34 @@ div#main_container div#main-row div#right-pane-column {
 div.pane div.pane-top {
   width: 100%;
 }
+div.pane div.pane-sidebar {
+  float: left;
+  text-align: center;
+  width: 10%;
+  padding-right: 2px;
+}
+div.pane div.pane-sidebar a.sidebar-buttons {
+  background-color: #acacac;
+  width: 100%;
+  height: 41px;
+  display: block;
+  text-align: center;
+  margin-bottom: 2px;
+  padding-top: 2px;
+}
+div.pane div.pane-main-window {
+  float: right;
+  background-color: #fff;
+  width: 90%;
+  height: 500px;
+  border: 1px solid #b3b3b3;
+}
 /* End Generic Panes */
+/* UI Generic */
+a.active_button {
+  background-color: #3d3d3d !important;
+}
+/* End UI Generic */
 /* Left Pane - Main Canvas */
 /* End Left Pane - Main Canvas */
 /* Right Pane - Property Customizer */

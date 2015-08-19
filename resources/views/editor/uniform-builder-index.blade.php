@@ -6,15 +6,35 @@
 
         
         <div id="left-top" class="pane-top">
-            t
+            
+            Jersey | Pants | All
+
         </div>
 
         <div id="left-sidebar" class="pane-sidebar">
-            s
+            
+                            
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+
         </div>
 
         <div id="left-main-window" class="pane-main-window">
-            w
+            
         </div>
 
 
@@ -25,19 +45,35 @@
 
 @section('right-pane')
     
-    <div id="right-pane">
+    <div id="right-pane" class="pane">
 
         
         <div id="right-top" class="pane-top">
-            t
+            Materials | Color / Gradient / Pattern | Add Decorations | Team Info / Billing Info
         </div>
 
         <div id="right-sidebar" class="pane-sidebar">
-            s
+            
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
+            <a href="" class="sidebar-buttons">
+                <img src="images/sidebar/placeholder.png">
+            </a>
+
         </div>
 
-        <div id="right-main-window" class="pain-main-window">
-            w
+        <div id="right-main-window" class="pane-main-window">
+            
         </div>
 
 

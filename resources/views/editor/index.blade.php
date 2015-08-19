@@ -14,8 +14,8 @@
 			<div class="col-md-10">@include('partials.layout.topleftpanel')</div>						
 		</div>
 		<div class="row">
-			<div class="col-md-1" >@include('partials.layout.settings_sidepanel')</div>
-			<div class="col-md-11" d>@include('partials.layout.uniformbuilder')</div>
+			<div class="col-md-1">@include('partials.layout.settings_sidepanel')</div>
+			<div class="col-md-11">@include('partials.layout.uniformbuilder')</div>
 		</div>	
 	</div><!-- left panel body -->
 	
