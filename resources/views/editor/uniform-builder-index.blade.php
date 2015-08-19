@@ -94,43 +94,50 @@
       
             <div class="options_panel" id="materials_panel">
                 
+                materials
 
             </div>
 
 
             <div class="options_panel" id="colors_panel">
                 
+                colors
 
             </div>
 
 
             <div class="options_panel" id="gradients_panel">
                 
+                gradients
 
             </div>
 
 
             <div class="options_panel" id="patterns_panel">
                 
+                patterns
 
             </div>
 
 
             <div class="options_panel" id="texts_panel">
                 
+                texts
 
             </div>
 
 
             <div class="options_panel" id="numbers_panel">
                 
+                numbers
 
             </div>
 
 
             <div class="options_panel" id="graphics_panel">
                 
-
+                
+            
             </div>
 
 

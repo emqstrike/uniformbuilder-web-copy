@@ -1,5 +1,7 @@
  $( document ).ready(function() {
 
+    switch_panel('#materials_panel');
+
     window.ub = {};
 
     /* UI Objects */
@@ -9,7 +11,7 @@
 
     function switch_panel(panel){
 
-        $('.option_panel').hide();
+        $('.options_panel').hide();
         $(panel).fadeIn();
 
     }
@@ -30,6 +32,8 @@
         
         ub.active.find('img').attr('src', filename)
         ub.active.addClass('active_button');
+
+        switch_panel('#' +  ub.active.data('filename') + '_panel');
 
         return false;
 
