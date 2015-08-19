@@ -32,4 +32,35 @@
 
         }
 
+        .navbar-default {
+
+            box-shadow: none;
+            background-color: #ffffff;
+
+            background-image: url(/images/header/bottom_bars.jpg);
+            height: 90px;
+
+        }
+
+        .navbar-fixed-top {
+
+            border-width: 0 0 0 0;
+
+        }
+
+
+
     /* End Navbar */
+
+
+    /* Main Container */
+
+
+        div#main_container {
+
+            margin-top: 90px;
+
+        }
+
+
+    /* End Main Container */

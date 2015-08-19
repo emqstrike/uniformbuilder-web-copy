@@ -11,6 +11,9 @@ var elixir = require('laravel-elixir');
  |
  */
 
+
 elixir(function(mix) {
-    mix.sass('app.scss');
+
+    mix.less("uniform-builder.less",'public/css/uniform-builder/uniform-builder.css');
+
 });

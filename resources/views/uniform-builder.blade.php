@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
     
-        <link rel="stylesheet" href="{{$asset_storage}}/css/uniform-builder.css{{$asset_version}}">
+        <link rel="stylesheet" href="{{$asset_storage}}/css/uniform-builder/uniform-builder.css{{$asset_version}}">
 
     </head>
 
@@ -45,7 +45,7 @@
         </nav>
 
 
-        <div class="container">
+        <div id="main_container" class="container">
 
             <div class="row">
                 

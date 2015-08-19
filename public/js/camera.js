@@ -2,24 +2,44 @@
 
 		var play = 0, temp = 0;
 
-		$("#play").click(function() {
-
-		$(this).children().removeClass('fa fa-play');
-		$(this).children().removeClass('fa fa-pause');
+		$("#play_left").click(function() {
 
 			if(play == 0){
-				$(this).children().addClass('fa fa-pause');
+				$(this).children().removeClass('fa fa-chevron-left');
+				$(this).children('i').eq(0).addClass('fa fa-pause');
 				play = 1;
-				window.UniformBuilder.rotateY = temp;
-			}
+				window.UniformBuilder.rotateY = -0.04;
 
+				$('#play_right').children().removeClass('fa fa-pause');
+				$('#play_right').children().addClass('fa fa-chevron-right');
+			}
 			else{
-				$(this).children().addClass('fa fa-play');
+				$(this).children('i').eq(0).removeClass('fa fa-pause');
+				$(this).children().addClass('fa fa-chevron-left');
 				play = 0;
 				window.UniformBuilder.rotateY = 0;
 			}
-			console.log(play);
+		
+		});
 
+		$("#play_right").click(function() {
+
+			if(play == 0){
+				$(this).children().removeClass('fa fa-chevron-right');
+				$(this).children('i').eq(0).addClass('fa fa-pause');
+				play = 1;
+				window.UniformBuilder.rotateY = 0.04;
+
+				$('#play_left').children().removeClass('fa fa-pause');
+				$('#play_left').children().addClass('fa fa-chevron-left');
+			}
+			else{
+				$(this).children('i').eq(0).removeClass('fa fa-pause');
+				$(this).children().addClass('fa fa-chevron-right');
+				play = 0;
+				window.UniformBuilder.rotateY = 0;
+			}
+		
 		});
 
 		$("#rb_left").click(function() {
@@ -40,6 +60,13 @@
 
 	});
 
+	function reset_buttons(){
+		$('#play_right').children().removeClass('fa fa-pause');
+		$('#play_right').children().addClass('fa fa-chevron-right');
+		$('#play_left').children().removeClass('fa fa-pause');
+		$('#play_left').children().addClass('fa fa-chevron-left');
+	}
+
 	function rotate_direction(){
 
 		$("#rotate_right").mousedown(function(){
@@ -47,6 +74,7 @@
 			window.UniformBuilder.rotateY = 0.04;
 
 		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
+			reset_buttons()
 		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
 
 		$("#rotate_left").mousedown(function(){
@@ -54,23 +82,8 @@
 			window.UniformBuilder.rotateY = -0.04;
 
 		}).mouseup(function(){window.UniformBuilder.rotateY = 0; // Obvious events here . . .
+			reset_buttons()
 		}).mouseleave(function(){window.UniformBuilder.rotateY = 0;});
-
-		$("#model_view input[type='radio']:checked").click(function() {
-			var direction = $(this).val();
-			if(play==1){
-
-				if(direction=="left"){
-					window.UniformBuilder.rotateY = -0.04
-				}
-
-				else{
-					window.UniformBuilder.rotateY = 0.04
-				}
-
-			}
-			console.log(direction);
-		});
 
 
 	}
