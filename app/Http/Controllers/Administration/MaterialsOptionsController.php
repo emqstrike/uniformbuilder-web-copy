@@ -39,13 +39,15 @@ class MaterialsOptionsController extends Controller
         $settingType = $request->input('setting_type');
         $settingCode = $request->input('setting_code');
         $layerLevel = $request->input('layer_level');
+        $perspective = $request->input('perspective');
 
         $data = [
             'material_id' => $materialId,
             'name' => $materialOptionName,
             'setting_type' => $settingType,
             'setting_code' => $settingCode,
-            'layer_level' => $layerLevel
+            'layer_level' => $layerLevel,
+            'perspective' => $perspective
         ];
 
         try
