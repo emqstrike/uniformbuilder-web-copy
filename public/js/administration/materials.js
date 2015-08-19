@@ -124,8 +124,12 @@ $(document).ready(function(){
             material_path: $(this).data('material-path'),
             bump_map_path: $(this).data('bump-map-path'),
             shadow_path: $(this).data('shadow-path'),
-            highlight_path: $(this).data('highlight-path')
-        };
+            highlight_path: $(this).data('highlight-path'),
+            front_view_path: $(this).data('front-view-path'),
+            back_view_path: $(this).data('back-view-path'),
+            right_side_view_path: $(this).data('right-side-view-path'),
+            left_side_view_path: $(this).data('left-side-view-path')
+        };console.log(material);
         $('#view-material-modal .modal-title').text(material.name);
         $('#view-material-modal .modal-material-code').text(material.code);
         $('#view-material-modal .modal-material-type').text(material.type);
@@ -138,6 +142,10 @@ $(document).ready(function(){
         $('#view-material-modal .bump-map-image').attr('src', material.bump_map_path);
         $('#view-material-modal .shadow-image').attr('src', material.shadow_path);
         $('#view-material-modal .highlight-image').attr('src', material.highlight_path);
+        $('#view-material-modal .front-view-image').attr('src', material.front_view_path);
+        $('#view-material-modal .back-view-image').attr('src', material.back_view_path);
+        $('#view-material-modal .right-side-view-image').attr('src', material.right_side_view_path);
+        $('#view-material-modal .left-side-view-image').attr('src', material.left_side_view_path);
         $('.nav-tabs').tab('show');
         $('#view-material-modal').modal('show');
     });
@@ -163,6 +171,7 @@ $(document).ready(function(){
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-perspective'),
             }
         };
 
@@ -170,6 +179,7 @@ $(document).ready(function(){
         $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
         loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
+        $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
 
         $('#edit-material-option-modal .material-id').val(material.id);
         $('#edit-material-option-modal .material-option-id').val(material.option.id);

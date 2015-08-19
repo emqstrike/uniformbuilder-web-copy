@@ -119,74 +119,6 @@ class MaterialsController extends Controller
         ];
 
         try {
-            // Bump Map File
-            $bumpMapFile = $request->file('bump_map_path');
-            if (isset($bumpMapFile))
-            {
-                if ($bumpMapFile->isValid())
-                {
-                    $data['bump_map_path'] = FileUploader::upload(
-                                                    $bumpMapFile,
-                                                    $materialName,
-                                                    'bump'
-                                                );
-                }
-            }
-
-            // Material File
-            $materialFile = $request->file('material_path');
-            if (isset($materialFile))
-            {
-                if ($materialFile->isValid())
-                {
-                    // Material
-                    $data['material_path'] = FileUploader::upload(
-                                                    $materialFile,
-                                                    $materialName
-                                                );
-                    // Generate a Thumbnail from the Base Material ONLY IF no thumbnail will be uploaded
-                    if (is_null($request->file('thumbnail_path')))
-                    {
-                        // Thumbnail
-                        $data['thumbnail_path'] = FileUploader::upload(
-                                                        $materialFile,
-                                                        $materialName,
-                                                        'thumbnail'
-                                                    );
-                    }
-                }
-            }
-
-            // Shadow File
-            $shadowFile = $request->file('shadow_path');
-            if (isset($shadowFile))
-            {
-                if ($shadowFile->isValid())
-                {
-                    // Shadow
-                    $data['shadow_path'] = FileUploader::upload(
-                                                $shadowFile,
-                                                $materialName,
-                                                'shadow'
-                                            );
-                }
-            }
-
-            // Highlight File
-            $highlightFile = $request->file('highlight_path');
-            if (isset($highlightFile))
-            {
-                if ($highlightFile->isValid())
-                {
-                    // Highlight
-                    $data['highlight_path'] = FileUploader::upload(
-                                                    $highlightFile,
-                                                    $materialName,
-                                                    'highlight'
-                                                );
-                }
-            }
-
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');
             if (isset($thumbnailFile))
@@ -201,6 +133,138 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
+
+            if (env('BUILDER_APPROACH') == '3D')
+            {
+                // Bump Map File
+                $bumpMapFile = $request->file('bump_map_path');
+                if (isset($bumpMapFile))
+                {
+                    if ($bumpMapFile->isValid())
+                    {
+                        $data['bump_map_path'] = FileUploader::upload(
+                                                        $bumpMapFile,
+                                                        $materialName,
+                                                        'bump'
+                                                    );
+                    }
+                }
+
+                // Material File
+                $materialFile = $request->file('material_path');
+                if (isset($materialFile))
+                {
+                    if ($materialFile->isValid())
+                    {
+                        // Material
+                        $data['material_path'] = FileUploader::upload(
+                                                        $materialFile,
+                                                        $materialName
+                                                    );
+                        // Generate a Thumbnail from the Base Material ONLY IF no thumbnail will be uploaded
+                        if (is_null($request->file('thumbnail_path')))
+                        {
+                            // Thumbnail
+                            $data['thumbnail_path'] = FileUploader::upload(
+                                                            $materialFile,
+                                                            $materialName,
+                                                            'thumbnail'
+                                                        );
+                        }
+                    }
+                }
+
+                // Shadow File
+                $shadowFile = $request->file('shadow_path');
+                if (isset($shadowFile))
+                {
+                    if ($shadowFile->isValid())
+                    {
+                        // Shadow
+                        $data['shadow_path'] = FileUploader::upload(
+                                                    $shadowFile,
+                                                    $materialName,
+                                                    'shadow'
+                                                );
+                    }
+                }
+
+                // Highlight File
+                $highlightFile = $request->file('highlight_path');
+                if (isset($highlightFile))
+                {
+                    if ($highlightFile->isValid())
+                    {
+                        // Highlight
+                        $data['highlight_path'] = FileUploader::upload(
+                                                        $highlightFile,
+                                                        $materialName,
+                                                        'highlight'
+                                                    );
+                    }
+                }
+            }
+
+            if (env('BUILDER_APPROACH') == '2D')
+            {
+                // Front View File
+                $frontViewFile = $request->file('front_view_path');
+                if (isset($frontViewFile))
+                {
+                    if ($frontViewFile->isValid())
+                    {
+                        $data['front_view_path'] = FileUploader::upload(
+                                                        $frontViewFile,
+                                                        $materialName,
+                                                        'material_perspective_view',
+                                                        'front_view.png'
+                                                    );
+                    }
+                }
+                // Back View File
+                $backViewFile = $request->file('back_view_path');
+                if (isset($backViewFile))
+                {
+                    if ($backViewFile->isValid())
+                    {
+                        $data['back_view_path'] = FileUploader::upload(
+                                                        $backViewFile,
+                                                        $materialName,
+                                                        'material_perspective_view',
+                                                        'back_view.png'
+                                                    );
+                    }
+                }
+                // Right Side View File
+                $rightSideViewFile = $request->file('right_side_view_path');
+                if (isset($rightSideViewFile))
+                {
+                    if ($rightSideViewFile->isValid())
+                    {
+                        $data['right_side_view_path'] = FileUploader::upload(
+                                                        $rightSideViewFile,
+                                                        $materialName,
+                                                        'material_perspective_view',
+                                                        'right_side_view.png'
+                                                    );
+                    }
+                }
+                // Left Side View File
+                $leftSideViewFile = $request->file('left_side_view_path');
+                if (isset($leftSideViewFile))
+                {
+                    if ($leftSideViewFile->isValid())
+                    {
+                        $data['left_side_view_path'] = FileUploader::upload(
+                                                        $leftSideViewFile,
+                                                        $materialName,
+                                                        'material_perspective_view',
+                                                        'left_side_view.png'
+                                                    );
+                    }
+                }
+            }
+
         }
         catch (S3Exception $e)
         {
