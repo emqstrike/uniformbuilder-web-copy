@@ -33,8 +33,13 @@
 
         </div>
 
+
         <div id="left-main-window" class="pane-main-window">
-            
+        
+              <canvas id="front_view" width="447" height="496">
+
+              </canvas>          
+
         </div>
 
 
@@ -172,6 +177,28 @@
                     <label>Sleeve</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
 
                 </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Sleeve Piping</label>  <a class= "btn btn-default" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >Show</a>
+
+                    <div id="myPopover" class="hide">
+
+
+                        <div class="color_panel_container" id="popover_color_panel">
+                    
+                            @include('partials.colors', ['data_target' =>'pants', 'event_class' => 'change-color',])
+
+                            <br /><br />
+
+                        </div>    
+
+
+                    </div>
+
+
+                </div>
+
 
 
             </div>

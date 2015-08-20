@@ -88,7 +88,7 @@ a.active_button {
 /* End UI Generic */
 /* Left Pane - Main Canvas */
 div#left-pane div#left-main-window {
-  background-image: url('/images/test-images/canvas.png');
+  /* background-image: url('/images/test-images/canvas.png'); */
 }
 /* End Left Pane - Main Canvas */
 /* Right Pane - Property Customizer */
@@ -150,8 +150,30 @@ div.options_panel div#color_panel_section {
   padding-bottom: 30px;
 }
 /* End Options Panel */
+/* Right Main Window */
 div#right-main-window {
   overflow-y: scroll;
 }
+/* End Right Main Window */
+/* Popovers */
+.popover {
+  width: 415px;
+  height: 130px;
+  max-width: 100%;
+  margin-left: 90px;
+}
+div#popover_color_panel {
+  width: 412px;
+}
+div#popover_color_panel div.color_element {
+  float: left;
+}
+/* End Popovers */
+/* Canvas */
+canvas#front_view {
+  width: 100%;
+  height: 100%;
+}
+/* End Canvas */
 
 /*# sourceMappingURL=uniform-builder.css.map */
