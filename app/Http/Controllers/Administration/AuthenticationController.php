@@ -124,19 +124,9 @@ class AuthenticationController extends Controller
 
     public function logout()
     {
-        $email = null;
-        if (Session::has('email'))
-        {
-            $email = Session::get('email');
-            Session::forget('email');
-        }
+        if (Session::has('email')) Session::forget('email');
         if (Session::has('isLoggedIn')) Session::forget('isLoggedIn');
-        $fullname = null;
-        if (Session::has('fullname'))
-        {
-            $fullname = Session::get('fullname');
-            Session::forget('fullname');
-        }
+        if (Session::has('fullname')) Session::forget('fullname');
         if (Session::has('accessToken')) Session::forget('accessToken');
 
         Log::info('User Logout');

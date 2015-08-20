@@ -276,7 +276,7 @@ class MaterialsController extends Controller
         $response = null;
         if (!empty($materialId))
         {
-            Log::info('Attempts to update Material#' . $materialOptionId);
+            Log::info('Attempts to update Material#' . $materialId);
             $response = $this->client->updateMaterial($data);
         }
         else
