@@ -112,10 +112,12 @@
 
         $('.change-color').on('click', function(e){
           
+           var canvas = window.two_d.canvas_front;
+
            var color = $(this).data('color');
 
-            window.objects['jersey_front'].filters = []; 
-            window.objects['jersey_front'].applyFilters(canvas.renderAll.bind(canvas));
+            window.two_d.objects['jersey_front'].filters = []; 
+            window.two_d.objects['jersey_front'].applyFilters(canvas.renderAll.bind(canvas));
 
             var filter = new fabric.Image.filters.Blend({
 
@@ -124,8 +126,8 @@
               
             });
 
-            window.objects['jersey_front'].filters.push(filter);
-            window.objects['jersey_front'].applyFilters(window.two_d.canvas_front.renderAll.bind(canvas));
+            window.two_d.objects['jersey_front'].filters.push(filter);
+            window.two_d.objects['jersey_front'].applyFilters(canvas.renderAll.bind(canvas));
 
         }); 
 
