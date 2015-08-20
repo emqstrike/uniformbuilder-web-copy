@@ -78,12 +78,18 @@
 
     /* End Popover Test */
 
-        var canvas = new fabric.Canvas('front_view');
 
-        window.objects = {};
+        window.two_d = {};
+        window.two_d.objects = {};
 
+        window.two_d.canvas_front = new fabric.Canvas('front_view');
+        window.two_d.canvas_back = new fabric.Canvas('back_view');
+        window.two_d.canvas_right = new fabric.Canvas('right_view');
+        window.two_d.canvas_left = new fabric.Canvas('left_view');
 
-         fabric.util.loadImage('/images/builder-assets/jersey-front.png', function (image) {
+        
+
+        fabric.util.loadImage('/images/builder-assets/jersey-front.png', function (image) {
                     
             materialOption = new fabric.Image(image);
 
@@ -96,11 +102,13 @@
                 angle: 0,
                 opacity: 1, 
 
-            })
-            window.objects['jersey_front'] = materialOption;
-            canvas.add(materialOption).renderAll(); 
+            });
+
+            window.two_d.objects['jersey_front'] = materialOption;
+            window.two_d.canvas_front.add(materialOption).renderAll(); 
                                     
         });
+
 
         $('.change-color').on('click', function(e){
           
@@ -117,11 +125,13 @@
             });
 
             window.objects['jersey_front'].filters.push(filter);
-            window.objects['jersey_front'].applyFilters(canvas.renderAll.bind(canvas));
+            window.objects['jersey_front'].applyFilters(window.two_d.canvas_front.renderAll.bind(canvas));
 
         }); 
 
-
+        $('canvas#back_view').hide();
+        $('canvas#left_view').hide();
+        $('canvas#right_view').hide();
 
 
  });   

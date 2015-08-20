@@ -37,9 +37,21 @@
         <div id="left-main-window" class="pane-main-window">
         
               <canvas id="front_view" width="447" height="496">
+                    
+              </canvas>          
+
+              <canvas id="back_view" width="447" height="496">
 
               </canvas>          
 
+              <canvas id="left_view" width="447" height="496">
+
+              </canvas>
+
+              <canvas id="right_view" width="447" height="496">
+
+              </canvas>          
+          
         </div>
 
 
