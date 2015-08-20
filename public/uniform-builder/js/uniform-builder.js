@@ -37,6 +37,7 @@
         switch_panel('#' +  ub.active.data('filename') + '_panel');
 
         return false;
+        
 
     }); 
 
