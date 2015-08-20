@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use Log;
-use \Session;
+use Session;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
@@ -91,14 +91,14 @@ class AuthenticationController extends Controller
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                Log::info('[ADMIN] Successful User Login: ' . Session::get('fullname') . ' (' . Session::get('email') . ')');
+                Log::info('Successful User Login');
                 return redirect('administration');
             }
             else
             {
                 Session::flash('flash_message', 'Access Denied');
 
-                Log::info('[ADMIN] Failed Login Attempt: ' . $email);
+                Log::info("Failed Login Attempt : {$email}");
                 return redirect('administration/login');
             }
 
@@ -106,7 +106,7 @@ class AuthenticationController extends Controller
         catch (ClientException $e)
         {
             $error = $e->getMessage();
-            Log::info('[ADMIN] Login Attempt Error : ' . $error);
+            Log::info('Login Attempt Error : ' . $error);
         }
     }
 
@@ -139,7 +139,7 @@ class AuthenticationController extends Controller
         }
         if (Session::has('accessToken')) Session::forget('accessToken');
 
-        Log::info('[ADMIN] User Logout : ' . $fullname . ' (' . $email . ')');
+        Log::info('User Logout');
         return redirect('administration/login');
     }
 }
