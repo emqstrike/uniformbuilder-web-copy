@@ -88,20 +88,24 @@ class BaseModelsController extends Controller
         $response = null;
         if (!empty($modelId))
         {
+            Log::info('Attempts to update Model#' . $modelId);
             $response = $this->client->updateModel($data);
         }
         else
         {
+            Log::info('Attempts to create a new Model ' . json_encode($data));
             $response = $this->client->createModel($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/models')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/models')
                             ->with('message', $response->message);
         }

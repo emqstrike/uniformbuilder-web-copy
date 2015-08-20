@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
-use \Redirect;
+use Session;
+use Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\UsersAPIClient as APIClient;
@@ -81,20 +82,26 @@ class UsersController extends Controller
         $response = null;
         if (!empty($userId))
         {
+            Log::info('Attempts to update User#' . $userId);
             $response = $this->client->updateUser($data);
         }
         else
         {
+            $logData = $data;
+            unset($logData['password']);
+            Log::info('Attempts to create a new User ' . json_encode($logData));
             $response = $this->client->createUser($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/users')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/users')
                             ->with('message', $response->message);
         }

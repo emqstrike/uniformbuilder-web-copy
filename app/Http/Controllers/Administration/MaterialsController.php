@@ -276,20 +276,24 @@ class MaterialsController extends Controller
         $response = null;
         if (!empty($materialId))
         {
+            Log::info('Attempts to update Material#' . $materialId);
             $response = $this->client->updateMaterial($data);
         }
         else
         {
+            Log::info('Attempts to create a new Material ' . json_encode($data));
             $response = $this->client->createMaterial($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('/administration/materials')
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem saving your material');
         }

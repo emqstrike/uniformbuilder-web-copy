@@ -96,20 +96,24 @@ class FabricsController extends Controller
         $response = null;
         if (!empty($fabricId))
         {
+            Log::info('Attempts to update Fabric#' . $fabricId);
             $response = $this->client->updateFabric($data);
         }
         else
         {
+            Log::info('Attempts to create a new Fabric ' . json_encode($data));
             $response = $this->client->createFabric($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/fabrics')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/fabrics')
                             ->with('message', $response->message);
         }
