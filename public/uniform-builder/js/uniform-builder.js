@@ -15,6 +15,7 @@
         $(panel).fadeIn();
 
     }
+    
 
     $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
        

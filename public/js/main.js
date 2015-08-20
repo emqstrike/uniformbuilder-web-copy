@@ -16,13 +16,11 @@
 
 		  	myDropzone.on("addedfile", function(file) {
 
-
 		  		setTimeout(function(){
 
 					texture_canvas.load_logo();
 
 				}, 50);
-			  	
 
 			  });
   		

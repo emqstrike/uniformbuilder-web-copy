@@ -14,10 +14,10 @@ class UniformBuilderController extends Controller
 
     public function index()
     {
-       
+
 
         $title = 'QuickStrike Uniform Builder';
-        
+
         $accessToken = null;
         $colorsClient = new ColorsAPIClient();
         $materialsClient = new MaterialsAPIClient();
@@ -25,7 +25,7 @@ class UniformBuilderController extends Controller
         $colors = $colorsClient->getColors();
         $materials = $materialsClient->getMaterials();
 
-        
+
         return view('editor.index', [
             'page_title' => $title,
             'asset_version' => env('ASSET_VERSION'),

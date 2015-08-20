@@ -45,7 +45,7 @@
 
 @section('right-pane')
     
-    
+
     <div id="right-pane" class="pane">
 
         
@@ -59,35 +59,51 @@
 
 
             <a href="" class="sidebar-buttons" data-filename='materials'>
+
                 <img src="images/sidebar/materials.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='colors'>
+
                 <img src="images/sidebar/colors.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='gradients'>
+
                 <img src="images/sidebar/gradients.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='patterns'>
+
                 <img src="images/sidebar/patterns.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='texts'>
+
                 <img src="images/sidebar/texts.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='numbers'>
+
                 <img src="images/sidebar/numbers.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='graphics'>
+
                 <img src="images/sidebar/graphics.png">
+
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='sizes'>
+
                 <img src="images/sidebar/sizes.png">
+
             </a>
 
 
@@ -98,55 +114,131 @@
       
             <div class="options_panel" id="materials_panel">
                 
-                materials
+                <div class="options_panel_header">
+                
+                    <span class="header_text">MATERIAL OPTIONS</span>
+
+                </div>
 
             </div>
 
 
             <div class="options_panel" id="colors_panel">
                 
-                colors
+                <div class="options_panel_header">
+                
+                    <span class="header_text">COLOR OPTIONS</span>
+
+                </div>
+
+                 <div class="options_panel_section">
+                
+                    <label>Team Color</label> &nbsp; &nbsp; <button class="btn btn-default">Color 1</button> &nbsp; &nbsp; <button class="btn btn-default">Color 2</button>
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Base Color</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+
+                </div>
+
+                <div class="options_panel_section" id="color_panel_section">
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_target' =>'pants', 'event_class' => 'change-color',])
+
+                        <br /><br />
+
+                    </div>    
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Piping 1</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Piping 2</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Sleeve</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+
+                </div>
+
 
             </div>
 
 
             <div class="options_panel" id="gradients_panel">
                 
-                gradients
+                <div class="options_panel_header">
+                
+                    <span class="header_text">GRADIENTS OPTIONS</span>
+
+                </div>
 
             </div>
 
 
             <div class="options_panel" id="patterns_panel">
                 
-                patterns
+               <div class="options_panel_header">
+                
+                    <span class="header_text">PATTERNS OPTIONS</span>
+
+                </div>
 
             </div>
 
 
             <div class="options_panel" id="texts_panel">
                 
-                texts
+                <div class="options_panel_header">
+                
+                    <span class="header_text">TEXTS OPTIONS</span>
+
+                </div>
 
             </div>
 
 
             <div class="options_panel" id="numbers_panel">
                 
-                numbers
+                <div class="options_panel_header">
+                
+                    <span class="header_text">NUMBER OPTIONS</span>
+
+                </div>
 
             </div>
 
 
             <div class="options_panel" id="graphics_panel">
                 
+                <div class="options_panel_header">
                 
-            
+                    <span class="header_text">GRAPHICS OPTIONS</span>
+
+                </div>
+                
             </div>
 
 
             <div class="options_panel" id="sizes_panel">
+
+                <div class="options_panel_header">
                 
+                    <span class="header_text">SIZES OPTIONS</span>
+
+                </div>
 
             </div>
 

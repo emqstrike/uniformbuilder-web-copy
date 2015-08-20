@@ -3,6 +3,8 @@
     @main-container-margin: ( @navbar-height + 70px );
     @micro_spacer: 2px;
 
+    @text_color: #3d3d3d;
+
     body, h1, h2, h3, h4, h5, h6, button, a, p {
         font-family: 'Roboto', sans-serif;
     }
@@ -142,7 +144,7 @@
                 width: 90%;
                 height: 500px;
 
-                border: 1px solid #b3b3b3;
+                border: 2px solid #b3b3b3;
 
             }
 
@@ -188,6 +190,111 @@
         }
 
     /* End Right Pane - Property Customizer */
+
+    
+    /* Options Panel */
+
+        div.options_panel  {
+
+            div.options_panel_header {
+
+             
+                background-color: #f2f2f2;
+                width: 100%;
+                display: table;
+                height: 40px;
+                border-bottom: 1px solid #b3b3b3;
+                padding: 10px;
+
+                span.header_text {
+                    
+                    font-weight: bold;
+                    padding: 10px;
+                    color: @text_color;
+                    height: 100%;
+
+                    border-right: 1px solid #b3b3b3;
+                    padding: 10px;
+                    padding-right: 23px;
+
+                }
+
+
+            }
+
+
+            div.options_panel_section {
+
+                width: 100%;
+                display: table;
+                height: 40px;
+                border-bottom: 1px solid #b3b3b3;
+                padding: 10px;
+
+                span.text {
+                    
+                    font-weight: bold;
+                    padding: 10px;
+                    color: @text_color;
+                    height: 100%;
+                    padding: 10px;
+                    padding-right: 23px;
+                    display: table-cell;
+
+                }
+
+                label {
+
+                    color: @text_color;
+                    width: 20%;
+                    font-weight: normal;
+                    padding-left: 10px;
+
+                }
+
+                button {
+
+                    width: 20%;
+                    font-size: 75%;
+
+                }
+
+                div.color_panel_container {
+
+                    margin-left: 23px;
+                    margin-top: 23px;
+
+                    div.color_element {
+
+                        width: 43px;
+                        height: 43px;
+                        background-image: url(/images/sidebar/color-bg-0.png);
+                        float: left;
+                        background-repeat: no-repeat;
+
+                    }
+
+                }    
+
+
+            }
+
+            div#color_panel_section {
+
+                padding-bottom: 30px;
+
+            }
+
+        }
+
+    /* End Options Panel */
+
+
+    div#right-main-window {
+
+        overflow-y: scroll;
+
+    }
 
 
 
