@@ -82,22 +82,26 @@ class ColorsController extends Controller
         $response = null;
         if (!empty($colorId))
         {
+            Log::info('Attempts to update Color#' . $colorId);
             $data['id'] = $colorId;
             $response = $this->client->updateColor($data);
         }
         else
         {
+            Log::info('Attempts to create a new Color ' . json_encode($data));
             $response = $this->client->createColor($data);
         }
 
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/colors')
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/colors')
                             ->with('message', 'There was a problem saving your color');
         }

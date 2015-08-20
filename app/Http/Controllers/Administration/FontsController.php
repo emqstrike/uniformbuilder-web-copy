@@ -91,21 +91,25 @@ class FontsController extends Controller
         $response = null;
         if (!empty($fontId))
         {
+            Log::info('Attempts to update Font#' . $fontId);
             $data['id'] = $fontId;
             $response = $this->client->updateFont($data);
         }
         else
         {
+            Log::info('Attempts to create a new Font ' . json_encode($data));
             $response = $this->client->createFont($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/fonts')
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/fonts')
                             ->with('message', 'There was a problem saving your font');
         }

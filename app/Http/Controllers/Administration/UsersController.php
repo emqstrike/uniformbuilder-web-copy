@@ -70,7 +70,6 @@ class UsersController extends Controller
         // Does the User exist
         if ($this->client->isEmailTaken($email, $userId))
         {
-            Log::info('[ADMIN] : ' . Session::get('fullname') . ' (' . Session::get('email') . ')');
             return Redirect::to('administration/users')
                             ->with('message', 'User email already exist');
         }

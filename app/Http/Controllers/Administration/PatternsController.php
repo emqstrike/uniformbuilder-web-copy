@@ -94,20 +94,24 @@ class PatternsController extends Controller
         $response = null;
         if (!empty($patternId))
         {
+            Log::info('Attempts to update Pattern#' . $patternId);
             $response = $this->client->updatePattern($data);
         }
         else
         {
+            Log::info('Attempts to create a new Pattern ' . json_encode($data));
             $response = $this->client->createPattern($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/patterns')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/patterns')
                             ->with('message', $response->message);
         }
