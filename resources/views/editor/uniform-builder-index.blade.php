@@ -7,7 +7,7 @@
         
         <div id="left-top" class="pane-top">
             
-            Jersey | Pants | All
+            ///
 
         </div>
 
@@ -15,19 +15,19 @@
             
                             
             <a href="" class="sidebar-buttons" data-filename='materials'>
-                <img src="images/sidebar/materials.png">
+                <img src="images/sidebar/new.png">
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='colors'>
-                <img src="images/sidebar/colors.png">
+                <img src="images/sidebar/load.png">
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='gradient'>
-                <img src="images/sidebar/gradient.png">
+                <img src="images/sidebar/compare.png">
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='patterns'>
-                <img src="images/sidebar/patterns.png">
+                <img src="images/sidebar/save.png">
             </a>
 
 
@@ -45,15 +45,19 @@
 
 @section('right-pane')
     
+    
     <div id="right-pane" class="pane">
 
         
         <div id="right-top" class="pane-top">
-            Materials | Color / Gradient / Pattern | Add Decorations | Team Info / Billing Info
+            
+            ///
+
         </div>
 
         <div id="right-sidebar" class="pane-sidebar">
-            
+
+
             <a href="" class="sidebar-buttons" data-filename='materials'>
                 <img src="images/sidebar/materials.png">
             </a>
@@ -145,11 +149,6 @@
                 
 
             </div>
-
-
-
-
-
 
 
         </div>

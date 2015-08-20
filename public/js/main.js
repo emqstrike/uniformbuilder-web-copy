@@ -6,16 +6,9 @@
 		$("#myModal").draggable({
 			handle: ".modal-header"
 		});
-
 	
 
-		// This example uses jQuery so it creates the Dropzone, only when the DOM has
-		// loaded.
-
-		// Disabling autoDiscover, otherwise Dropzone will try to attach twice.
 		Dropzone.autoDiscover = false;
-		// or disable for specific dropzone:
-		// Dropzone.options.myDropzone = false;
 
 		if ($('#miaDropzone').length) {
 

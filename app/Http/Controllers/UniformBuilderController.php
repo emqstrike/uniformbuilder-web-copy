@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 class UniformBuilderController extends Controller
 {
- 
+
 
     public function index()
     {
