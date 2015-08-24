@@ -11,22 +11,23 @@
 
         </div>
 
+      
         <div id="left-sidebar" class="pane-sidebar">
             
                             
-            <a href="" class="sidebar-buttons" data-filename='materials'>
+            <a class="sidebar-buttons" data-filename='materials'>
                 <img src="images/sidebar/new.png">
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='colors'>
+            <a class="sidebar-buttons" data-filename='colors'>
                 <img src="images/sidebar/load.png">
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='gradient'>
+            <a class="sidebar-buttons" data-filename='gradient'>
                 <img src="images/sidebar/compare.png">
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='patterns'>
+            <a class="sidebar-buttons" data-filename='patterns'>
                 <img src="images/sidebar/save.png">
             </a>
 
@@ -36,27 +37,37 @@
 
         <div id="left-main-window" class="pane-main-window">
         
-              <canvas id="front_view" width="447" height="496">
+              <canvas class="canvas-views" id="front_view" width="447" height="496">
                     
               </canvas>          
 
-              <canvas id="back_view" width="447" height="496">
+              <canvas class="canvas-views" id="back_view" width="447" height="496">
 
               </canvas>          
 
-              <canvas id="left_view" width="447" height="496">
+              <canvas  class="canvas-views" id="left_view" width="447" height="496">
 
               </canvas>
 
-              <canvas id="right_view" width="447" height="496">
+              <canvas class="canvas-views" id="right_view" width="447" height="496">
 
-              </canvas>          
-          
+              </canvas>
+    
         </div>
 
+        <div id="camera-views" class="">
+    
+            <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
+            <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
+            <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
+            <a class="btn change-view" data-view="right" id="view_right"><img src=""></a>
+
+        </div>
+    
 
     </div>
-        
+
+
 @endsection('left-pane')
 
 

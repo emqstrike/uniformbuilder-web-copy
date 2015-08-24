@@ -56,7 +56,8 @@ div#main_container div#main-row div#right-pane-column {
 /* End Main Container */
 /* Generic Panes */
 div.pane div.pane-top {
-  width: 100%;
+  width: 90%;
+  text-align: center;
 }
 div.pane div.pane-sidebar {
   float: left;
@@ -88,9 +89,33 @@ a.active_button {
 /* End UI Generic */
 /* Left Pane - Main Canvas */
 div#left-pane div#left-main-window {
-  /* background-image: url('/images/test-images/canvas.png'); */
+  overflow: hidden;
+}
+div#left-main-window canvas#canvas-views {
+  position: absolute;
 }
 /* End Left Pane - Main Canvas */
+/* Camera Views */
+div#camera-views {
+  float: right;
+  text-align: center;
+  width: 90%;
+  padding: 3px;
+}
+div#camera-views a {
+  color: #3d3d3d;
+  width: 63px;
+  height: 70px;
+  border: 2px solid #b3b3b3;
+  border-radius: 0px;
+  text-align: center;
+  padding: 0;
+}
+div#camera-views a img {
+  width: 100%;
+  height: 100%;
+}
+/* End Camera Views */
 /* Right Pane - Property Customizer */
 /* End Right Pane - Property Customizer */
 /* Options Panel */
