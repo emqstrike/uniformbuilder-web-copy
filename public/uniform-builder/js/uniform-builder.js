@@ -219,7 +219,6 @@
             $('a#view_left > img').attr('src', window.two_d.canvas_left.toDataURL('image/png'));
             $('a#view_right > img').attr('src', window.two_d.canvas_right.toDataURL('image/png'));
 
-
         }
 
 
@@ -245,6 +244,71 @@
 
 
     /* End Setup Views */    
+
+
+    /* Material Composer */
+
+
+        window.two_d.compose_material(base, pattern_array){
+
+
+            var material_composer = {};
+            var objects = {};
+
+            var canvas_top_layer = new fabric.Canvas('top_layer');
+            var canvas_bottom_layer = new fabric.Canvas('bottom_view');
+
+            fabric.util.loadImage(base, function (image) {
+                    
+                materialOption = new fabric.Image(image);
+
+                materialOption.set({
+
+                    top: 0,
+                    left: 0,
+                    width: 447,
+                    height: 496,
+                    angle: 0,
+                    opacity: 1, 
+
+                });
+
+                objects[object_name] = materialOption;
+                canvas_top_layer.add(materialOption).renderAll(); 
+                                            
+            });
+
+            for(i = 0; i <= pattern_array.length - 1; i++){
+
+                fabric.util.loadImage(pattern_array[i], function (image) {
+                    
+                    materialOption = new fabric.Image(image);
+
+                    materialOption.set({
+
+                        top: 0,
+                        left: 0,
+                        width: 447,
+                        height: 496,
+                        angle: 0,
+                        opacity: 1, 
+
+                    });
+
+                    objects[object_name] = materialOption;
+                    canvas_bottom_layer.add(materialOption).renderAll(); 
+                                            
+                });
+
+            }
+
+
+        }
+
+
+    /* End Material Composer */
+
+
 
 
  });   

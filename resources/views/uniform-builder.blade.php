@@ -68,7 +68,7 @@
             <div class="row">
 
                 <!-- Material Editor-->
-                @include('partials.material_editor')
+                
 
             </div>
 
@@ -80,6 +80,7 @@
         <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
         <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
         <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/context-blender/context-blender.js{{$asset_version}}"></script>
 
         <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
