@@ -70,8 +70,6 @@
             var pos = '25%';
 
             $('.popover > div.arrow').css('left', pos);
-
-            console.log($(this));
             
         })
 
@@ -88,6 +86,7 @@
         window.two_d.canvas_back = new fabric.Canvas('back_view');
         window.two_d.canvas_right = new fabric.Canvas('right_view');
         window.two_d.canvas_left = new fabric.Canvas('left_view');
+
         
         window.two_d.load_base = function(filename, canvas, object_name){
 
@@ -234,7 +233,6 @@
                 $('#right_view').parent().fadeOut();
                 
                 $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
-                
 
             });
 
@@ -246,17 +244,91 @@
     /* End Setup Views */    
 
 
-    /* Material Composer */
+    /* Material Mixing Canvas */
 
 
-        window.two_d.compose_material(base, pattern_array){
+        window.mixing_canvas = {};
+        window.mixing_canvas.objects = {}; 
+
+        window.two_d.compose_material = function (base, pattern_array, shape, view_canvas, obj_name) {
+
+            var mixing_canvas = window.mixing_canvas;
+            var objects = window.mixing_canvas.objects;
+
+            mixing_canvas.top_layer = new fabric.Canvas('top_layer');
+            mixing_canvas.bottom_layer = new fabric.Canvas('bottom_layer');
+            mixing_canvas.destination_layer = new fabric.Canvas('destination_layer');
+
+            
+            /// Canvas Events ///
+
+                
+                mixing_canvas.top_layer.on('after:render', function(options) {
+                
+                    window.mixing_canvas.mix(view_canvas);
+
+                });
 
 
-            var material_composer = {};
-            var objects = {};
+                mixing_canvas.bottom_layer.on('after:render', function(options) {
+                
+                    window.mixing_canvas.mix(view_canvas);
 
-            var canvas_top_layer = new fabric.Canvas('top_layer');
-            var canvas_bottom_layer = new fabric.Canvas('bottom_view');
+                });
+
+
+                mixing_canvas.mix = function(canvas) {
+
+
+          
+                    if( _.size(mixing_canvas.objects) !== 2 ){
+                        util.p('loading...')
+                        return false;
+
+                    }
+
+                    util.p('loaded')
+
+                    var a     =  mixing_canvas.top_layer.getContext('2d');
+                    var b     =  mixing_canvas.bottom_layer.getContext('2d');
+                    var dest  =  mixing_canvas.destination_layer.getContext('2d');
+
+                    a.blendOnto(dest, b, 'multiply'); 
+                    
+                    var imgData = dest.getImageData(0,0, 447, 496);
+
+                    var c = document.createElement('canvas');
+                    c.setAttribute('id', '_temp_canvas');
+                    c.width = 447;
+                    c.height = 496;
+
+                    c.getContext('2d').putImageData(imgData, 0, 0);
+
+
+                    fabric.Image.fromURL(c.toDataURL(), function(img) {
+
+                        canvas.remove(two_d.objects[obj_name]);
+                        two_d.objects[obj_name] = img;
+
+                        img.left = 0;
+                        img.top = 0;
+                        canvas.add(img);
+                        img.bringToFront();
+                        c = null;
+                        $('#_temp_canvas').remove();
+                        canvas.renderAll();
+
+                    })
+
+                    return true;
+
+                }
+
+
+            /// End Canvas Events ///
+
+
+            /// Base 
 
             fabric.util.loadImage(base, function (image) {
                     
@@ -273,14 +345,15 @@
 
                 });
 
-                objects[object_name] = materialOption;
-                canvas_top_layer.add(materialOption).renderAll(); 
+                objects['base'] = materialOption;
+                mixing_canvas.top_layer.add(materialOption).renderAll(); 
                                             
             });
 
-            for(i = 0; i <= pattern_array.length - 1; i++){
+            
+            /// Shape
 
-                fabric.util.loadImage(pattern_array[i], function (image) {
+                fabric.util.loadImage(shape, function (image) {
                     
                     materialOption = new fabric.Image(image);
 
@@ -295,18 +368,61 @@
 
                     });
 
-                    objects[object_name] = materialOption;
-                    canvas_bottom_layer.add(materialOption).renderAll(); 
-                                            
+                    objects['shape'] = materialOption;
+                    mixing_canvas.bottom_layer.add(materialOption).renderAll(); 
+                                                
                 });
 
-            }
+
+        };
 
 
-        }
+        /// Initialize ///
+
+            var base    = '/images/builder-assets/jersey-front.png';
+            var pattern = [];
+            var shape   = '/images/builder-assets/jersey-front-shape.png';
+
+            window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
+
+        /// End Initialize ///
 
 
-    /* End Material Composer */
+        /// Utilities 
+
+            $('button#btnDebugPanel').on('click', function(e){
+           
+                var mc = $('div#mixing-canvas');
+            
+                if( mc.css('display') === "none" ) {
+
+                    mc.fadeIn();
+                    
+                    var offset = mc.offset();
+
+                    offset.left -= 20;
+                    offset.top -= 20;
+
+                    $('html, body').animate({
+                        scrollTop: offset.top,
+                        scrollLeft: offset.left
+                    });
+
+                }
+                else {
+
+                    mc.slideUp();
+
+                }                
+
+
+            }); 
+
+        /// End Utilities    
+
+
+
+    /* End Material Mixing Canvas */
 
 
 

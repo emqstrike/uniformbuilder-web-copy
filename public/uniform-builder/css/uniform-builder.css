@@ -203,5 +203,13 @@ canvas#right_view {
   height: 100%;
 }
 /* End Canvas */
+/* Mixing Canvas */
+div#mixing-canvas {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  display: none;
+}
+/* End Mixing Canvas */
 
 /*# sourceMappingURL=uniform-builder.css.map */

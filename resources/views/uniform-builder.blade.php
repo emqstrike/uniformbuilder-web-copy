@@ -66,23 +66,82 @@
             </div>
 
             <div class="row">
-
-                <!-- Material Editor-->
                 
+                <div class="col-md-12">
+                    
+                    <br /><br /><br />    
+                    <button id="btnDebugPanel">Debug Panel: Mixing Canvas</button>
+                        
+                </div>
+
+            </div>
+
+            <div class="row">
+
+
+                <!-- Material Mixing Canvas -->
+                    
+                    <hr />
+
+                    <div class="col-md-6 col-md-offset-3">
+              
+                    <div id="mixing-canvas">
+
+                            <div class="canvas-container">
+
+                                <canvas class="canvas-views" id="top_layer" width="447" height="496">
+                                
+                                </canvas>
+
+                            </div>
+                            
+                            <div class="canvas-container">
+
+                                <canvas class="canvas-views" id="bottom_layer" width="447" height="496">
+
+                                </canvas>
+
+                            </div>
+
+                            <div class="center-block canvas-container">
+
+                                <canvas class="canvas-views" id="destination_layer" width="447" height="496">
+
+                                </canvas>
+
+                            </div>
+
+                    </div>    
+
+                </div>
+
+
+                <!-- End Material Mixing Canvas -->
 
             </div>
 
         </div>
 
 
-        <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/context-blender/context-blender.js{{$asset_version}}"></script>
+        <!-- Third Party Scripts -->
 
-        <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/underscore/underscore-min.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/context-blender/context-blender.js{{$asset_version}}"></script>
+        
+        <!-- End Third Party Scripts -->
+
+
+        <!-- Uniform Builder Scripts -->
+
+            <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
+
+        <!-- End Uniform Builder Scripts -->    
 
 
     </body>
