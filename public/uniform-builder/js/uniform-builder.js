@@ -12,7 +12,7 @@
     function switch_panel(panel){
 
         $('.options_panel').hide();
-        $(panel).fadeIn();
+        $(panel).fadeIn(100);
 
     }
     
