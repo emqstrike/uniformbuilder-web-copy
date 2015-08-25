@@ -247,17 +247,17 @@
     /* Material Mixing Canvas */
 
 
-        window.mixing_canvas = {};
-        window.mixing_canvas.objects = {}; 
+
 
         window.two_d.compose_material = function (base, pattern_array, shape, view_canvas, obj_name) {
 
-            var mixing_canvas = window.mixing_canvas;
-            var objects = window.mixing_canvas.objects;
+            var mixing_canvas = {};
+            mixing_canvas.objects = {};
+            var objects = mixing_canvas.objects;
 
-            mixing_canvas.top_layer = new fabric.Canvas('top_layer');
-            mixing_canvas.bottom_layer = new fabric.Canvas('bottom_layer');
-            mixing_canvas.destination_layer = new fabric.Canvas('destination_layer');
+            mixing_canvas.top_layer = new fabric.Canvas('tl', { width: 447, height: 496, });
+            mixing_canvas.bottom_layer = new fabric.Canvas('bl', { width: 447, height: 496, });
+            mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: 447, height: 496, });
 
             
             /// Canvas Events ///
@@ -265,20 +265,19 @@
                 
                 mixing_canvas.top_layer.on('after:render', function(options) {
                 
-                    window.mixing_canvas.mix(view_canvas);
+                   mixing_canvas.mix(view_canvas);
 
                 });
 
 
                 mixing_canvas.bottom_layer.on('after:render', function(options) {
                 
-                    window.mixing_canvas.mix(view_canvas);
+                    mixing_canvas.mix(view_canvas);
 
                 });
 
 
                 mixing_canvas.mix = function(canvas) {
-
 
           
                     if( _.size(mixing_canvas.objects) !== 2 ){
@@ -384,6 +383,33 @@
             var shape   = '/images/builder-assets/jersey-front-shape.png';
 
             window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
+
+            setTimeout(function(){
+            
+                var base    = '/images/builder-assets/jersey-back.png';
+                var shape   = '/images/builder-assets/jersey-back-shape.png';
+
+                window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_back,'jersey_back');
+
+            }, 100);
+
+            setTimeout(function(){
+            
+                var base    = '/images/builder-assets/jersey-left.png';
+                var shape   = '/images/builder-assets/jersey-left-shape.png';
+
+                window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_left,'jersey_left');
+
+            }, 200);
+
+            setTimeout(function(){
+            
+                var base    = '/images/builder-assets/jersey-right.png';
+                var shape   = '/images/builder-assets/jersey-right-shape.png';
+
+                window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_right,'jersey_right');
+
+            }, 300);          
 
         /// End Initialize ///
 
