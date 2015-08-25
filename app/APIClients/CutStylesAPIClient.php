@@ -11,6 +11,7 @@ class CutStylesAPIClient extends APIClient
     public function isExist($code, $name, $id = null, &$error)
     {
         $styleCode = $this->getByCode($code);
+        $flagCode = false;
         if (!is_null($styleCode) && !is_null($id))
         {
             $compare = $this->getCutStyle($id);
@@ -19,9 +20,12 @@ class CutStylesAPIClient extends APIClient
                 if ($styleCode->id != $compare->id)
                 {
                     $error = 'Code already exist';
+                    $flagCode = true;
                 }
             }
         }
+
+        $flagName = false;
         $styleName = $this->getByName($name);
         if (!is_null($styleName) && !is_null($id))
         {
@@ -31,10 +35,11 @@ class CutStylesAPIClient extends APIClient
                 if ($styleName->id != $compare->id)
                 {
                     $error = 'Name already exist';
+                    $flagName = true;
                 }
             }
         }
-        return !is_null($styleCode) || !is_null($styleName);
+        return $flagCode || $flagName;
     }
 
     public function createCutStyle($data)
