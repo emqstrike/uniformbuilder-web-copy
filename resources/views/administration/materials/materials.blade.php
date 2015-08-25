@@ -77,8 +77,9 @@
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">
                             <span class="fa fa-edit"></span>
-                            {{ $option->name }} <span class="badge">{{ $option->layer_level }}</span>
+                            {{ $option->name }}
                         </a>
+                        <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
                     </div>
                     @endforeach
                     <div style="margin-top: 10px;">
