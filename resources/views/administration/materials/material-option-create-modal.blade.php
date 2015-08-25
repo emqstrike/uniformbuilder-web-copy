@@ -21,6 +21,9 @@
                         <option value='waist cut'>Waist Cut</option>
                         <option value='sleeve style'>Sleeve Style</option>
                         <option value='neck style'>Neck Style</option>
+                        <option value='sleeve panel'>Sleeve Panel</option>
+                        <option value='shoulder panel'>Shoulder Panel</option>
+                        <option value='underarm panel'>Underarm Panel</option>
                     </select>
                 </div>
                 <div class="form-group">
