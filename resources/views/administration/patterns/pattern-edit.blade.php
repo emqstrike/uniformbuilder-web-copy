@@ -134,8 +134,6 @@
 
 @endsection
 
-@section('custom-scripts')
-
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>

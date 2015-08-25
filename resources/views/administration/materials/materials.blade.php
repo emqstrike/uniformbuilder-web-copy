@@ -54,7 +54,11 @@
 
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
+                    @if ($material->thumbnail_path)
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @else
+                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @endif
                 </td>
                 <td>
                     {{ $material->name }}
@@ -135,9 +139,13 @@
                             data-highlight-path="{{ $material->highlight_path }}"
 @elseif (env('BUILDER_APPROACH') == '2D')
                             data-front-view-path="{{ $material->front_view_path }}"
+                            data-front-view-shape="{{ $material->front_view_shape }}"
                             data-back-view-path="{{ $material->back_view_path }}"
+                            data-back-view-shape="{{ $material->back_view_shape }}"
                             data-right-side-view-path="{{ $material->right_side_view_path }}"
+                            data-right-side-view-shape="{{ $material->right_side_view_shape }}"
                             data-left-side-view-path="{{ $material->left_side_view_path }}"
+                            data-left-side-view-shape="{{ $material->left_side_view_shape }}"
 @endif
                             data-material-id="{{ $material->id }}">
                             <li class="glyphicon glyphicon-info-sign"></li>
