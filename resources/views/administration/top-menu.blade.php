@@ -40,16 +40,25 @@
             <li class="divider">
 
             <li>
-                <a href="/administration/cuts/necks"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
+                <a href="/administration/cuts/neck-styles"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
             </li>
             <li>
-                <a href="/administration/cuts/sleeves"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
+                <a href="/administration/cuts/sleeve-styles"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
             </li>
             <li>
-                <a href="/administration/cuts/pants"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
+                <a href="/administration/cuts/pant-cuts"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
             </li>
             <li>
-                <a href="/administration/cuts/waists"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
+                <a href="/administration/cuts/waist-cuts"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/sleeve-panels"><span class="glyphicon glyphicon-th-list"></span> Sleeve Panels</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/shoulder-panels"><span class="glyphicon glyphicon-th-list"></span> Shoulder Panels</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/underarm-panels"><span class="glyphicon glyphicon-th-list"></span> Underarm Panels</a>
             </li>
 
             <li class="divider">

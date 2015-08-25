@@ -30,15 +30,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Material Option File:</label>
-                    <input type="file" name="material_option_path">
-                    <img src="" class="material-option-path" width="300px" height="300px">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" class="form-control layer-level" value='1' />
-                </div>
-                <div class="form-group">
                     <label class="control-label">Perspective:</label>
                     <select name='perspective' class='form-control perspective'>
                         <option value='front'>Front View</option>
@@ -46,6 +37,15 @@
                         <option value='right'>Right Side View</option>
                         <option value='left'>Left Side View</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Material Option File:</label>
+                    <input type="file" name="material_option_path">
+                    <img src="" class="material-option-path" width="300px" height="300px">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Layer Level:</label>
+                    <input type="number" name="layer_level" class="form-control layer-level" value='1' />
                 </div>
                 <div class='form-group'>
                     <label class="control-label">Reference Notes</label>
