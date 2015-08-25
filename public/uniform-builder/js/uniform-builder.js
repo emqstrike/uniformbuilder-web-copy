@@ -113,10 +113,10 @@
         }
 
 
-        window.two_d.load_base('/images/builder-assets/jersey-front.png', window.two_d.canvas_front, 'jersey_front')
-        window.two_d.load_base('/images/builder-assets/jersey-back.png', window.two_d.canvas_back, 'jersey_back')
-        window.two_d.load_base('/images/builder-assets/jersey-right.png', window.two_d.canvas_right, 'jersey_right')
-        window.two_d.load_base('/images/builder-assets/jersey-left.png', window.two_d.canvas_left, 'jersey_left');
+        // window.two_d.load_base('/images/builder-assets/jersey-front.png', window.two_d.canvas_front, 'jersey_front')
+        // window.two_d.load_base('/images/builder-assets/jersey-back.png', window.two_d.canvas_back, 'jersey_back')
+        // window.two_d.load_base('/images/builder-assets/jersey-right.png', window.two_d.canvas_right, 'jersey_right')
+        // window.two_d.load_base('/images/builder-assets/jersey-left.png', window.two_d.canvas_left, 'jersey_left');
 
 
         $('.change-color').on('click', function(e){
@@ -131,21 +131,7 @@
 
            }
 
-            window.two_d.apply_filters(true);
-
-            var filter = new fabric.Image.filters.Blend({
-
-              mode: 'multiply',
-              color: color,
-              
-            });
-
-            window.two_d.objects['jersey_front'].filters.push(filter);
-            window.two_d.objects['jersey_back'].filters.push(filter);
-            window.two_d.objects['jersey_left'].filters.push(filter);
-            window.two_d.objects['jersey_right'].filters.push(filter);
-
-            window.two_d.apply_filters();
+           window.two_d.load_bases(color);
             
         }); 
 
@@ -223,6 +209,7 @@
 
         /// Camera Views
 
+
             $('a.change-view').on('click', function(e){
 
                 var view = $(this).data('view');
@@ -235,7 +222,6 @@
                 $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
 
             });
-
 
 
         /// End Camera Views
@@ -262,10 +248,10 @@
             
             /// Canvas Events ///
 
-                
                 mixing_canvas.top_layer.on('after:render', function(options) {
-                
-                   mixing_canvas.mix(view_canvas);
+                   
+                    mixing_canvas.mix(view_canvas);
+                    
 
                 });
 
@@ -273,20 +259,19 @@
                 mixing_canvas.bottom_layer.on('after:render', function(options) {
                 
                     mixing_canvas.mix(view_canvas);
+                    
 
                 });
 
 
                 mixing_canvas.mix = function(canvas) {
 
-          
+
                     if( _.size(mixing_canvas.objects) !== 2 ){
-                        util.p('loading...')
+                        
                         return false;
 
                     }
-
-                    util.p('loaded')
 
                     var a     =  mixing_canvas.top_layer.getContext('2d');
                     var b     =  mixing_canvas.bottom_layer.getContext('2d');
@@ -294,7 +279,7 @@
 
                     a.blendOnto(dest, b, 'multiply'); 
                     
-                    var imgData = dest.getImageData(0,0, 447, 496);
+                    var imgData = dest.getImageData( 0, 0, 447, 496 );
 
                     var c = document.createElement('canvas');
                     c.setAttribute('id', '_temp_canvas');
@@ -302,7 +287,6 @@
                     c.height = 496;
 
                     c.getContext('2d').putImageData(imgData, 0, 0);
-
 
                     fabric.Image.fromURL(c.toDataURL(), function(img) {
 
@@ -313,9 +297,10 @@
                         img.top = 0;
                         canvas.add(img);
                         img.bringToFront();
+                        canvas.renderAll();
+
                         c = null;
                         $('#_temp_canvas').remove();
-                        canvas.renderAll();
 
                     })
 
@@ -329,7 +314,8 @@
 
             /// Base 
 
-            fabric.util.loadImage(base, function (image) {
+
+            fabric.util.loadImage(base.filename, function (image) {
                     
                 materialOption = new fabric.Image(image);
 
@@ -367,43 +353,81 @@
 
                     });
 
+                    
+                    var filter = new fabric.Image.filters.Multiply({
+                      color: base.color,
+                    });
+
+                    materialOption.filters.push(filter);
+                    materialOption.applyFilters(mixing_canvas.bottom_layer.renderAll.bind(mixing_canvas.bottom_layer));
+
                     objects['shape'] = materialOption;
-                    mixing_canvas.bottom_layer.add(materialOption).renderAll(); 
+
+                    mixing_canvas.bottom_layer.add(materialOption); 
+                //mixing_canvas.bottom_layer.renderAll();
                                                 
                 });
-
 
         };
 
 
         /// Initialize ///
 
-            var base    = '/images/builder-assets/jersey-front.png';
-            var pattern = [];
-            var shape   = '/images/builder-assets/jersey-front-shape.png';
+            window.two_d.load_bases = function(color){
 
-            window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
+                var start = new Date().getTime();
 
-            
-                var base    = '/images/builder-assets/jersey-back.png';
-                var shape   = '/images/builder-assets/jersey-back-shape.png';
+                var base            = {};
+                    base.filename   = '';
+                    base.color      = '';
+
+                var pattern         = [];
+                var shape           = '';
+
+
+                /// FRONT
+                base.filename       = '/images/builder-assets/jersey-front.png';
+                base.color          = color;
+                pattern             = [];
+                shape               = '/images/builder-assets/jersey-front-shape.png';
+
+                window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
+                
+
+                /// BACK
+                base.filename       = '/images/builder-assets/jersey-back.png';
+                base.color          = color;
+                pattern             = [];
+                shape               = '/images/builder-assets/jersey-back-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_back,'jersey_back');
 
-            
-            
-                var base    = '/images/builder-assets/jersey-left.png';
-                var shape   = '/images/builder-assets/jersey-left-shape.png';
+
+                /// LEFT
+                base.filename       = '/images/builder-assets/jersey-left.png';
+                base.color          = color;
+                shape               = '/images/builder-assets/jersey-left-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_left,'jersey_left');
 
 
-            
-                var base    = '/images/builder-assets/jersey-right.png';
-                var shape   = '/images/builder-assets/jersey-right-shape.png';
+                /// RIGHT
+                base.filename       = '/images/builder-assets/jersey-right.png';
+                base.color          = color;
+                pattern             = [];
+                shape               = '/images/builder-assets/jersey-right-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_right,'jersey_right');
 
+
+                var end = new Date().getTime();
+                var time = end - start;
+                console.log('time',time);
+
+
+            }
+
+            window.two_d.load_bases('#8c2332');
 
         /// End Initialize ///
 
