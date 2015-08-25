@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;

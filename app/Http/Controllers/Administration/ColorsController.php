@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 use \Session;
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient as APIClient;

@@ -67,9 +67,13 @@
                         <li><a href="#tab-highlight-image" data-toggle="tab">Highlight</a></li>
 @elseif (env('BUILDER_APPROACH') == '2D')
                         <li class="active"><a href="#tab-front-view-image" data-toggle="tab">Front View</a></li>
+                        <li><a href="#tab-front-shape-image" data-toggle="tab">Front Shape</a></li>
                         <li><a href="#tab-back-view-image" data-toggle="tab">Back View</a></li>
+                        <li><a href="#tab-back-shape-image" data-toggle="tab">Back Shape</a></li>
                         <li><a href="#tab-right-side-view-image" data-toggle="tab">Right Side View</a></li>
+                        <li><a href="#tab-right-side-shape-image" data-toggle="tab">Right Side Shape</a></li>
                         <li><a href="#tab-left-side-view-image" data-toggle="tab">Left Side View</a></li>
+                        <li><a href="#tab-left-side-shape-image" data-toggle="tab">Left Side Shape</a></li>
 @endif
                     </ul>
                     <div class="tab-content">
@@ -90,14 +94,26 @@
                         <div class="tab-pane active" id="tab-front-view-image" align='center'>
                             <img src="http://dummyimage.com/300" class="front-view-image" width="300px" height="300px">
                         </div>
+                        <div class="tab-pane" id="tab-front-shape-image" align='center'>
+                            <img src="http://dummyimage.com/300" class="front-view-shape" width="300px" height="300px">
+                        </div>
                         <div class="tab-pane" id="tab-back-view-image" align='center'>
                             <img src="http://dummyimage.com/300" class="back-view-image" width="300px" height="300px">
+                        </div>
+                        <div class="tab-pane" id="tab-back-shape-image" align='center'>
+                            <img src="http://dummyimage.com/300" class="back-view-shape" width="300px" height="300px">
                         </div>
                         <div class="tab-pane" id="tab-right-side-view-image" align='center'>
                             <img src="http://dummyimage.com/300" class="right-side-view-image" width="300px" height="300px">
                         </div>
+                        <div class="tab-pane" id="tab-right-side-shape-image" align='center'>
+                            <img src="http://dummyimage.com/300" class="right-side-view-shape" width="300px" height="300px">
+                        </div>
                         <div class="tab-pane" id="tab-left-side-view-image" align='center'>
                             <img src="http://dummyimage.com/300" class="left-side-view-image" width="300px" height="300px">
+                        </div>
+                        <div class="tab-pane" id="tab-left-side-shape-image" align='center'>
+                            <img src="http://dummyimage.com/300" class="left-side-view-shape" width="300px" height="300px">
                         </div>
 @endif
                     </div>

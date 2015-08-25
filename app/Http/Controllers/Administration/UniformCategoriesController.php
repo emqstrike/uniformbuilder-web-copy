@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 use \Session;
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
