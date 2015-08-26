@@ -15,7 +15,8 @@
 
     <!-- Fonts -->
     <!-- <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'> -->
-
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <style type="text/css"> body{ font-family: raleway; }</style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -37,7 +38,7 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                          <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="/administration/main">
                         <img src="/images/branding/small-logo.png" alt="QuickStrike" style="width: 35px; padding-right: 10px;" align="left">
                         <span> Admin Dashboard</span>
                     </a>
@@ -48,7 +49,7 @@
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" style='width:500px'>
-                        </div> 
+                        </div>
                         <button type="" class="btn btn-default">
                             Search
                         </button>
@@ -65,7 +66,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/administration/accountSettings"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
+                                    <a href="/administration/account_settings/{{ Session::get('id') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
+                                </li>
+                                <li class="divider">
+                                <li>
+                                    <a href="/administration/account_settings/change_password/{{ Session::get('id') }}"><span class="fa fa-slack"></span> Change Password</a>
                                 </li>
                                 <li class="divider">
                                 </li>
@@ -85,7 +90,7 @@
                 </button>
                 <h4 class='flash-title'></h4>
                 <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/progress.gif" class='flash-progress' style="display: none;">
-                <strong class='flash-sub-title'></strong> <span class='flash-message'></span>
+                <strong class='flash-sub-title'></strong><span class='flash-message'></span>
             </div>
 
             <div class="row">
