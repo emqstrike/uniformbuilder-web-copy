@@ -121,7 +121,7 @@
 
         $('.change-color').on('click', function(e){
           
-
+            console.log('------------------------------');
            var color = $(this).data('color');
 
            if(color === "#000000"){ 
@@ -233,36 +233,38 @@
     /* Material Mixing Canvas */
 
 
-
-
         window.two_d.compose_material = function (base, pattern_array, shape, view_canvas, obj_name) {
 
-            var mixing_canvas = {};
-            mixing_canvas.objects = {};
-            var objects = mixing_canvas.objects;
+            var dimensions = {};
 
-            mixing_canvas.top_layer = new fabric.Canvas('tl', { width: 447, height: 496, });
-            mixing_canvas.bottom_layer = new fabric.Canvas('bl', { width: 447, height: 496, });
-            mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: 447, height: 496, });
+                dimensions.width = 447;
+                dimensions.height = 496;
+            
+            var mixing_canvas = {};
+
+                mixing_canvas.objects = {};
+            
+            var objects = mixing_canvas.objects;
+            var render_time = 0;
+            
+
+            mixing_canvas.top_layer = new fabric.Canvas('tl', { width: dimensions.width, height: dimensions.height, });
+            mixing_canvas.bottom_layer = new fabric.Canvas('bl', { width: dimensions.width, height: dimensions.height, });
+            mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: dimensions.width, height: dimensions.height, });
 
             
             /// Canvas Events ///
 
-                mixing_canvas.top_layer.on('after:render', function(options) {
-                   
-                    mixing_canvas.mix(view_canvas);
-                    
-
-                });
-
 
                 mixing_canvas.bottom_layer.on('after:render', function(options) {
-                
-                    mixing_canvas.mix(view_canvas);
                     
+                    render_time += 1;
+                    
+                    if(render_time == 2){
+                        mixing_canvas.mix(view_canvas);
+                    }    
 
                 });
-
 
                 mixing_canvas.mix = function(canvas) {
 
@@ -279,12 +281,12 @@
 
                     a.blendOnto(dest, b, 'multiply'); 
                     
-                    var imgData = dest.getImageData( 0, 0, 447, 496 );
+                    var imgData = dest.getImageData( 0, 0, dimensions.width, dimensions.height );
 
                     var c = document.createElement('canvas');
                     c.setAttribute('id', '_temp_canvas');
-                    c.width = 447;
-                    c.height = 496;
+                    c.width = dimensions.width;
+                    c.height = dimensions.height;
 
                     c.getContext('2d').putImageData(imgData, 0, 0);
 
@@ -314,26 +316,34 @@
 
             /// Base 
 
+                fabric.util.loadImage(base.filename, function (image) {
+                        
+                    materialOption = new fabric.Image(image);
 
-            fabric.util.loadImage(base.filename, function (image) {
-                    
-                materialOption = new fabric.Image(image);
+                    materialOption.set({
 
-                materialOption.set({
+                        top: 0,
+                        left: 0,
+                        width: dimensions.width,
+                        height: dimensions.height,
+                        angle: 0,
+                        opacity: 1, 
 
-                    top: 0,
-                    left: 0,
-                    width: 447,
-                    height: 496,
-                    angle: 0,
-                    opacity: 1, 
+                    });
 
+                    objects['base'] = materialOption;
+                    mixing_canvas.top_layer.add(materialOption).renderAll(); 
+                                                
                 });
 
-                objects['base'] = materialOption;
-                mixing_canvas.top_layer.add(materialOption).renderAll(); 
-                                            
-            });
+            /// End Base
+
+            
+            /// Patterns 
+
+                
+
+            /// End Patterns    
 
             
             /// Shape
@@ -346,16 +356,17 @@
 
                         top: 0,
                         left: 0,
-                        width: 447,
-                        height: 496,
+                        width: dimensions.width,
+                        height: dimensions.height,
                         angle: 0,
                         opacity: 1, 
 
                     });
 
-                    
                     var filter = new fabric.Image.filters.Multiply({
-                      color: base.color,
+                        
+                        color: base.color,
+
                     });
 
                     materialOption.filters.push(filter);
@@ -364,9 +375,10 @@
                     objects['shape'] = materialOption;
 
                     mixing_canvas.bottom_layer.add(materialOption); 
-                //mixing_canvas.bottom_layer.renderAll();
                                                 
                 });
+
+            /// End Shaper    
 
         };
 
@@ -375,7 +387,7 @@
 
             window.two_d.load_bases = function(color){
 
-                var start = new Date().getTime();
+                var folder          = '/images/builder-assets/';
 
                 var base            = {};
                     base.filename   = '';
@@ -386,43 +398,38 @@
 
 
                 /// FRONT
-                base.filename       = '/images/builder-assets/jersey-front.png';
+                base.filename       = folder + 'jersey-front.png';
                 base.color          = color;
-                pattern             = [];
-                shape               = '/images/builder-assets/jersey-front-shape.png';
+                pattern             = ['front_1','front_2'];
+                shape               = folder + 'jersey-front-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
                 
 
                 /// BACK
-                base.filename       = '/images/builder-assets/jersey-back.png';
+                base.filename       = folder + 'jersey-back.png';
                 base.color          = color;
-                pattern             = [];
-                shape               = '/images/builder-assets/jersey-back-shape.png';
+                pattern             = ['back_1'];
+                shape               = folder + 'jersey-back-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_back,'jersey_back');
 
 
                 /// LEFT
-                base.filename       = '/images/builder-assets/jersey-left.png';
+                base.filename       = folder + 'jersey-left.png';
                 base.color          = color;
-                shape               = '/images/builder-assets/jersey-left-shape.png';
+                shape               = folder + 'jersey-left-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_left,'jersey_left');
 
 
                 /// RIGHT
-                base.filename       = '/images/builder-assets/jersey-right.png';
+                base.filename       = folder + 'jersey-right.png';
                 base.color          = color;
                 pattern             = [];
-                shape               = '/images/builder-assets/jersey-right-shape.png';
+                shape               = folder + 'jersey-right-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_right,'jersey_right');
-
-
-                var end = new Date().getTime();
-                var time = end - start;
-                console.log('time',time);
 
 
             }
