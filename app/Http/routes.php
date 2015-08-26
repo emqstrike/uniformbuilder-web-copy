@@ -79,6 +79,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('font/add', 'Administration\FontsController@addFontForm');
     Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
+    // Gradients
+    Route::get('gradients', 'Administration\GradientsController@index');
+    Route::post('gradient/add', 'Administration\GradientsController@store');
+    Route::post('gradient/update', 'Administration\GradientsController@store');
+    Route::get('gradient/add', 'Administration\GradientsController@addGradientForm');
+    Route::get('gradient/edit/{id}', 'Administration\GradientsController@editGradientForm');
+
     // Cut Styles
     Route::get('cuts/neck-styles', 'Administration\CutStylesController@neckStyles');
     Route::get('cuts/sleeve-styles', 'Administration\CutStylesController@sleeveStyles');

@@ -36,6 +36,9 @@
             <li>
                 <a href="/administration/fonts"><span class="fa fa-font"></span> Fonts</a>
             </li>
+            <li>
+                <a href="/administration/gradients"><span class="glyphicon glyphicon-th-list"></span> Gradients</a>
+            </li>
 
             <li class="divider">
 
