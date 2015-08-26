@@ -210,6 +210,9 @@ div#mixing-canvas {
   text-align: center;
   display: none;
 }
+div#mixing-canvas .canvas-views {
+  border: 1px solid #b3b3b3;
+}
 /* End Mixing Canvas */
 
 /*# sourceMappingURL=uniform-builder.css.map */

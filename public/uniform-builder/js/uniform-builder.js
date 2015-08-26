@@ -121,7 +121,6 @@
 
         $('.change-color').on('click', function(e){
           
-            console.log('------------------------------');
            var color = $(this).data('color');
 
            if(color === "#000000"){ 
@@ -233,154 +232,385 @@
     /* Material Mixing Canvas */
 
 
-        window.two_d.compose_material = function (base, pattern_array, shape, view_canvas, obj_name) {
+        /// Main Proc - Color Change///
 
-            var dimensions = {};
-
-                dimensions.width = 447;
-                dimensions.height = 496;
-            
-            var mixing_canvas = {};
-
-                mixing_canvas.objects = {};
-            
-            var objects = mixing_canvas.objects;
-            var render_time = 0;
-            
-
-            mixing_canvas.top_layer = new fabric.Canvas('tl', { width: dimensions.width, height: dimensions.height, });
-            mixing_canvas.bottom_layer = new fabric.Canvas('bl', { width: dimensions.width, height: dimensions.height, });
-            mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: dimensions.width, height: dimensions.height, });
-
-            
-            /// Canvas Events ///
+            window.two_d.compose_material = function (base, pattern_array, shape, view_canvas, obj_name) {
 
 
-                mixing_canvas.bottom_layer.on('after:render', function(options) {
-                    
-                    render_time += 1;
-                    
-                    if(render_time == 2){
-                        mixing_canvas.mix(view_canvas);
-                    }    
+                var dimensions = {};
 
-                });
+                    dimensions.width = 447;
+                    dimensions.height = 496;
+                
+                var mixing_canvas = {};
 
-                mixing_canvas.mix = function(canvas) {
+                    mixing_canvas.objects = {};
+                
+                var objects = mixing_canvas.objects;
+                var render_time = 0;
+                
+
+                mixing_canvas.top_layer = new fabric.Canvas('tl', { width: dimensions.width, height: dimensions.height, });
+                mixing_canvas.bottom_layer = new fabric.Canvas('bl', { width: dimensions.width, height: dimensions.height, });
+                mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: dimensions.width, height: dimensions.height, });
+
+                
+                /// Canvas Events ///
 
 
-                    if( _.size(mixing_canvas.objects) !== 2 ){
+                    mixing_canvas.bottom_layer.on('after:render', function(options) {
                         
-                        return false;
+                        render_time += 1;
+                        
+                        if(render_time == 2){
+                            mixing_canvas.mix(view_canvas);
+                        }    
+
+                    });
+
+                    mixing_canvas.mix = function(canvas) {
+
+
+                        if( _.size(mixing_canvas.objects) !== 2 ){
+                            
+                            return false;
+
+                        }
+
+                        var a     =  mixing_canvas.top_layer.getContext('2d');
+                        var b     =  mixing_canvas.bottom_layer.getContext('2d');
+                        var dest  =  mixing_canvas.destination_layer.getContext('2d');
+
+                        a.blendOnto(dest, b, 'multiply'); 
+                        
+                        var imgData = dest.getImageData( 0, 0, dimensions.width, dimensions.height );
+
+                        var c = document.createElement('canvas');
+                        c.setAttribute('id', '_temp_canvas');
+                        c.width = dimensions.width;
+                        c.height = dimensions.height;
+
+                        c.getContext('2d').putImageData(imgData, 0, 0);
+
+                        fabric.Image.fromURL(c.toDataURL(), function(img) {
+
+                            canvas.remove(two_d.objects[obj_name]);
+                            two_d.objects[obj_name] = img;
+
+                            img.left = 0;
+                            img.top = 0;
+                            canvas.add(img);
+                            img.bringToFront();
+                            canvas.renderAll();
+
+                            c = null;
+                            $('#_temp_canvas').remove();
+
+                        })
+
+                        return true;
 
                     }
 
-                    var a     =  mixing_canvas.top_layer.getContext('2d');
-                    var b     =  mixing_canvas.bottom_layer.getContext('2d');
-                    var dest  =  mixing_canvas.destination_layer.getContext('2d');
 
-                    a.blendOnto(dest, b, 'multiply'); 
-                    
-                    var imgData = dest.getImageData( 0, 0, dimensions.width, dimensions.height );
+                /// End Canvas Events ///
 
-                    var c = document.createElement('canvas');
-                    c.setAttribute('id', '_temp_canvas');
-                    c.width = dimensions.width;
-                    c.height = dimensions.height;
 
-                    c.getContext('2d').putImageData(imgData, 0, 0);
+                /// Base 
 
-                    fabric.Image.fromURL(c.toDataURL(), function(img) {
+                    fabric.util.loadImage(base.filename, function (image) {
+                            
+                        materialOption = new fabric.Image(image);
 
-                        canvas.remove(two_d.objects[obj_name]);
-                        two_d.objects[obj_name] = img;
+                        materialOption.set({
 
-                        img.left = 0;
-                        img.top = 0;
-                        canvas.add(img);
-                        img.bringToFront();
-                        canvas.renderAll();
+                            top: 0,
+                            left: 0,
+                            width: dimensions.width,
+                            height: dimensions.height,
+                            angle: 0,
+                            opacity: 1, 
 
-                        c = null;
-                        $('#_temp_canvas').remove();
+                        });
 
-                    })
+                        objects['base'] = materialOption;
+                        mixing_canvas.top_layer.add(materialOption).renderAll(); 
+                                                    
+                    });
 
-                    return true;
+                /// End Base
+
+                
+                /// Patterns 
+
+                                        window.pa = pattern_array;
+
+
+                /// End Patterns    
+
+                
+                /// Shape
+
+                    fabric.util.loadImage(shape, function (image) {
+                        
+                        materialOption = new fabric.Image(image);
+
+                        materialOption.set({
+
+                            top: 0,
+                            left: 0,
+                            width: dimensions.width,
+                            height: dimensions.height,
+                            angle: 0,
+                            opacity: 1, 
+
+                        });
+
+                        var filter = new fabric.Image.filters.Multiply({
+                            
+                            color: base.color,
+
+                        });
+
+                        materialOption.filters.push(filter);
+                        materialOption.applyFilters(mixing_canvas.bottom_layer.renderAll.bind(mixing_canvas.bottom_layer));
+
+                        objects['shape'] = materialOption;
+
+                        mixing_canvas.bottom_layer.add(materialOption); 
+                                                    
+                    });
+
+                /// End Shape    
+
+            };
+
+
+        /// End Main Proc - Color Change ///
+
+
+        /// Temp Proc - Pattern Change /// (Combine with main proc when done)
+
+            window.two_d.compose_material_with_layers = function (base, pattern_array, shape, view_canvas, obj_name) {
+
+                
+                var dimensions              = {};
+                    dimensions.width        = 447;
+                    dimensions.height       = 496;
+                
+                var mixing_canvas           = {};
+                    mixing_canvas.objects   = {};
+                
+                var objects                 = mixing_canvas.objects;
+                var render_time             = 0;
+
+                var pattern_render_time     = 0;
+                
+
+                mixing_canvas.top_layer         = new fabric.Canvas('tl', { width: dimensions.width, height: dimensions.height, });
+                mixing_canvas.pattern_layer     = new fabric.Canvas('pl', { width: dimensions.width, height: dimensions.height, });
+                mixing_canvas.bottom_layer      = new fabric.Canvas('bl', { width: dimensions.width, height: dimensions.height, });
+                
+                mixing_canvas.destination_layer = new fabric.Canvas('dl', { width: dimensions.width, height: dimensions.height, });
+
+                
+                /// Canvas Events ///
+
+                function changed(changes){
+
+                    console.log('change detected!');
+                    console.log(changes);
 
                 }
 
+                Object.observe(objects, changed);
 
-            /// End Canvas Events ///
 
-
-            /// Base 
-
-                fabric.util.loadImage(base.filename, function (image) {
+                    mixing_canvas.bottom_layer.on('after:render', function(options) {
                         
-                    materialOption = new fabric.Image(image);
+                        // Use this renderer for base color change
 
-                    materialOption.set({
+                        // render_time += 1;
+                        // console.log('from shape layer: #' + render_time);
 
-                        top: 0,
-                        left: 0,
-                        width: dimensions.width,
-                        height: dimensions.height,
-                        angle: 0,
-                        opacity: 1, 
+                        // if(render_time == 2){
+                        //     mixing_canvas.mix(view_canvas);
+                        // }    
 
                     });
 
-                    objects['base'] = materialOption;
-                    mixing_canvas.top_layer.add(materialOption).renderAll(); 
-                                                
-                });
+                    mixing_canvas.bottom_layer.on('after:render', function(options) {
+                        
+                        // Use this renderer for pattern color change
 
-            /// End Base
+                        pattern_render_time += 1;
 
-            
-            /// Patterns 
+                        if(pattern_render_time === 4 && _.size(objects) === 6){
+
+                            var s = new Image();
+                            s.src =  mixing_canvas.pattern_layer.toDataURL();
+                            
+                            objects['shape'].fill = new fabric.Pattern({
+                                source: s,
+                                repeat: 'no-repeat',
+                            });
+
+                            mixing_canvas.bottom_layer.renderAll(); 
+                            mixing_canvas.mix(view_canvas);
+
+                            temp = null;
+
+                            $('#_temp_pattern_canvas').remove();
+
+
+                        }    
+
+
+                    });
+
+                    mixing_canvas.mix = function(canvas) {
+
+
+                        if( _.size(mixing_canvas.objects) !== 2 ){
+                            
+                            return false;
+
+                        }
+
+                        var a               =  mixing_canvas.top_layer.getContext('2d');
+                        var b               =  mixing_canvas.bottom_layer.getContext('2d');
+                        var dest            =  mixing_canvas.destination_layer.getContext('2d');
+
+                        a.blendOnto(dest, b, 'multiply'); 
+                        
+                        var imgData = dest.getImageData( 0, 0, dimensions.width, dimensions.height );
+
+                        var c = document.createElement('canvas');
+                        c.setAttribute('id', '_temp_canvas');
+                        c.width = dimensions.width;
+                        c.height = dimensions.height;
+
+                        c.getContext('2d').putImageData(imgData, 0, 0);
+
+                        fabric.Image.fromURL(c.toDataURL(), function(img) {
+
+                            canvas.remove(two_d.objects[obj_name]);
+                            two_d.objects[obj_name] = img;
+
+                            img.left = 0;
+                            img.top = 0;
+                            canvas.add(img);
+                            img.bringToFront();
+                            canvas.renderAll();
+
+                            c = null;
+                            $('#_temp_canvas').remove();
+
+                        })
+
+                        return true;
+
+                    }
+
+
+                /// End Canvas Events ///
+
+
+                /// Base 
+
+                    fabric.util.loadImage(base.filename, function (image) {
+                            
+                        materialOption = new fabric.Image(image);
+
+                        materialOption.set({
+
+                            top: 0,
+                            left: 0,
+                            width: dimensions.width,
+                            height: dimensions.height,
+                            angle: 0,
+                            opacity: 1, 
+
+                        });
+
+                        objects['base'] = materialOption;
+                        mixing_canvas.top_layer.add(materialOption).renderAll(); 
+                                                    
+                    });
+
+                /// End Base
 
                 
+                /// Shape
 
-            /// End Patterns    
+                    fabric.loadSVGFromURL(shape, function (objects, options) {
 
-            
-            /// Shape
+                        materialOption = fabric.util.groupSVGElements(objects, options);
 
-                fabric.util.loadImage(shape, function (image) {
-                    
-                    materialOption = new fabric.Image(image);
+                        materialOption.set({
 
-                    materialOption.set({
+                            top: 0,
+                            left: 0,
+                            width: dimensions.width,
+                            height: dimensions.height,
 
-                        top: 0,
-                        left: 0,
-                        width: dimensions.width,
-                        height: dimensions.height,
-                        angle: 0,
-                        opacity: 1, 
+                        });
 
+                        materialOption.paths[0].fill = base.color;
+                        objects['shape'] = materialOption;
+
+                        mixing_canvas.bottom_layer.add(materialOption); 
+                                                        
                     });
 
-                    var filter = new fabric.Image.filters.Multiply({
+                /// End Shape
+
+                /// Patterns 
+
+                    var ctr = 0;
+
+                    for(ctr = 0; ctr <= _.size(pattern_array) - 1; ctr++){
+
+                        var obj = pattern_array[ctr];
+
+                        fabric.util.loadImage(obj.filename, function (image) {
                         
-                        color: base.color,
+                            materialOption = new fabric.Image(image);
 
-                    });
+                            materialOption.set({
 
-                    materialOption.filters.push(filter);
-                    materialOption.applyFilters(mixing_canvas.bottom_layer.renderAll.bind(mixing_canvas.bottom_layer));
+                                top: 0,
+                                left: 0,
+                                width: dimensions.width,
+                                height: dimensions.height,
+                                angle: 0,
+                                opacity: 1, 
 
-                    objects['shape'] = materialOption;
+                            });
 
-                    mixing_canvas.bottom_layer.add(materialOption); 
-                                                
-                });
+                            var filter = new fabric.Image.filters.Multiply({
+                                
+                                color: obj.color,
 
-            /// End Shaper    
+                            });
 
-        };
+                            materialOption.filters.push(filter);
+                            materialOption.applyFilters(mixing_canvas.bottom_layer.renderAll.bind(mixing_canvas.bottom_layer));
+
+                            objects['layer_' + ctr] = materialOption;
+
+                            mixing_canvas.pattern_layer.add(materialOption); 
+                                                        
+                        });
+
+                    }
+
+                /// End Patterns        
+
+            };
+
+
+        /// End Temp Proc - Pattern Change ///
 
 
         /// Initialize ///
@@ -388,19 +618,46 @@
             window.two_d.load_bases = function(color){
 
                 var folder          = '/images/builder-assets/';
+                var pattern_name    = 'camo/';
 
+
+                var shape           = '';    
                 var base            = {};
                     base.filename   = '';
                     base.color      = '';
 
-                var pattern         = [];
-                var shape           = '';
+                var pattern         = [
+
+                    { 
+                        filename:   folder + pattern_name + 'layer_1.png',
+                        color:      '#dbd1c5',
+                        order:      1,
+                    },  
+
+                    { 
+                        filename:   folder + pattern_name + 'layer_2.png',
+                        color:      '#8a8275',
+                        order:      2,
+                    },    
+
+                    { 
+                        filename:   folder + pattern_name + 'layer_3.png',
+                        color:      '#b6b09f',
+                        order:      3,
+                    },    
+
+                    { 
+                        filename:   folder + pattern_name + 'layer_4.png',
+                        color:      '#594e50',
+                        order:      4,
+                    },    
+
+                ];
 
 
                 /// FRONT
                 base.filename       = folder + 'jersey-front.png';
                 base.color          = color;
-                pattern             = ['front_1','front_2'];
                 shape               = folder + 'jersey-front-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_front,'jersey_front');
@@ -409,7 +666,6 @@
                 /// BACK
                 base.filename       = folder + 'jersey-back.png';
                 base.color          = color;
-                pattern             = ['back_1'];
                 shape               = folder + 'jersey-back-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_back,'jersey_back');
@@ -426,7 +682,6 @@
                 /// RIGHT
                 base.filename       = folder + 'jersey-right.png';
                 base.color          = color;
-                pattern             = [];
                 shape               = folder + 'jersey-right-shape.png';
 
                 window.two_d.compose_material(base, pattern, shape, window.two_d.canvas_right,'jersey_right');

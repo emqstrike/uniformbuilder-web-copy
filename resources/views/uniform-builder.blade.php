@@ -89,6 +89,7 @@
 
                             <div class="canvas-container">
 
+                                <em>Top Layer</em><br />
                                 <canvas class="canvas-views" id="top_layer" width="447" height="496">
                                 
                                 </canvas>
@@ -97,7 +98,16 @@
                             
                             <div class="canvas-container">
 
+                                <em>Bottom Layer</em><br />
                                 <canvas class="canvas-views" id="bottom_layer" width="447" height="496">
+
+                                </canvas>
+
+                            </div>
+
+                            <div class="canvas-container">
+                                <em>Pattern Layer</em><br />
+                                <canvas class="canvas-views" id="pattern_layer" width="447" height="496">
 
                                 </canvas>
 
@@ -105,6 +115,7 @@
 
                             <div class="center-block canvas-container">
 
+                                <em>Destination Layer</em><br />
                                 <canvas class="canvas-views" id="destination_layer" width="447" height="496">
 
                                 </canvas>
