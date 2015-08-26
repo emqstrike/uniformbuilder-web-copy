@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\ColorsAPIClient;
+use App\APIClients\GradientsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
@@ -15,14 +17,20 @@ class MaterialsController extends Controller
 {
     protected $client;
     protected $optionsClient;
+    protected $colorsClient;
+    protected $gradientClient;
 
     public function __construct(
         APIClient $apiClient,
-        MaterialsOptionsAPIClient $optionsClient
+        MaterialsOptionsAPIClient $optionsClient,
+        ColorsAPIClient $colorsClient,
+        GradientsAPIClient $gradientClient
     )
     {
         $this->client = $apiClient;
         $this->optionsClient = $optionsClient;
+        $this->colorsClient = $colorsClient;
+        $this->gradientClient = $gradientClient;
     }
 
     /**
@@ -37,8 +45,13 @@ class MaterialsController extends Controller
             $material->options = $options;
         }
 
+        $colors = $this->colorsClient->getColors();
+        $gradients = $this->gradientClient->getGradients();
+
         return view('administration.materials.materials', [
-            'materials' => $materials
+            'materials' => $materials,
+            'colors' => $colors,
+            'gradients' => $gradients
         ]);
     }
 

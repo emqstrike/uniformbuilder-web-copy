@@ -48,6 +48,31 @@
                     <label class="control-label">Layer Level:</label>
                     <input type="number" name="layer_level" class="form-control" value='1' />
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Colors:</label>
+                    <select name="colors" class="form-control colors" style="width: 100%">
+                        @foreach ($colors as $color)
+                            @if ($color->active)
+                            <option value='{{ $color->color_code }}'>
+                                {{ $color->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Gradients:</label>
+                    <select name="gradients" class="form-control gradients" style="width: 100%">
+                        @foreach ($gradients as $gradient)
+                            @if ($gradient->active)
+                            <option value='{{ $gradient->name }}'>
+                                {{ $gradient->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class='form-group'>
                     <label class="control-label">Reference Notes</label>
                     <div>
@@ -63,6 +88,7 @@
                         </a>
                     </div>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="Save">
@@ -72,3 +98,16 @@
         </div>
     </div>
 </div>
+
+
+@section('custom-scripts')
+$('.colors').select2({
+    placeholder: "Select colors",
+    multiple: true
+});
+
+$('.gradients').select2({
+    placeholder: "Select gradients",
+    multiple: true
+});
+@endsection

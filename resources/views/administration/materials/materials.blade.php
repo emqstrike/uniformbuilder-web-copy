@@ -3,6 +3,7 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
 @endsection
 
@@ -191,6 +192,8 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @endsection
+
