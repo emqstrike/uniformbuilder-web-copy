@@ -57,11 +57,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
-                                <select name='type' class="form-control user-type" disabled>
-                                    <option value='normal' {{ (Session::get('accountType') == 'normal') ? 'selected':'' }}>Normal</option>
-                                    <option value='dealer' {{ (Session::get('accountType') == 'dealer') ? 'selected':'' }}>Dealer</option>
-                                    <option value='administrator' {{ (Session::get('accountType') == 'administrator') ? 'selected':'' }}>Administrator</option>
-                                </select>
+                                <label class="col-md-4 control-label">{{ $user->type }}</label>
                             </div>
                         </div>
 
