@@ -52,6 +52,10 @@
               <canvas class="canvas-views" id="right_view" width="447" height="496">
 
               </canvas>
+
+              <div class="canvas-views" id="test_view" width="447" height="496">
+              
+              </div>
     
         </div>
 
@@ -61,6 +65,7 @@
             <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
             <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
             <a class="btn change-view" data-view="right" id="view_right"><img src=""></a>
+            <a class="btn change-view" data-view="test" id="view_test"><img src=""></a>
 
         </div>
     

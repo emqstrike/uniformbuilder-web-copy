@@ -15,7 +15,7 @@
         $(panel).fadeIn(100);
 
     }
-    
+
 
     $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
        
@@ -220,13 +220,209 @@
                 
                 $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
 
-            });
 
+            });
 
         /// End Camera Views
 
 
     /* End Setup Views */    
+
+
+    /// NEW RENDERER ///
+
+
+        window.ub                   = {};
+        window.ub.objects           = {};
+
+
+        /// Initialize Uniform Builder
+        window.ub.initialize = function (){
+
+            
+            /// Setup Properties
+
+                ub.container_div        = 'test_view'
+                
+                ub.dimensions           = {};
+                ub.dimensions.width     = 447;
+                ub.dimensions.height    = 496;
+
+                ub.stage                = new PIXI.Container();
+
+                ub.pCanvas              = document.getElementById( ub.container_div );
+                ub.renderer             = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
+
+                ub.renderer.backgroundColor = 0xFFFFFF;
+                ub.pCanvas.appendChild( ub.renderer.view );
+
+
+            /// Containers for each view
+
+                ub.left_view            = new PIXI.Container();
+                ub.front_view           = new PIXI.Container();
+                ub.back_view            = new PIXI.Container();
+                ub.right_view           = new PIXI.Container();
+
+                ub.stage.addChild(ub.left_view);
+                ub.stage.addChild(ub.front_view);
+                ub.stage.addChild(ub.back_view);
+                ub.stage.addChild(ub.right_view);
+
+                
+                // zIndex Fix
+                //
+                //  e.g. 
+                //    
+                //  -- assign zIndex first
+                //
+                //  base.zIndex = 1;
+                //  shape.zIndex = 1;
+                //  
+                //  -- then add to container
+                //  
+                //  ub.left_view.addChild(base);
+                //  ub.left_view.addChild(shape);
+                //
+                //  -- call updateLayers Order, passing the container
+                //
+                //  ub.updateLayersOrder(ub.left_view)
+                // 
+
+                ub.updateLayersOrder = function (container) {
+                    
+                    container.children.sort(function(a,b) {
+                        a.zIndex = a.zIndex || 0;
+                        b.zIndex = b.zIndex || 0;
+                        return b.zIndex - a.zIndex
+                    });
+
+                };
+                
+            
+            /// Hide other views except for the left view
+
+                ub.left_view.visible    = true;
+                
+                ub.right_view.visible   = false;
+                ub.front_view.visible   = false;
+                ub.back_view.visible    = false;
+
+
+            /// Initialize Assets
+
+                ub.load_assets();
+
+            
+            /// Begin Rendering
+
+                ub.setup_left_view(); 
+
+                requestAnimationFrame( ub.render_frames );
+
+
+        }
+
+
+        /// Load Assets 
+
+        ub.load_assets = function() {
+
+            
+            ub.assets                   = {};
+
+            ub.assets.folder_name       = '/images/builder-assets/'
+                
+            
+            /// Left View
+                
+            ub.assets.left_view         = {};
+            ub.assets.left_view.base    = ub.assets.folder_name + 'jersey-left.png';
+            ub.assets.left_view.shape   = ub.assets.folder_name + 'jersey-left-shape.png';
+
+
+            /// Right View
+                
+            ub.assets.right_view         = {};
+            ub.assets.right_view.base    = ub.assets.folder_name + 'jersey-right.png';
+            ub.assets.right_view.shape   = ub.assets.folder_name + 'jersey-right-shape.png';
+
+
+            /// Front View
+                
+            ub.assets.front_view         = {};
+            ub.assets.front_view.base    = ub.assets.folder_name + 'jersey-front.png';
+            ub.assets.front_view.shape   = ub.assets.folder_name + 'jersey-front-shape.png';
+
+
+            /// Back View
+                
+            ub.assets.back_view         = {};
+            ub.assets.back_view.base    = ub.assets.folder_name + 'jersey-back.png';
+            ub.assets.back_view.shape   = ub.assets.folder_name + 'jersey-back-shape.png';
+
+
+
+        }
+
+       
+
+
+
+        /// Process Property Changes
+        window.ub.process = function(){
+
+            
+
+        }
+
+        
+        /// Main Render Loop
+        window.ub.render_frames = function() {
+
+            requestAnimationFrame( ub.render_frames );
+            ub.renderer.render( ub.stage );
+
+        }
+
+
+        /// Render Different Views ///
+
+            window.ub.pixi = {};  // PIXI wrapper methods
+
+            window.ub.pixi.new_sprite = function (filename) {
+
+                return new PIXI.Sprite( PIXI.Texture.fromImage( filename ) )
+
+            }
+
+            window.ub.setup_left_view = function(){
+
+                var base        = ub.pixi.new_sprite( ub.assets.left_view.base );
+                var shape       = ub.pixi.new_sprite( ub.assets.left_view.shape );
+
+                base.blendMode  = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex    = 1;
+                base.zIndex     = 0;
+
+                ub.left_view.addChild(base);
+                ub.left_view.addChild(shape);
+
+                ub.updateLayersOrder(ub.left_view);
+
+
+            }
+
+        /// End Render Different Views ///
+
+        
+        /// Start Everything 
+
+        window.ub.initialize();
+
+
+    /// END NEW RENDERER /// 
 
 
     /* Material Mixing Canvas */

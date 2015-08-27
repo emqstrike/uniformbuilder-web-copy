@@ -143,6 +143,9 @@
             <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/context-blender/context-blender.js{{$asset_version}}"></script>
+
+            <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
+
         
         <!-- End Third Party Scripts -->
 
