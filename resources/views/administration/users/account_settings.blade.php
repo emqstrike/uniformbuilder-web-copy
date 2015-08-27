@@ -117,14 +117,6 @@ function isReady() {
     return false;
 }
 
-function showAlert(msg) {
-    $('.flash-alert .flash-title').text('Alert');
-    $('.flash-alert .flash-sub-title').text('Error');
-    $('.flash-alert .flash-message').text(msg);
-    $('.flash-alert').addClass('alert-warning');
-    $('.flash-alert').show();
-}
-
 $('#update-user-form input').on('change', function(){
     if (isReady()) {
         $('#update-user-form .update-user').fadeIn();

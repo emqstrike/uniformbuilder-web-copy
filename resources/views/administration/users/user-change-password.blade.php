@@ -104,13 +104,6 @@ $( document ).ready(function() {
         }
     });  
 
-     $( ".clear" ).click(function() {
-
-        $('.user-new-password').val() = '';
-        $('.user-confirm-new-password').val() = '';
-
-     });
-
     function showError(msg) {
         $('.flash-alert .flash-title').text('Error');
         $('.flash-alert .flash-message').text(msg);
@@ -126,12 +119,6 @@ $( document ).ready(function() {
         $('.flash-alert').addClass('alert-success');
         $('.flash-alert').show();
     }
-
-    $( ".update-user" ).click(function() {
-    
-        $('#confirmPasswordModal').modal('show');
-
-    });  
 
 });
 
