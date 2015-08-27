@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
-                                <label class="col-md-4 control-label">{{ $user->type }}</label>
+                                <label class="col-md-4 control-label"> {{ $user->type }} </label>
                             </div>
                         </div>
 
