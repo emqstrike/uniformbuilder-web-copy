@@ -116,7 +116,7 @@ $(document).ready(function(){
         });
         bindColorsSelect2();
         material.option.gradients.forEach(function(item){
-            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+            $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
         });
         bindGradientsSelect2();
 
