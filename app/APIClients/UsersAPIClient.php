@@ -73,4 +73,12 @@ class UsersAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function updatePassword($data)
+    {
+        $response = $this->post('user/change_password', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }

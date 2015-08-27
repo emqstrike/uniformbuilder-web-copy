@@ -26,12 +26,21 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('login', 'Administration\AuthenticationController@administrationLogin');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
+    // Admin page
+    Route::get('main', 'Administration\AuthenticationController@main');
+
     // Users
     Route::get('users', 'Administration\UsersController@index');
     Route::post('user/add', 'Administration\UsersController@store');
     Route::post('user/update', 'Administration\UsersController@store');
     Route::get('user/add', 'Administration\UsersController@addUserForm');
     Route::get('user/edit/{id}', 'Administration\UsersController@editUserForm');
+
+    Route::get('account_settings/{id}', 'Administration\UsersController@accountSettings');
+    Route::post('account_settings/update', 'Administration\UsersController@store');
+
+    Route::get('account_settings/change_password/{id}', 'Administration\UsersController@changePasswordForm');
+    Route::post('account_settings/change_password', 'Administration\UsersController@changePassword');
 
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');

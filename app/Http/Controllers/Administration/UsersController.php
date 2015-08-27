@@ -1,8 +1,9 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use Session;
-use Redirect;
+use Crypt;
+use \Session;
+use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
@@ -38,6 +39,48 @@ class UsersController extends Controller
     public function addUserForm()
     {
         return view('administration.users.user-create');
+    }
+
+    public function accountSettings($id)
+    {
+        $user = $this->client->getUser($id);
+        return view('administration.users.account_settings', [
+            'user' => $user
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $id = $request->input('user_id');
+        $newPassword = $request->input('new_password');
+        $oldPassword = $request->input('old_password');
+
+        $data = [
+            'user_id' => $id,
+            'new_password' => $newPassword,
+            'old_password' => $oldPassword
+        ];
+
+        $response = $this->client->updatePassword($data);
+
+        if ($response->success)
+        {
+            return Redirect::to('administration/account_settings/change_password/' . $id)
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            return Redirect::to('administration/account_settings/change_password/' . $id)
+                            ->with('message', $response->message);
+        }
+    }
+
+    public function changePasswordForm($id)
+    {
+        $user = $this->client->getUser($id);
+        return view('administration.users.user-change-password', [
+            'user' => $user
+        ]);
     }
 
     public function store(Request $request)
@@ -106,4 +149,5 @@ class UsersController extends Controller
                             ->with('message', $response->message);
         }
     }
+
 }

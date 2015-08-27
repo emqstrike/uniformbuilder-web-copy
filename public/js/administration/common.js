@@ -12,4 +12,13 @@ $(document).ready(function(){
         $('#' + id + ' .' + className).data('value', value);
         $('#' + id).modal('show');
     };
+
+    showAlert = function(msg)
+    {
+        $('.flash-alert .flash-title').text('Alert');
+        $('.flash-alert .flash-sub-title').text('Error');
+        $('.flash-alert .flash-message').text(msg);
+        $('.flash-alert').addClass('alert-warning');
+        $('.flash-alert').show();
+    };
 });
