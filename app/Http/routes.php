@@ -38,7 +38,6 @@ Route::group(array('prefix' => 'administration'), function() {
 
     Route::get('account_settings/{id}', 'Administration\UsersController@accountSettings');
     Route::post('account_settings/update', 'Administration\UsersController@store');
-    // Route::post('account_settings/change_password', 'Administration\UsersController@updatePassword');
 
     Route::get('account_settings/change_password/{id}', 'Administration\UsersController@changePasswordForm');
     Route::post('account_settings/change_password', 'Administration\UsersController@changePassword');
