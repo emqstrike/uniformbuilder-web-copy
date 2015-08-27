@@ -61,8 +61,18 @@ class UsersController extends Controller
         ];
 
         $response = $this->client->updatePassword($data);
-            return Redirect::to('administration/account_settings/' . $id)
+
+        if ($response->success)
+        {
+            //dd($response);
+            return Redirect::to('administration/account_settings/change_password/' . $id)
                             ->with('message', $response->message);
+        }
+        else
+        {
+            return Redirect::to('administration/account_settings/change_password/' . $id)
+                            ->with('message', $response->message);
+        }
     }
 
     public function changePasswordForm($id)
