@@ -203,6 +203,7 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
+                    $('.flash-alert').hide();
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
@@ -226,9 +227,10 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
+                    $('.flash-alert').hide();
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
-                    $('#confirmation-modal').modal('hide');
+                    $('#confirmation-modal-material-option').modal('hide');
                     $('.material-option-' + id).fadeOut();
                 }
             }
