@@ -51,8 +51,8 @@ class MaterialsOptionsController extends Controller
             'setting_code' => $settingCode,
             'layer_level' => $layerLevel,
             'perspective' => $perspective,
-            'colors' => json_encode($colors),
-            'gradients' => json_encode($gradients)
+            'colors' => $colors,
+            'gradients' => $gradients
         ];
 
         try
