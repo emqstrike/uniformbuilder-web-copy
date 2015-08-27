@@ -54,7 +54,11 @@
 
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
+                    @if ($material->thumbnail_path)
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @else
+                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @endif
                 </td>
                 <td>
                     {{ $material->name }}
@@ -68,6 +72,7 @@
                             data-material-option-setting-type="{{ $option->setting_type }}"
                             data-material-option-setting-code="{{ $option->setting_code }}"
                             data-material-option-path="{{ $option->material_option_path }}"
+                            data-material-perspective="{{ $option->perspective }}"
                             data-material-option-id="{{ $option->id }}"
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">
@@ -127,10 +132,21 @@
                             data-material-base-color-code="{{ $material->hex_code }}"
                             data-material-gender="{{ $material->gender }}"
                             data-material-lining-type="{{ $material->lining_type }}"
+@if (env('BUILDER_APPROACH') == '3D')
                             data-material-path="{{ $material->material_path }}"
                             data-bump-map-path="{{ $material->bump_map_path }}"
                             data-shadow-path="{{ $material->shadow_path }}"
                             data-highlight-path="{{ $material->highlight_path }}"
+@elseif (env('BUILDER_APPROACH') == '2D')
+                            data-front-view-path="{{ $material->front_view_path }}"
+                            data-front-view-shape="{{ $material->front_view_shape }}"
+                            data-back-view-path="{{ $material->back_view_path }}"
+                            data-back-view-shape="{{ $material->back_view_shape }}"
+                            data-right-side-view-path="{{ $material->right_side_view_path }}"
+                            data-right-side-view-shape="{{ $material->right_side_view_shape }}"
+                            data-left-side-view-path="{{ $material->left_side_view_path }}"
+                            data-left-side-view-shape="{{ $material->left_side_view_shape }}"
+@endif
                             data-material-id="{{ $material->id }}">
                             <li class="glyphicon glyphicon-info-sign"></li>
                             View
