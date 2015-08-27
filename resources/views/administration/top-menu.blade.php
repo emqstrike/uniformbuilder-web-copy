@@ -36,26 +36,37 @@
             <li>
                 <a href="/administration/fonts"><span class="fa fa-font"></span> Fonts</a>
             </li>
-
-            <li class="divider">
-
             <li>
-                <a href="/administration/cuts/necks"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
-            </li>
-            <li>
-                <a href="/administration/cuts/sleeves"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
-            </li>
-            <li>
-                <a href="/administration/cuts/pants"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
-            </li>
-            <li>
-                <a href="/administration/cuts/waists"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
+                <a href="/administration/gradients"><span class="glyphicon glyphicon-th-list"></span> Gradients</a>
             </li>
 
             <li class="divider">
 
+            <li class="dropdown-header">Styles</li>
             <li>
-                <a href="/administration/skus"><span class="glyphicon glyphicon-th-list"></span> (SKU) Stockkeeping Unit</a>
+                <a href="/administration/cuts/neck-styles"><span class="glyphicon glyphicon-th-list"></span> Neck Styles</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/sleeve-styles"><span class="glyphicon glyphicon-th-list"></span> Sleeve Styles</a>
+            </li>
+
+            <li class="dropdown-header">Cuts</li>
+            <li>
+                <a href="/administration/cuts/pant-cuts"><span class="glyphicon glyphicon-th-list"></span> Pant Cuts</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/waist-cuts"><span class="glyphicon glyphicon-th-list"></span> Waist Cuts</a>
+            </li>
+            
+            <li class="dropdown-header">Panels</li>
+            <li>
+                <a href="/administration/cuts/sleeve-panels"><span class="glyphicon glyphicon-th-list"></span> Sleeve Panels</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/shoulder-panels"><span class="glyphicon glyphicon-th-list"></span> Shoulder Panels</a>
+            </li>
+            <li>
+                <a href="/administration/cuts/underarm-panels"><span class="glyphicon glyphicon-th-list"></span> Underarm Panels</a>
             </li>
         </ul>
     </li>

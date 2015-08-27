@@ -88,11 +88,21 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('font/add', 'Administration\FontsController@addFontForm');
     Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
+    // Gradients
+    Route::get('gradients', 'Administration\GradientsController@index');
+    Route::post('gradient/add', 'Administration\GradientsController@store');
+    Route::post('gradient/update', 'Administration\GradientsController@store');
+    Route::get('gradient/add', 'Administration\GradientsController@addGradientForm');
+    Route::get('gradient/edit/{id}', 'Administration\GradientsController@editGradientForm');
+
     // Cut Styles
-    Route::get('cuts/necks', 'Administration\CutStylesController@necks');
-    Route::get('cuts/sleeves', 'Administration\CutStylesController@sleeves');
-    Route::get('cuts/waists', 'Administration\CutStylesController@waists');
-    Route::get('cuts/pants', 'Administration\CutStylesController@pants');
+    Route::get('cuts/neck-styles', 'Administration\CutStylesController@neckStyles');
+    Route::get('cuts/sleeve-styles', 'Administration\CutStylesController@sleeveStyles');
+    Route::get('cuts/waist-cuts', 'Administration\CutStylesController@waistCuts');
+    Route::get('cuts/pant-cuts', 'Administration\CutStylesController@pantCuts');
+    Route::get('cuts/sleeve-panels', 'Administration\CutStylesController@sleevePanels');
+    Route::get('cuts/shoulder-panels', 'Administration\CutStylesController@shoulderPanels');
+    Route::get('cuts/underarm-panels', 'Administration\CutStylesController@underarmPanels');
     Route::post('cut/add', 'Administration\CutStylesController@store');
     Route::post('cut/update', 'Administration\CutStylesController@store');
     Route::get('cut/add/{type}', 'Administration\CutStylesController@addForm');

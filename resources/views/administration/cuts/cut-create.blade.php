@@ -47,7 +47,7 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New {{ ucfirst($cut_type) }}
                                 </button>
-                                <a href="/administration/cuts/{{ $type }}s" class="btn btn-lg btn-danger">
+                                <a href="/administration/cuts/{{ $type }}" class="btn btn-lg btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

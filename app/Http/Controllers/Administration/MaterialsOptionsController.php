@@ -41,6 +41,8 @@ class MaterialsOptionsController extends Controller
         $settingCode = $request->input('setting_code');
         $layerLevel = $request->input('layer_level');
         $perspective = $request->input('perspective');
+        $colors = $request->input('colors');
+        $gradients = $request->input('gradients');
 
         $data = [
             'material_id' => $materialId,
@@ -48,7 +50,9 @@ class MaterialsOptionsController extends Controller
             'setting_type' => $settingType,
             'setting_code' => $settingCode,
             'layer_level' => $layerLevel,
-            'perspective' => $perspective
+            'perspective' => $perspective,
+            'colors' => $colors,
+            'gradients' => $gradients
         ];
 
         try

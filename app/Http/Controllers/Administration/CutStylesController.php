@@ -19,43 +19,81 @@ class CutStylesController extends Controller
         $this->client = $apiClient;
     }
 
-    public function necks()
+    public function neckStyles()
     {
-        $necks = $this->client->getNecks();
+        $necks = $this->client->getNeckStyles();
 
         return view('administration.cuts.cuts', [
             'cuts' => $necks,
-            'title' => 'Necks'
+            'title' => 'Neck Styles',
+            'cut_type' => 'Neck Style',
+            'create_endpoint' => 'neck-styles'
         ]);
     }
 
-    public function sleeves()
+    public function sleeveStyles()
     {
-        $sleeves = $this->client->getSleeves();
+        $sleeves = $this->client->getSleeveStyles();
 
         return view('administration.cuts.cuts', [
             'cuts' => $sleeves,
-            'title' => 'Sleeves'
+            'title' => 'Sleeve Styles',
+            'create_endpoint' => 'sleeve-styles'
         ]);
     }
 
-    public function pants()
+    public function pantCuts()
     {
-        $pants = $this->client->getPants();
+        $pants = $this->client->getPantCuts();
 
         return view('administration.cuts.cuts', [
             'cuts' => $pants,
-            'title' => 'Pants'
+            'title' => 'Pant Cuts',
+            'create_endpoint' => 'pant-cuts'
         ]);
     }
 
-    public function waists()
+    public function waistCuts()
     {
-        $waists = $this->client->getWaists();
+        $waists = $this->client->getWaistCuts();
 
         return view('administration.cuts.cuts', [
             'cuts' => $waists,
-            'title' => 'Waists'
+            'title' => 'Waist Cuts',
+            'create_endpoint' => 'waist-cuts'
+        ]);
+    }
+
+    public function sleevePanels()
+    {
+        $sleeves = $this->client->getSleevePanels();
+
+        return view('administration.cuts.cuts', [
+            'cuts' => $sleeves,
+            'title' => 'Sleeve Panels',
+            'create_endpoint' => 'sleeve-panels'
+        ]);
+    }
+
+    public function shoulderPanels()
+    {
+        $shoulders = $this->client->getShoulderPanels();
+
+        return view('administration.cuts.cuts', [
+            'cuts' => $shoulders,
+            'title' => 'Shoulder Panels',
+            'create_endpoint' => 'shoulder-panels'
+        ]);
+    }
+
+    public function underarmPanels()
+    {
+        $underarms = $this->client->getUnderarmPanels();
+
+        return view('administration.cuts.cuts', [
+            'cuts' => $underarms,
+            'title' => 'Underarm Panels',
+            'create_endpoint' => 'underarm-panels'
         ]);
     }
 
@@ -63,10 +101,13 @@ class CutStylesController extends Controller
     {
         $cutType = null;
         switch ($type) {
-            case 'pant': $cutType = 'pant cut'; break;
-            case 'waist': $cutType = 'waist cut'; break;
-            case 'sleeve': $cutType = 'sleeve style'; break;
-            case 'neck': $cutType = 'neck style'; break;
+            case 'pant-cuts': $cutType = 'pant cut'; break;
+            case 'waist-cuts': $cutType = 'waist cut'; break;
+            case 'sleeve-styles': $cutType = 'sleeve style'; break;
+            case 'neck-styles': $cutType = 'neck style'; break;
+            case 'sleeve-panels': $cutType = 'sleeve panel'; break;
+            case 'shoulder-panels': $cutType = 'shoulder panel'; break;
+            case 'underarm-panels': $cutType = 'underarm panel'; break;
         }
         return view('administration.cuts.cut-create',[
             'type' => $type,
@@ -77,8 +118,22 @@ class CutStylesController extends Controller
     public function editForm($id)
     {
         $style = $this->client->getCutStyle($id);
+
+        $button = null;
+        switch ($style->cut_type) {
+            case 'pant cut': $button = 'pant cut'; $return = 'pant-cuts'; break;
+            case 'waist cut': $button = 'waist cut'; $return = 'waist-cuts'; break;
+            case 'sleeve style': $button = 'sleeve style'; $return = 'sleeve-styles'; break;
+            case 'neck style': $button = 'neck style'; $return = 'neck-styles'; break;
+            case 'sleeve panel': $button = 'sleeve panel'; $return = 'sleeve-panels'; break;
+            case 'shoulder panel': $button = 'shoulder panel'; $return = 'shoulder-panels'; break;
+            case 'underarm panel': $button = 'underarm panel'; $return = 'underarm-panels'; break;
+        }
+
         return view('administration.cuts.cut-edit', [
-            'cut_style' => $style
+            'style' => $style,
+            'button_text' => $button,
+            'return_endpoint' => $return
         ]);
     }
 
@@ -87,7 +142,17 @@ class CutStylesController extends Controller
         $cutName = $request->input('name');
         $code = $request->input('code');
         $cutType = $request->input('cut_type');
-        $type = substr($cutType, 0, strpos($cutType, ' ')) . 's';
+
+        $return = null;
+        switch ($cutType) {
+            case 'pant cut': $return = 'pant-cuts'; break;
+            case 'waist cut': $return = 'waist-cuts'; break;
+            case 'sleeve style': $return = 'sleeve-styles'; break;
+            case 'neck style': $return = 'neck-styles'; break;
+            case 'sleeve panel': $return = 'sleeve-panels'; break;
+            case 'shoulder panel': $return = 'shoulder-panels'; break;
+            case 'underarm panel': $return = 'underarm-panels'; break;
+        }
 
         $cutId = null;
         if (!empty($request->input('cut_id')))
@@ -96,10 +161,10 @@ class CutStylesController extends Controller
         }
 
         // Code should be Unique
-        if ($this->client->isExist($code, $cutId))
+        if ($this->client->isExist($code, $cutName, $cutId, $error))
         {
-            return Redirect::to('administration/cuts/' . $type)
-                        ->with('message', 'Code already exists');
+            return Redirect::to('administration/cuts/' . $return)
+                        ->with('message', $error);
         }
 
         $data = [
@@ -124,14 +189,14 @@ class CutStylesController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/cuts/' . $type)
+            return Redirect::to('administration/cuts/' . $return)
                             ->with('message', $response->message);
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/cuts/' . $type)
-                            ->with('message', 'There was a problem saving your cut');
+            return Redirect::to('administration/cuts/' . $return)
+                            ->with('message', 'There was a problem saving your changes');
         }
     }
 }

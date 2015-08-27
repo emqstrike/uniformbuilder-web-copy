@@ -22,11 +22,23 @@
                         <option value='waist cut'>Waist Cut</option>
                         <option value='sleeve style'>Sleeve Style</option>
                         <option value='neck style'>Neck Style</option>
+                        <option value='sleeve panel'>Sleeve Panel</option>
+                        <option value='shoulder panel'>Shoulder Panel</option>
+                        <option value='underarm panel'>Underarm Panel</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Setting Type Item:</label>
                     <select name='setting_code' class='form-control setting-codes'>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Perspective:</label>
+                    <select name='perspective' class='form-control perspective'>
+                        <option value='front'>Front View</option>
+                        <option value='back'>Back View</option>
+                        <option value='right'>Right Side View</option>
+                        <option value='left'>Left Side View</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -39,14 +51,30 @@
                     <input type="number" name="layer_level" class="form-control layer-level" value='1' />
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Perspective:</label>
-                    <select name='perspective' class='form-control perspective'>
-                        <option value='front'>Front View</option>
-                        <option value='back'>Back View</option>
-                        <option value='right'>Right Side View</option>
-                        <option value='left'>Left Side View</option>
+                    <label class="control-label">Colors:</label>
+                    <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                        @foreach ($colors as $color)
+                            @if ($color->active)
+                            <option value='{{ $color->color_code }}'>
+                                {{ $color->name }}
+                            </option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Gradients:</label>
+                    <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
+                        @foreach ($gradients as $gradient)
+                            @if ($gradient->active)
+                            <option value='{{ $gradient->id }}'>
+                                {{ $gradient->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class='form-group'>
                     <label class="control-label">Reference Notes</label>
                     <div>

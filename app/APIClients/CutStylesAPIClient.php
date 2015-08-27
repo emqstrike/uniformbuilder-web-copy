@@ -8,21 +8,38 @@ class CutStylesAPIClient extends APIClient
         parent::__construct();
     }
 
-    public function isExist($code, $id = null)
+    public function isExist($code, $name, $id = null, &$error)
     {
-        $style = $this->getByCode($code);
-        if (!is_null($style) && !is_null($id))
+        $styleCode = $this->getByCode($code);
+        $flagCode = false;
+        if (!is_null($styleCode) && !is_null($id))
         {
             $compare = $this->getCutStyle($id);
             if (!is_null($compare))
             {
-                if ($style->id == $compare->id)
+                if ($styleCode->id != $compare->id)
                 {
-                    return false;
+                    $error = 'Code already exist';
+                    $flagCode = true;
                 }
             }
         }
-        return !is_null($style);
+
+        $flagName = false;
+        $styleName = $this->getByName($name);
+        if (!is_null($styleName) && !is_null($id))
+        {
+            $compare = $this->getCutStyle($id);
+            if (!is_null($compare))
+            {
+                if ($styleName->id != $compare->id)
+                {
+                    $error = 'Name already exist';
+                    $flagName = true;
+                }
+            }
+        }
+        return $flagCode || $flagName;
     }
 
     public function createCutStyle($data)
@@ -56,24 +73,39 @@ class CutStylesAPIClient extends APIClient
         return $styles;
     }
 
-    public function getNecks()
+    public function getNeckStyles()
     {
-        return $this->getByType('necks');
+        return $this->getByType('neck-styles');
     }
 
-    public function getSleeves()
+    public function getSleeveStyles()
     {
-        return $this->getByType('sleeves');
+        return $this->getByType('sleeve-styles');
     }
 
-    public function getPants()
+    public function getPantCuts()
     {
-        return $this->getByType('pants');
+        return $this->getByType('pant-cuts');
     }
 
-    public function getWaists()
+    public function getWaistCuts()
     {
-        return $this->getByType('waists');
+        return $this->getByType('waist-cuts');
+    }
+
+    public function getSleevePanels()
+    {
+        return $this->getByType('sleeve-panels');
+    }
+
+    public function getShoulderPanels()
+    {
+        return $this->getByType('shoulder-panels');
+    }
+
+    public function getUnderarmPanels()
+    {
+        return $this->getByType('underarm-panels');
     }
 
     public function getCutStyle($id)
@@ -90,6 +122,18 @@ class CutStylesAPIClient extends APIClient
     public function getByCode($code)
     {
         $response = $this->get('cut/code/' . $code);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->cut_style;
+        }
+        return null;
+    }
+
+    public function getByName($name)
+    {
+        $response = $this->get('cut/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
 
         if ($result->success)

@@ -1,18 +1,24 @@
 $(document).ready(function(){
-    modalConfirm = function(title, message, value, className)
+    modalConfirm = function(title, message, value, className, id)
     {
         className = typeof className !== 'undefined' ? className : 'confirm-yes';
-        $('#confirmation-modal .modal-title').text(title);
-        $('#confirmation-modal .modal-body').text(message);
-        $('#confirmation-modal .' + className).data('value', value);
-        $('#confirmation-modal').modal('show');
-    }
+        if (typeof id === 'undefined')
+        {
+            id = 'confirmation-modal';
+        }
+        $('#' + id + ' .modal-title').text(title);
+        $('#' + id + ' .modal-body').text(message);
+        $('#' + id + ' .delete-yes').addClass(className);
+        $('#' + id + ' .' + className).data('value', value);
+        $('#' + id).modal('show');
+    };
 
-    function showAlert(msg) {
-	    $('.flash-alert .flash-title').text('Alert');
-	    $('.flash-alert .flash-sub-title').text('Error');
-	    $('.flash-alert .flash-message').text(msg);
-	    $('.flash-alert').addClass('alert-warning');
-	    $('.flash-alert').show();
-	}
+    showAlert = function(msg)
+    {
+        $('.flash-alert .flash-title').text('Alert');
+        $('.flash-alert .flash-sub-title').text('Error');
+        $('.flash-alert .flash-message').text(msg);
+        $('.flash-alert').addClass('alert-warning');
+        $('.flash-alert').show();
+    };
 });
