@@ -61,11 +61,10 @@
 
         <div id="camera-views" class="">
     
-            <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
+            <a class="btn change-view" data-view="right" id="view_right"><img src=""></a>
             <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
             <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
-            <a class="btn change-view" data-view="right" id="view_right"><img src=""></a>
-            <a class="btn change-view" data-view="test" id="view_test"><img src=""></a>
+            <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
 
         </div>
     

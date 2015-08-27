@@ -2,24 +2,17 @@
 
     switch_panel('#materials_panel');
 
-    window.ub = {};
-
-    /* UI Objects */
-
-    ub.active = null;
-
 
     function switch_panel(panel){
 
         $('.options_panel').hide();
         $(panel).fadeIn(100);
-
     }
 
 
     $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
        
-        
+
         if(ub.active !== null){
 
             filename = '/images/sidebar/' + ub.active.data('filename') + '.png';
@@ -125,12 +118,14 @@
 
            if(color === "#000000"){ 
 
-                color = "#2f2f2f"; 
+                color = "#111111"; 
                 /// Lighter Black, TODO: Fix this
 
            }
 
-           window.two_d.load_bases(color);
+           // window.two_d.load_bases(color);
+
+           ub.change_color('shape',color);
             
         }); 
 
@@ -168,42 +163,6 @@
 
 
  
-        window.two_d.canvas_front.on('object:added', function(options) {
-
-            window.two_d.refresh_thumbnail_views();
-
-        });
-
-        window.two_d.canvas_back.on('object:added', function(options) {
-
-            window.two_d.refresh_thumbnail_views();
-
-        });
-
-        window.two_d.canvas_left.on('object:added', function(options) {
-
-            window.two_d.refresh_thumbnail_views();
-
-        });
-
-        window.two_d.canvas_right.on('object:added', function(options) {
-
-            window.two_d.refresh_thumbnail_views();
-
-        });
-
-
-
-        /// Refresh Thumbnail Views ///
-
-        window.two_d.refresh_thumbnail_views = function(){
-
-            $('a#view_front > img').attr('src', window.two_d.canvas_front.toDataURL('image/png'));
-            $('a#view_back > img').attr('src', window.two_d.canvas_back.toDataURL('image/png'));
-            $('a#view_left > img').attr('src', window.two_d.canvas_left.toDataURL('image/png'));
-            $('a#view_right > img').attr('src', window.two_d.canvas_right.toDataURL('image/png'));
-
-        }
 
 
         /// Camera Views
@@ -213,13 +172,12 @@
 
                 var view = $(this).data('view');
 
-                $('#front_view').parent().fadeOut();
-                $('#back_view').parent().fadeOut();
-                $('#left_view').parent().fadeOut();
-                $('#right_view').parent().fadeOut();
-                
-                $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
+                ub.left_view.position.x = ub.dimensions.width;
+                ub.right_view.position.x = ub.dimensions.width;
+                ub.front_view.position.x = ub.dimensions.width;
+                ub.back_view.position.x  = ub.dimensions.width;
 
+                ub[view + '_view'].position.x = 0;
 
             });
 
@@ -242,8 +200,9 @@
             
             /// Setup Properties
 
+                ub.active = null;
                 ub.container_div        = 'test_view'
-                
+
                 ub.dimensions           = {};
                 ub.dimensions.width     = 447;
                 ub.dimensions.height    = 496;
@@ -253,7 +212,7 @@
                 ub.pCanvas              = document.getElementById( ub.container_div );
                 ub.renderer             = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
 
-                ub.renderer.backgroundColor = 0xFFFFFF;
+                ub.renderer.backgroundColor = 0xffffff;
                 ub.pCanvas.appendChild( ub.renderer.view );
 
 
@@ -300,25 +259,43 @@
                 };
                 
             
-            /// Hide other views except for the left view
+            /// Hide other views except for the left view, by bringing them offscreen, still visible so we can still get the thumbnails by using renderTexture
 
-                ub.left_view.visible    = true;
+                ub.front_view.position.x = 0;
                 
-                ub.right_view.visible   = false;
-                ub.front_view.visible   = false;
-                ub.back_view.visible    = false;
-
+                ub.right_view.position.x = ub.dimensions.width;
+                ub.back_view.position.x  = ub.dimensions.width;
+                ub.left_view.position.x = ub.dimensions.width;
+                
 
             /// Initialize Assets
 
                 ub.load_assets();
 
+
+            /// Activate Views
+            
+                $('#front_view').parent().fadeOut();
+                $('#back_view').parent().fadeOut();
+                $('#left_view').parent().fadeOut();
+                $('#right_view').parent().fadeOut();
+                $('#test_view').parent().fadeOut();
+                
+                // $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
+                $('#test_view').parent().fadeIn();
+
+                window.ub.refresh_thumbnails();    
+
             
             /// Begin Rendering
 
                 ub.setup_left_view(); 
+                ub.setup_right_view(); 
+                ub.setup_front_view(); 
+                ub.setup_back_view(); 
 
                 requestAnimationFrame( ub.render_frames );
+                ub.pass = 0;
 
 
         }
@@ -378,10 +355,20 @@
 
         
         /// Main Render Loop
+
         window.ub.render_frames = function() {
 
             requestAnimationFrame( ub.render_frames );
             ub.renderer.render( ub.stage );
+
+            /// Refresh Thumbnail on the initial 4 passes
+            
+            if(ub.pass < 4){
+
+                ub.refresh_thumbnails();
+                ub.pass += 1;
+
+            }    
 
         }
 
@@ -398,8 +385,15 @@
 
             window.ub.setup_left_view = function(){
 
+
                 var base        = ub.pixi.new_sprite( ub.assets.left_view.base );
                 var shape       = ub.pixi.new_sprite( ub.assets.left_view.shape );
+
+                
+                ub.objects.left_view = {};
+
+                ub.objects.left_view.base = base;
+                ub.objects.left_view.shape = shape;
 
                 base.blendMode  = PIXI.BLEND_MODES.MULTIPLY;
 
@@ -414,7 +408,128 @@
 
             }
 
+
+            window.ub.setup_right_view = function(){
+
+
+                var base        = ub.pixi.new_sprite( ub.assets.right_view.base );
+                var shape       = ub.pixi.new_sprite( ub.assets.right_view.shape );
+
+                
+                ub.objects.right_view = {};
+
+                ub.objects.right_view.base = base;
+                ub.objects.right_view.shape = shape;
+
+                base.blendMode  = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex    = 1;
+                base.zIndex     = 0;
+
+                ub.right_view.addChild(base);
+                ub.right_view.addChild(shape);
+
+                ub.updateLayersOrder(ub.right_view);
+
+
+            }
+
+            window.ub.setup_front_view = function(){
+
+
+                var base        = ub.pixi.new_sprite( ub.assets.front_view.base );
+                var shape       = ub.pixi.new_sprite( ub.assets.front_view.shape );
+
+                
+                ub.objects.front_view = {};
+
+                ub.objects.front_view.base = base;
+                ub.objects.front_view.shape = shape;
+
+                base.blendMode  = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex    = 1;
+                base.zIndex     = 0;
+
+                ub.front_view.addChild(base);
+                ub.front_view.addChild(shape);
+
+                ub.updateLayersOrder(ub.front_view);
+
+
+            }
+
+
+            window.ub.setup_back_view = function(){
+
+
+                var base        = ub.pixi.new_sprite( ub.assets.back_view.base );
+                var shape       = ub.pixi.new_sprite( ub.assets.back_view.shape );
+
+                
+                ub.objects.back_view = {};
+
+                ub.objects.back_view.base = base;
+                ub.objects.back_view.shape = shape;
+
+                base.blendMode  = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex    = 1;
+                base.zIndex     = 0;
+
+                ub.back_view.addChild(base);
+                ub.back_view.addChild(shape);
+
+                ub.updateLayersOrder(ub.back_view);
+
+
+            }
+
         /// End Render Different Views ///
+
+        /// Process Changes ///
+
+            ub.change_color = function (obj, color) {
+
+                var color_value = parseInt(color.substring(1), 16);
+
+                ub.objects.left_view[obj].tint = color_value;
+                ub.objects.right_view[obj].tint = color_value;
+                ub.objects.front_view[obj].tint = color_value;
+                ub.objects.back_view[obj].tint  = color_value;
+
+                ub.refresh_thumbnails();
+
+            }
+
+        /// End Process Changes ///
+
+        /// Utilities ///
+
+            ub.getThumbnailImage = function (view) {
+
+                var texture = new PIXI.RenderTexture(ub.renderer,447,496);
+                texture.render(ub[view]);
+
+                return texture.getImage().src;
+
+            }
+
+            
+            /// Refresh Thumbnail Views ///
+
+            ub.refresh_thumbnails = function(){
+
+                $('a#view_front > img').attr('src', ub.getThumbnailImage('front_view'));
+                $('a#view_back > img').attr('src', ub.getThumbnailImage('back_view'));
+
+                $('a#view_left > img').attr('src', ub.getThumbnailImage('left_view'));
+                $('a#view_right > img').attr('src', ub.getThumbnailImage('right_view'));
+            
+            }
+
+
+        /// End Utilities ///
 
         
         /// Start Everything 
@@ -539,7 +654,7 @@
                 
                 /// Patterns 
 
-                                        window.pa = pattern_array;
+                    window.pa = pattern_array;
 
 
                 /// End Patterns    
