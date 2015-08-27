@@ -98,18 +98,3 @@
         </div>
     </div>
 </div>
-
-
-@section('custom-scripts')
-$('.colors').select2({
-    placeholder: "Select colors",
-    multiple: true,
-    allowClear: true
-});
-
-$('.gradients').select2({
-    placeholder: "Select gradients",
-    multiple: true,
-    allowClear: true
-});
-@endsection

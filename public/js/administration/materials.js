@@ -100,7 +100,9 @@ $(document).ready(function(){
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
-                perspective: $(this).data('material-perspective'),
+                perspective: $(this).data('material-option-perspective'),
+                colors: $(this).data('material-option-colors'),
+                gradients: $(this).data('material-option-gradients'),
             }
         };
 
@@ -109,6 +111,14 @@ $(document).ready(function(){
         loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
         $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
+        material.option.colors.forEach(function(item){
+            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+        });
+        bindColorsSelect2();
+        material.option.gradients.forEach(function(item){
+            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+        });
+        bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);
         $('#edit-material-option-modal .material-option-id').val(material.option.id);
@@ -190,7 +200,6 @@ $(document).ready(function(){
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
-        console.log('Delete Material');
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material/delete/";
         $.ajax({
@@ -214,7 +223,6 @@ $(document).ready(function(){
     });
 
     $('#confirmation-modal-material-option .confirm-yes').on('click', function(){
-        console.log('Delete Material Option');
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/delete/";
         $.ajax({
@@ -289,4 +297,25 @@ $(document).ready(function(){
             }
         });
     });
+
+    function bindColorsSelect2()
+    {
+        $('.colors').select2({
+            placeholder: "Select colors",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    function bindGradientsSelect2()
+    {
+        $('.gradients').select2({
+            placeholder: "Select gradients",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    bindColorsSelect2();
+    bindGradientsSelect2();
 });
