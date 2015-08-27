@@ -69,6 +69,7 @@ class AuthenticationController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
+
         try
         {
             $response = $this->client->post('user/login', [
@@ -84,6 +85,7 @@ class AuthenticationController extends Controller
             // Only 'administrator' Account Type can login
             if ($result->success && $result->user->type == 'administrator')
             {
+                Session::put('id', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
                 Session::put('email', $result->user->email);
@@ -124,6 +126,7 @@ class AuthenticationController extends Controller
 
     public function logout()
     {
+        if (Session::has('id')) Session::forget('id');
         if (Session::has('email')) Session::forget('email');
         if (Session::has('isLoggedIn')) Session::forget('isLoggedIn');
         if (Session::has('fullname')) Session::forget('fullname');
@@ -131,5 +134,10 @@ class AuthenticationController extends Controller
 
         Log::info('User Logout');
         return redirect('administration/login');
+    }
+
+    public function main()
+    {
+        return view('administration.oops');
     }
 }
