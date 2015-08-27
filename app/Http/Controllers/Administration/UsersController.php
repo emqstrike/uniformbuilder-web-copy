@@ -65,7 +65,6 @@ class UsersController extends Controller
 
         if ($response->success)
         {
-            //dd($response);
             return Redirect::to('administration/account_settings/change_password/' . $id)
                             ->with('message', $response->message);
         }
