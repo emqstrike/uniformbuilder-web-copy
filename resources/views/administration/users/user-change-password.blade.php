@@ -1,11 +1,5 @@
 @extends('administration.main')
 
-@section('styles')
-
-<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
-@endsection
-
 @section('content')
 
 <div class="container-fluid main-content">
@@ -71,10 +65,6 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('scripts')
 
 @endsection
 
