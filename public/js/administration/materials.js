@@ -121,15 +121,32 @@ $(document).ready(function(){
             color_code: $(this).data('material-base-color-code'),
             gender: $(this).data('material-gender'),
             lining_type: $(this).data('material-lining-type'),
-            material_path: $(this).data('material-path'),
-            bump_map_path: $(this).data('bump-map-path'),
-            shadow_path: $(this).data('shadow-path'),
-            highlight_path: $(this).data('highlight-path'),
-            front_view_path: $(this).data('front-view-path'),
-            back_view_path: $(this).data('back-view-path'),
-            right_side_view_path: $(this).data('right-side-view-path'),
-            left_side_view_path: $(this).data('left-side-view-path')
-        };console.log(material);
+            v3d: {
+                material_path: $(this).data('material-path'),
+                bump_map_path: $(this).data('bump-map-path'),
+                shadow_path: $(this).data('shadow-path'),
+                highlight_path: $(this).data('highlight-path'),
+            },
+            v2d: {
+                front: {
+                    view_path: $(this).data('front-view-path'),
+                    shape_path: $(this).data('front-view-shape')
+                },
+                back: {
+                    view_path: $(this).data('back-view-path'),
+                    shape_path: $(this).data('back-view-shape')
+                },
+                right_side: {
+                    view_path: $(this).data('right-side-view-path'),
+                    shape_path: $(this).data('right-side-view-shape')
+                },
+                left_side: {
+                    view_path: $(this).data('left-side-view-path'),
+                    shape_path: $(this).data('left-side-view-shape')
+                }
+            }
+        };
+
         $('#view-material-modal .modal-title').text(material.name);
         $('#view-material-modal .modal-material-code').text(material.code);
         $('#view-material-modal .modal-material-type').text(material.type);
@@ -142,10 +159,14 @@ $(document).ready(function(){
         $('#view-material-modal .bump-map-image').attr('src', material.bump_map_path);
         $('#view-material-modal .shadow-image').attr('src', material.shadow_path);
         $('#view-material-modal .highlight-image').attr('src', material.highlight_path);
-        $('#view-material-modal .front-view-image').attr('src', material.front_view_path);
-        $('#view-material-modal .back-view-image').attr('src', material.back_view_path);
-        $('#view-material-modal .right-side-view-image').attr('src', material.right_side_view_path);
-        $('#view-material-modal .left-side-view-image').attr('src', material.left_side_view_path);
+        $('#view-material-modal .front-view-image').attr('src', material.v2d.front.view_path);
+        $('#view-material-modal .front-view-shape').attr('src', material.v2d.front.shape_path);
+        $('#view-material-modal .back-view-image').attr('src', material.v2d.back.view_path);
+        $('#view-material-modal .back-view-shape').attr('src', material.v2d.back.shape_path);
+        $('#view-material-modal .right-side-view-image').attr('src', material.v2d.right_side.shape_path);
+        $('#view-material-modal .right-side-view-shape').attr('src', material.v2d.right_side.shape_path);
+        $('#view-material-modal .left-side-view-image').attr('src', material.v2d.left_side.view_path);
+        $('#view-material-modal .left-side-view-shape').attr('src', material.v2d.left_side.shape_path);
         $('.nav-tabs').tab('show');
         $('#view-material-modal').modal('show');
     });
@@ -273,9 +294,7 @@ $(document).ready(function(){
 
     $('#edit-material-option-modal .setting-types').on('change', function(){
         var key = $(this).val();
-        console.log(key);
         var items = materialOptionSettings[key];
-        console.log(items);
         loadItemsToSettingCodes(items, 'edit');
     });
 
@@ -293,4 +312,34 @@ $(document).ready(function(){
                 );
         });
     }
+
+    // Delete Material Image
+    $('.delete-material-image').on('click', function(){
+        var id = $(this).data('material-id');console.log(id);
+        var field = $(this).data('field');console.log(field);
+        $('#confirmation-modal .confirm-delete-field').data('field', field);
+        modalConfirm('Remove pattern', 'Are you sure you want to delete this image?', id, 'confirm-delete-field');
+    });
+
+    // Delete Layer
+    $('#confirmation-modal .confirm-delete-field').on('click', function(){
+        var id = $(this).data('value');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/material/deleteImage/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
@@ -77,21 +78,25 @@ class MaterialsOptionsController extends Controller
         $response = null;
         if (!empty($materialOptionId))
         {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
             $data['id'] = $materialOptionId;
             $response = $this->client->update($data);
         }
         else
         {
+            Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->client->create($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('/administration/materials')
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem saving your material');
         }

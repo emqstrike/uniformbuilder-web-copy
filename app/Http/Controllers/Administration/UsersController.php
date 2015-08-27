@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
+use Crypt;
 use \Session;
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\UsersAPIClient as APIClient;
@@ -37,6 +39,48 @@ class UsersController extends Controller
     public function addUserForm()
     {
         return view('administration.users.user-create');
+    }
+
+    public function accountSettings($id)
+    {
+        $user = $this->client->getUser($id);
+        return view('administration.users.account_settings', [
+            'user' => $user
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $id = $request->input('user_id');
+        $newPassword = $request->input('new_password');
+        $oldPassword = $request->input('old_password');
+
+        $data = [
+            'user_id' => $id,
+            'new_password' => $newPassword,
+            'old_password' => $oldPassword
+        ];
+
+        $response = $this->client->updatePassword($data);
+
+        if ($response->success)
+        {
+            return Redirect::to('administration/account_settings/change_password/' . $id)
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            return Redirect::to('administration/account_settings/change_password/' . $id)
+                            ->with('message', $response->message);
+        }
+    }
+
+    public function changePasswordForm($id)
+    {
+        $user = $this->client->getUser($id);
+        return view('administration.users.user-change-password', [
+            'user' => $user
+        ]);
     }
 
     public function store(Request $request)
@@ -81,22 +125,29 @@ class UsersController extends Controller
         $response = null;
         if (!empty($userId))
         {
+            Log::info('Attempts to update User#' . $userId);
             $response = $this->client->updateUser($data);
         }
         else
         {
+            $logData = $data;
+            unset($logData['password']);
+            Log::info('Attempts to create a new User ' . json_encode($logData));
             $response = $this->client->createUser($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/users')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/users')
                             ->with('message', $response->message);
         }
     }
+
 }

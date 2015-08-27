@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administration;
 use \Session;
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\CutStylesAPIClient as APIClient;
@@ -110,21 +111,25 @@ class CutStylesController extends Controller
         $response = null;
         if (!empty($cutId))
         {
+            Log::info('Attempts to update CutStyle#' . $cutId);
             $data['id'] = $cutId;
             $response = $this->client->updateCutStyle($data);
         }
         else
         {
+            Log::info('Attempts to create a new Cut Style ' . json_encode($data));
             $response = $this->client->createCutStyle($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/cuts/' . $type)
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/cuts/' . $type)
                             ->with('message', 'There was a problem saving your cut');
         }

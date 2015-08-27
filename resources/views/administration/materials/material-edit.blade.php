@@ -149,7 +149,37 @@
                             <label class="col-md-4 control-label">Front View File</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control front-view-file" name="front_view_path" accept="image/*">
-                                <img src="{{ $material->front_view_path }}" width="100px" height="100px">
+                                @if ($material->front_view_path)
+                                <div class="front_view_path">
+                                    <img src="{{ $material->front_view_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="front_view_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Front View Shape</label>
+                            <div class="col-md-6 front-view">
+                                <input type="file" class="form-control front-shape-file" name="front_view_shape" accept="image/*">
+                                @if ($material->front_view_shape)
+                                <div class="front_view_shape">
+                                    <img src="{{ $material->front_view_shape }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="front_view_shape"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
 
@@ -157,15 +187,76 @@
                             <label class="col-md-4 control-label">Back View File</label>
                             <div class="col-md-6 back-view">
                                 <input type="file" class="form-control back-view-file" name="back_view_path" accept="image/*">
-                                <img src="{{ $material->back_view_path }}" width="100px" height="100px">
+                                @if ($material->back_view_path)
+                                <div class="back_view_path">
+                                    <img src="{{ $material->back_view_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="back_view_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Back View Shape</label>
+                            <div class="col-md-6 back-view">
+                                <input type="file" class="form-control back-shape-file" name="back_view_shape" accept="image/*">
+                                @if ($material->back_view_shape)
+                                <div class="back_view_shape">
+                                    <img src="{{ $material->back_view_shape }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="back_view_shape"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View File</label>
                             <div class="col-md-6 right-side-view">
                                 <input type="file" class="form-control right-side-view-file" name="right_side_view_path" accept="image/*">
-                                <img src="{{ $material->right_side_view_path }}" width="100px" height="100px">
+                                @if ($material->right_side_view_path)
+                                <div class="right_side_view_path">
+                                    <img src="{{ $material->right_side_view_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="right_side_view_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Right Side View Shape</label>
+                            <div class="col-md-6 right-side-view">
+                                <input type="file" class="form-control right-side-shape-file" name="right_side_view_shape" accept="image/*">
+                                @if ($material->right_side_view_shape)
+                                <div class="right_side_view_shape">
+                                    <img src="{{ $material->right_side_view_shape }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="right_side_view_shape"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
 
@@ -173,7 +264,37 @@
                             <label class="col-md-4 control-label">Left Side View File</label>
                             <div class="col-md-6 left-side-view">
                                 <input type="file" class="form-control left-side-view-file" name="left_side_view_path" accept="image/*">
-                                <img src="{{ $material->left_side_view_path }}" width="100px" height="100px">
+                                @if ($material->left_side_view_path)
+                                <div class="left_side_view_path">
+                                    <img src="{{ $material->left_side_view_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="left_side_view_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Left Side View Shape</label>
+                            <div class="col-md-6 left-side-view">
+                                <input type="file" class="form-control left-side-shape-file" name="left_side_view_shape" accept="image/*">
+                                @if ($material->left_side_view_shape)
+                                <div class="left_side_view_shape">
+                                    <img src="{{ $material->left_side_view_shape }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="left_side_view_shape"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
 @endif
@@ -182,7 +303,18 @@
                             <label class="col-md-4 control-label">Thumbnail File</label>
                             <div class="col-md-6">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
-                                <img src="{{ $material->thumbnail_path }}" width="100px" height="100px">
+                                @if ($material->thumbnail_path)
+                                <div class="thumbnail_path">
+                                    <img src="{{ $material->thumbnail_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="thumbnail_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
 
@@ -204,6 +336,8 @@
         </div>
     </div>
 </div>
+@include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
+
 
 @endsection
 
@@ -221,4 +355,10 @@ $(document).ready(function(){
     });
 });
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/administration/materials.js"></script>
 @endsection

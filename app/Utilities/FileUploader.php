@@ -87,7 +87,7 @@ class FileUploader
             // Just Retain the filename
             $folder = $s3folder . '/' . env('APP_ENV');
         }
-        elseif ($type == 'material_perspective_view')
+        elseif (($type == 'material_perspective_view') || ($type == 'material_perspective_shape'))
         {
             // Retain the passed filename
         }

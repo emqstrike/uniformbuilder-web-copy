@@ -1,18 +1,12 @@
 @extends('administration.main')
 
-@section('styles')
-
-<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
-@endsection
-
 @section('content')
 
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Modify User</div>
+                <div class="panel-heading">Account Settings</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -21,13 +15,13 @@
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
-                            </ul>
+                            </ul>   
                         </div>
                     @endif
 
                     <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" name="user_id" value="{{ Session::get('id') }}">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
@@ -55,27 +49,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
-                            <div class="col-md-6 bump">
-                                <input type="password" class="form-control user-password" name="password">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6 shadow">
-                                <input type="password" class="form-control user-confirm-password" name="confirm_password">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
-                                <select name='type' class="form-control user-type">
-                                    <option value='normal' {{ ($user->type == 'normal') ? 'selected':'' }}>Normal</option>
-                                    <option value='dealer' {{ ($user->type == 'dealer') ? 'selected':'' }}>Dealer</option>
-                                    <option value='administrator' {{ ($user->type == 'administrator') ? 'selected':'' }}>Administrator</option>
-                                </select>
+                                <label class="col-md-4 control-label"> {{ $user->type }} </label>
                             </div>
                         </div>
 
@@ -85,7 +61,7 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update User
                                 </button>
-                                <a href="/administration/users" class="btn btn-lg btn-danger">
+                                <a href="/administration/main" class="btn btn-lg btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -101,6 +77,8 @@
 @endsection
 
 @section('scripts')
+
+<script type="text/javascript" src="/js/administration/common.js"></script>
 
 @endsection
 
@@ -127,14 +105,6 @@ function isReady() {
         return true;
     }
     return false;
-}
-
-function showAlert(msg) {
-    $('.flash-alert .flash-title').text('Alert');
-    $('.flash-alert .flash-sub-title').text('Error');
-    $('.flash-alert .flash-message').text(msg);
-    $('.flash-alert').addClass('alert-warning');
-    $('.flash-alert').show();
 }
 
 $('#update-user-form input').on('change', function(){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
@@ -94,20 +95,24 @@ class PatternsController extends Controller
         $response = null;
         if (!empty($patternId))
         {
+            Log::info('Attempts to update Pattern#' . $patternId);
             $response = $this->client->updatePattern($data);
         }
         else
         {
+            Log::info('Attempts to create a new Pattern ' . json_encode($data));
             $response = $this->client->createPattern($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/patterns')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/patterns')
                             ->with('message', $response->message);
         }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Administration;
 
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
@@ -221,6 +222,20 @@ class MaterialsController extends Controller
                                                     );
                     }
                 }
+                // Front Shape File
+                $frontShapeFile = $request->file('front_view_shape');
+                if (isset($frontShapeFile))
+                {
+                    if ($frontShapeFile->isValid())
+                    {
+                        $data['front_view_shape'] = FileUploader::upload(
+                                                        $frontShapeFile,
+                                                        $materialName,
+                                                        'material_perspective_shape',
+                                                        'front_shape.png'
+                                                    );
+                    }
+                }
                 // Back View File
                 $backViewFile = $request->file('back_view_path');
                 if (isset($backViewFile))
@@ -232,6 +247,20 @@ class MaterialsController extends Controller
                                                         $materialName,
                                                         'material_perspective_view',
                                                         'back_view.png'
+                                                    );
+                    }
+                }
+                // Back Shape File
+                $backShapeFile = $request->file('back_view_shape');
+                if (isset($backShapeFile))
+                {
+                    if ($backShapeFile->isValid())
+                    {
+                        $data['back_view_shape'] = FileUploader::upload(
+                                                        $backShapeFile,
+                                                        $materialName,
+                                                        'material_perspective_shape',
+                                                        'back_shape.png'
                                                     );
                     }
                 }
@@ -249,6 +278,20 @@ class MaterialsController extends Controller
                                                     );
                     }
                 }
+                // Right Side Shape File
+                $rightShapeFile = $request->file('right_side_view_shape');
+                if (isset($rightShapeFile))
+                {
+                    if ($rightShapeFile->isValid())
+                    {
+                        $data['right_side_view_shape'] = FileUploader::upload(
+                                                        $rightShapeFile,
+                                                        $materialName,
+                                                        'material_perspective_shape',
+                                                        'right_side_shape.png'
+                                                    );
+                    }
+                }
                 // Left Side View File
                 $leftSideViewFile = $request->file('left_side_view_path');
                 if (isset($leftSideViewFile))
@@ -260,6 +303,20 @@ class MaterialsController extends Controller
                                                         $materialName,
                                                         'material_perspective_view',
                                                         'left_side_view.png'
+                                                    );
+                    }
+                }
+                // Left Side Shape File
+                $leftShapeFile = $request->file('left_side_view_shape');
+                if (isset($leftShapeFile))
+                {
+                    if ($leftShapeFile->isValid())
+                    {
+                        $data['left_side_view_shape'] = FileUploader::upload(
+                                                        $leftShapeFile,
+                                                        $materialName,
+                                                        'material_perspective_shape',
+                                                        'left_side_shape.png'
                                                     );
                     }
                 }
@@ -276,20 +333,24 @@ class MaterialsController extends Controller
         $response = null;
         if (!empty($materialId))
         {
+            Log::info('Attempts to update Material#' . $materialId);
             $response = $this->client->updateMaterial($data);
         }
         else
         {
+            Log::info('Attempts to create a new Material ' . json_encode($data));
             $response = $this->client->createMaterial($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('/administration/materials')
                             ->with('message', $response->message);
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem saving your material');
         }
