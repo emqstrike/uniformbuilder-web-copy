@@ -88,7 +88,6 @@
 
 @section('scripts')
 
-<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 
 @endsection

@@ -76,8 +76,6 @@
 
 @section('scripts')
 
-<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
-
 @endsection
 
 @section('custom-scripts')
