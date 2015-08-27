@@ -50,10 +50,10 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Colors:</label>
-                    <select name="colors" class="form-control colors" style="width: 100%">
+                    <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
                         @foreach ($colors as $color)
                             @if ($color->active)
-                            <option value='{{ $color->color_code }}'>
+                            <option value='{{ $color->color_code }}' selected="selected">
                                 {{ $color->name }}
                             </option>
                             @endif
@@ -62,10 +62,10 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Gradients:</label>
-                    <select name="gradients" class="form-control gradients" style="width: 100%">
+                    <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
                         @foreach ($gradients as $gradient)
                             @if ($gradient->active)
-                            <option value='{{ $gradient->name }}'>
+                            <option value='{{ $gradient->id }}' selected="selected">
                                 {{ $gradient->name }}
                             </option>
                             @endif
@@ -103,11 +103,13 @@
 @section('custom-scripts')
 $('.colors').select2({
     placeholder: "Select colors",
-    multiple: true
+    multiple: true,
+    allowClear: true
 });
 
 $('.gradients').select2({
     placeholder: "Select gradients",
-    multiple: true
+    multiple: true,
+    allowClear: true
 });
 @endsection

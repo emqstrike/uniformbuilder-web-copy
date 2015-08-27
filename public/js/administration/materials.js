@@ -167,12 +167,30 @@ $(document).ready(function(){
         });
     });
 
+    // DELETE MATERIAL
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
-        modalConfirm('Remove Material', 'Are you sure you want to delete the Material?', id);
+        modalConfirm(
+            'Remove Material',
+            'Are you sure you want to delete the Material?',
+            id
+        );
+    });
+
+    // DELETE MATERIAL OPTION
+    $('.delete-material-option').on('click', function(){
+        var id = $(this).data('material-option-id');
+        modalConfirm(
+            'Remove Material Option',
+            'Are you sure you want to delete the Material Option?',
+            id,
+            'confirm-yes',
+            'confirmation-modal-material-option'
+        );
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
+        console.log('Delete Material');
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material/delete/";
         $.ajax({
@@ -189,6 +207,29 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.material-' + id).fadeOut();
+                }
+            }
+        });
+    });
+
+    $('#confirmation-modal-material-option .confirm-yes').on('click', function(){
+        console.log('Delete Material Option');
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material_option/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $('#confirmation-modal').modal('hide');
+                    $('.material-option-' + id).fadeOut();
                 }
             }
         });

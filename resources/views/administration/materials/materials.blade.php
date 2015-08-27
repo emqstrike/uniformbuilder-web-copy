@@ -66,7 +66,7 @@
                 </td>
                 <td>
                     @foreach ($material->options as $option)
-                    <div style="margin-top: 3px;">
+                    <div style="margin-top: 3px;" class="material-option-{{ $option->id }}">
                         <a href="#" class='btn btn-xs btn-info edit-material-option'
                             data-material-option-name="{{ $option->name }}"
                             data-material-option-layer-level="{{ $option->layer_level }}"
@@ -81,6 +81,9 @@
                             {{ $option->name }}
                         </a>
                         <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
+                        <a href="#" class="btn btn-danger pull-right btn-xs delete-material-option" data-material-option-id="{{ $option->id }}" role="button">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </a>
                     </div>
                     @endforeach
                     <div style="margin-top: 10px;">
@@ -186,7 +189,9 @@
 
 @include('administration.materials.material-option-edit-modal')
 
-@include('partials.confirmation-modal')
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
 @endsection
 
