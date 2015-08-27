@@ -1,112 +1,20 @@
 $(document).ready(function(){
 
-    var materialOptionSettings = {
-        'pant cut': [
-            {code: 'PA01', value: 'Slim'},
-            {code: 'PA02', value: 'Standard / Regular'},
-            {code: 'PA04', value: 'Low Rise'},
-            {code: 'PA05', value: 'Full Snap warm-ups'},
-            {code: 'PA06', value: '12" Bottom Size Zippers'},
-            {code: 'PA07', value: 'Full Cut'}
-        ],
-        'waist cut': [
-            {code: 'WA01', value: '2.5" Baseball style Loops and Tunnels'},
-            {code: 'WA02', value: '2.5" Baseball style Loops only'},
-            {code: 'WA03', value: '2.5" Baseball style NO Loops or Tunnels with snaps and zipper'},
-            {code: 'WA04', value: '2.5" Baseball style NO Loops or Tunnels w/o snaps and zipper'},
-            {code: 'WA05', value: '2" Elastic style (with or without drawstring)'},
-            {code: 'WA06', value: '2" Elastic style with snaps and zipper'}
-        ],
-        'sleeve style': [
-            {code: '01', value: 'Ultra Thin'},
-            {code: '02', value: 'Thin'},
-            {code: '03', value: 'Racer Back'},
-            {code: '04', value: 'Regular'},
-            {code: '05', value: 'Wide'},
-            {code: '06', value: 'Sleeveless'},
-            {code: '07', value: 'Cap'},
-            {code: '08', value: 'Short / Set In'},
-            {code: '09', value: 'Short / Raglan'},
-            {code: '10', value: 'Long / Long Set in'},
-            {code: '11', value: 'Long / Raglan'},
-            {code: '12', value: 'Lineman'},
-            {code: '13', value: 'Specialist'},
-            {code: '14', value: 'Quarter Back'},
-            {code: '15', value: 'Hockey'},
-            {code: '16', value: 'Chowan'},
-            {code: '17', value: 'Motion Fit Sleeve'}
-        ],
-        'neck style': [
-            {code: 'V01', value: 'V'},
-            {code: 'V02', value: 'V with Homeplate'},
-            {code: 'V03', value: 'V with Triangle'},
-            {code: 'V04', value: 'Suns'},
-            {code: 'V05', value: 'Overlapping V'},
-            {code: 'V06', value: 'Crossover V'},
-            {code: 'V07', value: 'V with Boomerang'},
-            {code: 'V08', value: 'Scooped V'},
-            {code: 'V09', value: 'Tennessee'},
-            {code: 'V10', value: 'Lakerback V neck'},
-            {code: 'V11', value: 'Texas'},
-            {code: 'V12', value: 'USA'},
-            {code: 'V13', value: 'Pacers'},
-            {code: 'V14', value: 'Preacher'},
-            {code: 'V15', value: 'Boxed V'},
-            {code: 'V16', value: 'BB PRAX'},
-            {code: 'V17', value: 'Blunt V'},
-            {code: 'V18', value: 'Baylor 08'},
-            {code: 'V19', value: 'Marquette 11'},
-            {code: 'L01', value: 'Laker'},
-            {code: 'L02', value: 'Laker Alt 1'},
-            {code: 'S01', value: 'Ohio State'},
-            {code: 'S02', value: 'UCONN'},
-            {code: 'S03', value: 'Kentucky'},
-            {code: 'S04', value: 'Baylor 09'},
-            {code: 'S05', value: 'Hawks'},
-            {code: 'S06', value: 'Louisville'},
-            {code: 'S07', value: 'Notre Dame 10'},
-            {code: 'S08', value: 'Spiders'},
-            {code: 'S09', value: 'Spears'},
-            {code: 'S10', value: 'Box Stand-up Collar'},
-            {code: 'S11', value: 'Real'},
-            {code: 'S12', value: 'Round'},
-            {code: 'S13', value: 'Crew'},
-            {code: 'S14', value: 'Louisville Alt 2'},
-            {code: 'S15', value: 'Maryland 11'},
-            {code: 'S16', value: 'Notre Dame 11'},
-            {code: 'S17', value: 'V Notch'},
-            {code: 'S18', value: 'Louisville Alt 3'},
-            {code: 'S19', value: 'Bulls'},
-            {code: 'B01', value: 'BSB Full Button'},
-            {code: 'B02', value: 'BSB Henley'},
-            {code: 'B04', value: 'BSB V'},
-            {code: 'B05', value: 'BSB 2 Button'},
-            {code: 'C01', value: 'Collared V'},
-            {code: 'C02', value: 'Collared Overlapping V'},
-            {code: 'C03', value: 'Collared Blunt V'},
-            {code: 'C04', value: 'Collared Box'},
-            {code: 'C05', value: 'Collared 6" Zip'},
-            {code: 'C06', value: 'Collared Half Zip'},
-            {code: 'C07', value: 'Collared Full Zip'},
-            {code: 'C08', value: 'Collared Polo'},
-            {code: 'W01', value: '2" Standup collar with 6" Snap'},
-            {code: 'W02', value: '2" Standup collar with Full Snap'},
-            {code: 'W03', value: '2" Standup collar with 6" Zipper'},
-            {code: 'W04', value: '2" Standup collar with Full Zipper'},
-            {code: 'W05', value: '1" Standup collar with 6" Snap'},
-            {code: 'W06', value: '1" Standup collar with Full Snap'},
-            {code: 'W07', value: '1" Standup collar with 6" Zipper'},
-            {code: 'W08', value: '1" Standup collar with Full Zipper'},
-            {code: 'F01', value: 'Football V'},
-            {code: 'F02', value: 'Football Virginia Tech'},
-            {code: 'F03', value: 'Football Oregon'},
-            {code: 'F04', value: 'Football USC'},
-            {code: 'F05', value: 'Football Miami / Missouri'},
-            {code: 'F06', value: 'Football Cal State'},
-            {code: 'F07', value: 'Motion Neck'},
-            {code: 'H01', value: 'Bruins Lace-up'}
-        ]
-    };
+    window.materialOptionSettings = null;
+    var url = "//" + api_host + "/api/cuts/settings";
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(response){
+            window.materialOptionSettings = response;
+            var type = 'pant cut';
+            var items = materialOptionSettings[type];
+            loadItemsToSettingCodes(items);
+        }
+    });
 
     $('.materials').bootstrapTable();
 
@@ -192,7 +100,9 @@ $(document).ready(function(){
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
-                perspective: $(this).data('material-perspective'),
+                perspective: $(this).data('material-option-perspective'),
+                colors: $(this).data('material-option-colors'),
+                gradients: $(this).data('material-option-gradients'),
             }
         };
 
@@ -201,6 +111,14 @@ $(document).ready(function(){
         loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
         $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
+        material.option.colors.forEach(function(item){
+            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+        });
+        bindColorsSelect2();
+        material.option.gradients.forEach(function(item){
+            $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
+        });
+        bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);
         $('#edit-material-option-modal .material-option-id').val(material.option.id);
@@ -259,9 +177,26 @@ $(document).ready(function(){
         });
     });
 
+    // DELETE MATERIAL
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
-        modalConfirm('Remove Material', 'Are you sure you want to delete the Material?', id);
+        modalConfirm(
+            'Remove Material',
+            'Are you sure you want to delete the Material?',
+            id
+        );
+    });
+
+    // DELETE MATERIAL OPTION
+    $('.delete-material-option').on('click', function(){
+        var id = $(this).data('material-option-id');
+        modalConfirm(
+            'Remove Material Option',
+            'Are you sure you want to delete the Material Option?',
+            id,
+            'confirm-yes',
+            'confirmation-modal-material-option'
+        );
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
@@ -277,10 +212,34 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
+                    $('.flash-alert').hide();
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.material-' + id).fadeOut();
+                }
+            }
+        });
+    });
+
+    $('#confirmation-modal-material-option .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material_option/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('.flash-alert').hide();
+                    $('.flash-alert .flash-title').text(response.message);
+                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    $('#confirmation-modal-material-option').modal('hide');
+                    $('.material-option-' + id).fadeOut();
                 }
             }
         });
@@ -297,10 +256,6 @@ $(document).ready(function(){
         var items = materialOptionSettings[key];
         loadItemsToSettingCodes(items, 'edit');
     });
-
-    var type = 'pant cut';
-    var items = materialOptionSettings[type];
-    loadItemsToSettingCodes(items);
 
     function loadItemsToSettingCodes(items, action) {
         if (typeof action == 'undefined') action = 'add';
@@ -342,4 +297,25 @@ $(document).ready(function(){
             }
         });
     });
+
+    function bindColorsSelect2()
+    {
+        $('.colors').select2({
+            placeholder: "Select colors",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    function bindGradientsSelect2()
+    {
+        $('.gradients').select2({
+            placeholder: "Select gradients",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    bindColorsSelect2();
+    bindGradientsSelect2();
 });

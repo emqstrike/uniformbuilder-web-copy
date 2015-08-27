@@ -127,6 +127,10 @@ class FileUploader
         {
             $filename = 'fabric.png';
         }
+        elseif ($type == 'gradient')
+        {
+            $filename = 'gradient.png';
+        }
         else
         {
             error_log('Unsupported File Type');

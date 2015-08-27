@@ -1,5 +1,5 @@
 <!-- Confirmation Modal -->
-<div class="modal" id="confirmation-modal" aria-hidden="false">
+<div class="modal confirmation-modal" @if (isset($confirmation_modal_id)) id="{{ $confirmation_modal_id }}" @else id="confirmation-modal" @endif aria-hidden="false">
     <div class="modal-dialog"> 
         <div class="modal-content"> 
             <div class="modal-header"> 

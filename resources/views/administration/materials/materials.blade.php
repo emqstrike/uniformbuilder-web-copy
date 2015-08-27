@@ -3,6 +3,7 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
 @endsection
 
@@ -64,23 +65,30 @@
                     {{ $material->name }}
                 </td>
                 <td>
-                    @foreach ($material->options as $option)
-                    <div style="margin-top: 3px;">
+                    @forelse ($material->options as $option)
+                    <div style="margin-top: 3px;" class="material-option-{{ $option->id }}">
+                        <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
                         <a href="#" class='btn btn-xs btn-info edit-material-option'
                             data-material-option-name="{{ $option->name }}"
                             data-material-option-layer-level="{{ $option->layer_level }}"
                             data-material-option-setting-type="{{ $option->setting_type }}"
                             data-material-option-setting-code="{{ $option->setting_code }}"
                             data-material-option-path="{{ $option->material_option_path }}"
-                            data-material-perspective="{{ $option->perspective }}"
+                            data-material-option-perspective="{{ $option->perspective }}"
                             data-material-option-id="{{ $option->id }}"
+                            data-material-option-colors='{{ $option->colors }}'
+                            data-material-option-gradients='{{ $option->gradients }}'
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">
                             <span class="fa fa-edit"></span>
-                            {{ $option->name }} <span class="badge">{{ $option->layer_level }}</span>
+                            {{ $option->name }}
+                        </a>
+                        <a href="#" class="btn btn-danger btn-xs delete-material-option" data-material-option-id="{{ $option->id }}" role="button">
+                            <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </div>
-                    @endforeach
+                    @empty
+                    @endforelse
                     <div style="margin-top: 10px;">
                         <a href="#" class='btn btn-xs btn-success add-material-option'
                             data-material-name="{{ $material->name }}"
@@ -184,12 +192,15 @@
 
 @include('administration.materials.material-option-edit-modal')
 
-@include('partials.confirmation-modal')
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @endsection

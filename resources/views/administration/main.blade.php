@@ -112,19 +112,21 @@
 </style>
 
 <!-- Scripts -->
+@if (Session::get('accessToken'))
+<script type="text/javascript">
+window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
+window.api_host = "{{ env('API_HOST') }}";
+</script>
+@endif
 <script type="text/javascript" src="/jquery/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
+@yield('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
-@if (Session::get('accessToken'))
-window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
-window.api_host = "{{ env('API_HOST') }}";
-@endif
 @yield('custom-scripts')
 });
 </script>
-@yield('scripts')
 </body>
 </html>
