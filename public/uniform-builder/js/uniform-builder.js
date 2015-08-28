@@ -255,12 +255,12 @@
 
                 base.blendMode              = PIXI.BLEND_MODES.MULTIPLY;
 
-                shape.zIndex                = 1;
+                shape.zIndex                = 2;
                 shape_mask.zIndex           = 1;
                 base.zIndex                 = 0;
 
                 ub.right_view.addChild(base);
-                ub.right_view.addChild(shape);
+                ub.right_view.addChild(shape_mask);
                 ub.right_view.addChild(shape);
 
                 ub.updateLayersOrder(ub.right_view);
