@@ -34,14 +34,11 @@
 
         </div>
 
-
         <div id="left-main-window" class="pane-main-window">
         
-           
-
-              <div class="canvas-views" id="test_view" width="447" height="496">
+            <div class="canvas-views" id="main_view" width="447" height="496">
               
-              </div>
+            </div>
     
         </div>
 
@@ -51,9 +48,9 @@
             <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
             <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
             <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
+            <a class="btn change-view" data-view="pattern"  id="view_pattern"><img src=""></a>
 
         </div>
-    
 
     </div>
 
@@ -165,7 +162,7 @@
 
                     <div class="color_panel_container">
                 
-                        @include('partials.colors', ['data_target' =>'shape', 'event_class' => 'change-color',])
+                        @include('partials.colors', ['data_panel' => 'base', 'data_target' =>'shape', 'event_class' => 'change-color',])
 
                         <br /><br />
 
@@ -200,7 +197,7 @@
 
                         <div class="color_panel_container" id="popover_color_panel">
                     
-                            @include('partials.colors', ['data_target' =>'pants', 'event_class' => 'change-color',])
+                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'pants', 'event_class' => 'change-color',])
 
                             <br /><br />
 
@@ -235,6 +232,56 @@
                     <span class="header_text">PATTERNS OPTIONS</span>
 
                 </div>
+
+                <div class="options_panel_section">
+            
+                    <label>LAYER 1</label>
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color',])
+                        
+                    </div>   
+
+                </div>
+
+
+                <div class="options_panel_section">
+            
+                    <label>LAYER 2</label>
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_2', 'event_class' => 'change-color',])
+                        
+                    </div>   
+
+                </div>
+
+                <div class="options_panel_section">
+            
+                    <label>LAYER 3</label>
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_3', 'event_class' => 'change-color',])
+                        
+                    </div>   
+
+                </div>
+
+                <div class="options_panel_section">
+            
+                    <label>LAYER 4</label>
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_4', 'event_class' => 'change-color',])
+                        
+                    </div>   
+
+                </div>
+
 
             </div>
 
