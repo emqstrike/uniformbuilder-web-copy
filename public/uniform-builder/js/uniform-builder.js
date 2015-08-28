@@ -128,6 +128,8 @@
             ub.assets                   = {};
 
             ub.assets.folder_name       = '/images/builder-assets/'
+
+            ub.assets.blank             = ub.assets.folder_name + 'blank.png';
                 
             
             /// Left View
@@ -230,7 +232,6 @@
                 base.zIndex                     = 0;
 
                 ub.left_view.addChild(base);
-                ub.left_view.addChild(shape_mask);
                 ub.left_view.addChild(shape);
 
                 ub.updateLayersOrder(ub.left_view);
@@ -242,25 +243,24 @@
             window.ub.setup_right_view = function(){
 
 
-                var base                    = ub.pixi.new_sprite( ub.assets.right_view.base );
-                var shape                   = ub.pixi.new_sprite( ub.assets.right_view.shape );
-                var shape_mask              = ub.pixi.new_sprite( ub.assets.right_view.shape );
+                var base                            = ub.pixi.new_sprite( ub.assets.right_view.base );
+                var shape                           = ub.pixi.new_sprite( ub.assets.right_view.shape );
+                var shape_mask                      = ub.pixi.new_sprite( ub.assets.right_view.shape );
 
                 
-                ub.objects.right_view       = {};
+                ub.objects.right_view               = {};
 
-                ub.objects.right_view.base  = base;
-                ub.objects.right_view.shape = shape;
-                ub.objects.right_view.shape_mask = shape_mask;
+                ub.objects.right_view.base          = base;
+                ub.objects.right_view.shape         = shape;
+                ub.objects.right_view.shape_mask    = shape_mask;
 
-                base.blendMode              = PIXI.BLEND_MODES.MULTIPLY;
+                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
-                shape.zIndex                = 2;
-                shape_mask.zIndex           = 1;
-                base.zIndex                 = 0;
+                shape.zIndex                        = 2;
+                shape_mask.zIndex                   = 1;
+                base.zIndex                         = 0;
 
                 ub.right_view.addChild(base);
-                ub.right_view.addChild(shape_mask);
                 ub.right_view.addChild(shape);
 
                 ub.updateLayersOrder(ub.right_view);
@@ -271,26 +271,23 @@
             window.ub.setup_front_view = function(){
 
 
-                var base                    = ub.pixi.new_sprite( ub.assets.front_view.base );
-                var shape                   = ub.pixi.new_sprite( ub.assets.front_view.shape );
-                var shape_mask              = ub.pixi.new_sprite( ub.assets.front_view.shape );
+                var base                            = ub.pixi.new_sprite( ub.assets.front_view.base );
+                var shape                           = ub.pixi.new_sprite( ub.assets.front_view.shape );
+                var shape_mask                      = ub.pixi.new_sprite( ub.assets.front_view.shape );
 
+                ub.objects.front_view               = {};
 
-                
-                ub.objects.front_view       = {};
+                ub.objects.front_view.base          = base;
+                ub.objects.front_view.shape         = shape;
+                ub.objects.front_view.shape_mask    = shape_mask;
 
-                ub.objects.front_view.base  = base;
-                ub.objects.front_view.shape = shape;
-                ub.objects.front_view.shape_mask = shape_mask;
+                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
-                base.blendMode              = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                = 2;
-                shape_mask.zIndex           = 1;
-                base.zIndex                 = 0;
+                shape.zIndex                        = 2;
+                shape_mask.zIndex                   = 1;
+                base.zIndex                         = 0;
 
                 ub.front_view.addChild(base);
-                ub.front_view.addChild(shape_mask);
                 ub.front_view.addChild(shape);
 
                 ub.updateLayersOrder(ub.front_view);
@@ -302,26 +299,23 @@
             window.ub.setup_back_view = function(){
 
 
-                var base                    = ub.pixi.new_sprite( ub.assets.back_view.base );
-                var shape                   = ub.pixi.new_sprite( ub.assets.back_view.shape );
-                var shape_mask              = ub.pixi.new_sprite( ub.assets.back_view.shape );
+                var base                            = ub.pixi.new_sprite( ub.assets.back_view.base );
+                var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
+                var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
 
+                ub.objects.back_view                = {};
 
-                
-                ub.objects.back_view        = {};
+                ub.objects.back_view.base           = base;
+                ub.objects.back_view.shape          = shape;
+                ub.objects.back_view.shape_mask     = shape_mask;
 
-                ub.objects.back_view.base   = base;
-                ub.objects.back_view.shape  = shape;
-                ub.objects.back_view.shape_mask = shape_mask;
+                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
-                base.blendMode              = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                = 2;
-                shape_mask.zIndex           = 1;
-                base.zIndex                 = 0;
+                shape.zIndex                        = 2;
+                shape_mask.zIndex                   = 1;
+                base.zIndex                         = 0;
 
                 ub.back_view.addChild(base);
-                ub.back_view.addChild(shape_mask);
                 ub.back_view.addChild(shape);
 
                 ub.updateLayersOrder(ub.back_view);
@@ -333,22 +327,22 @@
             window.ub.setup_pattern_view = function(){
 
 
-                var layer_1                       = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
-                var layer_2                       = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
-                var layer_3                       = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
-                var layer_4                       = ub.pixi.new_sprite( ub.assets.pattern.layers[3] );
+                var layer_1                         = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
+                var layer_2                         = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
+                var layer_3                         = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
+                var layer_4                         = ub.pixi.new_sprite( ub.assets.pattern.layers[3] );
 
-                ub.objects.pattern_view           = {};
+                ub.objects.pattern_view             = {};
 
-                ub.objects.pattern_view.layer_1   = layer_1;
-                ub.objects.pattern_view.layer_2   = layer_2;
-                ub.objects.pattern_view.layer_3   = layer_3;
-                ub.objects.pattern_view.layer_4   = layer_4;
+                ub.objects.pattern_view.layer_1     = layer_1;
+                ub.objects.pattern_view.layer_2     = layer_2;
+                ub.objects.pattern_view.layer_3     = layer_3;
+                ub.objects.pattern_view.layer_4     = layer_4;
                 
-                layer_1.zIndex                    = 1;
-                layer_2.zIndex                    = 2;
-                layer_3.zIndex                    = 3;
-                layer_4.zIndex                    = 4;
+                layer_1.zIndex                      = 1;
+                layer_2.zIndex                      = 2;
+                layer_3.zIndex                      = 3;
+                layer_4.zIndex                      = 4;
 
                 ub.pattern_view.addChild(layer_1);
                 ub.pattern_view.addChild(layer_2);
@@ -368,30 +362,52 @@
 
             ub.applyMaterial = function () {
 
-                var texture                 = new PIXI.RenderTexture(ub.renderer,447,496);
+                var texture                         = new PIXI.RenderTexture(ub.renderer,447,496);
                 texture.render(ub['pattern_view']);
 
-                var pattern_front           = new PIXI.Sprite( texture );
-                var pattern_back            = new PIXI.Sprite( texture );
-                var pattern_left            = new PIXI.Sprite( texture );
-                var pattern_right           = new PIXI.Sprite( texture );
+                var pattern_front                   = new PIXI.Sprite( texture );
+                var pattern_back                    = new PIXI.Sprite( texture );
+                var pattern_left                    = new PIXI.Sprite( texture );
+                var pattern_right                   = new PIXI.Sprite( texture );
 
 
+                if(typeof(ub.objects.left_view.pattern) !== 'undefined'){
+                    ub.left_view.removeChild(ub.objects.left_view.pattern);    
+                }
+                
                 pattern_left.zIndex = 1;
                 pattern_left.mask = ub.objects.left_view.shape_mask;
                 ub.objects.left_view.pattern = pattern_left;
                 ub.left_view.addChild(pattern_left);
 
+
+                if(typeof(ub.objects.right_view.pattern) !== 'undefined'){
+                    ub.right_view.removeChild(ub.objects.right_view.pattern);    
+                }
+
+                ub.right_view.removeChild(ub.objects.right_view.pattern);
                 pattern_right.zIndex = 1;
                 pattern_right.mask = ub.objects.right_view.shape_mask;
                 ub.objects.right_view.pattern = pattern_right;
                 ub.right_view.addChild(pattern_right);
 
+
+                if(typeof(ub.objects.front_view.pattern) !== 'undefined'){
+                    ub.front_view.removeChild(ub.objects.front_view.pattern);    
+                }
+
+                ub.front_view.removeChild(ub.objects.front_view.pattern);
                 pattern_front.zIndex = 1;
                 pattern_front.mask = ub.objects.front_view.shape_mask;
                 ub.objects.front_view.pattern = pattern_front;
                 ub.front_view.addChild(pattern_front);
 
+                
+                if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
+                    ub.back_view.removeChild(ub.objects.back_view.pattern);    
+                }
+
+                ub.back_view.removeChild(ub.objects.back_view.pattern);
                 pattern_back.zIndex = 1;
                 pattern_back.mask = ub.objects.back_view.shape_mask;
                 ub.objects.back_view.pattern = pattern_back;
@@ -409,7 +425,7 @@
 
             ub.getThumbnailImage = function (view) {
 
-                var texture                 = new PIXI.RenderTexture(ub.renderer,447,496);
+                var texture                         = new PIXI.RenderTexture(ub.renderer,447,496);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
@@ -504,18 +520,35 @@
                 var color_value                         = parseInt(color.substring(1), 16);
 
                 if(panel === 'base'){
+
+
+                    if( typeof( ub.objects.left_view['pattern'] ) !== 'undefined' ){
+                        
+                        ub.objects.left_view['pattern'].visible = false;
+                        ub.objects.right_view['pattern'].visible = false;
+                        ub.objects.front_view['pattern'].visible = false;
+                        ub.objects.back_view['pattern'].visible = false;
+                        
+                    }
                     
                     ub.objects.left_view[obj].tint      = color_value;
                     ub.objects.right_view[obj].tint     = color_value;
                     ub.objects.front_view[obj].tint     = color_value;
                     ub.objects.back_view[obj].tint      = color_value;
-
+                    
                 }
 
                 if(panel === 'patterns'){
-                    
+
+
+
                     ub.objects.pattern_view[obj].tint   = color_value;
                     ub.applyMaterial();
+
+                    ub.objects.left_view['pattern'].visible = true;
+                    ub.objects.right_view['pattern'].visible = true;
+                    ub.objects.front_view['pattern'].visible = true;
+                    ub.objects.back_view['pattern'].visible = true;
                       
                 }
 
