@@ -37,21 +37,7 @@
 
         <div id="left-main-window" class="pane-main-window">
         
-              <canvas class="canvas-views" id="front_view" width="447" height="496">
-                    
-              </canvas>          
-
-              <canvas class="canvas-views" id="back_view" width="447" height="496">
-
-              </canvas>          
-
-              <canvas  class="canvas-views" id="left_view" width="447" height="496">
-
-              </canvas>
-
-              <canvas class="canvas-views" id="right_view" width="447" height="496">
-
-              </canvas>
+           
 
               <div class="canvas-views" id="test_view" width="447" height="496">
               
@@ -179,7 +165,7 @@
 
                     <div class="color_panel_container">
                 
-                        @include('partials.colors', ['data_target' =>'pants', 'event_class' => 'change-color',])
+                        @include('partials.colors', ['data_target' =>'shape', 'event_class' => 'change-color',])
 
                         <br /><br />
 
