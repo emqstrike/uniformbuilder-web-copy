@@ -37,15 +37,10 @@
 	</div><!-- bottom panel body -->	
 </div><!-- end table -->
 
-	
-
-<<<<<<< HEAD
-		<div id="mycanvas" class="mycanvas"> </div>
-=======
+<div id="mycanvas" class="mycanvas"> </div>
 
 @section('contentarea')
 		
->>>>>>> d612d65df6cc472a52467d15796aeeeb011ef5c4
 	
 @endsection('contentarea')
 

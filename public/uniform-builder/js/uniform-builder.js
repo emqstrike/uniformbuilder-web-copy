@@ -91,18 +91,10 @@
 
 
             /// Activate Views
-            
-                // $('#front_view').parent().fadeOut();
-                // $('#back_view').parent().fadeOut();
-                // $('#left_view').parent().fadeOut();
-                // $('#right_view').parent().fadeOut();
-                // $('#main_view').parent().fadeOut();
-                
-                // $('#' + view + '_view').parent().fadeIn(); // fade in the parent container not the actual canvas
+
                 $('#main_view').parent().fadeIn();
 
                 window.ub.refresh_thumbnails();    
-
             
             /// Begin Rendering
 
