@@ -180,17 +180,11 @@
             ub.assets.left_view.pant_base    = ub.assets.folder_name + 'pant-left.png';
             ub.assets.left_view.pant_shape   = ub.assets.folder_name + 'pant-left-shape.png';
 
-            // ub.assets.left_view.pant_piping_1       = ub.assets.folder_name + 'pant-piping-1-left.png';
-            // ub.assets.left_view.pant_piping_2       = ub.assets.folder_name + 'pant-piping-2-left.png';
-
-
+ 
             /// Pant Right View
                 
             ub.assets.right_view.pant_base    = ub.assets.folder_name + 'pant-right.png';
             ub.assets.right_view.pant_shape   = ub.assets.folder_name + 'pant-right-shape.png';
-
-            // ub.assets.right_view.piping_1       = ub.assets.folder_name + 'piping-1-right.png';
-            // ub.assets.right_view.piping_2       = ub.assets.folder_name + 'piping-2-right.png';
 
 
             /// Pant Front View
@@ -198,24 +192,10 @@
             ub.assets.front_view.pant_base           = ub.assets.folder_name + 'pant-front.png';
             ub.assets.front_view.pant_shape          = ub.assets.folder_name + 'pant-front-shape.png';
 
-            // ub.assets.front_view.piping_1       = ub.assets.folder_name + 'piping-1-front.png';
-            // ub.assets.front_view.piping_2       = ub.assets.folder_name + 'piping-2-front.png';
-
-            // ub.assets.front_view.logo           = ub.assets.folder_name + 'logo-front.png';
-            // ub.assets.front_view.logo_shape     = ub.assets.folder_name + 'logo-front-shape.png';
-
-
             /// Pant Back View
                 
             ub.assets.back_view.pant_base    = ub.assets.folder_name + 'pant-back.png';
             ub.assets.back_view.pant_shape   = ub.assets.folder_name + 'pant-back-shape.png';
-
-            // ub.assets.back_view.piping_1   = ub.assets.folder_name + 'piping-1-back.png';
-            // ub.assets.back_view.piping_2   = ub.assets.folder_name + 'piping-2-back.png';
-
-            // ub.assets.back_view.number           = ub.assets.folder_name + 'number-back.png';
-            // ub.assets.back_view.number_shape     = ub.assets.folder_name + 'number-back-shape.png';
-
 
             /// Materials
 
