@@ -172,13 +172,37 @@
 
                 <div class="options_panel_section">
                 
-                    <label>Piping 1</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+                    <label>Piping 1</label>  
+
+                </div>
+
+                <div class="options_panel_section" id="color_panel_section">
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_1', 'event_class' => 'change-color',])
+
+                        <br /><br />
+
+                    </div>    
 
                 </div>
 
                 <div class="options_panel_section">
                 
-                    <label>Piping 2</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+                    <label>Piping 2</label>
+
+                </div>
+
+                <div class="options_panel_section" id="color_panel_section">
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_2', 'event_class' => 'change-color',])
+
+                        <br /><br />
+
+                    </div>    
 
                 </div>
 

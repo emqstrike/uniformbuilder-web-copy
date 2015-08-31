@@ -148,9 +148,16 @@
 
             /// Front View
                 
-            ub.assets.front_view         = {};
-            ub.assets.front_view.base    = ub.assets.folder_name + 'jersey-front.png';
-            ub.assets.front_view.shape   = ub.assets.folder_name + 'jersey-front-shape.png';
+            ub.assets.front_view                = {};
+            ub.assets.front_view.base           = ub.assets.folder_name + 'jersey-front.png';
+            ub.assets.front_view.shape          = ub.assets.folder_name + 'jersey-front-shape.png';
+
+            ub.assets.front_view.piping_1       = ub.assets.folder_name + 'piping-1-front.png';
+            ub.assets.front_view.piping_2       = ub.assets.folder_name + 'piping-2-front.png';
+
+
+
+
 
 
             /// Back View
@@ -158,6 +165,9 @@
             ub.assets.back_view         = {};
             ub.assets.back_view.base    = ub.assets.folder_name + 'jersey-back.png';
             ub.assets.back_view.shape   = ub.assets.folder_name + 'jersey-back-shape.png';
+
+            ub.assets.back_view.piping_2   = ub.assets.folder_name + 'piping-2-back.png';
+
 
 
 
@@ -275,11 +285,18 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.front_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.front_view.shape );
 
+                var piping_1                        = ub.pixi.new_sprite( ub.assets.front_view.piping_1 );
+                var piping_2                        = ub.pixi.new_sprite( ub.assets.front_view.piping_2 );
+
+
                 ub.objects.front_view               = {};
 
                 ub.objects.front_view.base          = base;
                 ub.objects.front_view.shape         = shape;
                 ub.objects.front_view.shape_mask    = shape_mask;
+
+                ub.objects.front_view.piping_1      = piping_1;
+                ub.objects.front_view.piping_2      = piping_2;
 
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
@@ -287,6 +304,17 @@
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
 
+                piping_1.zIndex                     = -1;
+                piping_2.zIndex                     = -2;
+
+                // default colors
+
+                piping_1.tint = 0xff5e00;
+                piping_2.tint = 0x2158aa;
+
+
+                ub.front_view.addChild(piping_1);
+                ub.front_view.addChild(piping_2);
                 ub.front_view.addChild(base);
                 ub.front_view.addChild(shape);
 
@@ -303,20 +331,27 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
 
+                var piping_2                        = ub.pixi.new_sprite( ub.assets.back_view.piping_2 );
+
+
                 ub.objects.back_view                = {};
 
                 ub.objects.back_view.base           = base;
                 ub.objects.back_view.shape          = shape;
                 ub.objects.back_view.shape_mask     = shape_mask;
 
+                ub.objects.back_view.piping_2       = piping_2;
+
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
+                piping_2.zIndex                     = -1;
 
                 ub.back_view.addChild(base);
                 ub.back_view.addChild(shape);
+                ub.back_view.addChild(piping_2);
 
                 ub.updateLayersOrder(ub.back_view);
 
@@ -528,18 +563,18 @@
                         ub.objects.right_view['pattern'].visible = false;
                         ub.objects.front_view['pattern'].visible = false;
                         ub.objects.back_view['pattern'].visible = false;
-                        
+
                     }
                     
                     ub.objects.left_view[obj].tint      = color_value;
                     ub.objects.right_view[obj].tint     = color_value;
                     ub.objects.front_view[obj].tint     = color_value;
                     ub.objects.back_view[obj].tint      = color_value;
+
                     
                 }
 
                 if(panel === 'patterns'){
-
 
 
                     ub.objects.pattern_view[obj].tint   = color_value;
@@ -549,8 +584,17 @@
                     ub.objects.right_view['pattern'].visible = true;
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
+
                       
                 }
+
+
+                if(panel === 'piping') {
+
+                    ub.objects.front_view[obj].tint     = color_value;
+
+                }
+                
 
                 ub.refresh_thumbnails();
 
