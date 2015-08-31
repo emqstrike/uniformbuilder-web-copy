@@ -138,12 +138,21 @@
             ub.assets.left_view.base    = ub.assets.folder_name + 'jersey-left.png';
             ub.assets.left_view.shape   = ub.assets.folder_name + 'jersey-left-shape.png';
 
+            ub.assets.left_view.piping_1       = ub.assets.folder_name + 'piping-1-left.png';
+            ub.assets.left_view.piping_2       = ub.assets.folder_name + 'piping-2-left.png';
+
+
+
 
             /// Right View
                 
             ub.assets.right_view         = {};
             ub.assets.right_view.base    = ub.assets.folder_name + 'jersey-right.png';
             ub.assets.right_view.shape   = ub.assets.folder_name + 'jersey-right-shape.png';
+
+            ub.assets.right_view.piping_1       = ub.assets.folder_name + 'piping-1-right.png';
+            ub.assets.right_view.piping_2       = ub.assets.folder_name + 'piping-2-right.png';
+
 
 
             /// Front View
@@ -166,7 +175,10 @@
             ub.assets.back_view.base    = ub.assets.folder_name + 'jersey-back.png';
             ub.assets.back_view.shape   = ub.assets.folder_name + 'jersey-back-shape.png';
 
+            ub.assets.back_view.piping_1   = ub.assets.folder_name + 'piping-1-back.png';
             ub.assets.back_view.piping_2   = ub.assets.folder_name + 'piping-2-back.png';
+
+
 
 
 
@@ -228,6 +240,10 @@
                 var shape                       = ub.pixi.new_sprite( ub.assets.left_view.shape );
                 var shape_mask                  = ub.pixi.new_sprite( ub.assets.left_view.shape );
 
+                var piping_1                    = ub.pixi.new_sprite( ub.assets.left_view.piping_1 );
+                var piping_2                    = ub.pixi.new_sprite( ub.assets.left_view.piping_2 );
+
+
                 
                 ub.objects.left_view            = {};
 
@@ -235,14 +251,27 @@
                 ub.objects.left_view.shape      = shape;
                 ub.objects.left_view.shape_mask = shape_mask;
 
+                ub.objects.left_view.piping_1   = piping_1;
+                ub.objects.left_view.piping_2   = piping_2;
+
+
                 base.blendMode                  = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                    = 2;
                 shape_mask.zIndex               = 1;
                 base.zIndex                     = 0;
+                piping_1.zIndex                 = -1;
+                piping_2.zIndex                 = -2;
+
+                // default colors
+
+                piping_1.tint = 0xff5e00;
+                piping_2.tint = 0x2158aa;
 
                 ub.left_view.addChild(base);
                 ub.left_view.addChild(shape);
+                ub.left_view.addChild(piping_1);
+                ub.left_view.addChild(piping_2);
 
                 ub.updateLayersOrder(ub.left_view);
 
@@ -257,6 +286,10 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.right_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.right_view.shape );
 
+                var piping_1                        = ub.pixi.new_sprite( ub.assets.right_view.piping_1 );
+                var piping_2                        = ub.pixi.new_sprite( ub.assets.right_view.piping_2 );
+
+
                 
                 ub.objects.right_view               = {};
 
@@ -264,14 +297,27 @@
                 ub.objects.right_view.shape         = shape;
                 ub.objects.right_view.shape_mask    = shape_mask;
 
+                ub.objects.right_view.piping_1       = piping_1;
+                ub.objects.right_view.piping_2       = piping_2;
+
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
 
+                piping_1.zIndex                     = -1;
+                piping_2.zIndex                     = -2;
+
+                // default colors
+
+                piping_1.tint = 0xff5e00;
+                piping_2.tint = 0x2158aa;
+
                 ub.right_view.addChild(base);
                 ub.right_view.addChild(shape);
+                ub.right_view.addChild(piping_1);
+                ub.right_view.addChild(piping_2);
 
                 ub.updateLayersOrder(ub.right_view);
 
@@ -331,6 +377,7 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
 
+                var piping_1                        = ub.pixi.new_sprite( ub.assets.back_view.piping_1 );
                 var piping_2                        = ub.pixi.new_sprite( ub.assets.back_view.piping_2 );
 
 
@@ -340,6 +387,7 @@
                 ub.objects.back_view.shape          = shape;
                 ub.objects.back_view.shape_mask     = shape_mask;
 
+                ub.objects.back_view.piping_1       = piping_1;
                 ub.objects.back_view.piping_2       = piping_2;
 
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
@@ -348,9 +396,16 @@
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
                 piping_2.zIndex                     = -1;
+                piping_2.zIndex                     = -2;
+
+                // default colors
+
+                piping_1.tint = 0xff5e00;
+                piping_2.tint = 0x2158aa;
 
                 ub.back_view.addChild(base);
                 ub.back_view.addChild(shape);
+                ub.back_view.addChild(piping_1);
                 ub.back_view.addChild(piping_2);
 
                 ub.updateLayersOrder(ub.back_view);
@@ -591,7 +646,14 @@
 
                 if(panel === 'piping') {
 
-                    ub.objects.front_view[obj].tint     = color_value;
+                    ub.objects.front_view[obj].tint    = color_value;
+                    ub.objects.back_view[obj].tint     = color_value;
+                    ub.objects.left_view[obj].tint     = color_value;
+                    ub.objects.right_view[obj].tint     = color_value;
+
+
+
+
 
                 }
                 
