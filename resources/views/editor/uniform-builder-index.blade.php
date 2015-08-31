@@ -6,8 +6,7 @@
 
         
         <div id="left-top" class="pane-top">
-            
-            ///
+        
 
         </div>
 

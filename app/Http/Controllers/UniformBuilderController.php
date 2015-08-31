@@ -38,6 +38,7 @@ class UniformBuilderController extends Controller
     }
 
 
+
     public function uniform_builder_index(){
 
 
@@ -64,5 +65,11 @@ class UniformBuilderController extends Controller
 
     }
 
+
+    public function texturing_guide(){
+
+        
+
+    }
 
 }

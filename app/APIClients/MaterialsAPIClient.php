@@ -34,7 +34,6 @@ class MaterialsAPIClient extends APIClient
         $response = $this->post('material/update', [
             'json' => $data
         ]);
-
         return $this->decoder->decode($response->getBody());
     }
 

@@ -1,63 +1,63 @@
 
     $( document ).ready(function() {
 
-        
+
         /// Material Canvas, For Direct Material Editing
         /// TODO: Transfer this to a tab
 
-        $("#materialCanvasModal").draggable({
-            
-            handle: ".modal-header",
+            $("#materialCanvasModal").draggable({
+                
+                handle: ".modal-header",
 
-        });
+            });
 
         /// End Material Canvas
 
 
         /// Dropzone 
 
-        Dropzone.autoDiscover = false;
+            Dropzone.autoDiscover = false;
 
-        if ($('div#baseDropzone').length) {
+            if ($('div#baseDropzone').length) {
 
-            var myDropzone = new Dropzone("div#baseDropzone",{url: '/uploadImage'});
+                var myDropzone = new Dropzone("div#baseDropzone", { url: '/uploadImage' } );
 
-            myDropzone.on("addedfile", function(file) {
+                myDropzone.on("addedfile", function(file) {
 
-                // Create the remove button
-                var removeButton = Dropzone.createElement("<button>Remove file</button>");
+                    if($('#removeUploadedFile').length > 0){
 
+                        $('#removeUploadedFile').click();
 
-                // Capture the Dropzone instance as closure.
-                var _this = this;
+                    }
 
-                // Listen to the click event
-                removeButton.addEventListener("click", function(e) {
-                  // Make sure the button click doesn't submit the form:
-                  e.preventDefault();
-                  e.stopPropagation();
+                    var temp = file.previewTemplate;
+                    var FR = new FileReader();
+                    
+                    FR.onload = function(e) {
 
-                  // Remove the file preview.
-                  _this.removeFile(file);
-                  // If you want to the delete the file on the server as well,
-                  // you can do the AJAX request here.
+                        pc.loadBase(e.target.result); 
+
+                    };
+
+                    FR.readAsDataURL( file );
+
+                    var removeButton = Dropzone.createElement("<button class='btn btn-default btn-sm' id='removeUploadedFile'>Remove</button><br /><br />");
+                    var _this = this;
+
+                    removeButton.addEventListener("click", function(e) {
+                      
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        _this.removeFile(file);
+
+                    });
+
+                    file.previewElement.appendChild(removeButton);
+                    
                 });
-
-                // Add the button to the file preview element.
-                file.previewElement.appendChild(removeButton);
-
-
-                setTimeout(function(){
-
-                    utils.p('ok!')
-                    pc.loadBase();
-
-                }, 50);
-                
-
-            });
-        
-        }
+            
+            }
 
         /// End Dropzone
 
@@ -68,24 +68,19 @@
 
         /// End Rendering
 
-        document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-        document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
 
+        /// Mouse Events
 
-        function onDocumentMouseDown( event ) {
+            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+            document.addEventListener( 'dblclick', onDocumentDoubleClick, false );
 
-                event.preventDefault();
+            function onDocumentMouseDown( event ) {
 
-                utils.p('ok!');
                 pb.freeRotate = true;
+                
+            }
 
-            
-        }
-
-        function onDocumentDoubleClick( event ) {
-
-                event.preventDefault();
-
+            function onDocumentDoubleClick( event ) {
 
                 pb.camera.position.x = pb.cameraPositionTo.x;
                 pb.camera.position.y = pb.cameraPositionTo.y;
@@ -96,11 +91,10 @@
                 pb.camera.rotation.z =  pb.cameraRotationTo.z;
 
                 pb.camera.updateProjectionMatrix();
-
                 pb.resetCamera();
+                
+            }
 
-
-            
-        }
+        /// End Mouse Events
 
     });

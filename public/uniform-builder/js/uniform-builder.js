@@ -132,7 +132,9 @@
             ub.assets.blank             = ub.assets.folder_name + 'blank.png';
                 
             
-            /// Left View
+            /// JERSEY
+
+            /// Jersey Left View 
                 
             ub.assets.left_view         = {};
             ub.assets.left_view.base    = ub.assets.folder_name + 'jersey-left.png';
@@ -142,9 +144,7 @@
             ub.assets.left_view.piping_2       = ub.assets.folder_name + 'piping-2-left.png';
 
 
-
-
-            /// Right View
+            /// Jersey Right View
                 
             ub.assets.right_view         = {};
             ub.assets.right_view.base    = ub.assets.folder_name + 'jersey-right.png';
@@ -154,8 +154,7 @@
             ub.assets.right_view.piping_2       = ub.assets.folder_name + 'piping-2-right.png';
 
 
-
-            /// Front View
+            /// Jersey Front View
                 
             ub.assets.front_view                = {};
             ub.assets.front_view.base           = ub.assets.folder_name + 'jersey-front.png';
@@ -168,12 +167,7 @@
             ub.assets.front_view.logo_shape     = ub.assets.folder_name + 'logo-front-shape.png';
 
 
-
-
-
-
-
-            /// Back View
+            /// Jersey Back View
                 
             ub.assets.back_view         = {};
             ub.assets.back_view.base    = ub.assets.folder_name + 'jersey-back.png';
@@ -187,9 +181,48 @@
 
 
 
+            /// PANT
+
+            /// Pant Left View 
+                
+            ub.assets.left_view.pant_base    = ub.assets.folder_name + 'pant-left.png';
+            ub.assets.left_view.pant_shape   = ub.assets.folder_name + 'pant-left-shape.png';
+
+            // ub.assets.left_view.pant_piping_1       = ub.assets.folder_name + 'pant-piping-1-left.png';
+            // ub.assets.left_view.pant_piping_2       = ub.assets.folder_name + 'pant-piping-2-left.png';
 
 
+            /// Pant Right View
+                
+            ub.assets.right_view.pant_base    = ub.assets.folder_name + 'pant-right.png';
+            ub.assets.right_view.pant_shape   = ub.assets.folder_name + 'pant-right-shape.png';
 
+            // ub.assets.right_view.piping_1       = ub.assets.folder_name + 'piping-1-right.png';
+            // ub.assets.right_view.piping_2       = ub.assets.folder_name + 'piping-2-right.png';
+
+
+            /// Pant Front View
+                
+            ub.assets.front_view.pant_base           = ub.assets.folder_name + 'pant-front.png';
+            ub.assets.front_view.pant_shape          = ub.assets.folder_name + 'pant-front-shape.png';
+
+            // ub.assets.front_view.piping_1       = ub.assets.folder_name + 'piping-1-front.png';
+            // ub.assets.front_view.piping_2       = ub.assets.folder_name + 'piping-2-front.png';
+
+            // ub.assets.front_view.logo           = ub.assets.folder_name + 'logo-front.png';
+            // ub.assets.front_view.logo_shape     = ub.assets.folder_name + 'logo-front-shape.png';
+
+
+            /// Pant Back View
+                
+            ub.assets.back_view.pant_base    = ub.assets.folder_name + 'pant-back.png';
+            ub.assets.back_view.pant_shape   = ub.assets.folder_name + 'pant-back-shape.png';
+
+            // ub.assets.back_view.piping_1   = ub.assets.folder_name + 'piping-1-back.png';
+            // ub.assets.back_view.piping_2   = ub.assets.folder_name + 'piping-2-back.png';
+
+            // ub.assets.back_view.number           = ub.assets.folder_name + 'number-back.png';
+            // ub.assets.back_view.number_shape     = ub.assets.folder_name + 'number-back-shape.png';
 
 
             /// Materials
@@ -330,7 +363,6 @@
 
                 ub.updateLayersOrder(ub.right_view);
 
-
             }
 
             window.ub.setup_front_view = function(){
@@ -346,8 +378,6 @@
                 var logo                            = ub.pixi.new_sprite( ub.assets.front_view.logo );
                 var logo_shape                      = ub.pixi.new_sprite( ub.assets.front_view.logo_shape );
 
-
-
                 ub.objects.front_view               = {};
 
                 ub.objects.front_view.base          = base;
@@ -361,7 +391,6 @@
 
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
                 logo.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
@@ -387,7 +416,6 @@
 
                 ub.updateLayersOrder(ub.front_view);
 
-
             }
 
 
@@ -401,8 +429,8 @@
                 var piping_1                        = ub.pixi.new_sprite( ub.assets.back_view.piping_1 );
                 var piping_2                        = ub.pixi.new_sprite( ub.assets.back_view.piping_2 );
 
-                var number                            = ub.pixi.new_sprite( ub.assets.back_view.number );
-                var number_shape                      = ub.pixi.new_sprite( ub.assets.back_view.number_shape );
+                var number                          = ub.pixi.new_sprite( ub.assets.back_view.number );
+                var number_shape                    = ub.pixi.new_sprite( ub.assets.back_view.number_shape );
 
 
 
@@ -674,8 +702,6 @@
                     ub.objects.back_view['number_shape'].tint  = color_value;
 
                     ub.objects.back_view[obj].tint      = color_value;
-
-
                     
                 }
 

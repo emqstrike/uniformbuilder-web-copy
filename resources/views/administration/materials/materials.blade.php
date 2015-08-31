@@ -3,6 +3,7 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
 @endsection
 
@@ -37,12 +38,12 @@
             <tr>
                 <th>Thumbnail</th>
                 <th>Material Name</th>
+                <th>Material Options</th>
                 <th>Code</th>
                 <th>Type</th>
                 <th>Uniform Category</th>
                 <th>Base Color</th>
                 <th>Gender</th>
-                <th>Sleeve Type</th>
                 <th>Lining Type</th>
                 <th>Active Status</th>
                 <th></th>
@@ -54,10 +55,48 @@
 
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
+                    @if ($material->thumbnail_path)
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @else
+                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
+                    @endif
                 </td>
                 <td>
                     {{ $material->name }}
+                </td>
+                <td>
+                    @forelse ($material->options as $option)
+                    <div style="margin-top: 3px;" class="material-option-{{ $option->id }}">
+                        <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
+                        <a href="#" class='btn btn-xs btn-info edit-material-option'
+                            data-material-option-name="{{ $option->name }}"
+                            data-material-option-layer-level="{{ $option->layer_level }}"
+                            data-material-option-setting-type="{{ $option->setting_type }}"
+                            data-material-option-setting-code="{{ $option->setting_code }}"
+                            data-material-option-path="{{ $option->material_option_path }}"
+                            data-material-option-perspective="{{ $option->perspective }}"
+                            data-material-option-id="{{ $option->id }}"
+                            data-material-option-colors='{{ $option->colors }}'
+                            data-material-option-gradients='{{ $option->gradients }}'
+                            data-material-name="{{ $material->name }}"
+                            data-material-id="{{ $material->id }}">
+                            <span class="fa fa-edit"></span>
+                            {{ $option->name }}
+                        </a>
+                        <a href="#" class="btn btn-danger btn-xs delete-material-option" data-material-option-id="{{ $option->id }}" role="button">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </a>
+                    </div>
+                    @empty
+                    @endforelse
+                    <div style="margin-top: 10px;">
+                        <a href="#" class='btn btn-xs btn-success add-material-option'
+                            data-material-name="{{ $material->name }}"
+                            data-material-id="{{ $material->id }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Add Material Option
+                        </a>
+                    </div>
                 </td>
                 <td>
                     <span class="label label-default">
@@ -91,25 +130,44 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-default btn-xs show-material" role="button"
-                        data-material-name="{{ $material->name }}"
-                        data-material-code="{{ $material->code }}"
-                        data-material-path="{{ $material->material_path }}"
-                        data-bump-map-path="{{ $material->bump_map_path }}"
-                        data-shadow-path="{{ $material->shadow_path }}"
-                        data-highlight-path="{{ $material->highlight_path }}"
-                        data-material-id="{{ $material->id }}">
-                        <li class="glyphicon glyphicon-info-sign"></li>
-                        View
-                    </a>
-                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        Edit
-                    </a>
-                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        Remove
-                    </a>
+                    <div>
+                        <a href="#" class="btn btn-default btn-xs show-material" role="button"
+                            data-material-name="{{ $material->name }}"
+                            data-material-code="{{ $material->code }}"
+                            data-material-type="{{ $material->type }}"
+                            data-material-uniform-category="{{ $material->uniform_category }}"
+                            data-material-base-color="{{ $material->color_name }}"
+                            data-material-base-color-code="{{ $material->hex_code }}"
+                            data-material-gender="{{ $material->gender }}"
+                            data-material-lining-type="{{ $material->lining_type }}"
+@if (env('BUILDER_APPROACH') == '3D')
+                            data-material-path="{{ $material->material_path }}"
+                            data-bump-map-path="{{ $material->bump_map_path }}"
+                            data-shadow-path="{{ $material->shadow_path }}"
+                            data-highlight-path="{{ $material->highlight_path }}"
+@elseif (env('BUILDER_APPROACH') == '2D')
+                            data-front-view-path="{{ $material->front_view_path }}"
+                            data-front-view-shape="{{ $material->front_view_shape }}"
+                            data-back-view-path="{{ $material->back_view_path }}"
+                            data-back-view-shape="{{ $material->back_view_shape }}"
+                            data-right-side-view-path="{{ $material->right_side_view_path }}"
+                            data-right-side-view-shape="{{ $material->right_side_view_shape }}"
+                            data-left-side-view-path="{{ $material->left_side_view_path }}"
+                            data-left-side-view-shape="{{ $material->left_side_view_shape }}"
+@endif
+                            data-material-id="{{ $material->id }}">
+                            <li class="glyphicon glyphicon-info-sign"></li>
+                            View
+                        </a>
+                        <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Edit
+                        </a>
+                        <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            Remove
+                        </a>
+                    </div>
                 </td>
             </tr>
 
@@ -128,51 +186,21 @@
 
 </div>
 
-<!-- Information Modal -->
-<div class="modal fade" id="view-material-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <div class='tabbable'>
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-material-image" data-toggle="tab">Base Material</a></li>
-                        <li><a href="#tab-bump-map-image" data-toggle="tab">Bump Map</a></li>
-                        <li><a href="#tab-shadow-image" data-toggle="tab">Shadow</a></li>
-                        <li><a href="#tab-highlight-image" data-toggle="tab">Highlight</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-material-image" align='center'>
-                            <img src="" class="material-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-bump-map-image" align='center'>
-                            <img src="" class="bump-map-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-shadow-image" align='center'>
-                            <img src="" class="shadow-image" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-highlight-image" align='center'>
-                            <img src="" class="highlight-image" width="300px" height="300px">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('administration.materials.material-view-modal')
 
-@include('partials.confirmation-modal')
+@include('administration.materials.material-option-create-modal')
+
+@include('administration.materials.material-option-edit-modal')
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 use \Session;
 use \Redirect;
 use App\Http\Requests;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
@@ -68,20 +69,24 @@ class UniformCategoriesController extends Controller
         $response = null;
         if (!empty($userId))
         {
+            Log::info('Attempts to update UniformCategory#' . $id);
             $response = $this->client->updateCategory($data);
         }
         else
         {
+            Log::info('Attempts to create a new Uniform Category ' . json_encode($data));
             $response = $this->client->createCategory($data);
         }
 
         if ($response->success)
         {
+            Log::info('Success');
             return Redirect::to('administration/categories')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
+            Log::info('Failed');
             return Redirect::to('administration/categories')
                             ->with('message', $response->message);
         }

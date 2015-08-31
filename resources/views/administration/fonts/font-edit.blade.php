@@ -57,7 +57,7 @@
                             </label>
                             
                             <div class="col-md-6">
-                                <input type="file" class="form-control font-file" name="font_path" accept="application/json">
+                                <input type="file" class="form-control font-file" name="font_path" accept="font/*">
                             </div>
                         </div>
 
@@ -86,9 +86,9 @@
 
 $(document).ready(function(){
 
-    $('#create-font-form').submit(function(){
+    $('#edit-font-form').submit(function(){
         $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New font');
+        $('.flash-alert .flash-title').text('Modify font');
         $('.flash-alert .flash-sub-title').text('Saving');
         $('.flash-alert .flash-message').text('Please wait while we are saving font...');
         $('.flash-alert').addClass('alert-info');

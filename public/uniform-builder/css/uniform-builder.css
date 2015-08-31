@@ -59,6 +59,9 @@ div.pane div.pane-top {
   width: 90%;
   text-align: center;
 }
+div.pane div.pane-top button {
+  margin-bottom: 3px;
+}
 div.pane div.pane-sidebar {
   float: left;
   text-align: center;

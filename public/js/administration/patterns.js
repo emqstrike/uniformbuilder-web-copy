@@ -135,8 +135,8 @@ $(document).ready(function(){
     });
 
     $('.delete-pattern-layer').on('click', function(){
-        var id = $(this).data('pattern-id');console.log(id);
-        var layer = $(this).data('layer');console.log(layer);
+        var id = $(this).data('pattern-id');
+        var layer = $(this).data('layer');
         $('#confirmation-modal .confirm-delete-layer').data('layer', layer);
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern layer?', id, 'confirm-delete-layer');
     });

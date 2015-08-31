@@ -26,12 +26,21 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('login', 'Administration\AuthenticationController@administrationLogin');
     Route::get('logout', 'Administration\AuthenticationController@logout');
 
+    // Admin page
+    Route::get('main', 'Administration\AuthenticationController@main');
+
     // Users
     Route::get('users', 'Administration\UsersController@index');
     Route::post('user/add', 'Administration\UsersController@store');
     Route::post('user/update', 'Administration\UsersController@store');
     Route::get('user/add', 'Administration\UsersController@addUserForm');
     Route::get('user/edit/{id}', 'Administration\UsersController@editUserForm');
+
+    Route::get('account_settings/{id}', 'Administration\UsersController@accountSettings');
+    Route::post('account_settings/update', 'Administration\UsersController@store');
+
+    Route::get('account_settings/change_password/{id}', 'Administration\UsersController@changePasswordForm');
+    Route::post('account_settings/change_password', 'Administration\UsersController@changePassword');
 
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
@@ -55,8 +64,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', 'Administration\MaterialsController@editMaterialForm');
 
     // Materials Options
-    // TODO: ???
-    // Shall I include it in the Materials View Page?
+    Route::post('material_option/add', 'Administration\MaterialsOptionsController@store');
+    Route::post('material_option/update', 'Administration\MaterialsOptionsController@store');
 
     // Base Models
     Route::get('models', 'Administration\BaseModelsController@index');
@@ -79,17 +88,46 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('font/add', 'Administration\FontsController@addFontForm');
     Route::get('font/edit/{id}', 'Administration\FontsController@editFontForm');
 
+    // Gradients
+    Route::get('gradients', 'Administration\GradientsController@index');
+    Route::post('gradient/add', 'Administration\GradientsController@store');
+    Route::post('gradient/update', 'Administration\GradientsController@store');
+    Route::get('gradient/add', 'Administration\GradientsController@addGradientForm');
+    Route::get('gradient/edit/{id}', 'Administration\GradientsController@editGradientForm');
+
+    // Cut Styles
+    Route::get('cuts/neck-styles', 'Administration\CutStylesController@neckStyles');
+    Route::get('cuts/sleeve-styles', 'Administration\CutStylesController@sleeveStyles');
+    Route::get('cuts/waist-cuts', 'Administration\CutStylesController@waistCuts');
+    Route::get('cuts/pant-cuts', 'Administration\CutStylesController@pantCuts');
+    Route::get('cuts/sleeve-panels', 'Administration\CutStylesController@sleevePanels');
+    Route::get('cuts/shoulder-panels', 'Administration\CutStylesController@shoulderPanels');
+    Route::get('cuts/underarm-panels', 'Administration\CutStylesController@underarmPanels');
+    Route::post('cut/add', 'Administration\CutStylesController@store');
+    Route::post('cut/update', 'Administration\CutStylesController@store');
+    Route::get('cut/add/{type}', 'Administration\CutStylesController@addForm');
+    Route::get('cut/edit/{id}', 'Administration\CutStylesController@editForm');
+
+    // Fabrics
+    Route::get('fabrics', 'Administration\FabricsController@index');
+    Route::post('fabric/add', 'Administration\FabricsController@store');
+    Route::post('fabric/update', 'Administration\FabricsController@store');
+    Route::get('fabric/add/', 'Administration\FabricsController@addForm');
+    Route::get('fabric/edit/{id}', 'Administration\FabricsController@editForm');
+
     Route::get('canvas', 'Administration\CanvasController@index');
+    Route::get('canvas/texturing-guide', 'Administration\CanvasController@texturing_guide');
 
     // TODO
     Route::get('factories', function(){ return view('administration.oops'); });
-    Route::get('jerseys', function(){ return view('administration.oops'); });
+    Route::get('waists', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });
     Route::get('pants', function(){ return view('administration.oops'); });
     Route::get('skus', function(){ return view('administration.oops'); });
     Route::get('orders', function(){ return view('administration.oops'); });
     Route::get('accountSettings', function(){ return view('administration.oops'); });
+
 });
 
 Route::get('uniform-builder', 'UniformBuilderController@index');
