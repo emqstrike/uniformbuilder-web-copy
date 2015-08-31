@@ -142,7 +142,6 @@
             <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
-            <script src="{{$asset_storage}}/context-blender/context-blender.js{{$asset_version}}"></script>
 
             <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 

@@ -19,7 +19,3 @@
 		</div>
 	</div>	
 </div>
-
-<!-- <button id="btn_free_form" class="btn-white btn btn-default btn-sm" onclick="reset_camera();toggle_free_rotate()" style="width: 50px; height: 50px; background: #adadad;"><i class="fa fa-refresh"></i></button>	
-			<button class="btn-white btn btn-default btn-sm" onclick="reset_camera()" style="width: 50px; height: 50px; background: #adadad;"><i class="fa fa-history"></i></button>	
- -->
