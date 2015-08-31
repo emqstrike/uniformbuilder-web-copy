@@ -65,7 +65,7 @@
         
         <div id="right-top" class="pane-top">
             
-            ///
+            
 
         </div>
 
