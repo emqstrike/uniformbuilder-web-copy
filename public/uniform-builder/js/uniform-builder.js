@@ -164,6 +164,10 @@
             ub.assets.front_view.piping_1       = ub.assets.folder_name + 'piping-1-front.png';
             ub.assets.front_view.piping_2       = ub.assets.folder_name + 'piping-2-front.png';
 
+            ub.assets.front_view.logo           = ub.assets.folder_name + 'logo-front.png';
+            ub.assets.front_view.logo_shape     = ub.assets.folder_name + 'logo-front-shape.png';
+
+
 
 
 
@@ -177,6 +181,11 @@
 
             ub.assets.back_view.piping_1   = ub.assets.folder_name + 'piping-1-back.png';
             ub.assets.back_view.piping_2   = ub.assets.folder_name + 'piping-2-back.png';
+
+            ub.assets.back_view.number           = ub.assets.folder_name + 'number-back.png';
+            ub.assets.back_view.number_shape     = ub.assets.folder_name + 'number-back-shape.png';
+
+
 
 
 
@@ -334,6 +343,10 @@
                 var piping_1                        = ub.pixi.new_sprite( ub.assets.front_view.piping_1 );
                 var piping_2                        = ub.pixi.new_sprite( ub.assets.front_view.piping_2 );
 
+                var logo                            = ub.pixi.new_sprite( ub.assets.front_view.logo );
+                var logo_shape                      = ub.pixi.new_sprite( ub.assets.front_view.logo_shape );
+
+
 
                 ub.objects.front_view               = {};
 
@@ -343,8 +356,12 @@
 
                 ub.objects.front_view.piping_1      = piping_1;
                 ub.objects.front_view.piping_2      = piping_2;
+                ub.objects.front_view.logo          = logo;
+                ub.objects.front_view.logo_shape    = logo_shape;
 
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
+                logo.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
+
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
@@ -352,6 +369,8 @@
 
                 piping_1.zIndex                     = -1;
                 piping_2.zIndex                     = -2;
+                logo_shape.zIndex                   = -3;
+                logo.zIndex                         = -4;
 
                 // default colors
 
@@ -363,6 +382,8 @@
                 ub.front_view.addChild(piping_2);
                 ub.front_view.addChild(base);
                 ub.front_view.addChild(shape);
+                ub.front_view.addChild(logo);
+                ub.front_view.addChild(logo_shape);
 
                 ub.updateLayersOrder(ub.front_view);
 
@@ -380,6 +401,10 @@
                 var piping_1                        = ub.pixi.new_sprite( ub.assets.back_view.piping_1 );
                 var piping_2                        = ub.pixi.new_sprite( ub.assets.back_view.piping_2 );
 
+                var number                            = ub.pixi.new_sprite( ub.assets.back_view.number );
+                var number_shape                      = ub.pixi.new_sprite( ub.assets.back_view.number_shape );
+
+
 
                 ub.objects.back_view                = {};
 
@@ -390,13 +415,23 @@
                 ub.objects.back_view.piping_1       = piping_1;
                 ub.objects.back_view.piping_2       = piping_2;
 
+                ub.objects.back_view.number          = number;
+                ub.objects.back_view.number_shape    = number_shape;
+
+
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
+                number.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
+
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
                 piping_2.zIndex                     = -1;
                 piping_2.zIndex                     = -2;
+
+                number_shape.zIndex                   = -3;
+                number.zIndex                         = -4;
+
 
                 // default colors
 
@@ -407,6 +442,9 @@
                 ub.back_view.addChild(shape);
                 ub.back_view.addChild(piping_1);
                 ub.back_view.addChild(piping_2);
+
+                ub.back_view.addChild(number);
+                ub.back_view.addChild(number_shape);
 
                 ub.updateLayersOrder(ub.back_view);
 
@@ -433,6 +471,14 @@
                 layer_2.zIndex                      = 2;
                 layer_3.zIndex                      = 3;
                 layer_4.zIndex                      = 4;
+
+                // default colors
+
+                layer_1.tint = 0xdbd1c5;
+                layer_2.tint = 0x8a8275;
+                layer_3.tint = 0xb6b09f;
+                layer_4.tint = 0x594e50;
+                
 
                 ub.pattern_view.addChild(layer_1);
                 ub.pattern_view.addChild(layer_2);
@@ -624,7 +670,11 @@
                     ub.objects.left_view[obj].tint      = color_value;
                     ub.objects.right_view[obj].tint     = color_value;
                     ub.objects.front_view[obj].tint     = color_value;
+                    ub.objects.front_view['logo_shape'].tint      = color_value;
+                    ub.objects.back_view['number_shape'].tint  = color_value;
+
                     ub.objects.back_view[obj].tint      = color_value;
+
 
                     
                 }
@@ -633,6 +683,15 @@
 
 
                     ub.objects.pattern_view[obj].tint   = color_value;
+                    
+                    if(obj === 'layer_1'){
+                    
+                        ub.objects.front_view['logo_shape'].tint   = color_value;
+                        ub.objects.back_view['number_shape'].tint  = color_value;
+                    
+                    }    
+
+
                     ub.applyMaterial();
 
                     ub.objects.left_view['pattern'].visible = true;
@@ -650,9 +709,6 @@
                     ub.objects.back_view[obj].tint     = color_value;
                     ub.objects.left_view[obj].tint     = color_value;
                     ub.objects.right_view[obj].tint     = color_value;
-
-
-
 
 
                 }
