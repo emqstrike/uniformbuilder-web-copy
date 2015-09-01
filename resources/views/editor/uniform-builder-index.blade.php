@@ -227,7 +227,7 @@
 
                 <div class="options_panel_section">
                 
-                    <label>Sleeve Piping</label>  <a class= "btn btn-default" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >Show</a>
+                    <label>Popup Test</label>&nbsp; <a class= "btn btn-default" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >Show</a>
 
                     <div id="myPopover" class="hide">
 
@@ -318,13 +318,6 @@
                     </div>   
 
                 </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Apply Pattern To Sleeve?</label>  
-
-                </div>
-
 
             </div>
 
