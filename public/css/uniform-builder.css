@@ -1,0 +1,66 @@
+
+
+    body, h1, h2, h3, h4, h5, h6, button, a, p {
+        font-family: 'Roboto', sans-serif;
+    }
+
+
+    /* Navbar */
+
+        div.navbar-header {
+
+            position: absolute;
+
+        }
+
+        #header_text {
+
+            color: #363636;
+
+        }
+
+        a.navbar-brand {
+
+            padding: 7px;
+
+        }
+
+        a.navbar-brand > img {
+
+            padding: 3px;
+            margin: 3px;
+
+        }
+
+        .navbar-default {
+
+            box-shadow: none;
+            background-color: #ffffff;
+
+            background-image: url(/images/header/bottom_bars.jpg);
+            height: 90px;
+
+        }
+
+        .navbar-fixed-top {
+
+            border-width: 0 0 0 0;
+
+        }
+
+
+
+    /* End Navbar */
+
+
+    /* Main Container */
+
+
+        div#main_container {
+
+            margin-top: 90px;
+
+        }
+
+
+    /* End Main Container */

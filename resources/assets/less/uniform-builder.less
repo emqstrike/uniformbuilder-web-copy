@@ -1,0 +1,424 @@
+
+    @navbar-height: 95px; 
+    @main-container-margin: ( @navbar-height + 70px );
+    @micro_spacer: 2px;
+
+    @text_color: #3d3d3d;
+
+    body, h1, h2, h3, h4, h5, h6, button, a, p {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    html, body {
+
+        height: 100%;
+        width: 100%;
+
+    }
+
+
+    /* Navbar */
+
+        div.navbar-header {
+
+
+            position: absolute;
+
+
+            a.navbar-brand {
+
+                padding: 7px;
+
+               
+                img {
+
+                    padding: 3px;
+                    margin: 3px;
+
+                }  
+
+
+            }
+
+
+        }
+
+        #header_text {
+
+            color: #363636;
+
+        }
+
+        .navbar-default {
+
+            box-shadow: none;
+            background-color: #ffffff;
+
+            background-image: url(/images/header/bottom_bars.jpg);
+            height: @navbar-height;
+
+        }
+
+        .navbar-fixed-top {
+
+            border-width: 0 0 0 0;
+
+        }
+
+
+
+    /* End Navbar */
+
+
+    /* Main Container */
+
+
+        div#main_container {
+
+            height: 80%;
+            margin-top: @main-container-margin;
+
+            div#main-row {
+
+                height: 100%;
+
+                div#left-pane-column {
+
+                    height: 100%;
+
+                }
+
+                div#right-pane-column {
+
+                    height: 100%;
+
+                }
+
+            }
+
+        }
+
+
+
+
+    /* End Main Container */
+
+    /* Generic Panes */
+
+        div.pane {
+
+        
+            div.pane-top {
+
+                width: 90%;
+                text-align: center;
+
+                button {
+
+                    margin-bottom: 3px;
+                    
+                }
+
+            }
+
+            div.pane-sidebar {
+
+                float: left;
+                text-align: center;
+                width: 10%;
+                padding-right: @micro_spacer;
+
+                a.sidebar-buttons {
+
+                    background-color: #acacac;
+                    width: 100%;
+                    height: 41px;
+                    display: block;
+                    text-align: center;
+
+                    margin-bottom: @micro_spacer;
+                    padding-top: 2px;
+
+                }
+
+            }
+
+            div.pane-main-window {
+
+                float: right;
+                background-color: #fff;
+
+                width: 90%;
+                height: 500px;
+
+                border: 2px solid #b3b3b3;
+
+            }
+
+
+        }
+
+    /* End Generic Panes */
+
+    /* UI Generic */
+
+        a.active_button {
+
+            background-color: #3d3d3d !important;
+
+        }
+
+    /* End UI Generic */
+
+
+    /* Left Pane - Main Canvas */
+
+        div#left-pane {
+
+
+            div#left-main-window {
+
+                overflow: hidden;
+
+            }
+
+
+        }
+
+        div#left-main-window {
+
+            canvas#canvas-views {
+
+                position: absolute;
+
+            }
+
+        }
+
+    /* End Left Pane - Main Canvas */
+
+    /* Camera Views */
+
+        div#camera-views {
+
+            float: right;
+            text-align: center;
+            width: 90%;
+            padding: 3px;
+
+            a {
+
+                color: @text_color;
+                width: 63px;
+                height: 70px;
+                border: 2px solid #b3b3b3;
+                border-radius: 0px;
+                text-align: center;
+
+                padding: 0;
+
+                img {
+
+                    width: 100%;
+                    height: 100%;
+
+
+                }
+
+            }
+
+
+        }
+
+    /* End Camera Views */
+
+
+    /* Right Pane - Property Customizer */
+        
+        div#right-pane {
+
+
+
+        }
+
+    /* End Right Pane - Property Customizer */
+
+    
+    /* Options Panel */
+
+        div.options_panel  {
+
+            div.options_panel_header {
+
+             
+                background-color: #f2f2f2;
+                width: 100%;
+                display: table;
+                height: 40px;
+                border-bottom: 1px solid #b3b3b3;
+                padding: 10px;
+
+                span.header_text {
+                    
+                    font-weight: bold;
+                    padding: 10px;
+                    color: @text_color;
+                    height: 100%;
+
+                    border-right: 1px solid #b3b3b3;
+                    padding: 10px;
+                    padding-right: 23px;
+
+                }
+
+
+            }
+
+
+            div.options_panel_section {
+
+                width: 100%;
+                display: table;
+                height: 40px;
+                border-bottom: 1px solid #b3b3b3;
+                padding: 10px;
+
+                span.text {
+                    
+                    font-weight: bold;
+                    padding: 10px;
+                    color: @text_color;
+                    height: 100%;
+                    padding: 10px;
+                    padding-right: 23px;
+                    display: table-cell;
+
+                }
+
+                label {
+
+                    color: @text_color;
+                    width: 20%;
+                    font-weight: normal;
+                    padding-left: 10px;
+
+                }
+
+                button {
+
+                    width: 20%;
+                    font-size: 75%;
+
+                }
+
+                div.color_panel_container {
+
+                    margin-left: 23px;
+                    margin-top: 23px;
+
+                    div.color_element {
+
+                        width: 43px;
+                        height: 43px;
+                        background-image: url(/images/sidebar/color-bg-0.png);
+                        float: left;
+                        background-repeat: no-repeat;
+
+                    }
+
+                }    
+
+
+            }
+
+            div#color_panel_section {
+
+                padding-bottom: 30px;
+
+            }
+
+        }
+
+    /* End Options Panel */
+
+    /* Right Main Window */
+
+        
+        div#right-main-window {
+
+            overflow-y: scroll;
+
+        }
+
+
+    /* End Right Main Window */    
+
+    /* Popovers */
+
+        .popover {
+
+            width: 415px;
+            height: 130px;
+            max-width: 100%;
+
+            margin-left: 90px;
+
+        }
+
+        div#popover_color_panel {
+
+            width: 412px;
+
+            div.color_element {
+
+                float: left;
+
+            }
+
+        }
+
+
+
+    /* End Popovers */
+
+
+    /* Canvas */
+
+        canvas#front_view, canvas#back_view, canvas#left_view, canvas#right_view {
+
+            width: 100%;
+            height: 100%;
+
+        }
+
+    /* End Canvas */
+
+
+    /* Mixing Canvas */
+
+
+        div#mixing-canvas {
+
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            display: none;
+
+            div.canvas-container {
+
+
+            }
+
+            .canvas-views {
+            
+                border: 1px solid #b3b3b3;                
+
+            }
+
+        }
+
+    /* End Mixing Canvas */
+
+    
+
+
