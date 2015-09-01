@@ -197,7 +197,7 @@
 
                     <div class="color_panel_container">
                 
-                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_2   ', 'event_class' => 'change-color',])
+                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_2', 'event_class' => 'change-color',])
 
                         <br /><br />
 

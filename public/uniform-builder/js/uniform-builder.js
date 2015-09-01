@@ -3,7 +3,6 @@
 
     /// NEW RENDERER ///
 
-
         window.ub                       = {};
         window.ub.objects               = {};
 
