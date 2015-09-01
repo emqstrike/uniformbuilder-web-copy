@@ -42,6 +42,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('account_settings/change_password/{id}', 'Administration\UsersController@changePasswordForm');
     Route::post('account_settings/change_password', 'Administration\UsersController@changePassword');
 
+    // Factories
+    Route::get('factories', 'Administration\FactoriesController@index');
+    Route::post('factory/add', 'Administration\FactoriesController@store');
+    Route::post('factory/update', 'Administration\FactoriesController@store');
+    Route::get('factory/add', 'Administration\FactoriesController@addFactoryForm');
+    Route::get('factory/edit/{id}', 'Administration\FactoriesController@editFactoryForm');
+
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
     Route::post('category/add', 'Administration\UniformCategoriesController@store');
@@ -119,7 +126,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('canvas/texturing-guide', 'Administration\CanvasController@texturing_guide');
 
     // TODO
-    Route::get('factories', function(){ return view('administration.oops'); });
     Route::get('waists', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });
