@@ -238,7 +238,9 @@
 
             /// Refresh Thumbnail on the initial 4 passes
             
-            if(ub.pass < 4){
+            var initial_frames_to_refresh = 30; // 60 frames in one sec, average
+
+            if ( ub.pass < initial_frames_to_refresh ) {
 
                 ub.refresh_thumbnails();
                 ub.pass += 1;
