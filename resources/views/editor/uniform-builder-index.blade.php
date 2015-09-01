@@ -84,17 +84,19 @@
 
             </a>
 
+             <a href="" class="sidebar-buttons" data-filename='patterns'>
+
+                <img src="images/sidebar/patterns.png">
+
+            </a>
+
             <a href="" class="sidebar-buttons" data-filename='gradients'>
 
                 <img src="images/sidebar/gradients.png">
 
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='patterns'>
-
-                <img src="images/sidebar/patterns.png">
-
-            </a>
+           
 
             <a href="" class="sidebar-buttons" data-filename='texts'>
 
@@ -147,13 +149,13 @@
 
                  <div class="options_panel_section">
                 
-                    <label>Team Color</label> &nbsp; &nbsp; <button class="btn btn-default">Color 1</button> &nbsp; &nbsp; <button class="btn btn-default">Color 2</button>
+                    <label>Team Color</label> 
 
                 </div>
 
                 <div class="options_panel_section">
                 
-                    <label>Base Color</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
+                    <label>Base</label>  
 
                 </div>
 
@@ -162,6 +164,24 @@
                     <div class="color_panel_container">
                 
                         @include('partials.colors', ['data_panel' => 'base', 'data_target' =>'shape', 'event_class' => 'change-color',])
+
+                        <br /><br />
+
+                    </div>    
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Sleeve</label>  
+
+                </div>
+
+                <div class="options_panel_section" id="color_panel_section">
+
+                    <div class="color_panel_container">
+                
+                        @include('partials.colors', ['data_panel' => 'sleeve', 'data_target' =>'sleeve_shape', 'event_class' => 'change-color',])
 
                         <br /><br />
 
@@ -202,12 +222,6 @@
                         <br /><br />
 
                     </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Sleeve</label>  &nbsp; &nbsp; <button class="btn btn-default">Color</button> &nbsp; &nbsp; <button class="btn btn-default">Gradient</button>  &nbsp; &nbsp; <button class="btn btn-default">Pattern</button>
 
                 </div>
 
@@ -302,6 +316,12 @@
                         @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_4', 'event_class' => 'change-color',])
                         
                     </div>   
+
+                </div>
+
+                <div class="options_panel_section">
+                
+                    <label>Apply Pattern To Sleeve?</label>  
 
                 </div>
 
