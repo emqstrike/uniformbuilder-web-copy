@@ -238,7 +238,7 @@
 
             /// Refresh Thumbnail on the initial 4 passes
             
-            if(ub.pass < 4){
+            if(ub.pass < 30){
 
                 ub.refresh_thumbnails();
                 ub.pass += 1;
