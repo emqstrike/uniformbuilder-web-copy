@@ -1,0 +1,38 @@
+.navbar-fixed-top{
+background-color: white;
+min-height: 80px;
+border-style: solid;
+border-color: #E8E8E8;
+border-radius: 2px;
+}
+
+.navtext{
+color: white;
+font-weight: bold; 
+font-size: 24px;
+font-family: 'Open Sans', sans-serif;
+line-height: 3;
+margin-left:20px;
+}
+
+.searchbox{ 
+line-height: 2;
+font-size: 16px;
+}
+
+a:hover{ 
+  color: red;
+}
+
+.tablist-left{
+	width: 25%;
+	display: inline-block;
+	font-size: 10px;
+}
+
+.tablist-content{
+	width: 60%;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5%;
+}
