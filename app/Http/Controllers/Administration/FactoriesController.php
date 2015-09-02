@@ -30,7 +30,7 @@ class FactoriesController extends Controller
 
     public function editFactoryForm($id)
     {
-        $factory = $this->client->getFActory($id);
+        $factory = $this->client->getFactory($id);
         return view('administration.factories.factory-edit', [
             'factory' => $factory
         ]);
@@ -70,6 +70,7 @@ class FactoriesController extends Controller
         if (!empty($userId))
         {
             Log::info('Attempts to update Factory#' . $id);
+            $data['id'] = $id;
             $response = $this->client->updateFactory($data);
         }
         else
