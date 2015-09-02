@@ -74,29 +74,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Base Material Color</label>
-                            <div class="col-md-6">
-                                <select name='color_code' class="form-control color">
-                                @foreach ($colors as $color)
-                                    @if ($color->active)
-                                    <option value='{{ $color->color_code }}' style="font-size: 20px; background-color: #{{ $color->hex_code }}">{{ $color->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Lining Type</label>
-                            <div class="col-md-6">
-                                <select name='lining_type' class="form-control lining-type">
-                                    <option value='singled'>Singled</option>
-                                    <option value='doubled'>Doubled</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_code' class="form-control factory-code">
