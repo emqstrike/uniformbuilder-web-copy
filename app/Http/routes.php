@@ -115,6 +115,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('fabric/add/', 'Administration\FabricsController@addForm');
     Route::get('fabric/edit/{id}', 'Administration\FabricsController@editForm');
 
+    // Linings
+    Route::get('linings', 'Administration\LiningsController@index');
+    Route::post('lining/add', 'Administration\LiningsController@store');
+    Route::post('lining/update', 'Administration\LiningsController@store');
+    Route::get('lining/add/', 'Administration\LiningsController@addForm');
+    Route::get('lining/edit/{id}', 'Administration\LiningsController@editForm');
+
     Route::get('canvas', 'Administration\CanvasController@index');
     Route::get('canvas/texturing-guide', 'Administration\CanvasController@texturing_guide');
 
