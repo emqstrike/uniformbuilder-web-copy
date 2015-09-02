@@ -44,14 +44,12 @@ class FactoriesController extends Controller
     public function store(Request $request)
     {
         $name = $request->input('name');
-        //$fid = $request->input('factory_id');
         
         $id = null;
         
         if (!empty($request->input('factory_id')))
         {
             $id = $request->input('factory_id');
-            //$data['id'] = $id;
         }
         // Is the Factory Name taken?
         if ($this->client->isFactoryTaken($name, $id))
@@ -59,11 +57,6 @@ class FactoriesController extends Controller
             return Redirect::to('administration/factories')
                             ->with('message', 'Factory already exist');
         }
-
-        /*if ($request->input('type'))
-        {
-            $data['type'] = $request->input('type');
-        }*/
 
         $data = [
             'name' => $name
@@ -74,7 +67,6 @@ class FactoriesController extends Controller
         {
             Log::info('Attempts to update Factory#' . $id);
             $data['id'] = $id;
-            $data['name'] = $name;
             $response = $this->client->updateFactory($data);
         }
         else
