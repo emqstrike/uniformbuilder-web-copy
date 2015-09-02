@@ -71,7 +71,7 @@ $(document).ready(function(){
         $('#view-material-modal .front-view-shape').attr('src', material.v2d.front.shape_path);
         $('#view-material-modal .back-view-image').attr('src', material.v2d.back.view_path);
         $('#view-material-modal .back-view-shape').attr('src', material.v2d.back.shape_path);
-        $('#view-material-modal .right-side-view-image').attr('src', material.v2d.right_side.shape_path);
+        $('#view-material-modal .right-side-view-image').attr('src', material.v2d.right_side.view_path);
         $('#view-material-modal .right-side-view-shape').attr('src', material.v2d.right_side.shape_path);
         $('#view-material-modal .left-side-view-image').attr('src', material.v2d.left_side.view_path);
         $('#view-material-modal .left-side-view-shape').attr('src', material.v2d.left_side.shape_path);
