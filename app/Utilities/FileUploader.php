@@ -89,7 +89,7 @@ class FileUploader
         }
         elseif (($type == 'material_perspective_view') || ($type == 'material_perspective_shape'))
         {
-            // Retain the passed filename
+            // Just Retain the filename
         }
         elseif ($type == 'bump')
         {
