@@ -33,6 +33,12 @@
                             </div>
                         </div>
 
+                            <label class="col-md-4 control-label">Factory Code</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control factory-code" name="code" value="{{ old('code') }}">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-lg btn-primary create-factory">

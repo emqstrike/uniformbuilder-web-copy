@@ -32,9 +32,9 @@ class FactoriesAPIClient extends APIClient
         return $factories;
     }
 
-    public function isFactoryTaken($name, $id = null)
+    public function isFactoryTaken($code, $id = null)
     {
-        $response = $this->get('factory/name/' . $name);
+        $response = $this->get('factory/code/' . $code);
         $result = $this->decoder->decode($response->getBody());
 
         $factory = null;
@@ -54,9 +54,9 @@ class FactoriesAPIClient extends APIClient
         return !is_null($factory);
     }
 
-    public function getFactoryByName($name)
+    public function getFactoryByCode($code)
     {
-        $response = $this->get('factory/name/' . $name);
+        $response = $this->get('factory/code/' . $code);
         $result = $this->decoder->decode($response->getBody());
 
         if ($result->success)
@@ -67,11 +67,12 @@ class FactoriesAPIClient extends APIClient
     }
 
     public function createFactory($data)
-    {
+    { // IKAW ANG SALARIN
+
         $response = $this->post('factory', [
             'json' => $data
         ]);
-
+        print_r($response->getBody());
         return $this->decoder->decode($response->getBody());
     }
 

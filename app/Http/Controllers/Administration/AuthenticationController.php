@@ -69,7 +69,7 @@ class AuthenticationController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
-error_log('LOGIN');
+
         try
         {
             $response = $this->client->post('user/login', [

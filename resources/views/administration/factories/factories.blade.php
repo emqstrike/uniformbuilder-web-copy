@@ -25,7 +25,7 @@
     </h1>
 </div>
 
-<div class="row col-md-5">
+<div class="row col-md-7">
     <table class='table table-bordered'>
     <tr>
         <th colspan='2'>
@@ -37,6 +37,9 @@
     <tr class='factory-{{ $factory->id }} {{ (!$factory->active) ? ' inactive' : '' }}'>
         <td>
             {{ $factory->name }}
+        </td>
+        <td>
+            {{ $factory->code }}
         </td>
         <td>
             <a href="#" class="btn btn-default btn-xs disable-factory" data-factory-id="{{ $factory->id }}" role="button" {{ ($factory->active) ? : 'disabled="disabled"' }}>
@@ -63,7 +66,7 @@
 @empty
 
     <tr>
-        <td colspan='2'>
+        <td colspan='4'>
             No Factories
         </td>
     </tr>
