@@ -39,6 +39,9 @@
             <li>
                 <a href="/administration/gradients"><span class="glyphicon glyphicon-th-list"></span> Gradients</a>
             </li>
+            <li>
+                <a href="/administration/linings"><span class="glyphicon glyphicon-th-list"></span> Linings</a>
+            </li>
 
             <li class="divider">
 
