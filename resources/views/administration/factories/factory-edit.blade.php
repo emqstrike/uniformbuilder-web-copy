@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/factory/edit" enctype="multipart/form-data" id='edit-factory-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/factory/update" enctype="multipart/form-data" id='edit-factory-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="factory_id" value="{{ $factory->id }}">
 
