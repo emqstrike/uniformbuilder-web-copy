@@ -61,7 +61,7 @@ class FactoriesController extends Controller
         $data = [
             'name' => $name
         ];
-        //dd($id);
+
         $response = null;
         if (!empty($id))
         {
