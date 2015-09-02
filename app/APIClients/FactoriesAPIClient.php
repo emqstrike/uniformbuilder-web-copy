@@ -67,12 +67,12 @@ class FactoriesAPIClient extends APIClient
     }
 
     public function createFactory($data)
-    { // IKAW ANG SALARIN
+    {
 
         $response = $this->post('factory', [
             'json' => $data
         ]);
-        print_r($response->getBody());
+        
         return $this->decoder->decode($response->getBody());
     }
 
