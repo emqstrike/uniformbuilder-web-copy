@@ -32,33 +32,7 @@ class LiningsAPIClient extends APIClient
         return $linings;
     }
 
-    public function isLiningNameTaken($name, $id = null)
-    {
-        $response = $this->get('lining/name/' . $name);
-        $result = $this->decoder->decode($response->getBody());
-
-        $lining = null;
-        if ($result->success)
-        {
-            $lining = $result->lining;
-        }
-        else
-        {
-            return false;
-        }
-
-        if (!is_null($lining) && !is_null($id))
-        {
-            $compare = $this->getlining($id);
-            if ($lining->id == $compare->id)
-            {
-                return false;
-            }
-        }
-        return !is_null($lining);
-    }
-
-    public function getLiningByCode($code)
+    public function getByCode($code)
     {
         $response = $this->get('lining/code/' . $code);
         $result = $this->decoder->decode($response->getBody());
@@ -74,7 +48,7 @@ class LiningsAPIClient extends APIClient
         return null;
     }
 
-    public function isLiningCodeTaken($code, $id = null)
+    public function isCodeTaken($code, $id = null)
     {
         $response = $this->get('lining/code/' . $code);
         $result = $this->decoder->decode($response->getBody());
@@ -98,18 +72,6 @@ class LiningsAPIClient extends APIClient
             }
         }
         return !is_null($lining);
-    }
-
-    public function getLiningByName($name)
-    {
-        $response = $this->get('lining/name/' . $name);
-        $result = $this->decoder->decode($response->getBody());
-
-        if ($result->success)
-        {
-            return $result->lining;
-        }
-        return null;
     }
 
     public function createLining($data)

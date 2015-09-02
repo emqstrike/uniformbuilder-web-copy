@@ -59,7 +59,7 @@ class LiningsController extends Controller
         }
 
         // Does the Lining Name exist
-        if ($this->client->isLiningCodeTaken($liningCode, $liningId))
+        if ($this->client->isCodeTaken($liningCode, $liningId))
         {
             return Redirect::to('administration/linings')
                             ->with('message', 'Lining code already exist');
