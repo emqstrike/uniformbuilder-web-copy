@@ -68,28 +68,28 @@ $(document).ready(function(){
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
-                    $('.design-' + id).fadeOut();
+                    $('.design-set').fadeOut();
                 }
             }
         });
     });
 
-    $('.delete-design-path').on('click', function(){
+    $('.delete-design-set-thumbnail-path').on('click', function(){
         var id = $(this).data('design-id');console.log(id);
         var design = $(this).data('design');console.log(design);
         $('#confirmation-modal .confirm-delete-design').data('design', design);
-        modalConfirm('Remove design', 'Are you sure you want to delete the design?', id, 'confirm-delete-design');
+        modalConfirm('Remove design', 'Are you sure you want to delete the design set?', id, 'confirm-delete-design-set');
     });
 
     // Delete Design Set File
-    $('#confirmation-modal .confirm-delete-fabric').on('click', function(){
+    $('#confirmation-modal .confirm-delete-design-set').on('click', function(){
         var id = $(this).data('value');
-        var fabric = $(this).data('fabric');
-        var url = "//" + api_host + "/api/fabric/deleteFabric/";
+        var design_set = $(this).data('design-set');
+        var url = "//" + api_host + "/api/design_set/deleteThumbnail/";
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id, fabric: fabric}),
+            data: JSON.stringify({id: id, design_set: design_set}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -97,7 +97,7 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
-                    $('.fabric_path').fadeOut();
+                    $('.thumbnail_path').fadeOut();
                 }
             }
         });

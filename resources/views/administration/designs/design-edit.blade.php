@@ -145,7 +145,7 @@
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
                                 @if ($design->thumbnail_path)
                                 <img src="{{ $design->thumbnail_path }}" class="thumbnail_path" width="100px" height="100px">
-                                <a href="#" class="btn btn-danger btn-xs delete-design-thumbnail-path thumbnail_path"
+                                <a href="#" class="btn btn-danger btn-xs delete-design-set-thumbnail-path thumbnail_path"
                                     data-design-id="{{ $design->id }}"
                                     data-design-path="{{ $design->thumbnail_path }}"
                                     role="button">
