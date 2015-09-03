@@ -32,7 +32,7 @@ class PatternsAPIClient extends APIClient
         return $patterns;
     }
 
-    /*public function isPatternNameTaken($name, $id = null)
+    public function isPatternNameTaken($name, $id = null)
     {
         $response = $this->get('pattern/name/' . $name);
 
@@ -54,7 +54,7 @@ class PatternsAPIClient extends APIClient
             }
         }
         return !is_null($pattern);
-    }*/
+    }
 
     public function isPatternExist($name, $id = null)
     {
@@ -98,7 +98,6 @@ class PatternsAPIClient extends APIClient
 
     public function updatePattern($data)
     {
-       // dd($data);
         $response = $this->post('pattern/update', [
             'json' => $data
         ]);

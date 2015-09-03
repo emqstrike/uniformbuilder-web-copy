@@ -116,7 +116,6 @@ class PatternsController extends Controller
         $response = null;
         if (!empty($patternId))
         {
-        //dd($data);
             Log::info('Attempts to update Pattern#' . $patternId);
             $response = $this->client->updatePattern($data);
         }
