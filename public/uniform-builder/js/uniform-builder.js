@@ -302,13 +302,15 @@
 
                         if(name !== 'sleeve') {
                             
-                            ub.objects[view + '_view'][name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                            var default_color = JSON.parse(obj.colors)[0];
+                            var hex_code = _.find( ub.current_material.colors, { color_code: default_color }).hex_code;
+
+                            ub.objects[view + '_view'][name].tint = hex_code ;
                         
                         }    
                         
                         if(name === 'sleeve') {
                             
-                            console.log('name:' + name);
                             ub.objects[view + '_view'][name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                         }
@@ -318,6 +320,7 @@
                     });
 
                     ub.updateLayersOrder(ub[view + '_view']);
+
 
                 });    
 
