@@ -291,31 +291,32 @@
                 _.each(views, function(view) {
 
 
-                    var material_options = _.where(ub.current_material.material.options, {perspective: view}); 
+                    var material_options = _.where(ub.current_material.material.options, {perspective: view});
+                    var current_view_objects = ub.objects[view + '_view']; 
 
                     _.each(material_options, function(obj) {
                         
                         var name = obj.name.toLowerCase().replace(' ', '_');
+                        current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
+                        var current_object = current_view_objects[name];
 
-                        ub.objects[view + '_view'][name] = ub.pixi.new_sprite( obj.material_option_path );
-                        ub.objects[view + '_view'][name].zIndex = obj.layer_level;
+                        current_object.zIndex = obj.layer_level;
 
-                        if(name !== 'sleeve') {
+                        /// replace this with test if not tintable
+                        if(name === 'sleeve') {
+                            
+                            current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                        } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
                             var color = _.find( ub.current_material.colors, { color_code: default_color });
 
-                            ub.objects[view + '_view'][name].tint = color.hex_code;
+                            current_object.tint = color.hex_code;
                         
                         }    
-                        
-                        if(name === 'sleeve') {
-                            
-                            ub.objects[view + '_view'][name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
-                        }
-
-                        ub[view + '_view'].addChild(ub.objects[view + '_view'][name]);
+                        ub[view + '_view'].addChild(current_object);
 
                     });
 
