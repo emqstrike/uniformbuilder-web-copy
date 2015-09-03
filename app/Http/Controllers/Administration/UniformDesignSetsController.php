@@ -58,8 +58,8 @@ class UniformDesignSetsController extends Controller
         $design = $this->client->getDesignSet($id);
         $uniformCategories = $this->categoriesClient->getUniformCategories();
         $colors = $this->colorsClient->getColors();
-        $upperUniforms = $this->materialsClient->getMaterials();
-        $lowerUniforms = $this->materialsClient->getMaterials();
+        $upperUniforms = $this->materialsClient->getUpperBodyUniforms();
+        $lowerUniforms = $this->materialsClient->getLowerBodyUniforms();
         $fabrics = $this->fabricsClient->getFabrics();
         $linings = $this->liningsClient->getLinings();
 
@@ -78,8 +78,8 @@ class UniformDesignSetsController extends Controller
     {
         $uniformCategories = $this->categoriesClient->getUniformCategories();
         $colors = $this->colorsClient->getColors();
-        $upperUniforms = $this->materialsClient->getMaterials();
-        $lowerUniforms = $this->materialsClient->getMaterials();
+        $upperUniforms = $this->materialsClient->getUpperBodyUniforms();
+        $lowerUniforms = $this->materialsClient->getLowerBodyUniforms();
         $fabrics = $this->fabricsClient->getFabrics();
         $linings = $this->liningsClient->getLinings();
         return view('administration.designs.design-create', [
