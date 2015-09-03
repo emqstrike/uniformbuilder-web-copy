@@ -226,12 +226,16 @@
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_3.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_4.png' );
 
+
+
             /// Begin Rendering after assets are loaded
 
                 ub.setup_left_view(); 
                 ub.setup_right_view(); 
                 ub.setup_front_view(); 
-                ub.setup_back_view(); 
+                ub.setup_back_view();
+
+                ub.setup_material_options(); 
 
                 ub.setup_pattern_view(); 
 
@@ -280,6 +284,45 @@
 
             }
 
+            window.ub.setup_material_options = function () {
+
+                var views = ['front', 'back', 'left', 'right'];
+                
+                _.each(views, function(view) {
+
+
+                    var material_options = _.where(ub.current_material.material.options, {perspective: view}); 
+
+                    _.each(material_options, function(obj) {
+                        
+                        var name = obj.name.toLowerCase().replace(' ', '_');
+
+                        ub.objects[view + '_view'][name] = ub.pixi.new_sprite( obj.material_option_path );
+                        ub.objects[view + '_view'][name].zIndex = obj.layer_level;
+
+                        if(name !== 'sleeve') {
+                            
+                            ub.objects[view + '_view'][name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                        
+                        }    
+                        
+                        if(name === 'sleeve') {
+                            
+                            console.log('name:' + name);
+                            ub.objects[view + '_view'][name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                        }
+
+                        ub[view + '_view'].addChild(ub.objects[view + '_view'][name]);
+
+                    });
+
+                    ub.updateLayersOrder(ub[view + '_view']);
+
+                });    
+
+            };
+
             window.ub.setup_front_view = function(){
 
 
@@ -316,32 +359,6 @@
                 
                 ub.front_view.addChild(logo);
                 ub.front_view.addChild(logo_shape);
-
-                var material_options = _.where(ub.current_material.material.options, {perspective:'front'}); 
-
-                _.each(material_options, function(obj) {
-                    
-                    var name = obj.name.toLowerCase().replace(' ', '_');
-
-                    ub.objects.front_view[name] = ub.pixi.new_sprite( obj.material_option_path );
-                    ub.objects.front_view[name].zIndex = obj.layer_level;
-
-                    if(name !== 'sleeve') {
-                        
-                        ub.objects.front_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
-                    
-                    }    
-                    
-                    if(name === 'sleeve') {
-                        
-                        console.log('name:' + name);
-                        ub.objects.front_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
-                    }
-
-                    ub.front_view.addChild(ub.objects.front_view[name]);
-
-                });
 
                 ub.updateLayersOrder(ub.front_view);
 
@@ -384,32 +401,6 @@
                 ub.back_view.addChild(number);
                 ub.back_view.addChild(number_shape);
 
-                var material_options = _.where(ub.current_material.material.options, {perspective:'back'}); 
-
-                _.each(material_options, function(obj) {
-                    
-                    var name = obj.name.toLowerCase().replace(' ', '_');
-
-                    ub.objects.back_view[name] = ub.pixi.new_sprite( obj.material_option_path );
-                    ub.objects.back_view[name].zIndex = obj.layer_level;
-
-                    if(name !== 'sleeve') {
-                        
-                        ub.objects.back_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
-                    
-                    }    
-                    
-                    if(name === 'sleeve') {
-                        
-                        console.log('name:' + name);
-                        ub.objects.back_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
-                    }
-
-                    ub.back_view.addChild(ub.objects.back_view[name]);
-
-                });
-
                 ub.updateLayersOrder(ub.back_view);
 
 
@@ -435,32 +426,6 @@
 
                 ub.left_view.addChild(base);
                 ub.left_view.addChild(shape);
-
-                var material_options = _.where(ub.current_material.material.options, {perspective:'left'}); 
-
-                _.each(material_options, function(obj) {
-                    
-                    var name = obj.name.toLowerCase().replace(' ', '_');
-
-                    ub.objects.left_view[name] = ub.pixi.new_sprite( obj.material_option_path );
-                    ub.objects.left_view[name].zIndex = obj.layer_level;
-
-                    if(name !== 'sleeve') {
-                        
-                        ub.objects.left_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
-                    
-                    }    
-                    
-                    if(name === 'sleeve') {
-                        
-                        console.log('name:' + name);
-                        ub.objects.left_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
-                    }
-
-                    ub.left_view.addChild(ub.objects.left_view[name]);
-
-                });
 
                 ub.updateLayersOrder(ub.left_view);
 
@@ -490,32 +455,6 @@
                 ub.right_view.addChild(base);
                 ub.right_view.addChild(shape);
 
-                var material_options = _.where(ub.current_material.material.options, {perspective:'right'}); 
-
-                _.each(material_options, function(obj) {
-                    
-                    var name = obj.name.toLowerCase().replace(' ', '_');
-
-                    ub.objects.right_view[name] = ub.pixi.new_sprite( obj.material_option_path );
-                    ub.objects.right_view[name].zIndex = obj.layer_level;
-
-                    if(name !== 'sleeve') {
-                        
-                        ub.objects.right_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
-                    
-                    }    
-                    
-                    if(name === 'sleeve') {
-                        
-                        console.log('name:' + name);
-                        ub.objects.right_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
-                    }
-
-                    ub.right_view.addChild(ub.objects.right_view[name]);
-
-                });
-                
                 ub.updateLayersOrder(ub.right_view);
 
             }
