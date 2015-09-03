@@ -81,4 +81,26 @@ $(document).ready(function(){
         modalConfirm('Remove design', 'Are you sure you want to delete the design?', id, 'confirm-delete-design');
     });
 
+    // Delete Design Set File
+    $('#confirmation-modal .confirm-delete-fabric').on('click', function(){
+        var id = $(this).data('value');
+        var fabric = $(this).data('fabric');
+        var url = "//" + api_host + "/api/fabric/deleteFabric/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, fabric: fabric}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.fabric_path').fadeOut();
+                }
+            }
+        });
+    });
+
 });

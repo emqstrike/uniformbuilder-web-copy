@@ -55,9 +55,22 @@ class UniformDesignSetsController extends Controller
 
     public function editForm($id)
     {
-        $design = $this->client->getDesign($id);
+        $design = $this->client->getDesignSet($id);
+        $uniformCategories = $this->categoriesClient->getUniformCategories();
+        $colors = $this->colorsClient->getColors();
+        $upperUniforms = $this->materialsClient->getMaterials();
+        $lowerUniforms = $this->materialsClient->getMaterials();
+        $fabrics = $this->fabricsClient->getFabrics();
+        $linings = $this->liningsClient->getLinings();
+
         return view('administration.designs.design-edit', [
-            'design' => $design
+            'design' => $design,
+            'uniform_categories' => $uniformCategories,
+            'colors' => $colors,
+            'upper_uniforms' => $upperUniforms,
+            'lower_uniforms' => $lowerUniforms,
+            'fabrics' => $fabrics,
+            'linings' => $linings
         ]);
     }
 
@@ -103,6 +116,13 @@ class UniformDesignSetsController extends Controller
             'lining_code' => $lining_code
         ];
 
+        $designId = null;
+        if (!empty($request->input('uniform_design_set_id')))
+        {
+            $designId = $request->input('uniform_design_set_id');
+            $data['id'] = $designId;
+        }
+
         try {
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');
@@ -147,7 +167,7 @@ class UniformDesignSetsController extends Controller
         }
 
         $response = null;
-        if (!empty($userId))
+        if (!empty($designId))
         {
             Log::info('Attempts to update Uniform Design#' . $id);
             $response = $this->client->updateDesign($data);

@@ -12,6 +12,7 @@ class UniformDesignSetsAPIClient extends APIClient
     {
         $response = $this->get('design_set/' . $id);
         $result = $this->decoder->decode($response->getBody());
+
         if ($result->success)
         {
             return $result->design_set;
@@ -40,6 +41,7 @@ class UniformDesignSetsAPIClient extends APIClient
         if (!is_null($design_set) && !is_null($id))
         {
             $compare = $this->getDesignSet($id);
+
             if ($design_set->id == $compare->id)
             {
                 return false;

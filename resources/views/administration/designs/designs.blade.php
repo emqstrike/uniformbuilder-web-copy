@@ -89,7 +89,7 @@
             </a>
         </td>
         <td>
-            <a href="/administration/design/edit/{{ $design->id }}" class="btn btn-primary btn-xs edit-design" data-design-id="{{ $design->id }}" role="button">
+            <a href="/administration/design_set/edit/{{ $design->id }}" class="btn btn-primary btn-xs edit-design" data-design-id="{{ $design->id }}" role="button">
                 <i class="glyphicon glyphicon-edit"></i>
                 Edit
             </a>
