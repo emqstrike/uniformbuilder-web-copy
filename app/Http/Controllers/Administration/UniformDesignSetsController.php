@@ -7,6 +7,8 @@ use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
+use App\Utilities\FileUploader;
+use Aws\S3\Exception\S3Exception;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\UniformDesignSetsAPIClient as APIClient;
@@ -100,6 +102,30 @@ class UniformDesignSetsController extends Controller
             'base_fabric_code' => $base_fabric_code,
             'lining_code' => $lining_code
         ];
+
+        try {
+            // Thumbnail File
+            $thumbnailFile = $request->file('thumbnail_path');
+            if (isset($thumbnailFile))
+            {
+                if ($thumbnailFile->isValid())
+                {
+                    $data['thumbnail_path'] = FileUploader::upload(
+                                                    $thumbnailFile,
+                                                    $name,
+                                                    'thumbnail',
+                                                    'design_sets',
+                                                    "{$code}-thumbnail.png"
+                                                );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/design_sets')
+                            ->with('message', 'There was a problem uploading your files');
+        }
 
         $id = null;
         if (!empty($request->input('uniform_design_id')))

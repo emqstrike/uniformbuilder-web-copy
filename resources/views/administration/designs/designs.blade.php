@@ -28,6 +28,7 @@
 <div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
+        <th>Thumbnail</th>
         <th>Design Sets</th>
         <th>Code</th>
         <th>Gender</th>
@@ -43,6 +44,13 @@
 @forelse ($designs as $design)
 
     <tr class='design-{{ $design->id }} {{ (!$design->active) ? ' inactive' : '' }}'>
+        <td>
+            @if ($design->thumbnail_path)
+            <img src="{{ $design->thumbnail_path }}" width="100px" height="100px" />
+            @else
+            <img src="http://dummyimage.com/100" width="100px" height="100px" />
+            @endif
+        </td>
         <td>
             {{ $design->name }}
         </td>
@@ -95,7 +103,7 @@
 @empty
 
     <tr>
-        <td colspan='4'>
+        <td colspan='12'>
             No Uniform Design Sets
         </td>
     </tr>
