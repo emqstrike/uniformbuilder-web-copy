@@ -9,6 +9,7 @@ use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
+use App\APIClients\FactoriesAPIClient;
 use App\APIClients\GradientsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
@@ -18,17 +19,20 @@ class MaterialsController extends Controller
     protected $client;
     protected $optionsClient;
     protected $colorsClient;
+    protected $factoriesClient;
     protected $gradientClient;
 
     public function __construct(
         APIClient $apiClient,
         MaterialsOptionsAPIClient $optionsClient,
         ColorsAPIClient $colorsClient,
+        FactoriesAPIClient $factoriesClient,
         GradientsAPIClient $gradientClient
     )
     {
         $this->client = $apiClient;
         $this->optionsClient = $optionsClient;
+        $this->factoriesClient = $factoriesClient;
         $this->colorsClient = $colorsClient;
         $this->gradientClient = $gradientClient;
     }
@@ -44,6 +48,7 @@ class MaterialsController extends Controller
             $options = $this->optionsClient->getByMaterialId($material->id);
             $material->options = $options;
         }
+
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
@@ -67,12 +72,14 @@ class MaterialsController extends Controller
 
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
+        $factories = $this->factoriesClient->getFactories();
 
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
             'material' => $material,
             'uniform_categories' => $uniformCategories,
-            'colors' => $colors
+            'colors' => $colors,
+            'factories' => $factories
         ]);
     }
 
@@ -83,9 +90,11 @@ class MaterialsController extends Controller
 
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
+        $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
-            'colors' => $colors
+            'colors' => $colors,
+            'factories' => $factories
         ]);
     }
 
