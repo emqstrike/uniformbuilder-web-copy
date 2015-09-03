@@ -58,8 +58,8 @@
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control type">
-                                    <option value='jersey'@if($material->type == 'jersey') selected="selected"@endif>Jersey</option>
-                                    <option value='pants'@if($material->type == 'pants') selected="selected"@endif>Pants</option>
+                                    <option value='upper'@if($material->type == 'upper') selected="selected"@endif>Upper Body Uniform</option>
+                                    <option value='lower'@if($material->type == 'lower') selected="selected"@endif>Lower Body Uniform</option>
                                 </select>
                             </div>
                         </div>

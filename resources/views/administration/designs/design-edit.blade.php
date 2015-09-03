@@ -80,7 +80,7 @@
                                 <select name='upper_body_uniform' class="form-control upper-body-uniform">
                                 @foreach ($upper_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->upper == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->upper_body_uniform == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -93,7 +93,7 @@
                                 <select name='lower_body_uniform' class="form-control lower-body-uniform">
                                 @foreach ($lower_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->lower == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->lower_body_uniform == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -106,7 +106,7 @@
                                 <select name='base_color_code' class="form-control">
                                 @foreach ($colors as $color)
                                     @if ($color->active)
-                                    <option value='{{ $color->color_code }}' style="background-color: #{{ $color->hex_code }}"@if ($design->color == $color->color_code) selected="selected"@endif>{{ $color->name }}</option>
+                                    <option value='{{ $color->color_code }}' style="background-color: #{{ $color->hex_code }}"@if ($design->base_color_code == $color->color_code) selected="selected"@endif>{{ $color->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -119,7 +119,7 @@
                                 <select name='base_fabric_code' class="form-control">
                                 @foreach ($fabrics as $fabric)
                                     @if ($fabric->active)
-                                    <option data-description="{{ $fabric->name }}" data-imagesrc="{{ $fabric->fabric_path }}"  value='{{ $fabric->code }}'@if ($design->fabric == $fabric->code) selected="selected"@endif>{{ $fabric->name }}</option>
+                                    <option data-description="{{ $fabric->name }}" data-imagesrc="{{ $fabric->fabric_path }}"  value='{{ $fabric->code }}'@if ($design->base_fabric_code == $fabric->code) selected="selected"@endif>{{ $fabric->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -132,7 +132,7 @@
                                 <select name='lining_code' class="form-control">
                                 @foreach ($linings as $lining)
                                     @if ($lining->active)
-                                    <option data-description="{{ $lining->name }}" value='{{ $lining->code }}'@if ($design->lining == $lining->code) selected="selected"@endif>{{ $lining->name }}</option>
+                                    <option data-description="{{ $lining->name }}" value='{{ $lining->code }}'@if ($design->lining_code == $lining->code) selected="selected"@endif>{{ $lining->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>

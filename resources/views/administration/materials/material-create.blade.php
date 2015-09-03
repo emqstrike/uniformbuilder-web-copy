@@ -57,8 +57,8 @@
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control type">
-                                    <option value='jersey'>Jersey</option>
-                                    <option value='pants'>Pants</option>
+                                    <option value='upper'>Upper Body Uniform</option>
+                                    <option value='lower'>Lower Body Uniform</option>
                                 </select>
                             </div>
                         </div>
