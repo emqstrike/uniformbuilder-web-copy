@@ -1,7 +1,11 @@
 @extends('administration.main')
 
 @section('content')
-
+<style>
+select:hover {
+  background-color: transparent;
+}
+</style>
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -39,11 +43,35 @@
                                 <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default color</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @forelse ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @empty
+                                <p>No Colors exist.</p>
+                                @endforelse
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default color</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @forelse ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @empty
+                                <p>No Colors exist.</p>
+                                @endforelse
+                                </select>
                             </div>
                         </div>
 
@@ -53,11 +81,35 @@
                                 <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default color</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @forelse ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @empty
+                                <p>No Colors exist.</p>
+                                @endforelse
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default color</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @forelse ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @empty
+                                <p>No Colors exist.</p>
+                                @endforelse
+                                </select>
                             </div>
                         </div>
 
@@ -94,6 +146,11 @@ $(document).ready(function(){
         $('.flash-alert').addClass('alert-info');
         $('.flash-alert').show();
         $('.main-content').fadeOut('slow');
+    });
+
+    $('.layer-default-color').change(function(){
+        var color = $('option:selected',this).data('color');
+        $(this).css('background-color',color);
     });
 });
 

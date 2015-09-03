@@ -10,6 +10,7 @@ use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\PatternsAPIClient as APIClient;
+use App\APIClients\ColorsAPIClient;
 
 class PatternsController extends Controller
 {
@@ -38,7 +39,12 @@ class PatternsController extends Controller
 
     public function addPatternForm()
     {
-        return view('administration.patterns.pattern-create');
+        $colorsClient = new ColorsAPIClient();
+        $colors = $colorsClient->getColors();
+
+        return view('administration.patterns.pattern-create', [
+            'color' => $colors
+        ]);
     }
 
     public function store(Request $request)
