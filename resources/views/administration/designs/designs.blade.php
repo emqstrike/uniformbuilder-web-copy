@@ -17,7 +17,7 @@
         <span class="fa fa-building-o"></span>
         Uniform Design Sets
         <small>
-            <a href="/administration/design/add" class='btn btn-xs btn-success'>
+            <a href="/administration/design_set/add" class='btn btn-xs btn-success'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Add New Uniform Design Set
             </a>
@@ -25,11 +25,18 @@
     </h1>
 </div>
 
-<div class="row col-md-5">
+<div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
         <th>Design Sets</th>
         <th>Code</th>
+        <th>Gender</th>
+        <th>Category</th>
+        <th>Upper Body</th>
+        <th>Lower Body</th>
+        <th>Color</th>
+        <th>Fabric</th>
+        <th>Lining</th>
         <th>Active Status</th>
         <th></th>
     </tr>
@@ -41,6 +48,27 @@
         </td>
         <td>
             <span class="badge badge-default">{{ $design->code }}</span>
+        </td>
+        <td>
+            {{ $design->gender }}
+        </td>
+        <td>
+            {{ $design->category }}
+        </td>
+        <td>
+            {{ $design->upper }}
+        </td>
+        <td>
+            {{ $design->lower }}
+        </td>
+        <td>
+            {{ $design->color }}
+        </td>
+        <td>
+            {{ $design->fabric }}
+        </td>
+        <td>
+            {{ $design->lining }}
         </td>
         <td>
             <a href="#" class="btn btn-default btn-xs disable-design" data-design-id="{{ $design->id }}" role="button" {{ ($design->active) ? : 'disabled="disabled"' }}>

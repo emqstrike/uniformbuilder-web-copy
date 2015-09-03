@@ -34,7 +34,8 @@ class UniformDesignSetsAPIClient extends APIClient
 
     public function isDesignTaken($code, $id = null)
     {
-        $design_set = $this->getByCode($code);
+        $result = $this->getByCode($code);
+        $design_set = (is_object($result) && $result->success)  ? $result->design_set : null;
 
         if (!is_null($design_set) && !is_null($id))
         {
@@ -59,7 +60,7 @@ class UniformDesignSetsAPIClient extends APIClient
         return null;
     }
 
-    public function createDesignSet($data)
+    public function createDesign($data)
     {
         $response = $this->post('design_set', [
             'json' => $data
@@ -68,7 +69,7 @@ class UniformDesignSetsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function updateDesignSet($data)
+    public function updateDesign($data)
     {
         $response = $this->post('design_set/update', [
             'json' => $data

@@ -10,14 +10,36 @@ use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\UniformDesignSetsAPIClient as APIClient;
+use App\APIClients\ColorsAPIClient;
+use App\APIClients\UniformCategoriesAPIClient;
+use App\APIClients\MaterialsAPIClient;
+use App\APIClients\FabricsAPIClient;
+use App\APIClients\LiningsAPIClient;
 
 class UniformDesignSetsController extends Controller
 {
     protected $client;
+    protected $colorsClient;
+    protected $categoriesClient;
+    protected $materialsClient;
+    protected $fabricsClient;
+    protected $liningsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        ColorsAPIClient $colorsClient,
+        UniformCategoriesAPIClient $categoriesClient,
+        MaterialsAPIClient $materialsClient,
+        FabricsAPIClient $fabricsClient,
+        LiningsAPIClient $liningsClient
+    )
     {
         $this->client = $apiClient;
+        $this->colorsClient = $colorsClient;
+        $this->categoriesClient = $categoriesClient;
+        $this->materialsClient = $materialsClient;
+        $this->fabricsClient = $fabricsClient;
+        $this->liningsClient = $liningsClient;
     }
 
     public function index()
@@ -29,7 +51,7 @@ class UniformDesignSetsController extends Controller
         ]);
     }
 
-    public function editDesignForm($id)
+    public function editForm($id)
     {
         $design = $this->client->getDesign($id);
         return view('administration.designs.design-edit', [
@@ -37,16 +59,46 @@ class UniformDesignSetsController extends Controller
         ]);
     }
 
-    public function addDesignForm()
+    public function addForm()
     {
-        return view('administration.designs.design-create');
+        $uniformCategories = $this->categoriesClient->getUniformCategories();
+        $colors = $this->colorsClient->getColors();
+        $upperUniforms = $this->materialsClient->getMaterials();
+        $lowerUniforms = $this->materialsClient->getMaterials();
+        $fabrics = $this->fabricsClient->getFabrics();
+        $linings = $this->liningsClient->getLinings();
+        return view('administration.designs.design-create', [
+            'uniform_categories' => $uniformCategories,
+            'colors' => $colors,
+            'upper_uniforms' => $upperUniforms,
+            'lower_uniforms' => $lowerUniforms,
+            'fabrics' => $fabrics,
+            'linings' => $linings
+        ]);
     }
 
     public function store(Request $request)
     {
         $name = $request->input('name');
+        $code = $request->input('code');
+        $gender = $request->input('gender');
+        $uniform_category_id = $request->input('uniform_category_id');
+        $upper_body_uniform = $request->input('upper_body_uniform');
+        $lower_body_uniform = $request->input('lower_body_uniform');
+        $base_color_code = $request->input('base_color_code');
+        $base_fabric_code = $request->input('base_fabric_code');
+        $lining_code = $request->input('lining_code');
+
         $data = [
-            'name' => $name
+            'name' => $name,
+            'code' => $code,
+            'gender' => $gender,
+            'uniform_category_id' => $uniform_category_id,
+            'upper_body_uniform' => $upper_body_uniform,
+            'lower_body_uniform' => $lower_body_uniform,
+            'base_color_code' => $base_color_code,
+            'base_fabric_code' => $base_fabric_code,
+            'lining_code' => $lining_code
         ];
 
         $id = null;
@@ -55,11 +107,12 @@ class UniformDesignSetsController extends Controller
             $id = $request->input('uniform_design_id');
             $data['id'] = $id;
         }
+
         // Is the Design Name taken?
-        if ($this->client->isDesignTaken($name, $id))
+        if ($this->client->isDesignTaken($code, $id))
         {
-            return Redirect::to('administration/designs')
-                            ->with('message', 'Uniform design already exist');
+            return Redirect::to('administration/design_sets')
+                            ->with('message', 'Code already exist');
         }
 
         if ($request->input('type'))
@@ -82,13 +135,13 @@ class UniformDesignSetsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/designs')
+            return Redirect::to('administration/design_sets')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/designs')
+            return Redirect::to('administration/design_sets')
                             ->with('message', $response->message);
         }
     }
