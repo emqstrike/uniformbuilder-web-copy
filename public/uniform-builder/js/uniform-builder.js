@@ -303,9 +303,9 @@
                         if(name !== 'sleeve') {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-                            var hex_code = _.find( ub.current_material.colors, { color_code: default_color }).hex_code;
+                            var color = _.find( ub.current_material.colors, { color_code: default_color });
 
-                            ub.objects[view + '_view'][name].tint = hex_code ;
+                            ub.objects[view + '_view'][name].tint = color.hex_code;
                         
                         }    
                         
