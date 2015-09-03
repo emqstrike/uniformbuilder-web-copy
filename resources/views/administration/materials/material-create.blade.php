@@ -57,8 +57,8 @@
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control type">
-                                    <option value='jersey'>Jersey</option>
-                                    <option value='pants'>Pants</option>
+                                    <option value='upper'>Upper Body Uniform</option>
+                                    <option value='lower'>Lower Body Uniform</option>
                                 </select>
                             </div>
                         </div>
@@ -69,29 +69,6 @@
                                 <select name='gender' class="form-control gender">
                                     <option value='men'>Men</option>
                                     <option value='women'>Women</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Base Material Color</label>
-                            <div class="col-md-6">
-                                <select name='color_code' class="form-control color">
-                                @foreach ($colors as $color)
-                                    @if ($color->active)
-                                    <option value='{{ $color->color_code }}' style="font-size: 20px; background-color: #{{ $color->hex_code }}">{{ $color->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Lining Type</label>
-                            <div class="col-md-6">
-                                <select name='lining_type' class="form-control lining-type">
-                                    <option value='singled'>Singled</option>
-                                    <option value='doubled'>Doubled</option>
                                 </select>
                             </div>
                         </div>

@@ -122,6 +122,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('fabric/add/', 'Administration\FabricsController@addForm');
     Route::get('fabric/edit/{id}', 'Administration\FabricsController@editForm');
 
+    // Uniform Design Sets
+    Route::get('design_sets', 'Administration\UniformDesignSetsController@index');
+    Route::post('design_set/add', 'Administration\UniformDesignSetsController@store');
+    Route::post('design_set/update', 'Administration\UniformDesignSetsController@store');
+    Route::get('design_set/add/', 'Administration\UniformDesignSetsController@addForm');
+    Route::get('design_set/edit/{id}', 'Administration\UniformDesignSetsController@editForm');
+
     // Linings
     Route::get('linings', 'Administration\LiningsController@index');
     Route::post('lining/add', 'Administration\LiningsController@store');
