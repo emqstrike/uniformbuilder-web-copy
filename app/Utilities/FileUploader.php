@@ -148,7 +148,7 @@ class FileUploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
-
+error_log("{$protocol}://{$host}/{$bucket}/{$s3TargetPath}");
             return "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}";
         }
         return null;

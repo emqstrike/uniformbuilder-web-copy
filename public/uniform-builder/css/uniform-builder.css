@@ -167,15 +167,15 @@ div.options_panel div.options_panel_section div.color_panel_container {
   margin-left: 23px;
   margin-top: 23px;
 }
-div.options_panel div.options_panel_section div.color_panel_container div.color_element {
+div.options_panel div#color_panel_section {
+  padding-bottom: 30px;
+}
+div.color_element {
   width: 43px;
   height: 43px;
   background-image: url(/images/sidebar/color-bg-0.png);
   float: left;
   background-repeat: no-repeat;
-}
-div.options_panel div#color_panel_section {
-  padding-bottom: 30px;
 }
 /* End Options Panel */
 /* Right Main Window */
@@ -186,7 +186,7 @@ div#right-main-window {
 /* Popovers */
 .popover {
   width: 415px;
-  height: 130px;
+  height: 190px;
   max-width: 100%;
   margin-left: 90px;
 }
@@ -195,6 +195,20 @@ div#popover_color_panel {
 }
 div#popover_color_panel div.color_element {
   float: left;
+}
+div.popper {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  border: 2px solid white;
+  background-color: #d31145;
+}
+a.popper_button {
+  padding: 0;
+  background-image: none;
+  background-color: none;
+  border: none;
+  box-shadow: none;
 }
 /* End Popovers */
 /* Canvas */

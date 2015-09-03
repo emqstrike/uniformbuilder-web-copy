@@ -151,11 +151,24 @@
 
         <!-- Uniform Builder Scripts -->
 
+            <script type="text/javascript">
+                
+                $( document ).ready( function () {
+
+                    window.ub          = {};
+                    window.ub.objects  = {};
+                    window.ub.config   = {};     
+
+                    window.ub.config.api_host = 'http://' + "{{ env('API_HOST') }}";
+
+                });
+
+            </script>    
+
             <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
         <!-- End Uniform Builder Scripts -->    
-
 
     </body>
 

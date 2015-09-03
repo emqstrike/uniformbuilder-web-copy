@@ -41,10 +41,20 @@ class MaterialsAPIClient extends APIClient
     {
         $response = $this->get('material/' . $id);
         $result = $this->decoder->decode($response->getBody());
+        
         if ($result->success)
         {
-            return $result->material;
+
+            $response_options = $this->get('materials_options/' . $id);
+            $options = $this->decoder->decode($response_options->getBody());
+
+            $material = $result->material;
+            $material->options = $options;
+
+            return $material;
+
         }
+
         return null;
     }
 

@@ -227,22 +227,30 @@
 
                 <div class="options_panel_section">
                 
-                    <label>Popup Test</label>&nbsp; <a class= "btn btn-default" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >Show</a>
+                    <label>Popup Test</label> 
+                        
+
+                        &nbsp;
+
+                        <a class= "btn btn-default popper_button" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >
+
+                            <div class="color_element popper_button">
+                                <div id="popper" class="popper popper_button"></div>    
+                            </div>
+
+                        </a>
 
                     <div id="myPopover" class="hide">
 
-
                         <div class="color_panel_container" id="popover_color_panel">
                     
-                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'pants', 'event_class' => 'change-color',])
+                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color','selection' => 'popper'])
 
                             <br /><br />
 
                         </div>    
 
-
                     </div>
-
 
                 </div>
 
@@ -364,7 +372,6 @@
                 </div>
 
             </div>
-
 
         </div>
 

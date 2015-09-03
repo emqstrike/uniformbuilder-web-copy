@@ -115,9 +115,13 @@ $(document).ready(function(){
             $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
         });
         bindColorsSelect2();
-        material.option.gradients.forEach(function(item){
-            $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
-        });
+
+        if (material.option.gradients.length) {
+            material.option.gradients.forEach(function(item){
+                $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
+            });    
+        }
+        
         bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);
@@ -260,12 +264,16 @@ $(document).ready(function(){
     function loadItemsToSettingCodes(items, action) {
         if (typeof action == 'undefined') action = 'add';
         $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
-        $.each(items, function(index, item){
-            $('#' + action + '-material-option-modal .setting-codes')
-                .append(
-                    $('<option></option>').val(item.code).html(item.value)
-                );
-        });
+        if (items) {
+            if (items.length > 0) {
+                $.each(items, function(index, item){
+                    $('#' + action + '-material-option-modal .setting-codes')
+                        .append(
+                            $('<option></option>').val(item.code).html(item.value)
+                        );
+                });
+            }
+        }
     }
 
     // Delete Material Image

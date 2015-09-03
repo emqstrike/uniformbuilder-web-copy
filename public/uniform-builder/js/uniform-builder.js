@@ -3,9 +3,6 @@
 
     /// NEW RENDERER ///
 
-        window.ub                       = {};
-        window.ub.objects               = {};
-
         /// Initialize Uniform Builder
         window.ub.initialize = function (){
 
@@ -75,17 +72,26 @@
             
             /// Hide other views except for the left view, by bringing them offscreen, still visible so we can still get the thumbnails by using renderTexture
 
-                ub.front_view.position.x    = 0;
+                ub.front_view.position.x                = 0;
                 
-                ub.right_view.position.x    = ub.dimensions.width;
-                ub.back_view.position.x     = ub.dimensions.width;
-                ub.left_view.position.x     = ub.dimensions.width;
-                ub.pattern_view.position.x  = ub.dimensions.width;
+                ub.right_view.position.x                = ub.dimensions.width;
+                ub.back_view.position.x                 = ub.dimensions.width;
+                ub.left_view.position.x                 = ub.dimensions.width;
+                ub.pattern_view.position.x              = ub.dimensions.width;
 
 
             /// Initialize Assets
 
-                ub.load_assets();
+                ub.current_material = {};
+                ub.current_material.id = 1;
+                
+                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+                ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
+                ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.material_url, 'material', ub.callback);
+                ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
 
             /// Activate Views
@@ -93,96 +99,98 @@
                 $('#main_view').parent().fadeIn();
 
                 window.ub.refresh_thumbnails();    
-            
-            /// Begin Rendering
-
-                ub.setup_left_view(); 
-                ub.setup_right_view(); 
-                ub.setup_front_view(); 
-                ub.setup_back_view(); 
-
-                ub.setup_pattern_view(); 
-
-                requestAnimationFrame( ub.render_frames );
-                ub.pass = 0;
-
 
         }
 
 
         /// Load Assets 
 
+ 
+        ub.callback = function (obj, object_name) {
+
+            ub.current_material[object_name] = obj;
+
+            var ok = typeof(ub.current_material.material) !== 'undefined' && 
+                     typeof(ub.current_material.materials_options) !== 'undefined' && 
+                     typeof(ub.current_material.colors) !== 'undefined';  
+
+            if( ok ){
+
+                ub.load_assets();            
+
+            }
+            
+        };
+
+
+        ub.loader = function (url, object_name, cb) {
+          
+            $.ajax({
+            
+                url: url,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+            
+                success: function(response){
+
+                    cb(response[object_name], object_name);
+            
+                    // window.materialOptionSettings = response;
+                    // var type = 'pant cut';
+                    // var items = materialOptionSettings[type];
+                    // loadItemsToSettingCodes(items);
+            
+                }
+            
+            });
+
+        };
+
         ub.load_assets = function() {
 
             
-            ub.assets                           = {};
+            ub.assets               = {};
+            ub.assets.folder_name   = '/images/builder-assets/'
+            ub.assets.blank         = ub.assets.folder_name + 'blank.png';
 
-            ub.assets.folder_name               = '/images/builder-assets/'
-
-            ub.assets.blank                     = ub.assets.folder_name + 'blank.png';
-                
+            var material = {};
             
+            material = ub.current_material.material;
+            material.options = ub.current_material.materials_options;
+
             /// JERSEY
-
-            /// Jersey Left View 
-                
-            ub.assets.left_view                 = {};
-            ub.assets.left_view.base            = ub.assets.folder_name + 'jersey-left.png';
-            ub.assets.left_view.shape           = ub.assets.folder_name + 'jersey-left-shape.png';
-
-            ub.assets.left_view.piping_1        = ub.assets.folder_name + 'piping-1-left.png';
-            ub.assets.left_view.piping_2        = ub.assets.folder_name + 'piping-2-left.png';
-
-            ub.assets.left_view.sleeve         = ub.assets.folder_name + 'sleeve-left.png';
-            ub.assets.left_view.sleeve_shape   = ub.assets.folder_name + 'sleeve-left-shape.png';
-
-
-            /// Jersey Right View
-                
-            ub.assets.right_view               = {};
-            ub.assets.right_view.base          = ub.assets.folder_name + 'jersey-right.png';
-            ub.assets.right_view.shape         = ub.assets.folder_name + 'jersey-right-shape.png';
-
-            ub.assets.right_view.piping_1      = ub.assets.folder_name + 'piping-1-right.png';
-            ub.assets.right_view.piping_2      = ub.assets.folder_name + 'piping-2-right.png';
-
-            ub.assets.right_view.sleeve        = ub.assets.folder_name + 'sleeve-right.png';
-            ub.assets.right_view.sleeve_shape  = ub.assets.folder_name + 'sleeve-right-shape.png';
-
 
             /// Jersey Front View
                 
             ub.assets.front_view               = {};
-            ub.assets.front_view.base          = ub.assets.folder_name + 'jersey-front.png';
-            ub.assets.front_view.shape         = ub.assets.folder_name + 'jersey-front-shape.png';
-
-            ub.assets.front_view.piping_1      = ub.assets.folder_name + 'piping-1-front.png';
-            ub.assets.front_view.piping_2      = ub.assets.folder_name + 'piping-2-front.png';
+            ub.assets.front_view.base          = material.front_view_path;
+            ub.assets.front_view.shape         = material.front_view_shape;
 
             ub.assets.front_view.logo          = ub.assets.folder_name + 'logo-front.png';
             ub.assets.front_view.logo_shape    = ub.assets.folder_name + 'logo-front-shape.png';
 
-            ub.assets.front_view.sleeve        = ub.assets.folder_name + 'sleeve-front.png';
-            ub.assets.front_view.sleeve_shape  = ub.assets.folder_name + 'sleeve-front-shape.png';
-
-
             /// Jersey Back View
                 
             ub.assets.back_view                = {};
-            ub.assets.back_view.base           = ub.assets.folder_name + 'jersey-back.png';
-            ub.assets.back_view.shape          = ub.assets.folder_name + 'jersey-back-shape.png';
-
-            ub.assets.back_view.piping_1       = ub.assets.folder_name + 'piping-1-back.png';
-            ub.assets.back_view.piping_2       = ub.assets.folder_name + 'piping-2-back.png';
+            ub.assets.back_view.base           = material.back_view_path;
+            ub.assets.back_view.shape          = material.back_view_shape;
 
             ub.assets.back_view.number         = ub.assets.folder_name + 'number-back.png';
             ub.assets.back_view.number_shape   = ub.assets.folder_name + 'number-back-shape.png';
 
+            /// Jersey Left View 
+                
+            ub.assets.left_view                = {};
+            ub.assets.left_view.base           = material.left_side_view_path;
+            ub.assets.left_view.shape          = material.left_side_view_shape;
 
-            ub.assets.back_view.sleeve         = ub.assets.folder_name + 'sleeve-back.png';
-            ub.assets.back_view.sleeve_shape   = ub.assets.folder_name + 'sleeve-back-shape.png';
-
-
+            /// Jersey Right View
+                
+            ub.assets.right_view               = {};
+            ub.assets.right_view.base          = material.right_side_view_path;
+            ub.assets.right_view.shape         = material.right_side_view_shape;
 
             /// PANT
 
@@ -199,9 +207,9 @@
 
 
             /// Pant Front View
-                
-            ub.assets.front_view.pant_base           = ub.assets.folder_name + 'pant-front.png';
-            ub.assets.front_view.pant_shape          = ub.assets.folder_name + 'pant-front-shape.png';
+
+            ub.assets.front_view.pant_base    = ub.assets.folder_name + 'pant-front.png';
+            ub.assets.front_view.pant_shape   = ub.assets.folder_name + 'pant-front-shape.png';
 
             /// Pant Back View
                 
@@ -210,17 +218,29 @@
 
             /// Materials
 
-            ub.assets.pattern          = {};
-            ub.assets.pattern.layers   = [];
+            ub.assets.pattern               = {};
+            ub.assets.pattern.layers        = [];
             
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_1.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_2.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_3.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_4.png' );
+
+            /// Begin Rendering after assets are loaded
+
+                ub.setup_left_view(); 
+                ub.setup_right_view(); 
+                ub.setup_front_view(); 
+                ub.setup_back_view(); 
+
+                ub.setup_pattern_view(); 
+
+                requestAnimationFrame( ub.render_frames );
+                ub.pass = 0;
             
         }
 
-       
+        
         /// Process Property Changes
         window.ub.process = function(){
 
@@ -260,117 +280,6 @@
 
             }
 
-            window.ub.setup_left_view = function(){
-
-
-                var base                            = ub.pixi.new_sprite( ub.assets.left_view.base );
-                var shape                           = ub.pixi.new_sprite( ub.assets.left_view.shape );
-                var shape_mask                      = ub.pixi.new_sprite( ub.assets.left_view.shape );
-
-                var piping_1                        = ub.pixi.new_sprite( ub.assets.left_view.piping_1 );
-                var piping_2                        = ub.pixi.new_sprite( ub.assets.left_view.piping_2 );
-
-                var sleeve                          = ub.pixi.new_sprite( ub.assets.left_view.sleeve );
-                var sleeve_shape                    = ub.pixi.new_sprite( ub.assets.left_view.sleeve_shape );
-                
-                ub.objects.left_view                = {};
-
-                ub.objects.left_view.base           = base;
-                ub.objects.left_view.shape          = shape;
-                ub.objects.left_view.shape_mask     = shape_mask;
-
-                ub.objects.left_view.sleeve         = sleeve;
-                ub.objects.left_view.sleeve_shape   = sleeve_shape;
-
-                ub.objects.left_view.piping_1       = piping_1;
-                ub.objects.left_view.piping_2       = piping_2;
-
-                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-                sleeve.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
-
-
-                shape.zIndex                        = 2;
-                shape_mask.zIndex                   = 1;
-                base.zIndex                         = 0;
-                sleeve_shape.zIndex                 = -1;
-                sleeve.zIndex                       = -2;
-                piping_1.zIndex                     = -3;
-                piping_2.zIndex                     = -4;
-
-                // default colors
-
-                piping_1.tint = 0xff5e00;
-                piping_2.tint = 0x2158aa;
-
-                ub.left_view.addChild(base);
-                ub.left_view.addChild(shape);
-                ub.left_view.addChild(piping_1);
-                ub.left_view.addChild(piping_2);
-                ub.left_view.addChild(sleeve);
-                ub.left_view.addChild(sleeve_shape);
-
-                ub.updateLayersOrder(ub.left_view);
-
-
-            }
-
-
-            window.ub.setup_right_view = function(){
-
-
-                var base                            = ub.pixi.new_sprite( ub.assets.right_view.base );
-                var shape                           = ub.pixi.new_sprite( ub.assets.right_view.shape );
-                var shape_mask                      = ub.pixi.new_sprite( ub.assets.right_view.shape );
-
-                var piping_1                        = ub.pixi.new_sprite( ub.assets.right_view.piping_1 );
-                var piping_2                        = ub.pixi.new_sprite( ub.assets.right_view.piping_2 );
-
-                var sleeve                          = ub.pixi.new_sprite( ub.assets.right_view.sleeve );
-                var sleeve_shape                    = ub.pixi.new_sprite( ub.assets.right_view.sleeve_shape );
-                
-                ub.objects.right_view               = {};
-
-                ub.objects.right_view.base          = base;
-                ub.objects.right_view.shape         = shape;
-                ub.objects.right_view.shape_mask    = shape_mask;
-
-                ub.objects.right_view.sleeve        = sleeve;
-                ub.objects.right_view.sleeve_shape  = sleeve_shape;
-
-                ub.objects.right_view.piping_1      = piping_1;
-                ub.objects.right_view.piping_2      = piping_2;
-
-                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-                sleeve.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                        = 2;
-                shape_mask.zIndex                   = 1;
-                base.zIndex                         = 0;
-
-                sleeve_shape.zIndex                 = -1;
-                sleeve.zIndex                       = -2;
-
-                piping_1.zIndex                     = -3;
-                piping_2.zIndex                     = -4;
-
-                // default colors
-
-                piping_1.tint = 0xff5e00;
-                piping_2.tint = 0x2158aa;
-
-                ub.right_view.addChild(base);
-                ub.right_view.addChild(shape);
-                ub.right_view.addChild(piping_1);
-                ub.right_view.addChild(piping_2);
-
-                ub.right_view.addChild(sleeve);
-                ub.right_view.addChild(sleeve_shape);
-
-
-                ub.updateLayersOrder(ub.right_view);
-
-            }
-
             window.ub.setup_front_view = function(){
 
 
@@ -378,14 +287,8 @@
                 var shape                               = ub.pixi.new_sprite( ub.assets.front_view.shape );
                 var shape_mask                          = ub.pixi.new_sprite( ub.assets.front_view.shape );
 
-                var piping_1                            = ub.pixi.new_sprite( ub.assets.front_view.piping_1 );
-                var piping_2                            = ub.pixi.new_sprite( ub.assets.front_view.piping_2 );
-
                 var logo                                = ub.pixi.new_sprite( ub.assets.front_view.logo );
                 var logo_shape                          = ub.pixi.new_sprite( ub.assets.front_view.logo_shape );
-
-                var sleeve                              = ub.pixi.new_sprite( ub.assets.front_view.sleeve );
-                var sleeve_shape                        = ub.pixi.new_sprite( ub.assets.front_view.sleeve_shape );
 
                 ub.objects.front_view                   = {};
 
@@ -393,49 +296,52 @@
                 ub.objects.front_view.shape             = shape;
                 ub.objects.front_view.shape_mask        = shape_mask;
 
-                ub.objects.front_view.piping_1          = piping_1;
-                ub.objects.front_view.piping_2          = piping_2;
-                
                 ub.objects.front_view.logo              = logo;
                 ub.objects.front_view.logo_shape        = logo_shape;
 
-                ub.objects.front_view.sleeve            = sleeve;
-                ub.objects.front_view.sleeve_shape      = sleeve_shape;
-
-
                 base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
                 logo.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
-                sleeve.blendMode                        = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                            = 2;
                 shape_mask.zIndex                       = 1;
                 base.zIndex                             = 0;
 
-                sleeve_shape.zIndex                     = -1;
-                sleeve.zIndex                           = -2;
-
-                piping_1.zIndex                         = -3;
-                piping_2.zIndex                         = -4;
-                
                 logo_shape.zIndex                       = -5;
                 logo.zIndex                             = -6;
 
                 // default colors
 
-                piping_1.tint = 0xff5e00;
-                piping_2.tint = 0x2158aa;
-
-
-                ub.front_view.addChild(piping_1);
-                ub.front_view.addChild(piping_2);
                 ub.front_view.addChild(base);
                 ub.front_view.addChild(shape);
                 
                 ub.front_view.addChild(logo);
                 ub.front_view.addChild(logo_shape);
 
-                ub.front_view.addChild(sleeve);
-                ub.front_view.addChild(sleeve_shape);
+                var material_options = _.where(ub.current_material.material.options, {perspective:'front'}); 
+
+                _.each(material_options, function(obj) {
+                    
+                    var name = obj.name.toLowerCase().replace(' ', '_');
+
+                    ub.objects.front_view[name] = ub.pixi.new_sprite( obj.material_option_path );
+                    ub.objects.front_view[name].zIndex = obj.layer_level;
+
+                    if(name !== 'sleeve') {
+                        
+                        ub.objects.front_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                    
+                    }    
+                    
+                    if(name === 'sleeve') {
+                        
+                        console.log('name:' + name);
+                        ub.objects.front_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                    }
+
+                    ub.front_view.addChild(ub.objects.front_view[name]);
+
+                });
 
                 ub.updateLayersOrder(ub.front_view);
 
@@ -449,15 +355,8 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
 
-                var piping_1                        = ub.pixi.new_sprite( ub.assets.back_view.piping_1 );
-                var piping_2                        = ub.pixi.new_sprite( ub.assets.back_view.piping_2 );
-
                 var number                          = ub.pixi.new_sprite( ub.assets.back_view.number );
                 var number_shape                    = ub.pixi.new_sprite( ub.assets.back_view.number_shape );
-
-                var sleeve                          = ub.pixi.new_sprite( ub.assets.back_view.sleeve );
-                var sleeve_shape                    = ub.pixi.new_sprite( ub.assets.back_view.sleeve_shape );
-
 
                 ub.objects.back_view                = {};
 
@@ -465,55 +364,161 @@
                 ub.objects.back_view.shape          = shape;
                 ub.objects.back_view.shape_mask     = shape_mask;
 
-                ub.objects.back_view.piping_1       = piping_1;
-                ub.objects.back_view.piping_2       = piping_2;
-
                 ub.objects.back_view.number         = number;
                 ub.objects.back_view.number_shape   = number_shape;
 
-                ub.objects.back_view.sleeve         = sleeve;
-                ub.objects.back_view.sleeve_shape   = sleeve_shape;
-                
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
                 number.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
-                sleeve.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
-
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
 
-                sleeve_shape.zIndex                 = -1;
-                sleeve.zIndex                       = -2;
-                
-                piping_2.zIndex                     = -3;
-                piping_2.zIndex                     = -4;
-
                 number_shape.zIndex                 = -5;
                 number.zIndex                       = -6;
 
-
                 // default colors
-
-                piping_1.tint = 0xff5e00;
-                piping_2.tint = 0x2158aa;
 
                 ub.back_view.addChild(base);
                 ub.back_view.addChild(shape);
-                ub.back_view.addChild(piping_1);
-                ub.back_view.addChild(piping_2);
-
                 ub.back_view.addChild(number);
                 ub.back_view.addChild(number_shape);
 
-                ub.back_view.addChild(sleeve);
-                ub.back_view.addChild(sleeve_shape);
+                var material_options = _.where(ub.current_material.material.options, {perspective:'back'}); 
+
+                _.each(material_options, function(obj) {
+                    
+                    var name = obj.name.toLowerCase().replace(' ', '_');
+
+                    ub.objects.back_view[name] = ub.pixi.new_sprite( obj.material_option_path );
+                    ub.objects.back_view[name].zIndex = obj.layer_level;
+
+                    if(name !== 'sleeve') {
+                        
+                        ub.objects.back_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                    
+                    }    
+                    
+                    if(name === 'sleeve') {
+                        
+                        console.log('name:' + name);
+                        ub.objects.back_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                    }
+
+                    ub.back_view.addChild(ub.objects.back_view[name]);
+
+                });
 
                 ub.updateLayersOrder(ub.back_view);
 
 
             }
 
+            window.ub.setup_left_view = function(){
+
+                ub.objects.left_view                = {};
+
+                var base                            = ub.pixi.new_sprite( ub.assets.left_view.base );
+                var shape                           = ub.pixi.new_sprite( ub.assets.left_view.shape );
+                var shape_mask                      = ub.pixi.new_sprite( ub.assets.left_view.shape );
+
+                ub.objects.left_view.base           = base;
+                ub.objects.left_view.shape          = shape;
+                ub.objects.left_view.shape_mask     = shape_mask;
+
+                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex                        = 2;
+                shape_mask.zIndex                   = 1;
+                base.zIndex                         = 0;
+
+                ub.left_view.addChild(base);
+                ub.left_view.addChild(shape);
+
+                var material_options = _.where(ub.current_material.material.options, {perspective:'left'}); 
+
+                _.each(material_options, function(obj) {
+                    
+                    var name = obj.name.toLowerCase().replace(' ', '_');
+
+                    ub.objects.left_view[name] = ub.pixi.new_sprite( obj.material_option_path );
+                    ub.objects.left_view[name].zIndex = obj.layer_level;
+
+                    if(name !== 'sleeve') {
+                        
+                        ub.objects.left_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                    
+                    }    
+                    
+                    if(name === 'sleeve') {
+                        
+                        console.log('name:' + name);
+                        ub.objects.left_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                    }
+
+                    ub.left_view.addChild(ub.objects.left_view[name]);
+
+                });
+
+                ub.updateLayersOrder(ub.left_view);
+
+            }
+
+
+            window.ub.setup_right_view = function(){
+
+                ub.objects.right_view               = {};
+
+                var base                            = ub.pixi.new_sprite( ub.assets.right_view.base );
+                var shape                           = ub.pixi.new_sprite( ub.assets.right_view.shape );
+                var shape_mask                      = ub.pixi.new_sprite( ub.assets.right_view.shape );
+
+                ub.objects.right_view.base          = base;
+                ub.objects.right_view.shape         = shape;
+                ub.objects.right_view.shape_mask    = shape_mask;
+
+                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
+
+                shape.zIndex                        = 2;
+                shape_mask.zIndex                   = 1;
+                base.zIndex                         = 0;
+
+                // default colors
+
+                ub.right_view.addChild(base);
+                ub.right_view.addChild(shape);
+
+                var material_options = _.where(ub.current_material.material.options, {perspective:'right'}); 
+
+                _.each(material_options, function(obj) {
+                    
+                    var name = obj.name.toLowerCase().replace(' ', '_');
+
+                    ub.objects.right_view[name] = ub.pixi.new_sprite( obj.material_option_path );
+                    ub.objects.right_view[name].zIndex = obj.layer_level;
+
+                    if(name !== 'sleeve') {
+                        
+                        ub.objects.right_view[name].tint = _.find( ub.current_material.colors, { color_code: JSON.parse(obj.colors)[0] }).hex_code;
+                    
+                    }    
+                    
+                    if(name === 'sleeve') {
+                        
+                        console.log('name:' + name);
+                        ub.objects.right_view[name].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                    }
+
+                    ub.right_view.addChild(ub.objects.right_view[name]);
+
+                });
+                
+                ub.updateLayersOrder(ub.right_view);
+
+            }
 
             window.ub.setup_pattern_view = function(){
 
@@ -661,7 +666,6 @@
     
         switch_panel('#materials_panel');
 
-
         function switch_panel(panel){
 
             $('.options_panel').hide();
@@ -669,35 +673,34 @@
 
         }
 
-
         $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
-           
 
             if(ub.active !== null){
 
                 filename    = '/images/sidebar/' + ub.active.data('filename') + '.png';
-                ub.active.find('img').attr('src', filename)
+                ub.active.find('img').attr('src', filename);
                 ub.active.removeClass('active_button');
 
-            }    
-            
+            }
+
             ub.active       = $(this);
             filename        = '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
-            
-            ub.active.find('img').attr('src', filename);  
+
+            ub.active.find('img').attr('src', filename);
             ub.active.addClass('active_button');
 
             switch_panel('#' +  ub.active.data('filename') + '_panel');
 
             return false;
 
-
         });
 
 
         /// Process Changes ///
 
+
             $('.change-color').on('click', function(e){
+
           
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
@@ -709,6 +712,20 @@
 
                }
 
+               var color_element = $(this);
+
+               window.ce = color_element;
+
+               var selection = $(window.ce).data('selection');
+
+               if(selection !== 'none'){
+
+                    $( '#' + selection ).css( 'background-color', color );
+
+               }
+
+               color_element.parent().data( "active_color", color );
+
                ub.change_color( target, color, panel );
                 
             }); 
@@ -716,7 +733,7 @@
             
             ub.change_color = function (obj, color, panel) {
 
-                var color_value                         = parseInt(color.substring(1), 16);
+                var color_value = parseInt(color.substring(1), 16);
 
                 if(panel === 'base'){
 
@@ -761,7 +778,6 @@
                     
                     }    
 
-
                     ub.applyMaterial();
 
                     ub.objects.left_view['pattern'].visible = true;
@@ -780,11 +796,13 @@
                     ub.objects.left_view[obj].tint     = color_value;
                     ub.objects.right_view[obj].tint     = color_value;
 
-
                 }
                 
 
                 ub.refresh_thumbnails();
+
+                $('[rel="popover"]').popover("hide");
+
 
             }
 
@@ -824,7 +842,6 @@
 
 
         $(function(){
-
 
             $('[rel="popover"]').popover({
                 

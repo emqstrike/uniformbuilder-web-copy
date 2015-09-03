@@ -15,7 +15,6 @@ class UniformBuilderController extends Controller
     public function index()
     {
 
-
         $title = 'QuickStrike Uniform Builder';
 
         $accessToken = null;
@@ -25,6 +24,7 @@ class UniformBuilderController extends Controller
         $colors = $colorsClient->getColors();
         $materials = $materialsClient->getMaterials();
 
+        
 
         return view('editor.index', [
             'page_title' => $title,
@@ -34,8 +34,9 @@ class UniformBuilderController extends Controller
             'materials' => $materials
         ]);
 
-
     }
+
+
 
 
 
@@ -49,8 +50,7 @@ class UniformBuilderController extends Controller
         $materialsClient = new MaterialsAPIClient();
 
         $colors = $colorsClient->getColors();
-        $materials = $materialsClient->getMaterials();
-
+        $material = $materialsClient->getMaterial(1);
 
         return view('editor.uniform-builder-index', [
 
@@ -58,7 +58,7 @@ class UniformBuilderController extends Controller
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
-            'materials' => $materials
+            'material' => $material
 
         ]);
 
