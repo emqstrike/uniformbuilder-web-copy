@@ -335,7 +335,7 @@
 
                         _.each(ub.current_material.options_distinct_names, function(obj){
 
-                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').split(' ')[0].toUpperCase() + '</label></div>';
+                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
 
                             var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
 
@@ -645,6 +645,7 @@
                    
                 }
 
+                
                 ub.refresh_thumbnails();
 
                 $('[rel="popover"]').popover("hide");
