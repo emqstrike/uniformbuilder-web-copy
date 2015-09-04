@@ -161,20 +161,14 @@
             material = ub.current_material.material;
             material.options = ub.current_material.materials_options;
 
-            
-            /// Upper Body Uniform
-
             _.each(ub.views, function(view) {
 
                 var v = view;
 
                 if (v === 'left' || v === 'right') {
-
                     v =  v + '_side_view';
-
                 }
                 else {
-
                     v = v + '_view';
                 }    
 
@@ -267,7 +261,6 @@
                     ub.objects[view_name].base              = base;
                     ub.objects[view_name].shape             = shape;
                     ub.objects[view_name].shape_mask        = shape_mask;
-
 
                     base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
 
@@ -448,10 +441,14 @@
 
             ub.refresh_thumbnails = function(){
 
-                $('a#view_front > img').attr('src', ub.getThumbnailImage('front_view'));
-                $('a#view_back > img').attr('src', ub.getThumbnailImage('back_view'));
-                $('a#view_left > img').attr('src', ub.getThumbnailImage('left_view'));
-                $('a#view_right > img').attr('src', ub.getThumbnailImage('right_view'));
+                _.each(ub.views, function(view) {
+
+                    var view_name = view + '_view';
+                    var id = 'a#' + 'view_' + view + ' > img';
+
+                    $( id ).attr('src', ub.getThumbnailImage( view_name ) );
+
+                });
 
                 $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
             
