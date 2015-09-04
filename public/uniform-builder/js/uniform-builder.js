@@ -16,6 +16,8 @@
                 ub.dimensions.width     = 447;
                 ub.dimensions.height    = 496;
 
+                ub.views = ['front', 'back', 'left', 'right'];
+
                 ub.stage                = new PIXI.Container();
 
                 ub.pCanvas              = document.getElementById( ub.container_div );
@@ -186,30 +188,6 @@
             ub.assets.right_view.base          = material.right_side_view_path;
             ub.assets.right_view.shape         = material.right_side_view_shape;
 
-            /// PANT
-
-            /// Pant Left View 
-                
-            ub.assets.left_view.pant_base    = ub.assets.folder_name + 'pant-left.png';
-            ub.assets.left_view.pant_shape   = ub.assets.folder_name + 'pant-left-shape.png';
-
- 
-            /// Pant Right View
-                
-            ub.assets.right_view.pant_base    = ub.assets.folder_name + 'pant-right.png';
-            ub.assets.right_view.pant_shape   = ub.assets.folder_name + 'pant-right-shape.png';
-
-
-            /// Pant Front View
-
-            ub.assets.front_view.pant_base    = ub.assets.folder_name + 'pant-front.png';
-            ub.assets.front_view.pant_shape   = ub.assets.folder_name + 'pant-front-shape.png';
-
-            /// Pant Back View
-                
-            ub.assets.back_view.pant_base    = ub.assets.folder_name + 'pant-back.png';
-            ub.assets.back_view.pant_shape   = ub.assets.folder_name + 'pant-back-shape.png';
-
             /// Materials
 
             ub.assets.pattern               = {};
@@ -224,10 +202,12 @@
 
             /// Begin Rendering after assets are loaded
 
-                ub.setup_left_view(); 
-                ub.setup_right_view(); 
-                ub.setup_front_view(); 
-                ub.setup_back_view();
+                ub.setup_views();
+
+                // ub.setup_left_view(); 
+                // ub.setup_right_view(); 
+                // ub.setup_front_view(); 
+                // ub.setup_back_view();
 
                 ub.setup_material_options(); 
 
@@ -276,11 +256,45 @@
 
                 return new PIXI.Sprite( PIXI.Texture.fromImage( filename ) )
 
-            }
+            };
+
+            window.ub.setup_views = function () {
+
+                _.each(ub.views, function(view) {
+
+                    var view_name = view + '_view';
+
+                    var base                                = ub.pixi.new_sprite( ub.assets[view_name].base );
+                    var shape                               = ub.pixi.new_sprite( ub.assets[view_name].shape );
+                    var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
+
+                    ub.objects[view_name]                   = {};
+
+                    ub.objects[view_name].base              = base;
+                    ub.objects[view_name].shape             = shape;
+                    ub.objects[view_name].shape_mask        = shape_mask;
+
+
+                    base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
+
+                    shape.zIndex                            = 2;
+                    shape_mask.zIndex                       = 1;
+                    base.zIndex                             = 0;
+
+                    // default colors
+
+                    ub[view_name].addChild(base);
+                    ub[view_name].addChild(shape);
+
+                    ub.updateLayersOrder(ub[view_name]);
+
+                });
+
+            };
 
             window.ub.setup_material_options = function () {
 
-                var views = ['front', 'back', 'left', 'right'];
+                var views = ub.views;
                 
                 _.each(views, function(view) {
 
@@ -320,121 +334,6 @@
                 });    
 
             };
-
-            window.ub.setup_front_view = function(){
-
-
-                var base                                = ub.pixi.new_sprite( ub.assets.front_view.base );
-                var shape                               = ub.pixi.new_sprite( ub.assets.front_view.shape );
-                var shape_mask                          = ub.pixi.new_sprite( ub.assets.front_view.shape );
-
-
-                ub.objects.front_view                   = {};
-
-                ub.objects.front_view.base              = base;
-                ub.objects.front_view.shape             = shape;
-                ub.objects.front_view.shape_mask        = shape_mask;
-
-
-                base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                            = 2;
-                shape_mask.zIndex                       = 1;
-                base.zIndex                             = 0;
-
-                // default colors
-
-                ub.front_view.addChild(base);
-                ub.front_view.addChild(shape);
-
-                ub.updateLayersOrder(ub.front_view);
-
-            }
-
-
-            window.ub.setup_back_view = function(){
-
-
-                var base                            = ub.pixi.new_sprite( ub.assets.back_view.base );
-                var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
-                var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
-
-                ub.objects.back_view                = {};
-
-                ub.objects.back_view.base           = base;
-                ub.objects.back_view.shape          = shape;
-                ub.objects.back_view.shape_mask     = shape_mask;
-
-
-                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                        = 2;
-                shape_mask.zIndex                   = 1;
-                base.zIndex                         = 0;
-
-
-                // default colors
-
-                ub.back_view.addChild(base);
-                ub.back_view.addChild(shape);
-
-                ub.updateLayersOrder(ub.back_view);
-
-
-            }
-
-            window.ub.setup_left_view = function(){
-
-                ub.objects.left_view                = {};
-
-                var base                            = ub.pixi.new_sprite( ub.assets.left_view.base );
-                var shape                           = ub.pixi.new_sprite( ub.assets.left_view.shape );
-                var shape_mask                      = ub.pixi.new_sprite( ub.assets.left_view.shape );
-
-                ub.objects.left_view.base           = base;
-                ub.objects.left_view.shape          = shape;
-                ub.objects.left_view.shape_mask     = shape_mask;
-
-                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                        = 2;
-                shape_mask.zIndex                   = 1;
-                base.zIndex                         = 0;
-
-                ub.left_view.addChild(base);
-                ub.left_view.addChild(shape);
-
-                ub.updateLayersOrder(ub.left_view);
-
-            }
-
-
-            window.ub.setup_right_view = function(){
-
-                ub.objects.right_view               = {};
-
-                var base                            = ub.pixi.new_sprite( ub.assets.right_view.base );
-                var shape                           = ub.pixi.new_sprite( ub.assets.right_view.shape );
-                var shape_mask                      = ub.pixi.new_sprite( ub.assets.right_view.shape );
-
-                ub.objects.right_view.base          = base;
-                ub.objects.right_view.shape         = shape;
-                ub.objects.right_view.shape_mask    = shape_mask;
-
-                base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-
-                shape.zIndex                        = 2;
-                shape_mask.zIndex                   = 1;
-                base.zIndex                         = 0;
-
-                // default colors
-
-                ub.right_view.addChild(base);
-                ub.right_view.addChild(shape);
-
-                ub.updateLayersOrder(ub.right_view);
-
-            }
 
             window.ub.setup_pattern_view = function(){
 
@@ -653,7 +552,6 @@
 
                 if(panel === 'base'){
 
-
                     if( typeof( ub.objects.left_view['pattern'] ) !== 'undefined' ){
                         
                         ub.objects.left_view['pattern'].visible     = false;
@@ -666,8 +564,6 @@
                     ub.objects.left_view[obj].tint                  = color_value;
                     ub.objects.right_view[obj].tint                 = color_value;
                     ub.objects.front_view[obj].tint                 = color_value;
-                    ub.objects.front_view['logo_shape'].tint        = color_value;
-                    ub.objects.back_view['number_shape'].tint       = color_value;
 
                     ub.objects.back_view[obj].tint                  = color_value;
                     
