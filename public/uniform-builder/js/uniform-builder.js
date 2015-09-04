@@ -168,17 +168,11 @@
             ub.assets.front_view.base          = material.front_view_path;
             ub.assets.front_view.shape         = material.front_view_shape;
 
-            ub.assets.front_view.logo          = ub.assets.folder_name + 'logo-front.png';
-            ub.assets.front_view.logo_shape    = ub.assets.folder_name + 'logo-front-shape.png';
-
             /// Jersey Back View
                 
             ub.assets.back_view                = {};
             ub.assets.back_view.base           = material.back_view_path;
             ub.assets.back_view.shape          = material.back_view_shape;
-
-            ub.assets.back_view.number         = ub.assets.folder_name + 'number-back.png';
-            ub.assets.back_view.number_shape   = ub.assets.folder_name + 'number-back-shape.png';
 
             /// Jersey Left View 
                 
@@ -334,8 +328,6 @@
                 var shape                               = ub.pixi.new_sprite( ub.assets.front_view.shape );
                 var shape_mask                          = ub.pixi.new_sprite( ub.assets.front_view.shape );
 
-                var logo                                = ub.pixi.new_sprite( ub.assets.front_view.logo );
-                var logo_shape                          = ub.pixi.new_sprite( ub.assets.front_view.logo_shape );
 
                 ub.objects.front_view                   = {};
 
@@ -343,26 +335,17 @@
                 ub.objects.front_view.shape             = shape;
                 ub.objects.front_view.shape_mask        = shape_mask;
 
-                ub.objects.front_view.logo              = logo;
-                ub.objects.front_view.logo_shape        = logo_shape;
 
                 base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
-                logo.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                            = 2;
                 shape_mask.zIndex                       = 1;
                 base.zIndex                             = 0;
 
-                logo_shape.zIndex                       = -5;
-                logo.zIndex                             = -6;
-
                 // default colors
 
                 ub.front_view.addChild(base);
                 ub.front_view.addChild(shape);
-                
-                ub.front_view.addChild(logo);
-                ub.front_view.addChild(logo_shape);
 
                 ub.updateLayersOrder(ub.front_view);
 
@@ -376,34 +359,24 @@
                 var shape                           = ub.pixi.new_sprite( ub.assets.back_view.shape );
                 var shape_mask                      = ub.pixi.new_sprite( ub.assets.back_view.shape );
 
-                var number                          = ub.pixi.new_sprite( ub.assets.back_view.number );
-                var number_shape                    = ub.pixi.new_sprite( ub.assets.back_view.number_shape );
-
                 ub.objects.back_view                = {};
 
                 ub.objects.back_view.base           = base;
                 ub.objects.back_view.shape          = shape;
                 ub.objects.back_view.shape_mask     = shape_mask;
 
-                ub.objects.back_view.number         = number;
-                ub.objects.back_view.number_shape   = number_shape;
 
                 base.blendMode                      = PIXI.BLEND_MODES.MULTIPLY;
-                number.blendMode                    = PIXI.BLEND_MODES.MULTIPLY;
 
                 shape.zIndex                        = 2;
                 shape_mask.zIndex                   = 1;
                 base.zIndex                         = 0;
 
-                number_shape.zIndex                 = -5;
-                number.zIndex                       = -6;
 
                 // default colors
 
                 ub.back_view.addChild(base);
                 ub.back_view.addChild(shape);
-                ub.back_view.addChild(number);
-                ub.back_view.addChild(number_shape);
 
                 ub.updateLayersOrder(ub.back_view);
 
@@ -713,13 +686,6 @@
 
 
                     ub.objects.pattern_view[obj].tint   = color_value;
-                    
-                    if(obj === 'layer_1'){
-                    
-                        ub.objects.front_view['logo_shape'].tint   = color_value;
-                        ub.objects.back_view['number_shape'].tint  = color_value;
-                    
-                    }    
 
                     ub.applyMaterial();
 
