@@ -242,7 +242,7 @@
 
             window.ub.pixi.new_sprite = function (filename) {
 
-                return new PIXI.Sprite( PIXI.Texture.fromImage( filename ) )
+                return new PIXI.Sprite( PIXI.Texture.fromImage( filename ) );
 
             };
 
@@ -268,7 +268,7 @@
                     shape_mask.zIndex                       = 1;
                     base.zIndex                             = 0;
 
-                    // default colors
+                    // default colors for the base
 
                     ub[view_name].addChild(base);
                     ub[view_name].addChild(shape);
@@ -280,16 +280,18 @@
             };
 
             window.ub.setup_material_options = function () {
-
                 
                 _.each(ub.views, function(view) {
 
                     var material_options = _.where(ub.current_material.material.options, {perspective: view});
                     var current_view_objects = ub.objects[view + '_view']; 
 
+                    ub.current_material.options_distinct_names = [];
+
                     _.each(material_options, function(obj) {
-                        
+
                         var name = obj.name.toLowerCase().replace(' ', '_');
+
                         current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
                         var current_object = current_view_objects[name];
 
@@ -306,6 +308,16 @@
                             var color = _.find( ub.current_material.colors, { color_code: default_color });
 
                             current_object.tint = color.hex_code;
+
+                            var modifier_label = name;
+
+                            if ( name.search('shape') > 0 ) {
+
+                                modifier_label =name.substr(0, name.length - 6);
+
+                            }
+
+                            ub.current_material.options_distinct_names.push({ 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) });
                         
                         }    
 
@@ -316,7 +328,47 @@
                     ub.updateLayersOrder(ub[view + '_view']);
 
 
+                    
+
                 });    
+
+                /// Setup Modifiers 
+
+                        var modifiers = '';
+
+                        _.each(ub.current_material.options_distinct_names, function(obj){
+
+                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').split(' ')[0].toUpperCase() + '</label></div>';
+
+                            var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
+
+                            var color_elements = '';
+
+                            _.each(obj.available_colors, function(color_obj) {
+
+                                var color = _.find( ub.current_material.colors, { color_code: color_obj});
+
+                                var element = '<div class="color_element">';
+                                element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                                element = element + '</div>';    
+
+                                color_elements = color_elements + element;
+
+                            });
+
+                            str_builder = str_builder + color_elements;
+
+                            str_builder = str_builder + '</div></div>';
+
+                            modifiers = modifiers + str_builder;
+
+                        });
+
+                        var color_container = $('#colors_panel').append(modifiers);
+
+                    ub.bind_handlers();
+
+                    /// End Setup Modifiers
 
             };
 
@@ -503,9 +555,10 @@
         /// Process Changes ///
 
 
+        ub.bind_handlers = function (){
+
             $('.change-color').on('click', function(e){
 
-          
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
                var panel                        = $(this).data('panel');
@@ -553,7 +606,6 @@
                     ub.objects.left_view[obj].tint                  = color_value;
                     ub.objects.right_view[obj].tint                 = color_value;
                     ub.objects.front_view[obj].tint                 = color_value;
-
                     ub.objects.back_view[obj].tint                  = color_value;
                     
                 }
@@ -599,6 +651,9 @@
 
 
             }
+        }
+
+            
 
         /// End Process Changes /// 
 

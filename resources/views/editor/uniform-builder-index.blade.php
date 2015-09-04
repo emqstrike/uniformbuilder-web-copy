@@ -167,63 +167,13 @@
 
                         <br /><br />
 
-                    </div>    
+                    </div>  
+
+                      
 
                 </div>
 
-                <div class="options_panel_section">
-                
-                    <label>Sleeve</label>  
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'sleeve', 'data_target' =>'sleeve_shape', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Piping 1</label>  
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_1', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Piping 2</label>
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_2', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>    
-
-                </div>
+               
 
                 <div class="options_panel_section">
                 
