@@ -34,27 +34,10 @@
                     </tr>
                     <tr>
                         <td>
-                            Base Color:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-base-color">BASE COLOR</span>
-                            <div modal-material-base-color-code>&nbsp;</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             Gender:
                         </td>
                         <td>
                             <span class="label label-default modal-material-gender">GENDER</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Lining Type:
-                        </td>
-                        <td>
-                            <span class="label label-default modal-material-lining-type">LINING TYPE</span>
                         </td>
                     </tr>
                 </table>

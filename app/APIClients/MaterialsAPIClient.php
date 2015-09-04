@@ -8,9 +8,9 @@ class MaterialsAPIClient extends APIClient
         parent::__construct();
     }
 
-    public function getMaterials()
+    public function getMaterials($filter = null)
     {
-        $response = $this->get('materials');
+        $response = $this->get('materials/' . $filter);
         $result = $this->decoder->decode($response->getBody());
 
         $materials = [];
@@ -19,6 +19,16 @@ class MaterialsAPIClient extends APIClient
             $materials = $result->materials;
         }
         return $materials;
+    }
+
+    public function getUpperBodyUniforms()
+    {
+        return $this->getMaterials('upper');
+    }
+
+    public function getLowerBodyUniforms()
+    {
+        return $this->getMaterials('lower');
     }
 
     public function createMaterial($data)

@@ -28,7 +28,7 @@
 <div class="row col-md-5">
     <table class='table table-bordered'>
     <tr>
-        <th colspan='2'>
+        <th colspan='3'>
             Categories
         </th>
     </tr>

@@ -18,6 +18,9 @@
             <li>
                 <a href="/administration/categories"><span class="fa fa-building-o"></span> Uniform Categories</a>
             </li>
+            <li>
+                <a href="/administration/design_sets"><span class="fa fa-building-o"></span> Uniform Design Sets</a>
+            </li>
 
             <li class="divider">
 
