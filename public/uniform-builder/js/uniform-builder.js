@@ -281,12 +281,12 @@
 
             window.ub.setup_material_options = function () {
                 
+                ub.current_material.options_distinct_names = {};
+
                 _.each(ub.views, function(view) {
 
                     var material_options = _.where(ub.current_material.material.options, {perspective: view});
                     var current_view_objects = ub.objects[view + '_view']; 
-
-                    ub.current_material.options_distinct_names = [];
 
                     _.each(material_options, function(obj) {
 
@@ -298,7 +298,7 @@
                         current_object.zIndex = obj.layer_level;
 
                         /// replace this with test if not tintable
-                        if(name === 'sleeve') {
+                       if(name === 'sleeve') {
                             
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
@@ -317,7 +317,7 @@
 
                             }
 
-                            ub.current_material.options_distinct_names.push({ 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) });
+                            ub.current_material.options_distinct_names[name] = { 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
                         
                         }    
 
@@ -326,9 +326,6 @@
                     });
 
                     ub.updateLayersOrder(ub[view + '_view']);
-
-
-                    
 
                 });    
 
@@ -608,19 +605,7 @@
                     ub.objects.front_view[obj].tint                 = color_value;
                     ub.objects.back_view[obj].tint                  = color_value;
                     
-                }
-
-                if(panel === 'sleeve'){
-
-                    ub.objects.front_view[obj].tint                 = color_value;
-                    ub.objects.back_view[obj].tint                  = color_value;
-                    ub.objects.left_view[obj].tint                  = color_value;
-                    ub.objects.right_view[obj].tint                 = color_value;
-                    
-                }
-
-                if(panel === 'patterns'){
-
+                } else if (panel == 'patterns') {
 
                     ub.objects.pattern_view[obj].tint   = color_value;
 
@@ -630,20 +615,35 @@
                     ub.objects.right_view['pattern'].visible = true;
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
-
                       
+                } else {
+
+                    if(typeof( ub.objects.front_view[obj] ) !== 'undefined') {
+
+                        ub.objects.front_view[obj].tint = color_value;    
+
+                    }
+
+                    if(typeof( ub.objects.back_view[obj] ) !== 'undefined') {
+
+                        ub.objects.back_view[obj].tint = color_value;    
+
+                    }
+
+                    if(typeof( ub.objects.left_view[obj] ) !== 'undefined') {
+
+                        ub.objects.left_view[obj].tint = color_value;    
+
+                    }
+
+                    if(typeof( ub.objects.right_view[obj] ) !== 'undefined') {
+
+                        ub.objects.right_view[obj].tint = color_value;    
+
+                    }
+
+                   
                 }
-
-
-                if(panel === 'piping') {
-
-                    ub.objects.front_view[obj].tint    = color_value;
-                    ub.objects.back_view[obj].tint     = color_value;
-                    ub.objects.left_view[obj].tint     = color_value;
-                    ub.objects.right_view[obj].tint     = color_value;
-
-                }
-                
 
                 ub.refresh_thumbnails();
 
