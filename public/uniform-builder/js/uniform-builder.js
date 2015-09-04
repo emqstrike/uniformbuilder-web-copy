@@ -99,7 +99,6 @@
             /// Activate Views
 
                 $('#main_view').parent().fadeIn();
-
                 window.ub.refresh_thumbnails();    
 
         }
@@ -162,32 +161,32 @@
             material = ub.current_material.material;
             material.options = ub.current_material.materials_options;
 
-            /// JERSEY
+            
+            /// Upper Body Uniform
 
-            /// Jersey Front View
-                
-            ub.assets.front_view               = {};
-            ub.assets.front_view.base          = material.front_view_path;
-            ub.assets.front_view.shape         = material.front_view_shape;
+            _.each(ub.views, function(view) {
 
-            /// Jersey Back View
-                
-            ub.assets.back_view                = {};
-            ub.assets.back_view.base           = material.back_view_path;
-            ub.assets.back_view.shape          = material.back_view_shape;
+                var v = view;
 
-            /// Jersey Left View 
-                
-            ub.assets.left_view                = {};
-            ub.assets.left_view.base           = material.left_side_view_path;
-            ub.assets.left_view.shape          = material.left_side_view_shape;
+                if (v === 'left' || v === 'right') {
 
-            /// Jersey Right View
-                
-            ub.assets.right_view               = {};
-            ub.assets.right_view.base          = material.right_side_view_path;
-            ub.assets.right_view.shape         = material.right_side_view_shape;
+                    v =  v + '_side_view';
 
+                }
+                else {
+
+                    v = v + '_view';
+                }    
+
+                var view_name = view + '_view';
+
+                ub.assets[view_name]           = {};
+                ub.assets[view_name].base      = material[v + '_path'];
+                ub.assets[view_name].shape     = material[v + '_shape'];
+
+            });
+
+            
             /// Materials
 
             ub.assets.pattern               = {};
@@ -203,11 +202,6 @@
             /// Begin Rendering after assets are loaded
 
                 ub.setup_views();
-
-                // ub.setup_left_view(); 
-                // ub.setup_right_view(); 
-                // ub.setup_front_view(); 
-                // ub.setup_back_view();
 
                 ub.setup_material_options(); 
 
@@ -294,10 +288,8 @@
 
             window.ub.setup_material_options = function () {
 
-                var views = ub.views;
                 
-                _.each(views, function(view) {
-
+                _.each(ub.views, function(view) {
 
                     var material_options = _.where(ub.current_material.material.options, {perspective: view});
                     var current_view_objects = ub.objects[view + '_view']; 
