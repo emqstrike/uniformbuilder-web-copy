@@ -131,6 +131,11 @@ $(document).ready(function(){
         } else {
             $('#edit-material-option-modal .material-option-path').hide();
         }
+        if (material.option.blend) {
+            $('#edit-material-option-modal .is-blend').attr('checked', 'checked');
+        } else {
+            $('#edit-material-option-modal .is-blend').removeAttr('checked');
+        }
         $('#edit-material-option-modal').modal('show');
     });
 

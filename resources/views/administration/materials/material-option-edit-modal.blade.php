@@ -71,7 +71,7 @@
                         <label class="control-label">Blend</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
+                        <input type="checkbox" name="is_blend" class='is-blend' /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
 
