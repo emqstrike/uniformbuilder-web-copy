@@ -112,12 +112,12 @@ $(document).ready(function(){
         }
         bindColorsSelect2();
 
-        if (material.option.gradients.length)
-        {
+        if (material.option.gradients.length) {
             material.option.gradients.forEach(function(item){
                 $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
-            });
+            });    
         }
+
         bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);

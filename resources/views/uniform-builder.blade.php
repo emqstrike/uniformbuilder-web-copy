@@ -49,14 +49,14 @@
 
             <div id="main-row" class="row">
                 
-                <div id="left-pane-column" class="col-md-5">
+                <div id="left-pane-column" class="col-md-12">
                     
                     <!-- Main Preview Window -->
                     @yield('left-pane')
 
                 </div>
 
-                <div id="right-pane-column" class="col-md-5 col-md-offset-1">
+                <div id="right-pane-column" class="col-md-12">
                     
                     <!-- Customizer -->
                     @yield('right-pane')
@@ -151,11 +151,24 @@
 
         <!-- Uniform Builder Scripts -->
 
+            <script type="text/javascript">
+                
+                $( document ).ready( function () {
+
+                    window.ub          = {};
+                    window.ub.objects  = {};
+                    window.ub.config   = {};     
+
+                    window.ub.config.api_host = 'http://' + "{{ env('API_HOST') }}";
+
+                });
+
+            </script>    
+
             <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
         <!-- End Uniform Builder Scripts -->    
-
 
     </body>
 
