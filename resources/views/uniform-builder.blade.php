@@ -49,14 +49,14 @@
 
             <div id="main-row" class="row">
                 
-                <div id="left-pane-column" class="col-md-5">
+                <div id="left-pane-column" class="col-md-12">
                     
                     <!-- Main Preview Window -->
                     @yield('left-pane')
 
                 </div>
 
-                <div id="right-pane-column" class="col-md-5 col-md-offset-1">
+                <div id="right-pane-column" class="col-md-12">
                     
                     <!-- Customizer -->
                     @yield('right-pane')

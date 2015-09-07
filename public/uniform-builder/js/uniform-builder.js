@@ -13,8 +13,8 @@
                 ub.container_div        = 'main_view'
 
                 ub.dimensions           = {};
-                ub.dimensions.width     = 447;
-                ub.dimensions.height    = 496;
+                ub.dimensions.width     = 495;
+                ub.dimensions.height    = 549;
 
                 ub.views = ['front', 'back', 'left', 'right'];
 
@@ -242,7 +242,7 @@
 
             window.ub.pixi.new_sprite = function (filename) {
 
-                return new PIXI.Sprite( PIXI.Texture.fromImage( filename ) );
+                return new PIXI.Sprite( PIXI.Texture.fromImage( filename + '?v=' + (new Date() / 1000)) );
 
             };
 
@@ -415,7 +415,7 @@
 
             ub.applyMaterial = function () {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer,447,496);
+                var texture                         = new PIXI.RenderTexture(ub.renderer,ub.dimensions.width,ub.dimensions.height);
                 texture.render(ub['pattern_view']);
 
                 var pattern_front                   = new PIXI.Sprite( texture );
@@ -478,7 +478,7 @@
 
             ub.getThumbnailImage = function (view) {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer,447,496);
+                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
