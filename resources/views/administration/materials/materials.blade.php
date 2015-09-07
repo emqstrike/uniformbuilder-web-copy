@@ -76,6 +76,7 @@
                             data-material-option-id="{{ $option->id }}"
                             data-material-option-colors='{{ $option->colors }}'
                             data-material-option-gradients='{{ $option->gradients }}'
+                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">
                             <span class="fa fa-edit"></span>
