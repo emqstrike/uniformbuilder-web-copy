@@ -12,7 +12,6 @@ $(document).ready(function(){
             window.materialOptionSettings = response;
             var type = 'pant cut';
             var items = materialOptionSettings[type];
-            loadItemsToSettingCodes(items);
         }
     });
 
@@ -97,17 +96,20 @@ $(document).ready(function(){
                 perspective: $(this).data('material-option-perspective'),
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
+                blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
             }
         };
 
         var select_options = materialOptionSettings[material.option.type];
         $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
-        loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
         $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
-        material.option.colors.forEach(function(item){
-            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
-        });
+        if (material.option.colors.length)
+        {
+            material.option.colors.forEach(function(item){
+                $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+            });
+        }
         bindColorsSelect2();
 
         if (material.option.gradients.length) {
@@ -115,7 +117,7 @@ $(document).ready(function(){
                 $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
             });    
         }
-        
+
         bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);
@@ -123,7 +125,17 @@ $(document).ready(function(){
         $('#edit-material-option-modal .modal-title span').html(material.name);
         $('#edit-material-option-modal .option-name').val(material.option.name);
         $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+        if (material.option.path.length) {
+            $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+            $('#edit-material-option-modal .material-option-path').show();
+        } else {
+            $('#edit-material-option-modal .material-option-path').hide();
+        }
+        if (material.option.blend) {
+            $('#edit-material-option-modal .is-blend').attr('checked', 'checked');
+        } else {
+            $('#edit-material-option-modal .is-blend').removeAttr('checked');
+        }
         $('#edit-material-option-modal').modal('show');
     });
 
@@ -246,13 +258,11 @@ $(document).ready(function(){
     $('#add-material-option-modal .setting-types').on('change', function(){
         var key = $(this).val();
         var items = materialOptionSettings[key];
-        loadItemsToSettingCodes(items);
     });
 
     $('#edit-material-option-modal .setting-types').on('change', function(){
         var key = $(this).val();
         var items = materialOptionSettings[key];
-        loadItemsToSettingCodes(items, 'edit');
     });
 
     function loadItemsToSettingCodes(items, action) {
