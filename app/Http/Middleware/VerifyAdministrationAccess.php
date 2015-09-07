@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Session;
+use Redirect;
+
+class VerifyAdministrationAccess
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if (Session::has('isLoggedIn'))
+        {
+            if (Session::get('isLoggedIn'))
+            {
+                return $next($request);
+            }
+        }
+
+        return Redirect::to('administration/login');
+    }
+}

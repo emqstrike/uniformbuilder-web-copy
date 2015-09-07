@@ -8,13 +8,13 @@
             </li>
 
             <li class="divider">
-
+<!-- 
             <li>
                 <a href="/administration/models"><span class="fa fa-male"></span> Models</a>
             </li>
 
             <li class="divider">
-
+ -->
             <li>
                 <a href="/administration/categories"><span class="fa fa-building-o"></span> Uniform Categories</a>
             </li>
