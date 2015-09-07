@@ -14,46 +14,49 @@
 
 <div class="col-md-12">
     <h1>
-        <span class="fa fa-building-o"></span>
-        Uniform Categories
+        <span class="fa fa-building"></span>
+        Factories
         <small>
-            <a href="/administration/category/add" class='btn btn-xs btn-success'>
+            <a href="/administration/factory/add" class='btn btn-xs btn-success'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                Add New Uniform Category
+                Add New Factory
             </a>
         </small>
     </h1>
 </div>
 
-<div class="row col-md-5">
+<div class="row col-md-7">
     <table class='table table-bordered'>
     <tr>
-        <th colspan='3'>
-            Categories
+        <th colspan='2'>
+            Factories
         </th>
     </tr>
-@forelse ($categories as $category)
+@forelse ($factories as $factory)
 
-    <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
+    <tr class='factory-{{ $factory->id }} {{ (!$factory->active) ? ' inactive' : '' }}'>
         <td>
-            {{ $category->name }}
+            {{ $factory->name }}
         </td>
         <td>
-            <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>
+            {{ $factory->code }}
+        </td>
+        <td>
+            <a href="#" class="btn btn-default btn-xs disable-factory" data-factory-id="{{ $factory->id }}" role="button" {{ ($factory->active) ? : 'disabled="disabled"' }}>
                 <i class="glyphicon glyphicon-eye-close"></i>
                 Disable
             </a>
-            <a href="#" class="btn btn-info btn-xs enable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? 'disabled="disabled"' : '' }}>
+            <a href="#" class="btn btn-info btn-xs enable-factory" data-factory-id="{{ $factory->id }}" role="button" {{ ($factory->active) ? 'disabled="disabled"' : '' }}>
                 <i class="glyphicon glyphicon-eye-open"></i>
                 Enable
             </a>
         </td>
         <td>
-            <a href="/administration/category/edit/{{ $category->id }}" class="btn btn-primary btn-xs edit-category" data-category-id="{{ $category->id }}" role="button">
+            <a href="/administration/factory/edit/{{ $factory->id }}" class="btn btn-primary btn-xs edit-factory" data-factory-id="{{ $factory->id }}" role="button">
                 <i class="glyphicon glyphicon-edit"></i>
                 Edit
             </a>
-            <a href="#" class="btn btn-danger pull-right btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">
+            <a href="#" class="btn btn-danger pull-right btn-xs delete-factory" data-factory-id="{{ $factory->id }}" role="button">
                 <i class="glyphicon glyphicon-trash"></i>
                 Remove
             </a>
@@ -63,8 +66,8 @@
 @empty
 
     <tr>
-        <td colspan='2'>
-            No Uniform Categories
+        <td colspan='4'>
+            No Factories
         </td>
     </tr>
 
@@ -77,5 +80,5 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/categories.js"></script>
+<script type="text/javascript" src="/js/administration/factories.js"></script>
 @endsection

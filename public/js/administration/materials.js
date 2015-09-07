@@ -12,7 +12,6 @@ $(document).ready(function(){
             window.materialOptionSettings = response;
             var type = 'pant cut';
             var items = materialOptionSettings[type];
-            loadItemsToSettingCodes(items);
         }
     });
 
@@ -25,10 +24,7 @@ $(document).ready(function(){
             code: $(this).data('material-code'),
             type: $(this).data('material-type'),
             uniform_category: $(this).data('material-uniform-category'),
-            base_color: $(this).data('material-base-color'),
-            color_code: $(this).data('material-base-color-code'),
             gender: $(this).data('material-gender'),
-            lining_type: $(this).data('material-lining-type'),
             v3d: {
                 material_path: $(this).data('material-path'),
                 bump_map_path: $(this).data('bump-map-path'),
@@ -59,10 +55,7 @@ $(document).ready(function(){
         $('#view-material-modal .modal-material-code').text(material.code);
         $('#view-material-modal .modal-material-type').text(material.type);
         $('#view-material-modal .modal-material-uniform-category').text(material.uniform_category);
-        $('#view-material-modal .modal-material-base-color').text(material.base_color);
-        $('#view-material-modal .modal-material-base-color-code').text(material.color_code);
         $('#view-material-modal .modal-material-gender').text(material.gender);
-        $('#view-material-modal .modal-material-lining-type').text(material.lining_type);
         $('#view-material-modal .material-image').attr('src', material.material_path);
         $('#view-material-modal .bump-map-image').attr('src', material.bump_map_path);
         $('#view-material-modal .shadow-image').attr('src', material.shadow_path);
@@ -71,7 +64,7 @@ $(document).ready(function(){
         $('#view-material-modal .front-view-shape').attr('src', material.v2d.front.shape_path);
         $('#view-material-modal .back-view-image').attr('src', material.v2d.back.view_path);
         $('#view-material-modal .back-view-shape').attr('src', material.v2d.back.shape_path);
-        $('#view-material-modal .right-side-view-image').attr('src', material.v2d.right_side.shape_path);
+        $('#view-material-modal .right-side-view-image').attr('src', material.v2d.right_side.view_path);
         $('#view-material-modal .right-side-view-shape').attr('src', material.v2d.right_side.shape_path);
         $('#view-material-modal .left-side-view-image').attr('src', material.v2d.left_side.view_path);
         $('#view-material-modal .left-side-view-shape').attr('src', material.v2d.left_side.shape_path);
@@ -103,21 +96,28 @@ $(document).ready(function(){
                 perspective: $(this).data('material-option-perspective'),
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
+                blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
             }
         };
 
         var select_options = materialOptionSettings[material.option.type];
         $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
-        loadItemsToSettingCodes(select_options, 'edit');
         $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
         $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
-        material.option.colors.forEach(function(item){
-            $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
-        });
+        if (material.option.colors.length)
+        {
+            material.option.colors.forEach(function(item){
+                $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+            });
+        }
         bindColorsSelect2();
-        material.option.gradients.forEach(function(item){
-            $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
-        });
+
+        if (material.option.gradients.length)
+        {
+            material.option.gradients.forEach(function(item){
+                $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
+            });
+        }
         bindGradientsSelect2();
 
         $('#edit-material-option-modal .material-id').val(material.id);
@@ -125,7 +125,17 @@ $(document).ready(function(){
         $('#edit-material-option-modal .modal-title span').html(material.name);
         $('#edit-material-option-modal .option-name').val(material.option.name);
         $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+        if (material.option.path.length) {
+            $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+            $('#edit-material-option-modal .material-option-path').show();
+        } else {
+            $('#edit-material-option-modal .material-option-path').hide();
+        }
+        if (material.option.blend) {
+            $('#edit-material-option-modal .is-blend').attr('checked', 'checked');
+        } else {
+            $('#edit-material-option-modal .is-blend').removeAttr('checked');
+        }
         $('#edit-material-option-modal').modal('show');
     });
 
@@ -248,24 +258,26 @@ $(document).ready(function(){
     $('#add-material-option-modal .setting-types').on('change', function(){
         var key = $(this).val();
         var items = materialOptionSettings[key];
-        loadItemsToSettingCodes(items);
     });
 
     $('#edit-material-option-modal .setting-types').on('change', function(){
         var key = $(this).val();
         var items = materialOptionSettings[key];
-        loadItemsToSettingCodes(items, 'edit');
     });
 
     function loadItemsToSettingCodes(items, action) {
         if (typeof action == 'undefined') action = 'add';
         $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
-        $.each(items, function(index, item){
-            $('#' + action + '-material-option-modal .setting-codes')
-                .append(
-                    $('<option></option>').val(item.code).html(item.value)
-                );
-        });
+        if (items) {
+            if (items.length > 0) {
+                $.each(items, function(index, item){
+                    $('#' + action + '-material-option-modal .setting-codes')
+                        .append(
+                            $('<option></option>').val(item.code).html(item.value)
+                        );
+                });
+            }
+        }
     }
 
     // Delete Material Image

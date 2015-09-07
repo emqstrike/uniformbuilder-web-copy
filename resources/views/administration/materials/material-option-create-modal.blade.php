@@ -17,18 +17,10 @@
                 <div class="form-group">
                     <label class="control-label">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
-                        <option value='pant cut'>Pant Cut</option>
-                        <option value='waist cut'>Waist Cut</option>
-                        <option value='sleeve style'>Sleeve Style</option>
-                        <option value='neck style'>Neck Style</option>
-                        <option value='sleeve panel'>Sleeve Panel</option>
-                        <option value='shoulder panel'>Shoulder Panel</option>
-                        <option value='underarm panel'>Underarm Panel</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Setting Type Item:</label>
-                    <select name='setting_code' class='form-control setting-codes'>
+                        <option value='part'>Part</option>
+                        <option value='shape'>Shape</option>
+                        <option value='piping'>Piping</option>
+                        <option value='panel'>Panel</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -72,20 +64,12 @@
                         @endforeach
                     </select>
                 </div>
-
                 <div class='form-group'>
-                    <label class="control-label">Reference Notes</label>
                     <div>
-                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+1.pdf" target="_blank">
-                            <span class="fa fa-info-circle"></span>
-                            Sleeve Styles Page 1
-                        </a>
+                        <label class="control-label">Blend</label>
                     </div>
                     <div>
-                        <a href="https://s3-us-west-2.amazonaws.com/uniformbuilder/references/sleeve+styles+page+2.pdf" target="_blank">
-                            <span class="fa fa-info-circle"></span>
-                            Sleeve Styles Page 2
-                        </a>
+                        <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
 

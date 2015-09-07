@@ -42,6 +42,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('account_settings/change_password/{id}', 'Administration\UsersController@changePasswordForm');
     Route::post('account_settings/change_password', 'Administration\UsersController@changePassword');
 
+    // Factories
+    Route::get('factories', 'Administration\FactoriesController@index');
+    Route::post('factory/add', 'Administration\FactoriesController@store');
+    Route::post('factory/update', 'Administration\FactoriesController@store');
+    Route::get('factory/add', 'Administration\FactoriesController@addFactoryForm');
+    Route::get('factory/edit/{id}', 'Administration\FactoriesController@editFactoryForm');
+
     // Uniform Categories
     Route::get('categories', 'Administration\UniformCategoriesController@index');
     Route::post('category/add', 'Administration\UniformCategoriesController@store');
@@ -115,11 +122,24 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('fabric/add/', 'Administration\FabricsController@addForm');
     Route::get('fabric/edit/{id}', 'Administration\FabricsController@editForm');
 
+    // Uniform Design Sets
+    Route::get('design_sets', 'Administration\UniformDesignSetsController@index');
+    Route::post('design_set/add', 'Administration\UniformDesignSetsController@store');
+    Route::post('design_set/update', 'Administration\UniformDesignSetsController@store');
+    Route::get('design_set/add/', 'Administration\UniformDesignSetsController@addForm');
+    Route::get('design_set/edit/{id}', 'Administration\UniformDesignSetsController@editForm');
+
+    // Linings
+    Route::get('linings', 'Administration\LiningsController@index');
+    Route::post('lining/add', 'Administration\LiningsController@store');
+    Route::post('lining/update', 'Administration\LiningsController@store');
+    Route::get('lining/add/', 'Administration\LiningsController@addForm');
+    Route::get('lining/edit/{id}', 'Administration\LiningsController@editForm');
+
     Route::get('canvas', 'Administration\CanvasController@index');
     Route::get('canvas/texturing-guide', 'Administration\CanvasController@texturing_guide');
 
     // TODO
-    Route::get('factories', function(){ return view('administration.oops'); });
     Route::get('waists', function(){ return view('administration.oops'); });
     Route::get('necks', function(){ return view('administration.oops'); });
     Route::get('sleeves', function(){ return view('administration.oops'); });
