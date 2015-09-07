@@ -43,6 +43,7 @@ class MaterialsOptionsController extends Controller
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
         $gradients = $request->input('gradients');
+        $is_blend = $request->input('is_blend');
 
         $data = [
             'material_id' => $materialId,
@@ -52,7 +53,8 @@ class MaterialsOptionsController extends Controller
             'layer_level' => $layerLevel,
             'perspective' => $perspective,
             'colors' => $colors,
-            'gradients' => $gradients
+            'gradients' => $gradients,
+            'is_blend' => $is_blend
         ];
 
         try

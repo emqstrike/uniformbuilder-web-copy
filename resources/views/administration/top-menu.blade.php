@@ -45,7 +45,7 @@
             <li>
                 <a href="/administration/linings"><span class="glyphicon glyphicon-th-list"></span> Linings</a>
             </li>
-
+<!--
             <li class="divider">
 
             <li class="dropdown-header">Styles</li>
@@ -74,6 +74,7 @@
             <li>
                 <a href="/administration/cuts/underarm-panels"><span class="glyphicon glyphicon-th-list"></span> Underarm Panels</a>
             </li>
+ -->
         </ul>
     </li>
     <li class="divider-vertical"></li>
