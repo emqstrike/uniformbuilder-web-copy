@@ -35,7 +35,7 @@
 
         <div id="left-main-window" class="pane-main-window">
         
-            <div class="canvas-views" id="main_view" width="447" height="496">
+            <div class="canvas-views" id="main_view" width="495" height="549">
               
             </div>
     
@@ -167,82 +167,40 @@
 
                         <br /><br />
 
-                    </div>    
+                    </div>  
+
+                      
 
                 </div>
+
+               
 
                 <div class="options_panel_section">
                 
-                    <label>Sleeve</label>  
+                    <label>Popup Test</label> 
+                        
 
-                </div>
+                        &nbsp;
 
-                <div class="options_panel_section" id="color_panel_section">
+                        <a class= "btn btn-default popper_button" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >
 
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'sleeve', 'data_target' =>'sleeve_shape', 'event_class' => 'change-color',])
+                            <div class="color_element popper_button">
+                                <div id="popper" class="popper popper_button"></div>    
+                            </div>
 
-                        <br /><br />
-
-                    </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Piping 1</label>  
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_1', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Piping 2</label>
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'piping', 'data_target' =>'piping_2', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>    
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>Popup Test</label>&nbsp; <a class= "btn btn-default" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >Show</a>
+                        </a>
 
                     <div id="myPopover" class="hide">
 
-
                         <div class="color_panel_container" id="popover_color_panel">
                     
-                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'pants', 'event_class' => 'change-color',])
+                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color','selection' => 'popper'])
 
                             <br /><br />
 
                         </div>    
 
-
                     </div>
-
 
                 </div>
 
@@ -364,7 +322,6 @@
                 </div>
 
             </div>
-
 
         </div>
 
