@@ -138,11 +138,6 @@
 
                     cb(response[object_name], object_name);
             
-                    // window.materialOptionSettings = response;
-                    // var type = 'pant cut';
-                    // var items = materialOptionSettings[type];
-                    // loadItemsToSettingCodes(items);
-            
                 }
             
             });
@@ -299,7 +294,7 @@
 
                         /// replace this with test if not tintable
                        if(obj.is_blend) {
-                          
+
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                         } else {
