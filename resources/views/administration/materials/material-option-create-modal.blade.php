@@ -21,6 +21,7 @@
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>
                         <option value='panel'>Panel</option>
+                        <option value='panel'>Shadow</option>
                     </select>
                 </div>
                 <div class="form-group">
