@@ -55,7 +55,7 @@ class MaterialsOptionsController extends Controller
             'perspective' => $perspective,
             'colors' => $colors,
             'gradients' => $gradients,
-            'is_blend' => $is_blend
+            'is_blend' => ($is_blend) ? 1 : 0
         ];
 
         try
@@ -106,7 +106,7 @@ class MaterialsOptionsController extends Controller
         {
             Log::info('Failed');
             return Redirect::to('/administration/materials')
-                            ->with('message', 'There was a problem saving your material');
+                            ->with('message', 'There was a problem saving your material option');
         }
     }
 }
