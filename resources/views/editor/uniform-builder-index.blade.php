@@ -35,7 +35,7 @@
 
         <div id="left-main-window" class="pane-main-window">
         
-            <div class="canvas-views" id="main_view" width="495" height="549">
+            <div class="canvas-views" id="main_view" width="496" height="550">
               
             </div>
     
