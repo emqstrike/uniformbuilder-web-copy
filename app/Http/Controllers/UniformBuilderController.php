@@ -52,13 +52,29 @@ class UniformBuilderController extends Controller
         $colors = $colorsClient->getColors();
         $material = $materialsClient->getMaterial(1);
 
+
+        if ( count($materialsClient->getMaterials()) > 0 ) {
+
+            $material_id = $materialsClient->getMaterials()[0]->id;
+
+        }
+        else {
+
+            $material_id = -1;
+
+        }
+        
+
+
         return view('editor.uniform-builder-index', [
 
             'page_title' => $title,
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
-            'material' => $material
+            'material' => $material, 
+            'material_id' => $material_id,
+
 
         ]);
 
