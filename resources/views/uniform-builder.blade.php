@@ -160,6 +160,7 @@
                     window.ub.config   = {};     
 
                     window.ub.config.api_host = 'http://' + "{{ env('API_HOST') }}";
+                    window.ub.config.material_id = {{ $material_id }};
 
                 });
 
