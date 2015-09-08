@@ -6,6 +6,11 @@
         /// Initialize Uniform Builder
         window.ub.initialize = function (){
 
+                if(window.ub.config.material_id === -1) {
+
+                    return;
+
+                }
             
             /// Setup Properties
 
@@ -86,6 +91,8 @@
 
                 ub.current_material = {};
                 ub.current_material.id = window.ub.config.material_id;
+
+
                 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
@@ -335,6 +342,11 @@
                         var modifiers = '';
 
                         _.each(ub.current_material.options_distinct_names, function(obj){
+
+                            // dont create modifier if Shadow
+                            if (obj.setting_type === 'shadow') {
+                                return;
+                            }   
 
                             var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
 
