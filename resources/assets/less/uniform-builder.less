@@ -3,6 +3,8 @@
     @main-container-margin: ( @navbar-height + 70px );
     @micro_spacer: 2px;
 
+    @main_window_pane_height: 550px;
+
     @text_color: #3d3d3d;
 
     body, h1, h2, h3, h4, h5, h6, button, a, p {
@@ -149,7 +151,7 @@
                 background-color: #fff;
 
                 width: 90%;
-                height: 500px;
+                height: @main_window_pane_height;
 
                 border: 2px solid #b3b3b3;
 
@@ -316,15 +318,7 @@
                     margin-left: 23px;
                     margin-top: 23px;
 
-                    div.color_element {
 
-                        width: 43px;
-                        height: 43px;
-                        background-image: url(/images/sidebar/color-bg-0.png);
-                        float: left;
-                        background-repeat: no-repeat;
-
-                    }
 
                 }    
 
@@ -336,6 +330,16 @@
                 padding-bottom: 30px;
 
             }
+
+        }
+
+        div.color_element {
+
+            width: 43px;
+            height: 43px;
+            background-image: url(/images/sidebar/color-bg-0.png);
+            float: left;
+            background-repeat: no-repeat;
 
         }
 
@@ -358,7 +362,7 @@
         .popover {
 
             width: 415px;
-            height: 130px;
+            height: 190px;
             max-width: 100%;
 
             margin-left: 90px;
@@ -374,6 +378,27 @@
                 float: left;
 
             }
+
+        }
+
+        div.popper {
+
+            width: 35px;
+            height: 35px;
+            border-radius: 8px; 
+            border: 2px solid white;
+
+            background-color: #d31145;
+
+        }
+
+        a.popper_button {
+
+            padding: 0;
+            background-image: none;
+            background-color: none;
+            border: none;
+            box-shadow: none;
 
         }
 

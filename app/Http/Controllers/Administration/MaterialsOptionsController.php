@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\MaterialsAPIClient;
@@ -38,7 +39,6 @@ class MaterialsOptionsController extends Controller
         }
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
-        $settingCode = $request->input('setting_code');
         $layerLevel = $request->input('layer_level');
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
@@ -49,12 +49,11 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'name' => $materialOptionName,
             'setting_type' => $settingType,
-            'setting_code' => $settingCode,
             'layer_level' => $layerLevel,
             'perspective' => $perspective,
             'colors' => $colors,
             'gradients' => $gradients,
-            'is_blend' => $is_blend
+            'is_blend' => ($is_blend) ? 1 : 0
         ];
 
         try
@@ -64,12 +63,13 @@ class MaterialsOptionsController extends Controller
             {
                 if ($materialOptionFile->isValid())
                 {
+                    $filename = Random::randomize(12);
                     $data['material_option_path'] = FileUploader::upload(
                                                                 $materialOptionFile,
                                                                 $materialOptionName,
                                                                 'material_option',
                                                                 "materials",
-                                                                "{$materialFolder}/options/{$settingCode}/material-option.png"
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
                                                             );
                 }
             }
@@ -104,7 +104,7 @@ class MaterialsOptionsController extends Controller
         {
             Log::info('Failed');
             return Redirect::to('/administration/materials')
-                            ->with('message', 'There was a problem saving your material');
+                            ->with('message', 'There was a problem saving your material option');
         }
     }
 }
