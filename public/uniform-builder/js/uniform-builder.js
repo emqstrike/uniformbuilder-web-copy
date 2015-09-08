@@ -13,8 +13,8 @@
                 ub.container_div        = 'main_view'
 
                 ub.dimensions           = {};
-                ub.dimensions.width     = 495;
-                ub.dimensions.height    = 549;
+                ub.dimensions.width     = 496;
+                ub.dimensions.height    = 550;
 
                 ub.views = ['front', 'back', 'left', 'right'];
 
@@ -217,16 +217,22 @@
             requestAnimationFrame( ub.render_frames );
             ub.renderer.render( ub.stage );
 
-            /// Refresh Thumbnail on the initial 4 passes
             
-            var initial_frames_to_refresh = 30; // 60 frames in one sec, average
+            /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
+            
+            var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
-            if ( ub.pass < initial_frames_to_refresh ) {
+            if ( ub.pass > ( frames_to_refresh - 10 ) && ( ub.pass < frames_to_refresh ) ) {
 
                 ub.refresh_thumbnails();
-                ub.pass += 1;
+                
+            }   
 
-            }    
+            if( ub.pass < frames_to_refresh ) {
+                
+                ub.pass += 1; 
+
+            }
 
         }
 
