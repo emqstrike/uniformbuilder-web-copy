@@ -39,7 +39,6 @@ class MaterialsOptionsController extends Controller
         }
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
-        $settingCode = $request->input('setting_code');
         $layerLevel = $request->input('layer_level');
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
@@ -50,7 +49,6 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'name' => $materialOptionName,
             'setting_type' => $settingType,
-            'setting_code' => $settingCode,
             'layer_level' => $layerLevel,
             'perspective' => $perspective,
             'colors' => $colors,
@@ -71,7 +69,7 @@ class MaterialsOptionsController extends Controller
                                                                 $materialOptionName,
                                                                 'material_option',
                                                                 "materials",
-                                                                "{$materialFolder}/options/{$settingCode}/{$filename}.png"
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
                                                             );
                 }
             }
