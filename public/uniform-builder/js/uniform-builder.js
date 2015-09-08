@@ -306,7 +306,7 @@
                         current_object.zIndex = obj.layer_level;
 
                         /// replace this with test if not tintable
-                       if(obj.is_blend) {
+                       if( parseInt(obj.is_blend) ) {
 
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
