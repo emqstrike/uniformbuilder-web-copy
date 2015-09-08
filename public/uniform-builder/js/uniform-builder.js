@@ -85,7 +85,7 @@
             /// Initialize Assets
 
                 ub.current_material = {};
-                ub.current_material.id = 1;
+                ub.current_material.id = 11;
                 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
