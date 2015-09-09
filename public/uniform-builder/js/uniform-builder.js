@@ -46,26 +46,6 @@
                 ub.stage.addChild(ub.right_view);
                 ub.stage.addChild(ub.pattern_view);
 
-                
-                // zIndex Fix
-                //
-                //  e.g. 
-                //    
-                //  -- assign zIndex first
-                //
-                //  base.zIndex = 1;
-                //  shape.zIndex = 1;
-                //  
-                //  -- then add to container
-                //  
-                //  ub.left_view.addChild(base);
-                //  ub.left_view.addChild(shape);
-                //
-                //  -- call updateLayers Order, passing the container
-                //
-                //  ub.updateLayersOrder(ub.left_view)
-                // 
-
                 ub.updateLayersOrder = function (container) {
                     
                     container.children.sort(function(a,b) {
@@ -177,7 +157,6 @@
                 var view_name = view + '_view';
 
                 ub.assets[view_name]           = {};
-                ub.assets[view_name].base      = material[v + '_path'];
                 ub.assets[view_name].shape     = material[v + '_shape'];
 
             });
@@ -197,14 +176,14 @@
 
             /// Begin Rendering after assets are loaded
 
-                ub.setup_views();
+            ub.setup_views();
 
-                ub.setup_material_options(); 
+            ub.setup_material_options(); 
 
-                ub.setup_pattern_view(); 
+            ub.setup_pattern_view(); 
 
-                requestAnimationFrame( ub.render_frames );
-                ub.pass = 0;
+            requestAnimationFrame( ub.render_frames );
+            ub.pass = 0;
             
         }
 
@@ -260,25 +239,17 @@
 
                     var view_name = view + '_view';
 
-                    var base                                = ub.pixi.new_sprite( ub.assets[view_name].base );
                     var shape                               = ub.pixi.new_sprite( ub.assets[view_name].shape );
                     var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
 
                     ub.objects[view_name]                   = {};
 
-                    ub.objects[view_name].base              = base;
                     ub.objects[view_name].shape             = shape;
                     ub.objects[view_name].shape_mask        = shape_mask;
 
-                    base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
-
                     shape.zIndex                            = 2;
                     shape_mask.zIndex                       = 1;
-                    base.zIndex                             = 0;
-
-                    // default colors for the base
-
-                    ub[view_name].addChild(base);
+           
                     ub[view_name].addChild(shape);
 
                     ub.updateLayersOrder(ub[view_name]);
@@ -303,31 +274,39 @@
                         current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
                         var current_object = current_view_objects[name];
 
-                        current_object.zIndex = obj.layer_level;
+                        current_object.zIndex = obj.layer_level * ( -1 );
 
-                        /// replace this with test if not tintable
-                       if( parseInt(obj.is_blend) ) {
+                        if( obj.setting_type === 'highlights' ) {
+
+                            current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+
+                        } else if( obj.setting_type === 'shadows' ) {
 
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-                            var color = _.find( ub.current_material.colors, { color_code: default_color });
 
-                            current_object.tint = color.hex_code;
+                            console.log('Color Code: ' + default_color);
+
+                            var color = _.find( ub.current_material.colors, { color_code: default_color });
+                            console.log( color);
+                            console.log(color.hex_code);
+
+                            current_object.tint = parseInt(color.hex_code, 16);
 
                             var modifier_label = name;
 
                             if ( name.search('shape') > 0 ) {
 
-                                modifier_label =name.substr(0, name.length - 6);
+                                modifier_label = name.substr(0, name.length - 6);
 
                             }
 
-                            ub.current_material.options_distinct_names[name] = { 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
+                            ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
                         
-                        }    
+                        }
 
                         ub[view + '_view'].addChild(current_object);
 
@@ -343,12 +322,15 @@
 
                         _.each(ub.current_material.options_distinct_names, function(obj){
 
-                            // dont create modifier if Shadow
-                            if (obj.setting_type === 'shadow') {
-                                return;
-                            }   
+                            // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
-                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
+                            var no_modifiers = ['static_layer', 'highlights', 'shadows'];
+
+                            if ( _.contains(no_modifiers, obj.setting_type) ) {
+                                return;
+                            }
+
+                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ') + '</label></div>';
 
                             var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
 
@@ -573,12 +555,6 @@
                var target                       = $(this).data('target');
                var panel                        = $(this).data('panel');
 
-               if(color === "#000000"){ 
-
-                    color                       = "#222222"; 
-
-               }
-
                var color_element = $(this);
 
                window.ce = color_element;
@@ -586,9 +562,7 @@
                var selection = $(window.ce).data('selection');
 
                if(selection !== 'none'){
-
                     $( '#' + selection ).css( 'background-color', color );
-
                }
 
                color_element.parent().data( "active_color", color );
