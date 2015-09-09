@@ -303,7 +303,7 @@
                         current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
                         var current_object = current_view_objects[name];
 
-                        current_object.zIndex = obj.layer_level;
+                        current_object.zIndex = obj.layer_level * ( -1 );
 
                         /// replace this with test if not tintable
                        if( parseInt(obj.is_blend) ) {
@@ -315,7 +315,7 @@
                             var default_color = JSON.parse(obj.colors)[0];
                             var color = _.find( ub.current_material.colors, { color_code: default_color });
 
-                            current_object.tint = color.hex_code;
+                            //current_object.tint = color.hex_code;
 
                             var modifier_label = name;
 
