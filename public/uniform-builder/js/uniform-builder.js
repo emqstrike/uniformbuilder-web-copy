@@ -305,10 +305,13 @@
 
                         current_object.zIndex = obj.layer_level * ( -1 );
 
-                        /// replace this with test if not tintable
-                       if( parseInt(obj.is_blend) ) {
+                        if( obj.setting_type === 'highlights' ) {
 
-                            current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+                            current_object.blendMode = PIXI.blendModes.SCREEN;
+
+                        } else if( obj.setting_type === 'shadows' ) {
+
+                            current_object.blendMode = PIXI.blendModes.MULTIPLY;
 
                         } else {
                             
@@ -321,13 +324,13 @@
 
                             if ( name.search('shape') > 0 ) {
 
-                                modifier_label =name.substr(0, name.length - 6);
+                                modifier_label = name.substr(0, name.length - 6);
 
                             }
 
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
                         
-                        }    
+                        }
 
                         ub[view + '_view'].addChild(current_object);
 
@@ -345,16 +348,11 @@
 
                             // dont create modifier if Shadow
 
-                            console.log('outside: ' + obj.setting_type);
-                            console.log(obj);
+                            if (obj.setting_type === 'static_layer' || obj.setting_type === 'highlights' ||  obj.setting_type === 'shadows' ) {
 
-
-                            if (obj.setting_type === 'shadow') {
-
-                                console.log('inside: ' + obj.setting_type);
                                 return;
 
-                            }   
+                            }
 
                             var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
 
@@ -580,10 +578,6 @@
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
                var panel                        = $(this).data('panel');
-
-               if(color === "#000000"){ 
-                    color                       = "#222222"; 
-               }
 
                var color_element = $(this);
 
