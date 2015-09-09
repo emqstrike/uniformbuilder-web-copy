@@ -177,7 +177,7 @@
                 var view_name = view + '_view';
 
                 ub.assets[view_name]           = {};
-                ub.assets[view_name].base      = material[v + '_path'];
+                //ub.assets[view_name].base      = material[v + '_path'];
                 ub.assets[view_name].shape     = material[v + '_shape'];
 
             });
@@ -260,25 +260,25 @@
 
                     var view_name = view + '_view';
 
-                    var base                                = ub.pixi.new_sprite( ub.assets[view_name].base );
+                    //var base                                = ub.pixi.new_sprite( ub.assets[view_name].base );
                     var shape                               = ub.pixi.new_sprite( ub.assets[view_name].shape );
                     var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
 
                     ub.objects[view_name]                   = {};
 
-                    ub.objects[view_name].base              = base;
+                    //ub.objects[view_name].base              = base;
                     ub.objects[view_name].shape             = shape;
                     ub.objects[view_name].shape_mask        = shape_mask;
 
-                    base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
+                    //base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
 
                     shape.zIndex                            = 2;
                     shape_mask.zIndex                       = 1;
-                    base.zIndex                             = 0;
+                    //base.zIndex                             = 0;
 
                     // default colors for the base
 
-                    ub[view_name].addChild(base);
+                    //ub[view_name].addChild(base);
                     ub[view_name].addChild(shape);
 
                     ub.updateLayersOrder(ub[view_name]);
@@ -307,11 +307,11 @@
 
                         if( obj.setting_type === 'highlights' ) {
 
-                            current_object.blendMode = PIXI.blendModes.SCREEN;
+                            current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
 
                         } else if( obj.setting_type === 'shadows' ) {
 
-                            current_object.blendMode = PIXI.blendModes.MULTIPLY;
+                            current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
                         } else {
                             
@@ -348,7 +348,9 @@
 
                             // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
-                            if (obj.setting_type === 'static_layer' || obj.setting_type === 'highlights' ||  obj.setting_type === 'shadows' ) {
+                            var no_modifiers = ['static_layer', 'highlights', 'shadows'];
+
+                            if ( _.contains(no_modifiers, obj.setting_type) ) {
 
                                 return;
 
