@@ -46,26 +46,6 @@
                 ub.stage.addChild(ub.right_view);
                 ub.stage.addChild(ub.pattern_view);
 
-                
-                // zIndex Fix
-                //
-                //  e.g. 
-                //    
-                //  -- assign zIndex first
-                //
-                //  base.zIndex = 1;
-                //  shape.zIndex = 1;
-                //  
-                //  -- then add to container
-                //  
-                //  ub.left_view.addChild(base);
-                //  ub.left_view.addChild(shape);
-                //
-                //  -- call updateLayers Order, passing the container
-                //
-                //  ub.updateLayersOrder(ub.left_view)
-                // 
-
                 ub.updateLayersOrder = function (container) {
                     
                     container.children.sort(function(a,b) {
@@ -177,7 +157,6 @@
                 var view_name = view + '_view';
 
                 ub.assets[view_name]           = {};
-                //ub.assets[view_name].base      = material[v + '_path'];
                 ub.assets[view_name].shape     = material[v + '_shape'];
 
             });
@@ -197,14 +176,14 @@
 
             /// Begin Rendering after assets are loaded
 
-                ub.setup_views();
+            ub.setup_views();
 
-                ub.setup_material_options(); 
+            ub.setup_material_options(); 
 
-                ub.setup_pattern_view(); 
+            ub.setup_pattern_view(); 
 
-                requestAnimationFrame( ub.render_frames );
-                ub.pass = 0;
+            requestAnimationFrame( ub.render_frames );
+            ub.pass = 0;
             
         }
 
@@ -260,25 +239,17 @@
 
                     var view_name = view + '_view';
 
-                    //var base                                = ub.pixi.new_sprite( ub.assets[view_name].base );
                     var shape                               = ub.pixi.new_sprite( ub.assets[view_name].shape );
                     var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
 
                     ub.objects[view_name]                   = {};
 
-                    //ub.objects[view_name].base              = base;
                     ub.objects[view_name].shape             = shape;
                     ub.objects[view_name].shape_mask        = shape_mask;
 
-                    //base.blendMode                          = PIXI.BLEND_MODES.MULTIPLY;
-
                     shape.zIndex                            = 2;
                     shape_mask.zIndex                       = 1;
-                    //base.zIndex                             = 0;
-
-                    // default colors for the base
-
-                    //ub[view_name].addChild(base);
+           
                     ub[view_name].addChild(shape);
 
                     ub.updateLayersOrder(ub[view_name]);
@@ -316,9 +287,14 @@
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-                            var color = _.find( ub.current_material.colors, { color_code: default_color });
 
-                            //current_object.tint = color.hex_code;
+                            console.log('Color Code: ' + default_color);
+
+                            var color = _.find( ub.current_material.colors, { color_code: default_color });
+                            console.log( color);
+                            console.log(color.hex_code);
+
+                            current_object.tint = parseInt(color.hex_code, 16);
 
                             var modifier_label = name;
 
@@ -351,12 +327,10 @@
                             var no_modifiers = ['static_layer', 'highlights', 'shadows'];
 
                             if ( _.contains(no_modifiers, obj.setting_type) ) {
-
                                 return;
-
                             }
 
-                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
+                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ') + '</label></div>';
 
                             var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
 
