@@ -346,7 +346,7 @@
 
                         _.each(ub.current_material.options_distinct_names, function(obj){
 
-                            // dont create modifier if Shadow
+                            // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
                             if (obj.setting_type === 'static_layer' || obj.setting_type === 'highlights' ||  obj.setting_type === 'shadows' ) {
 
