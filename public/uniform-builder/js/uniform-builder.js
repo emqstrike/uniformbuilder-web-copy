@@ -325,7 +325,7 @@
 
                             }
 
-                            ub.current_material.options_distinct_names[name] = { 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
+                            ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
                         
                         }    
 
@@ -344,8 +344,16 @@
                         _.each(ub.current_material.options_distinct_names, function(obj){
 
                             // dont create modifier if Shadow
+
+                            console.log('outside: ' + obj.setting_type);
+                            console.log(obj);
+
+
                             if (obj.setting_type === 'shadow') {
+
+                                console.log('inside: ' + obj.setting_type);
                                 return;
+
                             }   
 
                             var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase().replace('SHAPE','') + '</label></div>';
@@ -574,9 +582,7 @@
                var panel                        = $(this).data('panel');
 
                if(color === "#000000"){ 
-
                     color                       = "#222222"; 
-
                }
 
                var color_element = $(this);
@@ -586,9 +592,7 @@
                var selection = $(window.ce).data('selection');
 
                if(selection !== 'none'){
-
                     $( '#' + selection ).css( 'background-color', color );
-
                }
 
                color_element.parent().data( "active_color", color );
