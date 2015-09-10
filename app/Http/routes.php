@@ -139,6 +139,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
 
+    // Linings
+    Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
+    Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
+    Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
+    Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
+    Route::get('order/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@editForm']);
+
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
 
@@ -148,7 +155,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('sleeves', function(){ return view('administration.oops'); });
     Route::get('pants', function(){ return view('administration.oops'); });
     Route::get('skus', function(){ return view('administration.oops'); });
-    Route::get('orders', function(){ return view('administration.oops'); });
     Route::get('accountSettings', function(){ return view('administration.oops'); });
 
 });
