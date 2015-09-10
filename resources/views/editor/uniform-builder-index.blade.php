@@ -14,8 +14,8 @@
         <div id="left-sidebar" class="pane-sidebar">
             
                             
-            <a class="sidebar-buttons" data-filename='materials'>
-                <img src="images/sidebar/new.png">
+            <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new">
+                <img class="btn-new" src="images/sidebar/new.png">
             </a>
 
             <a class="sidebar-buttons" data-filename='colors'>
@@ -34,7 +34,7 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
-        
+
             <div class="canvas-views" id="main_view" width="496" height="550">
               
             </div>

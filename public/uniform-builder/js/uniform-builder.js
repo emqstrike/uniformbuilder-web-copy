@@ -71,8 +71,6 @@
 
                 ub.current_material = {};
                 ub.current_material.id = window.ub.config.material_id;
-
-
                 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
@@ -130,6 +128,24 @@
             });
 
         };
+
+        ub.display_categories = function(obj, object_name){
+
+            ub.categories = {};
+            ub.categories = obj;
+
+            _.each(ub.categories, function(category){
+
+                var filename = 'images/categories/' + category.name.toLowerCase() + '.png';
+                
+                var element = '<div class="sports_categories">' + category.id + ': ' + category.name + '</div>';
+                $('#main_view > .picker_container').append(element);
+
+                console.log(category);
+                
+            });
+
+        }
 
         ub.load_assets = function() {
 
@@ -516,27 +532,113 @@
 
         }
 
-        $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
 
-            if(ub.active !== null){
+        /// RIGHT SIDEBAR
 
-                filename    = '/images/sidebar/' + ub.active.data('filename') + '.png';
+            $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
+
+                if(ub.active !== null){
+
+                    filename    = '/images/sidebar/' + ub.active.data('filename') + '.png';
+                    ub.active.find('img').attr('src', filename);
+                    ub.active.removeClass('active_button');
+
+                }
+
+                ub.active       = $(this);
+                filename        = '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
+
                 ub.active.find('img').attr('src', filename);
-                ub.active.removeClass('active_button');
+                ub.active.addClass('active_button');
 
-            }
+                switch_panel('#' +  ub.active.data('filename') + '_panel');
 
-            ub.active       = $(this);
-            filename        = '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
+                return false;
 
-            ub.active.find('img').attr('src', filename);
-            ub.active.addClass('active_button');
+            });
 
-            switch_panel('#' +  ub.active.data('filename') + '_panel');
+        /// END RIGHT SIDEBAR
 
-            return false;
 
-        });
+        /// LEFT SIDEBAR
+
+            $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
+
+                var s = $(e.target).attr('class').split(' ')[0];
+                
+                if ( s === "btn-new" ) {
+
+                    var status = $('a.btn-new').data('status');
+
+
+                    if(status === 'new') {
+
+                        $('#main_view > canvas').hide();
+                        $('#right-main-window > .options_panel').hide();
+                        $('#camera-views').hide();
+                        $('#right-sidebar > a').hide();
+
+                        var div_sports = "<div class='picker_container'></div>"
+                        var div_style = "<div class='picker_container'><strong>List of Styles...</strong></div>"
+
+                        $('#main_view').append(div_sports);
+                        $('#right-main-window').append(div_style);
+
+                        $('#left-main-window').css('overflow-y', 'scroll'); 
+
+                        var filename = '/images/sidebar/' + 'close.png';
+                        $('a.btn-new > img').attr('src', filename);
+                        
+                        $('a.btn-new').css('background-color','#363636');
+
+                        $('#right-main-window').css('background-color','#f8f8f8');
+                        $('#left-main-window').css('background-color','#f8f8f8');
+
+                        $('a.btn-new').data('status','close');
+
+                        ub.categories_url = window.ub.config.api_host + '/api/categories/';
+                        ub.loader(ub.categories_url, 'categories', ub.display_categories);
+                
+                    }
+                    else {
+
+                        $('#main_view > canvas').fadeIn();
+                        $('#right-main-window > .options_panel').fadeIn();
+                        $('#camera-views').fadeIn();
+                        $('#right-sidebar > a').fadeIn();
+
+                        $('#main_view > div').remove();
+                        $('#right-main-window > div').remove();
+
+                        $('#left-main-window').css('overflow-y', 'hidden'); 
+
+                        var filename = '/images/sidebar/' + 'new.png';
+                        $('a.btn-new > img').attr('src', filename);
+                        
+                        $('a.btn-new').css('background-color','#acacac');
+                        $('#right-main-window').css('background-color','#ffffff');
+                        $('#left-main-window').css('background-color','#ffffff');
+
+                        $('a.btn-new').data('status','new');
+
+                    }
+
+                    
+
+
+                }
+
+
+
+
+                return false;
+
+            });
+
+        /// END RIGHT SIDEBAR
+
+
+            
 
 
         /// Process Changes ///
