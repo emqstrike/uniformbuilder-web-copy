@@ -96,10 +96,10 @@ class MaterialsOptionsController extends Controller
 
         if ($response->success)
         {
-            //$response->message
+            
             Log::info('Success');
             return Redirect::to('/administration/materials')
-                            ->with('message', $is_blend);
+                            ->with('message', $response->message);
         }
         else
         {

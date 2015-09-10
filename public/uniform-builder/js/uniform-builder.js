@@ -287,12 +287,7 @@
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-
-                            console.log('Color Code: ' + default_color);
-
                             var color = _.find( ub.current_material.colors, { color_code: default_color });
-                            console.log( color);
-                            console.log(color.hex_code);
 
                             current_object.tint = parseInt(color.hex_code, 16);
 
@@ -591,7 +586,7 @@
                     ub.objects.right_view[obj].tint                 = color_value;
                     ub.objects.front_view[obj].tint                 = color_value;
                     ub.objects.back_view[obj].tint                  = color_value;
-                    
+  
                 } else if (panel == 'patterns') {
 
                     ub.objects.pattern_view[obj].tint   = color_value;
