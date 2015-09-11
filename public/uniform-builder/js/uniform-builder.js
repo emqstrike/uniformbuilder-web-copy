@@ -4,6 +4,7 @@
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
+
         window.ub.initialize = function (){
 
                 if(window.ub.config.material_id === -1) {
@@ -11,7 +12,7 @@
                     return;
 
                 }
-            
+
             /// Setup Properties
 
                 ub.active               = null;
@@ -136,12 +137,10 @@
 
             _.each(ub.categories, function(category){
 
-                var filename = 'images/categories/' + category.name.toLowerCase() + '.png';
-                
-                var element = '<div class="sports_categories">' + category.id + ': ' + category.name + '</div>';
-                $('#main_view > .picker_container').append(element);
+                var filename = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/thumbnails/' + category.name.toLowerCase() + '.jpg';
 
-                console.log(category);
+                var element = '<div class="sports_categories" style="background-image:url(' + filename +');">' + category.id + ': ' + category.name + '</div>';
+                $('#main_view > .picker_container').append(element);
                 
             });
 
@@ -149,7 +148,6 @@
 
         ub.load_assets = function() {
 
-            
             ub.assets               = {};
             ub.assets.folder_name   = '/images/builder-assets/'
             ub.assets.blank         = ub.assets.folder_name + 'blank.png';
@@ -177,9 +175,9 @@
 
             });
 
-            
+     
             /// Materials
-
+            
             ub.assets.pattern               = {};
             ub.assets.pattern.layers        = [];
             
@@ -187,8 +185,6 @@
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_2.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_3.png' );
             ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_4.png' );
-
-
 
             /// Begin Rendering after assets are loaded
 
@@ -203,11 +199,9 @@
             
         }
 
-        
         /// Process Property Changes
         window.ub.process = function(){
 
-            
 
         }
 
@@ -219,7 +213,6 @@
             requestAnimationFrame( ub.render_frames );
             ub.renderer.render( ub.stage );
 
-            
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
             
             var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
@@ -562,6 +555,44 @@
 
         /// LEFT SIDEBAR
 
+            $('div#left-sidebar > a.sidebar-buttons').hover(function(e){
+
+                var s = $(e.target).attr('class').split(' ')[0];
+                var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
+
+                if ( _.contains(sidebar_classes, s) ) {
+
+                    $('a.' + s).css('background-color','#363636');
+
+                    var option = $('a.' + s).data('option')
+                    var filename = 'images/sidebar/' + option + '-on.png';
+
+                    $('a.' + s + '> img').attr('src', filename);
+
+                }                           
+
+            }, function (e){
+
+                var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
+                var s = $(e.target).attr('class').split(' ')[0];
+
+                if ( _.contains(sidebar_classes, s) ) {
+
+                    if($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
+                        
+                        $('a.' + s).css('background-color','#acacac');
+
+                        var option = $('a.' + s).data('option')
+                        var filename = 'images/sidebar/' + option + '.png';
+
+                        $('a.' + s + '> img').attr('src', filename);
+
+                    }    
+
+                }                           
+
+            });
+
             $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
 
                 var s = $(e.target).attr('class').split(' ')[0];
@@ -745,7 +776,7 @@
 
         /// Camera Views
             
-    
+
             $('a.change-view').on('click', function(e){
 
                 $('#main_view').hide();

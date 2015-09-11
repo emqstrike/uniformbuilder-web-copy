@@ -12,24 +12,22 @@
 
       
         <div id="left-sidebar" class="pane-sidebar">
-            
                             
-            <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new">
+            <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new" data-option='new'>
                 <img class="btn-new" src="images/sidebar/new.png">
             </a>
 
-            <a class="sidebar-buttons" data-filename='colors'>
-                <img src="images/sidebar/load.png">
+            <a class="btn-load sidebar-buttons" data-filename='colors' data-option='load'>
+                <img class="btn-load" src="images/sidebar/load.png" >
             </a>
 
-            <a class="sidebar-buttons" data-filename='gradient'>
-                <img src="images/sidebar/compare.png">
+            <a class="btn-compare sidebar-buttons" data-filename='gradient' data-option='compare'>
+                <img class="btn-compare" src="images/sidebar/compare.png">
             </a>
 
-            <a class="sidebar-buttons" data-filename='patterns'>
-                <img src="images/sidebar/save.png">
+            <a class="btn-save sidebar-buttons" data-filename='patterns' data-option='save'>
+                <img class="btn-save" src="images/sidebar/save.png">
             </a>
-
 
         </div>
 
