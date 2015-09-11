@@ -562,6 +562,10 @@
 
                 if ( _.contains(sidebar_classes, s) ) {
 
+                    if(s === 'btn-new' && $('a.' + s).data('status') === 'close'){
+                        return;
+                    } 
+
                     $('a.' + s).css('background-color','#363636');
 
                     var option = $('a.' + s).data('option')
