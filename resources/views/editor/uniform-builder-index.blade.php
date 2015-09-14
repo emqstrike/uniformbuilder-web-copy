@@ -12,7 +12,7 @@
 
       
         <div id="left-sidebar" class="pane-sidebar">
-                            
+
             <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new" data-option='new'>
                 <img class="btn-new" src="images/sidebar/new.png">
             </a>
@@ -172,7 +172,7 @@
                 </div>
 
                
-
+                <!-- 
                 <div class="options_panel_section">
                 
                     <label>Popup Test</label> 
@@ -201,6 +201,8 @@
                     </div>
 
                 </div>
+
+                -->
 
 
 

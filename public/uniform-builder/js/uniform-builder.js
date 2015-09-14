@@ -139,10 +139,12 @@
 
                 var filename = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/thumbnails/' + category.name.toLowerCase() + '.jpg';
 
-                var element = '<div class="sports_categories" style="background-image:url(' + filename +');">' + category.id + ': ' + category.name + '</div>';
+                var element = '<div class="sports_categories" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.id + '. ' + category.name + '</span></div>';
                 $('#main_view > .picker_container').append(element);
                 
             });
+
+            ub.bind_handlers_pickers();
 
         }
 
@@ -334,7 +336,7 @@
                                 return;
                             }
 
-                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ') + '</label></div>';
+                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label></div>';
 
                             var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
 
@@ -677,6 +679,24 @@
 
 
         /// Process Changes ///
+
+        ub.bind_handlers_pickers = function() {
+
+            $('div.sports_categories').hover(function(e){
+
+                $('div.sports_categories').removeClass('sports_categories_highlighted');
+
+                var el = $(e.target);
+                el.addClass('sports_categories_highlighted');
+
+            }, function (e){
+                
+                var el = $(e.target);
+                el.removeClass('sports_categories_highlighted');
+
+            });
+
+        };
 
 
         ub.bind_handlers = function (){
