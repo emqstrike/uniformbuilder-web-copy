@@ -15,6 +15,8 @@
 
             /// Setup Properties
 
+                ub.ui                   = {};
+
                 ub.active               = null;
                 ub.container_div        = 'main_view'
 
@@ -616,7 +618,7 @@
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
-                        var div_style = "<div class='picker_container'><strong>List of Styles...</strong></div>"
+                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong></div>"
 
                         $('#main_view').append(div_sports);
                         $('#right-main-window').append(div_style);
@@ -695,6 +697,26 @@
                 el.removeClass('sports_categories_highlighted');
 
             });
+
+            $('div.sports_categories').click(function(e){
+
+                if( typeof( ub.ui.active_element  ) !== 'undefined'  ) {
+
+                    ub.ui.active_element.removeClass('sports_categories_activated');
+
+                }    
+
+
+                ub.ui.active_element = $(e.target);
+                ub.ui.active_element.addClass('sports_categories_activated');
+
+                var category = ub.ui.active_element.find('span').text();
+
+                $('#active_sports_category').text( category );
+
+
+            });
+
 
         };
 
