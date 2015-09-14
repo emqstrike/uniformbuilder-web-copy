@@ -7,11 +7,11 @@
 
         window.ub.initialize = function (){
 
-                if(window.ub.config.material_id === -1) {
+            if(window.ub.config.material_id === -1) {
 
-                    return;
+                return;
 
-                }
+            }
 
             /// Setup Properties
 
@@ -33,7 +33,6 @@
 
                 ub.renderer.backgroundColor = 0xffffff;
                 ub.pCanvas.appendChild( ub.renderer.view );
-
 
             /// Containers for each view
 
@@ -69,7 +68,6 @@
                 ub.left_view.position.x                 = ub.dimensions.width;
                 ub.pattern_view.position.x              = ub.dimensions.width;
 
-
             /// Initialize Assets
 
                 ub.current_material = {};
@@ -83,6 +81,11 @@
                 ub.loader(ub.current_material.material_url, 'material', ub.callback);
                 ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
+                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+
+                ub.materials_url = window.ub.config.api_host + '/api/materials/';
+                ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
             /// Activate Views
 
@@ -132,6 +135,7 @@
 
         };
 
+        
         ub.display_categories = function(obj, object_name){
 
             ub.categories = {};
@@ -141,12 +145,26 @@
 
                 var filename = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/thumbnails/' + category.name.toLowerCase() + '.jpg';
 
-                var element = '<div class="sports_categories" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.id + '. ' + category.name + '</span></div>';
+                var element = '<div class="sports_categories" data-id = "' + category.id + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.id + '. ' + category.name + '</span></div>';
                 $('#main_view > .picker_container').append(element);
                 
             });
 
-            ub.bind_handlers_pickers();
+            ub.bind_handler_category_picker();
+
+        }
+
+        ub.load_design_sets = function(obj, object_name){
+
+            ub.design_sets = {};
+            ub.design_sets = obj;
+
+        }
+
+        ub.load_materials = function(obj, object_name){
+
+            ub.materials = {};
+            ub.materials = obj;
 
         }
 
@@ -573,7 +591,7 @@
                     $('a.' + s).css('background-color','#363636');
 
                     var option = $('a.' + s).data('option')
-                    var filename = 'images/sidebar/' + option + '-on.png';
+                    var filename = '/images/sidebar/' + option + '-on.png';
 
                     $('a.' + s + '> img').attr('src', filename);
 
@@ -618,7 +636,7 @@
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
-                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong></div>"
+                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong><br /><div id='style_lists'>test</div></div>"
 
                         $('#main_view').append(div_sports);
                         $('#right-main-window').append(div_style);
@@ -662,9 +680,6 @@
 
                     }
 
-                    
-
-
                 }
 
 
@@ -676,13 +691,9 @@
 
         /// END RIGHT SIDEBAR
 
-
-            
-
-
         /// Process Changes ///
 
-        ub.bind_handlers_pickers = function() {
+        ub.bind_handler_category_picker = function() {
 
             $('div.sports_categories').hover(function(e){
 
@@ -706,7 +717,6 @@
 
                 }    
 
-
                 ub.ui.active_element = $(e.target);
                 ub.ui.active_element.addClass('sports_categories_activated');
 
@@ -714,11 +724,65 @@
 
                 $('#active_sports_category').text( category );
 
+                var category_name = ub.ui.active_element.data('category');
+
+                var design_sets = _.where(ub.design_sets, {category: category_name});
+            
+                $('#style_lists').html('');
+
+                var str_builder = '';
+
+                _.each(design_sets, function(obj) {
+
+                    var filename = obj.thumbnail_path;
+                    var element = '<div class="style_entry" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
+
+                    str_builder += element;
+
+                });
+
+                $('#style_lists').html(str_builder);
+
+                ub.bind_handler_style_picker();
 
             });
 
 
         };
+
+        ub.bind_handler_style_picker = function() {
+
+            $('div.style_entry').hover(function(e){
+
+                $('div.style_entry').removeClass('style_entry_highlighted');
+
+                var el = $(e.target);
+                el.addClass('style_entry_highlighted');
+
+            }, function (e){
+                
+                var el = $(e.target);
+                el.removeClass('style_entry_highlighted');
+
+            });
+
+            $('div.style_entry').click(function(e){
+
+                ub.ui.active_style_element = $(e.target);
+
+                var id = ub.ui.active_style_element.data('id');
+
+                ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
+
+                var url = 'http://localhost:8888/uniform-builder-index/' + ub.ui.current_design_set.id;
+
+                window.location = url;
+
+            });
+
+
+        };
+
 
 
         ub.bind_handlers = function (){

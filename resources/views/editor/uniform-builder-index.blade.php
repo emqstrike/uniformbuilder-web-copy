@@ -14,19 +14,19 @@
         <div id="left-sidebar" class="pane-sidebar">
 
             <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new" data-option='new'>
-                <img class="btn-new" src="images/sidebar/new.png">
+                <img class="btn-new" src="/images/sidebar/new.png">
             </a>
 
             <a class="btn-load sidebar-buttons" data-filename='colors' data-option='load'>
-                <img class="btn-load" src="images/sidebar/load.png" >
+                <img class="btn-load" src="/images/sidebar/load.png" >
             </a>
 
             <a class="btn-compare sidebar-buttons" data-filename='gradient' data-option='compare'>
-                <img class="btn-compare" src="images/sidebar/compare.png">
+                <img class="btn-compare" src="/images/sidebar/compare.png">
             </a>
 
             <a class="btn-save sidebar-buttons" data-filename='patterns' data-option='save'>
-                <img class="btn-save" src="images/sidebar/save.png">
+                <img class="btn-save" src="/images/sidebar/save.png">
             </a>
 
         </div>
@@ -72,25 +72,25 @@
 
             <a href="" class="sidebar-buttons" data-filename='materials'>
 
-                <img src="images/sidebar/materials.png">
+                <img src="/images/sidebar/materials.png">
 
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='colors'>
 
-                <img src="images/sidebar/colors.png">
+                <img src="/images/sidebar/colors.png">
 
             </a>
 
              <a href="" class="sidebar-buttons" data-filename='patterns'>
 
-                <img src="images/sidebar/patterns.png">
+                <img src="/images/sidebar/patterns.png">
 
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='gradients'>
 
-                <img src="images/sidebar/gradients.png">
+                <img src="/images/sidebar/gradients.png">
 
             </a>
 
@@ -98,25 +98,25 @@
 
             <a href="" class="sidebar-buttons" data-filename='texts'>
 
-                <img src="images/sidebar/texts.png">
+                <img src="/images/sidebar/texts.png">
 
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='numbers'>
 
-                <img src="images/sidebar/numbers.png">
+                <img src="/images/sidebar/numbers.png">
 
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='graphics'>
 
-                <img src="images/sidebar/graphics.png">
+                <img src="/images/sidebar/graphics.png">
 
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='sizes'>
 
-                <img src="images/sidebar/sizes.png">
+                <img src="/images/sidebar/sizes.png">
 
             </a>
 
