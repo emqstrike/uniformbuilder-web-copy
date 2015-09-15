@@ -602,7 +602,7 @@
                 if(ub.active !== null){
 
                     filename    = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
-                    ub.active.find('img').attr('src', filename);
+                    ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
 
                 }
@@ -610,7 +610,7 @@
                 ub.active       = $(this);
                 filename        = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
-                ub.active.find('img').attr('src', filename);
+                ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
 
                 switch_panel('#' +  ub.active.data('filename') + '_panel');
@@ -626,7 +626,7 @@
 
             $('div#left-sidebar > a.sidebar-buttons').hover(function(e){
 
-                var s = $(e.target).attr('class').split(' ')[0];
+                var s = $(e.currentTarget).attr('class').split(' ')[0];
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
 
                 if ( _.contains(sidebar_classes, s) ) {
@@ -640,15 +640,14 @@
                     var option = $('a.' + s).data('option');
                     var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
-                    $('a.' + s + '> img').attr('src', filename);
-
+                    $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                 }                           
 
             }, function (e){
 
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
-                var s = $(e.target).attr('class').split(' ')[0];
+                var s = $(e.currentTarget).attr('class').split(' ')[0];
 
                 if ( _.contains(sidebar_classes, s) ) {
 
@@ -659,7 +658,7 @@
                         var option = $('a.' + s).data('option');
                         var filename = ub.config.host + '/images/sidebar/' + option + '.png';
 
-                        $('a.' + s + '> img').attr('src', filename);
+                        $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -669,7 +668,7 @@
 
             $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
 
-                var s = $(e.target).attr('class').split(' ')[0];
+                var s = $(e.currentTarget).attr('class').split(' ')[0];
                 
                 if ( s === "btn-new" ) {
 
@@ -691,8 +690,7 @@
                         $('#left-main-window').css('overflow-y', 'scroll'); 
 
                         var filename = '/images/sidebar/' + 'close.png';
-                        $('a.btn-new > img').attr('src', filename);
-                        
+                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
                         $('a.btn-new').css('background-color','#363636');
 
                         $('#right-main-window').css('background-color','#f8f8f8');
@@ -717,9 +715,10 @@
                         $('#left-main-window').css('overflow-y', 'hidden'); 
 
                         var filename = '/images/sidebar/' + 'new.png';
-                        $('a.btn-new > img').attr('src', filename);
-                        
+ 
+                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
                         $('a.btn-new').css('background-color','#acacac');
+ 
                         $('#right-main-window').css('background-color','#ffffff');
                         $('#left-main-window').css('background-color','#ffffff');
 
@@ -743,12 +742,12 @@
 
                 $('div.sports_categories').removeClass('sports_categories_highlighted');
 
-                var el = $(e.target);
+                var el = $(e.currentTarget);
                 el.addClass('sports_categories_highlighted');
 
             }, function (e){
                 
-                var el = $(e.target);
+                var el = $(e.currentTarget);
                 el.removeClass('sports_categories_highlighted');
 
             });
@@ -761,24 +760,18 @@
 
                 }    
 
-                ub.ui.active_element = $(e.target);
+                ub.ui.active_element = $(e.currentTarget);
                 ub.ui.active_element.addClass('sports_categories_activated');
-
-                var category = ub.ui.active_element.find('span').text();
-
-                $('#active_sports_category').text( category );
 
                 var category_name = ub.ui.active_element.data('category');
 
+                $('#active_sports_category').text( category_name.toUpperCase() );
                 ub.display_gender_picker(category_name);
 
-                // ub.display_design_sets(category_name, 'men');
 
             });
 
         };
-
- 
 
         ub.bind_handler_design_set_picker = function() {
 
@@ -786,19 +779,19 @@
 
                 $('div.style_entry').removeClass('style_entry_highlighted');
 
-                var el = $(e.target);
+                var el = $(e.currentTarget);
                 el.addClass('style_entry_highlighted');
 
             }, function (e){
                 
-                var el = $(e.target);
+                var el = $(e.currentTarget);
                 el.removeClass('style_entry_highlighted');
 
             });
 
             $('div.style_entry').click(function(e){
 
-                ub.ui.active_style_element = $(e.target);
+                ub.ui.active_style_element = $(e.currentTarget);
 
                 var picker_type = ub.ui.active_style_element.data('picker-type');
 
@@ -816,12 +809,9 @@
                     var category_name = ub.ui.active_style_element.data('category-name');
                     var gender_name = ub.ui.active_style_element.data('gender').toLowerCase();
 
-                    console.log('Gender:' + gender_name );
-                    console.log('Category Name:' + category_name );
-
                     ub.display_design_sets( category_name, gender_name );
 
-
+                    $('#active_sports_category').text( category_name.toUpperCase() + ' > ' + gender_name.toUpperCase() );
 
 
                 }
@@ -1029,9 +1019,7 @@
 
             }                
 
-
         });
-
 
     /// End Utilities    
 
