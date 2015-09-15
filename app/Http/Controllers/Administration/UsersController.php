@@ -89,6 +89,7 @@ class UsersController extends Controller
         $lastName = $request->input('last_name');
         $email = $request->input('email');
         $password = $request->input('password');
+        $updateCase = $request->input('update_case');
 
         $data = [
             'first_name' => $firstName,
@@ -139,8 +140,18 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/users')
+            if ( $updateCase == "account" )
+            {
+                Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                return Redirect::to('administration/account_settings/'.$userId)
                             ->with('message', 'Successfully saved changes');
+            }
+            elseif ( $updateCase == "user" )
+            {
+                return Redirect::to('administration/users')
+                            ->with('message', 'Successfully saved changes');     
+            }
+            
         }
         else
         {

@@ -2,6 +2,16 @@
 
 @section('content')
 
+@if (Session::has('message'))
+<div class="alert alert-info alert-dismissable flash-alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        ×
+    </button>
+    <h4 class='flash-title'>Alert</h4>
+    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+</div>
+@endif
+
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -22,6 +32,7 @@
                     <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ Session::get('id') }}">
+                        <input type="hidden" name="update_case" value="account">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>

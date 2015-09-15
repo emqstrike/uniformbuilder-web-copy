@@ -28,7 +28,7 @@
                         @endif
 
                         <div class="form-group"></br >
-                            <label class="col-md-4 control-label">Old Password</label>tor
+                            <label class="col-md-4 control-label">Old Password</label>
                             <div class="col-md-6 shadow">
                                 <input type="password" class="form-control user-old-password" name="old_password" >
                             </div>

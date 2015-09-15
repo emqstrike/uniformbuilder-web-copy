@@ -28,6 +28,7 @@
                     <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" name="update_case" value="user">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
