@@ -240,6 +240,7 @@ class MaterialsController extends Controller
                                                         $frontViewFile,
                                                         $materialName,
                                                         'material_perspective_view',
+                                                        'perspective',
                                                         'front_view.png'
                                                     );
                     }
@@ -254,6 +255,7 @@ class MaterialsController extends Controller
                                                         $frontShapeFile,
                                                         $materialName,
                                                         'material_perspective_shape',
+                                                        'perspective',
                                                         'front_shape.png'
                                                     );
                     }
@@ -268,6 +270,7 @@ class MaterialsController extends Controller
                                                         $backViewFile,
                                                         $materialName,
                                                         'material_perspective_view',
+                                                        'perspective',
                                                         'back_view.png'
                                                     );
                     }
@@ -282,6 +285,7 @@ class MaterialsController extends Controller
                                                         $backShapeFile,
                                                         $materialName,
                                                         'material_perspective_shape',
+                                                        'perspective',
                                                         'back_shape.png'
                                                     );
                     }
@@ -296,6 +300,7 @@ class MaterialsController extends Controller
                                                         $rightSideViewFile,
                                                         $materialName,
                                                         'material_perspective_view',
+                                                        'perspective',
                                                         'right_side_view.png'
                                                     );
                     }
@@ -310,6 +315,7 @@ class MaterialsController extends Controller
                                                         $rightShapeFile,
                                                         $materialName,
                                                         'material_perspective_shape',
+                                                        'perspective',
                                                         'right_side_shape.png'
                                                     );
                     }
@@ -324,6 +330,7 @@ class MaterialsController extends Controller
                                                         $leftSideViewFile,
                                                         $materialName,
                                                         'material_perspective_view',
+                                                        'perspective',
                                                         'left_side_view.png'
                                                     );
                     }
@@ -338,6 +345,7 @@ class MaterialsController extends Controller
                                                         $leftShapeFile,
                                                         $materialName,
                                                         'material_perspective_shape',
+                                                        'perspective',
                                                         'left_side_shape.png'
                                                     );
                     }

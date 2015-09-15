@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/material/update" enctype="multipart/form-data" id='create-material-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/material/update" enctype="multipart/form-data" id='edit-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
 
@@ -58,8 +58,8 @@
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control type">
-                                    <option value='jersey'@if($material->type == 'jersey') selected="selected"@endif>Jersey</option>
-                                    <option value='pants'@if($material->type == 'pants') selected="selected"@endif>Pants</option>
+                                    <option value='upper'@if($material->type == 'upper') selected="selected"@endif>Upper Body Uniform</option>
+                                    <option value='lower'@if($material->type == 'lower') selected="selected"@endif>Lower Body Uniform</option>
                                 </select>
                             </div>
                         </div>
@@ -70,33 +70,6 @@
                                 <select name='gender' class="form-control gender">
                                     <option value='men'@if($material->gender == 'men') selected="selected"@endif>Men</option>
                                     <option value='women'@if($material->gender == 'women') selected="selected"@endif>Women</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Base Material Color</label>
-                            <div class="col-md-6">
-                                <select name='color_code' class="form-control color">
-                                @foreach ($colors as $color)
-                                    @if ($color->active)
-                                    <option value='{{ $color->color_code }}'
-                                        style="font-size: 20px; background-color: #{{ $color->hex_code }}"
-                                        @if ($material->color_code == $color->color_code)selected="selected"@endif>
-                                        {{ $color->name }}
-                                    </option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Lining Type</label>
-                            <div class="col-md-6">
-                                <select name='lining_type' class="form-control lining-type">
-                                    <option value='singled'@if($material->lining_type == 'singled') selected="selected"@endif>Singled</option>
-                                    <option value='doubled'@if($material->lining_type == 'doubled') selected="selected"@endif>Doubled</option>
                                 </select>
                             </div>
                         </div>
@@ -325,7 +298,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-user">
+                                <button type="submit" class="btn btn-lg btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Material
                                 </button>
@@ -343,13 +316,12 @@
 </div>
 @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 
-
 @endsection
 
 @section('custom-scripts')
 
 $(document).ready(function(){
-    $('#create-material-form').submit(function(){
+    $('#edit-material-form').submit(function(){
         $('.flash-alert .flash-progress').show();
         $('.flash-alert .flash-title').text('Updating Material');
         $('.flash-alert .flash-sub-title').text('Uploading');

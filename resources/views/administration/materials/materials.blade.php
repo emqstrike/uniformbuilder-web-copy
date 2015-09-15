@@ -42,9 +42,7 @@
                 <th>Code</th>
                 <th>Type</th>
                 <th>Uniform Category</th>
-                <th>Base Color</th>
                 <th>Gender</th>
-                <th>Lining Type</th>
                 <th>Active Status</th>
                 <th></th>
             </tr>
@@ -78,6 +76,7 @@
                             data-material-option-id="{{ $option->id }}"
                             data-material-option-colors='{{ $option->colors }}'
                             data-material-option-gradients='{{ $option->gradients }}'
+                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">
                             <span class="fa fa-edit"></span>
@@ -110,14 +109,7 @@
                     {{ $material->uniform_category }}
                 </td>
                 <td>
-                    {{ $material->color_name }}
-                    <div style="background-color: #{{ $material->hex_code }}">&nbsp;</div>
-                </td>
-                <td>
                     {{ ucfirst($material->gender) }}
-                </td>
-                <td>
-                    {{ ucfirst($material->lining_type) }}
                 </td>
                 <td>
                     <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? : 'disabled="disabled"' }}>
@@ -136,10 +128,7 @@
                             data-material-code="{{ $material->code }}"
                             data-material-type="{{ $material->type }}"
                             data-material-uniform-category="{{ $material->uniform_category }}"
-                            data-material-base-color="{{ $material->color_name }}"
-                            data-material-base-color-code="{{ $material->hex_code }}"
                             data-material-gender="{{ $material->gender }}"
-                            data-material-lining-type="{{ $material->lining_type }}"
 @if (env('BUILDER_APPROACH') == '3D')
                             data-material-path="{{ $material->material_path }}"
                             data-bump-map-path="{{ $material->bump_map_path }}"

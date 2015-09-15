@@ -8,15 +8,18 @@
             </li>
 
             <li class="divider">
-
+<!-- 
             <li>
                 <a href="/administration/models"><span class="fa fa-male"></span> Models</a>
             </li>
 
             <li class="divider">
-
+ -->
             <li>
                 <a href="/administration/categories"><span class="fa fa-building-o"></span> Uniform Categories</a>
+            </li>
+            <li>
+                <a href="/administration/design_sets"><span class="fa fa-building-o"></span> Uniform Design Sets</a>
             </li>
 
             <li class="divider">
@@ -39,7 +42,10 @@
             <li>
                 <a href="/administration/gradients"><span class="glyphicon glyphicon-th-list"></span> Gradients</a>
             </li>
-
+            <li>
+                <a href="/administration/linings"><span class="glyphicon glyphicon-th-list"></span> Linings</a>
+            </li>
+<!--
             <li class="divider">
 
             <li class="dropdown-header">Styles</li>
@@ -68,6 +74,7 @@
             <li>
                 <a href="/administration/cuts/underarm-panels"><span class="glyphicon glyphicon-th-list"></span> Underarm Panels</a>
             </li>
+ -->
         </ul>
     </li>
     <li class="divider-vertical"></li>

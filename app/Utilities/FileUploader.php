@@ -89,7 +89,7 @@ class FileUploader
         }
         elseif (($type == 'material_perspective_view') || ($type == 'material_perspective_shape'))
         {
-            // Retain the passed filename
+            // Just Retain the filename
         }
         elseif ($type == 'bump')
         {
@@ -148,7 +148,6 @@ class FileUploader
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
-
             return "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}";
         }
         return null;
