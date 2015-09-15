@@ -16,7 +16,7 @@
                 ub.ui                   = {};
 
                 ub.active               = null;
-                ub.container_div        = 'main_view'
+                ub.container_div        = 'main_view';
 
                 ub.dimensions           = {};
                 ub.dimensions.width     = 496;
@@ -85,16 +85,39 @@
                 ub.materials_url = window.ub.config.api_host + '/api/materials/';
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+
             /// Activate Views
 
                 $('#main_view').parent().fadeIn();
-                window.ub.refresh_thumbnails();    
+                window.ub.refresh_thumbnails();
+
+            /// End Activate Views
+            
+            /// Misc Data Setup     
+
+                ub.data = {};
+                ub.data.sports = [
+
+                    {
+                        gender: 'Men',
+                        sports: ['Baseball', 'Basketball', 'Football', 'Hockey', 'Lacrosse', 'Soccer',],
+                    },
+                    {
+                        gender: 'Women',
+                        sports: ['Baseball', 'Softball', 'Hockey', 'Lacrosse', 'Volleyball', 'Soccer',],
+                    },
+                    {
+                        gender: 'Youth',
+                        sports: ['Baseball', 'Basketball', 'Football', 'Soccer'],
+                    },
+
+                ];
+
+            /// End Misc Data Setup    
 
         }
 
-
         /// Load Assets 
-
  
         ub.callback = function (obj, object_name) {
 
@@ -725,7 +748,6 @@
                         $('a.btn-new').data('status','new');
 
                         switch_panel('#materials_panel');
-
 
                     }
 
