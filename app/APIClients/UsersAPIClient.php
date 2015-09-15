@@ -1,6 +1,8 @@
 <?php
 namespace App\APIClients;
 
+use Session;
+
 class UsersAPIClient extends APIClient
 {
     public function __construct()
@@ -70,7 +72,7 @@ class UsersAPIClient extends APIClient
         $response = $this->post('user/update', [
             'json' => $data
         ]);
-
+        Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
         return $this->decoder->decode($response->getBody());
     }
 
