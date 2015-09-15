@@ -93,10 +93,11 @@
                     window.ub.objects  = {};
                     window.ub.config   = {};     
 
-                    window.ub.config.api_host = 'http://' + "{{ env('API_HOST') }}";
-                    window.ub.config.material_id = {{ $material_id }};
+                    window.ub.config.api_host           = 'http://' + "{{ env('API_HOST') }}";
+                    window.ub.config.material_id        = {{ $material_id }};
 
-                    window.ub.config.host   = 'http://{{ Request::server ("HTTP_HOST") }}';
+                    window.ub.config.host               = 'http://{{ Request::server ("HTTP_HOST") }}';
+                    window.ub.config.thumbnails_path    = "{{ env('S3_PATH') }}" + 'thumbnails/';
             
                 });
 

@@ -143,7 +143,7 @@
 
             _.each(ub.categories, function(category){
 
-                var filename = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/thumbnails/' + category.name.toLowerCase() + '.jpg';
+                var filename = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
 
                 var element = '<div class="sports_categories" data-id = "' + category.id + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.id + '. ' + category.name + '</span></div>';
                 $('#main_view > .picker_container').append(element);
@@ -152,11 +152,59 @@
 
             ub.bind_handler_category_picker();
 
+
             if(ub.categories.length > 0){
-                ub.display_design_sets( ub.categories[0].name, 'men' );
+                 ub.display_design_sets( ub.categories[0].name, 'men' );
             }    
 
         }
+
+        ub.display_gender_picker = function (category_name) {
+
+            $('#style_lists').hide();
+
+            $('#style_lists').html('');
+            var str_builder = '';
+
+            var genders = ['Men', 'Women', 'Youth'];
+
+            _.each(genders, function(obj, index) {
+
+                var filename = window.ub.config.thumbnails_path + obj.toLowerCase() + '.png';
+                var element  = '<div class="style_entry" data-category-name="' + category_name + '" data-picker-type="gender" data-index = "' + index+ '" data-gender="' + obj + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + index + '. ' + obj + '</span></div>';
+
+                str_builder  += element;
+
+            });
+
+            $('#style_lists').html(str_builder);
+            $('#style_lists').fadeIn();
+
+            ub.bind_handler_design_set_picker();
+
+
+        };
+
+        ub.display_design_sets = function (category_name, gender) {
+
+            var design_sets = _.where( ub.design_sets, {category: category_name, gender: gender} );
+            
+            $('#style_lists').html('');
+            var str_builder = '';
+
+            _.each(design_sets, function(obj) {
+
+                var filename = obj.thumbnail_path;
+                var element = '<div class="style_entry" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
+
+                str_builder += element;
+
+            });
+
+            $('#style_lists').html(str_builder);
+            ub.bind_handler_design_set_picker();
+
+        };
 
         ub.load_design_sets = function(obj, object_name){
 
@@ -682,9 +730,6 @@
 
                 }
 
-
-
-
                 return false;
 
             });
@@ -726,36 +771,17 @@
 
                 var category_name = ub.ui.active_element.data('category');
 
-                ub.display_design_sets(category_name, 'men');
+                ub.display_gender_picker(category_name);
 
-
-            });
-
-
-        };
-
-        ub.display_design_sets = function (category_name, gender) {
-
-            var design_sets = _.where( ub.design_sets, {category: category_name, gender: gender} );
-            
-            $('#style_lists').html('');
-            var str_builder = '';
-
-            _.each(design_sets, function(obj) {
-
-                var filename = obj.thumbnail_path;
-                var element = '<div class="style_entry" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
-
-                str_builder += element;
+                // ub.display_design_sets(category_name, 'men');
 
             });
 
-            $('#style_lists').html(str_builder);
-            ub.bind_handler_style_picker();
-
         };
 
-        ub.bind_handler_style_picker = function() {
+ 
+
+        ub.bind_handler_design_set_picker = function() {
 
             $('div.style_entry').hover(function(e){
 
@@ -775,15 +801,32 @@
 
                 ub.ui.active_style_element = $(e.target);
 
-                var id = ub.ui.active_style_element.data('id');
+                var picker_type = ub.ui.active_style_element.data('picker-type');
 
-                ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
+                if(picker_type === 'design_sets') {
 
-                var url = ub.config.host + '/uniform-builder-index/' + ub.ui.current_design_set.id;
+                    var id = ub.ui.active_style_element.data('id');
+                    var url = ub.config.host + '/uniform-builder-index/' + id;
 
-                window.location = url;
+                    ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
+                    window.location = url;
 
-                console.log("URL: " + url);
+                }
+                else {
+
+                    var category_name = ub.ui.active_style_element.data('category-name');
+                    var gender_name = ub.ui.active_style_element.data('gender').toLowerCase();
+
+                    console.log('Gender:' + gender_name );
+                    console.log('Category Name:' + category_name );
+
+                    ub.display_design_sets( category_name, gender_name );
+
+
+
+
+                }
+
 
             });
 
