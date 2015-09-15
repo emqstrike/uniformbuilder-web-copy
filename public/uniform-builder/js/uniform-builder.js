@@ -698,8 +698,8 @@
 
                         $('a.btn-new').data('status','close');
 
-                        ub.categories_url = window.ub.config.api_host + '/api/categories/';
-                        ub.loader(ub.categories_url, 'categories', ub.display_categories);
+                        ub.categories_url = window.ub.config.api_host + '/api/categories/'; 
+                        ub.loader(ub.categories_url, 'categories', ub.display_categories); 
                 
                     }
                     else {
@@ -723,6 +723,9 @@
                         $('#left-main-window').css('background-color','#ffffff');
 
                         $('a.btn-new').data('status','new');
+
+                        switch_panel('#materials_panel');
+
 
                     }
 
@@ -812,7 +815,6 @@
                     ub.display_design_sets( category_name, gender_name );
 
                     $('#active_sports_category').text( category_name.toUpperCase() + ' > ' + gender_name.toUpperCase() );
-
 
                 }
 
