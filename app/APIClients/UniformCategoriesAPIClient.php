@@ -45,7 +45,9 @@ class UniformCategoriesAPIClient extends APIClient
 
         if (!is_null($category) && !is_null($id))
         {
+
             $compare = $this->getCategory($id);
+            
             if ($category->id == $compare->id)
             {
                 return false;

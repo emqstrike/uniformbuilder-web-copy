@@ -67,7 +67,8 @@ class UniformCategoriesController extends Controller
         }
 
         $response = null;
-        if (!empty($userId))
+
+        if (!empty($id))
         {
             Log::info('Attempts to update UniformCategory#' . $id);
             $response = $this->client->updateCategory($data);
