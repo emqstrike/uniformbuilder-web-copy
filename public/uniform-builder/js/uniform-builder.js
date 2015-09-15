@@ -675,7 +675,6 @@
 
                     var status = $('a.btn-new').data('status');
 
-
                     if(status === 'new') {
 
                         $('#main_view > canvas').hide();
@@ -684,7 +683,7 @@
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
-                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong><br /><div id='style_lists'>test</div></div>"
+                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong><br /><div id='style_lists'></div></div>"
 
                         $('#main_view').append(div_sports);
                         $('#right-main-window').append(div_style);
@@ -712,8 +711,8 @@
                         $('#camera-views').fadeIn();
                         $('#right-sidebar > a').fadeIn();
 
-                        $('#main_view > div').remove();
-                        $('#right-main-window > div').remove();
+                        $('#main_view > div.picker_container').remove();
+                        $('#right-main-window > div.picker_container').remove();
 
                         $('#left-main-window').css('overflow-y', 'hidden'); 
 
