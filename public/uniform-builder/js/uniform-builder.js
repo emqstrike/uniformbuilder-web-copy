@@ -8,9 +8,7 @@
         window.ub.initialize = function (){
 
             if(window.ub.config.material_id === -1) {
-
                 return;
-
             }
 
             /// Setup Properties
@@ -141,6 +139,8 @@
             ub.categories = {};
             ub.categories = obj;
 
+            ub.categories = _.where(ub.categories, {active: 1});
+
             _.each(ub.categories, function(category){
 
                 var filename = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/thumbnails/' + category.name.toLowerCase() + '.jpg';
@@ -152,12 +152,18 @@
 
             ub.bind_handler_category_picker();
 
+            if(ub.categories.length > 0){
+                ub.display_design_sets( ub.categories[0].name, 'men' );
+            }    
+
         }
 
         ub.load_design_sets = function(obj, object_name){
 
             ub.design_sets = {};
             ub.design_sets = obj;
+
+            ub.design_sets = _.where(ub.design_sets, {active: 1});
 
         }
 
@@ -240,28 +246,21 @@
             var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
             if ( ub.pass > ( frames_to_refresh - 10 ) && ( ub.pass < frames_to_refresh ) ) {
-
                 ub.refresh_thumbnails();
-                
             }   
 
             if( ub.pass < frames_to_refresh ) {
-                
                 ub.pass += 1; 
-
             }
 
         }
-
 
         /// Render Different Views ///
 
             window.ub.pixi = {};  // PIXI wrapper methods
 
             window.ub.pixi.new_sprite = function (filename) {
-
                 return new PIXI.Sprite( PIXI.Texture.fromImage( filename + '?v=' + (new Date() / 1000)) );
-
             };
 
             window.ub.setup_views = function () {
@@ -554,14 +553,14 @@
 
                 if(ub.active !== null){
 
-                    filename    = '/images/sidebar/' + ub.active.data('filename') + '.png';
+                    filename    = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
                     ub.active.find('img').attr('src', filename);
                     ub.active.removeClass('active_button');
 
                 }
 
                 ub.active       = $(this);
-                filename        = '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
+                filename        = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
                 ub.active.find('img').attr('src', filename);
                 ub.active.addClass('active_button');
@@ -590,10 +589,11 @@
 
                     $('a.' + s).css('background-color','#363636');
 
-                    var option = $('a.' + s).data('option')
-                    var filename = '/images/sidebar/' + option + '-on.png';
+                    var option = $('a.' + s).data('option');
+                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                     $('a.' + s + '> img').attr('src', filename);
+
 
                 }                           
 
@@ -608,8 +608,8 @@
                         
                         $('a.' + s).css('background-color','#acacac');
 
-                        var option = $('a.' + s).data('option')
-                        var filename = 'images/sidebar/' + option + '.png';
+                        var option = $('a.' + s).data('option');
+                        var filename = ub.config.host + '/images/sidebar/' + option + '.png';
 
                         $('a.' + s + '> img').attr('src', filename);
 
@@ -726,27 +726,32 @@
 
                 var category_name = ub.ui.active_element.data('category');
 
-                var design_sets = _.where(ub.design_sets, {category: category_name});
-            
-                $('#style_lists').html('');
+                ub.display_design_sets(category_name, 'men');
 
-                var str_builder = '';
-
-                _.each(design_sets, function(obj) {
-
-                    var filename = obj.thumbnail_path;
-                    var element = '<div class="style_entry" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
-
-                    str_builder += element;
-
-                });
-
-                $('#style_lists').html(str_builder);
-
-                ub.bind_handler_style_picker();
 
             });
 
+
+        };
+
+        ub.display_design_sets = function (category_name, gender) {
+
+            var design_sets = _.where( ub.design_sets, {category: category_name, gender: gender} );
+            
+            $('#style_lists').html('');
+            var str_builder = '';
+
+            _.each(design_sets, function(obj) {
+
+                var filename = obj.thumbnail_path;
+                var element = '<div class="style_entry" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
+
+                str_builder += element;
+
+            });
+
+            $('#style_lists').html(str_builder);
+            ub.bind_handler_style_picker();
 
         };
 
@@ -774,9 +779,11 @@
 
                 ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
 
-                var url = 'http://localhost:8888/uniform-builder-index/' + ub.ui.current_design_set.id;
+                var url = ub.config.host + '/uniform-builder-index/' + ub.ui.current_design_set.id;
 
                 window.location = url;
+
+                console.log("URL: " + url);
 
             });
 
