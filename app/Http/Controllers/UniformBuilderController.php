@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
+use App\APIClients\UniformDesignSetsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -40,7 +41,7 @@ class UniformBuilderController extends Controller
 
 
 
-    public function uniform_builder_index(){
+    public function uniform_builder_index($design_set_id = null){
 
 
         $title = 'PROLOOK Uniform Builder';
@@ -53,19 +54,33 @@ class UniformBuilderController extends Controller
         $material = $materialsClient->getMaterial(1);
 
 
-        if ( count($materialsClient->getMaterials()) > 0 ) {
+        $material_id = -1;
 
-            $material_id = $materialsClient->getMaterials()[0]->id;
+        if ($design_set_id == null)  {
+            
+            if ( count($materialsClient->getMaterials()) > 0 ) {
+
+                $material_id = $materialsClient->getMaterials()[0]->id;
+
+            }
+            else {
+
+                $material_id = -1;
+
+            }
 
         }
         else {
 
-            $material_id = -1;
+            $uniformDesignSetsAPIClient = new UniformDesignSetsAPIClient();
+            $design_set = $uniformDesignSetsAPIClient->getDesignSet($design_set_id);
+
+            $upper = $materialsClient->getMaterialByCode($design_set->upper_body_uniform);
+            $material_id = $upper->id;
+
 
         }
         
-
-
         return view('editor.uniform-builder-index', [
 
             'page_title' => $title,
@@ -74,8 +89,7 @@ class UniformBuilderController extends Controller
             'colors' => $colors,
             'material' => $material, 
             'material_id' => $material_id,
-
-
+            
         ]);
 
 
