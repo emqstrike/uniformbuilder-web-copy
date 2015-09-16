@@ -1190,13 +1190,9 @@
 
         $('[rel="popover"]').on('shown.bs.popover', function () {
 
-            
             // Adjust Arrow Position Here
-
             var pos = '25%';
-
             $('.popover > div.arrow').css('left', pos);
-
             
         })
 

@@ -217,6 +217,9 @@ a.popper_button {
   border: none;
   box-shadow: none;
 }
+a.popper_button:focus {
+  background-color: #acacac;
+}
 /* End Popovers */
 /* Canvas */
 canvas#front_view,
