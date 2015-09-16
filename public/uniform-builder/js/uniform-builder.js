@@ -311,17 +311,17 @@
                 
             });
 
+            
             if (design_sets.length === 0) {
-
-                elements += "<span class='no_designs'>No Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</span>";
-
+                elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div>";
             }
             else if (design_sets.length === 1) {
-                elements += "<span class='no_designs'>1 Uniform Design found for <strong>" + gender + " / " + category + "</strong>.</span>";
+                elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design found for <strong>" + gender + " / " + category + "</strong>.</div>";
             }
             else {
-                elements += "<span style='clear: both'></span><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div></div>";
+                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div></div>";
             }
+
 
 
             $('#main_view > .picker_container').html(elements);
@@ -336,7 +336,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: "1"});
+            ub.design_sets = _.where(ub.design_sets, {active: 1});
 
         }
 
