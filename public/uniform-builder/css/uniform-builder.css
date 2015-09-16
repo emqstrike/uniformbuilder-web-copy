@@ -231,6 +231,7 @@ canvas#right_view {
 div.picker_container {
   padding: 30px;
   background-color: #f8f8f8;
+  height: 550px;
 }
 div.sports_categories {
   display: block;
