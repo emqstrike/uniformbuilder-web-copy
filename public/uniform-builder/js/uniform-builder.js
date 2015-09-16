@@ -102,27 +102,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Basketball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Football',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Hockey',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Lacrosse',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             }, 
                         ],
                     },
@@ -131,27 +131,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Softball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Hockey',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Lacrosse',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Volleyball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             }, 
                         ],
                     },
@@ -160,19 +160,19 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Basketball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Football',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             },
                         ],
                     },
@@ -254,7 +254,7 @@
         ub.display_categories = function(gender){
 
             var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: 1} );
+            var active_sport_categories = _.where( sports.sports, {active: "1"} );
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
@@ -324,7 +324,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: 1});
+            ub.design_sets = _.where(ub.design_sets, {active: "1"});
 
         }
 
