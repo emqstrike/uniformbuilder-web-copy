@@ -311,6 +311,15 @@
                 
             });
 
+            if (design_sets.length === 0) {
+
+                elements += "<span class='no_designs'>No Designs Found.</span>";
+
+            }
+            else {
+                elements += "<span style='clear: both'></span><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Designs Found.</div></div>";
+            }
+
 
             $('#main_view > .picker_container').html(elements);
             $('#main_view > .picker_container').fadeIn();
