@@ -336,7 +336,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: 1});
+            ub.design_sets = _.where(ub.design_sets, {active: "1"});
 
         }
 
