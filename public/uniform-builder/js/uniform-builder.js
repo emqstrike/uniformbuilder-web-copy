@@ -254,7 +254,7 @@
         ub.display_categories = function(gender){
 
             var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: 1} );
+            var active_sport_categories = _.where( sports.sports, {active: "1"} );
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
