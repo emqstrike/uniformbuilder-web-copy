@@ -313,11 +313,14 @@
 
             if (design_sets.length === 0) {
 
-                elements += "<span class='no_designs'>No Designs Found.</span>";
+                elements += "<span class='no_designs'>No Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</span>";
 
             }
+            else if (design_sets.length === 1) {
+                elements += "<span class='no_designs'>1 Uniform Design found for <strong>" + gender + " / " + category + "</strong>.</span>";
+            }
             else {
-                elements += "<span style='clear: both'></span><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Designs Found.</div></div>";
+                elements += "<span style='clear: both'></span><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div></div>";
             }
 
 
