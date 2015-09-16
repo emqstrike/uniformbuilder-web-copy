@@ -159,7 +159,7 @@
                 width: 90%;
                 height: @main_window_pane_height;
 
-                border: 2px solid #b3b3b3;
+                border: 1px solid #b3b3b3;
 
             }
 
@@ -441,7 +441,7 @@
             float: left;
             background-color: #7f7f7f;
             margin-left: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
             padding: 10px;
             text-align: center;
 
@@ -450,15 +450,9 @@
             span.categories_label {
 
                 display: block;
-                margin-top: 80px;
+                margin-top: 120px;
                 padding: 3px;
-                background-color: #3d3d3d;
-                color: #b3b3b3;
-
-                opacity: 0.9;
-
-                border-bottom: solid 2px grey;
-
+                
             }
 
             background-position: center; 
@@ -475,23 +469,7 @@
 
         div.sports_categories_highlighted {
 
-            border: solid 2px #acacac;
-
-            span.categories_label {
-
-                display: block;
-                margin-top: 80px;
-                padding: 3px;
-                background-color: #acacac;
-
-                color: white;
-
-                opacity: 0.9;
-
-                border-bottom: solid 1px #ffffff;
-
-            }
-
+            border: solid 1px #acacac;
             background-size: 130% 130%;
 
             filter:grayscale(0%);
@@ -502,7 +480,7 @@
 
         div.sports_categories_activated {
 
-            border: solid 2px #acacac;
+            border: solid 1px #acacac;
 
             span.categories_label {
 
@@ -556,6 +534,49 @@
             float: left;
             background-color: #7f7f7f;
             margin-left: 8px;
+            margin-bottom: 30px;
+            padding: 10px;
+            text-align: center;
+
+            border: solid 1px #b3b3b3;
+
+            span.style_label {
+
+                display: block;
+                margin-top: 120px;
+                padding: 3px;
+            }
+
+            background-position: center; 
+            background-size: 100% 100%;
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+
+            filter:grayscale(100%);
+            webkit-filter:grayscale(100%);
+
+
+        }
+
+        div.style_entry_highlighted {
+
+            border: solid 1px #acacac;
+            background-size: 130% 130%;
+            filter:grayscale(0%);
+            webkit-filter:grayscale(0%);
+
+        }
+
+         div.gender_picker {
+
+            display: block;
+            width: 130px;
+            height: 130px;
+
+            float: left;
+            background-color: #7f7f7f;
+            margin-left: 8px;
             margin-bottom: 10px;
             padding: 10px;
             text-align: center;
@@ -588,9 +609,9 @@
 
         }
 
-        div.style_entry_highlighted {
+        div.gender_picker_highlighted {
 
-            border: solid 2px #acacac;
+            border: solid 1px #acacac;
 
             span.style_label {
 
@@ -614,6 +635,48 @@
 
 
         }
+
+
+        /* GENDER PICKER */
+
+            div.gender_picker {
+                float: none;
+                margin-left: 0px;
+            }
+
+            div.gender_picker_header {
+                border-bottom: 1px solid #b3b3b3;
+                width: 100%;
+                padding-bottom: 3px;
+                margin-bottom: 10px;
+
+            }
+
+            div.picker_header {
+
+                width: 100%;
+                display: block;
+                height: 33px;
+                border-bottom: 1px solid #b3b3b3;
+                padding-bottom: 3px;
+                margin-bottom: 10px;
+
+
+                span {
+                    float: left;
+                    padding-top:;
+                }
+
+                button {
+                    float: right;
+                    background: none;
+                    border: none;
+                    
+                }
+
+            }    
+
+        /* END GENDER PICKER */
 
     /* End Pickers */
 

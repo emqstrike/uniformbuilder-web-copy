@@ -14,7 +14,7 @@
             /// Setup Properties
 
                 ub.ui                   = {};
-
+            
                 ub.active               = null;
                 ub.container_div        = 'main_view';
 
@@ -97,18 +97,84 @@
 
                 ub.data = {};
                 ub.data.sports = [
-
                     {
                         gender: 'Men',
-                        sports: ['Baseball', 'Basketball', 'Football', 'Hockey', 'Lacrosse', 'Soccer',],
+                        sports: [
+                            {
+                                name: 'Baseball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Basketball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Football',
+                                active: 1,
+                            },
+                            {
+                                name: 'Hockey',
+                                active: 1,
+                            },
+                            {
+                                name: 'Lacrosse',
+                                active: 1,
+                            },
+                            {
+                                name: 'Soccer',
+                                active: 1,
+                            }, 
+                        ],
                     },
                     {
                         gender: 'Women',
-                        sports: ['Baseball', 'Softball', 'Hockey', 'Lacrosse', 'Volleyball', 'Soccer',],
+                        sports: [
+                            {
+                                name: 'Baseball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Softball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Hockey',
+                                active: 1,
+                            },
+                            {
+                                name: 'Lacrosse',
+                                active: 1,
+                            },
+                            {
+                                name: 'Volleyball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Soccer',
+                                active: 1,
+                            }, 
+                        ],
                     },
                     {
                         gender: 'Youth',
-                        sports: ['Baseball', 'Basketball', 'Football', 'Soccer'],
+                        sports: [
+                            {
+                                name: 'Baseball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Basketball',
+                                active: 1,
+                            },
+                            {
+                                name: 'Football',
+                                active: 1,
+                            },
+                            {
+                                name: 'Soccer',
+                                active: 1,
+                            },
+                        ],
                     },
 
                 ];
@@ -156,37 +222,11 @@
 
         };
 
-        
-        ub.display_categories = function(obj, object_name){
+         ub.display_gender_picker = function () {
 
-            ub.categories = {};
-            ub.categories = obj;
+            $('#main_view > .picker_container').hide();
+            $('#main_view > .picker_container').html('');
 
-            ub.categories = _.where(ub.categories, {active: 1});
-
-            _.each(ub.categories, function(category){
-
-                var filename = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
-
-                var element = '<div class="sports_categories" data-id = "' + category.id + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.id + '. ' + category.name + '</span></div>';
-                $('#main_view > .picker_container').append(element);
-                
-            });
-
-            ub.bind_handler_category_picker();
-
-
-            if(ub.categories.length > 0){
-                 ub.display_design_sets( ub.categories[0].name, 'men' );
-            }    
-
-        }
-
-        ub.display_gender_picker = function (category_name) {
-
-            $('#style_lists').hide();
-
-            $('#style_lists').html('');
             var str_builder = '';
 
             var genders = ['Men', 'Women', 'Youth'];
@@ -194,37 +234,87 @@
             _.each(genders, function(obj, index) {
 
                 var filename = window.ub.config.thumbnails_path + obj.toLowerCase() + '.png';
-                var element  = '<div class="style_entry" data-category-name="' + category_name + '" data-picker-type="gender" data-index = "' + index+ '" data-gender="' + obj + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + index + '. ' + obj + '</span></div>';
+                
+                var element =  "<div class='gender_picker_header'>" + obj + '</div>';
+                    element += '<div class="gender_picker" data-picker-type="gender" data-index = "' + index+ '" data-gender="' + obj + '" style="background-image:url(' + filename +');">' + '</span></div>';
 
                 str_builder  += element;
 
             });
 
-            $('#style_lists').html(str_builder);
-            $('#style_lists').fadeIn();
+            $('#main_view > .picker_container').html(str_builder);
+            $('#main_view > .picker_container').fadeIn();
+
 
             ub.bind_handler_design_set_picker();
 
+        };
+
+        
+        ub.display_categories = function(gender){
+
+            var sports                  = _.find( ub.data.sports, {gender: gender} );
+            var active_sport_categories = _.where( sports.sports, {active: 1} );
+
+            $('#main_view > .picker_container').hide();
+            $('#main_view > .picker_container').html('');
+
+            var elements = '';
+            var gender_element = '<span>' + gender + '</span>';
+            var back_element   = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header   = '<div class="picker_header">' + gender_element + back_element + '</div>';
+
+            elements = header;
+
+            _.each(active_sport_categories, function(category, index){
+
+                var filename    = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
+                var element     = '<div class="sports_categories" data-gender="'+ gender + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.name + '</span></div>';
+
+                elements += element;
+                
+            });
+
+            $('#main_view > .picker_container').html(elements);
+            $('#main_view > .picker_container').fadeIn();
+
+            ub.bind_handler_category_picker();
 
         };
 
-        ub.display_design_sets = function (category_name, gender) {
+        ub.display_design_sets = function (category, gender) {
 
-            var design_sets = _.where( ub.design_sets, {category: category_name, gender: gender} );
+
+            $('#main_view > .picker_container').hide();
+            $('#main_view > .picker_container').html('');
+
+            var elements = '';
+
+            var gender_element = '<span>' + gender + '</span>';
+            var back_element   = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header   = '<div class="picker_header">' + gender_element + back_element + '</div>';
+
+            var category_element = '<span>' + category + '</span>';
+            var category_back_element   = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
+            var category_header   = '<div class="picker_header">' + category_element + category_back_element + '</div>';
+
+            elements = header + category_header;
+
+            var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
             
-            $('#style_lists').html('');
-            var str_builder = '';
-
             _.each(design_sets, function(obj) {
 
                 var filename = obj.thumbnail_path;
-                var element = '<div class="style_entry" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.id + '. ' + obj.name + '</span></div>';
+                var element = '<div class="style_entry" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
 
-                str_builder += element;
-
+                elements += element;
+                
             });
 
-            $('#style_lists').html(str_builder);
+
+            $('#main_view > .picker_container').html(elements);
+            $('#main_view > .picker_container').fadeIn();
+
             ub.bind_handler_design_set_picker();
 
         };
@@ -344,10 +434,10 @@
                     var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
 
                     ub.objects[view_name]                   = {};
-
                     ub.objects[view_name].shape             = shape;
                     ub.objects[view_name].shape_mask        = shape_mask;
 
+                    shape.tint                              = 0xeeeded; 
                     shape.zIndex                            = 2;
                     shape_mask.zIndex                       = 1;
            
@@ -656,7 +746,7 @@
 
                     if(s === 'btn-new' && $('a.' + s).data('status') === 'close'){
                         return;
-                    } 
+                    }
 
                     $('a.' + s).css('background-color','#363636');
 
@@ -721,9 +811,11 @@
 
                         $('a.btn-new').data('status','close');
 
-                        ub.categories_url = window.ub.config.api_host + '/api/categories/'; 
-                        ub.loader(ub.categories_url, 'categories', ub.display_categories); 
-                
+                        ub.display_gender_picker();
+
+                        // ub.categories_url = window.ub.config.api_host + '/api/categories/'; 
+                        // ub.loader(ub.categories_url, 'categories', ub.display_categories); 
+
                     }
                     else {
 
@@ -788,11 +880,10 @@
                 ub.ui.active_element = $(e.currentTarget);
                 ub.ui.active_element.addClass('sports_categories_activated');
 
-                var category_name = ub.ui.active_element.data('category');
+                var category = ub.ui.active_element.data('category');
+                var gender = ub.ui.active_element.data('gender');
 
-                $('#active_sports_category').text( category_name.toUpperCase() );
-                ub.display_gender_picker(category_name);
-
+                ub.display_design_sets(category, gender);
 
             });
 
@@ -844,6 +935,35 @@
             });
 
 
+            /* Gender Picker */
+
+            $('div.gender_picker').click(function(e){
+
+                var element                 = $( e.currentTarget );
+                var gender                  = element.data( 'gender' );
+
+                ub.display_categories( gender );
+
+            });
+
+            $('div.gender_picker').hover(function(e){
+
+                $('div.gender_picker').removeClass('gender_picker_highlighted');
+
+                var el = $(e.currentTarget);
+                el.addClass('gender_picker_highlighted');
+
+            }, function (e){
+                
+                var el = $(e.currentTarget);
+                el.removeClass('gender_picker_highlighted');
+
+            });
+
+
+            /* End Gender Picker */
+
+
         };
 
 
@@ -875,7 +995,19 @@
             
             ub.change_color = function (obj, color, panel) {
 
-                var color_value = parseInt(color.substring(1), 16);
+                var color_param = color;
+
+                if(color_param === '#ffffff'){
+
+                    color_param = "#eeeded";
+
+                }
+
+                var color_value = parseInt(color_param.substring(1), 16);
+
+                console.log('color param: ' + color_param);
+                console.log('color value: ' + color_value);
+
 
                 if(panel === 'base'){
 
