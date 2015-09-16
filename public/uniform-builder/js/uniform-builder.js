@@ -795,26 +795,18 @@
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
-                        var div_style = "<div class='picker_container'><strong id='active_sports_category'>List of Styles...</strong><br /><div id='style_lists'></div></div>"
-
+                        
                         $('#main_view').append(div_sports);
-                        $('#right-main-window').append(div_style);
-
                         $('#left-main-window').css('overflow-y', 'scroll'); 
 
                         var filename = '/images/sidebar/' + 'close.png';
+                        
                         $('a.btn-new').css('background-image', 'url(' + filename + ')');
                         $('a.btn-new').css('background-color','#363636');
-
                         $('#right-main-window').css('background-color','#f8f8f8');
-                        $('#left-main-window').css('background-color','#f8f8f8');
-
                         $('a.btn-new').data('status','close');
 
                         ub.display_gender_picker();
-
-                        // ub.categories_url = window.ub.config.api_host + '/api/categories/'; 
-                        // ub.loader(ub.categories_url, 'categories', ub.display_categories); 
 
                     }
                     else {
