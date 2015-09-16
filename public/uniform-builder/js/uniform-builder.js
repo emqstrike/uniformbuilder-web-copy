@@ -85,6 +85,9 @@
                 ub.materials_url = window.ub.config.api_host + '/api/materials/';
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+                ub.patterns_url = window.ub.config.api_host + '/api/patterns/';
+                ub.loader(ub.patterns_url, 'patterns', ub.load_patterns);
+
 
             /// Activate Views
 
@@ -351,6 +354,15 @@
 
             ub.materials = {};
             ub.materials = obj;
+
+        }
+
+        ub.load_patterns = function(obj, object_name){
+
+            ub.patterns = {};
+            ub.patterns = obj;
+
+            ub.patterns = _.where(ub.patterns, {active: 1});
 
         }
 
