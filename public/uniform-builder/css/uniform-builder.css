@@ -391,6 +391,15 @@ div.picker_header button {
   background: none;
   border: none;
 }
+div.picker_header button.button_tabs {
+  float: none;
+  border: solid 1px #353536;
+  margin-right: 3px;
+  border-radius: 3px;
+}
+div.picker_header button.button_tabs:focus {
+  outline: 0;
+}
 /* END GENDER PICKER */
 /* MISC */
 div.no_designs {

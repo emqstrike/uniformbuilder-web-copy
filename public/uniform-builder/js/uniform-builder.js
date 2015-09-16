@@ -290,15 +290,21 @@
 
             var elements = '';
 
-            var gender_element = '<span>' + gender + '</span>';
-            var back_element   = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
-            var header   = '<div class="picker_header">' + gender_element + back_element + '</div>';
+            var gender_element          = '<span>' + gender + '</span>';
+            var back_element            = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header                  = '<div class="picker_header">' + gender_element + back_element + '</div>';
 
-            var category_element = '<span>' + category + '</span>';
+            var category_element        = '<span>' + category + '</span>';
             var category_back_element   = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
-            var category_header   = '<div class="picker_header">' + category_element + category_back_element + '</div>';
+            var category_header         = '<div class="picker_header">' + category_element + category_back_element + '</div>';
 
-            elements = header + category_header;
+            var group_element_1         = '<button class="button_tabs">Jersey and Pant</button>';
+            var group_element_2         = '<button class="button_tabs">Jersey</button>';
+            var group_element_3         = '<button class="button_tabs">Pant</button>';
+            var group_header            = '<div class="picker_header" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
+
+
+            elements = header + category_header + group_header;
 
             var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
             
@@ -324,12 +330,11 @@
                 elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs " + phrase + "</div></div>";
             }
 
-
-
             $('#main_view > .picker_container').html(elements);
             $('#main_view > .picker_container').fadeIn();
 
             ub.bind_handler_design_set_picker();
+            ub.bind_style_tab_handlers(); 
 
         };
 
@@ -980,28 +985,28 @@
 
             /* Gender Picker */
 
-            $('div.gender_picker').click(function(e){
+                $('div.gender_picker').click(function(e){
 
-                var element                 = $( e.currentTarget );
-                var gender                  = element.data( 'gender' );
+                    var element                 = $( e.currentTarget );
+                    var gender                  = element.data( 'gender' );
 
-                ub.display_categories( gender );
+                    ub.display_categories( gender );
 
-            });
+                });
 
-            $('div.gender_picker').hover(function(e){
+                $('div.gender_picker').hover(function(e){
 
-                $('div.gender_picker').removeClass('gender_picker_highlighted');
+                    $('div.gender_picker').removeClass('gender_picker_highlighted');
 
-                var el = $(e.currentTarget);
-                el.addClass('gender_picker_highlighted');
+                    var el = $(e.currentTarget);
+                    el.addClass('gender_picker_highlighted');
 
-            }, function (e){
-                
-                var el = $(e.currentTarget);
-                el.removeClass('gender_picker_highlighted');
+                }, function (e){
+                    
+                    var el = $(e.currentTarget);
+                    el.removeClass('gender_picker_highlighted');
 
-            });
+                });
 
             /* End Gender Picker */
 
@@ -1014,7 +1019,6 @@
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
                var panel                        = $(this).data('panel');
-
                var color_element = $(this);
 
                window.ce = color_element;
@@ -1026,7 +1030,6 @@
                }
 
                color_element.parent().data( "active_color", color );
-
                ub.change_color( target, color, panel );
                 
             }); 
@@ -1043,10 +1046,6 @@
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
-
-                console.log('color param: ' + color_param);
-                console.log('color value: ' + color_value);
-
 
                 if(panel === 'base'){
 
@@ -1101,7 +1100,6 @@
 
                     }
 
-                   
                 }
                 
                 ub.refresh_thumbnails();
@@ -1109,7 +1107,23 @@
                 $('[rel="popover"]').popover("hide");
 
             }
+        };
+
+
+        ub.bind_style_tab_handlers = function(){
+
+            $('button.button_tabs').click(function(e) {
+
+                $('button.button_tabs').css('background-color', '#f8f8f8');
+                $('button.button_tabs').css('color', '#353536');
+
+                $(e.currentTarget).css('background-color', '#353536');
+                $(e.currentTarget).css('color', '#f8f8f8');
+                    
+            });
+
         }
+
 
         /// End Process Changes /// 
 
@@ -1139,6 +1153,8 @@
     /// UI Functions ///
 
     /* Popover */
+
+
 
         $(function(){
 

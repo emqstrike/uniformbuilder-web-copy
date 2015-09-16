@@ -626,31 +626,24 @@
 
             filter:grayscale(0%);
             webkit-filter:grayscale(0%);
-
-
         }
 
 
         /* GENDER PICKER */
 
             div.gender_picker {
-
                 float: none;
                 margin-left: 0px;
-
             }
 
             div.gender_picker_header {
-                
                 border-bottom: 1px solid #b3b3b3;
                 width: 100%;
                 padding-bottom: 3px;
                 margin-bottom: 10px;
-
             }
 
             div.picker_header {
-
                 width: 100%;
                 display: block;
                 height: 33px;
@@ -666,9 +659,20 @@
                 button {
                     float: right;
                     background: none;
-                    border: none;
-                    
+                    border: none;                    
                 }
+
+                button.button_tabs {
+                    float: none;
+                    border: solid 1px #353536;
+                    margin-right: 3px;
+
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    border-radius: 3px;
+                }
+
+                button.button_tabs:focus { outline: 0; }
 
             }    
 
@@ -677,11 +681,9 @@
         /* MISC */
 
             div.no_designs {
-
                 margin-top: 30px;
                 border-top : 1px solid #b3b3b3;
                 padding-top: 10px;
-
             }
 
 
