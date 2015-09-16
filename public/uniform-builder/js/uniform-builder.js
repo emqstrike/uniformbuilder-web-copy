@@ -102,27 +102,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Basketball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Football',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Hockey',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Lacrosse',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             }, 
                         ],
                     },
@@ -131,27 +131,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Softball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Hockey',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Lacrosse',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Volleyball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             }, 
                         ],
                     },
@@ -160,19 +160,19 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Basketball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Football',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             },
                         ],
                     },
@@ -254,7 +254,7 @@
         ub.display_categories = function(gender){
 
             var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: "1"} );
+            var active_sport_categories = _.where( sports.sports, {active: 1} );
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
@@ -312,14 +312,16 @@
             });
 
             
+            var phrase = "found for <strong>" + gender + " / " + category + "</strong>.";
+
             if (design_sets.length === 0) {
-                elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div>";
+                elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs " + phrase + "</div>";
             }
             else if (design_sets.length === 1) {
-                elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design found for <strong>" + gender + " / " + category + "</strong>.</div>";
+                elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design " + phrase + "</div>";
             }
             else {
-                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div></div>";
+                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs " + phrase + "</div></div>";
             }
 
 
@@ -336,7 +338,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: "1"});
+            ub.design_sets = _.where(ub.design_sets, {active: 1});
 
         }
 
