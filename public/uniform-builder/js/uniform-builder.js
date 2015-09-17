@@ -18,6 +18,8 @@
                 ub.active               = null;
                 ub.container_div        = 'main_view';
 
+                ub.tethers              = {}; 
+
                 ub.dimensions           = {};
                 ub.dimensions.width     = 496;
                 ub.dimensions.height    = 550;
@@ -84,6 +86,9 @@
 
                 ub.materials_url = window.ub.config.api_host + '/api/materials/';
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
+                ub.patterns_url = window.ub.config.api_host + '/api/patterns/';
+                ub.loader(ub.patterns_url, 'patterns', ub.load_patterns);
 
 
             /// Activate Views
@@ -224,6 +229,8 @@
 
          ub.display_gender_picker = function () {
 
+            $('#arrow_design_sets').remove();
+
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
 
@@ -252,6 +259,8 @@
 
         
         ub.display_categories = function(gender){
+
+            $('#arrow_design_sets').remove();
 
             var sports                  = _.find( ub.data.sports, {gender: gender} );
             var active_sport_categories = _.where( sports.sports, {active: "1"} );
@@ -282,52 +291,93 @@
 
         };
 
-        ub.display_design_sets = function (category, gender) {
+        ub.display_design_sets = function (category, gender, type) {
 
+            $('#arrow_design_sets').remove();
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
 
             var elements = '';
 
-            var gender_element = '<span>' + gender + '</span>';
-            var back_element   = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
-            var header   = '<div class="picker_header">' + gender_element + back_element + '</div>';
+            var gender_element          = '<span>' + gender + '</span>';
+            var back_element            = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header                  = '<div class="picker_header">' + gender_element + back_element + '</div>';
 
-            var category_element = '<span>' + category + '</span>';
+            var category_element        = '<span>' + category + '</span>';
             var category_back_element   = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
-            var category_header   = '<div class="picker_header">' + category_element + category_back_element + '</div>';
+            var category_header         = '<div class="picker_header">' + category_element + category_back_element + '</div>';
 
-            elements = header + category_header;
+            var group_element_1         = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
+            var group_element_2         = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
+            var group_element_3         = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
+            var group_header            = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
+
+
+            elements = header + category_header + group_header;
 
             var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+
+            if(type === 'All'){
             
+                design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+            
+            } else {
+
+                design_sets = _.where( ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type } );
+
+            }
+
             _.each(design_sets, function(obj) {
 
                 var filename = obj.thumbnail_path;
-                var element = '<div class="style_entry" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
+                var element = '<div class="style_entry" data-option="' + type + '" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
 
                 elements += element;
                 
             });
-
             
+            var phrase = "for <strong>" + gender + " / " + category + "</strong>.";
+
             if (design_sets.length === 0) {
-                elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div>";
+                elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs " + phrase + "</div>";
             }
             else if (design_sets.length === 1) {
-                elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design found for <strong>" + gender + " / " + category + "</strong>.</div>";
+                elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design " + phrase + "</div>";
             }
             else {
-                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found for <strong>" + gender + " / " + category + "</strong>.</div></div>";
+                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found " + phrase + "</div></div>";
             }
 
-
-
             $('#main_view > .picker_container').html(elements);
-            $('#main_view > .picker_container').fadeIn();
+            $('#main_view > .picker_container').show();
+
+             /// Highlight Button
+
+                var current_button = $('.button_tabs.' + type.toLowerCase());
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+                });
+
+                current_button.css('background-color', '#353536');
+                current_button.css('color', '#f8f8f8');
+                $('.down_arrow:not(.tether-element)').remove();
+
+                ub.tethers['design_sets'] = t;
+
+            /// End Highlight Button
 
             ub.bind_handler_design_set_picker();
+            ub.bind_design_sets_tab_handlers(); 
 
         };
 
@@ -336,7 +386,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: "1"});
+            ub.design_sets = _.where(ub.design_sets, { active: "1" });
 
         }
 
@@ -344,6 +394,15 @@
 
             ub.materials = {};
             ub.materials = obj;
+
+        }
+
+        ub.load_patterns = function(obj, object_name){
+
+            ub.patterns = {};
+            ub.patterns = obj;
+
+            ub.patterns = _.where(ub.patterns, {active: "1"});
 
         }
 
@@ -924,7 +983,7 @@
                 var category = ub.ui.active_element.data('category');
                 var gender = ub.ui.active_element.data('gender');
 
-                ub.display_design_sets(category, gender);
+                ub.display_design_sets(category, gender, 'All');
 
             });
 
@@ -954,9 +1013,20 @@
 
                 if(picker_type === 'design_sets') {
 
-                    var id = ub.ui.active_style_element.data('id');
-                    var url = ub.config.host + '/uniform-builder-index/' + id;
+                    var id = -1;
+                    var url = '';
 
+                    var option = ub.ui.active_style_element.data('option');
+
+                    id = ub.ui.active_style_element.data('id');
+
+                    if ( option === 'All') {
+                        url = ub.config.host + '/uniform-builder/' + id + '/set';    
+                    }
+                    else {
+                        url = ub.config.host + '/uniform-builder/' + id + '/single';    
+                    }
+                    
                     ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
                     window.location = url;
 
@@ -966,7 +1036,7 @@
                     var category_name = ub.ui.active_style_element.data('category-name');
                     var gender_name = ub.ui.active_style_element.data('gender').toLowerCase();
 
-                    ub.display_design_sets( category_name, gender_name );
+                    ub.display_design_sets( category_name, gender_name, 'All' );
 
                     $('#active_sports_category').text( category_name.toUpperCase() + ' > ' + gender_name.toUpperCase() );
 
@@ -978,28 +1048,28 @@
 
             /* Gender Picker */
 
-            $('div.gender_picker').click(function(e){
+                $('div.gender_picker').click(function(e){
 
-                var element                 = $( e.currentTarget );
-                var gender                  = element.data( 'gender' );
+                    var element                 = $( e.currentTarget );
+                    var gender                  = element.data( 'gender' );
 
-                ub.display_categories( gender );
+                    ub.display_categories( gender );
 
-            });
+                });
 
-            $('div.gender_picker').hover(function(e){
+                $('div.gender_picker').hover(function(e){
 
-                $('div.gender_picker').removeClass('gender_picker_highlighted');
+                    $('div.gender_picker').removeClass('gender_picker_highlighted');
 
-                var el = $(e.currentTarget);
-                el.addClass('gender_picker_highlighted');
+                    var el = $(e.currentTarget);
+                    el.addClass('gender_picker_highlighted');
 
-            }, function (e){
-                
-                var el = $(e.currentTarget);
-                el.removeClass('gender_picker_highlighted');
+                }, function (e){
+                    
+                    var el = $(e.currentTarget);
+                    el.removeClass('gender_picker_highlighted');
 
-            });
+                });
 
             /* End Gender Picker */
 
@@ -1012,7 +1082,6 @@
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
                var panel                        = $(this).data('panel');
-
                var color_element = $(this);
 
                window.ce = color_element;
@@ -1024,7 +1093,6 @@
                }
 
                color_element.parent().data( "active_color", color );
-
                ub.change_color( target, color, panel );
                 
             }); 
@@ -1041,10 +1109,6 @@
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
-
-                console.log('color param: ' + color_param);
-                console.log('color value: ' + color_value);
-
 
                 if(panel === 'base'){
 
@@ -1099,7 +1163,6 @@
 
                     }
 
-                   
                 }
                 
                 ub.refresh_thumbnails();
@@ -1107,7 +1170,47 @@
                 $('[rel="popover"]').popover("hide");
 
             }
+        };
+
+
+        ub.bind_design_sets_tab_handlers = function(){
+
+            $('button.button_tabs').click(function(e) {
+
+                $('button.button_tabs').css('background-color', '#f8f8f8');
+                $('button.button_tabs').css('color', '#353536');
+
+                var current_button = $(e.currentTarget);
+
+                // var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                // $("body").append(down_arrow);
+
+                // var arrow_obj = $('#arrow_design_sets');
+
+                // var t = new Tether({
+                //   element: arrow_obj,
+                //   target: current_button,
+                //   attachment: 'top center',
+                //   targetAttachment: 'bottom center'
+                // });
+
+                // current_button.css('background-color', '#353536');
+                // current_button.css('color', '#f8f8f8');
+                // $('.down_arrow:not(.tether-element)').remove();
+
+                // ub.tethers['design_sets'] = t;
+
+                var category = current_button.data('category');
+                var gender = current_button.data('gender');
+                var type = current_button.data('type');
+                
+                ub.display_design_sets(category, gender, type);
+    
+            });
+
         }
+
 
         /// End Process Changes /// 
 
@@ -1160,17 +1263,24 @@
 
         $('[rel="popover"]').on('shown.bs.popover', function () {
 
-            
             // Adjust Arrow Position Here
-
             var pos = '25%';
-
             $('.popover > div.arrow').css('left', pos);
-
             
         })
 
     /* End Popover */
+
+
+    // Reposition all tethers 
+
+        $(window).scroll( function(e) {
+
+            _.each(ub.tethers, function(obj) {
+                obj.position();
+            });
+
+        });
 
  });   
 

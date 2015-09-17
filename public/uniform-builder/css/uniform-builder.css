@@ -217,6 +217,9 @@ a.popper_button {
   border: none;
   box-shadow: none;
 }
+a.popper_button:focus {
+  background-color: #acacac;
+}
 /* End Popovers */
 /* Canvas */
 canvas#front_view,
@@ -391,12 +394,31 @@ div.picker_header button {
   background: none;
   border: none;
 }
+div.picker_header button.button_tabs {
+  float: none;
+  border: solid 1px #353536;
+  margin-right: 3px;
+  border-radius: 3px;
+}
+div.picker_header button.button_tabs:focus {
+  outline: 0;
+}
+div.picker_header_tabs {
+  padding-bottom: 40px;
+}
 /* END GENDER PICKER */
 /* MISC */
 div.no_designs {
   margin-top: 30px;
   border-top: 1px solid #b3b3b3;
   padding-top: 10px;
+}
+div.down_arrow {
+  background-image: url('/images/sidebar/down-arrow.png');
+  background-position: center;
+  display: block;
+  width: 20px;
+  height: 13px;
 }
 /* END MISC */
 /* End Pickers */

@@ -142,40 +142,50 @@
 
                 </div>
 
+                <!-- POPUP -->
                
-                <!-- 
-                <div class="options_panel_section">
-                
-                    <label>Popup Test</label> 
+                    <div class="options_panel_section">
                         
+                        <!-- Layer 1 -->
+
+                            &nbsp;
+                            <a class= "popper_button" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >
+                                <div class="color_element popper_button">
+                                    <div id="popper" class="popper popper_button"></div>    
+                                </div>
+                            </a>
+
+                            <div id="myPopover" class="hide">
+                                <div class="color_panel_container" id="popover_color_panel">
+                                    @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color','selection' => 'popper'])
+                                    <br /><br />
+                                </div>    
+                            </div>'
+
+                        <!-- End Layer 1-->
+
+                        <!-- Layer 2 -->
 
                         &nbsp;
-
-                        <a class= "btn btn-default popper_button" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >
-
+                        <a class= "popper_button" href = "#" rel= "popover" data-placement = "top" data-popover-content = "#myPopover" >
                             <div class="color_element popper_button">
                                 <div id="popper" class="popper popper_button"></div>    
                             </div>
-
                         </a>
 
-                    <div id="myPopover" class="hide">
+                        <div id="myPopover" class="hide">
+                            <div class="color_panel_container" id="popover_color_panel">
+                                @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_2', 'event_class' => 'change-color','selection' => 'popper'])
+                                <br /><br />
+                            </div>    
+                        </div>
 
-                        <div class="color_panel_container" id="popover_color_panel">
-                    
-                            @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color','selection' => 'popper'])
+                        <!-- End Layer 2 -->
 
-                            <br /><br />
-
-                        </div>    
 
                     </div>
 
-                </div>
-
-                -->
-
-
+                <!-- End POPUP -->
 
             </div>
 

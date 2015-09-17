@@ -392,12 +392,16 @@
         }
 
         a.popper_button {
-
             padding: 0;
             background-image: none;
             background-color: none;
             border: none;
             box-shadow: none;
+        }
+
+        a.popper_button:focus {
+
+            background-color: #acacac;
 
         }
 
@@ -626,31 +630,24 @@
 
             filter:grayscale(0%);
             webkit-filter:grayscale(0%);
-
-
         }
 
 
         /* GENDER PICKER */
 
             div.gender_picker {
-
                 float: none;
                 margin-left: 0px;
-
             }
 
             div.gender_picker_header {
-                
                 border-bottom: 1px solid #b3b3b3;
                 width: 100%;
                 padding-bottom: 3px;
                 margin-bottom: 10px;
-
             }
 
             div.picker_header {
-
                 width: 100%;
                 display: block;
                 height: 33px;
@@ -666,21 +663,45 @@
                 button {
                     float: right;
                     background: none;
-                    border: none;
-                    
+                    border: none;                    
                 }
 
+                button.button_tabs {
+                    float: none;
+                    border: solid 1px #353536;
+                    margin-right: 3px;
+
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    border-radius: 3px;
+                }
+
+                button.button_tabs:focus { outline: 0; }
+
             }    
+
+            div.picker_header_tabs {
+                padding-bottom: 40px;
+            }
+
 
         /* END GENDER PICKER */
 
         /* MISC */
 
             div.no_designs {
-
                 margin-top: 30px;
                 border-top : 1px solid #b3b3b3;
                 padding-top: 10px;
+            }
+
+            div.down_arrow {
+
+                background-image: url('/images/sidebar/down-arrow.png');
+                background-position: center;
+                display: block;
+                width: 20px;
+                height: 13px; 
 
             }
 

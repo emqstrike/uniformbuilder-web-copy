@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
-    
+        
         <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 
     </head>
@@ -76,6 +76,7 @@
             <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
+            <script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
 
             <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 
