@@ -18,6 +18,8 @@
                 ub.active               = null;
                 ub.container_div        = 'main_view';
 
+                ub.tethers              = {}; 
+
                 ub.dimensions           = {};
                 ub.dimensions.width     = 496;
                 ub.dimensions.height    = 550;
@@ -285,7 +287,7 @@
 
         };
 
-        ub.display_design_sets = function (category, gender) {
+        ub.display_design_sets = function (category, gender, type) {
 
 
             $('#main_view > .picker_container').hide();
@@ -304,7 +306,7 @@
             var group_element_1         = '<button class="button_tabs">Jersey and Pant</button>';
             var group_element_2         = '<button class="button_tabs">Jersey</button>';
             var group_element_3         = '<button class="button_tabs">Pant</button>';
-            var group_header            = '<div class="picker_header" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
+            var group_header            = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
 
 
             elements = header + category_header + group_header;
@@ -337,7 +339,7 @@
             $('#main_view > .picker_container').fadeIn();
 
             ub.bind_handler_design_set_picker();
-            ub.bind_style_tab_handlers(); 
+            ub.bind_design_sets_tab_handlers(); 
 
         };
 
@@ -1122,15 +1124,32 @@
         };
 
 
-        ub.bind_style_tab_handlers = function(){
+        ub.bind_design_sets_tab_handlers = function(){
 
             $('button.button_tabs').click(function(e) {
 
                 $('button.button_tabs').css('background-color', '#f8f8f8');
                 $('button.button_tabs').css('color', '#353536');
 
-                $(e.currentTarget).css('background-color', '#353536');
-                $(e.currentTarget).css('color', '#f8f8f8');
+                var current_button = $(e.currentTarget);
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+                });
+
+                current_button.css('background-color', '#353536');
+                current_button.css('color', '#f8f8f8');
+                $('.down_arrow:not(.tether-element)').remove();
+
+                ub.tethers['design_sets'] = t;
                     
             });
 
@@ -1197,6 +1216,17 @@
         })
 
     /* End Popover */
+
+
+    // Reposition all tethers 
+
+        $(window).scroll( function(e) {
+
+            _.each(ub.tethers, function(obj) {
+                obj.position();
+            });
+
+        });
 
  });   
 
