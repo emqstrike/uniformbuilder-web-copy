@@ -1239,40 +1239,8 @@
 
     /// UI Functions ///
 
-    /* Popover */
-
-        $(function(){
-
-            $('[rel="popover"]').popover({
-                
-                container: 'body',
-                html: true,
-                content: function () {
-                    var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
-                    return clone;
-                }
-
-            }).click(function(e) {
-
-                e.preventDefault();
-
-            });
-
-
-        });
-
-        $('[rel="popover"]').on('shown.bs.popover', function () {
-
-            // Adjust Arrow Position Here
-            var pos = '25%';
-            $('.popover > div.arrow').css('left', pos);
-            
-        })
-
-    /* End Popover */
-
-
-    // Reposition all tethers 
+   
+    // Reposition All Tethers
 
         $(window).scroll( function(e) {
 
@@ -1281,6 +1249,8 @@
             });
 
         });
+
+    /// End Reposition All Tethers
 
  });   
 
