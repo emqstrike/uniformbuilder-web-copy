@@ -107,27 +107,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Basketball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Football',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Hockey',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Lacrosse',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             }, 
                         ],
                     },
@@ -136,27 +136,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Softball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Hockey',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Lacrosse',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Volleyball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             }, 
                         ],
                     },
@@ -165,19 +165,19 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Basketball',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Football',
-                                active: 1,
+                                active: "1",
                             },
                             {
                                 name: 'Soccer',
-                                active: 1,
+                                active: "1",
                             },
                         ],
                     },
@@ -229,6 +229,8 @@
 
          ub.display_gender_picker = function () {
 
+            $('#arrow_design_sets').remove();
+
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
 
@@ -258,8 +260,10 @@
         
         ub.display_categories = function(gender){
 
+            $('#arrow_design_sets').remove();
+
             var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: 1} );
+            var active_sport_categories = _.where( sports.sports, {active: "1"} );
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
@@ -289,6 +293,7 @@
 
         ub.display_design_sets = function (category, gender, type) {
 
+            $('#arrow_design_sets').remove();
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
@@ -303,27 +308,36 @@
             var category_back_element   = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
             var category_header         = '<div class="picker_header">' + category_element + category_back_element + '</div>';
 
-            var group_element_1         = '<button class="button_tabs">Jersey and Pant</button>';
-            var group_element_2         = '<button class="button_tabs">Jersey</button>';
-            var group_element_3         = '<button class="button_tabs">Pant</button>';
+            var group_element_1         = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
+            var group_element_2         = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
+            var group_element_3         = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
             var group_header            = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
 
 
             elements = header + category_header + group_header;
 
             var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+
+            if(type === 'All'){
             
+                design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+            
+            } else {
+
+                design_sets = _.where( ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type } );
+
+            }
+
             _.each(design_sets, function(obj) {
 
                 var filename = obj.thumbnail_path;
-                var element = '<div class="style_entry" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
+                var element = '<div class="style_entry" data-option="' + type + '" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
 
                 elements += element;
                 
             });
-
             
-            var phrase = "found for <strong>" + gender + " / " + category + "</strong>.";
+            var phrase = "for <strong>" + gender + " / " + category + "</strong>.";
 
             if (design_sets.length === 0) {
                 elements += "<div style='clear:both;'></div><div class='no_designs'>No Uniform Designs " + phrase + "</div>";
@@ -332,11 +346,35 @@
                 elements += "<div style='clear:both;'></div><div class='no_designs'>1 Uniform Design " + phrase + "</div>";
             }
             else {
-                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs " + phrase + "</div></div>";
+                elements += "<div style='clear:both;'></div><div style='clear: both'></div><div><div class='no_designs' style='clear:both;'>" + design_sets.length + " Uniform Designs found " + phrase + "</div></div>";
             }
 
             $('#main_view > .picker_container').html(elements);
-            $('#main_view > .picker_container').fadeIn();
+            $('#main_view > .picker_container').show();
+
+             /// Highlight Button
+
+                var current_button = $('.button_tabs.' + type.toLowerCase());
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+                });
+
+                current_button.css('background-color', '#353536');
+                current_button.css('color', '#f8f8f8');
+                $('.down_arrow:not(.tether-element)').remove();
+
+                ub.tethers['design_sets'] = t;
+
+            /// End Highlight Button
 
             ub.bind_handler_design_set_picker();
             ub.bind_design_sets_tab_handlers(); 
@@ -348,7 +386,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, {active: 1});
+            ub.design_sets = _.where(ub.design_sets, { active: "1" });
 
         }
 
@@ -364,7 +402,7 @@
             ub.patterns = {};
             ub.patterns = obj;
 
-            ub.patterns = _.where(ub.patterns, {active: 1});
+            ub.patterns = _.where(ub.patterns, {active: "1"});
 
         }
 
@@ -945,7 +983,7 @@
                 var category = ub.ui.active_element.data('category');
                 var gender = ub.ui.active_element.data('gender');
 
-                ub.display_design_sets(category, gender);
+                ub.display_design_sets(category, gender, 'All');
 
             });
 
@@ -975,9 +1013,20 @@
 
                 if(picker_type === 'design_sets') {
 
-                    var id = ub.ui.active_style_element.data('id');
-                    var url = ub.config.host + '/uniform-builder-index/' + id;
+                    var id = -1;
+                    var url = '';
 
+                    var option = ub.ui.active_style_element.data('option');
+
+                    id = ub.ui.active_style_element.data('id');
+
+                    if ( option === 'All') {
+                        url = ub.config.host + '/uniform-builder/' + id + '/set';    
+                    }
+                    else {
+                        url = ub.config.host + '/uniform-builder/' + id + '/single';    
+                    }
+                    
                     ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
                     window.location = url;
 
@@ -987,7 +1036,7 @@
                     var category_name = ub.ui.active_style_element.data('category-name');
                     var gender_name = ub.ui.active_style_element.data('gender').toLowerCase();
 
-                    ub.display_design_sets( category_name, gender_name );
+                    ub.display_design_sets( category_name, gender_name, 'All' );
 
                     $('#active_sports_category').text( category_name.toUpperCase() + ' > ' + gender_name.toUpperCase() );
 
@@ -1132,25 +1181,32 @@
                 $('button.button_tabs').css('color', '#353536');
 
                 var current_button = $(e.currentTarget);
-                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
 
-                $("body").append(down_arrow);
+                // var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
 
-                var arrow_obj = $('#arrow_design_sets');
+                // $("body").append(down_arrow);
 
-                var t = new Tether({
-                  element: arrow_obj,
-                  target: current_button,
-                  attachment: 'top center',
-                  targetAttachment: 'bottom center'
-                });
+                // var arrow_obj = $('#arrow_design_sets');
 
-                current_button.css('background-color', '#353536');
-                current_button.css('color', '#f8f8f8');
-                $('.down_arrow:not(.tether-element)').remove();
+                // var t = new Tether({
+                //   element: arrow_obj,
+                //   target: current_button,
+                //   attachment: 'top center',
+                //   targetAttachment: 'bottom center'
+                // });
 
-                ub.tethers['design_sets'] = t;
-                    
+                // current_button.css('background-color', '#353536');
+                // current_button.css('color', '#f8f8f8');
+                // $('.down_arrow:not(.tether-element)').remove();
+
+                // ub.tethers['design_sets'] = t;
+
+                var category = current_button.data('category');
+                var gender = current_button.data('gender');
+                var type = current_button.data('type');
+                
+                ub.display_design_sets(category, gender, type);
+    
             });
 
         }
@@ -1184,8 +1240,6 @@
     /// UI Functions ///
 
     /* Popover */
-
-
 
         $(function(){
 

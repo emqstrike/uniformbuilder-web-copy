@@ -41,7 +41,7 @@ class UniformBuilderController extends Controller
 
 
 
-    public function uniform_builder_index($design_set_id = null){
+    public function uniform_builder_set($design_set_id = null){
 
 
         $title = 'PROLOOK Uniform Builder';
@@ -80,6 +80,32 @@ class UniformBuilderController extends Controller
 
 
         }
+        
+        return view('editor.uniform-builder-index', [
+
+            'page_title' => $title,
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'colors' => $colors,
+            'material' => $material, 
+            'material_id' => $material_id,
+            
+        ]);
+
+
+    }
+
+    public function uniform_builder_single($material_id = null){
+
+
+        $title = 'PROLOOK Uniform Builder';
+
+        $accessToken = null;
+        $colorsClient = new ColorsAPIClient();
+        $materialsClient = new MaterialsAPIClient();
+
+        $colors = $colorsClient->getColors();
+        $material = $materialsClient->getMaterial($material_id);
         
         return view('editor.uniform-builder-index', [
 
