@@ -151,6 +151,7 @@ div.options_panel div.options_panel_section {
   height: 40px;
   border-bottom: 1px solid #b3b3b3;
   padding: 10px;
+  transition: all .2s;
 }
 div.options_panel div.options_panel_section span.text {
   font-weight: bold;
@@ -183,6 +184,9 @@ div.color_element {
   background-image: url(/images/sidebar/color-bg-0.png);
   float: left;
   background-repeat: no-repeat;
+}
+button.modifier {
+  margin-right: 10px;
 }
 /* End Options Panel */
 /* Right Main Window */

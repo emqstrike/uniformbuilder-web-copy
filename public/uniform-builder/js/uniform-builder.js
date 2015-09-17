@@ -107,27 +107,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Basketball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Football',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Hockey',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Lacrosse',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             }, 
                         ],
                     },
@@ -136,27 +136,27 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Softball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Hockey',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Lacrosse',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Volleyball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             }, 
                         ],
                     },
@@ -165,19 +165,19 @@
                         sports: [
                             {
                                 name: 'Baseball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Basketball',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Football',
-                                active: "1",
+                                active: 1,
                             },
                             {
                                 name: 'Soccer',
-                                active: "1",
+                                active: 1,
                             },
                         ],
                     },
@@ -263,7 +263,7 @@
             $('#arrow_design_sets').remove();
 
             var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: "1"} );
+            var active_sport_categories = _.where( sports.sports, {active: 1} );
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
@@ -386,7 +386,7 @@
             ub.design_sets = {};
             ub.design_sets = obj;
 
-            ub.design_sets = _.where(ub.design_sets, { active: "1" });
+            ub.design_sets = _.where(ub.design_sets, { active: 1 });
 
         }
 
@@ -402,7 +402,7 @@
             ub.patterns = {};
             ub.patterns = obj;
 
-            ub.patterns = _.where(ub.patterns, {active: "1"});
+            ub.patterns = _.where(ub.patterns, {active: 1});
 
         }
 
@@ -616,6 +616,7 @@
                         var color_container = $('#colors_panel').append(modifiers);
 
                     ub.bind_handlers();
+                    ub.bind_left_sidebar_tab_handlers();
 
                     /// End Setup Modifiers
 
@@ -888,6 +889,8 @@
             });
 
             $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
+
+                $('#arrow_design_sets').remove();
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 
@@ -1181,32 +1184,31 @@
                 $('button.button_tabs').css('color', '#353536');
 
                 var current_button = $(e.currentTarget);
-
-                // var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
-
-                // $("body").append(down_arrow);
-
-                // var arrow_obj = $('#arrow_design_sets');
-
-                // var t = new Tether({
-                //   element: arrow_obj,
-                //   target: current_button,
-                //   attachment: 'top center',
-                //   targetAttachment: 'bottom center'
-                // });
-
-                // current_button.css('background-color', '#353536');
-                // current_button.css('color', '#f8f8f8');
-                // $('.down_arrow:not(.tether-element)').remove();
-
-                // ub.tethers['design_sets'] = t;
-
                 var category = current_button.data('category');
                 var gender = current_button.data('gender');
                 var type = current_button.data('type');
                 
                 ub.display_design_sets(category, gender, type);
     
+            });
+
+        }
+
+        ub.bind_left_sidebar_tab_handlers = function() {
+
+            $('#color_base').click(function (e){
+
+                if ( $("div[data-option='base']:eq(1)").css('display') === "none" ) {
+
+                    $("div[data-option='base']:eq(1)").fadeIn();
+
+                }
+                else {
+
+                    $("div[data-option='base']:eq(1)").fadeOut();
+
+                }
+
             });
 
         }
@@ -1250,7 +1252,7 @@
 
         });
 
-    /// End Reposition All Tethers
+    /// End Reposition All Tetherss
 
  });   
 
