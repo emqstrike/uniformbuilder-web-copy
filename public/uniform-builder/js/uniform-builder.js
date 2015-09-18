@@ -475,7 +475,7 @@
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
             
-            var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
+            var frames_to_refresh = 7 * 60; // 60 frames in one sec, average
 
             if ( ub.pass > ( frames_to_refresh - 10 ) && ( ub.pass < frames_to_refresh ) ) {
                 ub.refresh_thumbnails();
@@ -616,6 +616,7 @@
                         var color_container = $('#colors_panel').append(modifiers);
 
                     ub.bind_handlers();
+                    ub.bind_left_sidebar_tab_handlers();
 
                     /// End Setup Modifiers
 
@@ -888,6 +889,8 @@
             });
 
             $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
+
+                $('#arrow_design_sets').remove();
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 
@@ -1181,32 +1184,31 @@
                 $('button.button_tabs').css('color', '#353536');
 
                 var current_button = $(e.currentTarget);
-
-                // var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
-
-                // $("body").append(down_arrow);
-
-                // var arrow_obj = $('#arrow_design_sets');
-
-                // var t = new Tether({
-                //   element: arrow_obj,
-                //   target: current_button,
-                //   attachment: 'top center',
-                //   targetAttachment: 'bottom center'
-                // });
-
-                // current_button.css('background-color', '#353536');
-                // current_button.css('color', '#f8f8f8');
-                // $('.down_arrow:not(.tether-element)').remove();
-
-                // ub.tethers['design_sets'] = t;
-
                 var category = current_button.data('category');
                 var gender = current_button.data('gender');
                 var type = current_button.data('type');
                 
                 ub.display_design_sets(category, gender, type);
     
+            });
+
+        }
+
+        ub.bind_left_sidebar_tab_handlers = function() {
+
+            $('#color_base').click(function (e){
+
+                if ( $("div[data-option='base']:eq(1)").css('display') === "none" ) {
+
+                    $("div[data-option='base']:eq(1)").fadeIn();
+
+                }
+                else {
+
+                    $("div[data-option='base']:eq(1)").fadeOut();
+
+                }
+
             });
 
         }
@@ -1250,7 +1252,7 @@
 
         });
 
-    /// End Reposition All Tethers
+    /// End Reposition All Tetherss
 
  });   
 

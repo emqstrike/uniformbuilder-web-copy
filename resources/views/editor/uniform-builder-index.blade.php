@@ -122,13 +122,17 @@
 
                 </div>
 
-                <div class="options_panel_section">
+                <div class="options_panel_section" data-option="base">
                 
-                    <label>Base</label>  
+                    <label>Base</label>
+
+                    <button id="color_base" class="modifier button_tabs" data-option="base">Color</button>
+                    <button id="gradient_base" class="modifier button_tabs" data-option="base">Gradient</button>
+                    <button id="pattern_base" class="modifier button_tabs" data-option="base">Pattern</button>
 
                 </div>
 
-                <div class="options_panel_section" id="color_panel_section">
+                <div class="options_panel_section" id="color_panel_section" data-option="base">
 
                     <div class="color_panel_container">
                 
