@@ -780,7 +780,9 @@
             success: function(response) {
                 if (response.success) {
                     $.each(response.materials, function(i, material){
-                        $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+                        if (material.id != ub.config.material_id) {
+                            $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+                        }
                     });
                 }
             }
