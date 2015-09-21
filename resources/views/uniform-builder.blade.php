@@ -38,7 +38,7 @@
 
                 </div>
                 
-                <h1 class="text-center" id="header_text">PROLOOK UNIFORM BUILDER</h1>
+                <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
 
             </div>
 
@@ -63,6 +63,13 @@
                     
                 </div>    
 
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    You might also like:
+                </div>
+                <div class="suggestions"></div>
             </div>
 
             <div class="row">
@@ -142,7 +149,6 @@
             <script src="{{$asset_storage}}/frontend-bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
-
             <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 
         
@@ -152,20 +158,16 @@
         <!-- Uniform Builder Scripts -->
 
             <script type="text/javascript">
-                
                 $( document ).ready( function () {
-
-                    window.ub          = {};
-                    window.ub.objects  = {};
-                    window.ub.config   = {};     
-
-                    window.ub.config.api_host = 'http://' + "{{ env('API_HOST') }}";
-                    window.ub.config.material_id = {{ $material_id }};
-
+                    window.ub = {};
+                    window.ub.objects = {};
+                    window.ub.config = {
+                        api_host: 'http://' + "{{ env('API_HOST') }}",
+                        material_id: {{ $material_id }},
+                        category_id: {{ $category_id }}
+                    }
                 });
-
             </script>    
-
             <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
