@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('uniformbuilder', 'UniformBuilderController@index');
-
-// API Routes 
-
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
     
@@ -148,19 +144,9 @@ Route::group(array('prefix' => 'administration'), function() {
 
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
-
-    // TODO
-    Route::get('waists', function(){ return view('administration.oops'); });
-    Route::get('necks', function(){ return view('administration.oops'); });
-    Route::get('sleeves', function(){ return view('administration.oops'); });
-    Route::get('pants', function(){ return view('administration.oops'); });
-    Route::get('skus', function(){ return view('administration.oops'); });
-    Route::get('accountSettings', function(){ return view('administration.oops'); });
-
 });
 
-Route::get('uniform-builder', 'UniformBuilderController@index');
-Route::get('uniform-builder-index', 'UniformBuilderController@uniform_builder_index');
+Route::get('uniform-builder-index', 'UniformBuilderController@index');
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');

@@ -1,4 +1,4 @@
- $( document ).ready(function() {
+ $(document).ready(function(){
 
 
     /// NEW RENDERER ///
@@ -15,7 +15,7 @@
             /// Setup Properties
 
                 ub.active               = null;
-                ub.container_div        = 'main_view'
+                ub.container_div        = 'main_view';
 
                 ub.dimensions           = {};
                 ub.dimensions.width     = 496;
@@ -734,7 +734,7 @@
             $('.popover > div.arrow').css('left', pos);
 
             
-        })
+        });
 
 
     /* End Popover Test */
@@ -766,7 +766,7 @@
 
                 mc.slideUp();
 
-            }                
+            }
 
 
         });
@@ -774,6 +774,19 @@
 
     /// End Utilities    
 
+    function getUniformSuggestions(categoryId) {
+        $.ajax({
+            url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
+            success: function(response) {
+                if (response.success) {
+                    $.each(response.materials, function(i, material){
+                        $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+                    });
+                }
+            }
+        });
+    }
 
- });   
+    getUniformSuggestions(ub.config.category_id);
 
+});

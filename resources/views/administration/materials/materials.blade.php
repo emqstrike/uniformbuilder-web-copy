@@ -14,7 +14,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
         ×
     </button>
-    <h4 class='flash-title'>Alert</h4>
+
     <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
