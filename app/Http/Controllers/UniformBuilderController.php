@@ -10,82 +10,40 @@ use App\Http\Controllers\Controller;
 
 class UniformBuilderController extends Controller
 {
+    protected $materialsClient;
+    protected $colorsClient;
 
+    public function __construct(
+        MaterialsAPIClient $materialsClient,
+        ColorsAPIClient $colorsClient
+    )
+    {
+        $this->materialsClient = $materialsClient;
+        $this->colorsClient = $colorsClient;
+    }
 
     public function index()
     {
-
-        $title = 'QuickStrike Uniform Builder';
-
         $accessToken = null;
-        $colorsClient = new ColorsAPIClient();
-        $materialsClient = new MaterialsAPIClient();
+        $colors = $this->colorsClient->getColors();
+        $material = $this->materialsClient->getMaterial(1);
 
-        $colors = $colorsClient->getColors();
-        $materials = $materialsClient->getMaterials();
-
-        
-
-        return view('editor.index', [
-            'page_title' => $title,
-            'asset_version' => env('ASSET_VERSION'),
-            'asset_storage' => env('ASSET_STORAGE'),
-            'colors' => $colors,
-            'materials' => $materials
-        ]);
-
-    }
-
-
-
-
-
-    public function uniform_builder_index(){
-
-
-        $title = 'PROLOOK Uniform Builder';
-
-        $accessToken = null;
-        $colorsClient = new ColorsAPIClient();
-        $materialsClient = new MaterialsAPIClient();
-
-        $colors = $colorsClient->getColors();
-        $material = $materialsClient->getMaterial(1);
-
-
-        if ( count($materialsClient->getMaterials()) > 0 ) {
-
-            $material_id = $materialsClient->getMaterials()[0]->id;
-
+        $materialId = -1;
+        if (count($this->materialsClient->getMaterials()) > 0)
+        {
+            $materialId = $this->materialsClient->getMaterials()[0]->id;
+            $categoryId = $material->uniform_category_id;
         }
-        else {
-
-            $material_id = -1;
-
-        }
-        
-
 
         return view('editor.uniform-builder-index', [
-
-            'page_title' => $title,
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
             'material' => $material, 
-            'material_id' => $material_id,
-
-
+            'material_id' => $materialId,
+            'category_id' => $categoryId
         ]);
-
-
     }
-
-
-    public function texturing_guide(){
-
-        
-
-    }
-
 }
