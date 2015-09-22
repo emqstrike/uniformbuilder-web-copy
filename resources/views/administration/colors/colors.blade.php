@@ -80,4 +80,11 @@
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/colors.js"></script>
+@if (Session::has('message'))
+<script type="text/javascript">
+$(document).ready(function(){
+    flashAlertFadeOut();
+});
+</script>
+@endif
 @endsection
