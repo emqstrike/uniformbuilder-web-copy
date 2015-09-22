@@ -124,7 +124,7 @@
 
                 <div class="options_panel_section">
                 
-                    <label>Base</label>
+                    <label>BASE</label>
 
                     <button id="color_base" class=" color_base modifier button_tabs" data-option="base">Color</button>
                     <button id="gradient_base" class="modifier button_tabs" data-option="base">Gradient</button>

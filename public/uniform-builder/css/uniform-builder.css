@@ -424,6 +424,11 @@ div.down_arrow {
   width: 20px;
   height: 13px;
 }
+button.tether_button {
+  background-color: #353536;
+  color: #f8f8f8;
+  border: none;
+}
 /* END MISC */
 /* End Pickers */
 

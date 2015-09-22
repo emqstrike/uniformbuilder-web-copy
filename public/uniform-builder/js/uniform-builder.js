@@ -598,7 +598,7 @@
                             var color = _.find( ub.current_material.colors, { color_code: color_obj});
 
                             var element = '<div class="color_element">';
-                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
 
                             color_elements = color_elements + element;
@@ -1110,6 +1110,11 @@
 
                color_element.parent().data( "active_color", color );
                ub.change_color( target, color, panel );
+
+               $("button[data-target='" + target +"']").html('');
+
+               var highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter.png' />";
+               $(this).html(highlighter);
                 
             }); 
 
@@ -1216,10 +1221,35 @@
                 $("div[data-group='colors']").hide();
                 $("div[data-option='" + option + "']").fadeIn();
 
+                $('.color_base').removeClass('tether_button');
+
+                var current_button = $(this);
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+                });
+
+                current_button.addClass('tether_button');
+                $('.down_arrow:not(.tether-element)').remove();
+
+                ub.tethers['modifiers'] = t;
+
             });
 
             $("div[data-group='colors']").hide();
             $("div[data-option='base']").fadeIn();
+
+
+
+
 
         }
 
