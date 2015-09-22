@@ -20,4 +20,10 @@ $(document).ready(function(){
         $('.flash-alert').addClass('alert-warning');
         $('.flash-alert').show();
     };
+
+    flashAlertFadeOut = function() {
+        setTimeout(function(){
+            $('.flash-alert').fadeOut();
+        }, 3000);
+    };
 });
