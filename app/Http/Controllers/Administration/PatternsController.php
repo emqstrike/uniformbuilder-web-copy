@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient as colorsClient;
+use App\APIClients\ColorsAPIClient;
 use App\APIClients\PatternsAPIClient as APIClient;
 
 class PatternsController extends Controller

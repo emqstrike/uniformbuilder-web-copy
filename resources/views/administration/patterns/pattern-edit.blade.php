@@ -68,7 +68,6 @@
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -98,7 +97,6 @@
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -128,7 +126,6 @@
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -158,7 +155,6 @@
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -194,6 +190,9 @@
 @section('custom-scripts')
 
 $(document).ready(function(){
+
+    $('select:not(:has(option))').attr('visible',false);
+
     $('.layer-default-color').change(function(){
         var color = $('option:selected',this).data('color');
         $(this).css('background-color',color);

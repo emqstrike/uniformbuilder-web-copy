@@ -50,7 +50,6 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -69,7 +68,6 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -88,7 +86,6 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -107,7 +104,6 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -137,6 +133,8 @@ select:hover {
 @section('custom-scripts')
 
 $(document).ready(function(){
+
+    $('select:not(:has(option))').attr('visible',false);
 
     $('#create-pattern-form').submit(function(){
         $('.flash-alert .flash-progress').show();
