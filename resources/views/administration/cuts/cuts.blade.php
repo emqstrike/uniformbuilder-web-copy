@@ -95,4 +95,11 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/cuts.js"></script>
+@if (Session::has('message'))
+<script type="text/javascript">
+$(document).ready(function(){
+    flashAlertFadeOut();
+});
+</script>
+@endif
 @endsection

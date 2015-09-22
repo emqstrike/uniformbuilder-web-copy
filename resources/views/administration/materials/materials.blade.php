@@ -192,4 +192,11 @@
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
+@if (Session::has('message'))
+<script type="text/javascript">
+$(document).ready(function(){
+    flashAlertFadeOut();
+});
+</script>
+@endif
 @endsection
