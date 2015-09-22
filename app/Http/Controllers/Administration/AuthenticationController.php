@@ -39,6 +39,7 @@ class AuthenticationController extends Controller
 
             if ($result->success)
             {
+                Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
                 Session::put('email', $result->user->email);
@@ -58,7 +59,7 @@ class AuthenticationController extends Controller
         catch (ClientException $e)
         {
             $error = $e->getMessage();
-            error_log('Error:' . $error);
+            Log::info('Login Attempt Error : ' . $error);
         }
     }
 
@@ -85,7 +86,7 @@ class AuthenticationController extends Controller
             // Only 'administrator' Account Type can login
             if ($result->success && $result->user->type == 'administrator')
             {
-                Session::put('id', $result->user->id);
+                Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
                 Session::put('email', $result->user->email);
