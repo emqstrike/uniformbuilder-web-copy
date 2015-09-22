@@ -1113,7 +1113,17 @@
 
                $("button[data-target='" + target +"']").html('');
 
-               var highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter.png' />";
+               var highlighter = '';
+
+               if( color === "#ffffff"){
+                    highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter-dark.png' />";
+               }
+               else {
+                    highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter.png' />";
+               }
+
+
+               
                $(this).html(highlighter);
                 
             }); 
