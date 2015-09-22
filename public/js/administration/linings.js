@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-lining').removeAttr('disabled');
                     $(elem + ' .enable-lining').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-lining').attr('disabled', 'disabled');
                     $(elem + ' .enable-lining').removeAttr('disabled');
                     $('.lining-' + id).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });

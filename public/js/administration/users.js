@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-user').removeAttr('disabled');
                     $(elem + ' .enable-user').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-user').removeAttr('disabled');
                     $(elem + ' .disable-user').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -70,6 +72,7 @@ $(document).ready(function(){
                 } else {
                     $('#confirmation-modal').modal('hide');
                     showAlert(response.message);
+                    flashAlertFadeOut();
                 }
             }
         });

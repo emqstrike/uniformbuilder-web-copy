@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-cut').removeAttr('disabled');
                     $(elem + ' .enable-cut').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-cut').removeAttr('disabled');
                     $(elem + ' .disable-cut').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });

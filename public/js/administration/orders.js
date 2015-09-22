@@ -16,6 +16,7 @@ $(document).ready(function(){
                 if (response.success) {
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -43,6 +44,7 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.order-' + id).fadeOut();
+                    flashAlertFadeOut();
                 }
             }
         });
