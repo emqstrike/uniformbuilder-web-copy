@@ -58,7 +58,7 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id}),
+            data: JSON.stringify({id: id, loggedInUser: window.loggedInUser}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -67,6 +67,9 @@ $(document).ready(function(){
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
                     $('.user-' + id).fadeOut();
+                } else {
+                    $('#confirmation-modal').modal('hide');
+                    showAlert(response.message);
                 }
             }
         });

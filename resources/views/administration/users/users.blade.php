@@ -65,10 +65,12 @@
                         <i class="glyphicon glyphicon-edit"></i>
                         Edit
                     </a>
+                    @if ($user->email != Session::get('email'))
                     <a href="#" class="btn btn-danger pull-right btn-xs delete-user" data-user-id="{{ $user->id }}" role="button">
                         <i class="glyphicon glyphicon-trash"></i>
                         Remove
                     </a>
+                    @endif
                 </td>
             </tr>
         </tbody>
