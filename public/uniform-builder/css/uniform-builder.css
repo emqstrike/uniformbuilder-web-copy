@@ -42,7 +42,7 @@ div.navbar-header a.navbar-brand img {
 /* Main Container */
 div#main_container {
   height: 80%;
-  margin-top: 165px;
+  margin-top: 125px;
 }
 div#main_container div#main-row {
   height: 100%;
@@ -88,7 +88,7 @@ div.pane div.pane-main-window {
   float: right;
   background-color: #fff;
   width: 90%;
-  height: 550px;
+  height: 565px;
   border: 1px solid #b3b3b3;
 }
 /* End Generic Panes */
@@ -111,13 +111,13 @@ div#camera-views {
   text-align: center;
   width: 90%;
   padding: 3px;
+  position: relative;
+  margin-top: -73px;
 }
 div#camera-views a {
   color: #3d3d3d;
   width: 63px;
   height: 70px;
-  border: 1px solid #b3b3b3;
-  border-radius: 0px;
   text-align: center;
   padding: 0;
 }

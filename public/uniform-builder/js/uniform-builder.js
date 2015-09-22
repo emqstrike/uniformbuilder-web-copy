@@ -575,50 +575,50 @@
 
                 /// Setup Modifiers 
 
-                        var modifiers = '';
+                    var modifiers = '';
 
-                        _.each(ub.current_material.options_distinct_names, function(obj){
+                    _.each(ub.current_material.options_distinct_names, function(obj){
 
-                            // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
-                            var no_modifiers = ['static_layer', 'highlights', 'shadows'];
+                        var no_modifiers = ['static_layer', 'highlights', 'shadows'];
 
-                            if ( _.contains(no_modifiers, obj.setting_type) ) {
-                                return;
-                            }
+                        if ( _.contains(no_modifiers, obj.setting_type) ) {
+                            return;
+                        }
 
-                            var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label></div>';
+                        var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label>  <button class="color_base modifier button_tabs" data-option="' + obj.material_option + '">Color </button> </div>';
 
-                            var str_builder = header + '<div class="options_panel_section"><div class="color_panel_container">';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + obj.material_option + '" data-group="colors"><div class="color_panel_container">';
 
-                            var color_elements = '';
+                        var color_elements = '';
 
-                            _.each(obj.available_colors, function(color_obj) {
+                        _.each(obj.available_colors, function(color_obj) {
 
-                                var color = _.find( ub.current_material.colors, { color_code: color_obj});
+                            var color = _.find( ub.current_material.colors, { color_code: color_obj});
 
-                                var element = '<div class="color_element">';
-                                element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
-                                element = element + '</div>';    
+                            var element = '<div class="color_element">';
+                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                            element = element + '</div>';    
 
-                                color_elements = color_elements + element;
-
-                            });
-
-                            str_builder = str_builder + color_elements;
-
-                            str_builder = str_builder + '</div></div>';
-
-                            modifiers = modifiers + str_builder;
+                            color_elements = color_elements + element;
 
                         });
 
-                        var color_container = $('#colors_panel').append(modifiers);
+                        str_builder = str_builder + color_elements;
 
-                    ub.bind_handlers();
-                    ub.bind_left_sidebar_tab_handlers();
+                        str_builder = str_builder + '</div></div>';
 
-                    /// End Setup Modifiers
+                        modifiers = modifiers + str_builder;
+
+                    });
+
+                    var color_container = $('#colors_panel').append(modifiers);
+
+                ub.bind_handlers();
+                ub.bind_left_sidebar_tab_handlers();
+
+                /// End Setup Modifiers
 
             };
 
@@ -747,6 +747,19 @@
 
             }
 
+            ub.getThumbnailImage2 = function (view) {
+
+                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                texture.render(ub[view]);
+
+                // var sprite = new PIXI.Sprite(texture);
+                // sprite.width = ub.thumbnails.width;
+                // sprite.height = ub.thumbnails.height;
+
+                return texture;
+
+            }
+
             
             /// Refresh Thumbnail Views ///
 
@@ -762,6 +775,7 @@
                 });
 
                 $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
+                                                                                
             
             }
 
@@ -1045,7 +1059,6 @@
 
                 }
 
-
             });
 
 
@@ -1196,26 +1209,33 @@
 
         ub.bind_left_sidebar_tab_handlers = function() {
 
-            $('#color_base').click(function (e){
+            $('.color_base').click(function (e){
 
-                if ( $("div[data-option='base']:eq(1)").css('display') === "none" ) {
+                var option = $(this).data('option');
 
-                    $("div[data-option='base']:eq(1)").fadeIn();
-
-                }
-                else {
-
-                    $("div[data-option='base']:eq(1)").fadeOut();
-
-                }
+                $("div[data-group='colors']").hide();
+                $("div[data-option='" + option + "']").fadeIn();
 
             });
 
-        }
+            $("div[data-group='colors']").hide();
+            $("div[data-option='base']").fadeIn();
 
+        }
 
         /// End Process Changes /// 
 
+        /// Utilities ///
+
+            $('#view_pattern').hide();
+
+            $('button#toggle_pattern_preview').on('click', function(e) {
+
+                $('#view_pattern').toggle();
+
+            });
+
+        /// End Utilities ///
 
         /// Camera Views
             
