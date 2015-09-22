@@ -80,6 +80,9 @@
 @endforelse
     </table>
 </div>
+
+@include('administration.orders.order-view-modal')
+
 @include('partials.confirmation-modal')
 
 @endsection
