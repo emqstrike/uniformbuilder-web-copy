@@ -50,7 +50,7 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <p>No Colors exist.</p>
+                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -69,7 +69,7 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <p>No Colors exist.</p>
+                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -88,7 +88,7 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <p>No Colors exist.</p>
+                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>
@@ -107,7 +107,7 @@ select:hover {
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @empty
-                                <p>No Colors exist.</p>
+                                <option>No Colors exist.</option>
                                 @endforelse
                                 </select>
                             </div>

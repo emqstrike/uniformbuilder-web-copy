@@ -42,9 +42,7 @@ class PatternsAPIClient extends APIClient
         if ($result->success)
         {
             $pattern = $result->pattern;
-        }
-        dd($result->pattern);
-
+        
         if (!is_null($pattern) && !is_null($id))
         {
             $compare = $this->getpattern($id);
@@ -79,7 +77,7 @@ class PatternsAPIClient extends APIClient
     {
         $response = $this->get('pattern/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             return $result->pattern;
