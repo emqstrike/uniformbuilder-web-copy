@@ -1113,16 +1113,17 @@
 
                $("button[data-target='" + target +"']").html('');
 
+               var path = '/images/sidebar/';
                var highlighter = '';
 
                if( color === "#ffffff"){
-                    highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter-dark.png' />";
+                    path = path + 'highlighter-dark.png';
                }
                else {
-                    highlighter = "<img src ='http://localhost:8888/images/sidebar/highlighter.png' />";
+                    path = path + 'highlighter.png';
                }
 
-
+               highlighter = "<img src = '" + path + "'>"
                
                $(this).html(highlighter);
                 
