@@ -16,10 +16,10 @@ class PatternsController extends Controller
 {
     protected $client;
 
-    public function __construct(APIClient $apiClient, colorsClient $colorsClient)
+    public function __construct(APIClient $apiClient)
     {
         $this->client = $apiClient;
-        $this->colorsClient = $colorsClient;
+        $this->colorsClient = new ColorsAPIClient;
     }
 
     public function index()

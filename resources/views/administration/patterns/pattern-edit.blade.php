@@ -67,7 +67,6 @@
                                 <option style="background-color: #{{ $pattern->color_1_hex_code }};" value="{{ $pattern->layer_1_default_color }}" selected>{{ $pattern->color_1_name }} (Default)</option>
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
                                 @endforelse
                                 </select>
                             </div>
@@ -96,7 +95,6 @@
                                 <option style="background-color: #{{ $pattern->color_2_hex_code }};" value="{{ $pattern->layer_2_default_color }}" selected>{{ $pattern->color_2_name }} (Default)</option>
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
                                 @endforelse
                                 </select>
                             </div>
@@ -125,7 +123,6 @@
                                 <option style="background-color: #{{ $pattern->color_3_hex_code }};" value="{{ $pattern->layer_3_default_color }}" selected>{{ $pattern->color_3_name }} (Default)</option>
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
                                 @endforelse
                                 </select>
                             </div>
@@ -154,7 +151,6 @@
                                 <option style="background-color: #{{ $pattern->color_4_hex_code }};" value="{{ $pattern->layer_4_default_color }}" selected>{{ $pattern->color_4_name }} (Default)</option>
                                 @forelse ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
                                 @endforelse
                                 </select>
                             </div>
