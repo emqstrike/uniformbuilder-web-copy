@@ -46,6 +46,9 @@
                     Login
                     <span class="glyphicon glyphicon-lock"></span>
                 </button>
+                <a class="btn btn-success btn-xs user-signup" href="#">
+                    Signup
+                </a>
             </form>
             @else
             Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
@@ -56,6 +59,17 @@
 </nav>
 
 <div id="main_container" class="container">
+
+    @if (Session::has('message'))
+    <div class="alert alert-info alert-dismissable flash-alert">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            ×
+        </button>
+
+        <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+    </div>
+    @endif
+
     <div id="main-row" class="row">
         <div id="left-pane-column" class="col-md-12">
             <!-- Main Preview Window -->
@@ -136,6 +150,9 @@
     </div>
 </div>
 
+@if (!Session::get('isLoggedIn'))
+@include('partials.signup-modal')
+@endif
 
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
@@ -157,6 +174,11 @@ $( document ).ready( function () {
         material_id: {{ $material_id }},
         category_id: {{ $category_id }}
     }
+@if (Session::has('message'))
+    setTimeout(function(){
+        $('.flash-alert').fadeOut();
+    }, 3000);
+@endif
 });
 </script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
