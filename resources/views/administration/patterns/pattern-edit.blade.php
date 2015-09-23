@@ -195,8 +195,8 @@
 
 $(document).ready(function(){
     $('.layer-default-color').change(function(){
-        var color = $('option:selected',this).data('color');
-        $(this).css('background-color',color);
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
     });
 });
 

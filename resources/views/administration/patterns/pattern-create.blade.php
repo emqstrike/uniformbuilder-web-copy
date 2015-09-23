@@ -36,7 +36,7 @@ select:hover {
                                 <input type="name" class="form-control pattern-name" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 material">
@@ -143,8 +143,8 @@ $(document).ready(function(){
     });
 
     $('.layer-default-color').change(function(){
-        var color = $('option:selected',this).data('color');
-        $(this).css('background-color',color);
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
     });
 });
 
