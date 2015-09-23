@@ -772,7 +772,11 @@
         });
 
 
-    /// End Utilities    
+    /// End Utilities
+
+    $('.user-signup').on('click', function(){
+        $('#signup-modal').modal('show');
+    });
 
     function getUniformSuggestions(categoryId) {
         $.ajax({

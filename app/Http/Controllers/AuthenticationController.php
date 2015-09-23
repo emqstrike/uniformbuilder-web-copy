@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Session;
+use Redirect;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
@@ -32,16 +33,18 @@ class AuthenticationController extends AdminAuthController
 
             if ($result->success)
             {
+                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
-                Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
+                Session::put('fullname', $fullname);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
                 Log::info('Successful User Login', 'FRONT END');
-                return redirect('/uniform-builder-index');
+                return Redirect::to('/uniform-builder-index')
+                                ->with('message', 'Welcome back ' . $fullname);
             }
             else
             {
@@ -55,13 +58,15 @@ class AuthenticationController extends AdminAuthController
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');
         }
 
-        return redirect('/uniform-builder-index');
+        return Redirect::to('/uniform-builder-index')
+                        ->with('message', $response->message);
     }
 
     public function logout()
     {
         $this->clearLoginSession();
         Log::info('User Logout', 'FRONT END');
-        return redirect('/uniform-builder-index');
+        return Redirect::to('/uniform-builder-index')
+                        ->with('message', 'You have been logged out.');
     }
 }
