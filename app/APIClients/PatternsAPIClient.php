@@ -52,7 +52,7 @@ class PatternsAPIClient extends APIClient
     {
         $response = $this->get('pattern/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             return $result->pattern;
