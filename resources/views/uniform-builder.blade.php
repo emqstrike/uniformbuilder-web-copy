@@ -22,35 +22,35 @@
     <div class="container-fluid">
         <div class="navbar-header" id="navbar-header">
             <a class="navbar-brand" href="#"><img src="/images/branding/brand.png" height="50"></a>
-            <div class='pull-right'>
-                @if (!Session::get('isLoggedIn'))
-                <form class="form-inline" role="form" method="POST" action="/login">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group form-group-sm">
-                        <label class="col-sm-7 control-label" for="login-email">Email</label>
-                        <div class='col-sm-5'>
-                            <input type="email" name="email" class="form-control" id="login-email" placeholder="Email Address">
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
-                        <label class="col-sm-7 control-label" for="login-password">Password</label>
-                        <div class='col-sm-5'>
-                            <input type="password" name="password" class="form-control" id="login-password" placeholder="Password">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-xs">
-                        Login
-                        <span class="glyphicon glyphicon-lock"></span>
-                    </button>
-                </form>
-                @else
-                Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
-                <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
-                @endif
-            </div>
         </div>
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
+        </div>
+        <div class='user-profile pull-right'>
+            @if (!Session::get('isLoggedIn'))
+            <form class="form-inline" role="form" method="POST" action="/login">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-7 control-label" for="login-email">Email</label>
+                    <div class='col-sm-5'>
+                        <input type="email" name="email" class="form-control" id="login-email" placeholder="Email Address">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-7 control-label" for="login-password">Password</label>
+                    <div class='col-sm-5'>
+                        <input type="password" name="password" class="form-control" id="login-password" placeholder="Password">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-xs">
+                    Login
+                    <span class="glyphicon glyphicon-lock"></span>
+                </button>
+            </form>
+            @else
+            Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
+            <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
+            @endif
         </div>
     </div>
 </nav>
