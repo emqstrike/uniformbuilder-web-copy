@@ -75,7 +75,7 @@ class PatternsController extends Controller
         }
 
         // Does the Pattern Name exist
-        if ($this->client->isPatternExist($patternName, $patternId))
+        if ($this->client->isPatternNameTaken($patternName, $patternId))
         {
             return Redirect::to('administration/patterns')
                             ->with('message', 'Pattern name already exist');
