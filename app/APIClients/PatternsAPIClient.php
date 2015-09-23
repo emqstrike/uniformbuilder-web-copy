@@ -43,7 +43,6 @@ class PatternsAPIClient extends APIClient
         {
             $pattern = $result->pattern;
         }
-        dd($result->pattern);
 
         if (!is_null($pattern) && !is_null($id))
         {

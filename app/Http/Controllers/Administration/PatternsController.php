@@ -15,10 +15,12 @@ use App\APIClients\PatternsAPIClient as APIClient;
 class PatternsController extends Controller
 {
     protected $client;
+    protected $colorsClient;
 
-    public function __construct( APIClient $apiClient )
+    public function __construct(APIClient $apiClient, ColorsAPIClient $colorsAPIClient)
     {
         $this->client = $apiClient;
+        $this->colorsClient = $colorsAPIClient;
     }
 
     public function index()
@@ -31,9 +33,7 @@ class PatternsController extends Controller
 
     public function editPatternForm($id)
     {
-        $colorsClient = new ColorsAPIClient();
-        $colors = $colorsClient->getColors();
-
+        $colors = $this->colorsClient->getColors();
         $pattern = $this->client->getPattern($id);
 
         return view('administration.patterns.pattern-edit', [
@@ -44,8 +44,7 @@ class PatternsController extends Controller
 
     public function addPatternForm()
     {
-        $colorsClient = new ColorsAPIClient();
-        $colors = $colorsClient->getColors();
+        $colors = $this->colorsClient->getColors();
 
         return view('administration.patterns.pattern-create', [
             'color' => $colors
@@ -82,7 +81,7 @@ class PatternsController extends Controller
                             ->with('message', 'Pattern name already exist');
         }
 
-        /*try
+        try
         {
             for ($i = 1; $i <= 4; $i++)
             {
@@ -91,7 +90,6 @@ class PatternsController extends Controller
                 $patternFile = $request->file($fieldName);
                 if (isset($patternFile))
                 {
-                    //dd($patternFile);
                     if ($patternFile->isValid())
                     {
                         $data[$fieldName] = FileUploader::upload(
@@ -111,7 +109,7 @@ class PatternsController extends Controller
             $message = $e->getMessage();
             return Redirect::to('/administration/patterns')
                             ->with('message', 'There was a problem uploading your files');
-        }*/
+        }
 
         $response = null;
         if (!empty($patternId))
