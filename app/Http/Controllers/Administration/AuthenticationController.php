@@ -20,50 +20,6 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Front-end Login
-     */
-    public function login(Request $request)
-    {
-        $email = $request->input('email');
-        $password = $request->input('password');
-        try
-        {
-            $response = $this->client->post('user/login', [
-                'json' => [
-                    'email' => $email,
-                    'password' => $password
-                ]
-            ]);
-            $decoder = new JsonDecoder();
-            $result = $decoder->decode($response->getBody());
-
-            if ($result->success)
-            {
-                Session::put('userId', $result->user->id);
-                Session::put('isLoggedIn', $result->success);
-                Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
-                Session::put('email', $result->user->email);
-                Session::put('accountType', $result->user->type);
-                Session::put('accessToken', $result->access_token);
-                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
-
-                return redirect('/');
-            }
-            else
-            {
-                Session::flash('flash_message', $result->message);
-                return redirect('login');
-            }
-
-        }
-        catch (ClientException $e)
-        {
-            $error = $e->getMessage();
-            Log::info('Login Attempt Error : ' . $error);
-        }
-    }
-
-    /**
      * Administration Login
      */
     public function administrationLogin(Request $request)
@@ -125,16 +81,21 @@ class AuthenticationController extends Controller
         ]);
     }
 
-    public function logout()
+    public function administrationLogout()
     {
-        if (Session::has('id')) Session::forget('id');
-        if (Session::has('email')) Session::forget('email');
-        if (Session::has('isLoggedIn')) Session::forget('isLoggedIn');
-        if (Session::has('fullname')) Session::forget('fullname');
-        if (Session::has('accessToken')) Session::forget('accessToken');
-
+        $this->clearLoginSession();
         Log::info('User Logout');
         return redirect('administration/login');
+    }
+
+    protected function clearLoginSession()
+    {
+        if (Session::has('userId')) Session::forget('userId');
+        if (Session::has('isLoggedIn')) Session::forget('isLoggedIn');
+        if (Session::has('fullname')) Session::forget('fullname');
+        if (Session::has('email')) Session::forget('email');
+        if (Session::has('accountType')) Session::forget('accountType');
+        if (Session::has('accessToken')) Session::forget('accessToken');
     }
 
     public function main()
