@@ -9,15 +9,18 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\ColorsAPIClient;
 use App\APIClients\PatternsAPIClient as APIClient;
 
 class PatternsController extends Controller
 {
     protected $client;
+    protected $colorsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(APIClient $apiClient, ColorsAPIClient $colorsAPIClient)
     {
         $this->client = $apiClient;
+        $this->colorsClient = $colorsAPIClient;
     }
 
     public function index()
@@ -30,23 +33,38 @@ class PatternsController extends Controller
 
     public function editPatternForm($id)
     {
+        $colors = $this->colorsClient->getColors();
         $pattern = $this->client->getPattern($id);
+
         return view('administration.patterns.pattern-edit', [
-            'pattern' => $pattern
+            'pattern' => $pattern,
+            'color' => $colors
         ]);
     }
 
     public function addPatternForm()
     {
-        return view('administration.patterns.pattern-create');
+        $colors = $this->colorsClient->getColors();
+
+        return view('administration.patterns.pattern-create', [
+            'color' => $colors
+        ]);
     }
 
     public function store(Request $request)
     {
         $patternName = $request->input('name');
+        $layer_1_color = $request->input('layer_1_color');
+        $layer_2_color = $request->input('layer_2_color');
+        $layer_3_color = $request->input('layer_3_color');
+        $layer_4_color = $request->input('layer_4_color');
 
         $data = [
-            'name' => $patternName
+            'name' => $patternName,
+            'layer_1_default_color' => $layer_1_color,
+            'layer_2_default_color' => $layer_2_color,
+            'layer_3_default_color' => $layer_3_color,
+            'layer_4_default_color' => $layer_4_color
         ];
 
         $patternId = null;
@@ -81,6 +99,7 @@ class PatternsController extends Controller
                             'patterns',         // S3 Folder
                             $filename     // Layer File Name
                         );
+
                     }
                 }
             }
