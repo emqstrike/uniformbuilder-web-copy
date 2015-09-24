@@ -62,7 +62,6 @@
         
         <div id="right-top" class="pane-top">
             
-            
 
         </div>
 
@@ -119,30 +118,6 @@
                  <div class="options_panel_section">
                 
                     <label>Team Color</label> 
-
-                </div>
-
-                <div class="options_panel_section">
-                
-                    <label>BASE</label>
-
-                    <button id="color_base" class=" color_base modifier button_tabs" data-option="base">Color</button>
-                    <button id="gradient_base" class="modifier button_tabs" data-option="base">Gradient</button>
-                    <button id="pattern_base" class="modifier button_tabs" data-option="base">Pattern</button>
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section" data-option="base" data-group="colors">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'base', 'data_target' =>'shape', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>  
-
-                      
 
                 </div>
 

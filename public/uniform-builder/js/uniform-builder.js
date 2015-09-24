@@ -8,14 +8,18 @@
         window.ub.initialize = function (){
 
             if(window.ub.config.material_id === -1) {
+                
                 return;
+                
             }
 
             /// Setup Properties
 
                 ub.ui                   = {};
-            
+                ub.modifiers            = {};
+
                 ub.active               = null;
+
                 ub.container_div        = 'main_view';
 
                 ub.tethers              = {}; 
@@ -291,6 +295,178 @@
 
         };
 
+        
+        /// Gradients
+
+        ub.gradients = {
+
+            items: [
+
+                {
+                    name: "None",
+                    code: "none",
+                    angle: 0,
+
+                    color_stops: [
+
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },
+                {
+                    name: "Top To Bottom",
+                    code: "top_to_bottom",
+                    angle: 0,
+
+                    color_stops: [
+
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+
+                },
+                {
+                    
+                    name: "Bottom To Top",
+                    code: "bottom_to_top",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },
+                {
+                    
+                    name: "Sharp Edge",
+                    code: "sharp_edge",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },  
+                {
+                    
+                    name: "Radial",
+                    code: "radial",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },
+                {
+                    name: "Diagonal 1",
+                    code: "diagonal_1",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },    
+                {
+                    name: "Diagonal 2",
+                    code: "diagonal_2",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },
+                {
+                    name: "Diagonal 3",
+                    code: "diagonal_3",
+                    angle: 180,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#000000',     
+                        },
+
+                    ],
+                },       
+ 
+            ]
+
+        }
+
+        /// End Gradients
+
         ub.display_design_sets = function (category, gender, type) {
 
             $('#arrow_design_sets').remove();
@@ -559,13 +735,15 @@
 
                                 modifier_label = name.substr(0, name.length - 6);
 
-                            }
+                            } 
 
-                            ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors) };
+                            ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
                         
                         }
 
                         ub[view + '_view'].addChild(current_object);
+
+                       
 
                     });
 
@@ -573,11 +751,13 @@
 
                 });    
 
-                /// Setup Modifiers 
+                /// Setup Modifiers Colors
 
                     var modifiers = '';
 
-                    _.each(ub.current_material.options_distinct_names, function(obj){
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function(o) { return o.layer_order; })
+
+                    _.each(sorted, function(obj) {
 
                         // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
@@ -587,10 +767,12 @@
                             return;
                         }
 
-                        var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label>  <button class="color_base modifier button_tabs" data-option="' + obj.material_option + '">Color </button> </div>';
+                        var code = obj.material_option;
+                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        ub.modifiers[code] = name;
 
-                        var str_builder = header + '<div class="options_panel_section" data-option="' + obj.material_option + '" data-group="colors"><div class="color_panel_container">';
-
+                        var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label>  <button class="color_base modifier button_tabs" data-option="' + code + '">Color </button> </div>';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container">';
                         var color_elements = '';
 
                         _.each(obj.available_colors, function(color_obj) {
@@ -598,7 +780,7 @@
                             var color = _.find( ub.current_material.colors, { color_code: color_obj});
 
                             var element = '<div class="color_element">';
-                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + obj.material_option + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
 
                             color_elements = color_elements + element;
@@ -606,19 +788,63 @@
                         });
 
                         str_builder = str_builder + color_elements;
-
                         str_builder = str_builder + '</div></div>';
-
                         modifiers = modifiers + str_builder;
 
                     });
 
-                    var color_container = $('#colors_panel').append(modifiers);
+                var color_container = $('#colors_panel').append(modifiers);
 
                 ub.bind_handlers();
                 ub.bind_left_sidebar_tab_handlers();
 
-                /// End Setup Modifiers
+                /// End Setup Modifiers Colors
+
+                /// Setup Modifiers Gradients
+
+                    var modifiers = '';
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function(o) { return o.layer_order; })
+
+                    _.each(sorted, function(obj){
+
+                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+
+                        if ( _.contains(no_modifiers, obj.setting_type) ) {
+                            return;
+                        }
+
+                        var code = obj.material_option;
+                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        
+                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="color_base modifier button_tabs" data-option="' + code + '">Gradient </button> </div>';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="gradients"><div class="gradient_panel_container">';
+                        var gradient_elements = '';
+
+                        _.each(ub.gradients.items, function(gradient_obj) {
+
+                            var element = '<div class="gradient_element">';
+                            var filename = '/images/sidebar/' + gradient_obj.code + '.png';
+
+                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="#' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #656565; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+                            element = element + '</div>';    
+
+                            gradient_elements = gradient_elements + element;
+
+                        });
+
+                        str_builder = str_builder + gradient_elements;
+                        str_builder = str_builder + '</div></div>';
+                        modifiers = modifiers + str_builder;
+
+                    });
+
+                    var gradient_container = $('#gradients_panel').append(modifiers);
+                    ub.bind_handlers();
+                    ub.bind_left_sidebar_tab_handlers();
+
+                /// End Setup Modifiers Gradients
 
             };
 
@@ -657,7 +883,6 @@
                 layer_2.tint = 0x8a8275;
                 layer_3.tint = 0xb6b09f;
                 layer_4.tint = 0x594e50;
-                
 
                 ub.pattern_view.addChild(layer_1);
                 ub.pattern_view.addChild(layer_2);
@@ -665,7 +890,6 @@
                 ub.pattern_view.addChild(layer_4);
 
                 ub.updateLayersOrder(ub.pattern_view);
-
 
             }
 
@@ -805,6 +1029,8 @@
         /// RIGHT SIDEBAR
 
             $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
+
+                $('#arrow_design_sets').remove();
 
                 if(ub.active !== null){
 
@@ -1043,7 +1269,7 @@
                     else {
                         url = ub.config.host + '/uniform-builder/' + id + '/single';    
                     }
-                    
+
                     ub.ui.current_design_set = _.find(ub.design_sets, {id: id});
                     window.location = url;
 
@@ -1120,7 +1346,7 @@
                     path = path + 'highlighter-dark.png';
                }
                else {
-                    path = path + 'highlighter.png';
+                    path = path + 'highlighter_1.png';
                }
 
                highlighter = "<img src = '" + path + "'>"
@@ -1202,6 +1428,49 @@
                 $('[rel="popover"]').popover("hide");
 
             }
+
+
+            /// Change Gradient ///
+
+                $('.change-gradient').on('click', function(e){
+
+                   var gradient = $(this).data('gradient');
+                   var target = $(this).data('target-gradient');
+                   var panel = $(this).data('panel');
+                   var gradient_element = $(this);
+
+                   window.ce = gradient_element;
+
+                   var selection = $(window.ce).data('selection');
+
+                   gradient_element.parent().data( "active_gradient", gradient );
+                   
+                   ub.change_gradient( target, gradient, panel );
+
+                   $("button[data-target-gradient='" + target +"']").html('');
+
+                   var path = '/images/sidebar/';
+                   var highlighter = '';
+
+                   path = path + 'highlighter_1.png';
+
+                   highlighter = "<img src = '" + path + "'>"
+                   
+                   $(this).html(highlighter);
+                    
+                }); 
+
+            /// End Change Gradient ///
+
+        };
+
+
+        ub.change_gradient = function( target, gradient, panel ){
+
+            console.log('target:' + target);
+            console.log('gradient: ' + gradient);
+            console.log('panel: ' + panel);
+
         };
 
 
@@ -1230,7 +1499,7 @@
                 var option = $(this).data('option');
 
                 $("div[data-group='colors']").hide();
-                $("div[data-option='" + option + "']").fadeIn();
+                $("div[data-option='" + option + "']").fadeIn('fast');
 
                 $('.color_base').removeClass('tether_button');
 
@@ -1256,13 +1525,86 @@
             });
 
             $("div[data-group='colors']").hide();
-            $("div[data-option='base']").fadeIn();
-
-
-
-
+            $("div[data-option='body']").fadeIn('fast');
 
         }
+
+        ub.generate_gradient = function (rotation) {
+
+            var canvas = document.createElement('canvas');
+                
+            canvas.width = ub.dimensions.width;
+            canvas.height = ub.dimensions.height;
+
+            var ctx = canvas.getContext('2d');
+            var gradient = ctx.createLinearGradient(0,22,0,410);
+
+            gradient.addColorStop(0,"white");
+            gradient.addColorStop(1,"black");
+
+            ctx.fillStyle = gradient;
+
+            ctx.translate(canvas.width/2, canvas.height/2);
+            ctx.rotate(rotation*Math.PI/180);
+            ctx.translate(-canvas.width/2, -canvas.height/2);
+
+            ctx.fillRect(0,0,ub.dimensions.height,ub.dimensions.height);
+
+            var texture = PIXI.Texture.fromCanvas(canvas);
+        
+            var pattern_front                   = new PIXI.Sprite( texture );
+            var pattern_back                    = new PIXI.Sprite( texture );
+            var pattern_left                    = new PIXI.Sprite( texture );
+            var pattern_right                   = new PIXI.Sprite( texture );
+
+            if(typeof(ub.objects.left_view.pattern) !== 'undefined'){
+                ub.left_view.removeChild(ub.objects.left_view.pattern);    
+            }
+            
+            pattern_left.zIndex = 1;
+            pattern_left.mask = ub.objects.left_view.shape_mask;
+            ub.objects.left_view.pattern = pattern_left;
+            ub.left_view.addChild(pattern_left);
+
+
+            if(typeof(ub.objects.right_view.pattern) !== 'undefined'){
+                ub.right_view.removeChild(ub.objects.right_view.pattern);    
+            }
+
+            ub.right_view.removeChild(ub.objects.right_view.pattern);
+            pattern_right.zIndex = 1;
+            pattern_right.mask = ub.objects.right_view.shape_mask;
+            ub.objects.right_view.pattern = pattern_right;
+            ub.right_view.addChild(pattern_right);
+
+
+            if(typeof(ub.objects.front_view.pattern) !== 'undefined'){
+                ub.front_view.removeChild(ub.objects.front_view.pattern);    
+            }
+
+            ub.front_view.removeChild(ub.objects.front_view.pattern);
+            pattern_front.zIndex = 1;
+            pattern_front.mask = ub.objects.front_view.shape_mask;
+            ub.objects.front_view.pattern = pattern_front;
+            ub.front_view.addChild(pattern_front);
+
+            
+            if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
+                ub.back_view.removeChild(ub.objects.back_view.pattern);    
+            }
+
+            ub.back_view.removeChild(ub.objects.back_view.pattern);
+            pattern_back.zIndex = 1;
+            pattern_back.mask = ub.objects.back_view.shape_mask;
+            ub.objects.back_view.pattern = pattern_back;
+            ub.back_view.addChild(pattern_back);
+
+            ub.updateLayersOrder(ub.left_view);
+            ub.updateLayersOrder(ub.right_view);
+            ub.updateLayersOrder(ub.front_view);
+            ub.updateLayersOrder(ub.back_view);
+
+        };
 
         /// End Process Changes /// 
 
@@ -1313,7 +1655,8 @@
 
         });
 
-    /// End Reposition All Tetherss
+    /// End Reposition All Tethers
+
 
  });   
 

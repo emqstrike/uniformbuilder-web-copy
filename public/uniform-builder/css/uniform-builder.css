@@ -188,6 +188,21 @@ div.color_element {
 button.modifier {
   margin-right: 10px;
 }
+/* Gradients */
+div.gradient_element {
+  width: 70px;
+  height: 70px;
+  float: left;
+  background-repeat: no-repeat;
+  margin: 10px;
+}
+div.gradient_element button {
+  border-radius: 0px;
+}
+div.gradient_panel_container {
+  margin-left: 50px;
+}
+/* End Gradients */
 /* End Options Panel */
 /* Right Main Window */
 div#right-main-window {
