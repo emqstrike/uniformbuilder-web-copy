@@ -201,6 +201,7 @@ div.gradient_element button {
 }
 div.gradient_panel_container {
   margin-left: 50px;
+  display: table;
 }
 /* End Gradients */
 /* End Options Panel */

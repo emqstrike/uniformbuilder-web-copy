@@ -309,6 +309,15 @@
 
                     color_stops: [
 
+                    ],
+                },
+                {
+                    
+                    name: "Bottom To Top",
+                    code: "bottom_to_top",
+                    angle: 0,
+
+                    color_stops: [
                         {
                            id: 1,
                            value: 0,
@@ -316,8 +325,8 @@
                         },
                         {
                            id: 2,
-                           value: 1,
-                           color: '#000000',     
+                           value: 0.9,
+                           color: '#5e5e5e',     
                         },
 
                     ],
@@ -325,31 +334,10 @@
                 {
                     name: "Top To Bottom",
                     code: "top_to_bottom",
-                    angle: 0,
-
-                    color_stops: [
-
-                        {
-                           id: 1,
-                           value: 0,
-                           color: '#ffffff',     
-                        },
-                        {
-                           id: 2,
-                           value: 1,
-                           color: '#000000',     
-                        },
-
-                    ],
-
-                },
-                {
-                    
-                    name: "Bottom To Top",
-                    code: "bottom_to_top",
                     angle: 180,
 
                     color_stops: [
+
                         {
                            id: 1,
                            value: 0,
@@ -357,28 +345,34 @@
                         },
                         {
                            id: 2,
-                           value: 1,
-                           color: '#000000',     
+                           value: 0.9,
+                           color: '#5e5e5e',     
                         },
 
                     ],
+
                 },
                 {
                     
                     name: "Sharp Edge",
                     code: "sharp_edge",
-                    angle: 180,
+                    angle: 0,
 
                     color_stops: [
                         {
                            id: 1,
                            value: 0,
-                           color: '#ffffff',     
+                           color: '#5e5e5e',     
+                        },
+                        {
+                           id: 1,
+                           value: 0.9,
+                           color: '#5e5e5e',     
                         },
                         {
                            id: 2,
                            value: 1,
-                           color: '#000000',     
+                           color: '#ffffff',     
                         },
 
                     ],
@@ -398,7 +392,7 @@
                         {
                            id: 2,
                            value: 1,
-                           color: '#000000',     
+                           color: '#5e5e5e',     
                         },
 
                     ],
@@ -406,7 +400,7 @@
                 {
                     name: "Diagonal 1",
                     code: "diagonal_1",
-                    angle: 180,
+                    angle: 45,
 
                     color_stops: [
                         {
@@ -416,35 +410,85 @@
                         },
                         {
                            id: 2,
-                           value: 1,
-                           color: '#000000',     
+                           value: 0.2,
+                           color: '#5e5e5e',     
                         },
+                        {
+                           id: 2,
+                           value: 0.3,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                        id: 2,
+                           value: 0.4,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.8,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.9,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                        id: 2,
+                           value: 1,
+                           color: '#ffffff',     
+                        },
+                      
+                    ],
+                },    
+              {
+                    name: "Diagonal 2",
+                    code: "diagonal_2",
+                    angle: -45,
 
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.2,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.3,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                        id: 2,
+                           value: 0.4,
+                           color: '#ffffff',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.8,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.9,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                        id: 2,
+                           value: 1,
+                           color: '#ffffff',     
+                        },
+                      
                     ],
                 },    
                 {
-                    name: "Diagonal 2",
-                    code: "diagonal_2",
-                    angle: 180,
-
-                    color_stops: [
-                        {
-                           id: 1,
-                           value: 0,
-                           color: '#ffffff',     
-                        },
-                        {
-                           id: 2,
-                           value: 1,
-                           color: '#000000',     
-                        },
-
-                    ],
-                },
-                {
                     name: "Diagonal 3",
                     code: "diagonal_3",
-                    angle: 180,
+                    angle: 45,
 
                     color_stops: [
                         {
@@ -454,8 +498,19 @@
                         },
                         {
                            id: 2,
+                           value: 0.4,
+                           color: '#5e5e5e',     
+                        },
+                        {
+                           id: 2,
+                           value: 0.6,
+                           color: '#5e5e5e',     
+                        },
+
+                        {
+                           id: 2,
                            value: 1,
-                           color: '#000000',     
+                           color: '#ffffff',     
                         },
 
                     ],
@@ -818,7 +873,7 @@
                         var code = obj.material_option;
                         var name = obj.material_option.replace('_',' ').toUpperCase();
                         
-                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="color_base modifier button_tabs" data-option="' + code + '">Gradient </button> </div>';
+                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="gradient_base modifier button_tabs" data-option="' + code + '">Gradient </button> </div>';
                         var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="gradients"><div class="gradient_panel_container">';
                         var gradient_elements = '';
 
@@ -827,7 +882,7 @@
                             var element = '<div class="gradient_element">';
                             var filename = '/images/sidebar/' + gradient_obj.code + '.png';
 
-                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="#' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #656565; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #656565; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
 
                             gradient_elements = gradient_elements + element;
@@ -835,7 +890,7 @@
                         });
 
                         str_builder = str_builder + gradient_elements;
-                        str_builder = str_builder + '</div></div>';
+                        str_builder = str_builder + '</div><div class="color_stops_container">test</div></div>';
                         modifiers = modifiers + str_builder;
 
                     });
@@ -1467,9 +1522,39 @@
 
         ub.change_gradient = function( target, gradient, panel ){
 
-            console.log('target:' + target);
-            console.log('gradient: ' + gradient);
-            console.log('panel: ' + panel);
+            var el = _.find(ub.gradients.items, { code: gradient });
+
+            ub.generate_gradient(el,target);
+            
+            var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
+
+            cont.html('');
+
+            var elements = "";
+
+            if(el.color_stops.length > 0){
+
+                elements = "Color Stops: <br />";
+
+            }
+
+            _.each(el.color_stops, function(e){
+
+                var val = e.value;
+                var col = e.color;
+                var el = "";
+
+                el += "<br />Val: " + val;
+                el += "<br />Col: " + col;
+                el += "<br />";
+
+                elements += el;
+
+            });
+
+            console.log('Color Stops #:' + el.color_stops.length);
+
+            cont.html(elements);
 
         };
 
@@ -1498,8 +1583,8 @@
 
                 var option = $(this).data('option');
 
-                $("div[data-group='colors']").hide();
-                $("div[data-option='" + option + "']").fadeIn('fast');
+                $("div[data-group='colors']").css('display','none');
+                $("div[data-option='" + option + "']").show(100);
 
                 $('.color_base').removeClass('tether_button');
 
@@ -1527,9 +1612,45 @@
             $("div[data-group='colors']").hide();
             $("div[data-option='body']").fadeIn('fast');
 
+
+            $('.gradient_base').click(function (e){
+
+                var option = $(this).data('option');
+
+                $("[data-group='gradients']").css('display','none');
+                $("div[data-option='" + option + "']").show(100);
+
+                $('.gradient_base').removeClass('tether_button');
+
+                var current_button = $(this);
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+
+                });
+
+                current_button.addClass('tether_button');
+                $('.down_arrow:not(.tether-element)').remove();
+
+                ub.tethers['modifiers'] = t;
+
+            });
+
+            $("div[data-group='gradients']").hide();
+            $("div[data-option='body']").fadeIn('fast');
+
         }
 
-        ub.generate_gradient = function (rotation) {
+        ub.generate_gradient = function (gradient_obj, target) {
 
             var canvas = document.createElement('canvas');
                 
@@ -1537,12 +1658,19 @@
             canvas.height = ub.dimensions.height;
 
             var ctx = canvas.getContext('2d');
+
+                
             var gradient = ctx.createLinearGradient(0,22,0,410);
 
-            gradient.addColorStop(0,"white");
-            gradient.addColorStop(1,"black");
+            _.each(gradient_obj.color_stops, function(color_stop){
+
+                gradient.addColorStop(color_stop.value, color_stop.color);
+
+            });
 
             ctx.fillStyle = gradient;
+
+            var rotation = gradient_obj.angle;
 
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
@@ -1603,6 +1731,8 @@
             ub.updateLayersOrder(ub.right_view);
             ub.updateLayersOrder(ub.front_view);
             ub.updateLayersOrder(ub.back_view);
+
+            ub.refresh_thumbnails();
 
         };
 
