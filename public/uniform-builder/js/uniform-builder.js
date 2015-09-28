@@ -29,12 +29,6 @@
 
                 ub.stage                = new PIXI.Container();
                 ub.stage.interactive    = true;
-                
-                ub.stage.addListener('click', function(e){
-
-                    console.log(e.data.global);
-                    
-                });
 
                 ub.pCanvas              = document.getElementById( ub.container_div );
                 ub.renderer             = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
@@ -1561,9 +1555,6 @@
                 elements += el;
 
             });
-
-            console.log('Color Stops #:' + el.color_stops.length);
-            console.log('Gradient Name:' + el.code);
 
             cont.html(elements);
 
