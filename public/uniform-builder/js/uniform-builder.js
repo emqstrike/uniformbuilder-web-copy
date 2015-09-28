@@ -1026,19 +1026,6 @@
 
             }
 
-            ub.getThumbnailImage2 = function (view) {
-
-                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
-                texture.render(ub[view]);
-
-                // var sprite = new PIXI.Sprite(texture);
-                // sprite.width = ub.thumbnails.width;
-                // sprite.height = ub.thumbnails.height;
-
-                return texture;
-
-            }
-
             
             /// Refresh Thumbnail Views ///
 
@@ -1413,6 +1400,8 @@
             
             ub.change_color = function (obj, color, panel) {
 
+                
+
                 var color_param = color;
 
                 if(color_param === '#ffffff'){
@@ -1450,10 +1439,6 @@
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
 
-                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-                        ub.objects.pattern_view.gradient_layer.visible = false;
-                    }
-                      
                 } else {
 
                     if(typeof( ub.objects.front_view[obj] ) !== 'undefined') {
@@ -1481,7 +1466,7 @@
                     }
 
                 }
-                
+
                 ub.refresh_thumbnails();
 
                 $('[rel="popover"]').popover("hide");
