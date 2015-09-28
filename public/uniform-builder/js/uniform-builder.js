@@ -17,20 +17,24 @@
 
                 ub.ui                   = {};
                 ub.modifiers            = {};
+                ub.tethers              = {}; 
+                ub.dimensions           = {};
 
                 ub.active               = null;
-
                 ub.container_div        = 'main_view';
-
-                ub.tethers              = {}; 
-
-                ub.dimensions           = {};
                 ub.dimensions.width     = 496;
                 ub.dimensions.height    = 550;
 
                 ub.views = ['front', 'back', 'left', 'right'];
 
                 ub.stage                = new PIXI.Container();
+                ub.stage.interactive    = true;
+                
+                ub.stage.addListener('click', function(e){
+
+                    console.log(e.data.global);
+                    
+                });
 
                 ub.pCanvas              = document.getElementById( ub.container_div );
                 ub.renderer             = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
@@ -61,6 +65,8 @@
                     });
 
                 };
+
+
                 
             
             /// Hide other views except for the left view, by bringing them offscreen, still visible so we can still get the thumbnails by using renderTexture
@@ -1449,6 +1455,10 @@
                     ub.objects.right_view['pattern'].visible = true;
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
+
+                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+                        ub.objects.pattern_view.gradient_layer.visible = false;
+                    }
                       
                 } else {
 
@@ -1553,6 +1563,7 @@
             });
 
             console.log('Color Stops #:' + el.color_stops.length);
+            console.log('Gradient Name:' + el.code);
 
             cont.html(elements);
 
@@ -1652,6 +1663,19 @@
 
         ub.generate_gradient = function (gradient_obj, target) {
 
+            var uniform_type = ub.current_material.material.type;
+            var bounds  
+
+            if( uniform_type === "upper" ) {
+
+
+
+            }
+
+            
+            var gradient_width  = 496;
+            var gradient_height = 550;
+
             var canvas = document.createElement('canvas');
                 
             canvas.width = ub.dimensions.width;
@@ -1659,9 +1683,31 @@
 
             var ctx = canvas.getContext('2d');
 
+            var gradient;
                 
-            var gradient = ctx.createLinearGradient(0,22,0,410);
+            if (gradient_obj.code === "radial" ){
 
+                var center_x = 250;
+                var center_y = 250;
+
+                var radius_inner_circle = 20;
+                var radius_outer_circle = 100;
+
+                var canvas_width = 496;
+                var canvas_height = 550;
+
+                var origin_x = canvas_width / 2;
+                var origin_y = canvas_height / 2;
+
+                gradient = ctx.createRadialGradient(center_x, center_y, radius_inner_circle, center_x, center_y, radius_outer_circle);
+
+            }
+            else {
+
+                gradient = ctx.createLinearGradient(0,22,0,410);
+
+            }
+            
             _.each(gradient_obj.color_stops, function(color_stop){
 
                 gradient.addColorStop(color_stop.value, color_stop.color);
@@ -1684,6 +1730,24 @@
             var pattern_back                    = new PIXI.Sprite( texture );
             var pattern_left                    = new PIXI.Sprite( texture );
             var pattern_right                   = new PIXI.Sprite( texture );
+
+            var pattern = new PIXI.Sprite( texture );
+            pattern.zIndex = 0;
+
+            if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+
+                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+
+            }
+
+            ub.objects.pattern_view.gradient_layer = pattern;
+
+
+
+            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+
+            ub.updateLayersOrder(ub.pattern_view);
+
 
             if(typeof(ub.objects.left_view.pattern) !== 'undefined'){
                 ub.left_view.removeChild(ub.objects.left_view.pattern);    
@@ -1786,6 +1850,14 @@
         });
 
     /// End Reposition All Tethers
+
+
+    /// Get Mouse Click Location
+
+   
+
+
+    /// End Get Mouse Click Location
 
 
  });   
