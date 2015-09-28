@@ -774,6 +774,45 @@
 
     /// End Utilities
 
+    // New Design
+    $('.new-design').on('click', function(){
+        // To Do
+    });
+
+    // Open Design
+    $('.open-design').on('click', function(){
+        // To Do
+    });
+
+    // Compare Designs
+    $('.compare-design').on('click', function(){
+        // To Do
+    });
+
+    // Save Design Modal
+    $('.open-save-design-modal').on('click', function(){
+        $('#save-design-modal').modal('show');
+    });
+
+    // Save Uniform Design
+    $('.save-uniform-design').on('click', function(){
+        var data = {
+            userId: ub.config.user.id,
+            fullname: ub.config.user.fullname,
+            uniformType: $('#save-design-modal .uniform-type').val(),
+        };
+        $.ajax({
+            url: ub.config.api_host + '/api/order',
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    console.log('Saved Order');
+                }
+            }
+        });
+    });
+
+    // User Signup
     $('.user-signup').on('click', function(){
         $('#signup-modal').modal('show');
     });
@@ -794,5 +833,19 @@
     }
 
     getUniformSuggestions(ub.config.category_id);
+
+    var creditly = Creditly.initialize(
+          '.creditly-wrapper .expiration-month-and-year',
+          '.creditly-wrapper .credit-card-number',
+          '.creditly-wrapper .security-code',
+          '.creditly-wrapper .card-type');
+    $(".creditly-card-form .validate-cc").click(function(e) {
+        e.preventDefault();
+        var output = creditly.validate();
+        if (output) {
+          // Your validated credit card output
+          console.log(output);
+        }
+    });
 
 });

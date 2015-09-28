@@ -69,6 +69,9 @@ div.pane div.pane-sidebar {
   width: 10%;
   padding-right: 2px;
 }
+div.pane-sidebar span.fa {
+  margin: 7px;
+}
 div.pane div.pane-sidebar a.sidebar-buttons {
   background-color: #acacac;
   width: 100%;

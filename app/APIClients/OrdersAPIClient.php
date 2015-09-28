@@ -41,4 +41,13 @@ class OrdersAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function saveDesign($data)
+    {
+        $response = $this->post('order', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
 }

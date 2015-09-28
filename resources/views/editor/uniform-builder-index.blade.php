@@ -12,24 +12,22 @@
 
       
         <div id="left-sidebar" class="pane-sidebar">
-            
-                            
-            <a class="sidebar-buttons" data-filename='materials'>
-                <img src="images/sidebar/new.png">
-            </a>
 
-            <a class="sidebar-buttons" data-filename='colors'>
-                <img src="images/sidebar/load.png">
-            </a>
+            <button>
+                <span class="fa fa-plus fa-2x new-design"></span>
+            </button>
 
-            <a class="sidebar-buttons" data-filename='gradient'>
-                <img src="images/sidebar/compare.png">
-            </a>
+            <button>
+                <span class="fa fa-folder-open fa-2x open-design"></span>
+            </button>
 
-            <a class="sidebar-buttons" data-filename='patterns'>
-                <img src="images/sidebar/save.png">
-            </a>
+            <button>
+                <span class="fa fa-columns fa-2x compare-design"></span>
+            </button>
 
+            <button>
+                <span class="fa fa-save fa-2x open-save-design-modal"></span>
+            </button>
 
         </div>
 
