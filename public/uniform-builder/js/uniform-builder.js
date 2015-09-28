@@ -1400,27 +1400,32 @@
             
             ub.change_color = function (obj, color, panel) {
 
-                
-
                 var color_param = color;
 
                 if(color_param === '#ffffff'){
-
                     color_param = "#eeeded";
-
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
 
-                if(panel === 'base'){
+                if(panel === 'body'){
 
                     if( typeof( ub.objects.left_view['pattern'] ) !== 'undefined' ){
-                        
+
                         ub.objects.left_view['pattern'].visible     = false;
                         ub.objects.right_view['pattern'].visible    = false;
                         ub.objects.front_view['pattern'].visible    = false;
                         ub.objects.back_view['pattern'].visible     = false;
 
+                    }
+
+                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+
+                        ub.objects.left_view['gradient'].visible     = false;
+                        ub.objects.right_view['gradient'].visible    = false;
+                        ub.objects.front_view['gradient'].visible    = false;
+                        ub.objects.back_view['gradient'].visible     = false;
+                        
                     }
                     
                     ub.objects.left_view[obj].tint                  = color_value;
@@ -1429,6 +1434,13 @@
                     ub.objects.back_view[obj].tint                  = color_value;
   
                 } else if (panel == 'patterns') {
+
+                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+
+                        ub.objects.pattern_view.gradient_layer.visible = false;
+
+                    }
+
 
                     ub.objects.pattern_view[obj].tint   = color_value;
 
@@ -1640,7 +1652,7 @@
         ub.generate_gradient = function (gradient_obj, target) {
 
             var uniform_type = ub.current_material.material.type;
-            var bounds  
+            var bounds;  
 
             if( uniform_type === "upper" ) {
 
@@ -1648,7 +1660,6 @@
 
             }
 
-            
             var gradient_width  = 496;
             var gradient_height = 550;
 
@@ -1660,7 +1671,7 @@
             var ctx = canvas.getContext('2d');
 
             var gradient;
-                
+
             if (gradient_obj.code === "radial" ){
 
                 var center_x = 250;
@@ -1701,70 +1712,63 @@
             ctx.fillRect(0,0,ub.dimensions.height,ub.dimensions.height);
 
             var texture = PIXI.Texture.fromCanvas(canvas);
-        
+
             var pattern_front                   = new PIXI.Sprite( texture );
             var pattern_back                    = new PIXI.Sprite( texture );
             var pattern_left                    = new PIXI.Sprite( texture );
             var pattern_right                   = new PIXI.Sprite( texture );
 
-            var pattern = new PIXI.Sprite( texture );
-            pattern.zIndex = 0;
+            var gradient_layer = new PIXI.Sprite( texture );
+            gradient_layer.zIndex = 1;
 
             if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-
                 ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-
             }
 
-            ub.objects.pattern_view.gradient_layer = pattern;
-
-
-
+            ub.objects.pattern_view.gradient_layer = gradient_layer;
             ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-
             ub.updateLayersOrder(ub.pattern_view);
 
-
-            if(typeof(ub.objects.left_view.pattern) !== 'undefined'){
-                ub.left_view.removeChild(ub.objects.left_view.pattern);    
+            if(typeof(ub.objects.left_view.gradient) !== 'undefined'){
+                ub.left_view.removeChild(ub.objects.left_view.gradient);    
             }
             
             pattern_left.zIndex = 1;
             pattern_left.mask = ub.objects.left_view.shape_mask;
-            ub.objects.left_view.pattern = pattern_left;
+            ub.objects.left_view.gradient = pattern_left;
             ub.left_view.addChild(pattern_left);
 
 
             if(typeof(ub.objects.right_view.pattern) !== 'undefined'){
-                ub.right_view.removeChild(ub.objects.right_view.pattern);    
+                ub.right_view.removeChild(ub.objects.right_view.gradient);    
             }
 
-            ub.right_view.removeChild(ub.objects.right_view.pattern);
+            ub.right_view.removeChild(ub.objects.right_view.gradient);
             pattern_right.zIndex = 1;
             pattern_right.mask = ub.objects.right_view.shape_mask;
-            ub.objects.right_view.pattern = pattern_right;
+            ub.objects.right_view.gradient = pattern_right;
             ub.right_view.addChild(pattern_right);
 
 
-            if(typeof(ub.objects.front_view.pattern) !== 'undefined'){
-                ub.front_view.removeChild(ub.objects.front_view.pattern);    
+            if(typeof(ub.objects.front_view.gradient) !== 'undefined'){
+                ub.front_view.removeChild(ub.objects.front_view.gradient);    
             }
 
-            ub.front_view.removeChild(ub.objects.front_view.pattern);
+            ub.front_view.removeChild(ub.objects.front_view.gradient);
             pattern_front.zIndex = 1;
             pattern_front.mask = ub.objects.front_view.shape_mask;
-            ub.objects.front_view.pattern = pattern_front;
+            ub.objects.front_view.gradient = pattern_front;
             ub.front_view.addChild(pattern_front);
 
             
             if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
-                ub.back_view.removeChild(ub.objects.back_view.pattern);    
+                ub.back_view.removeChild(ub.objects.back_view.gradient);    
             }
 
-            ub.back_view.removeChild(ub.objects.back_view.pattern);
+            ub.back_view.removeChild(ub.objects.back_view.gradient);
             pattern_back.zIndex = 1;
             pattern_back.mask = ub.objects.back_view.shape_mask;
-            ub.objects.back_view.pattern = pattern_back;
+            ub.objects.back_view.gradient = pattern_back;
             ub.back_view.addChild(pattern_back);
 
             ub.updateLayersOrder(ub.left_view);
