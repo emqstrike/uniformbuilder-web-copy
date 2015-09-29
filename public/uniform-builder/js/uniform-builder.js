@@ -816,6 +816,15 @@
                 phone: $('#billing-information .phone-number').val(),
                 fax: $('#billing-information .fax-number').val()
             },
+            shipping: {
+                organization: $('#shipping-information .organization').val(),
+                contact: $('#shipping-information .contact').val(),
+                address: $('#shipping-information .address').val(),
+                city: $('#shipping-information .city').val(),
+                state: $('#shipping-information .state').val(),
+                zip: $('#shipping-information .zip').val(),
+                phone: $('#shipping-information .phone-number').val(),
+            },
             credit_card: {
                 number: $('#credit-card-information .credit-card-number').val(),
                 verification: $('#credit-card-information .security-code').val(),
@@ -839,10 +848,10 @@
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 if (response.success) {
-                    $('#save-design-modal .save-uniform-design').text('Finished Saving Uniform Design');
-                    $('#save-design-modal .save-uniform-design').attr('disabled', 'disabled');
-                    $('#save-design-modal .save-uniform-design').removeClass('btn-primary');
-                    $('#save-design-modal .save-uniform-design').removeClass('save-uniform-design');
+                    $('#save-design-modal .save-uniform-design').fadeOut();
+                    $('#save-design-modal .close-save-uniform-design-modal').text('Finished Saving Uniform Design. Close this modal');
+                    $('#save-design-modal .close-save-uniform-design-modal').removeClass('btn-default');
+                    $('#save-design-modal .close-save-uniform-design-modal').addClass('btn-success');
                 }
             }
         });

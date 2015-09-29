@@ -35,6 +35,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#athletic-director" data-toggle="tab">Athletic Director</a></li>
                             <li><a href="#billing-information" data-toggle="tab">Billing Information</a></li>
+                            <li><a href="#shipping-information" data-toggle="tab">Shipping Information</a></li>
                             <li><a href="#credit-card-information" data-toggle="tab">Credit Card Information</a></li>
                         </ul>
                         <div class="tab-content">
@@ -47,11 +48,11 @@
                                 </div>
                                 <div>
                                     <label class="col-md-6">Contact Person</label>
-                                    <input type='text' class='form-control contact' placeholder='John Doe'>
+                                    <input type='text' class='form-control contact' placeholder='John Smith'>
                                 </div>
                                 <div>
                                     <label class="col-md-6">Email Address</label>
-                                    <input type='text' class='form-control email' placeholder='john@doe.xyz'>
+                                    <input type='email' class='form-control email' placeholder='john@doe.xyz'>
                                 </div>
                                 <div>
                                     <label class="col-md-6">Phone Number</label>
@@ -71,11 +72,11 @@
                                 </div>
                                 <div>
                                     <label class="col-md-6">Contact Person</label>
-                                    <input type='text' class='form-control contact' placeholder='John Doe'>
+                                    <input type='text' class='form-control contact' placeholder='John Smith'>
                                 </div>
                                 <div>
                                     <label class="col-md-6">Email Address</label>
-                                    <input type='text' class='form-control email' placeholder='john@doe.xyz'>
+                                    <input type='email' class='form-control email' placeholder='john@doe.xyz'>
                                 </div>
                                 <div>
                                     <label class="col-md-6">City</label>
@@ -96,6 +97,38 @@
                                 <div>
                                     <label class="col-md-6">Fax Number</label>
                                     <input type='text' class='form-control fax-number' placeholder='(888) 555-4321'>
+                                </div>
+                            </div>
+
+                            <!-- Shipping Information -->
+                            <div class="tab-pane" id="shipping-information" align='center'>
+                                <div>
+                                    <label class="col-md-6">Organization</label>
+                                    <input type='text' class='form-control organization' placeholder='Organization Name'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">Contact Person</label>
+                                    <input type='text' class='form-control contact' placeholder='John Smith'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">Address</label>
+                                    <input type='text' class='form-control address' placeholder='Address'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">City</label>
+                                    <input type='text' class='form-control city' placeholder='City'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">State</label>
+                                    <input type='text' class='form-control state' placeholder='State'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">Zip</label>
+                                    <input type='text' class='form-control zip' placeholder='Zip'>
+                                </div>
+                                <div>
+                                    <label class="col-md-6">Phone Number</label>
+                                    <input type='text' class='form-control phone-number' placeholder='(800) 555-1234'>
                                 </div>
                             </div>
 
@@ -153,7 +186,7 @@
                     <a class="btn btn-small btn-primary save-uniform-design">
                         Save Design
                     </a>
-                    <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
+                    <button class="btn btn-default close-save-uniform-design-modal" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </form>
