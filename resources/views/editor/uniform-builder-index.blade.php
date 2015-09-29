@@ -13,9 +13,11 @@
       
         <div id="left-sidebar" class="pane-sidebar">
 
-            <button>
-                <span class="fa fa-plus fa-2x new-design"></span>
-            </button>
+            <a class="btn-new sidebar-buttons"
+                data-filename="materials"
+                data-status="new"
+                data-option="new">
+            </a>
 
             <button>
                 <span class="fa fa-folder-open fa-2x open-design"></span>

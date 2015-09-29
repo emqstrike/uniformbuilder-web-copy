@@ -38,7 +38,6 @@ div.navbar-header a.navbar-brand img {
 .navbar-fixed-top {
   border-width: 0 0 0 0;
 }
-.user-profile { margin-top: -40px;}
 /* End Navbar */
 /* Main Container */
 div#main_container {
@@ -53,6 +52,10 @@ div#main_container div#main-row div#left-pane-column {
 }
 div#main_container div#main-row div#right-pane-column {
   height: 100%;
+}
+div#left-sidebar .sidebar-buttons {
+  background-image: url(/images/sidebar/close.png);
+  background-color: rgb(54, 54, 54);
 }
 /* End Main Container */
 /* Generic Panes */
@@ -449,6 +452,9 @@ button.tether_button {
   color: #f8f8f8;
   border: none;
   border-radius: 3px;
+}
+.user-profile {
+  margin-top: -40px;
 }
 /* END MISC */
 /* End Pickers */

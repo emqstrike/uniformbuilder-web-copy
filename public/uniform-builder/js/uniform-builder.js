@@ -290,7 +290,6 @@
 
         };
 
-        
         /// Gradients
 
         ub.gradients = {
@@ -1846,17 +1845,15 @@
 
         };
 
-
         ub.change_gradient = function( target, gradient, panel ){
 
             var el = _.find(ub.gradients.items, { code: gradient });
 
+            var clone = _.clone(el);
+
             ub.generate_gradient(el,target);
-            
             var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
-
             cont.html('');
-
             var elements = "";
 
             if(el.color_stops.length > 0){
@@ -1871,15 +1868,40 @@
                 var col = e.color;
                 var el = "";
 
-                el += "<br />Val: " + val;
-                el += "<br />Col: " + col;
-                el += "<br />";
-
+                el += "<label>" + val + "</label>";
                 elements += el;
+                elements += ub.create_color_picker(val, col, target, el.code); 
 
             });
 
+            elements += "<hr />";
+            elements += "<label>Angle</label><input type='text' value='" + el.angle + "'>";
+            elements += "<br /><br /><label></label><button id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+
             cont.html(elements);
+
+            $('button#update-gradient').click('click', function(e){
+
+                _.each(clone.color_stops, function(e) {
+
+                    var s = $('[data-value="' + e.value + '"][data-target="' + target + '"]');
+                    e.color = s.val();
+
+                });
+
+                ub.generate_gradient(clone, target);
+
+            });
+
+
+        };
+
+        ub.create_color_picker = function(value, color, target, gradient){
+
+            var element = "";
+            element = "<input type='text' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
+
+            return element;
 
         };
 
