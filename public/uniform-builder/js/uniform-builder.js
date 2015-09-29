@@ -2192,8 +2192,107 @@
 
     /// End Reposition All Tethers
 
+    // New Design
+    $('.new-design').on('click', function(){
+        // To Do
+    });
+
+    // Open Design
+    $('.open-design').on('click', function(){
+        // To Do
+    });
+
+    // Compare Designs
+    $('.compare-design').on('click', function(){
+        // To Do
+    });
+
+    // Save Design Modal
+    $('.open-save-design-modal').on('click', function(){
+        $('#save-design-modal').modal('show');
+    });
+
+    // Save Uniform Design
+    $('.save-uniform-design').on('click', function(){
+        var data = {
+            uniformType: $('#save-design-modal .uniform-type').val(),
+            athletic_director: {
+                organization: $('#athletic-director .organization').val(),
+                contact: $('#athletic-director .contact').val(),
+                email: $('#athletic-director .email').val(),
+                phone: $('#athletic-director .phone-number').val(),
+                fax: $('#athletic-director .fax-number').val()
+            },
+            billing: {
+                organization: $('#billing-information .organization').val(),
+                contact: $('#billing-information .contact').val(),
+                address: $('#billing-information .address').val(),
+                city: $('#billing-information .city').val(),
+                state: $('#billing-information .state').val(),
+                zip: $('#billing-information .zip').val(),
+                email: $('#billing-information .email').val(),
+                phone: $('#billing-information .phone-number').val(),
+                fax: $('#billing-information .fax-number').val()
+            },
+            shipping: {
+                organization: $('#shipping-information .organization').val(),
+                contact: $('#shipping-information .contact').val(),
+                address: $('#shipping-information .address').val(),
+                city: $('#shipping-information .city').val(),
+                state: $('#shipping-information .state').val(),
+                zip: $('#shipping-information .zip').val(),
+                phone: $('#shipping-information .phone-number').val(),
+            },
+            credit_card: {
+                number: $('#credit-card-information .credit-card-number').val(),
+                verification: $('#credit-card-information .security-code').val(),
+                card_type: $('#credit-card-information .card-type').val(),
+                card_holder_name: $('#credit-card-information .billing-address-name').val(),
+                expiration_date: $('#credit-card-information .expiration-month-and-year').val(),
+            }
+        };
+        if (ub.user !== false) {
+            data.user_id = ub.user.id;
+            data.client = ub.user.fullname;
+        }
+
+        $.ajax({
+            url: ub.config.api_host + '/api/order',
+            data: JSON.stringify(data),
+            type: 'POST',
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function(response) {
+                if (response.success) {
+                    $('#save-design-modal .save-uniform-design').fadeOut();
+                    $('#save-design-modal .close-save-uniform-design-modal').text('Finished Saving Uniform Design. Close this modal');
+                    $('#save-design-modal .close-save-uniform-design-modal').removeClass('btn-default');
+                    $('#save-design-modal .close-save-uniform-design-modal').addClass('btn-success');
+                }
+            }
+        });
+    });
+
+    // User Signup
     $('.user-signup').on('click', function(){
         $('#signup-modal').modal('show');
+    });
+
+    // Credit Card Validator
+    var creditly = Creditly.initialize(
+          '.creditly-wrapper .expiration-month-and-year',
+          '.creditly-wrapper .credit-card-number',
+          '.creditly-wrapper .security-code',
+          '.creditly-wrapper .card-type');
+    $(".creditly-card-form .validate-cc").click(function(e) {
+        e.preventDefault();
+        var output = creditly.validate();
+        if (output) {
+          // Your validated credit card output
+          console.log(output);
+        }
     });
 
     function getUniformSuggestions(categoryId) {
@@ -2212,5 +2311,6 @@
     }
 
     getUniformSuggestions(ub.config.category_id);
+
 
 });
