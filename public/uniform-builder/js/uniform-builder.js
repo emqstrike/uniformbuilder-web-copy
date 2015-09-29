@@ -1036,7 +1036,7 @@
                         texture_is_above_pattern: false,
 
                         gradient: {
-                            texture_id: '',
+                            gradient_id: '',
                             scale: 0,
                             rotation: 0,
                             opacity: 0,
