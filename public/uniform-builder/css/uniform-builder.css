@@ -38,7 +38,6 @@ div.navbar-header a.navbar-brand img {
 .navbar-fixed-top {
   border-width: 0 0 0 0;
 }
-.user-profile { margin-top: -40px;}
 /* End Navbar */
 /* Main Container */
 div#main_container {
@@ -446,6 +445,9 @@ button.tether_button {
   color: #f8f8f8;
   border: none;
   border-radius: 3px;
+}
+.user-profile {
+  margin-top: -40px;
 }
 /* END MISC */
 /* End Pickers */
