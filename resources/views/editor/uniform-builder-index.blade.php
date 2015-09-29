@@ -13,9 +13,9 @@
       
         <div id="left-sidebar" class="pane-sidebar">
 
-            <button>
-                <span class="fa fa-plus fa-2x new-design"></span>
-            </button>
+<a class="btn-new sidebar-buttons" data-filename="materials" data-status="new" data-option="new" style="background-image: url(http://localhost:8888/images/sidebar/close.png); background-color: rgb(54, 54, 54);">
+               
+           </a>
 
             <button>
                 <span class="fa fa-folder-open fa-2x open-design"></span>
