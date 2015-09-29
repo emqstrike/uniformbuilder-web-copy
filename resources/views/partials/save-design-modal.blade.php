@@ -1,7 +1,7 @@
 <!-- Save Design Modal -->
 <div class="modal bs-modal-sm in" id="save-design-modal" aria-hidden="false">
     <div class="modal-dialog"> 
-        <form class="form-horizontal" role="form" id='save-design-form'>
+        <form class="form-horizontal" role="form" id='save-design-form' method="POST">
             <div class="modal-content"> 
                 <div class="modal-header"> 
                     <button type="button" class="close" data-dismiss="modal">×</button> 
@@ -150,9 +150,9 @@
 
                 </div> 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-small btn-primary save-uniform-design">
+                    <a class="btn btn-small btn-primary save-uniform-design">
                         Save Design
-                    </button>
+                    </a>
                     <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
                 </div>
             </div>

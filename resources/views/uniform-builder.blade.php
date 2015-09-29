@@ -171,7 +171,7 @@
 $( document ).ready( function () {
     window.ub = {}; window.ub.objects = {}; window.ub.config = {api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }} };
 @if (Session::get('isLoggedIn'))
-    window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}"};
+    window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
 @endif
 @if (Session::has('message'))
     setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);

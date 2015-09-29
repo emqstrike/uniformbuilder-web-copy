@@ -797,13 +797,18 @@
     // Save Uniform Design
     $('.save-uniform-design').on('click', function(){
         var data = {
-            userId: ub.config.user.id,
-            fullname: ub.config.user.fullname,
+            userId: ub.user.id,
+            fullname: ub.user.fullname,
             uniformType: $('#save-design-modal .uniform-type').val(),
         };
         $.ajax({
             url: ub.config.api_host + '/api/order',
             data: data,
+            method: 'POST',
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(ub.user.headerValue)},
             success: function(response) {
                 if (response.success) {
                     console.log('Saved Order');
