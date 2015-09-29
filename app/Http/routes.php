@@ -15,9 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('uniformbuilder', 'UniformBuilderController@index');
-
-// API Routes 
+Route::post('login', 'AuthenticationController@login');
+Route::get('logout', 'AuthenticationController@logout');
+Route::post('register', 'RegistrationController@register');
+Route::get('uniform-builder-index', 'UniformBuilderController@index');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
@@ -27,7 +28,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
     Route::post('login', 'Administration\AuthenticationController@administrationLogin');
-    Route::get('logout', 'Administration\AuthenticationController@logout');
+    Route::get('logout', 'Administration\AuthenticationController@administrationLogout');
 
     // Admin page
     Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AuthenticationController@main']);
@@ -139,17 +140,15 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
 
+    // Linings
+    Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
+    Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
+    Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
+    Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
+    Route::get('order/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@editForm']);
+
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
-
-    // TODO
-    Route::get('waists', function(){ return view('administration.oops'); });
-    Route::get('necks', function(){ return view('administration.oops'); });
-    Route::get('sleeves', function(){ return view('administration.oops'); });
-    Route::get('pants', function(){ return view('administration.oops'); });
-    Route::get('skus', function(){ return view('administration.oops'); });
-    Route::get('orders', function(){ return view('administration.oops'); });
-    Route::get('accountSettings', function(){ return view('administration.oops'); });
 
 });
 
@@ -157,7 +156,6 @@ Route::get('uniform-builder', 'UniformBuilderController@index');
 Route::get('uniform-builder-index/{design_set_id?}', [ 'as' => 'uniform-builder-index', 'uses' => 'UniformBuilderController@uniform_builder_set'] );
 Route::get('uniform-builder/{design_set_id?}/set', [ 'as' => 'uniform-builder-index', 'uses' => 'UniformBuilderController@uniform_builder_set'] );
 Route::get('uniform-builder/{material_id?}/single', [ 'as' => 'uniform-builder-index', 'uses' => 'UniformBuilderController@uniform_builder_single'] );
-
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');

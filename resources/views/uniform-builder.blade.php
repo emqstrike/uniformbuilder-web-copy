@@ -7,68 +7,104 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <meta name="description" content="Uniform Builder">
         <meta name="author" content="Engineering">
-
         <title>{{ $page_title }}</title>
-
         <link rel="icon" type="image/png" href="/images/branding/brand.png" />
         <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-
         <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
         <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
-        
         <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 
     </head>
 
-    <body>
-
-
-        <nav class="navbar navbar-default navbar-fixed-top">
-            
-            <div class="container-fluid">
-            
-                <div class="navbar-header" id="navbar-header">
-                   
-                    <a class="navbar-brand" href="#"><img src="/images/branding/brand.png" height="50"></a>
-
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header" id="navbar-header">
+            <a class="navbar-brand" href="#"><img src="/images/branding/brand.png" height="50"></a>
+        </div>
+        <div>
+            <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
+        </div>
+        <div class='user-profile pull-right'>
+            @if (!Session::get('isLoggedIn'))
+            <form class="form-inline" role="form" method="POST" action="/login">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-3 control-label" for="login-email">Email</label>
+                    <div class='col-sm-2'>
+                        <input type="email" name="email" class="form-control" id="login-email" placeholder="Email Address">
+                    </div>
                 </div>
-                
-                <h1 class="text-center" id="header_text">PROLOOK UNIFORM BUILDER</h1>
-
-            </div>
-
-        </nav>
-
-
-        <div id="main_container" class="container">
-
-            <div id="main-row" class="row">
-                
-                <div id="left-pane-column" class="col-md-6">
-                    
-                    <!-- Main Preview Window -->
-                    @yield('left-pane')
-
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-3 control-label" for="login-password">Password</label>
+                    <div class='col-sm-2'>
+                        <input type="password" name="password" class="form-control" id="login-password" placeholder="Password">
+                    </div>
                 </div>
+                <button type="submit" class="btn btn-primary btn-xs">
+                    Login
+                    <span class="glyphicon glyphicon-lock"></span>
+                </button>
+                <a class="btn btn-success btn-xs user-signup" href="#">
+                    Signup
+                </a>
+            </form>
+            @else
+            Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
+            <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
+            @endif
+        </div>
+    </div>
+</nav>
 
-                <div id="right-pane-column" class="col-md-6">
-                    
-                    <!-- Customizer -->
-                    @yield('right-pane')
-                    
-                </div>    
-
-            </div>
-
+<div id="main_container" class="container">
+    
+    @if (Session::has('message'))
+        
+        <div class="alert alert-info alert-dismissable flash-alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                ×
+            </button>
+            <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
         </div>
 
+    @endif
 
-        <!-- Third Party Scripts -->
+    <div id="main-row" class="row">
+       
+        <div id="left-pane-column"  class="col-md-6">
+            <!-- Main Preview Window -->
+            @yield('left-pane')
+        </div>
+
+        <div id="right-pane-column" class="col-md-6">
+            <!-- Customizer -->
+            @yield('right-pane')
+        </div>
+
+    </div>
+
+</div> 
+
+
+<div class="row">
+    <div class="col-md-12">
+        You might also like:
+    </div>
+    <div class="suggestions"></div>
+</div>
+
+    
+
+@if (!Session::get('isLoggedIn'))
+    @include('partials.signup-modal')
+@endif
+
+<!-- Third Party Scripts -->
 
             <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
@@ -80,35 +116,34 @@
 
             <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 
-        
-        <!-- End Third Party Scripts -->
+<!-- End Third Party Scripts -->
 
-
-        <!-- Uniform Builder Scripts -->
+<!-- Uniform Builder Scripts -->
 
             <script type="text/javascript">
-                
+
                 $( document ).ready( function () {
-
-                    window.ub          = {};
-                    window.ub.objects  = {};
-                    window.ub.config   = {};     
-
-                    window.ub.config.api_host           = 'http://' + "{{ env('API_HOST') }}";
-                    window.ub.config.material_id        = {{ $material_id }};
-
-                    window.ub.config.host               = 'http://{{ Request::server ("HTTP_HOST") }}';
-                    window.ub.config.thumbnails_path    = "{{ env('S3_PATH') }}" + 'thumbnails/';
-            
+                    window.ub = {};
+                    window.ub.objects = {};
+                    window.ub.config = {
+                        api_host: "http://{{ env('API_HOST') }}",
+                        material_id: {{ $material_id }},
+                        category_id: {{ $category_id }},
+                        host: 'http://{{ Request::server ("HTTP_HOST") }}',
+                        thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
+                    }
+                @if (Session::has('message'))
+                    setTimeout(function(){
+                        $('.flash-alert').fadeOut();
+                    }, 3000);
+                @endif
                 });
 
-            </script>    
+            </script>
 
             <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
             <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
-        <!-- End Uniform Builder Scripts -->    
-
-    </body>
-
+<!-- End Uniform Builder Scripts -->
+</body>
 </html>

@@ -1,4 +1,4 @@
- $( document ).ready(function() {
+ $(document).ready(function(){
 
 
     /// NEW RENDERER ///
@@ -1885,7 +1885,6 @@
 
         };
 
-
         ub.bind_design_sets_tab_handlers = function(){
 
             $('button.button_tabs').click(function(e) {
@@ -1894,9 +1893,9 @@
                 $('button.button_tabs').css('color', '#353536');
 
                 var current_button = $(e.currentTarget);
-                var category = current_button.data('category');
-                var gender = current_button.data('gender');
-                var type = current_button.data('type');
+                var category       = current_button.data('category');
+                var gender         = current_button.data('gender');
+                var type           = current_button.data('type');
                 
                 ub.display_design_sets(category, gender, type);
     
@@ -2108,7 +2107,6 @@
             ub.objects.front_view.gradient = pattern_front;
             ub.front_view.addChild(pattern_front);
 
-            
             if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
                 ub.back_view.removeChild(ub.objects.back_view.gradient);    
             }
@@ -2135,9 +2133,7 @@
             $('#view_pattern').hide();
 
             $('button#toggle_pattern_preview').on('click', function(e) {
-
                 $('#view_pattern').toggle();
-
             });
 
         /// End Utilities ///
@@ -2145,8 +2141,6 @@
         /// Camera Views
             
             $('a.change-view').on('click', function(e){
-
-                $('#main_view').hide();
 
                 var view = $(this).data('view');
 
@@ -2165,7 +2159,6 @@
         /// End Camera Views
 
     /// UI Functions ///
-
    
     // Reposition All Tethers
 
@@ -2179,14 +2172,25 @@
 
     /// End Reposition All Tethers
 
+    $('.user-signup').on('click', function(){
+        $('#signup-modal').modal('show');
+    });
 
-    /// Get Mouse Click Location
+    function getUniformSuggestions(categoryId) {
+        $.ajax({
+            url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
+            success: function(response) {
+                if (response.success) {
+                    $.each(response.materials, function(i, material){
+                        if (material.id != ub.config.material_id) {
+                            $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+                        }
+                    });
+                }
+            }
+        });
+    }
 
-   
+    getUniformSuggestions(ub.config.category_id);
 
-
-    /// End Get Mouse Click Location
-
-
- });   
-
+});
