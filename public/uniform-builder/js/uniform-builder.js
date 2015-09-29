@@ -797,21 +797,52 @@
     // Save Uniform Design
     $('.save-uniform-design').on('click', function(){
         var data = {
-            userId: ub.user.id,
-            fullname: ub.user.fullname,
             uniformType: $('#save-design-modal .uniform-type').val(),
+            athletic_director: {
+                organization: $('#athletic-director .organization').val(),
+                contact: $('#athletic-director .contact').val(),
+                email: $('#athletic-director .email').val(),
+                phone: $('#athletic-director .phone-number').val(),
+                fax: $('#athletic-director .fax-number').val()
+            },
+            billing: {
+                organization: $('#billing-information .organization').val(),
+                contact: $('#billing-information .contact').val(),
+                address: $('#billing-information .address').val(),
+                city: $('#billing-information .city').val(),
+                state: $('#billing-information .state').val(),
+                zip: $('#billing-information .zip').val(),
+                email: $('#billing-information .email').val(),
+                phone: $('#billing-information .phone-number').val(),
+                fax: $('#billing-information .fax-number').val()
+            },
+            credit_card: {
+                number: $('#credit-card-information .credit-card-number').val(),
+                verification: $('#credit-card-information .security-code').val(),
+                card_type: $('#credit-card-information .card-type').val(),
+                card_holder_name: $('#credit-card-information .billing-address-name').val(),
+                expiration_date: $('#credit-card-information .expiration-month-and-year').val(),
+            }
         };
+        if (ub.user !== false) {
+            data.user_id = ub.user.id;
+            data.client = ub.user.fullname;
+        }
+
         $.ajax({
             url: ub.config.api_host + '/api/order',
-            data: data,
-            method: 'POST',
+            data: JSON.stringify(data),
+            type: 'POST',
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
-            headers: {"accessToken": atob(ub.user.headerValue)},
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 if (response.success) {
-                    console.log('Saved Order');
+                    $('#save-design-modal .save-uniform-design').text('Finished Saving Uniform Design');
+                    $('#save-design-modal .save-uniform-design').attr('disabled', 'disabled');
+                    $('#save-design-modal .save-uniform-design').removeClass('btn-primary');
+                    $('#save-design-modal .save-uniform-design').removeClass('save-uniform-design');
                 }
             }
         });
@@ -820,6 +851,21 @@
     // User Signup
     $('.user-signup').on('click', function(){
         $('#signup-modal').modal('show');
+    });
+
+    // Credit Card Validator
+    var creditly = Creditly.initialize(
+          '.creditly-wrapper .expiration-month-and-year',
+          '.creditly-wrapper .credit-card-number',
+          '.creditly-wrapper .security-code',
+          '.creditly-wrapper .card-type');
+    $(".creditly-card-form .validate-cc").click(function(e) {
+        e.preventDefault();
+        var output = creditly.validate();
+        if (output) {
+          // Your validated credit card output
+          console.log(output);
+        }
     });
 
     function getUniformSuggestions(categoryId) {
@@ -839,18 +885,5 @@
 
     getUniformSuggestions(ub.config.category_id);
 
-    var creditly = Creditly.initialize(
-          '.creditly-wrapper .expiration-month-and-year',
-          '.creditly-wrapper .credit-card-number',
-          '.creditly-wrapper .security-code',
-          '.creditly-wrapper .card-type');
-    $(".creditly-card-form .validate-cc").click(function(e) {
-        e.preventDefault();
-        var output = creditly.validate();
-        if (output) {
-          // Your validated credit card output
-          console.log(output);
-        }
-    });
 
 });
