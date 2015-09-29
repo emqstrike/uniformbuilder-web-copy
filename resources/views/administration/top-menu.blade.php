@@ -45,6 +45,9 @@
             <li>
                 <a href="/administration/linings"><span class="glyphicon glyphicon-th-list"></span> Linings</a>
             </li>
+            <li>
+                <a href="/administration/linings"><span class="fa fa-database"></span>Data Backup/Restore</a>
+            </li>
 <!--
             <li class="divider">
 
