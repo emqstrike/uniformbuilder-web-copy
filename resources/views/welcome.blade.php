@@ -43,7 +43,7 @@
             <div class="content">
                 <div class="title">QuickStrike Uniform Builder</div>
                 <div>
-                    <a href="uniform-builder-index">Click Here</a>
+                    <a href="index">Click Here</a>
                 </div>
             </div>
         </div>
