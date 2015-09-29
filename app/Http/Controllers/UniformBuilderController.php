@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Redirect;
 use Illuminate\Http\Request;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
@@ -70,5 +71,5 @@ class UniformBuilderController extends Controller
             
         ]);
     }
-   
+
 }
