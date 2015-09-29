@@ -748,6 +748,10 @@
 
             };
 
+            ub.export_settings = function(){
+                return ub.current_material.settings;
+            }
+
             ub.setup_settings = function () {
         
                 var settings = ub.current_material.settings;
@@ -776,7 +780,7 @@
 
                 settings[type].material_id = current_material.id;
                 
-                _.each(material_options, function( material_option ){
+                _.each(material_options, function(material_option){
 
                     var name = '';
                     var obj  = '';
@@ -794,7 +798,7 @@
                     obj.has_pattern = false;
                     
                     obj.gradient = {
-                            texture_id: '',
+                            gradient_id: '',
                             scale: 0,
                             rotation: 0,
                             opacity: 0,
@@ -828,7 +832,6 @@
 
                     obj.fabric = {
                         fabric_id: '',
-                        fabric_rotation: '',
                     }
 
                     obj.logo = {
@@ -883,7 +886,7 @@
                         texture_is_above_pattern: false,
 
                         gradient: {
-                            texture_id: '',
+                            gradient_id: '',
                             scale: 0,
                             rotation: 0,
                             opacity: 0,
@@ -958,7 +961,7 @@
                         texture_is_above_pattern: false,
 
                         gradient: {
-                            texture_id: '',
+                            gradient_id: '',
                             scale: 0,
                             rotation: 0,
                             opacity: 0,
@@ -992,7 +995,7 @@
 
                     };
 
-                    obj.name = {
+                    obj.player_name = {
                         
                         text: '',
                         font: {
