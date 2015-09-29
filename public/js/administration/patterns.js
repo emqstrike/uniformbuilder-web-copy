@@ -67,6 +67,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-pattern').removeAttr('disabled');
                     $(elem + ' .enable-pattern').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -91,6 +92,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-pattern').removeAttr('disabled');
                     $(elem + ' .disable-pattern').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -118,6 +120,7 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.pattern-' + id).fadeOut();
+                    flashAlertFadeOut();
                 }
             }
         });

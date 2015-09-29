@@ -20,6 +20,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-font').removeAttr('disabled');
                     $(elem + ' .enable-font').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -44,6 +45,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-font').removeAttr('disabled');
                     $(elem + ' .disable-font').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -71,6 +73,7 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.font-' + id).fadeOut();
+                    flashAlertFadeOut();
                 }
             }
         });

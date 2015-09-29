@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-fabric').removeAttr('disabled');
                     $(elem + ' .enable-fabric').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-fabric').attr('disabled', 'disabled');
                     $(elem + ' .enable-fabric').removeAttr('disabled');
                     $('.fabric-' + id).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -69,6 +71,7 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.fabric-' + id).fadeOut();
+                    flashAlertFadeOut();
                 }
             }
         });

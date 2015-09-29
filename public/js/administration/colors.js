@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-color').removeAttr('disabled');
                     $(elem + ' .enable-color').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-color').removeAttr('disabled');
                     $(elem + ' .disable-color').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });

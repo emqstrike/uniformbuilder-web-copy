@@ -38,11 +38,12 @@ div.navbar-header a.navbar-brand img {
 .navbar-fixed-top {
   border-width: 0 0 0 0;
 }
+.user-profile { margin-top: -40px;}
 /* End Navbar */
 /* Main Container */
 div#main_container {
   height: 80%;
-  margin-top: 165px;
+  margin-top: 125px;
 }
 div#main_container div#main-row {
   height: 100%;
@@ -68,6 +69,9 @@ div.pane div.pane-sidebar {
   width: 10%;
   padding-right: 2px;
 }
+div.pane-sidebar span.fa {
+  margin: 7px;
+}
 div.pane div.pane-sidebar a.sidebar-buttons {
   background-color: #acacac;
   width: 41px;
@@ -88,7 +92,7 @@ div.pane div.pane-main-window {
   float: right;
   background-color: #fff;
   width: 90%;
-  height: 550px;
+  height: 565px;
   border: 1px solid #b3b3b3;
 }
 /* End Generic Panes */
@@ -111,13 +115,13 @@ div#camera-views {
   text-align: center;
   width: 90%;
   padding: 3px;
+  position: relative;
+  margin-top: -73px;
 }
 div#camera-views a {
   color: #3d3d3d;
   width: 63px;
   height: 70px;
-  border: 1px solid #b3b3b3;
-  border-radius: 0px;
   text-align: center;
   padding: 0;
 }
@@ -188,6 +192,22 @@ div.color_element {
 button.modifier {
   margin-right: 10px;
 }
+/* Gradients */
+div.gradient_element {
+  width: 70px;
+  height: 70px;
+  float: left;
+  background-repeat: no-repeat;
+  margin: 10px;
+}
+div.gradient_element button {
+  border-radius: 0px;
+}
+div.gradient_panel_container {
+  margin-left: 50px;
+  display: table;
+}
+/* End Gradients */
 /* End Options Panel */
 /* Right Main Window */
 div#right-main-window {
@@ -423,6 +443,12 @@ div.down_arrow {
   display: block;
   width: 20px;
   height: 13px;
+}
+button.tether_button {
+  background-color: #353536;
+  color: #f8f8f8;
+  border: none;
+  border-radius: 3px;
 }
 /* END MISC */
 /* End Pickers */

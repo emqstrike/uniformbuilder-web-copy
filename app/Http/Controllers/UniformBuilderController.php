@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Redirect;
 use Illuminate\Http\Request;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
@@ -11,121 +12,64 @@ use App\Http\Controllers\Controller;
 
 class UniformBuilderController extends Controller
 {
+    protected $materialsClient;
+    protected $colorsClient;
 
-
-    public function index()
+    public function __construct(
+        MaterialsAPIClient $materialsClient,
+        ColorsAPIClient $colorsClient
+    )
     {
-
-        $title = 'QuickStrike Uniform Builder';
-
-        $accessToken = null;
-        $colorsClient = new ColorsAPIClient();
-        $materialsClient = new MaterialsAPIClient();
-
-        $colors = $colorsClient->getColors();
-        $materials = $materialsClient->getMaterials();
-
-        
-
-        return view('editor.index', [
-            'page_title' => $title,
-            'asset_version' => env('ASSET_VERSION'),
-            'asset_storage' => env('ASSET_STORAGE'),
-            'colors' => $colors,
-            'materials' => $materials
-        ]);
-
+        $this->materialsClient = $materialsClient;
+        $this->colorsClient = $colorsClient;
     }
 
-
-
-
-
-    public function uniform_builder_set($design_set_id = null){
-
-
-        $title = 'PROLOOK Uniform Builder';
+    public function index($design_set_id = null, $material_id = null){
 
         $accessToken = null;
-        $colorsClient = new ColorsAPIClient();
-        $materialsClient = new MaterialsAPIClient();
+        $colors = $this->colorsClient->getColors();
+        $material = $this->materialsClient->getMaterial(1);
 
-        $colors = $colorsClient->getColors();
-        $material = $materialsClient->getMaterial(1);
-
-
-        $material_id = -1;
-
-        if ($design_set_id == null)  {
+        if ($material_id !== null){
             
-            if ( count($materialsClient->getMaterials()) > 0 ) {
+            $material = $this->materialsClient->getMaterial($material_id);
 
-                $material_id = $materialsClient->getMaterials()[0]->id;
+        } else if ($design_set_id !== null) {
 
-            }
-            else {
+            $uniformDesignSetsAPIClient = new UniformDesignSetsAPIClient();
+            $design_set = $uniformDesignSetsAPIClient->getDesignSet($design_set_id);
+
+            $material = $this->materialsClient->getMaterialByCode($design_set->upper_body_uniform);
+
+        } else {
+
+            if ( count($this->materialsClient->getMaterials()) > 0 ) {
+              
+               $material = $this->materialsClient->getMaterials()[0];
+            
+            } else {
 
                 $material_id = -1;
 
             }
 
         }
-        else {
 
-            $uniformDesignSetsAPIClient = new UniformDesignSetsAPIClient();
-            $design_set = $uniformDesignSetsAPIClient->getDesignSet($design_set_id);
+        $material_id = $material->id;
+        $categoryId = $material->uniform_category_id;
 
-            $upper = $materialsClient->getMaterialByCode($design_set->upper_body_uniform);
-            $material_id = $upper->id;
-
-
-        }
-        
         return view('editor.uniform-builder-index', [
-
-            'page_title' => $title,
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
-            'material' => $material, 
+            'material' => $material,
             'material_id' => $material_id,
+            'category_id' => $categoryId,
+
             
         ]);
-
-
-    }
-
-    public function uniform_builder_single($material_id = null){
-
-
-        $title = 'PROLOOK Uniform Builder';
-
-        $accessToken = null;
-        $colorsClient = new ColorsAPIClient();
-        $materialsClient = new MaterialsAPIClient();
-
-        $colors = $colorsClient->getColors();
-        $material = $materialsClient->getMaterial($material_id);
-        
-        return view('editor.uniform-builder-index', [
-
-            'page_title' => $title,
-            'asset_version' => env('ASSET_VERSION'),
-            'asset_storage' => env('ASSET_STORAGE'),
-            'colors' => $colors,
-            'material' => $material, 
-            'material_id' => $material_id,
-            
-        ]);
-
-
-    }
-
-
-    public function texturing_guide(){
-
-        
-
     }
 
 }

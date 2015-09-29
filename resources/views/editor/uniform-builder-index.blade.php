@@ -13,20 +13,21 @@
       
         <div id="left-sidebar" class="pane-sidebar">
 
-            <a class="btn-new sidebar-buttons" data-filename='materials' data-status="new" data-option='new' style="background-image: url('/images/sidebar/new.png');">
-                
-            </a>
+            <button>
+                <span class="fa fa-plus fa-2x new-design"></span>
+            </button>
 
-            <a class="btn-load sidebar-buttons" data-filename='colors' data-option='load' style="background-image: url('/images/sidebar/load.png');">
-                
-            </a>
+            <button>
+                <span class="fa fa-folder-open fa-2x open-design"></span>
+            </button>
 
-            <a class="btn-compare sidebar-buttons" data-filename='gradient' data-option='compare' style="background-image: url('/images/sidebar/compare.png');">
-                
-            </a>
+            <button>
+                <span class="fa fa-columns fa-2x compare-design"></span>
+            </button>
 
-            <a class="btn-save sidebar-buttons" data-filename='patterns' data-option='save' style="background-image: url('/images/sidebar/save.png');">
-            </a>
+            <button>
+                <span class="fa fa-save fa-2x open-save-design-modal"></span>
+            </button>
 
         </div>
 
@@ -61,7 +62,6 @@
 
         
         <div id="right-top" class="pane-top">
-            
             
 
         </div>
@@ -119,30 +119,6 @@
                  <div class="options_panel_section">
                 
                     <label>Team Color</label> 
-
-                </div>
-
-                <div class="options_panel_section" data-option="base">
-                
-                    <label>Base</label>
-
-                    <button id="color_base" class="modifier button_tabs" data-option="base">Color</button>
-                    <button id="gradient_base" class="modifier button_tabs" data-option="base">Gradient</button>
-                    <button id="pattern_base" class="modifier button_tabs" data-option="base">Pattern</button>
-
-                </div>
-
-                <div class="options_panel_section" id="color_panel_section" data-option="base">
-
-                    <div class="color_panel_container">
-                
-                        @include('partials.colors', ['data_panel' => 'base', 'data_target' =>'shape', 'event_class' => 'change-color',])
-
-                        <br /><br />
-
-                    </div>  
-
-                      
 
                 </div>
 
@@ -215,6 +191,12 @@
                         
                     </div>   
 
+                </div>
+
+                <div class="options_panel_section">
+
+                    <button id="toggle_pattern_preview">Pattern Preview</button>
+                    
                 </div>
 
             </div>
