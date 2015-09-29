@@ -58,7 +58,7 @@ class AuthenticationController extends AdminAuthController
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');
         }
 
-        return Redirect::to('/uniform-builder-index')
+        return Redirect::to('/index')
                         ->with('message', $response->message);
     }
 
