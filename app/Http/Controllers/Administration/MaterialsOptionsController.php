@@ -43,7 +43,7 @@ class MaterialsOptionsController extends Controller
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
         $gradients = $request->input('gradients');
-        $is_blend = $request->input('is_blend');
+        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
 
         $data = [
             'material_id' => $materialId,
@@ -53,7 +53,7 @@ class MaterialsOptionsController extends Controller
             'perspective' => $perspective,
             'colors' => $colors,
             'gradients' => $gradients,
-            'is_blend' => ($is_blend) ? 1 : 0
+            'is_blend' => $is_blend,
         ];
 
         try
@@ -96,6 +96,7 @@ class MaterialsOptionsController extends Controller
 
         if ($response->success)
         {
+            
             Log::info('Success');
             return Redirect::to('/administration/materials')
                             ->with('message', $response->message);

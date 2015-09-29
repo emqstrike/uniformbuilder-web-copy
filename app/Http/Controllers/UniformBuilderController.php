@@ -6,6 +6,7 @@ use Redirect;
 use Illuminate\Http\Request;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
+use App\APIClients\UniformDesignSetsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -23,18 +24,39 @@ class UniformBuilderController extends Controller
         $this->colorsClient = $colorsClient;
     }
 
-    public function index()
-    {
+    public function index($design_set_id = null, $material_id = null){
+
         $accessToken = null;
         $colors = $this->colorsClient->getColors();
         $material = $this->materialsClient->getMaterial(1);
 
-        $materialId = -1;
-        if (count($this->materialsClient->getMaterials()) > 0)
-        {
-            $materialId = $this->materialsClient->getMaterials()[0]->id;
-            $categoryId = $material->uniform_category_id;
+        if ($material_id !== null){
+            
+            $material = $this->materialsClient->getMaterial($material_id);
+
+        } else if ($design_set_id !== null) {
+
+            $uniformDesignSetsAPIClient = new UniformDesignSetsAPIClient();
+            $design_set = $uniformDesignSetsAPIClient->getDesignSet($design_set_id);
+
+            $material = $this->materialsClient->getMaterialByCode($design_set->upper_body_uniform);
+
+        } else {
+
+            if ( count($this->materialsClient->getMaterials()) > 0 ) {
+              
+               $material = $this->materialsClient->getMaterials()[0];
+            
+            } else {
+
+                $material_id = -1;
+
+            }
+
         }
+
+        $material_id = $material->id;
+        $categoryId = $material->uniform_category_id;
 
         return view('editor.uniform-builder-index', [
             'page_title' => env('APP_TITLE'),
@@ -42,42 +64,12 @@ class UniformBuilderController extends Controller
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
-            'material' => $material, 
-            'material_id' => $materialId,
-            'category_id' => $categoryId
+            'material' => $material,
+            'material_id' => $material_id,
+            'category_id' => $categoryId,
+
+            
         ]);
     }
 
-    public function saveDesign(Request $request)
-    {
-        $client = '';
-        // if (isset($request->has('client')))
-        // {
-        //     $client = $request->input('client');
-        // }
-        // $uniformType = 'basic';
-        // if (isset($request->has('uniformType')))
-        // {
-        //     $uniformType = $request->input('uniformType');
-        // }
-        // $designSetId = null;
-        // if (isset($request->has('designSetId')))
-        // {
-        //     $designSetId = $request->input('designSetId');
-        // }
-        $data = [
-            'user_id' => $request->input('user_id'),
-            'client' => $client,
-            'uniform_type' => $uniformType,
-            'uniform_design_set_id' => $designSetId,
-            'upper_body_uniform' => $upperBodyUniform,
-            'lower_body_uniform' => $lowerBodyUniform,
-            'total_upper_uniforms' => $totalUpperBodyUniform,
-            'total_lower_uniforms' => $totalLowerBodyUniform,
-            'builder_customizations' => $builderCustomizations,
-            'status' => $status
-        ];
-        $this->ordersClient->saveDesign($data);
-        return Redirect::to('uniform-builder-index');
-    }
 }
