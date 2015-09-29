@@ -8,9 +8,7 @@
         window.ub.initialize = function (){
 
             if(window.ub.config.material_id === -1) {
-                
                 return;
-                
             }
 
             /// Setup Properties
@@ -1634,10 +1632,10 @@
                     id = ub.ui.active_style_element.data('id');
 
                     if ( option === 'All') {
-                        url = ub.config.host + '/uniform-builder/' + id + '/set';    
+                        url = ub.config.host + '/builder/' + id;    
                     }
                     else {
-                        url = ub.config.host + '/uniform-builder/' + id + '/single';    
+                        url = ub.config.host + '/builder/0/' + id;    
                     }
 
                     ub.ui.current_design_set = _.find(ub.design_sets, {id: id});

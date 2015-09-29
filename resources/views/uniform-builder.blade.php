@@ -34,16 +34,10 @@
             <form class="form-inline" role="form" method="POST" action="/login">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-3 control-label" for="login-email">Email</label>
-                    <div class='col-sm-2'>
-                        <input type="email" name="email" class="form-control" id="login-email" placeholder="Email Address">
-                    </div>
+                    <input type="email" name="email" class="form-control col-sm-2" id="login-email" placeholder="Email Address">
                 </div>
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-3 control-label" for="login-password">Password</label>
-                    <div class='col-sm-2'>
-                        <input type="password" name="password" class="form-control" id="login-password" placeholder="Password">
-                    </div>
+                    <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-xs">
                     Login
