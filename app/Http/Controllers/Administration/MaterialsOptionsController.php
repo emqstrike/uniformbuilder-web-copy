@@ -43,7 +43,7 @@ class MaterialsOptionsController extends Controller
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
         $gradients = $request->input('gradients');
-        $is_blend = null !== $request->input('is_blend');
+        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
 
         $data = [
             'material_id' => $materialId,
