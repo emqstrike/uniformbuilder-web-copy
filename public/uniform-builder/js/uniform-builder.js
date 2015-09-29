@@ -59,9 +59,6 @@
                     });
 
                 };
-
-
-                
             
             /// Hide other views except for the left view, by bringing them offscreen, still visible so we can still get the thumbnails by using renderTexture
 
@@ -75,6 +72,7 @@
             /// Initialize Assets
 
                 ub.current_material = {};
+                ub.current_material.settings = {};
                 ub.current_material.id = window.ub.config.material_id;
                 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
@@ -93,7 +91,6 @@
 
                 ub.patterns_url = window.ub.config.api_host + '/api/patterns/';
                 ub.loader(ub.patterns_url, 'patterns', ub.load_patterns);
-
 
             /// Activate Views
 
@@ -751,8 +748,332 @@
 
             };
 
-            window.ub.setup_material_options = function () {
+            ub.setup_settings = function () {
+        
+                var settings = ub.current_material.settings;
+
+                settings.team_colors = [
+                    {
+                        color: '',
+                    },
+                    {
+                        color: '',
+                    },
+                    {
+                        color: '',
+                    },
+                    {
+                        color: '',
+                    },
+                ];
+
+                settings.upper = {};
+                settings.lower = {};
+
+                var current_material = ub.current_material.material;
+                var material_options = ub.current_material.materials_options;
+                var type = current_material.type;
+
+                settings[type].material_id = current_material.id;
                 
+                _.each(material_options, function( material_option ){
+
+                    var name = '';
+                    var obj  = '';
+
+                    name = material_option.name;
+                    settings[type][name] = {};
+
+                    obj = settings[type][name];
+
+                    obj.code = name.replace(' ', '_').toLowerCase();
+                    obj.color = '';
+                    obj.gradient_is_above_pattern = false;
+                    
+                    obj.has_gradient = false;
+                    obj.has_pattern = false;
+                    
+                    obj.gradient = {
+                            texture_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y: 0,
+                            },
+                            color_stops: [
+                                {
+                                    value: 0,
+                                    color: '',
+                                },
+                                {
+                                    value: 1,
+                                    color: '',
+                                }
+                            ],
+
+                    };    
+
+                    obj.pattern = {
+                        pattern_id: '',
+                        scale: 0,
+                        rotation: 0,
+                        opacity: 0,
+                        position: {
+                            x: 0,
+                            y:0,
+                        },
+                    };
+
+                    obj.fabric = {
+                        fabric_id: '',
+                        fabric_rotation: '',
+                    }
+
+                    obj.logo = {
+                        filename: '',
+                        rotation: 0,
+                        scale: 0,
+                        position_id: 0,
+                        position: {
+                            x: 0,
+                            y: 0,
+                        }
+                    }
+
+                    obj.team_name = {
+                        
+                        text: '',
+                        font: {
+                            name: '',
+                            font_size: '',
+                            font_style: '',
+                        },
+
+                        colors: [
+                            
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                        ],
+
+                        rotation: 0,
+                        scale: 0,
+                        position_id: 0,
+                        position: {
+                            x: 0,
+                            y: 0,
+                        },
+
+                        has_texture: false,
+                        has_pattern: false,
+                        texture_is_above_pattern: false,
+
+                        gradient: {
+                            texture_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y: 0,
+                            },
+                            color_stops: [
+                                {
+                                    value: 0,
+                                    color: '',
+                                },
+                                {
+                                    value: 1,
+                                    color: '',
+                                }
+                            ],
+
+                        },    
+
+                        pattern: {
+                            pattern_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y:0,
+                            },
+                        }
+
+                    };
+
+                    obj.number = {
+                        
+                        text: '',
+                        font: {
+                            name: '',
+                            font_size: '',
+                            font_style: '',
+                        },
+
+                        colors: [
+                            
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                        ],
+
+                        rotation: 0,
+                        scale: 0,
+                        position_id: 0,
+                        position: {
+                            x: 0,
+                            y: 0,
+                        },
+
+                        has_texture: false,
+                        has_pattern: false,
+                        texture_is_above_pattern: false,
+
+                        gradient: {
+                            texture_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y: 0,
+                            },
+                            color_stops: [
+                                {
+                                    value: 0,
+                                    color: '',
+                                },
+                                {
+                                    value: 1,
+                                    color: '',
+                                }
+                            ],
+
+                        },    
+
+                        pattern: {
+                            pattern_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y:0,
+                            },
+                        }
+
+                    };
+
+                    obj.name = {
+                        
+                        text: '',
+                        font: {
+                            name: '',
+                            font_size: '',
+                            font_style: '',
+                        },
+
+                        colors: [
+                            
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                            {
+                                color: '',
+                                opacity: '',
+                                width: '',
+                            },
+                        ],
+
+                        rotation: 0,
+                        scale: 0,
+                        position_id: 0,
+                        position: {
+                            x: 0,
+                            y: 0,
+                        },
+
+                        has_texture: false,
+                        has_pattern: false,
+                        texture_is_above_pattern: false,
+
+                        gradient: {
+                            texture_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y: 0,
+                            },
+                            color_stops: [
+                                {
+                                    value: 0,
+                                    color: '',
+                                },
+                                {
+                                    value: 1,
+                                    color: '',
+                                }
+                            ],
+
+                        },    
+
+                        pattern: {
+                            pattern_id: '',
+                            scale: 0,
+                            rotation: 0,
+                            opacity: 0,
+                            position: {
+                                x: 0,
+                                y:0,
+                            },
+                        }
+
+                    };
+
+                });
+
+
+            };
+
+            window.ub.setup_material_options = function () {
+
                 ub.current_material.options_distinct_names = {};
 
                 _.each(ub.views, function(view) {
@@ -797,8 +1118,6 @@
                         }
 
                         ub[view + '_view'].addChild(current_object);
-
-                       
 
                     });
 
@@ -900,6 +1219,12 @@
                     ub.bind_left_sidebar_tab_handlers();
 
                 /// End Setup Modifiers Gradients
+
+                /// Setup Settings obj, for persisting customizer selection
+
+                    ub.setup_settings();
+
+                /// End Setup Settings obj
 
             };
 
@@ -1653,10 +1978,30 @@
 
             var uniform_type = ub.current_material.material.type;
             var bounds;  
+            var guides;
 
             if( uniform_type === "upper" ) {
 
+                guides = {
 
+                    x1: 23,
+                    y1: 67,
+                    x2: 466,
+                    y2: 464,
+
+                }
+
+            }
+            else {
+
+                guides = {
+
+                    x1: 148,
+                    y1: 58,
+                    x2: 347,
+                    y2: 488,
+
+                }
 
             }
 
@@ -1664,7 +2009,7 @@
             var gradient_height = 550;
 
             var canvas = document.createElement('canvas');
-                
+
             canvas.width = ub.dimensions.width;
             canvas.height = ub.dimensions.height;
 
@@ -1709,7 +2054,7 @@
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
 
-            ctx.fillRect(0,0,ub.dimensions.height,ub.dimensions.height);
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
 
             var texture = PIXI.Texture.fromCanvas(canvas);
 
