@@ -53,6 +53,10 @@ div#main_container div#main-row div#left-pane-column {
 div#main_container div#main-row div#right-pane-column {
   height: 100%;
 }
+div#left-sidebar .sidebar-buttons {
+  background-image: url(/images/sidebar/close.png);
+  background-color: rgb(54, 54, 54);
+}
 /* End Main Container */
 /* Generic Panes */
 div.pane div.pane-top {
