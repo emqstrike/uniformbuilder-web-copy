@@ -1927,7 +1927,7 @@
                 _.each(clone.color_stops, function(e, index) {
 
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-
+                    $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
@@ -1942,6 +1942,8 @@
                 ub.generate_gradient(clone, target);
 
             });
+
+            $('button#update-gradient').click();
 
 
         };
