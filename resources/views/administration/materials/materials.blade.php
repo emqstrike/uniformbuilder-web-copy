@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
 <style type="text/css">
     .material-option-item:hover{
         background-color: #fff !important;
@@ -57,17 +58,66 @@
 
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
-                    @if ($material->thumbnail_path)
+                    <!-- @if ($material->thumbnail_path)
                     <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
                     @else
                     <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
-                    @endif
+                    @endif -->
+                    <!-- B E G I N of new LAYOUT -->
+
+
+                    <!-- <div class="item row" style="display: inline;">
+                        <div class="thumbnail">
+                            <img src="https://www.blueinc.co.uk/images/mens-white-baseball-jersey-t-shirt-p20950-24151_image.jpg" width="300px" height="300px" alt="{{ $material->slug }}">
+                            <div class="caption" style="display: inline;">
+                                <center>
+                                    <span>
+                                        {{ $material->code }}
+                                        <span>{{ $material->name }}</span>
+                                        {{ $material->code }}
+                                    </span>
+                                    <span>
+                                        {{ $material->uniform_category }}
+                                    </span>
+                                    <span>
+                                        {{ ucfirst($material->type) }}
+                                    </span>
+                                    <span>
+                                        @if ($material->gender == "men")
+                                        <i class="fa fa-mars"></i>
+                                        @else
+                                        <i class="fa fa-venus"></i>
+                                        @endif
+                                    </span>
+                                </center>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="item row" style="display: inline;">
+                        <div style="border: 1px solid #e3e3e3;">
+                            <div>
+                                <center><img src="https://www.blueinc.co.uk/images/mens-white-baseball-jersey-t-shirt-p20950-24151_image.jpg" width="300px" height="300px" alt="{{ $material->slug }}"></center>
+                            </div>
+                            <div class="caption">
+                                <div class="col-md-5">{{ $material->name }}{{ $material->code }}</div>
+                                <div class="col-md-3">{{ $material->uniform_category }}</div>
+                                <div class="col-md-2">{{ ucfirst($material->type) }}</div>
+                                <div class="col-md-2">
+                                    @if ($material->gender == "men")
+                                    <i class="fa fa-mars"></i>
+                                    @else
+                                    <i class="fa fa-venus"></i>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
                 <td>
-                    {{ $material->name }}
+                    <!-- {{ $material->name }} -->
                 </td>
                 <td>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-3">
                         <span class="label label-info">FRONT</span>                        
                         @foreach ($material->options as $option)
@@ -192,7 +242,7 @@
                             @endif
                         @endforeach
                         </div>
-                    </div>
+                    </div> -->
                     <hr>
                         <a href=""><span class="fa fa-chevron-down"></span></a>
                         <a href="#" class='btn btn-xs btn-success add-material-option'
