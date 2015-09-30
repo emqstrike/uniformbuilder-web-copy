@@ -68,9 +68,6 @@ div.pane div.pane-sidebar {
   width: 10%;
   padding-right: 2px;
 }
-div.pane-sidebar span.fa {
-  margin: 7px;
-}
 div.pane div.pane-sidebar a.sidebar-buttons {
   background-color: #acacac;
   width: 41px;
@@ -451,6 +448,9 @@ button.tether_button {
 }
 .user-profile {
   margin-top: -40px;
+}
+.gradient_slider {
+  margin: 20px;
 }
 /* END MISC */
 /* End Pickers */
