@@ -77,9 +77,11 @@
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_code' class="form-control factory-code">
-                                    <option value='PHP'>PHP</option>
-                                    <option value='MZT'>MZT</option>
-                                    <option value='BLB'>BLB</option>
+                                    @foreach ($factories as $factory)
+                                        @if ($color->active)
+                                        <option value='{{ $factory->code }}'>{{ $factory->code }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

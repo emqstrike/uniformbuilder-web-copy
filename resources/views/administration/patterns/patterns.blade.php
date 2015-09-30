@@ -31,7 +31,7 @@
     </h1>
 </div>
 
-<div class="row col-md-5">
+<div class="row col-md-6">
     <table data-toggle='table' class='patterns'>
         <thead>
             <tr>

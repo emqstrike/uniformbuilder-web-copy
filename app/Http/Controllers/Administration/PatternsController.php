@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\ColorsAPIClient;
 use App\APIClients\PatternsAPIClient as APIClient;
 
 class PatternsController extends Controller
 {
     protected $client;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct( APIClient $apiClient )
     {
         $this->client = $apiClient;
     }
@@ -30,23 +31,41 @@ class PatternsController extends Controller
 
     public function editPatternForm($id)
     {
+        $colorsClient = new ColorsAPIClient();
+        $colors = $colorsClient->getColors();
+
         $pattern = $this->client->getPattern($id);
+
         return view('administration.patterns.pattern-edit', [
-            'pattern' => $pattern
+            'pattern' => $pattern,
+            'color' => $colors
         ]);
     }
 
     public function addPatternForm()
     {
-        return view('administration.patterns.pattern-create');
+        $colorsClient = new ColorsAPIClient();
+        $colors = $colorsClient->getColors();
+
+        return view('administration.patterns.pattern-create', [
+            'color' => $colors
+        ]);
     }
 
     public function store(Request $request)
     {
         $patternName = $request->input('name');
+        $layer_1_color = $request->input('layer_1_color');
+        $layer_2_color = $request->input('layer_2_color');
+        $layer_3_color = $request->input('layer_3_color');
+        $layer_4_color = $request->input('layer_4_color');
 
         $data = [
-            'name' => $patternName
+            'name' => $patternName,
+            'layer_1_default_color' => $layer_1_color,
+            'layer_2_default_color' => $layer_2_color,
+            'layer_3_default_color' => $layer_3_color,
+            'layer_4_default_color' => $layer_4_color
         ];
 
         $patternId = null;
@@ -57,13 +76,13 @@ class PatternsController extends Controller
         }
 
         // Does the Pattern Name exist
-        if ($this->client->isPatternNameTaken($patternName, $patternId))
+        if ($this->client->isPatternExist($patternName, $patternId))
         {
             return Redirect::to('administration/patterns')
                             ->with('message', 'Pattern name already exist');
         }
 
-        try
+        /*try
         {
             for ($i = 1; $i <= 4; $i++)
             {
@@ -72,6 +91,7 @@ class PatternsController extends Controller
                 $patternFile = $request->file($fieldName);
                 if (isset($patternFile))
                 {
+                    //dd($patternFile);
                     if ($patternFile->isValid())
                     {
                         $data[$fieldName] = FileUploader::upload(
@@ -81,6 +101,7 @@ class PatternsController extends Controller
                             'patterns',         // S3 Folder
                             $filename     // Layer File Name
                         );
+
                     }
                 }
             }
@@ -90,7 +111,7 @@ class PatternsController extends Controller
             $message = $e->getMessage();
             return Redirect::to('/administration/patterns')
                             ->with('message', 'There was a problem uploading your files');
-        }
+        }*/
 
         $response = null;
         if (!empty($patternId))
