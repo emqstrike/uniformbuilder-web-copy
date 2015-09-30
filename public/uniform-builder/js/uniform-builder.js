@@ -1874,11 +1874,13 @@
 
             });
 
+           
             elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
             elements += "<hr />";
-            elements += "<label>Angle</label><input type='text' value='" + el.angle + "'>";
+            elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
+            elements += "<hr />";
             
-            elements += "<br /><br /><label></label><button id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+            elements += "<button style='width: 100%;' id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
 
             cont.html(elements);
 
@@ -1908,6 +1910,17 @@
                 },
              });
 
+            $('#' + 'angle_gradient_slider_' + target).roundSlider({
+                value: 0,
+                min: 0,
+                max: 360,
+                change: function( event, ui ) {
+                    
+                    $('button#update-gradient').click();
+
+                },
+             });
+
 
             $('button#update-gradient').click('click', function(e){
 
@@ -1923,6 +1936,8 @@
                     e.value = temp;
 
                 });
+
+                clone.angle = $('#' + 'angle_gradient_slider_' + target).roundSlider('getValue');
 
                 ub.generate_gradient(clone, target);
 
