@@ -17,11 +17,11 @@
     <h1>
         <span class="glyphicon glyphicon-hdd"></span>
         Data Backup/Restore
-        <small>
-            <a href="/administration/fabric/add" class='btn btn-xs btn-success'>
+        <small class='btn btn-xs btn-success' data-toggle="modal" data-target=".backup-data">
+           
                 <span class="glyphicon glyphicon-export"></span>
                 Backup Database
-            </a>
+        
         </small>
     </h1>
 </div>
@@ -51,7 +51,7 @@
         Alpha Server
       </td>
       <td class="active">
-        <button type="button" class="btn btn-default btn-lg">
+        <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target=".restore-data">
           <span class="glyphicon glyphicon-import" aria-hidden="true"></span> Restore Database
         </button>
       </td>
@@ -73,7 +73,42 @@
 </table>
 
 
- 
+<div class="modal fade restore-data" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade backup-data" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Backup Database</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure?&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cance</button>
+        <button type="button" class="btn btn-primary">Proceed</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
 
 </div>
 
