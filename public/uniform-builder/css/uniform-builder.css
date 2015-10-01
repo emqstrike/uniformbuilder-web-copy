@@ -453,6 +453,28 @@ button.tether_button {
 }
 .gradient_slider_angle {
   margin: 0 auto;
+  height: 170px;
+}
+.gradient_button {
+  display: none;
+}
+.range_container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.range {
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+  height: 420px;
+  background-size: cover;
+}
+.rs-bg-color {
+  background-size: cover;
 }
 /* END MISC */
 /* End Pickers */
