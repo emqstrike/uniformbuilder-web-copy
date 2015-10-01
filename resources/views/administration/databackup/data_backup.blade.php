@@ -12,26 +12,36 @@
 </div>
 @endif
 
+
+<div class="col-md-12">
+    <h1>
+        <span class="glyphicon glyphicon-hdd"></span>
+        Data Backup/Restore
+        <small>
+            <a href="/administration/fabric/add" class='btn btn-xs btn-success'>
+                <span class="glyphicon glyphicon-export"></span>
+                Backup Database
+            </a>
+        </small>
+    </h1>
+</div>
+
 <div class="col-md-12">
     
-    <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-export" aria-hidden="true"></span> Backup Database
-    </button>
-
 <table class="table table-hover">      
-<div class="panel-heading">
+
     <tr>
       <td class="active">
-       DATE:
+      <h4>DATE:</h4> 
       </td>
       <td class="active">
-        LOCATION
+       <h4>LOCATION</h4>  
       </td>
       <td class="active">
-        RESTORE
+        <h4>RESTORE</h4>        
       </td>
     </tr>
-</div>
+
     
     <tr>
       <td class="active">
