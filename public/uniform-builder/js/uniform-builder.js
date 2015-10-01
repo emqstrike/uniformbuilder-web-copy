@@ -41,12 +41,14 @@
                 ub.back_view            = new PIXI.Container();
                 ub.right_view           = new PIXI.Container();
                 ub.pattern_view         = new PIXI.Container();
+                ub.gradient_preview     = new PIXI.Container();
 
                 ub.stage.addChild(ub.left_view);
                 ub.stage.addChild(ub.front_view);
                 ub.stage.addChild(ub.back_view);
                 ub.stage.addChild(ub.right_view);
                 ub.stage.addChild(ub.pattern_view);
+                ub.stage.addChild(ub.gradient_preview);
 
                 ub.updateLayersOrder = function (container) {
                     
@@ -328,19 +330,19 @@
                 {
                     name: "Top To Bottom",
                     code: "top_to_bottom",
-                    angle: 180,
+                    angle: 0,
 
                     color_stops: [
 
                         {
                            id: 1,
                            value: 0,
-                           color: '#ffffff',     
+                           color: '#535353',     
                         },
                         {
                            id: 2,
                            value: 0.9,
-                           color: '#5e5e5e',     
+                           color: '#ffffff',     
                         },
 
                     ],
@@ -1230,7 +1232,6 @@
 
             window.ub.setup_pattern_view = function(){
 
-
                 var layer_1                         = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
                 var layer_2                         = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
                 var layer_3                         = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
@@ -1342,9 +1343,9 @@
             }
 
 
-            ub.getThumbnailImage = function (view) {
+            ub.getThumbnailImage = function (view, rotate) {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
@@ -1875,24 +1876,64 @@
             });
 
             elements += "<hr />";
-            elements += "<label>Angle</label><input type='text' value='" + el.angle + "'>";
-            elements += "<br /><br /><label></label><button id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+
+            elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
+            elements += "<hr />";
+            
+            elements += "<button style='width: 100%;' id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
 
             cont.html(elements);
 
+            var stops = _.pluck(clone.color_stops, 'value');
+            var stops_clone = [];
+
+            _.each(stops, function(e){
+
+                stops_clone.push(e * 100);
+
+            });
+
+            $('#' + 'gradient_slider_' + target).limitslider({
+                
+                values: stops_clone,
+                min: 0,
+                max: 100,
+                gap: 0,
+                change: function( event, ui ) {
+
+                    $('button#update-gradient').click();
+
+                },
+             });
+
+            $('#' + 'angle_gradient_slider_' + target).roundSlider({
+                value: 0,
+                min: 0,
+                max: 360,
+                startAngle: 90,
+                change: function( event, ui ) {
+                    
+                    $('button#update-gradient').click();
+
+                },
+             });
+
             $('button#update-gradient').click('click', function(e){
 
-                _.each(clone.color_stops, function(e) {
+                _.each(clone.color_stops, function(e, index) {
 
-                    var s = $('[data-value="' + e.value + '"][data-target="' + target + '"]');
+                    var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                    $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
 
                 });
 
+                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
                 ub.generate_gradient(clone, target);
 
             });
 
+            $('button#update-gradient').click();
 
         };
 
@@ -2072,6 +2113,11 @@
 
             var rotation = gradient_obj.angle;
 
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            var dURL = canvas.toDataURL();
+
+            ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
+
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
@@ -2143,6 +2189,14 @@
             ub.updateLayersOrder(ub.back_view);
 
             ub.refresh_thumbnails();
+
+            var rad = (90 + parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()));
+            $('#' + 'gradient_slider_' + target).find('.range_container').remove();
+            $('#' + 'gradient_slider_' + target).prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css({
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+            });
 
         };
 
@@ -2291,7 +2345,7 @@
         var output = creditly.validate();
         if (output) {
           // Your validated credit card output
-          console.log(output);
+   
         }
     });
 

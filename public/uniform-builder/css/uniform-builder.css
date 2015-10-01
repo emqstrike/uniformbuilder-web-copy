@@ -53,10 +53,6 @@ div#main_container div#main-row div#left-pane-column {
 div#main_container div#main-row div#right-pane-column {
   height: 100%;
 }
-div#left-sidebar .sidebar-buttons {
-  background-image: url(/images/sidebar/close.png);
-  background-color: rgb(54, 54, 54);
-}
 /* End Main Container */
 /* Generic Panes */
 div.pane div.pane-top {
@@ -71,9 +67,6 @@ div.pane div.pane-sidebar {
   text-align: center;
   width: 10%;
   padding-right: 2px;
-}
-div.pane-sidebar span.fa {
-  margin: 7px;
 }
 div.pane div.pane-sidebar a.sidebar-buttons {
   background-color: #acacac;
@@ -414,7 +407,6 @@ div.picker_header {
 }
 div.picker_header span {
   float: left;
-  padding-top: ;
 }
 div.picker_header button {
   float: right;
@@ -455,6 +447,34 @@ button.tether_button {
 }
 .user-profile {
   margin-top: -40px;
+}
+.gradient_slider {
+  margin: 20px;
+}
+.gradient_slider_angle {
+  margin: 0 auto;
+  height: 170px;
+}
+.gradient_button {
+  display: none;
+}
+.range_container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.range {
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+  height: 420px;
+  background-size: cover;
+}
+.rs-bg-color {
+  background-size: cover;
 }
 /* END MISC */
 /* End Pickers */
