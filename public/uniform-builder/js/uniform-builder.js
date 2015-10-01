@@ -1894,11 +1894,8 @@
 
             });
 
-            $('.gradient_' + target).change(function(e){
-                console.log('test');
-            });
-
-             $('#' + 'gradient_slider_' + target).limitslider({
+            $('#' + 'gradient_slider_' + target).limitslider({
+                
                 values: stops_clone,
                 min: 0,
                 max: 100,
@@ -1937,8 +1934,10 @@
 
                 });
 
-                clone.angle = $('#' + 'angle_gradient_slider_' + target).roundSlider('getValue');
+                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
 
+                console.log(clone.angle);
+                
                 ub.generate_gradient(clone, target);
 
             });
