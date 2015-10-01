@@ -1859,11 +1859,11 @@
 
             if(el.color_stops.length > 0){
 
-                elements = "Color Stops: ( Will Become Color Pickers )<br /><br />";
+                elements = "Color Stops: <br />";
 
             }
 
-            _.each(el.color_stops, function(e, index){
+            _.each(el.color_stops, function(e){
 
                 var val = e.value;
                 var col = e.color;
@@ -1871,12 +1871,12 @@
 
                 el += "<label>" + val + "</label>";
                 elements += el;
-                elements += ub.create_color_picker(index, val, col, target, el.code); 
+                elements += ub.create_color_picker(val, col, target, el.code); 
 
             });
 
-            elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
             elements += "<hr />";
+
             elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
             elements += "<hr />";
             
@@ -1925,11 +1925,6 @@
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                     $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
-                    var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
-                    temp = Math.floor(temp / 10);
-                    temp = temp / 10;
-
-                    e.value = temp;
 
                 });
 
@@ -1942,10 +1937,10 @@
 
         };
 
-        ub.create_color_picker = function(index, value, color, target, gradient){
+        ub.create_color_picker = function(value, color, target, gradient){
 
             var element = "";
-            element = "<input class='gradient_" + target + "' type='text' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
+            element = "<input type='text' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
 
             return element;
 
