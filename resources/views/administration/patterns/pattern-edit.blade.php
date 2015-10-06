@@ -187,7 +187,7 @@
 
 $(document).ready(function(){
 
-    $('select:not(:has(option))').attr('visible',false);
+    $('select:not(:has(option))').attr('visible', false);
 
     $('.layer-default-color').change(function(){
         var color = $('option:selected', this).data('color');
