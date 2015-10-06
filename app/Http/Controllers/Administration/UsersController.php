@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Administration;
 
 use Crypt;
-use \Session;
-use \Redirect;
+use Session;
+use Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
@@ -139,11 +139,16 @@ class UsersController extends Controller
 
         if ($response->success)
         {
+<<<<<<< HEAD
             Log::info('Success');
             if ( $updateCase == "account" )
             {
                 Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
                 return Redirect::to('administration/account_settings/'.$userId)
+=======
+            Log::info('Save or Modify User: Success');
+            return Redirect::to('administration/users')
+>>>>>>> 8197acc8f33fb94b0e460079aa0c7b90a5db7a42
                             ->with('message', 'Successfully saved changes');
             }
             elseif ( $updateCase == "user" )
@@ -155,7 +160,7 @@ class UsersController extends Controller
         }
         else
         {
-            Log::info('Failed');
+            Log::info('Save or Modify User: Failed');
             return Redirect::to('administration/users')
                             ->with('message', $response->message);
         }

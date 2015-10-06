@@ -32,18 +32,10 @@ class PatternsAPIClient extends APIClient
         return $patterns;
     }
 
-    public function isPatternNameTaken($name, $id = null)
+    public function isPatternExist($name, $id = null)
     {
-        $response = $this->get('pattern/name/' . $name);
-
-        $result = $this->decoder->decode($response->getBody());
-
-        $pattern = null;
-        if ($result->success)
-        {
-            $pattern = $result->pattern;
-        }
-        dd($result->pattern);
+        $response = $this->getPatternByName($name);
+        $pattern = ($response->success) ? $response->pattern : null;
 
         if (!is_null($pattern) && !is_null($id))
         {
@@ -56,30 +48,11 @@ class PatternsAPIClient extends APIClient
         return !is_null($pattern);
     }
 
-    public function isPatternExist($name, $id = null)
-    {
-        $response = $this->getPatternByName($name);
-        $pattern = ($response->success) ? $response->pattern : null;
-        
-        if (!is_null($pattern) && !is_null($id))
-        {
-
-            $compare = $this->getPattern($id);
-            
-            if ($pattern->id == $compare->id)
-            {
-                return false;
-            }
-        }
-
-        return !is_null($pattern);
-    }
-
     public function getPatternByName($name)
     {
         $response = $this->get('pattern/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             return $result->pattern;

@@ -20,6 +20,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-gradient').removeAttr('disabled');
                     $(elem + ' .enable-gradient').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -44,6 +45,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-gradient').removeAttr('disabled');
                     $(elem + ' .disable-gradient').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });

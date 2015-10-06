@@ -7,7 +7,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
         ×
     </button>
-    <h4 class='flash-title'>Alert</h4>
+
     <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
@@ -65,11 +65,9 @@
                             <div class="col-md-6 material">
                                 <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #{{ $pattern->color_1_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
                                 <option style="background-color: #{{ $pattern->color_1_hex_code }};" value="{{ $pattern->layer_1_default_color }}" selected>{{ $pattern->color_1_name }} (Default)</option>
-                                @forelse ($color as $colors)
+                                @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
-                                <p>No Colors exist.</p>
-                                @endforelse
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -95,11 +93,9 @@
                             <div class="col-md-6 material">
                                 <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #{{ $pattern->color_2_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
                                 <option style="background-color: #{{ $pattern->color_2_hex_code }};" value="{{ $pattern->layer_2_default_color }}" selected>{{ $pattern->color_2_name }} (Default)</option>
-                                @forelse ($color as $colors)
+                                @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
-                                <p>No Colors exist.</p>
-                                @endforelse
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -125,11 +121,9 @@
                             <div class="col-md-6 material">
                                 <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #{{ $pattern->color_3_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
                                 <option style="background-color: #{{ $pattern->color_3_hex_code }};" value="{{ $pattern->layer_3_default_color }}" selected>{{ $pattern->color_3_name }} (Default)</option>
-                                @forelse ($color as $colors)
+                                @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
-                                <p>No Colors exist.</p>
-                                @endforelse
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -155,11 +149,9 @@
                             <div class="col-md-6 material">
                                 <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #{{ $pattern->color_4_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
                                 <option style="background-color: #{{ $pattern->color_4_hex_code }};" value="{{ $pattern->layer_4_default_color }}" selected>{{ $pattern->color_4_name }} (Default)</option>
-                                @forelse ($color as $colors)
+                                @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @empty
-                                <p>No Colors exist.</p>
-                                @endforelse
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -194,9 +186,12 @@
 @section('custom-scripts')
 
 $(document).ready(function(){
+
+    $('select:not(:has(option))').attr('visible', false);
+
     $('.layer-default-color').change(function(){
-        var color = $('option:selected',this).data('color');
-        $(this).css('background-color',color);
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
     });
 });
 
