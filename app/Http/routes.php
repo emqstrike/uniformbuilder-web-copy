@@ -32,10 +32,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Admin page
     Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AuthenticationController@main']);
-
+    
     // DataBackup
     Route::get('databackup', ['middleware' => 'adminAccess', 'uses' => 'Administration\DataBackupController@index']);
-    Route::get('databackup', ['middleware' => 'adminAccess', 'uses' => 'Administration\DataBackupController@backup']);
+    
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);
     Route::post('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);

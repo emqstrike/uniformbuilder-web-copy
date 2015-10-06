@@ -21,21 +21,19 @@ class DataBackupController extends Controller
 
     public function index()
     {
-
+        // $users = $this->client->getUsers();
 
         return view('administration.databackup.data_backup', [
-            // viewindex
+            // 'users' => $users
         ]);
     }
 
-    public function backup()
-    {
-        $user = $this->client->getUser($id);
-        return view('administration.users.user-edit', [
-            'user' => $user
-        ]);
-    }
+  
 
-    
+
+
+
+
+
 
 }
