@@ -144,7 +144,7 @@ class UsersController extends Controller
                 Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
             }
             return redirect()->back()
-                            ->with('message', 'Successfully saved changes');  
+                            ->with('message', 'Successfully updated account information');  
         }
         else
         {
