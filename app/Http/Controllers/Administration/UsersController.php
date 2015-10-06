@@ -138,7 +138,7 @@ class UsersController extends Controller
 
         if ($response->success)
         {
-            Log::info('Success');
+            Log::info('Update account information');
             if (Session::get('userId') == $data['id'])
             {
                 Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
