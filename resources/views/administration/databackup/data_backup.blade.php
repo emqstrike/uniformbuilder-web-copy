@@ -18,10 +18,8 @@
         <span class="glyphicon glyphicon-hdd"></span>
         Data Backup/Restore
         <small class='btn btn-xs btn-success' data-toggle="modal" data-target=".backup-data">
-           
                 <span class="glyphicon glyphicon-export"></span>
-                Backup Database
-        
+                Backup Database 
         </small>
     </h1>
 </div>
@@ -42,7 +40,6 @@
       </td>
     </tr>
 
-    
     <tr>
       <td class="active">
         08/26/1992 12:00pm
@@ -72,20 +69,19 @@
     </tr>
 </table>
 
-
 <div class="modal fade restore-data" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">Restore Database</h4>
       </div>
       <div class="modal-body">
-        <p>One fine body&hellip;</p>
+        <p>Are you sure?&hellip;</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Proceed</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -102,7 +98,7 @@
         <p>Are you sure?&hellip;</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cance</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary">Proceed</button>
       </div>
     </div><!-- /.modal-content -->
