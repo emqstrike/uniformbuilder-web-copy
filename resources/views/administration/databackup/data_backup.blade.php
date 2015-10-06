@@ -69,6 +69,7 @@
     </tr>
 </table>
 
+<!-- Restore modal -->
 <div class="modal fade restore-data" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -87,6 +88,7 @@
   </div><!-- /.modal-dialog -->
 </div>
 
+<!-- Backup modal -->
 <div class="modal fade backup-data" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -104,7 +106,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
-
 
 </div>
 
