@@ -140,17 +140,11 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            if ( $updateCase == "account" )
-            {
+            if(Session::get('userId') == $data['id']){
                 Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
-                return Redirect::to('administration/account_settings/'.$userId)
-                            ->with('message', 'Successfully saved changes');
             }
-            elseif ( $updateCase == "user" )
-            {
-                return Redirect::to('administration/users')
-                            ->with('message', 'Successfully saved changes');     
-            }
+            return redirect()->back()
+            ->with('message', 'Successfully saved changes');  
         }
         else
         {
