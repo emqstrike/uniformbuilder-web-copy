@@ -30,7 +30,6 @@ select:hover {
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
                         @endif
 
-                        @for ($i = 1; $i <= 4; $i++)
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
                             <div class="col-md-6">
@@ -41,7 +40,7 @@ select:hover {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-{{ $i }}-file" name="layer_{{ $i }}_path" accept="image/*">
+                                <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
                             </div>
                         </div>
                         <div class="form-group">
@@ -105,7 +104,6 @@ select:hover {
                                 </select>
                             </div>
                         </div>
-                        @endfor
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -132,7 +130,7 @@ select:hover {
 
 $(document).ready(function(){
 
-    $('select:not(:has(option))').attr('visible', false);c
+    $('select:not(:has(option))').attr('visible', false);
 
     $('#create-pattern-form').submit(function(){
         $('.flash-alert .flash-progress').show();
