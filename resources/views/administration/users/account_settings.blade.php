@@ -132,7 +132,7 @@ $('#update-user-form').submit(function(){
     $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
     $('.flash-alert').addClass('alert-info');
     $('.flash-alert').show();
-    $('.main-content').delay(3000).fadeOut('slow');
+    $('.main-content').delay(3000).fadeOut();
 });
 @if (Session::has('message'))
     setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
