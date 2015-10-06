@@ -149,7 +149,7 @@ class UsersController extends Controller
         else
         {
             Log::info('Save or Modify User: Failed');
-            return Redirect::to('administration/users')
+            return redirect()->back()
                             ->with('message', $response->message);
         }
     }
