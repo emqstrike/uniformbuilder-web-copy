@@ -28,12 +28,10 @@ class DataBackupController extends Controller
         ]);
     }
 
-  
-
-
-
-
-
+    public function backup()
+    {
+    
+    }
 
 
 }
