@@ -30,14 +30,6 @@ class ColorsController extends Controller
         ]);
     }
 
-    public function showColors()
-    {
-        $colors = $this->client->getColors();
-        return view('administration.patterns.pattern-create', [
-            'colors' => $colors
-        ]);
-    }
-
     public function addColorForm()
     {
         return view('administration.colors.color-create');

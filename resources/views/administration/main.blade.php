@@ -66,11 +66,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/administration/account_settings/{{ Session::get('id') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
+                                    <a href="/administration/account_settings/{{ Session::get('userId') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
                                 </li>
                                 <li class="divider">
                                 <li>
-                                    <a href="/administration/account_settings/change_password/{{ Session::get('id') }}"><span class="fa fa-slack"></span> Change Password</a>
+                                    <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}"><span class="fa fa-slack"></span> Change Password</a>
                                 </li>
                                 <li class="divider">
                                 </li>
@@ -117,6 +117,9 @@
     
     window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
     window.api_host = "{{ env('API_HOST') }}";
+    @if (Session::get('isLoggedIn'))
+    window.loggedInUser = {{ Session::get('userId') }};
+    @endif
     
 </script>
 @endif

@@ -67,7 +67,6 @@ class UniformCategoriesController extends Controller
         }
 
         $response = null;
-
         if (!empty($id))
         {
             Log::info('Attempts to update UniformCategory#' . $id);

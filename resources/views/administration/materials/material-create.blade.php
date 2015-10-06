@@ -79,7 +79,7 @@
                                 <select name='factory_code' class="form-control factory-code">
                                     @foreach ($factories as $factory)
                                         @if ($color->active)
-                                        <option value='{{ $factory->code }}'>{{ $factory->code }}</option>
+                                        <option value='{{ $factory->code }}'>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
