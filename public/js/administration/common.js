@@ -15,10 +15,15 @@ $(document).ready(function(){
 
     showAlert = function(msg)
     {
-        $('.flash-alert .flash-title').text('Alert');
-        $('.flash-alert .flash-sub-title').text('Error');
+        $('.flash-alert .flash-sub-title').text('Error: ');
         $('.flash-alert .flash-message').text(msg);
         $('.flash-alert').addClass('alert-warning');
         $('.flash-alert').show();
+    };
+
+    flashAlertFadeOut = function() {
+        setTimeout(function(){
+            $('.flash-alert').fadeOut();
+        }, 3000);
     };
 });

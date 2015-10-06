@@ -7,7 +7,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
         ×
     </button>
-    <h4 class='flash-title'>Alert</h4>
+
     <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
@@ -22,7 +22,11 @@
 <div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
+        <th>Order ID</th>
         <th>Client</th>
+        <th>Director</th>
+        <th>Billing</th>
+        <th>Shipping</th>
         <th>Uniform Type</th>
         <th>Upper Uniform</th>
         <th>Lower Uniform</th>
@@ -34,14 +38,23 @@
 
     <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
         <td>
+            <strong>{{ $order->order_id }}</strong>
+        </td>
+        <td>
             <div>{{ $order->client }}</div>
+            @if ($order->director_contact_person)
+            <div class="label label-default">Director: <strong>{{ $order->director_contact_person }}</strong> @if (!is_null($order->bill_organization)) of {{ $order->bill_organization }} @endif</div><br>
+            @endif
             @if ($order->bill_contact_person)
-            <div class="label label-primary">Billing: <strong>{{ $order->bill_contact_person }}</strong> &lt;{{ $order->bill_email }}&gt;</div>
+            <div class="label label-primary">Billing: <strong>{{ $order->bill_contact_person }}</strong> &lt;{{ $order->bill_email }}&gt;</div><br>
             @endif
             @if ($order->ship_contact_person)
             <div class="label label-success">Shipping: <strong>{{ $order->ship_contact_person }}</strong></div>
             @endif
         </td>
+        <td>{{ $order->director_contact_person }}</td>
+        <td>{{ $order->bill_contact_person }}</td>
+        <td>{{ $order->ship_contact_person }}</td>
         <td>
             {{ $order->uniform_type }}
         </td>
@@ -62,6 +75,7 @@
             </select>
         </td>
         <td>
+            <button class='btn btn-default btn-xs btn-primary view-oder-items' data-order-id="{{ $order->id }}" data-client="{{ $order->client }}">View Order Items</button>
             <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                 <i class="glyphicon glyphicon-trash"></i>
                 Remove
@@ -80,6 +94,9 @@
 @endforelse
     </table>
 </div>
+
+@include('administration.orders.order-view-modal')
+
 @include('partials.confirmation-modal')
 
 @endsection
@@ -87,4 +104,11 @@
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
+@if (Session::has('message'))
+<script type="text/javascript">
+$(document).ready(function(){
+    flashAlertFadeOut();
+});
+</script>
+@endif
 @endsection

@@ -45,12 +45,63 @@ select:hover {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Default color</label>
+                            <label class="col-md-4 control-label">Default colors</label>
                             <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_{{ $i }}_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @forelse ($color as $colors)
+                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforelse
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default colors</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @foreach ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default colors</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @foreach ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
+                            <div class="col-md-6 material">
+                                <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Default colors</label>
+                            <div class="col-md-6 material">
+                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                @foreach ($color as $colors)
+                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -81,7 +132,7 @@ select:hover {
 
 $(document).ready(function(){
 
-    $('select:not(:has(option))').attr('visible',false);
+    $('select:not(:has(option))').attr('visible', false);c
 
     $('#create-pattern-form').submit(function(){
         $('.flash-alert .flash-progress').show();
@@ -94,8 +145,8 @@ $(document).ready(function(){
     });
 
     $('.layer-default-color').change(function(){
-        var color = $('option:selected',this).data('color');
-        $(this).css('background-color',color);
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
     });
 });
 

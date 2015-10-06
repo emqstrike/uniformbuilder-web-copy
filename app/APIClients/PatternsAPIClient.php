@@ -35,14 +35,13 @@ class PatternsAPIClient extends APIClient
     public function isPatternNameTaken($name, $id = null)
     {
         $response = $this->get('pattern/name/' . $name);
-
         $result = $this->decoder->decode($response->getBody());
 
         $pattern = null;
         if ($result->success)
         {
             $pattern = $result->pattern;
-        
+
         if (!is_null($pattern) && !is_null($id))
         {
             $compare = $this->getpattern($id);
@@ -58,18 +57,15 @@ class PatternsAPIClient extends APIClient
     {
         $response = $this->getPatternByName($name);
         $pattern = ($response->success) ? $response->pattern : null;
-        
+
         if (!is_null($pattern) && !is_null($id))
         {
-
-            $compare = $this->getPattern($id);
-            
+            $compare = $this->getpattern($id);
             if ($pattern->id == $compare->id)
             {
                 return false;
             }
         }
-
         return !is_null($pattern);
     }
 

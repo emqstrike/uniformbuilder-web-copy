@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Administration;
 
 use Crypt;
-use \Session;
-use \Redirect;
+use Session;
+use Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
@@ -138,13 +138,13 @@ class UsersController extends Controller
 
         if ($response->success)
         {
-            Log::info('Success');
+            Log::info('Save or Modify User: Success');
             return Redirect::to('administration/users')
                             ->with('message', 'Successfully saved changes');
         }
         else
         {
-            Log::info('Failed');
+            Log::info('Save or Modify User: Failed');
             return Redirect::to('administration/users')
                             ->with('message', $response->message);
         }

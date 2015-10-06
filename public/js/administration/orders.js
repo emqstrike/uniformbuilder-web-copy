@@ -16,6 +16,7 @@ $(document).ready(function(){
                 if (response.success) {
                     $('.flash-alert .flash-title').text(response.message);
                     $('.flash-alert').addClass('alert-info').fadeIn();
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -43,6 +44,32 @@ $(document).ready(function(){
                     $('.flash-alert').addClass('alert-info').fadeIn();
                     $('#confirmation-modal').modal('hide');
                     $('.order-' + id).fadeOut();
+                    flashAlertFadeOut();
+                }
+            }
+        });
+    });
+
+    $('.view-oder-items').on('click', function(){
+        var orderId = $(this).data('order-id');
+        var client = $(this).data('client');
+        var url = '//' + api_host + '/api/order/items/' + orderId;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'JSON',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#view-order-modal .order-items').html('');
+                    $('#view-order-modal .order-items').append('<tr><th>Name</th><th>Number</th><th>Chest</th><th>Inseam</th><th>Waist</th></tr>');
+                    $.each(response.order, function(i, item){
+                        $('#view-order-modal .order-items').append('<tr><th>' + item.name + '</th><th>' + item.number + '</th><th>' + item.size_chest + '</th><th>' + item.size_inseam + '</th><th>' + item.size_waist + '</th></tr>');
+                    });
+                    $('#view-order-modal .modal-title').text('Order Items of ' + client);
+                    $('#view-order-modal').modal('show');
                 }
             }
         });

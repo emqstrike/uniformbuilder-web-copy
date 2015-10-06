@@ -15,11 +15,12 @@ use App\APIClients\PatternsAPIClient as APIClient;
 class PatternsController extends Controller
 {
     protected $client;
+    protected $colorsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(APIClient $apiClient, ColorsAPIClient $colorsAPIClient)
     {
         $this->client = $apiClient;
-        $this->colorsClient = new ColorsAPIClient;
+        $this->colorsClient = $colorsAPIClient;
     }
 
     public function index()
@@ -74,7 +75,7 @@ class PatternsController extends Controller
         }
 
         // Does the Pattern Name exist
-        if ($this->client->isPatternExist($patternName, $patternId))
+        if ($this->client->isPatternNameTaken($patternName, $patternId))
         {
             return Redirect::to('administration/patterns')
                             ->with('message', 'Pattern name already exist');
@@ -89,7 +90,6 @@ class PatternsController extends Controller
                 $patternFile = $request->file($fieldName);
                 if (isset($patternFile))
                 {
-                    //dd($patternFile);
                     if ($patternFile->isValid())
                     {
                         $data[$fieldName] = FileUploader::upload(

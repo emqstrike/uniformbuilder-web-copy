@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-user').removeAttr('disabled');
                     $(elem + ' .enable-user').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -42,6 +43,7 @@ $(document).ready(function(){
                     $(elem + ' .enable-user').removeAttr('disabled');
                     $(elem + ' .disable-user').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                    flashAlertFadeOut();
                 }
             }
         });
@@ -58,7 +60,7 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id}),
+            data: JSON.stringify({id: id, loggedInUser: window.loggedInUser}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -67,6 +69,10 @@ $(document).ready(function(){
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
                     $('.user-' + id).fadeOut();
+                } else {
+                    $('#confirmation-modal').modal('hide');
+                    showAlert(response.message);
+                    flashAlertFadeOut();
                 }
             }
         });
