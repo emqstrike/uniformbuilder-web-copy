@@ -1,8 +1,6 @@
 <?php
 namespace App\APIClients;
 
-use Session;
-
 class UsersAPIClient extends APIClient
 {
     public function __construct()

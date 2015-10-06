@@ -139,11 +139,12 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            if(Session::get('userId') == $data['id']){
+            if (Session::get('userId') == $data['id'])
+            {
                 Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
             }
             return redirect()->back()
-            ->with('message', 'Successfully saved changes');  
+                            ->with('message', 'Successfully saved changes');  
         }
         else
         {
