@@ -134,7 +134,8 @@ $('#update-user-form').submit(function(){
     $('.flash-alert').show();
     $('.main-content').delay(3000).fadeOut('slow');
 });
-
-$('.flash-alert').delay(3000).fadeOut('slow');
+@if (Session::has('message'))
+    setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
+@endif
 
 @endsection
