@@ -89,7 +89,6 @@ class UsersController extends Controller
         $lastName = $request->input('last_name');
         $email = $request->input('email');
         $password = $request->input('password');
-        $updateCase = $request->input('update_case');
 
         $data = [
             'first_name' => $firstName,
