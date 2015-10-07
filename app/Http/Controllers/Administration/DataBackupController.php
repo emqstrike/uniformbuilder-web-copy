@@ -34,11 +34,11 @@ class DataBackupController extends Controller
 
     return view('administration.databackup.backup', [
             // 'users' => $users
-        $this->methodname()
+        $this->methodbackup()
         ]);
     }
 
-    public function methodname(){
+    public function methodbackup(){
         $dbhost = "localhost";
         $dbuser = "root";
         $dbpass = "";
