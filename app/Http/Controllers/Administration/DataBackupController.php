@@ -30,7 +30,9 @@ class DataBackupController extends Controller
 
     public function backup()
     {
-    
+    return view('administration.databackup.backup', [
+            // 'users' => $users
+        ]);
     }
 
 

@@ -35,7 +35,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // DataBackup
     Route::get('databackup', ['middleware' => 'adminAccess', 'uses' => 'Administration\DataBackupController@index']);
-    Route::get('bakcup', ['middleware' => 'adminAccess', 'uses' => 'Administration\DataBackupController@backup']);
+    Route::get('backup', ['middleware' => 'adminAccess', 'uses' => 'Administration\DataBackupController@backup']);
     
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);
