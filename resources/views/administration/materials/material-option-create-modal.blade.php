@@ -21,7 +21,9 @@
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>
                         <option value='panel'>Panel</option>
-                        <option value='shadow'>Shadow</option>
+                        <option value='static_layer'>Static Layer</option>
+                        <option value='highlights'>Highlights</option>
+                        <option value='shadows'>Shadows</option>
                     </select>
                 </div>
                 <div class="form-group">

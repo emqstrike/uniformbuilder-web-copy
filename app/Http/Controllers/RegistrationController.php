@@ -18,7 +18,7 @@ class RegistrationController extends Controller
     public function __construct(APIClient $client)
     {
         $this->client = $client;
-        $this->redirectUrl = '/uniform-builder-index';
+        $this->redirectUrl = '/index';
     }
 
     public function register(Request $request)

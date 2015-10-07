@@ -43,7 +43,7 @@ class AuthenticationController extends AdminAuthController
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
                 Log::info('Successful User Login', 'FRONT END');
-                return Redirect::to('/uniform-builder-index')
+                return Redirect::to('/index')
                                 ->with('message', 'Welcome back ' . $fullname);
             }
             else
@@ -58,7 +58,7 @@ class AuthenticationController extends AdminAuthController
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');
         }
 
-        return Redirect::to('/uniform-builder-index')
+        return Redirect::to('/index')
                         ->with('message', $response->message);
     }
 
@@ -66,7 +66,7 @@ class AuthenticationController extends AdminAuthController
     {
         $this->clearLoginSession();
         Log::info('User Logout', 'FRONT END');
-        return Redirect::to('/uniform-builder-index')
+        return Redirect::to('/index')
                         ->with('message', 'You have been logged out.');
     }
 }
