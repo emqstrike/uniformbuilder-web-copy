@@ -1876,7 +1876,7 @@ $(document).ready(function(){
                 elements = "<br />Color Stops<br /><br />";
             }
 
-            _.each(el.color_stops, function(e){
+            _.each(el.color_stops, function(e, index){
 
                 var val = e.value;
                 var col = e.color;
@@ -1953,6 +1953,11 @@ $(document).ready(function(){
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                     $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
+                    var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
+                    temp = Math.floor(temp / 10);
+                    temp = temp / 10;
+
+                    e.value = temp;
 
                 });
 
@@ -1960,6 +1965,7 @@ $(document).ready(function(){
                 ub.generate_gradient(clone, target);
 
             });
+
 
             if(el.code === "custom"){
 
@@ -2016,7 +2022,7 @@ $(document).ready(function(){
 
         };
 
-        ub.create_color_picker = function(value, color, target, gradient){
+        ub.create_color_picker = function(index, value, color, target, gradient){
 
             var element = "";
             element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";

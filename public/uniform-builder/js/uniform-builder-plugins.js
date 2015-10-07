@@ -79,6 +79,7 @@
                 var picker_panel = $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"][data-index="' +  color_stop_index + '"]');
 
                 if(picker_panel.css('display') === "none"){
+                    $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
                     picker_panel.show();
                 }
                 else {
