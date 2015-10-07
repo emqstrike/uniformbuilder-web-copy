@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/slider/slider.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/round-slider/roundslider.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 
@@ -96,10 +95,12 @@
 
     
 
-@if (!Session::get('isLoggedIn'))
+@if (Session::get('isLoggedIn'))
+    @include('partials.save-design-modal')
+    @include('partials.team-roster-modal')
+@else
     @include('partials.signup-modal')
 @endif
-@include('partials.save-design-modal')
 
 <!-- Third Party Scripts -->
 
@@ -111,9 +112,9 @@
 <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/handlebars/handlebars.min.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
@@ -121,7 +122,7 @@
 
 <script type="text/javascript">
 
-$( document ).ready( function () {
+$(document).ready(function () {
     window.ub = {}; window.ub.objects = {}; window.ub.config = {api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }}, host: 'http://{{ Request::server ("HTTP_HOST") }}', thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' };
 @if (Session::get('isLoggedIn'))
     window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
@@ -131,6 +132,9 @@ $( document ).ready( function () {
 @if (Session::has('message'))
     setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
 @endif
+    var roster_source = $('#roster-record').html();
+    var roster_template = Handlebars.compile(roster_source);
+    $('#team-roster-form .table-roster-list').append(roster_template);
 });
 
 </script>

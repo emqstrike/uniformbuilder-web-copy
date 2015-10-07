@@ -480,3 +480,15 @@ button.tether_button {
 /* End Pickers */
 
 /*# sourceMappingURL=uniform-builder.css.map */
+
+/* TEAM Roster Modal */
+#team-roster-modal .modal-dialog {
+  width: 70%;
+  height: 70%;
+  padding: 0;
+}
+
+#team-roster-modal select {
+  background: maroon;
+  color: white;
+}

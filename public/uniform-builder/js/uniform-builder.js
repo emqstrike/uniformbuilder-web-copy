@@ -2349,6 +2349,21 @@
         }
     });
 
+    $('.open-team-roster-modal').on('click', function(){
+        $('#team-roster-modal').modal('show');
+    });
+
+    $('.add-roster-record').on('click', function(){
+        var roster_source = $('#roster-record').html();
+        var roster_template = Handlebars.compile(roster_source);
+        $('#team-roster-form .table-roster-list').append(roster_template);
+    });
+
+    $('.remove-roster-record').on('click', function(){
+        console.log($(this).parents('tr')); // Fix this
+        console.log('remove');
+    });
+
     function getUniformSuggestions(categoryId) {
         $.ajax({
             url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,

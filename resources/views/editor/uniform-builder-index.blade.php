@@ -56,7 +56,7 @@
             <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
             <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
             <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
-            <a class="btn change-view" data-view="pattern"  id="view_pattern"><img src=""></a>
+            <a class="btn change-view" data-view="pattern" id="view_pattern"><img src=""></a>
 
         </div>
 
@@ -91,7 +91,7 @@
             <a href="" class="sidebar-buttons" data-filename='gradients' style="background-image: url('/images/sidebar/gradients.png');">
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='texts' style="background-image: url('/images/sidebar/texts.png');">
+            <a href="" class="sidebar-buttons open-team-roster-modal" data-filename='texts' style="background-image: url('/images/sidebar/texts.png');">
             </a>
 
             <a href="" class="sidebar-buttons" data-filename='numbers' style="background-image: url('/images/sidebar/numbers.png');">
