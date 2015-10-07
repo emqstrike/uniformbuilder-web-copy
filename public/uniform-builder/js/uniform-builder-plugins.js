@@ -75,8 +75,16 @@
 
             $('span[data-target="' + settings.target + '"][data-type="' + settings.type + '"][data-index="' +  color_stop_index + '"]').on("click", function(){
 
-                $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
-                $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"][data-index="' +  color_stop_index + '"]').show();
+                
+                var picker_panel = $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"][data-index="' +  color_stop_index + '"]');
+
+                if(picker_panel.css('display') === "none"){
+                    picker_panel.show();
+                }
+                else {
+                    $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
+                }
+
 
             });
 

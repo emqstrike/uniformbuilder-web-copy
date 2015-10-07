@@ -1962,7 +1962,7 @@ $(document).ready(function(){
                 });
 
                 clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                ub.generate_gradient(clone, target); 
+                ub.generate_gradient(clone, target);
 
             });
 
