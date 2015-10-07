@@ -22,6 +22,7 @@ div.ubColorPicker .btn span {
   width: 20px;
   height: 20px;
   display: block;
+  border: solid 1px #acacac;
 }
 div.add_delete_color_stop {
   text-align: center;
@@ -32,6 +33,14 @@ div.arrow {
 div.options_panel_section.ubColorPicker {
   border-top: 1px solid #b3b3b3;
   border-bottom: 1px solid #b3b3b3;
+}
+.color_stop_label {
+  width: 10% !important;
+  padding-left: 0px !important;
+  margin-left: -10px;
+}
+.color_stops_container {
+  text-align: center;
 }
 
 /*# sourceMappingURL=uniform-builder-plugins.css.map */

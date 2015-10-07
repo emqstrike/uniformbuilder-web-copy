@@ -476,6 +476,9 @@ button.tether_button {
 .rs-bg-color {
   background-size: cover;
 }
+.rs-seperator {
+  border: 0px solid #aaa;
+}
 /* END MISC */
 /* End Pickers */
 

@@ -1864,17 +1864,16 @@ $(document).ready(function(){
         ub.change_gradient = function( target, gradient, panel ){
 
             var el = _.find(ub.gradients.items, { code: gradient });
-
             var clone = _.clone(el);
 
             ub.generate_gradient(el,target);
-            var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
+            var cont = $("[data-group=gradients][data-option=" + target + "]").find('div.color_stops_container');
             cont.html('');
             var elements = "";
 
             if(el.color_stops.length > 0){
 
-                elements = "Color Stops: ( Will Become Color Pickers )<br /><br />";
+                elements = "<br />Color Stops<br /><br />";
 
             }
 
@@ -1995,8 +1994,6 @@ $(document).ready(function(){
 
                     ub.change_gradient( target, gradient, panel );
 
-                    
-
                 });
 
                 $('#delete_gradient_color_stop').on('click', function(){
@@ -2014,10 +2011,6 @@ $(document).ready(function(){
                         ub.change_gradient( target, gradient, panel );
     
                     }
-                    else{
-
-                    }
-                   
                    
                 });
 
@@ -2031,7 +2024,7 @@ $(document).ready(function(){
         ub.create_color_picker = function(index, value, color, target, gradient){
 
             var element = "";
-            element = "<div class='color_picker_container'><label>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
+            element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
 
             return element;
 
