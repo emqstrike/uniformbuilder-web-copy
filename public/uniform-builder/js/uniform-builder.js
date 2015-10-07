@@ -41,12 +41,14 @@
                 ub.back_view            = new PIXI.Container();
                 ub.right_view           = new PIXI.Container();
                 ub.pattern_view         = new PIXI.Container();
+                ub.gradient_preview     = new PIXI.Container();
 
                 ub.stage.addChild(ub.left_view);
                 ub.stage.addChild(ub.front_view);
                 ub.stage.addChild(ub.back_view);
                 ub.stage.addChild(ub.right_view);
                 ub.stage.addChild(ub.pattern_view);
+                ub.stage.addChild(ub.gradient_preview);
 
                 ub.updateLayersOrder = function (container) {
                     
@@ -328,19 +330,19 @@
                 {
                     name: "Top To Bottom",
                     code: "top_to_bottom",
-                    angle: 180,
+                    angle: 0,
 
                     color_stops: [
 
                         {
                            id: 1,
                            value: 0,
-                           color: '#ffffff',     
+                           color: '#535353',     
                         },
                         {
                            id: 2,
                            value: 0.9,
-                           color: '#5e5e5e',     
+                           color: '#ffffff',     
                         },
 
                     ],
@@ -1230,7 +1232,6 @@
 
             window.ub.setup_pattern_view = function(){
 
-
                 var layer_1                         = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
                 var layer_2                         = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
                 var layer_3                         = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
@@ -1342,9 +1343,9 @@
             }
 
 
-            ub.getThumbnailImage = function (view) {
+            ub.getThumbnailImage = function (view, rotate) {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
@@ -1858,11 +1859,11 @@
 
             if(el.color_stops.length > 0){
 
-                elements = "Color Stops: ( Will Become Color Pickers )<br /><br />";
+                elements = "Color Stops: <br />";
 
             }
 
-            _.each(el.color_stops, function(e, index){
+            _.each(el.color_stops, function(e){
 
                 var val = e.value;
                 var col = e.color;
@@ -1870,13 +1871,12 @@
 
                 el += "<label>" + val + "</label>";
                 elements += el;
-                elements += ub.create_color_picker(index, val, col, target, el.code); 
+                elements += ub.create_color_picker(val, col, target, el.code); 
 
             });
 
-           
-            elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
             elements += "<hr />";
+
             elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
             elements += "<hr />";
             
@@ -1884,7 +1884,6 @@
 
             cont.html(elements);
 
-            
             var stops = _.pluck(clone.color_stops, 'value');
             var stops_clone = [];
 
@@ -1894,11 +1893,8 @@
 
             });
 
-            $('.gradient_' + target).change(function(e){
-                console.log('test');
-            });
-
-             $('#' + 'gradient_slider_' + target).limitslider({
+            $('#' + 'gradient_slider_' + target).limitslider({
+                
                 values: stops_clone,
                 min: 0,
                 max: 100,
@@ -1914,13 +1910,13 @@
                 value: 0,
                 min: 0,
                 max: 360,
+                startAngle: 90,
                 change: function( event, ui ) {
                     
                     $('button#update-gradient').click();
 
                 },
              });
-
 
             $('button#update-gradient').click('click', function(e){
 
@@ -1929,29 +1925,22 @@
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                     $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
-                    var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
-                    temp = Math.floor(temp / 10);
-                    temp = temp / 10;
-
-                    e.value = temp;
 
                 });
 
-                clone.angle = $('#' + 'angle_gradient_slider_' + target).roundSlider('getValue');
-
+                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
                 ub.generate_gradient(clone, target);
 
             });
 
             $('button#update-gradient').click();
 
-
         };
 
-        ub.create_color_picker = function(index, value, color, target, gradient){
+        ub.create_color_picker = function(value, color, target, gradient){
 
             var element = "";
-            element = "<input class='gradient_" + target + "' type='text' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
+            element = "<input type='text' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
 
             return element;
 
@@ -2124,6 +2113,11 @@
 
             var rotation = gradient_obj.angle;
 
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            var dURL = canvas.toDataURL();
+
+            ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
+
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
@@ -2195,6 +2189,14 @@
             ub.updateLayersOrder(ub.back_view);
 
             ub.refresh_thumbnails();
+
+            var rad = (90 + parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()));
+            $('#' + 'gradient_slider_' + target).find('.range_container').remove();
+            $('#' + 'gradient_slider_' + target).prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css({
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+            });
 
         };
 
@@ -2343,7 +2345,7 @@
         var output = creditly.validate();
         if (output) {
           // Your validated credit card output
-          console.log(output);
+   
         }
     });
 

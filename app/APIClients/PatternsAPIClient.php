@@ -32,7 +32,7 @@ class PatternsAPIClient extends APIClient
         return $patterns;
     }
 
-    public function isPatternNameTaken($name, $id = null)
+    public function isPatternExist($name, $id = null)
     {
         $response = $this->getPatternByName($name);
         $pattern = ($response->success) ? $response->pattern : null;

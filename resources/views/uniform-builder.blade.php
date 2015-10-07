@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/slider/slider.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/round-slider/roundslider.min.css{{$asset_version}}">
-
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 
 </head>
@@ -114,7 +113,6 @@
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
