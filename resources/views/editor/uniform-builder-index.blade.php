@@ -14,22 +14,31 @@
         <div id="left-sidebar" class="pane-sidebar">
 
             <a class="btn-new sidebar-buttons"
-                data-filename="materials"
+                data-filename='materials'
                 data-status="new"
-                data-option="new">
+                data-option='new'
+                style="background-image: url('/images/sidebar/new.png');">
             </a>
 
-            <button>
-                <span class="fa fa-folder-open fa-2x open-design"></span>
-            </button>
+@if (Session::get('isLoggedIn'))
+            <a class="btn-load sidebar-buttons open-design"
+                data-filename='colors'
+                data-option='load'
+                style="background-image: url('/images/sidebar/load.png');">
+            </a>
 
-            <button>
-                <span class="fa fa-columns fa-2x compare-design"></span>
-            </button>
+            <a class="btn-compare sidebar-buttons compare-design"
+                data-filename='gradient'
+                data-option='compare'
+                style="background-image: url('/images/sidebar/compare.png');">
+            </a>
 
-            <button>
-                <span class="fa fa-save fa-2x open-save-design-modal"></span>
-            </button>
+            <a class="btn-save sidebar-buttons open-save-design-modal"
+                data-filename='patterns'
+                data-option='save'
+                style="background-image: url('/images/sidebar/save.png');">
+            </a>
+@endif
 
         </div>
 
