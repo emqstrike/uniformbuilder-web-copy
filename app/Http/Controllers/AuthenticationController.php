@@ -59,7 +59,7 @@ class AuthenticationController extends AdminAuthController
         }
 
         return Redirect::to('/index')
-                        ->with('message', $response->message);
+                        ->with('message', 'Login failed.');
     }
 
     public function logout()

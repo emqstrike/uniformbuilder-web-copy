@@ -17,9 +17,9 @@ class VerifyAdministrationAccess
      */
     public function handle($request, Closure $next)
     {
-        if (Session::has('isLoggedIn'))
+        if (Session::has('isLoggedIn') && Session::has('accountType'))
         {
-            if (Session::get('isLoggedIn'))
+            if (Session::get('isLoggedIn') && (Session::get('accountType') == 'administrator'))
             {
                 return $next($request);
             }
