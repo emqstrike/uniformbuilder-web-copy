@@ -43,6 +43,7 @@ class DataBackupController extends Controller
         $dbuser = "root";
         $dbpass = "";
         $dbname = "quickstrike";
+        $datetoday = date("g:ia \o\n l jS F Y");
         // db connect
         $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
         // file header stuff
@@ -107,7 +108,7 @@ class DataBackupController extends Controller
         // output file to browser
         header('Content-Description: File Transfer');
         header('Content-type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . $dbname . '.sql');
+        header('Content-Disposition: attachment; filename=' . $dbname . '-' . $datetoday . '.sql');
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: ' . strlen($output));
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
