@@ -1887,6 +1887,18 @@ $(document).ready(function(){
 
             });
 
+            
+            if(el.code === "custom" ){
+
+                var add_button = "<button id='add_gradient_color_stop'><i class='fa fa-plus-circle'></i></button>";
+                var delete_button = "<button id='delete_gradient_color_stop'><i class='fa fa-minus-circle'></i></button>";
+
+                var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
+                elements += "<br />";
+                elements += add_color_stop_button;                
+
+            }
+
             elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
             elements += "<hr />";
             elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
@@ -1951,9 +1963,66 @@ $(document).ready(function(){
                 });
 
                 clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                ub.generate_gradient(clone, target);
+                ub.generate_gradient(clone, target); 
 
             });
+
+            if(el.code === "custom"){
+
+                $('#add_gradient_color_stop').on('click', function(){
+
+                    var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
+                    var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
+
+                    color_obj = _.find( ub.current_material.colors, { color_code: color_code})
+
+                    var new_color_stop = {
+
+                        id: clone.color_stops.length + 1,
+                        value: 0,
+                        color: '#' + color_obj.hex_code,
+
+                    };
+
+                    clone.color_stops.push(new_color_stop);
+                    var spacing = 1 / (clone.color_stops.length - 1);
+
+                    _.each(clone.color_stops, function(color_stop, index){
+                        
+                        color_stop.value = index * spacing;
+
+                    });
+
+                    ub.change_gradient( target, gradient, panel );
+
+                    
+
+                });
+
+                $('#delete_gradient_color_stop').on('click', function(){
+
+                    if(clone.color_stops.length > 2){
+
+                        clone.color_stops.pop();
+
+                        var spacing = 1 / (clone.color_stops.length - 1);
+                        
+                        _.each(clone.color_stops, function(color_stop, index){
+                            color_stop.value = index * spacing;
+                        });
+
+                        ub.change_gradient( target, gradient, panel );
+    
+                    }
+                    else{
+
+                    }
+                   
+                   
+                });
+
+            }
+
 
             $('button#update-gradient').click();
 
