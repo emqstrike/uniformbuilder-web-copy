@@ -1,5 +1,4 @@
- $(document).ready(function(){
-
+$(document).ready(function(){
 
     /// NEW RENDERER ///
 
@@ -440,7 +439,7 @@
               {
                     name: "Diagonal 2",
                     code: "diagonal_2",
-                    angle: -45,
+                    angle: 315,
 
                     color_stops: [
                         {
@@ -1826,7 +1825,6 @@
                    var selection = $(window.ce).data('selection');
 
                    gradient_element.parent().data( "active_gradient", gradient );
-                   
                    ub.change_gradient( target, gradient, panel );
 
                    $("button[data-target-gradient='" + target +"']").html('');
@@ -1835,7 +1833,6 @@
                    var highlighter = '';
 
                    path = path + 'highlighter_1.png';
-
                    highlighter = "<img src = '" + path + "'>"
                    
                    $(this).html(highlighter);
@@ -1852,6 +1849,8 @@
 
             var clone = _.clone(el);
 
+            console.log('angle: ' + clone.angle);
+
             ub.generate_gradient(el,target);
             var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
             cont.html('');
@@ -1867,10 +1866,7 @@
 
                 var val = e.value;
                 var col = e.color;
-                var el = "";
-
-                el += "<label>" + val + "</label>";
-                elements += el;
+                
                 elements += ub.create_color_picker(index, val, col, target, el.code); 
 
             });
@@ -1883,6 +1879,11 @@
             elements += "<button style='width: 100%;' id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
 
             cont.html(elements);
+
+            $('input.gradient_' + target).ubColorPicker({
+                target: target,
+                type: 'gradient',
+            });
 
             var stops = _.pluck(clone.color_stops, 'value');
             var stops_clone = [];
@@ -1907,7 +1908,7 @@
              });
 
             $('#' + 'angle_gradient_slider_' + target).roundSlider({
-                value: 0,
+                value: el.angle,
                 min: 0,
                 max: 360,
                 startAngle: 90,
@@ -1945,7 +1946,7 @@
         ub.create_color_picker = function(index, value, color, target, gradient){
 
             var element = "";
-            element = "<input class='gradient_" + target + "' type='text' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
+            element = "<div class='color_picker_container'><label>" + (index + 1) + ".</label><input class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
 
             return element;
 
@@ -2031,7 +2032,7 @@
                 });
 
                 current_button.addClass('tether_button');
-                $('.down_arrow:not(.tether-element)').remove();
+                $('.down_arrow:not(.gra-element)').remove();
 
                 ub.tethers['modifiers'] = t;
 

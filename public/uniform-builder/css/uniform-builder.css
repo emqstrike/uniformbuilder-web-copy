@@ -215,7 +215,7 @@ div#right-main-window {
   width: 415px;
   height: 190px;
   max-width: 100%;
-  margin-left: 90px;
+  left: 105px !important;
 }
 div#popover_color_panel {
   width: 412px;

@@ -1,0 +1,33 @@
+div.ubColorPicker {
+  margin-top: 10px;
+}
+div.ubColorPicker .options_panel_section > .color_panel_container_ub_picker {
+  margin-top: 10px !important;
+}
+div.ubColorPicker .options_panel_section > .color_panel_container_ub_picker .color_element {
+  background-position: 4px -2px;
+}
+div.ubColorPicker .btn {
+  margin-left: 4px;
+  margin-top: -2px;
+  width: 26px;
+  height: 26px;
+  border: solid 1px #acacac;
+  padding: 0px;
+  border-radius: 0;
+  padding: 2px;
+}
+div.ubColorPicker .btn span {
+  
+  background-color: black;
+  width: 20px;
+  height: 20px;
+  display: block;
+  border: solid 1px #acacac;
+
+}
+div.arrow {
+  display: none;
+}
+
+/*# sourceMappingURL=uniform-builder-plugins.css.map */
