@@ -509,7 +509,25 @@ $(document).ready(function(){
                         },
 
                     ],
-                },       
+                },
+                     {
+                    name: "Custom",
+                    code: "custom",
+                    angle: 0,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#008da9',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#ffde00',
+                        },
+                    ],
+                },              
  
             ]
 
@@ -1202,7 +1220,7 @@ $(document).ready(function(){
                             var element = '<div class="gradient_element">';
                             var filename = '/images/sidebar/' + gradient_obj.code + '.png';
 
-                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #656565; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
 
                             gradient_elements = gradient_elements + element;
@@ -1849,8 +1867,6 @@ $(document).ready(function(){
 
             var clone = _.clone(el);
 
-            console.log('angle: ' + clone.angle);
-
             ub.generate_gradient(el,target);
             var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
             cont.html('');
@@ -1946,7 +1962,7 @@ $(document).ready(function(){
         ub.create_color_picker = function(index, value, color, target, gradient){
 
             var element = "";
-            element = "<div class='color_picker_container'><label>" + (index + 1) + ".</label><input class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
+            element = "<div class='color_picker_container'><label>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
 
             return element;
 

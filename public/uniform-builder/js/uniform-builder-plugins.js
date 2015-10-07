@@ -24,12 +24,11 @@
             var color_stop_index = el_parent.find('input').data('index');
             var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
 
-
             var code = target_name;
             var name = target_name.replace('_',' ').toUpperCase();
 
             var header = '';
-            var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
+            var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
             
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
@@ -49,9 +48,7 @@
 
             ////
 
-
-
-            var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span style='background-color: " + color + "'></span></div>";
+            var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
             var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
 
             el_parent.addClass('ubColorPicker');
@@ -67,21 +64,23 @@
 
             var btn = el_parent.find('.btn');
 
-            btn.on("click", function(e) {
-
-                // var pop = el_parent.find('.popup_picker');
-                // pop.show();
-
-            });
-
-            $('[data-elid="' + btn_el_id + '"]').on('click', function(){
+            $('.btn[data-elid="' + btn_el_id + '"]').on('click', function(){
 
                 var color  = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
-
                 $('button#update-gradient').click();
+                el_parent.find('span').css('background-color', color);
 
             });
+
+            $('span[data-target="' + settings.target + '"][data-type="' + settings.type + '"][data-index="' +  color_stop_index + '"]').on("click", function(){
+
+                $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
+                $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"][data-index="' +  color_stop_index + '"]').show();
+
+            });
+
+            $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
 
             /// Init Popover
 

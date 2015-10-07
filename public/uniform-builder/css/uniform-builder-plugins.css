@@ -18,16 +18,24 @@ div.ubColorPicker .btn {
   padding: 2px;
 }
 div.ubColorPicker .btn span {
-  
   background-color: black;
   width: 20px;
   height: 20px;
   display: block;
+
   border: solid 1px #acacac;
 
 }
 div.arrow {
   display: none;
 }
+
+div.options_panel_section.ubColorPicker {
+
+  border-top: 1px solid #b3b3b3;
+  border-bottom: 1px solid #b3b3b3
+
+}
+
 
 /*# sourceMappingURL=uniform-builder-plugins.css.map */
