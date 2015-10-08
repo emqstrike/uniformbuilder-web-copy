@@ -2538,6 +2538,7 @@ $(document).ready(function(){
             }
         });
         ub.current_material.team_roster = roster;
+        $('#team-roster-modal').modal('hide');
     }
 
     function getUniformSuggestions(categoryId) {
