@@ -19,6 +19,17 @@ class OrdersAPIClient extends APIClient
         return null;
     }
 
+    public function getOrderByOrderId($orderId)
+    {
+        $response = $this->get('order/orderId/' . $orderId);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->order;
+        }
+        return null;
+    }
+
     public function getOrders()
     {
         $response = $this->get('orders');
