@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">New Password</label>
                             <div class="col-md-6 bump">
-                                <input type="text" class="form-control user-new-password new-password" name="new_password">
+                                <input type="password" class="form-control user-new-password new-password" name="new_password">
                             </div>
                             <div class="col-md-1 bump">
                                 <p class="message"></p>

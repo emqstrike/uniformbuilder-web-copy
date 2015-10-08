@@ -139,13 +139,17 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Save or Modify User: Success');
-            return Redirect::to('administration/users')
-                            ->with('message', 'Successfully saved changes');
+            if (Session::get('userId') == $data['id'])
+            {
+                Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+            }
+            return redirect()->back()
+                            ->with('message', 'Successfully updated user information');  
         }
         else
         {
             Log::info('Save or Modify User: Failed');
-            return Redirect::to('administration/users')
+            return redirect()->back()
                             ->with('message', $response->message);
         }
     }

@@ -22,6 +22,7 @@
 <div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
+        <th>Order ID</th>
         <th>Client</th>
         <th>Director</th>
         <th>Billing</th>
@@ -36,6 +37,9 @@
 @forelse ($orders as $order)
 
     <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
+        <td>
+            <strong>{{ $order->order_id }}</strong>
+        </td>
         <td>
             <div>{{ $order->client }}</div>
             @if ($order->director_contact_person)

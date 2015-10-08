@@ -78,12 +78,9 @@
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_code' class="form-control factory-code">
-                                    <!-- <option value='PHP'@if($material->factory_code == 'PHP') selected="selected"@endif>PHP</option>
-                                    <option value='MZT'@if($material->factory_code == 'MZT') selected="selected"@endif>MZT</option>
-                                    <option value='BLB'@if($material->factory_code == 'BLB') selected="selected"@endif>BLB</option> -->
                                     @foreach ($factories as $factory)
                                         @if ($factory->active)
-                                            <option value='{{ $factory->code }}'@if($factory->code == '{{ $factory->code }}') selected @endif>{{ $factory->code }}</option>
+                                            <option value='{{ $factory->code }}'@if($factory->code == '{{ $factory->code }}') selected @endif>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>

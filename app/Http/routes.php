@@ -18,7 +18,12 @@ Route::get('/', function () {
 Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
-Route::get('uniform-builder-index', 'UniformBuilderController@index');
+Route::get('index', 'UniformBuilderController@showBuilder');
+
+Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
+// Display the Order
+Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
@@ -149,6 +154,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
+
 });
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
