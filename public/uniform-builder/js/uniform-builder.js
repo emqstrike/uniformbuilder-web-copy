@@ -2539,6 +2539,13 @@ $(document).ready(function(){
         });
         ub.current_material.team_roster = roster;
         $('#team-roster-modal').modal('hide');
+
+        $('.flash-alert .flash-sub-title').text('Success: ');
+        $('.flash-alert .flash-message').text('Updated team roster list');
+        $('.flash-alert').fadeIn();
+        setTimeout(function(){
+            $('.flash-alert').fadeOut();
+        }, 3000);
     }
 
     function getUniformSuggestions(categoryId) {
