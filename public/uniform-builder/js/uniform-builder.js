@@ -2464,7 +2464,7 @@ $(document).ready(function(){
                     $('.flash-alert .flash-sub-title').text('Complete:');
                     $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
                     $('.flash-alert').fadeIn();
-                    console.log('Redirect to ' + location.protocol + '://' + location.host + '/index/order/' + response.order.order_id);
+                    // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
             }
@@ -2511,8 +2511,33 @@ $(document).ready(function(){
 
     function bindRemoveButtonBehavior() {
         $('.remove-roster-record').on('click', function(){
-            $(this).parents('tr').fadeOut();
+            $(this).parents('tr').remove();
         });
+    }
+
+    $('.save-team-roster').on('click', saveTeamRoster);
+
+    function saveTeamRoster() {
+        var roster = [];
+        var i = 0;
+        $('.table-roster-list tr').each(function(i, row) {
+            // 0th element contains the headers
+            if (i > 0) {
+                var number = $(row).find('td').eq(0).find('input').val();
+                var name = $(row).find('td').eq(1).find('input').val();
+                var application = $(row).find('td').eq(2).find('select').val();
+                var size = $(row).find('td').eq(3).find('select').val();
+                if ((number != "") && (name != "")) {
+                    roster.push({
+                        number: number,
+                        name: name,
+                        application: application,
+                        size: size
+                    });
+                }
+            }
+        });
+        ub.current_material.team_roster = roster;
     }
 
     function getUniformSuggestions(categoryId) {

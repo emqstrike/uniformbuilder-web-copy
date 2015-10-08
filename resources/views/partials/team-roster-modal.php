@@ -48,7 +48,9 @@
         </td>
         <td class='row-roster-application'>
             <select class='form-control roster-application'>
-                <option value='directed to jersey'>Directed to Jersey</option>
+                <option value='direct'>Directed to Jersey</option>
+                <option value='nameplate'>Nameplate only</option>
+                <option value='nameplate-sawn'>Nameplate sawn on Jersey</option>
             </select>
         </td>
         <td class='row-roster-size'>
