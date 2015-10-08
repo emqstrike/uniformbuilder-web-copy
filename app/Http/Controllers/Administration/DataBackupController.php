@@ -110,18 +110,36 @@ class DataBackupController extends Controller
         header('Content-type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . $dbname . '-' . $datetoday . '.sql');
         
-        readfile('/foo/bar/baz.csv');
         
-        // header('Content-Transfer-Encoding: binary');
-        // header('Content-Length: ' . strlen($output));
-        // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        // header('Expires: 0');
-        // header('Pragma: public');
-        // echo $output;
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . strlen($output));
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        header('Pragma: public');
+        echo $output;
 
         // header('Content-Type: text/csv');
         // header('Content-Disposition: attachment; filename=example.csv');
         // readfile('/foo/bar/baz.csv');
+    }
+
+    public function droptable(){
+
+    $mysqli = new mysqli("localhost", "root", "", "qstrikedb");
+    $mysqli->query('SET foreign_key_checks = 0');
+    if ($result = $mysqli->query("SHOW TABLES"))
+    {
+        while($row = $result->fetch_array(MYSQLI_NUM))
+        {
+            $mysqli->query('DROP TABLE IF EXISTS '.$row[0]);
+        }
+    }
+
+    $mysqli->query('SET foreign_key_checks = 1');
+    $mysqli->close();
+
+
+
     }
 
 

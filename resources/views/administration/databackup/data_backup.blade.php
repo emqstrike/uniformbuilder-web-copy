@@ -102,7 +102,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <a href="/administration/backup">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Proceed</button>
+        <button type="button" class="btn btn-primary">Proceed</button>
         </a>
       </div>
     </div><!-- /.modal-content -->
