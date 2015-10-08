@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+    $(".modal").each(function(i) {
+        $(this).draggable({
+            handle: ".modal-dialog"  
+        });
+    });
+
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
     $.ajax({
