@@ -1,38 +1,55 @@
+$( document ).ready(function() {
 
-    $( document ).ready(function() {
+    window.util = {
+        
+        debug: true,
 
+        p: function(obj, label) {
 
-        /// Utilities
+            if (label === undefined) {
+                label = 'No Label';
+            }
 
-            window.Utilities = {};
+            if(window.Utilities.debug){
 
-            window.Utilities.debug = true;
-            window.Utilities.p = function(obj, label) {
+                console.log('--->');
+                console.log(label + ": ");
+                console.log(obj);
+                console.log('<---')
 
-                if (label === undefined) {
-                    label = 'No Label';
-                }
+            }
 
-                if(window.Utilities.debug){
-                    
-                    console.log('--->');
-                    console.log(label + ": ");
-                    console.log(obj);
-                    console.log('<---')
+        },
 
-                }
+        toTitleCase: function(str){
+    
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
-            };
+        },
 
-            window.Utilities.toTitleCase = function(str){
-            
-                return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        dataSelector: function(preamble, obj){
 
-            };
+            /// helper to compose selector when using multiple data-attributes, will print an error log
+            /// if an invalid selector is detected
 
-            window.util = window.Utilities;
+            var selector = preamble;
 
-        /// End Utilities
+            _.each(obj, function(value, key){
+ 
+                var el = "[data-" + key + "='" + value + "']";
+                selector += el;
 
+            })
 
-    }); 
+            if($(selector).length > 0) {
+                return $(selector);
+            }
+            else {
+                console.error('Invalid Selector: ' + selector);
+            }
+
+        }
+
+    };
+
+}); 
