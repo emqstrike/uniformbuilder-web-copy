@@ -109,12 +109,19 @@ class DataBackupController extends Controller
         header('Content-Description: File Transfer');
         header('Content-type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . $dbname . '-' . $datetoday . '.sql');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . strlen($output));
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Expires: 0');
-        header('Pragma: public');
-        echo $output;
+        
+        readfile('/foo/bar/baz.csv');
+        
+        // header('Content-Transfer-Encoding: binary');
+        // header('Content-Length: ' . strlen($output));
+        // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        // header('Expires: 0');
+        // header('Pragma: public');
+        // echo $output;
+
+        // header('Content-Type: text/csv');
+        // header('Content-Disposition: attachment; filename=example.csv');
+        // readfile('/foo/bar/baz.csv');
     }
 
 
