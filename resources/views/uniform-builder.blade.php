@@ -100,10 +100,13 @@
 
     
 
-@if (!Session::get('isLoggedIn'))
+@if (Session::get('isLoggedIn'))
+    @include('partials.open-design-modal')
+    @include('partials.save-design-modal')
+@else
     @include('partials.signup-modal')
 @endif
-@include('partials.save-design-modal')
+
 @include('partials.team-roster-modal')
 
 <!-- Third Party Scripts -->
