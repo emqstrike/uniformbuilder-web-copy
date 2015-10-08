@@ -53,6 +53,49 @@ div#main_container div#main-row div#left-pane-column {
 div#main_container div#main-row div#right-pane-column {
   height: 100%;
 }
+
+/* LEFT Side Bar Icons */
+#left-sidebar .new {
+  background-image: url(/images/sidebar/new.png);
+}
+#left-sidebar .load {
+  background-image: url(/images/sidebar/load.png);
+}
+#left-sidebar .compare {
+  background-image: url(/images/sidebar/compare.png);
+}
+#left-sidebar .save {
+  background-image: url(/images/sidebar/save.png);
+}
+/* END LEFT Side Bar Icons */
+
+/* RIGHT Side Bar Icons */
+#right-sidebar .materials {
+  background-image: url(/images/sidebar/materials.png);
+}
+#right-sidebar .colors {
+  background-image: url(/images/sidebar/colors.png);
+}
+#right-sidebar .patterns {
+  background-image: url(/images/sidebar/patterns.png);
+}
+#right-sidebar .gradients {
+  background-image: url(/images/sidebar/gradients.png);
+}
+#right-sidebar .texts {
+  background-image: url(/images/sidebar/texts.png);
+}
+#right-sidebar .numbers {
+  background-image: url(/images/sidebar/numbers.png);
+}
+#right-sidebar .graphics {
+  background-image: url(/images/sidebar/graphics.png);
+}
+#right-sidebar .sizes {
+  background-image: url(/images/sidebar/sizes.png);
+}
+/* END RIGHT Side Bar Icons */
+
 /* End Main Container */
 /* Generic Panes */
 div.pane div.pane-top {
@@ -483,3 +526,19 @@ button.tether_button {
 /* End Pickers */
 
 /*# sourceMappingURL=uniform-builder.css.map */
+
+/* TEAM Roster Modal */
+#team-roster-modal .modal-dialog {
+  width: 70%;
+  height: 70%;
+  padding: 0;
+}
+
+#team-roster-modal select {
+  background: maroon;
+  color: white;
+}
+
+.table-roster-list tr td {
+  padding: 5px;
+}
