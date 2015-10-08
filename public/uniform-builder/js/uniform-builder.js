@@ -764,11 +764,21 @@ $(document).ready(function(){
 
             };
 
-            ub.export_settings = function(){
-                return ub.current_material.settings;
-            }
+    // Returns the uniform customization settings made by the user
+    // @return JSONObject
+    ub.exportSettings = function() {
+        return ub.current_material.settings;
+    }
 
-            ub.setup_settings = function () {
+    // Change the uniform customization settings using the passed JSONObject parameter
+    // @param JSONObject settings
+    ub.loadSettings = function(settings) {
+        ub.current_material.settings = settings;
+        // ToDo: Redraw the canvas ~ Arthur's part here
+    };
+
+            // Initialize uniform settings
+            ub.init = function () {
         
                 var settings = ub.current_material.settings;
 
@@ -945,6 +955,7 @@ $(document).ready(function(){
                             font_style: '',
                         },
 
+
                         colors: [
                             
                             {
@@ -1086,8 +1097,9 @@ $(document).ready(function(){
 
                     };
 
-                });
+                    obj.team_roster = [];
 
+                });
 
             };
 
@@ -1241,7 +1253,7 @@ $(document).ready(function(){
 
                 /// Setup Settings obj, for persisting customizer selection
 
-                    ub.setup_settings();
+                    ub.init();
 
                 /// End Setup Settings obj
 
@@ -2338,7 +2350,7 @@ $(document).ready(function(){
 
     // Open Design
     $('.open-design').on('click', function(){
-        // To Do
+        openSavedUniformDesigns(ub.user.id);
     });
 
     // Compare Designs
@@ -2347,14 +2359,45 @@ $(document).ready(function(){
     });
 
     // Save Design Modal
-    $('.open-save-design-modal').on('click', function(){
-        $('#save-design-modal').modal('show');
+    $('.open-save-design-modal').on('click', function() {
+        if (ub.user === false) {
+            showSignUpModal();
+            return;
+        } else {
+            $('#save-design-modal').modal('show');
+        }
     });
 
-    // Save Uniform Design
-    $('.save-uniform-design').on('click', function(){
+    function openSavedUniformDesigns(userId) {
+        $.ajax({
+            url: ub.config.api_host + '/api/order/user/' + userId,
+            type: 'GET',
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function(response) {
+                if (response.success) {
+                    var orders = response.orders;
+                    $('#orders-list').html(''); // Clear the list
+                    $.each(orders, function(i, order){
+                        $('#orders-list').append('<tr>' +
+                            '<td>' + order.client + '</td>' +
+                            '<td>' + order.uniform_type + '</td>' +
+                            '<td>' + order.status + '</td>' +
+                            '<td><a href="/order/' + order.order_id + '" class="btn btn-sm btn-primary">Open</a></td>' +
+                            '</tr>');
+                    });
+                    $('#open-design-modal').modal('show');
+                }
+            }
+        });
+    }
+
+    function saveUniformDesign() {
         var data = {
             uniformType: $('#save-design-modal .uniform-type').val(),
+            builder_customizations: ub.exportSettings(),
             athletic_director: {
                 organization: $('#athletic-director .organization').val(),
                 contact: $('#athletic-director .contact').val(),
@@ -2390,49 +2433,113 @@ $(document).ready(function(){
                 expiration_date: $('#credit-card-information .expiration-month-and-year').val(),
             }
         };
-        if (ub.user !== false) {
+        if (ub.user === false) {
+            showSignUpModal();
+            return;
+        } else {
             data.user_id = ub.user.id;
             data.client = ub.user.fullname;
         }
+        $('#save-design-modal').modal('hide');
+        $('.flash-alert .flash-sub-title').text('Please wait...');
+        $('.flash-alert .flash-message').text('Saving your order');
+        $('.flash-alert').fadeIn();
+
+        var endpoint = ub.config.api_host + '/api/order';
+        if (ub.order !== false) {
+            endpoint = ub.config.api_host + '/api/order/update';
+        }
 
         $.ajax({
-            url: ub.config.api_host + '/api/order',
+            url: endpoint,
             data: JSON.stringify(data),
             type: 'POST',
-            dataType: "json",
+            dataType: 'json',
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 if (response.success) {
-                    $('#save-design-modal .save-uniform-design').fadeOut();
-                    $('#save-design-modal .close-save-uniform-design-modal').text('Finished Saving Uniform Design. Close this modal');
-                    $('#save-design-modal .close-save-uniform-design-modal').removeClass('btn-default');
-                    $('#save-design-modal .close-save-uniform-design-modal').addClass('btn-success');
+                    $('.flash-alert').fadeOut();
+                    $('.flash-alert .flash-sub-title').text('Complete:');
+                    $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
+                    $('.flash-alert').fadeIn();
+                    // Redirect to Order Page
+                    location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
             }
         });
-    });
+    }
+
+    function showSignUpModal() {
+        $('#signup-modal').modal('show');
+    }
+
+    // Save Uniform Design
+    $('.save-uniform-design').on('click', saveUniformDesign);
 
     // User Signup
-    $('.user-signup').on('click', function(){
-        $('#signup-modal').modal('show');
+    $('.user-signup').on('click', showSignUpModal);
+
+    if (ub.user !== false) {
+        // Credit Card Validator
+        var creditly = Creditly.initialize(
+              '.creditly-wrapper .expiration-month-and-year',
+              '.creditly-wrapper .credit-card-number',
+              '.creditly-wrapper .security-code',
+              '.creditly-wrapper .card-type');
+        $(".creditly-card-form .validate-cc").click(function(e) {
+            e.preventDefault();
+            var output = creditly.validate();
+            if (output) {
+              // Your validated credit card output
+       
+            }
+        });
+    }
+
+    $('.open-team-roster-modal').on('click', function(){
+        $('#team-roster-modal').modal('show');
     });
 
-    // Credit Card Validator
-    var creditly = Creditly.initialize(
-          '.creditly-wrapper .expiration-month-and-year',
-          '.creditly-wrapper .credit-card-number',
-          '.creditly-wrapper .security-code',
-          '.creditly-wrapper .card-type');
-    $(".creditly-card-form .validate-cc").click(function(e) {
-        e.preventDefault();
-        var output = creditly.validate();
-        if (output) {
-          // Your validated credit card output
-   
-        }
+    $('.add-roster-record').on('click', function(){
+        var roster_source = $('#roster-record').html();
+        var roster_template = Handlebars.compile(roster_source);
+        $('#team-roster-form .table-roster-list').append(roster_template);
+        bindRemoveButtonBehavior();
     });
+
+    function bindRemoveButtonBehavior() {
+        $('.remove-roster-record').on('click', function(){
+            $(this).parents('tr').remove();
+        });
+    }
+
+    $('.save-team-roster').on('click', saveTeamRoster);
+
+    function saveTeamRoster() {
+        var roster = [];
+        var i = 0;
+        $('.table-roster-list tr').each(function(i, row) {
+            // 0th element contains the headers
+            if (i > 0) {
+                var number = $(row).find('td').eq(0).find('input').val();
+                var name = $(row).find('td').eq(1).find('input').val();
+                var application = $(row).find('td').eq(2).find('select').val();
+                var size = $(row).find('td').eq(3).find('select').val();
+                if ((number != "") && (name != "")) {
+                    roster.push({
+                        number: number,
+                        name: name,
+                        application: application,
+                        size: size
+                    });
+                }
+            }
+        });
+        ub.current_material.team_roster = roster;
+        $('#team-roster-modal').modal('hide');
+    }
 
     function getUniformSuggestions(categoryId) {
         $.ajax({
