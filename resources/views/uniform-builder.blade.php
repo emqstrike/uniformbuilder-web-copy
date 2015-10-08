@@ -95,12 +95,11 @@
 
     
 
-@if (Session::get('isLoggedIn'))
-    @include('partials.save-design-modal')
-    @include('partials.team-roster-modal')
-@else
+@if (!Session::get('isLoggedIn'))
     @include('partials.signup-modal')
 @endif
+@include('partials.save-design-modal')
+@include('partials.team-roster-modal')
 
 <!-- Third Party Scripts -->
 
@@ -135,7 +134,12 @@ $(document).ready(function () {
     var roster_source = $('#roster-record').html();
     var roster_template = Handlebars.compile(roster_source);
     $('#team-roster-form .table-roster-list').append(roster_template);
+    $('.remove-roster-record').on('click', function(){
+        $(this).parents('tr').fadeOut();
+    });
 });
+
+
 
 </script>
 

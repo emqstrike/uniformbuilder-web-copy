@@ -2357,12 +2357,14 @@
         var roster_source = $('#roster-record').html();
         var roster_template = Handlebars.compile(roster_source);
         $('#team-roster-form .table-roster-list').append(roster_template);
+        bindRemoveButtonBehavior();
     });
 
-    $('.remove-roster-record').on('click', function(){
-        console.log($(this).parents('tr')); // Fix this
-        console.log('remove');
-    });
+    function bindRemoveButtonBehavior() {
+        $('.remove-roster-record').on('click', function(){
+            $(this).parents('tr').fadeOut();
+        });
+    }
 
     function getUniformSuggestions(categoryId) {
         $.ajax({
