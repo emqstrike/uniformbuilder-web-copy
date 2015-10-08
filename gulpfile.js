@@ -15,5 +15,6 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
 
     mix.less("uniform-builder.less",'public/uniform-builder/css/uniform-builder.css');
+    mix.less("uniform-builder-plugins.less",'public/uniform-builder/css/uniform-builder-plugins.css');
 
 });
