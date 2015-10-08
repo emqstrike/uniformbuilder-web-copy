@@ -120,6 +120,7 @@
 <script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/drop/js/drop.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/handlebars/handlebars.min.js{{$asset_version}}"></script>
