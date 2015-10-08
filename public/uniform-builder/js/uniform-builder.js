@@ -768,7 +768,8 @@ $(document).ready(function(){
                 return ub.current_material.settings;
             }
 
-            ub.setup_settings = function () {
+            // Initialize uniform settings
+            ub.init = function () {
         
                 var settings = ub.current_material.settings;
 
@@ -944,6 +945,7 @@ $(document).ready(function(){
                             font_size: '',
                             font_style: '',
                         },
+
 
                         colors: [
                             
@@ -1241,7 +1243,7 @@ $(document).ready(function(){
 
                 /// Setup Settings obj, for persisting customizer selection
 
-                    ub.setup_settings();
+                    ub.init();
 
                 /// End Setup Settings obj
 
