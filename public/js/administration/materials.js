@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+    $(".modal").each(function(i) {
+        $(this).draggable({
+            handle: ".modal-dialog"  
+        });
+    });
+
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
     $.ajax({
@@ -137,7 +143,9 @@ $(document).ready(function(){
             $('#edit-material-option-modal .is-blend').removeAttr('checked');
         }
         $('#edit-material-option-modal').modal('show');
-        $('.modal-dialog').draggable({ handle: ".modal-header" });
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
     });
 
     $('.enable-material').on('click', function(){

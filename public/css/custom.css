@@ -36,3 +36,11 @@ a:hover{
 	vertical-align: top;
 	margin-left: 5%;
 }
+
+.material-option-item:hover{
+        background-color: #fff !important;
+}
+
+table > thead > tr > th{
+    text-align: center;
+}
