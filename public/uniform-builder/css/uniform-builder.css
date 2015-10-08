@@ -538,3 +538,7 @@ button.tether_button {
   background: maroon;
   color: white;
 }
+
+.table-roster-list tr td {
+  padding: 5px;
+}
