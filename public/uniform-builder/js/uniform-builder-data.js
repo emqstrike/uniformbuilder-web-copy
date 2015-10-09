@@ -133,6 +133,30 @@ $(document).ready(function(){
     
     /// End SPORTS
 
+    /// PATTERNS 
+
+      ub.data.patterns = {};
+
+    /// End PATTERNS
+
+    /// COLORS
+
+      ub.data.colors = {};
+
+    /// End COLORS
+
+    /// MATERIALS
+
+      ub.data.materials = {};
+
+    /// End MATERIALS
+
+    /// DESIGN SETS
+
+      ub.data.design_sets = {}
+
+    /// End DESIGN SETS
+
     /// GRADIENTS
 
     ub.data.gradients = {

@@ -25,7 +25,7 @@
             
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
-                var color = _.find( ub.current_material.colors, { color_code: color_obj});
+                var color = _.find( ub.data.colors, { color_code: color_obj});
                 var element = '<div class="color_element">';
 
                 element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';

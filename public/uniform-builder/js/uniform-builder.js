@@ -54,11 +54,16 @@ $(document).ready(function(){
  
         ub.callback = function (obj, object_name) {
 
-            ub.current_material[object_name] = obj;
+            if(object_name === 'colors'){
+                ub.data.colors = obj
+            }
+            else {
+                ub.current_material[object_name] = obj;
+            }
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.current_material.colors) !== 'undefined';  
+                     typeof(ub.data.colors) !== 'undefined';  
 
             if( ok ){
 
@@ -113,7 +118,6 @@ $(document).ready(function(){
 
             $('#main_view > .picker_container').html(str_builder);
             $('#main_view > .picker_container').fadeIn();
-
 
             ub.bind_handler_design_set_picker();
 
@@ -751,7 +755,7 @@ $(document).ready(function(){
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-                            var color = _.find( ub.current_material.colors, { color_code: default_color });
+                            var color = _.find( ub.data.colors, { color_code: default_color });
 
                             current_object.tint = parseInt(color.hex_code, 16);
 
@@ -801,7 +805,7 @@ $(document).ready(function(){
 
                         _.each(obj.available_colors, function(color_obj) {
 
-                            var color = _.find( ub.current_material.colors, { color_code: color_obj});
+                            var color = _.find( ub.data.colors, { color_code: color_obj});
 
                             var element = '<div class="color_element">';
                             element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
@@ -1605,7 +1609,7 @@ $(document).ready(function(){
                     var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
 
-                    color_obj = _.find( ub.current_material.colors, { color_code: color_code})
+                    color_obj = _.find( ub.data.colors, { color_code: color_code})
 
                     var new_color_stop = {
 

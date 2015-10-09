@@ -40,20 +40,6 @@ div.navbar-header a.navbar-brand img {
 }
 /* End Navbar */
 /* Main Container */
-div#main_container {
-  height: 80%;
-  margin-top: 125px;
-}
-div#main_container div#main-row {
-  height: 100%;
-}
-div#main_container div#main-row div#left-pane-column {
-  height: 100%;
-}
-div#main_container div#main-row div#right-pane-column {
-  height: 100%;
-}
-
 /* LEFT Side Bar Icons */
 #left-sidebar .new {
   background-image: url(/images/sidebar/new.png);
@@ -68,7 +54,6 @@ div#main_container div#main-row div#right-pane-column {
   background-image: url(/images/sidebar/save.png);
 }
 /* END LEFT Side Bar Icons */
-
 /* RIGHT Side Bar Icons */
 #right-sidebar .materials {
   background-image: url(/images/sidebar/materials.png);
@@ -95,7 +80,19 @@ div#main_container div#main-row div#right-pane-column {
   background-image: url(/images/sidebar/sizes.png);
 }
 /* END RIGHT Side Bar Icons */
-
+div#main_container {
+  height: 80%;
+  margin-top: 125px;
+}
+div#main_container div#main-row {
+  height: 100%;
+}
+div#main_container div#main-row div#left-pane-column {
+  height: 100%;
+}
+div#main_container div#main-row div#right-pane-column {
+  height: 100%;
+}
 /* End Main Container */
 /* Generic Panes */
 div.pane div.pane-top {
@@ -524,21 +521,18 @@ button.tether_button {
 }
 /* END MISC */
 /* End Pickers */
-
-/*# sourceMappingURL=uniform-builder.css.map */
-
 /* TEAM Roster Modal */
 #team-roster-modal .modal-dialog {
   width: 70%;
   height: 70%;
   padding: 0;
 }
-
 #team-roster-modal select {
   background: maroon;
   color: white;
 }
-
 .table-roster-list tr td {
   padding: 5px;
 }
+
+/*# sourceMappingURL=uniform-builder.css.map */
