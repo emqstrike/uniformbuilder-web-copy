@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
+use \mysqli;
 use \PDO;
+use mysql_connect;
 use Crypt;
 use Session;
 use Redirect;
@@ -38,15 +40,15 @@ class DataBackupController extends Controller
         ]);
     }
 
-    public function restore()
-    {
+    // public function restore()
+    // {
 
-    return view('administration.databackup.restore', [
+    // return view('administration.databackup.restore', [
    
-        $this->restoredb()
+    //     $this->restoredb()
 
-        ]);
-    }
+    //     ]);
+    // }
 
     public function backupdb(){
         $dbhost = env('DB_HOST');
@@ -135,8 +137,11 @@ class DataBackupController extends Controller
 
     public function restoredb()
     {
-
-        $mysqli = new mysqli("localhost", "root", "", "qstrikedb");
+        $dbhost = env('DB_HOST');
+        $dbuser = env('DB_USERNAME');
+        $dbpass = env('DB_PASSWORD');
+        $dbname = "qstrikedb";
+        $mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
         $mysqli->query('SET foreign_key_checks = 0');
         if ($result = $mysqli->query("SHOW TABLES"))
         {
@@ -151,19 +156,12 @@ class DataBackupController extends Controller
 
          // Name of the file
         $filename = 'backup/quickstrike-6-15am o Thursday 8th October 2015.sql';
-        // MySQL host
-        $mysql_host = 'localhost';
-        // MySQL username
-        $mysql_username = 'root';
-        // MySQL password
-        $mysql_password = '';
-        // Database name
         $mysql_database = 'qstrikedb';
 
         // Connect to MySQL server
-        mysql_connect($mysql_host, $mysql_username, $mysql_password) or die('Error connecting to MySQL server: ' . mysql_error());
+        mysqli_connect($dbhost, $dbuser, $dbpass) or die('Error connecting to MySQL server: ' . mysql_error());
         // Select database
-        mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
+        mysqli_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysqli_error());
 
         // Temporary variable, used to store current query
         $templine = '';
