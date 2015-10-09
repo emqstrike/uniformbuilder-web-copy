@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Administration;
 
 use \mysqli;
 use \PDO;
-use mysql_connect;
 use Crypt;
 use Session;
 use Redirect;
@@ -40,15 +39,15 @@ class DataBackupController extends Controller
         ]);
     }
 
-    // public function restore()
-    // {
+    public function restore()
+    {
 
-    // return view('administration.databackup.restore', [
+    return view('administration.databackup.restore', [
    
-    //     $this->restoredb()
+        $this->restoredb()
 
-    //     ]);
-    // }
+        ]);
+    }
 
     public function backupdb(){
         $dbhost = env('DB_HOST');
@@ -153,7 +152,7 @@ class DataBackupController extends Controller
 
         $mysqli->query('SET foreign_key_checks = 1');
         $mysqli->close();
-
+        $asset_storage."/bootstrap/css/bootstrap.min.css"
          // Name of the file
         $filename = 'backup/quickstrike-6-15am o Thursday 8th October 2015.sql';
         $mysql_database = 'qstrikedb';
@@ -187,10 +186,10 @@ class DataBackupController extends Controller
         }
          echo "Tables imported successfully";
 
-
     }
 
 
 
-
+// {{$asset_storage}}/bootstrap/css/bootstrap.min.css
+// file = $asset_storage."/bootstrap/css/bootstrap.min.css"
 }
