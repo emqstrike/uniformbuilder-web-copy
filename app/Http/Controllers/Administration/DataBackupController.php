@@ -49,10 +49,10 @@ class DataBackupController extends Controller
     }
 
     public function backupdb(){
-        $dbhost = "localhost";
-        $dbuser = "root";
-        $dbpass = "";
-        $dbname = "quickstrike";
+        $dbhost = env('DB_HOST');
+        $dbuser = env('DB_USERNAME');
+        $dbpass = env('DB_PASSWORD');
+        $dbname = env('DB_DATABASE');
         $datetoday = date("g:ia \o\n l jS F Y");
         // db connect
         $pdo = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
