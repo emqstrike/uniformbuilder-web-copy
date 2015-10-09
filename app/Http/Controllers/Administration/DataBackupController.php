@@ -34,11 +34,11 @@ class DataBackupController extends Controller
 
     return view('administration.databackup.backup', [
             // 'users' => $users
-        $this->methodbackup()
+        $this->exportdb()
         ]);
     }
 
-    public function methodbackup(){
+    public function exportdb(){
         $dbhost = "localhost";
         $dbuser = "root";
         $dbpass = "";
@@ -123,7 +123,7 @@ class DataBackupController extends Controller
         // readfile('/foo/bar/baz.csv');
     }
 
-    public function droptable(){
+    public function dropdb(){
 
     $mysqli = new mysqli("localhost", "root", "", "qstrikedb");
     $mysqli->query('SET foreign_key_checks = 0');
@@ -138,9 +138,51 @@ class DataBackupController extends Controller
     $mysqli->query('SET foreign_key_checks = 1');
     $mysqli->close();
 
-
-
     }
+
+    public function importdb()
+    {
+
+    // Name of the file
+    $filename = 'backup/quickstrike-6-15am o Thursday 8th October 2015.sql';
+    // MySQL host
+    $mysql_host = 'localhost';
+    // MySQL username
+    $mysql_username = 'root';
+    // MySQL password
+    $mysql_password = '';
+    // Database name
+    $mysql_database = 'qstrikedb';
+
+    // Connect to MySQL server
+    mysql_connect($mysql_host, $mysql_username, $mysql_password) or die('Error connecting to MySQL server: ' . mysql_error());
+    // Select database
+    mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
+
+    // Temporary variable, used to store current query
+    $templine = '';
+    // Read in entire file
+    $lines = file($filename);
+    // Loop through each line
+    foreach ($lines as $line)
+    {
+    // Skip it if it's a comment
+    if (substr($line, 0, 2) == '--' || $line == '')
+        continue;
+
+    // Add this line to the current segment
+    $templine .= $line;
+    // If it has a semicolon at the end, it's the end of the query
+    if (substr(trim($line), -1, 1) == ';')
+    {
+        // Perform the query
+        mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+        // Reset temp variable to empty
+        $templine = '';
+    }
+    }
+     echo "Tables imported successfully";
+        }
 
 
 }
