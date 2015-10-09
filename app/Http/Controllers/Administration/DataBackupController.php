@@ -33,12 +33,22 @@ class DataBackupController extends Controller
     {
 
     return view('administration.databackup.backup', [
-            // 'users' => $users
-        $this->exportdb()
+  
+        $this->backupdb()
         ]);
     }
 
-    public function exportdb(){
+    public function restore()
+    {
+
+    return view('administration.databackup.restore', [
+   
+        $this->restoredb()
+
+        ]);
+    }
+
+    public function backupdb(){
         $dbhost = "localhost";
         $dbuser = "root";
         $dbpass = "";
@@ -123,66 +133,66 @@ class DataBackupController extends Controller
         // readfile('/foo/bar/baz.csv');
     }
 
-    public function dropdb(){
-
-    $mysqli = new mysqli("localhost", "root", "", "qstrikedb");
-    $mysqli->query('SET foreign_key_checks = 0');
-    if ($result = $mysqli->query("SHOW TABLES"))
+    public function restoredb()
     {
-        while($row = $result->fetch_array(MYSQLI_NUM))
+
+        $mysqli = new mysqli("localhost", "root", "", "qstrikedb");
+        $mysqli->query('SET foreign_key_checks = 0');
+        if ($result = $mysqli->query("SHOW TABLES"))
         {
-            $mysqli->query('DROP TABLE IF EXISTS '.$row[0]);
+            while($row = $result->fetch_array(MYSQLI_NUM))
+            {
+                $mysqli->query('DROP TABLE IF EXISTS '.$row[0]);
+            }
         }
-    }
 
-    $mysqli->query('SET foreign_key_checks = 1');
-    $mysqli->close();
+        $mysqli->query('SET foreign_key_checks = 1');
+        $mysqli->close();
 
-    }
+         // Name of the file
+        $filename = 'backup/quickstrike-6-15am o Thursday 8th October 2015.sql';
+        // MySQL host
+        $mysql_host = 'localhost';
+        // MySQL username
+        $mysql_username = 'root';
+        // MySQL password
+        $mysql_password = '';
+        // Database name
+        $mysql_database = 'qstrikedb';
 
-    public function importdb()
-    {
+        // Connect to MySQL server
+        mysql_connect($mysql_host, $mysql_username, $mysql_password) or die('Error connecting to MySQL server: ' . mysql_error());
+        // Select database
+        mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
 
-    // Name of the file
-    $filename = 'backup/quickstrike-6-15am o Thursday 8th October 2015.sql';
-    // MySQL host
-    $mysql_host = 'localhost';
-    // MySQL username
-    $mysql_username = 'root';
-    // MySQL password
-    $mysql_password = '';
-    // Database name
-    $mysql_database = 'qstrikedb';
-
-    // Connect to MySQL server
-    mysql_connect($mysql_host, $mysql_username, $mysql_password) or die('Error connecting to MySQL server: ' . mysql_error());
-    // Select database
-    mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
-
-    // Temporary variable, used to store current query
-    $templine = '';
-    // Read in entire file
-    $lines = file($filename);
-    // Loop through each line
-    foreach ($lines as $line)
-    {
-    // Skip it if it's a comment
-    if (substr($line, 0, 2) == '--' || $line == '')
-        continue;
-
-    // Add this line to the current segment
-    $templine .= $line;
-    // If it has a semicolon at the end, it's the end of the query
-    if (substr(trim($line), -1, 1) == ';')
-    {
-        // Perform the query
-        mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
-        // Reset temp variable to empty
+        // Temporary variable, used to store current query
         $templine = '';
-    }
-    }
-     echo "Tables imported successfully";
+        // Read in entire file
+        $lines = file($filename);
+        // Loop through each line
+        foreach ($lines as $line)
+        {
+            // Skip it if it's a comment
+            if (substr($line, 0, 2) == '--' || $line == '')
+                continue;
+
+            // Add this line to the current segment
+            $templine .= $line;
+            // If it has a semicolon at the end, it's the end of the query
+            if (substr(trim($line), -1, 1) == ';')
+            {
+                // Perform the query
+                mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+                // Reset temp variable to empty
+                $templine = '';
+            }
         }
+         echo "Tables imported successfully";
+
+
+    }
+
+
 
 
 }
