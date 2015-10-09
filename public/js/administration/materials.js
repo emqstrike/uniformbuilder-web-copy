@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     $(".modal").each(function(i) {
         $(this).draggable({
-            handle: ".modal-dialog"  
+            handle: ".modal-header"  
         });
     });
 

@@ -5,6 +5,22 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
+<style type="text/css">
+    .modal.modal-wide .modal-dialog {
+      width: 90%;
+    }
+    .modal-wide .modal-body {
+      overflow-y: auto;
+    }
+    #material-option-gradients {
+        width: 500px;
+        height: 500px;
+        background-position: center center;
+        background-size: cover;
+        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+        display: inline-block;
+    }
+</style>
 
 @endsection
 
@@ -395,7 +411,76 @@
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $( "#file-src" ).change(function() {
+        // console.log("changed");
+        // var src = $( "#file-src" ).val();
+        // console.log(src);
+        // $( "#material-option-preview" ).attr('src',src);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+ 
+        if (/^image/.test( files[0].type)){ // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+ 
+            reader.onloadend = function(){ // set image data as background of div
+                $("#material-option-gradients").css("background-image", "url("+this.result+")");
+                $("#material-option-placements").css("background-image", "url("+this.result+")");
+            }
+        }
+    });
+
+    (function() {
+        var canvas = this.__canvas = new fabric.Canvas('c');
+        fabric.Object.prototype.transparentCorners = false;
+        canvas.setWidth( 496 );
+        canvas.setHeight( 550 );
+
+        var box = new fabric.Rect({
+            width: canvas.width/2, height: canvas.height/2, left: 0, top: 50, angle: 0,
+            fill: 'red',
+            opacity: 0.35,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var text = new fabric.Text('Bounding box', {
+            fontSize: 11,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var bounding_box = new fabric.Group([ box, text ], {
+            left: canvas.width/2.6,
+            top: canvas.height/5
+        });
+
+        bounding_box.lockRotation = true;
+
+        canvas.add(bounding_box);
+        canvas.on({
+            'object:moving': updateCoordinates,
+            'object:scaling': updateCoordinates,
+            'object:rotating': updateCoordinates
+        });
+
+        function updateCoordinates() {
+            console.log("Scale-X: "     + bounding_box.getScaleX());
+            console.log("Scale-Y: "     + bounding_box.getScaleY());
+            console.log("Angle: "       + bounding_box.getAngle());
+            console.log("Left: "        + bounding_box.getLeft());
+            console.log("Top: "         + bounding_box.getTop());
+            console.log("Center: "      + bounding_box.getCenterPoint());
+        }
+
+})();
+
+});
+</script>
 @if (Session::has('message'))
 <script type="text/javascript">
 $(document).ready(function(){

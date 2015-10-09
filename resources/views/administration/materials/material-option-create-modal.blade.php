@@ -1,5 +1,5 @@
 <!-- Add Material Option Modal -->
-<div class="modal fade" id="add-material-option-modal" aria-hidden="false">
+<div class="modal modal-wide fade" id="add-material-option-modal" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/administration/material_option/add" role="form" method="POST" enctype="multipart/form-data">
@@ -10,7 +10,18 @@
                 <h4 class="modal-title">Add a Material Option for <span style='color: blue'></span></h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="col-md-6">
+                    <!-- <img src="" id="material-option-preview"> -->
+                    <div id="material-option-gradients">
+                        <canvas id="c"></canvas>
+                    </div>
+
+                    <div id="material-option-placements">
+                        <!-- <canvas id="c"></canvas> -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                     <label class="control-label">Name:</label>
                     <input type="text" name="name" class="form-control" />
                 </div>
@@ -37,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Material Option File:</label>
-                    <input type="file" name="material_option_path">
+                    <input type="file" name="material_option_path" id="file-src">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Layer Level:</label>
@@ -75,7 +86,7 @@
                         <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
-
+                </div>
             </div>
             <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="Save">
