@@ -1852,7 +1852,6 @@ $(document).ready(function(){
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
-
             ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
 
             var texture = PIXI.Texture.fromCanvas(canvas);
@@ -1901,20 +1900,23 @@ $(document).ready(function(){
                 ub.objects[view].gradient = temp_pattern[v];
                 ub[view].addChild(temp_pattern[v]);
 
-            });
+                ub.updateLayersOrder(ub[view]);
 
-            ub.updateLayersOrder(ub.left_view);
-            ub.updateLayersOrder(ub.right_view);
-            ub.updateLayersOrder(ub.front_view);
-            ub.updateLayersOrder(ub.back_view);
+            });
 
             ub.refresh_thumbnails();
 
-            var rad = (90 + parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()));
-            $('#' + 'gradient_slider_' + target).find('.range_container').remove();
-            $('#' + 'gradient_slider_' + target).prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', 'url(' + dURL + ')');
-            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css('background-image', 'url(' + dURL + ')');
-            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css({
+            var data_url = 'url(' + dURL + ')';
+            var $slider = $('#' + 'gradient_slider_' + target);
+            var $angle_slider = $('#' + 'angle_gradient_slider_' + target);
+           
+            $slider.find('.range_container').remove();
+            $slider.prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', data_url);
+
+            var rad = (90 + parseInt($angle_slider.find('span.edit').html()));
+            
+            $angle_slider.find('div.rs-bg-color').css({
+                'background-image': data_url,
                 "-webkit-transform": "rotate(" + rotation + "deg)",
             });
 
