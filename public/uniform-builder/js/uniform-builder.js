@@ -956,65 +956,45 @@ $(document).ready(function(){
 
         /// Utilities ///
 
-            ub.applyMaterial = function () {
+            ub.applyMaterial = function (target) {
 
                 var texture                         = new PIXI.RenderTexture(ub.renderer,ub.dimensions.width,ub.dimensions.height);
                 texture.render(ub['pattern_view']);
 
-                var pattern_front                   = new PIXI.Sprite( texture );
-                var pattern_back                    = new PIXI.Sprite( texture );
-                var pattern_left                    = new PIXI.Sprite( texture );
-                var pattern_right                   = new PIXI.Sprite( texture );
+                target = 'sleeves';
 
+                var views = ['front', 'back', 'left', 'right'];
 
-                if(typeof(ub.objects.left_view.pattern) !== 'undefined'){
-                    ub.left_view.removeChild(ub.objects.left_view.pattern);    
-                }
-                
-                pattern_left.zIndex = 1;
-                pattern_left.mask = ub.objects.left_view.shape_mask;
-                ub.objects.left_view.pattern = pattern_left;
-                ub.left_view.addChild(pattern_left);
+                var temp_pattern = {};
+                temp_pattern.front                   = new PIXI.Sprite( texture );
+                temp_pattern.back                    = new PIXI.Sprite( texture );
+                temp_pattern.left                    = new PIXI.Sprite( texture );
+                temp_pattern.right                   = new PIXI.Sprite( texture );
 
+                _.each(views, function (v){
 
-                if(typeof(ub.objects.right_view.pattern) !== 'undefined'){
-                    ub.right_view.removeChild(ub.objects.right_view.pattern);    
-                }
+                    var view = v + '_view';
 
-                ub.right_view.removeChild(ub.objects.right_view.pattern);
-                pattern_right.zIndex = 1;
-                pattern_right.mask = ub.objects.right_view.shape_mask;
-                ub.objects.right_view.pattern = pattern_right;
-                ub.right_view.addChild(pattern_right);
+                    if(typeof(ub.objects[view].pattern) !== 'undefined'){
+                        ub[view].removeChild(ub.objects[view].pattern);    
+                    }
+                    
+                    if(target === 'body'){
+                        temp_pattern[v].mask = ub.objects[view].shape_mask;
+                    }    
+                    else{
 
+                        var mask = ub.objects[view][target + "_mask"];
+                        temp_pattern[v].mask = mask;
+                        temp_pattern[v].zIndex = mask.zIndex;
+                    }
 
-                if(typeof(ub.objects.front_view.pattern) !== 'undefined'){
-                    ub.front_view.removeChild(ub.objects.front_view.pattern);    
-                }
+                    ub.objects[view].pattern = temp_pattern[v];
+                    ub[view].addChild(temp_pattern[v]);
 
-                ub.front_view.removeChild(ub.objects.front_view.pattern);
-                pattern_front.zIndex = 1;
-                pattern_front.mask = ub.objects.front_view.shape_mask;
-                ub.objects.front_view.pattern = pattern_front;
-                ub.front_view.addChild(pattern_front);
+                    ub.updateLayersOrder(ub[view]);
 
-                
-                if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
-                    ub.back_view.removeChild(ub.objects.back_view.pattern);    
-                }
-
-                ub.back_view.removeChild(ub.objects.back_view.pattern);
-                pattern_back.zIndex = 1;
-                pattern_back.mask = ub.objects.back_view.shape_mask;
-                ub.objects.back_view.pattern = pattern_back;
-                ub.back_view.addChild(pattern_back);
-
-
-                ub.updateLayersOrder(ub.left_view);
-                ub.updateLayersOrder(ub.right_view);
-                ub.updateLayersOrder(ub.front_view);
-                ub.updateLayersOrder(ub.back_view);
-
+                });
 
             }
 
@@ -1446,7 +1426,7 @@ $(document).ready(function(){
 
                     ub.objects.pattern_view[obj].tint   = color_value;
 
-                    ub.applyMaterial();
+                    ub.applyMaterial(panel);
 
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
