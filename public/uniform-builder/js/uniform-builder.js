@@ -950,30 +950,25 @@ $(document).ready(function(){
 
             }
 
-
         /// End Render Different Views ///
-
 
         /// Utilities ///
 
             ub.applyMaterial = function (target) {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer,ub.dimensions.width,ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer,ub.dimensions.width,ub.dimensions.height);
                 texture.render(ub['pattern_view']);
 
-                target = 'sleeves';
+                target = 'body';
 
                 var views = ['front', 'back', 'left', 'right'];
-
                 var temp_pattern = {};
-                temp_pattern.front                   = new PIXI.Sprite( texture );
-                temp_pattern.back                    = new PIXI.Sprite( texture );
-                temp_pattern.left                    = new PIXI.Sprite( texture );
-                temp_pattern.right                   = new PIXI.Sprite( texture );
-
+                
                 _.each(views, function (v){
 
                     var view = v + '_view';
+
+                    temp_pattern[v] = new PIXI.Sprite( texture );
 
                     if(typeof(ub.objects[view].pattern) !== 'undefined'){
                         ub[view].removeChild(ub.objects[view].pattern);    
@@ -983,7 +978,6 @@ $(document).ready(function(){
                         temp_pattern[v].mask = ub.objects[view].shape_mask;
                     }    
                     else{
-
                         var mask = ub.objects[view][target + "_mask"];
                         temp_pattern[v].mask = mask;
                         temp_pattern[v].zIndex = mask.zIndex;
@@ -1766,7 +1760,7 @@ $(document).ready(function(){
         ub.generate_gradient = function (gradient_obj, target) {
 
             var uniform_type = ub.current_material.material.type;
-            var bounds;  
+            var bounds;
             var guides;
 
             if( uniform_type === "upper" ) {
@@ -1837,11 +1831,6 @@ $(document).ready(function(){
             var texture = PIXI.Texture.fromCanvas(canvas);
             var temp_pattern = {};
 
-            temp_pattern.front                   = new PIXI.Sprite( texture );
-            temp_pattern.back                    = new PIXI.Sprite( texture );
-            temp_pattern.left                    = new PIXI.Sprite( texture );
-            temp_pattern.right                   = new PIXI.Sprite( texture );
-
             var gradient_layer = new PIXI.Sprite( texture );
             gradient_layer.zIndex = 1;
 
@@ -1858,6 +1847,8 @@ $(document).ready(function(){
             _.each(views, function (v) {
 
                 var view = v + '_view';
+
+                temp_pattern[v] = new PIXI.Sprite( texture );
 
                 if(typeof(ub.objects[view].gradient) !== 'undefined'){
                     ub[view].removeChild(ub.objects[view].gradient);    
