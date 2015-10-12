@@ -149,8 +149,6 @@ $(document).ready(function () {
     });
 });
 
-
-
 </script>
 
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>

@@ -381,7 +381,6 @@ $(document).ready(function(){
                     shape_mask.zIndex                       = 1;
            
                     ub[view_name].addChild(shape);
-
                     ub.updateLayersOrder(ub[view_name]);
 
                 });
@@ -771,10 +770,14 @@ $(document).ready(function(){
                                 modifier_label = name.substr(0, name.length - 6);
 
                             } 
+
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
                             
                         }
 
+
+                        // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
+                        // dummy layer will be used as a mask for patterns and gradients
 
                         if (obj.setting_type === 'shape'){
 
@@ -795,7 +798,6 @@ $(document).ready(function(){
 
                         ub[view + '_view'].addChild(current_object);
 
-
                     });
 
                     ub.updateLayersOrder(ub[view + '_view']);
@@ -805,7 +807,6 @@ $(document).ready(function(){
                 /// Setup Modifiers Colors
 
                     var modifiers = '';
-
                     var sorted = _.sortBy(ub.current_material.options_distinct_names, function(o) { return o.layer_order; })
 
                     _.each(sorted, function(obj) {
@@ -829,11 +830,10 @@ $(document).ready(function(){
                         _.each(obj.available_colors, function(color_obj) {
 
                             var color = _.find( ub.data.colors, { color_code: color_obj});
-
                             var element = '<div class="color_element">';
+
                             element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
-
                             color_elements = color_elements + element;
 
                         });
@@ -959,6 +959,7 @@ $(document).ready(function(){
                 var texture = new PIXI.RenderTexture(ub.renderer,ub.dimensions.width,ub.dimensions.height);
                 texture.render(ub['pattern_view']);
 
+                /// Placeholder, change this to target
                 target = 'body';
 
                 var views = ['front', 'back', 'left', 'right'];
