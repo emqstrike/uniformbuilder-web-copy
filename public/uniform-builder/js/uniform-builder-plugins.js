@@ -61,7 +61,7 @@
 
                 var color  = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
-                $('button#update-gradient').click();
+                $("button#update-gradient-" + settings.target).click();
                 el_parent.find('span').css('background-color', color);
 
             });

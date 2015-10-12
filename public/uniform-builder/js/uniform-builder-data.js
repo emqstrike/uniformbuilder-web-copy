@@ -45,6 +45,30 @@ $(document).ready(function(){
     ub.current_material.settings = {};
 
     ub.data = {};
+
+    /// DESIGN SETS
+
+      ub.data.design_sets = {}
+
+    /// End DESIGN SETS
+
+    /// MATERIALS
+
+      ub.data.materials = {};
+
+    /// End MATERIALS
+
+    /// PATTERNS 
+
+      ub.data.patterns = {};
+
+    /// End PATTERNS
+
+    /// COLORS
+
+      ub.data.colors = {};
+
+    /// End COLORS
     
     /// SPORTS
 
@@ -132,30 +156,6 @@ $(document).ready(function(){
     ];
     
     /// End SPORTS
-
-    /// PATTERNS 
-
-      ub.data.patterns = {};
-
-    /// End PATTERNS
-
-    /// COLORS
-
-      ub.data.colors = {};
-
-    /// End COLORS
-
-    /// MATERIALS
-
-      ub.data.materials = {};
-
-    /// End MATERIALS
-
-    /// DESIGN SETS
-
-      ub.data.design_sets = {}
-
-    /// End DESIGN SETS
 
     /// GRADIENTS
 

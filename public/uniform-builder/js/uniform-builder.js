@@ -15,10 +15,12 @@ $(document).ready(function(){
             ub.current_material.id = window.ub.config.material_id;
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
@@ -27,9 +29,6 @@ $(document).ready(function(){
 
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
-
-            ub.patterns_url = window.ub.config.api_host + '/api/patterns/';
-            ub.loader(ub.patterns_url, 'patterns', ub.load_patterns);
 
             /// Activate Views
 
@@ -54,16 +53,18 @@ $(document).ready(function(){
  
         ub.callback = function (obj, object_name) {
 
-            if(object_name === 'colors'){
-                ub.data.colors = obj
+            if(object_name === 'colors' || object_name === 'patterns'){
+                ub.data[object_name] = obj
             }
             else {
+
                 ub.current_material[object_name] = obj;
             }
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
-                     typeof(ub.data.colors) !== 'undefined';  
+                     typeof(ub.data.colors) !== 'undefined' &&
+                     typeof(ub.data.patterns) !== 'undefined';  
 
             if( ok ){
 
@@ -726,6 +727,8 @@ $(document).ready(function(){
 
             };
 
+            
+
             window.ub.setup_material_options = function () {
 
                 ub.current_material.options_distinct_names = {};
@@ -735,15 +738,17 @@ $(document).ready(function(){
                     var material_options = _.where(ub.current_material.material.options, {perspective: view});
                     var current_view_objects = ub.objects[view + '_view']; 
 
-                    _.each(material_options, function(obj) {
+                    _.each(material_options, function(obj, index) {
 
                         var name = obj.name.toLowerCase().replace(' ', '_');
 
                         current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
                         var current_object = current_view_objects[name];
 
-                        current_object.zIndex = obj.layer_level * ( -1 );
-
+                        current_object.name = name;
+                        current_object.zIndex = ( obj.layer_level * 2 ) * ( -1 );
+                        
+                        
                         if( obj.setting_type === 'highlights' ) {
 
                             current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
@@ -766,12 +771,30 @@ $(document).ready(function(){
                                 modifier_label = name.substr(0, name.length - 6);
 
                             } 
-
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
-                        
+                            
+                        }
+
+
+                        if (obj.setting_type === 'shape'){
+
+                            var mask =  ub.pixi.new_sprite( obj.material_option_path );
+                            mask.name = name + '_mask';
+                            mask.zIndex = current_object.zIndex + (-1);
+                            mask.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                            var mask_distinct = _.clone(ub.current_material.options_distinct_names[name]);
+                            mask_distinct.setting_type = 'static_layer';
+
+                            ub.current_material.options_distinct_names[mask.name] = mask_distinct;
+                            current_view_objects[mask.name] = mask;
+
+                            ub[view + '_view'].addChild(mask);
+
                         }
 
                         ub[view + '_view'].addChild(current_object);
+
 
                     });
 
@@ -863,7 +886,7 @@ $(document).ready(function(){
                         });
 
                         str_builder = str_builder + gradient_elements;
-                        str_builder = str_builder + '</div><div class="color_stops_container">test</div></div>';
+                        str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
                         modifiers = modifiers + str_builder;
 
                     });
@@ -873,6 +896,7 @@ $(document).ready(function(){
                     ub.bind_left_sidebar_tab_handlers();
 
                 /// End Setup Modifiers Gradients
+
 
                 /// Setup Settings obj, for persisting customizer selection
 
@@ -1419,7 +1443,6 @@ $(document).ready(function(){
 
                     }
 
-
                     ub.objects.pattern_view[obj].tint   = color_value;
 
                     ub.applyMaterial();
@@ -1499,11 +1522,13 @@ $(document).ready(function(){
         ub.change_gradient = function( target, gradient, panel ){
 
             var el = _.find(ub.data.gradients.items, { code: gradient });
+            var clone = {};
+            console.log(clone);
             var clone = _.clone(el);
 
-            ub.generate_gradient(el,target);
             var cont = $("[data-group=gradients][data-option=" + target + "]").find('div.color_stops_container');
             cont.html('');
+
             var elements = "";
 
             if(el.color_stops.length > 0){
@@ -1538,7 +1563,7 @@ $(document).ready(function(){
             elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
             elements += "<hr />";
             
-            elements += "<button style='width: 100%;' id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+            elements += "<button style='width: 100%;' id='update-gradient-" + target + "' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
 
             cont.html(elements);
 
@@ -1564,7 +1589,7 @@ $(document).ready(function(){
                 gap: 0,
                 change: function( event, ui ) {
 
-                    $('button#update-gradient').click();
+                    $("button#update-gradient-" + target).click();
 
                 },
              });
@@ -1576,17 +1601,17 @@ $(document).ready(function(){
                 startAngle: 90,
                 change: function( event, ui ) {
                     
-                    $('button#update-gradient').click();
+                    $("button#update-gradient-" + target).click();
 
                 },
              });
 
-            $('button#update-gradient').click('click', function(e){
+            $("button#update-gradient-" + target).click('click', function(e){
 
                 _.each(clone.color_stops, function(e, index) {
 
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                    $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
@@ -1652,7 +1677,7 @@ $(document).ready(function(){
 
             }
 
-            $('button#update-gradient').click();
+            $("button#update-gradient-" + target + "").click();
 
         };
 
@@ -1751,6 +1776,7 @@ $(document).ready(function(){
 
             });
 
+            $("div[data-group='patterns']").hide();
             $("div[data-group='gradients']").hide();
             $("div[data-option='body']").fadeIn('fast');
 
@@ -1833,6 +1859,7 @@ $(document).ready(function(){
             var rotation = gradient_obj.angle;
 
             ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            
             var dURL = canvas.toDataURL();
 
             ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
@@ -1881,14 +1908,24 @@ $(document).ready(function(){
             ub.objects.right_view.gradient = pattern_right;
             ub.right_view.addChild(pattern_right);
 
-
             if(typeof(ub.objects.front_view.gradient) !== 'undefined'){
                 ub.front_view.removeChild(ub.objects.front_view.gradient);    
             }
 
             ub.front_view.removeChild(ub.objects.front_view.gradient);
             pattern_front.zIndex = 1;
-            pattern_front.mask = ub.objects.front_view.shape_mask;
+
+            if(target === 'body'){
+                pattern_front.mask = ub.objects.front_view.shape_mask;
+            }    
+            else{
+
+                var mask = ub.objects.front_view[target + "_mask"];
+                pattern_front.mask = mask;
+                pattern_front.zIndex = mask.zIndex;
+
+            }
+            
             ub.objects.front_view.gradient = pattern_front;
             ub.front_view.addChild(pattern_front);
 
