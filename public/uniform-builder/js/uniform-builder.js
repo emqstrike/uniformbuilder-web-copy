@@ -1414,26 +1414,27 @@ $(document).ready(function(){
 
                     if( typeof( ub.objects.left_view['pattern'] ) !== 'undefined' ){
 
-                        ub.objects.left_view['pattern'].visible     = false;
-                        ub.objects.right_view['pattern'].visible    = false;
                         ub.objects.front_view['pattern'].visible    = false;
                         ub.objects.back_view['pattern'].visible     = false;
+                        ub.objects.left_view['pattern'].visible     = false;
+                        ub.objects.right_view['pattern'].visible    = false;
 
                     }
 
                     if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
 
-                        ub.objects.left_view['gradient'].visible     = false;
-                        ub.objects.right_view['gradient'].visible    = false;
                         ub.objects.front_view['gradient'].visible    = false;
                         ub.objects.back_view['gradient'].visible     = false;
-                        
+                        ub.objects.left_view['gradient'].visible     = false;
+                        ub.objects.right_view['gradient'].visible    = false;
+                         
                     }
                     
-                    ub.objects.left_view[obj].tint                  = color_value;
-                    ub.objects.right_view[obj].tint                 = color_value;
                     ub.objects.front_view[obj].tint                 = color_value;
                     ub.objects.back_view[obj].tint                  = color_value;
+                    ub.objects.left_view[obj].tint                  = color_value;
+                    ub.objects.right_view[obj].tint                 = color_value;
+                   
   
                 } else if (panel == 'patterns') {
 
@@ -1447,10 +1448,11 @@ $(document).ready(function(){
 
                     ub.applyMaterial();
 
-                    ub.objects.left_view['pattern'].visible = true;
-                    ub.objects.right_view['pattern'].visible = true;
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
+                    ub.objects.left_view['pattern'].visible = true;
+                    ub.objects.right_view['pattern'].visible = true;
+                  
 
                 } else {
 
@@ -1523,7 +1525,6 @@ $(document).ready(function(){
 
             var el = _.find(ub.data.gradients.items, { code: gradient });
             var clone = {};
-            console.log(clone);
             var clone = _.clone(el);
 
             var cont = $("[data-group=gradients][data-option=" + target + "]").find('div.color_stops_container');
@@ -1790,32 +1791,17 @@ $(document).ready(function(){
 
             if( uniform_type === "upper" ) {
 
-                guides = {
-
-                    x1: 23,
-                    y1: 67,
-                    x2: 466,
-                    y2: 464,
-
-                }
+                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
             }
             else {
 
-                guides = {
-
-                    x1: 148,
-                    y1: 58,
-                    x2: 347,
-                    y2: 488,
-
-                }
+                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
 
             }
 
             var gradient_width  = 496;
             var gradient_height = 550;
-
             var canvas = document.createElement('canvas');
 
             canvas.width = ub.dimensions.width;
@@ -1863,7 +1849,6 @@ $(document).ready(function(){
             var dURL = canvas.toDataURL();
 
             ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
-
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
@@ -1871,11 +1856,12 @@ $(document).ready(function(){
             ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
 
             var texture = PIXI.Texture.fromCanvas(canvas);
+            var temp_pattern = {};
 
-            var pattern_front                   = new PIXI.Sprite( texture );
-            var pattern_back                    = new PIXI.Sprite( texture );
-            var pattern_left                    = new PIXI.Sprite( texture );
-            var pattern_right                   = new PIXI.Sprite( texture );
+            temp_pattern.front                   = new PIXI.Sprite( texture );
+            temp_pattern.back                    = new PIXI.Sprite( texture );
+            temp_pattern.left                    = new PIXI.Sprite( texture );
+            temp_pattern.right                   = new PIXI.Sprite( texture );
 
             var gradient_layer = new PIXI.Sprite( texture );
             gradient_layer.zIndex = 1;
@@ -1888,56 +1874,34 @@ $(document).ready(function(){
             ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
             ub.updateLayersOrder(ub.pattern_view);
 
-            if(typeof(ub.objects.left_view.gradient) !== 'undefined'){
-                ub.left_view.removeChild(ub.objects.left_view.gradient);    
-            }
-            
-            pattern_left.zIndex = 1;
-            pattern_left.mask = ub.objects.left_view.shape_mask;
-            ub.objects.left_view.gradient = pattern_left;
-            ub.left_view.addChild(pattern_left);
+            var views = ['front', 'back', 'left', 'right'];
 
+            _.each(views, function (v) {
 
-            if(typeof(ub.objects.right_view.pattern) !== 'undefined'){
-                ub.right_view.removeChild(ub.objects.right_view.gradient);    
-            }
+                var view = v + '_view';
 
-            ub.right_view.removeChild(ub.objects.right_view.gradient);
-            pattern_right.zIndex = 1;
-            pattern_right.mask = ub.objects.right_view.shape_mask;
-            ub.objects.right_view.gradient = pattern_right;
-            ub.right_view.addChild(pattern_right);
+                if(typeof(ub.objects[view].gradient) !== 'undefined'){
+                    ub[view].removeChild(ub.objects[view].gradient);    
+                }
 
-            if(typeof(ub.objects.front_view.gradient) !== 'undefined'){
-                ub.front_view.removeChild(ub.objects.front_view.gradient);    
-            }
+                ub[view].removeChild(ub.objects[view].gradient);
+                temp_pattern[v].zIndex = 1;
 
-            ub.front_view.removeChild(ub.objects.front_view.gradient);
-            pattern_front.zIndex = 1;
+                if(target === 'body'){
+                    temp_pattern[v].mask = ub.objects[view].shape_mask;
+                }    
+                else{
 
-            if(target === 'body'){
-                pattern_front.mask = ub.objects.front_view.shape_mask;
-            }    
-            else{
+                    var mask = ub.objects[view][target + "_mask"];
+                    temp_pattern[v].mask = mask;
+                    temp_pattern[v].zIndex = mask.zIndex;
 
-                var mask = ub.objects.front_view[target + "_mask"];
-                pattern_front.mask = mask;
-                pattern_front.zIndex = mask.zIndex;
+                }
 
-            }
-            
-            ub.objects.front_view.gradient = pattern_front;
-            ub.front_view.addChild(pattern_front);
+                ub.objects[view].gradient = temp_pattern[v];
+                ub[view].addChild(temp_pattern[v]);
 
-            if(typeof(ub.objects.back_view.pattern) !== 'undefined'){
-                ub.back_view.removeChild(ub.objects.back_view.gradient);    
-            }
-
-            ub.back_view.removeChild(ub.objects.back_view.gradient);
-            pattern_back.zIndex = 1;
-            pattern_back.mask = ub.objects.back_view.shape_mask;
-            ub.objects.back_view.gradient = pattern_back;
-            ub.back_view.addChild(pattern_back);
+            });
 
             ub.updateLayersOrder(ub.left_view);
             ub.updateLayersOrder(ub.right_view);
