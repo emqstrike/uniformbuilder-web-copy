@@ -48,8 +48,111 @@ $(document).ready(function(){
 
     ub.data.design_sets = {}
     ub.data.materials = {};
-    ub.data.patterns = {};
     ub.data.colors = {};
+
+    ub.data.patterns = {
+      
+        items: [
+
+            /// Camo 
+            {
+                
+                name: 'Camouflage',
+                code: 'camouflage',
+                icon: '/images/sidebar/camo.png',
+
+                layers: [
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 1,
+                        filename: '1.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 2,
+                        filename: '2.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 3,
+                        filename: '3.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 4,
+                        filename: '4.png'
+                    },
+                ],
+            },
+         
+            /// Digital Camo
+            {
+                
+                name: 'Digital Camouflage',
+                code: 'digital_camouflage',
+                icon: '/images/sidebar/digital_camo.png',
+
+                layers: [
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 1,
+                        filename: '1.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 2,
+                        filename: '2.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 3,
+                        filename: '3.png'
+                    },
+                ],
+            },
+
+            /// Halftone
+            {
+                
+                name: 'Halftone',
+                code: 'halftone',
+                icon: '/images/sidebar/halftone.png',
+
+                layers: [
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 1,
+                        filename: '1.png'
+                    },
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 2,
+                        filename: '2.png'
+                    },
+                ],
+            },
+
+            /// Tiger
+            {
+                
+                name: 'Tiger',
+                code: 'tiger',
+                icon: '/images/sidebar/tiger.png',
+
+                layers: [
+                    {
+                        default_color: '#ffffff',
+                        layer_number: 1,
+                        filename: '1.png'
+                    },
+                ],
+                
+            },
+
+
+      ],
+
+    };
 
     ub.data.sports = [
         {

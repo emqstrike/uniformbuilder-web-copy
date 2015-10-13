@@ -80,17 +80,17 @@ div.navbar-header a.navbar-brand img {
   background-image: url(/images/sidebar/sizes.png);
 }
 /* END RIGHT Side Bar Icons */
-div#main_container {
+#main_container {
   height: 80%;
   margin-top: 125px;
 }
-div#main_container div#main-row {
+#main_container div#main-row {
   height: 100%;
 }
-div#main_container div#main-row div#left-pane-column {
+#main_container div#main-row div#left-pane-column {
   height: 100%;
 }
-div#main_container div#main-row div#right-pane-column {
+#main_container div#main-row div#right-pane-column {
   height: 100%;
 }
 /* End Main Container */

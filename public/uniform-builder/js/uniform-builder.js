@@ -570,7 +570,6 @@ f
                         },
 
                         colors: [
-                            
                             {
                                 color: '',
                                 opacity: '',
@@ -621,7 +620,6 @@ f
                             ],
 
                         },    
-
                         pattern: {
                             pattern_id: '',
                             scale: 0,
