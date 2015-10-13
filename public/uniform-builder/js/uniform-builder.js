@@ -1865,7 +1865,7 @@ $(document).ready(function () {
 
                 temp_pattern[v] = new PIXI.Sprite( texture );
 
-                if ( typeof(ub.objects[view].gradient) !== 'undefined' ) {
+                if (typeof(ub.objects[view].gradient) !== 'undefined') {
                     ub[view].removeChild(ub.objects[view].gradient);    
                 }
 
