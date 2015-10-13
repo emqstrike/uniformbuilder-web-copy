@@ -41,7 +41,7 @@ $(document).ready(function () {
 
         ub.updateLayersOrder = function (container) {
                 
-            container.children.sort(function(a,b) {
+            container.children.sort(function (a,b) {
                 a.zIndex = a.zIndex || 0;
                 b.zIndex = b.zIndex || 0;
                 return b.zIndex - a.zIndex
@@ -85,7 +85,7 @@ $(document).ready(function () {
                 crossDomain: true,
                 contentType: 'application/json',
             
-                success: function(response){
+                success: function (response){
 
                     cb(response[object_name], object_name);
             
@@ -106,7 +106,7 @@ $(document).ready(function () {
 
             var genders = ['Men', 'Women', 'Youth'];
 
-            _.each(genders, function(obj, index) {
+            _.each(genders, function (obj, index) {
 
                 var filename = window.ub.config.thumbnails_path + obj.toLowerCase() + '.png';
                 
@@ -125,7 +125,7 @@ $(document).ready(function () {
         };
 
         
-        ub.display_categories = function(gender){
+        ub.display_categories = function (gender){
 
             $('#arrow_design_sets').remove();
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
 
             elements = header;
 
-            _.each(active_sport_categories, function(category, index){
+            _.each(active_sport_categories, function (category, index){
 
                 var filename    = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
                 var element     = '<div class="sports_categories" data-gender="'+ gender + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.name + '</span></div>';
@@ -196,7 +196,7 @@ $(document).ready(function () {
 
             }
 
-            _.each(design_sets, function(obj) {
+            _.each(design_sets, function (obj) {
 
                 var filename = obj.thumbnail_path;
                 var element = '<div class="style_entry" data-option="' + type + '" data-picker-type="design_sets" data-id = "' + obj.id + '" data-name="' + obj.name + '" style="background-image:url(' + filename +');">' + '<span class="style_label">' + obj.name + '</span></div>';
@@ -249,7 +249,7 @@ $(document).ready(function () {
 
         };
 
-        ub.load_design_sets = function(obj, object_name){
+        ub.load_design_sets = function (obj, object_name){
 
             ub.design_sets = {};
             ub.design_sets = obj;
@@ -258,14 +258,14 @@ $(document).ready(function () {
 
         }
 
-        ub.load_materials = function(obj, object_name){
+        ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
             ub.materials = obj;
 
         }
 
-        ub.load_patterns = function(obj, object_name){
+        ub.load_patterns = function (obj, object_name){
 
             ub.patterns = {};
             ub.patterns = obj;
@@ -285,7 +285,7 @@ $(document).ready(function () {
             material = ub.current_material.material;
             material.options = ub.current_material.materials_options;
 
-            _.each(ub.views, function(view) {
+            _.each(ub.views, function (view) {
 
                 var v = view;
 
@@ -365,7 +365,7 @@ $(document).ready(function () {
 
             window.ub.setup_views = function () {
 
-                _.each(ub.views, function(view) {
+                _.each(ub.views, function (view) {
 
                     var view_name = view + '_view';
 
@@ -400,7 +400,7 @@ $(document).ready(function () {
 
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
-    ub.loadSettings = function(settings) {
+    ub.loadSettings = function (settings) {
         ub.current_material.settings = settings;
         // ToDo: Redraw the canvas ~ Arthur's part here
     };
@@ -445,7 +445,7 @@ $(document).ready(function () {
 
                 settings[type].material_id = current_material.id;
                 
-                _.each(material_options, function(material_option){
+                _.each(material_options, function (material_option){
 
                     var name = '';
                     var obj  = '';
@@ -748,12 +748,12 @@ $(document).ready(function () {
 
                 ub.current_material.options_distinct_names = {};
 
-                _.each(ub.views, function(view) {
+                _.each(ub.views, function (view) {
 
                     var material_options = _.where(ub.current_material.material.options, {perspective: view});
                     var current_view_objects = ub.objects[view + '_view']; 
 
-                    _.each(material_options, function(obj, index) {
+                    _.each(material_options, function (obj, index) {
 
                         var name = obj.name.toLowerCase().replace(' ', '_');
 
@@ -823,9 +823,9 @@ $(document).ready(function () {
                 /// Setup Modifiers Colors
 
                     var modifiers = '';
-                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function(o) { return o.layer_order; })
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
 
-                    _.each(sorted, function(obj) {
+                    _.each(sorted, function (obj) {
 
                         // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
@@ -843,7 +843,7 @@ $(document).ready(function () {
                         var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container">';
                         var color_elements = '';
 
-                        _.each(obj.available_colors, function(color_obj) {
+                        _.each(obj.available_colors, function (color_obj) {
 
                             var color = _.find( ub.data.colors, { color_code: color_obj});
                             var element = '<div class="color_element">';
@@ -870,9 +870,9 @@ $(document).ready(function () {
                 /// Setup Modifiers Gradients
 
                     var modifiers = '';
-                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function(o) { return o.layer_order; })
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
 
-                    _.each(sorted, function(obj){
+                    _.each(sorted, function (obj){
 
                         // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
@@ -889,7 +889,7 @@ $(document).ready(function () {
                         var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="gradients"><div class="gradient_panel_container">';
                         var gradient_elements = '';
 
-                        _.each(ub.data.gradients.items, function(gradient_obj) {
+                        _.each(ub.data.gradients.items, function (gradient_obj) {
 
                             var element = '<div class="gradient_element">';
                             var filename = '/images/sidebar/' + gradient_obj.code + '.png';
@@ -1023,7 +1023,7 @@ $(document).ready(function () {
 
             ub.refresh_thumbnails = function () {
 
-                _.each(ub.views, function(view) {
+                _.each(ub.views, function (view) {
 
                     var view_name = view + '_view';
                     var id = 'a#' + 'view_' + view + ' > img';
@@ -1085,7 +1085,7 @@ $(document).ready(function () {
 
             });
 
-            $('div#right-sidebar > a.sidebar-buttons').hover(function(e) {
+            $('div#right-sidebar > a.sidebar-buttons').hover(function (e) {
 
                 var s = $(e.currentTarget)
                 var option = s.data('filename');
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
 
         /// LEFT SIDEBAR
 
-            $('div#left-sidebar > a.sidebar-buttons').hover(function(e){
+            $('div#left-sidebar > a.sidebar-buttons').hover(function (e){
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
@@ -1161,7 +1161,7 @@ $(document).ready(function () {
 
             });
 
-            $('div#left-sidebar > a.sidebar-buttons').on('click', function(e){
+            $('div#left-sidebar > a.sidebar-buttons').on('click', function (e){
 
                 $('#arrow_design_sets').remove();
 
@@ -1231,7 +1231,7 @@ $(document).ready(function () {
 
         ub.bind_handler_category_picker = function () {
 
-            $('div.sports_categories').hover(function(e){
+            $('div.sports_categories').hover(function (e){
 
                 $('div.sports_categories').removeClass('sports_categories_highlighted');
 
@@ -1245,7 +1245,7 @@ $(document).ready(function () {
 
             });
 
-            $('div.sports_categories').click(function(e){
+            $('div.sports_categories').click(function (e){
 
                 if ( typeof( ub.ui.active_element  ) !== 'undefined'  ) {
 
@@ -1267,7 +1267,7 @@ $(document).ready(function () {
 
         ub.bind_handler_design_set_picker = function () {
 
-            $('div.style_entry').hover(function(e){
+            $('div.style_entry').hover(function (e){
 
                 $('div.style_entry').removeClass('style_entry_highlighted');
 
@@ -1281,7 +1281,7 @@ $(document).ready(function () {
 
             });
 
-            $('div.style_entry').click(function(e){
+            $('div.style_entry').click(function (e){
 
                 ub.ui.active_style_element = $(e.currentTarget);
 
@@ -1323,7 +1323,7 @@ $(document).ready(function () {
 
             /* Gender Picker */
 
-                $('div.gender_picker').click(function(e){
+                $('div.gender_picker').click(function (e){
 
                     var element                 = $( e.currentTarget );
                     var gender                  = element.data( 'gender' );
@@ -1332,7 +1332,7 @@ $(document).ready(function () {
 
                 });
 
-                $('div.gender_picker').hover(function(e){
+                $('div.gender_picker').hover(function (e){
 
                     $('div.gender_picker').removeClass('gender_picker_highlighted');
 
@@ -1352,7 +1352,7 @@ $(document).ready(function () {
 
         ub.bind_handlers = function () {
 
-            $('.change-color').on('click', function(e){
+            $('.change-color').on('click', function (e){
 
                var color                        = $(this).data('color');
                var target                       = $(this).data('target');
@@ -1480,7 +1480,7 @@ $(document).ready(function () {
 
             /// Change Gradient ///
 
-                $('.change-gradient').on('click', function(e) {
+                $('.change-gradient').on('click', function (e) {
 
                    var gradient = $(this).data('gradient');
                    var target = $(this).data('target-gradient');
@@ -1510,7 +1510,7 @@ $(document).ready(function () {
 
         };
 
-        ub.change_gradient = function( target, gradient, panel ) {
+        ub.change_gradient = function ( target, gradient, panel ) {
 
             var el = _.find(ub.data.gradients.items, { code: gradient });
             var clone = {};
@@ -1526,7 +1526,7 @@ $(document).ready(function () {
                 elements = "<br />Color Stops<br /><br />";
             }
 
-            _.each(el.color_stops, function(e, index) {
+            _.each(el.color_stops, function (e, index) {
 
                 var val = e.value;
                 var col = e.color;
@@ -1565,7 +1565,7 @@ $(document).ready(function () {
             var stops = _.pluck(clone.color_stops, 'value');
             var stops_clone = [];
 
-            _.each(stops, function(e) {
+            _.each(stops, function (e) {
 
                 stops_clone.push(e * 100);
 
@@ -1577,7 +1577,7 @@ $(document).ready(function () {
                 min: 0,
                 max: 100,
                 gap: 0,
-                change: function( event, ui ) {
+                change: function ( event, ui ) {
 
                     $("button#update-gradient-" + target).click();
 
@@ -1589,16 +1589,16 @@ $(document).ready(function () {
                 min: 0,
                 max: 360,
                 startAngle: 90,
-                change: function( event, ui ) {
+                change: function ( event, ui ) {
                     
                     $("button#update-gradient-" + target).click();
 
                 },
              });
 
-            $("button#update-gradient-" + target).click('click', function(e) {
+            $("button#update-gradient-" + target).click('click', function (e) {
 
-                _.each(clone.color_stops, function(e, index) {
+                _.each(clone.color_stops, function (e, index) {
 
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                     $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
@@ -1637,7 +1637,7 @@ $(document).ready(function () {
                     clone.color_stops.push(new_color_stop);
                     var spacing = 1 / (clone.color_stops.length - 1);
 
-                    _.each(clone.color_stops, function(color_stop, index) {
+                    _.each(clone.color_stops, function (color_stop, index) {
                         
                         color_stop.value = index * spacing;
 
@@ -1655,7 +1655,7 @@ $(document).ready(function () {
 
                         var spacing = 1 / (clone.color_stops.length - 1);
                         
-                        _.each(clone.color_stops, function(color_stop, index) {
+                        _.each(clone.color_stops, function (color_stop, index) {
                             color_stop.value = index * spacing;
                         });
 
@@ -1671,7 +1671,7 @@ $(document).ready(function () {
 
         };
 
-        ub.create_color_picker = function(index, value, color, target, gradient) {
+        ub.create_color_picker = function (index, value, color, target, gradient) {
 
             var element = "";
             element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
@@ -1682,7 +1682,7 @@ $(document).ready(function () {
 
         ub.bind_design_sets_tab_handlers = function () {
 
-            $('button.button_tabs').click(function(e) {
+            $('button.button_tabs').click(function (e) {
 
                 $('button.button_tabs').css('background-color', '#f8f8f8');
                 $('button.button_tabs').css('color', '#353536');
@@ -1823,7 +1823,7 @@ $(document).ready(function () {
 
             }
             
-            _.each(gradient_obj.color_stops, function(color_stop) {
+            _.each(gradient_obj.color_stops, function (color_stop) {
 
                 gradient.addColorStop(color_stop.value, color_stop.color);
 
@@ -1914,7 +1914,7 @@ $(document).ready(function () {
 
             $('#view_pattern').hide();
 
-            $('button#toggle_pattern_preview').on('click', function(e) {
+            $('button#toggle_pattern_preview').on('click', function (e) {
                 $('#view_pattern').toggle();
             });
 
@@ -1922,7 +1922,7 @@ $(document).ready(function () {
 
         /// Camera Views
             
-            $('a.change-view').on('click', function(e) {
+            $('a.change-view').on('click', function (e) {
 
                 var view = $(this).data('view');
 
@@ -1944,9 +1944,9 @@ $(document).ready(function () {
    
     // Reposition All Tethers
 
-        $(window).scroll( function(e) {
+        $(window).scroll( function (e) {
 
-            _.each(ub.tethers, function(obj) {
+            _.each(ub.tethers, function (obj) {
                 obj.position();
             });
 
@@ -1987,11 +1987,11 @@ $(document).ready(function () {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function(response) {
+            success: function (response) {
                 if (response.success) {
                     var orders = response.orders;
                     $('#orders-list').html(''); // Clear the list
-                    $.each(orders, function(i, order) {
+                    $.each(orders, function (i, order) {
                         $('#orders-list').append('<tr>' +
                             '<td>' + order.client + '</td>' +
                             '<td>' + order.uniform_type + '</td>' +
@@ -2069,7 +2069,7 @@ $(document).ready(function () {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function(response) {
+            success: function (response) {
                 if (response.success) {
                     $('.flash-alert').fadeOut();
                     $('.flash-alert .flash-sub-title').text('Complete:');
@@ -2099,7 +2099,7 @@ $(document).ready(function () {
               '.creditly-wrapper .credit-card-number',
               '.creditly-wrapper .security-code',
               '.creditly-wrapper .card-type');
-        $(".creditly-card-form .validate-cc").click(function(e) {
+        $(".creditly-card-form .validate-cc").click(function (e) {
             e.preventDefault();
             var output = creditly.validate();
             if (output) {
@@ -2131,7 +2131,7 @@ $(document).ready(function () {
     function saveTeamRoster() {
         var roster = [];
         var i = 0;
-        $('.table-roster-list tr').each(function(i, row) {
+        $('.table-roster-list tr').each(function (i, row) {
             // 0th element contains the headers
             if (i > 0) {
                 var number = $(row).find('td').eq(0).find('input').val();
@@ -2155,9 +2155,9 @@ $(document).ready(function () {
     function getUniformSuggestions(categoryId) {
         $.ajax({
             url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-            success: function(response) {
+            success: function (response) {
                 if (response.success) {
-                    $.each(response.materials, function(i, material){
+                    $.each(response.materials, function (i, material){
                         if (material.id != ub.config.material_id) {
                             $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
                         }
