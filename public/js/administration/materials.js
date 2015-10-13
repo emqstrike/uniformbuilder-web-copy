@@ -15,7 +15,7 @@ $(document).ready(function(){
     });
 
     (function() {
-        var canvas = this.__canvas = new fabric.Canvas('c');
+        var canvas = this.__canvas = new fabric.Canvas('bounding-box-preview');
         fabric.Object.prototype.transparentCorners = false;
         canvas.setWidth( 496 );
         canvas.setHeight( 550 );

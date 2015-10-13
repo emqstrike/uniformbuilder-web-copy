@@ -11,13 +11,11 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-6">
-                    <!-- <img src="" id="material-option-preview"> -->
                     <div id="material-option-gradients" style="border: 1px solid black;">
-                        <canvas id="c"></canvas>
+                        <canvas id="bounding-box-preview"></canvas>
                     </div>
 
                     <div id="material-option-placements">
-                        <!-- <canvas id="c"></canvas> -->
                     </div>
                 </div>
                 <div class="col-md-6">
