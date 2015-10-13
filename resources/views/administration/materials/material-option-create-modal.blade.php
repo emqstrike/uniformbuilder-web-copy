@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="col-md-6">
                     <!-- <img src="" id="material-option-preview"> -->
-                    <div id="material-option-gradients">
+                    <div id="material-option-gradients" style="border: 1px solid black;">
                         <canvas id="c"></canvas>
                     </div>
 

@@ -440,13 +440,39 @@ $(document).ready(function(){
         canvas.setWidth( 496 );
         canvas.setHeight( 550 );
 
+        window.shapes = {};
+
+        var data = {
+
+                    topLeft:[{x:0,y:0}],
+                    topRight:[{x:0,y:0}],
+                    bottomLeft:[{x:0,y:0}],
+                    bottomRight:[{x:0,y:0}],
+                    pivot: 0,
+                    rotation: 0,
+
+                };
+
         var box = new fabric.Rect({
-            width: canvas.width/2, height: canvas.height/2, left: 0, top: 50, angle: 0,
+            width: 250, height: 250, angle: 0,
+            fill: 'green',
+            opacity: 0.35,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        window.shapes.box = box;
+
+        var circle = new fabric.Circle({
+            //radius: box.getHeight()/2,
+            radius: 40,
             fill: 'red',
             opacity: 0.35,
             originX: 'center',
             originY: 'center'
         });
+        circle.hasBorders = false;
+        circle.hasControls = false;
 
         var text = new fabric.Text('Bounding box', {
             fontSize: 11,
@@ -459,22 +485,94 @@ $(document).ready(function(){
             top: canvas.height/5
         });
 
-        bounding_box.lockRotation = true;
+        window.shapes.bounding_box = bounding_box;
+        //bounding_box.lockRotation = true;
+        //bounding_box.on('moving', resizeCircle);
 
+        // bounding_box.on('moving', backgroundMoveHandler);
+
+        // children = [];
+        // function addItem() {
+        //     canvas.add(circle);
+        //     children.push(circle);
+        // }
+
+        // Add some children
+        // addItem();
+        // addItem();
+
+        // Whenever the parent is moved, move the children as well.
+        // function backgroundMoveHandler(options) {
+        //     var x = options.e.movementX;
+        //     var y = options.e.movementY;
+        //     $.each(children, function(i, obj) {
+        //         obj.set('left', obj.left + x);
+        //         obj.set('top', obj.top + y);
+        //         obj.setCoords();
+        //     });
+        // }
+        bounding_box.transparentCorners = false;
         canvas.add(bounding_box);
+
         canvas.on({
             'object:moving': updateCoordinates,
             'object:scaling': updateCoordinates,
-            'object:rotating': updateCoordinates
+            'object:rotating': updateCoordinates,
+            'mouse:up': updateCoordinates
         });
 
         function updateCoordinates() {
-            console.log("Scale-X: "     + bounding_box.getScaleX());
-            console.log("Scale-Y: "     + bounding_box.getScaleY());
-            console.log("Angle: "       + bounding_box.getAngle());
-            console.log("Left: "        + bounding_box.getLeft());
-            console.log("Top: "         + bounding_box.getTop());
-            console.log("Center: "      + bounding_box.getCenterPoint());
+
+            circle.radius = box.height/2;
+
+            // var pivot           = bounding_box.getCenterPoint();
+            var topLeftX                = bounding_box.oCoords.tl.x;
+            var topLeftY                = bounding_box.oCoords.tl.y;
+            var topRightX               = bounding_box.oCoords.tr.x;
+            var topRightY               = bounding_box.oCoords.tr.y;
+            var bottomLeftX             = bounding_box.oCoords.bl.x;
+            var bottomLeftY             = bounding_box.oCoords.bl.y;
+            var bottomRightX            = bounding_box.oCoords.br.x;
+            var bottomRightY            = bounding_box.oCoords.br.y;
+
+            // var topRightX       = bounding_box.getLeft() + bounding_box.getWidth();
+            // var topRightY       = bounding_box.getTop();
+            // var bottomLeftX     = bounding_box.getLeft();
+            // var bottomLeftY     = bounding_box.getTop() + bounding_box.getHeight();
+            // var bottomRightX    = bounding_box.getLeft() + bounding_box.getWidth();
+            // var bottomRightY    = bounding_box.getTop() + bounding_box.getHeight();
+
+            canvas.renderAll();
+
+            data['topLeft'][0]['x']     = topLeftX;
+            data['topLeft'][0]['y']     = topLeftY;
+            data['topRight'][0]['x']    = topRightX;
+            data['topRight'][0]['y']    = topRightY;
+            data['bottomLeft'][0]['x']  = bottomLeftX;
+            data['bottomLeft'][0]['y']  = bottomLeftY;
+            data['bottomRight'][0]['x'] = bottomRightX;
+            data['bottomRight'][0]['y'] = bottomRightY;
+            data['pivot']               = bounding_box.getCenterPoint();
+            data['rotation']            = bounding_box.getAngle();
+            //data['tl'][0]['y'] = topLeftY;
+            // data['tr'][0]['x'] = topRightX;
+            // data['tr'][0]['y'] = topRightY;
+            // data['bl'][0]['x'] = bottomLeftX;
+            // data['bl'][0]['y'] = bottomLeftY;
+            // data['br'][0]['x'] = bottomRightX;
+            // data['br'][0]['y'] = bottomRightY;
+            // data['pivot'] = pivot;
+
+            var str = JSON.stringify(data, null, 2);
+
+            console.log(str);
+
+            //console.log(topLeftX);
+            //console.log(topLeftY);
+            // console.log(topRight);
+            // console.log(bottomLeft);
+            // console.log(bottomRight);
+            //console.log(bounding_box.oCoords.tl.x + ", " + bounding_box.oCoords.tl.y);
         }
 
 })();
