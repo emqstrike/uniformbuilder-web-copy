@@ -57,7 +57,6 @@ $(document).ready(function () {
                 ub.data[object_name] = obj
             }
             else {
-
                 ub.current_material[object_name] = obj;
             }
 
@@ -67,9 +66,7 @@ $(document).ready(function () {
                      typeof(ub.data.patterns) !== 'undefined';  
 
             if (ok) {
-
                 ub.load_assets();            
-
             }
             
         };
@@ -86,9 +83,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
             
                 success: function (response){
-
                     cb(response[object_name], object_name);
-            
                 }
             
             });
@@ -129,7 +124,7 @@ $(document).ready(function () {
 
             $('#arrow_design_sets').remove();
 
-            var sports                  = _.find(ub.data.sports, {gender: gender});
+            var sports = _.find(ub.data.sports, {gender: gender});
             var active_sport_categories = _.where(sports.sports, {active: "1"});
 
             $('#main_view > .picker_container').hide();
@@ -186,13 +181,9 @@ f
             var design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
 
             if (type === 'All') {
-            
                 design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
-            
             } else {
-
                 design_sets = _.where(ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type });
-
             }
 
             _.each(design_sets, function (obj) {
@@ -385,6 +376,7 @@ f
         ub.current_material.settings[uniform_type].preview = ub.getThumbnailImage('front_view');
 
         return ub.current_material.settings;
+
     }
 
     // Change the uniform customization settings using the passed JSONObject parameter
@@ -426,7 +418,6 @@ f
                     preview: '',
 
                 };
-
 
                 var current_material = ub.current_material.material;
                 var material_options = ub.current_material.materials_options;
@@ -583,7 +574,6 @@ f
                             font_style: '',
                         },
 
-
                         colors: [
                             
                             {
@@ -660,7 +650,6 @@ f
                         },
 
                         colors: [
-                            
                             {
                                 color: '',
                                 opacity: '',
@@ -731,8 +720,6 @@ f
 
             };
 
-            
-
             window.ub.setup_material_options = function () {
 
                 ub.current_material.options_distinct_names = {};
@@ -752,15 +739,10 @@ f
                         current_object.name = name;
                         current_object.zIndex = (obj.layer_level * 2) * (-1);
                         
-                        
                         if (obj.setting_type === 'highlights') {
-
                             current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
-
                         } else if (obj.setting_type === 'shadows') {
-
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
@@ -771,9 +753,7 @@ f
                             var modifier_label = name;
 
                             if (name.search('shape') > 0) {
-
                                 modifier_label = name.substr(0, name.length - 6);
-
                             } 
 
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
@@ -1056,14 +1036,14 @@ f
 
                 if (ub.active !== null) {
 
-                    filename    = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
+                    filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
                     ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
 
                 }
 
-                ub.active       = $(this);
-                filename        = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
+                ub.active = $(this);
+                filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
                 ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
@@ -1220,26 +1200,24 @@ f
 
         ub.bind_handler_category_picker = function () {
 
-            $('div.sports_categories').hover(function (e){
+            $('div.sports_categories').hover(function (e) {
 
                 $('div.sports_categories').removeClass('sports_categories_highlighted');
 
                 var el = $(e.currentTarget);
                 el.addClass('sports_categories_highlighted');
 
-            }, function (e){
+            }, function (e) {
                 
                 var el = $(e.currentTarget);
                 el.removeClass('sports_categories_highlighted');
 
             });
 
-            $('div.sports_categories').click(function (e){
+            $('div.sports_categories').click(function (e) {
 
                 if (typeof(ub.ui.active_element) !== 'undefined') {
-
                     ub.ui.active_element.removeClass('sports_categories_activated');
-
                 }    
 
                 ub.ui.active_element = $(e.currentTarget);
@@ -1273,7 +1251,6 @@ f
             $('div.style_entry').click(function (e){
 
                 ub.ui.active_style_element = $(e.currentTarget);
-
                 var picker_type = ub.ui.active_style_element.data('picker-type');
 
                 if (picker_type === 'design_sets') {
@@ -1343,9 +1320,9 @@ f
 
             $('.change-color').on('click', function (e){
 
-               var color                        = $(this).data('color');
-               var target                       = $(this).data('target');
-               var panel                        = $(this).data('panel');
+               var color = $(this).data('color');
+               var target = $(this).data('target');
+               var panel = $(this).data('panel');
                var color_element = $(this);
 
                window.ce = color_element;
@@ -1435,33 +1412,24 @@ f
                 } else {
 
                     if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-
                         ub.objects.front_view[obj].tint = color_value;    
-
                     }
 
                     if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
-
                         ub.objects.back_view[obj].tint = color_value;    
-
                     }
 
                     if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
-
                         ub.objects.left_view[obj].tint = color_value;    
-
                     }
 
                     if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
-
                         ub.objects.right_view[obj].tint = color_value;    
-
                     }
 
                 }
 
                 ub.refresh_thumbnails();
-
                 $('[rel="popover"]').popover("hide");
 
             }
@@ -1511,7 +1479,6 @@ f
             var elements = "";
 
             if (el.color_stops.length > 0) {
-
                 elements = "<br />Color Stops<br /><br />";
             }
 
@@ -1555,9 +1522,7 @@ f
             var stops_clone = [];
 
             _.each(stops, function (e) {
-
                 stops_clone.push(e * 100);
-
             });
 
             $('#' + 'gradient_slider_' + target).limitslider({
@@ -1613,7 +1578,7 @@ f
                     var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
 
-                    color_obj = _.find(ub.data.colors, { color_code: color_code})
+                    color_obj = _.find(ub.data.colors, { color_code: color_code })
 
                     var new_color_stop = {
 
@@ -1627,9 +1592,7 @@ f
                     var spacing = 1 / (clone.color_stops.length - 1);
 
                     _.each(clone.color_stops, function (color_stop, index) {
-                        
                         color_stop.value = index * spacing;
-
                     });
 
                     ub.change_gradient(target, gradient, panel);
@@ -1813,9 +1776,7 @@ f
             }
             
             _.each(gradient_obj.color_stops, function (color_stop) {
-
                 gradient.addColorStop(color_stop.value, color_stop.color);
-
             });
 
             ctx.fillStyle = gradient;
