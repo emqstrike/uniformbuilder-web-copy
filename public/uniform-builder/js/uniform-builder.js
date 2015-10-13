@@ -2531,7 +2531,7 @@ $(document).ready(function(){
             email_list: $('#share-design-modal .team-email').val(),
             order_id: $(this).data('order-id')
         };
-        console.log(data);
+
         $.ajax({
             url: ub.config.api_host + '/api/order/share',
             data: JSON.stringify(data),
