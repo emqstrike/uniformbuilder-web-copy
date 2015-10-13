@@ -2385,11 +2385,17 @@ $(document).ready(function(){
                             '<td>' + order.client + '</td>' +
                             '<td>' + order.uniform_type + '</td>' +
                             '<td>' + order.status + '</td>' +
-                            '<td><a href="/order/' + order.order_id + '" class="btn btn-sm btn-primary">Open</a></td>' +
+                            '<td>' +
+                                '<a href="/order/' + order.order_id + '" class="btn btn-xs btn-default">Open ' +
+                                '<span class="fa fa-folder-open-o"></span></a>' +
+                                '<a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="' + order.order_id + '">Share ' +
+                                '<span class="fa fa-mail-forward"></span></a>' +
+                            '</td>' +
                             '</tr>');
                     });
                     $('#open-design-modal').modal('show');
                 }
+                bindShareDesigns();
             }
         });
     }
@@ -2444,11 +2450,17 @@ $(document).ready(function(){
         $('.flash-alert .flash-sub-title').text('Please wait...');
         $('.flash-alert .flash-message').text('Saving your order');
         $('.flash-alert').fadeIn();
-
         var endpoint = ub.config.api_host + '/api/order';
         if (ub.order !== false) {
             endpoint = ub.config.api_host + '/api/order/update';
         }
+
+        data.image_perspectives = {
+            front: ub.getThumbnailImage('front_view'),
+            back: ub.getThumbnailImage('back_view'),
+            left: ub.getThumbnailImage('left_view'),
+            right: ub.getThumbnailImage('right_view')
+        };
 
         $.ajax({
             url: endpoint,
@@ -2508,6 +2520,48 @@ $(document).ready(function(){
         $('#team-roster-form .table-roster-list').append(roster_template);
         bindRemoveButtonBehavior();
     });
+
+    $('.close-share-uniform-design-modal').on('click', function(){
+        $('#open-design-modal').modal('show');
+        $('#share-design-modal .team-email').val('');
+    });
+
+    $('.share-uniform-design-by-email').on('click', function(){
+        var data = {
+            email_list: $('#share-design-modal .team-email').val(),
+            order_id: $(this).data('order-id')
+        };
+
+        $.ajax({
+            url: ub.config.api_host + '/api/order/share',
+            data: JSON.stringify(data),
+            type: 'POST',
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function(response) {
+                $('#share-design-modal').modal('hide');
+                if (response.success) {
+                    $('.flash-alert .flash-sub-title').text('Success: ');
+                } else {
+                    $('.flash-alert .flash-sub-title').text('Error: ');
+                    $('.flash-alert').addClass('alert-warning');
+                }
+                $('.flash-alert .flash-message').text(response.message);
+                $('.flash-alert').show();
+            }
+        });
+    });
+
+    function bindShareDesigns() {
+        $('.share-uniform-design').on('click', function(){
+            var order_id = $(this).data('order-id');
+            $('#open-design-modal').modal('hide');
+            $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);
+            $('#share-design-modal').modal('show');
+        });
+    }
 
     function bindRemoveButtonBehavior() {
         $('.remove-roster-record').on('click', function(){
