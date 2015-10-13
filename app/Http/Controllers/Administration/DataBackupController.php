@@ -162,7 +162,7 @@ class DataBackupController extends Controller
 
 
         $templine = '';
-        // Read in entire file
+
         $lines = file($filename);
 
         foreach ($lines as $line)
@@ -176,7 +176,7 @@ class DataBackupController extends Controller
           
             if (substr(trim($line), -1, 1) == ';')
             {
-                // Perform the query
+            
                 mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
             
                 $templine = '';
