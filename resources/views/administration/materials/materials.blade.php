@@ -253,7 +253,6 @@
                         </div>
                     </div>
                     <hr>
-                        <a href=""><span class="fa fa-chevron-down"></span></a>
                         <a href="#" class='btn btn-xs btn-success add-material-option'
                             data-material-name="{{ $material->name }}"
                             data-material-id="{{ $material->id }}">

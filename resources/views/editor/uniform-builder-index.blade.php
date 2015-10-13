@@ -39,11 +39,9 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
-            <canvas id="c" style="float:left; position: relative; background: transparent; z-index: 5; height: 550px; width: 496px;"></canvas>
             <div class="canvas-views" id="main_view" width="496" height="550">
             
             </div>
-    
         </div>
 
         <div id="camera-views" class="">

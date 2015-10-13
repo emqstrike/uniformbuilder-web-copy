@@ -45,7 +45,7 @@ class MaterialsOptionsController extends Controller
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
-//dd($boundary_properties);
+        
         $data = [
             'material_id' => $materialId,
             'name' => $materialOptionName,
