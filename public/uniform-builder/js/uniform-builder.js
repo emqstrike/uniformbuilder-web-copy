@@ -2541,11 +2541,17 @@ $(document).ready(function(){
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
-                console.log(response);
+                $('#share-design-modal').modal('hide');
+                if (response.success) {
+                    $('.flash-alert .flash-sub-title').text('Success: ');
+                } else {
+                    $('.flash-alert .flash-sub-title').text('Error: ');
+                    $('.flash-alert').addClass('alert-warning');
+                }
+                $('.flash-alert .flash-message').text(response.message);
+                $('.flash-alert').show();
             }
         });
-        $('#share-design-modal').modal('hide');
-        $('#open-design-modal').modal('show');
     });
 
     function bindShareDesigns() {
