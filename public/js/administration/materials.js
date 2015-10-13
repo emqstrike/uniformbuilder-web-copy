@@ -23,10 +23,14 @@ $(document).ready(function(){
         window.shapes = {};
 
         var data = {
-                    topLeft:[{x:0,y:0}],
-                    topRight:[{x:0,y:0}],
-                    bottomLeft:[{x:0,y:0}],
-                    bottomRight:[{x:0,y:0}],
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    topRightX: 0,
+                    topRightY: 0,
+                    bottomLeftX: 0,
+                    bottomLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0,
                     pivot: 0,
                     rotation: 0,
                 };
@@ -90,16 +94,22 @@ $(document).ready(function(){
 
             canvas.renderAll();
 
-            data['topLeft'][0]['x']     = topLeftX;
-            data['topLeft'][0]['y']     = topLeftY;
-            data['topRight'][0]['x']    = topRightX;
-            data['topRight'][0]['y']    = topRightY;
-            data['bottomLeft'][0]['x']  = bottomLeftX;
-            data['bottomLeft'][0]['y']  = bottomLeftY;
-            data['bottomRight'][0]['x'] = bottomRightX;
-            data['bottomRight'][0]['y'] = bottomRightY;
-            data['pivot']               = bounding_box.getCenterPoint();
-            data['rotation']            = bounding_box.getAngle();
+            data.topLeftX       = topLeftX;
+            data.topLeftY       = topLeftY;
+            data.topRightX      = topRightX;
+            data.topRightY      = topRightY;
+            data.bottomLeftX    = bottomLeftX;
+            data.bottomLeftY    = bottomLeftY;
+            data.bottomRightX   = bottomRightX;
+            data.bottomRightY   = bottomRightY;
+            data.pivot          = bounding_box.getCenterPoint();
+            data.rotation       = bounding_box.getAngle();
+
+            var boundaryProperties = JSON.stringify(data);
+
+            $( '#boundary-properties' ).prop('value',boundaryProperties);
+
+            console.log(boundaryProperties);
         }
 
     })();

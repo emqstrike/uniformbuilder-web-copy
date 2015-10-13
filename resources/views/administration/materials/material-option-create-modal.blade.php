@@ -5,6 +5,7 @@
             <form action="/administration/material_option/add" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-id" name="material_id">
+            <input type="hidden" name="boundary_properties" id="boundary-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title">Add a Material Option for <span style='color: blue'></span></h4>
