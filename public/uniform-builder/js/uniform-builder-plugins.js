@@ -57,7 +57,7 @@
             /// Handler for the color buttons
             var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
             
-            colors_btn.on('click', function(){
+            colors_btn.on('click', function() {
 
                 var color  = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
@@ -71,11 +71,11 @@
             var panels = util.dataSelector(preamble, { 'option': target_name });
             var color_stop_btn = util.dataSelector('span', { 'target': settings.target, 'type': settings.type, 'index': color_stop_index });
             
-            color_stop_btn.on("click", function(){
+            color_stop_btn.on("click", function() {
                 
                 var picker_panel = util.dataSelector(preamble, { 'option': target_name, 'index': color_stop_index });
 
-                if(picker_panel.css('display') === "none"){
+                if (picker_panel.css('display') === "none") {
                     panels.hide();
                     picker_panel.show();
                 }

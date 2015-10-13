@@ -105,7 +105,7 @@ $(document).ready(function () {
 
                 var filename = window.ub.config.thumbnails_path + obj.toLowerCase() + '.png';
                 
-                var element =  "<div class='gender_picker_header'>" + obj + '</div>';
+                var element = "<div class='gender_picker_header'>" + obj + '</div>';
                     element += '<div class="gender_picker" data-picker-type="gender" data-index = "' + index+ '" data-gender="' + obj + '" style="background-image:url(' + filename +');">' + '</span></div>';
 
                 str_builder  += element;
@@ -139,8 +139,8 @@ $(document).ready(function () {
 
             _.each(active_sport_categories, function (category, index){
 
-                var filename    = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
-                var element     = '<div class="sports_categories" data-gender="'+ gender + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.name + '</span></div>';
+                var filename = window.ub.config.thumbnails_path + category.name.toLowerCase() + '.jpg';
+                var element = '<div class="sports_categories" data-gender="'+ gender + '" data-category="' + category.name + '" style="background-image:url(' + filename +');">' + '<span class="categories_label">' + category.name + '</span></div>';
 
                 elements += element;
                 
@@ -288,16 +288,16 @@ f
 
                 var view_name = view + '_view';
 
-                ub.assets[view_name]           = {};
-                ub.assets[view_name].shape     = material[v + '_shape'];
+                ub.assets[view_name] = {};
+                ub.assets[view_name].shape = material[v + '_shape'];
 
             });
 
      
             /// Materials
             
-            ub.assets.pattern               = {};
-            ub.assets.pattern.layers        = [];
+            ub.assets.pattern = {};
+            ub.assets.pattern.layers = [];
             
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_1.png');
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_2.png');
@@ -348,7 +348,6 @@ f
                 _.each(ub.views, function (view) {
 
                     var view_name = view + '_view';
-
                     var shape = ub.pixi.new_sprite(ub.assets[view_name].shape);
                     var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
 
@@ -408,15 +407,11 @@ f
 
                 settings.upper = {};
                 settings.lower = {
-
                     preview: '',
-
                 };
 
                 settings.upper = {
-
                     preview: '',
-
                 };
 
                 var current_material = ub.current_material.material;
@@ -425,7 +420,7 @@ f
 
                 settings[type].material_id = current_material.id;
                 
-                _.each(material_options, function (material_option){
+                _.each(material_options, function (material_option) {
 
                     var name = '';
                     var obj  = '';

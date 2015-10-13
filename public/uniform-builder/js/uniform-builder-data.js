@@ -19,8 +19,8 @@ $(document).ready(function(){
     ub.gradient_preview = new PIXI.Container();
 
     ub.stage.interactive = true;
-    ub.pCanvas = document.getElementById( ub.container_div );
-    ub.renderer = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
+    ub.pCanvas = document.getElementById(ub.container_div);
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height);
     ub.renderer.backgroundColor = 0xffffff;
     
     ub.stage.addChild(ub.left_view);
@@ -29,7 +29,7 @@ $(document).ready(function(){
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
-    ub.pCanvas.appendChild( ub.renderer.view );
+    ub.pCanvas.appendChild(ub.renderer.view);
      
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
@@ -46,31 +46,10 @@ $(document).ready(function(){
 
     ub.data = {};
 
-    /// DESIGN SETS
-
-      ub.data.design_sets = {}
-
-    /// End DESIGN SETS
-
-    /// MATERIALS
-
-      ub.data.materials = {};
-
-    /// End MATERIALS
-
-    /// PATTERNS 
-
-      ub.data.patterns = {};
-
-    /// End PATTERNS
-
-    /// COLORS
-
-      ub.data.colors = {};
-
-    /// End COLORS
-    
-    /// SPORTS
+    ub.data.design_sets = {}
+    ub.data.materials = {};
+    ub.data.patterns = {};
+    ub.data.colors = {};
 
     ub.data.sports = [
         {

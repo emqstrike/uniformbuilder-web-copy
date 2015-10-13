@@ -3,9 +3,7 @@ $( document ).ready(function() {
     window.util = {
         
         toTitleCase: function(str){
-    
             return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-
         },
 
         dataSelector: function(preamble, obj){
@@ -16,11 +14,9 @@ $( document ).ready(function() {
             var selector = preamble;
 
             _.each(obj, function(value, key){
- 
                 var el = "[data-" + key + "='" + value + "']";
                 selector += el;
-
-            })
+           })
 
             if($(selector).length > 0) {
                 return $(selector);
