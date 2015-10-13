@@ -98,6 +98,7 @@
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
+    @include('partials.share-design-modal')
     @include('partials.save-design-modal')
 @else
     @include('partials.signup-modal')

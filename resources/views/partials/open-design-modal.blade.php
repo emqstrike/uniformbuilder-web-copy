@@ -1,4 +1,4 @@
-<!-- Save Design Modal -->
+<!-- Open Design Modal -->
 <div class="modal bs-modal-sm in" id="open-design-modal" aria-hidden="false">
     <div class="modal-dialog"> 
         <form class="form-horizontal" role="form" id='open-design-form'>
