@@ -66,7 +66,7 @@ $(document).ready(function () {
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined';  
 
-            if ( ok ) {
+            if (ok) {
 
                 ub.load_assets();            
 
@@ -129,16 +129,16 @@ $(document).ready(function () {
 
             $('#arrow_design_sets').remove();
 
-            var sports                  = _.find( ub.data.sports, {gender: gender} );
-            var active_sport_categories = _.where( sports.sports, {active: "1"} );
+            var sports                  = _.find(ub.data.sports, {gender: gender});
+            var active_sport_categories = _.where(sports.sports, {active: "1"});
 
             $('#main_view > .picker_container').hide();
             $('#main_view > .picker_container').html('');
 
             var elements = '';
             var gender_element = '<span>' + gender + '</span>';
-            var back_element   = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
-            var header   = '<div class="picker_header">' + gender_element + back_element + '</div>';
+            var back_element = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header = '<div class="picker_header">' + gender_element + back_element + '</div>';
 
             elements = header;
 
@@ -168,31 +168,30 @@ $(document).ready(function () {
 
             var elements = '';
 
-            var gender_element          = '<span>' + gender + '</span>';
-            var back_element            = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
-            var header                  = '<div class="picker_header">' + gender_element + back_element + '</div>';
+            var gender_element = '<span>' + gender + '</span>';
+            var back_element = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
+            var header = '<div class="picker_header">' + gender_element + back_element + '</div>';
 
-            var category_element        = '<span>' + category + '</span>';
-            var category_back_element   = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
-            var category_header         = '<div class="picker_header">' + category_element + category_back_element + '</div>';
+            var category_element = '<span>' + category + '</span>';
+            var category_back_element = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
+            var category_header = '<div class="picker_header">' + category_element + category_back_element + '</div>';
 
-            var group_element_1         = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
-            var group_element_2         = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
-            var group_element_3         = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
-            var group_header            = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
-
-
+            var group_element_1 = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
+            var group_element_2 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
+            var group_element_3 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
+            var group_header = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
+f
             elements = header + category_header + group_header;
 
-            var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+            var design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
 
             if (type === 'All') {
             
-                design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
+                design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
             
             } else {
 
-                design_sets = _.where( ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type } );
+                design_sets = _.where(ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type });
 
             }
 
@@ -276,9 +275,9 @@ $(document).ready(function () {
 
         ub.load_assets = function () {
 
-            ub.assets               = {};
-            ub.assets.folder_name   = '/images/builder-assets/'
-            ub.assets.blank         = ub.assets.folder_name + 'blank.png';
+            ub.assets = {};
+            ub.assets.folder_name = '/images/builder-assets/'
+            ub.assets.blank = ub.assets.folder_name + 'blank.png';
 
             var material = {};
             
@@ -309,47 +308,37 @@ $(document).ready(function () {
             ub.assets.pattern               = {};
             ub.assets.pattern.layers        = [];
             
-            ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_1.png' );
-            ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_2.png' );
-            ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_3.png' );
-            ub.assets.pattern.layers.push( ub.assets.folder_name + 'camo/layer_4.png' );
+            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_1.png');
+            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_2.png');
+            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_3.png');
+            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_4.png');
 
             /// Begin Rendering after assets are loaded
 
             ub.setup_views();
-
             ub.setup_material_options(); 
-
             ub.setup_pattern_view(); 
-
-            requestAnimationFrame( ub.render_frames );
+            requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
             
         }
 
-        /// Process Property Changes
-        window.ub.process = function () {
-
-
-        }
-
-        
         /// Main Render Loop
 
         window.ub.render_frames = function () {
 
-            requestAnimationFrame( ub.render_frames );
-            ub.renderer.render( ub.stage );
+            requestAnimationFrame(ub.render_frames);
+            ub.renderer.render(ub.stage);
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
             
             var frames_to_refresh = 7 * 60; // 60 frames in one sec, average
 
-            if ( ub.pass > ( frames_to_refresh - 10 ) && ( ub.pass < frames_to_refresh ) ) {
+            if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
                 ub.refresh_thumbnails();
             }   
 
-            if ( ub.pass < frames_to_refresh ) {
+            if (ub.pass < frames_to_refresh) {
                 ub.pass += 1; 
             }
 
@@ -360,7 +349,7 @@ $(document).ready(function () {
             window.ub.pixi = {};  // PIXI wrapper methods
 
             window.ub.pixi.new_sprite = function (filename) {
-                return new PIXI.Sprite( PIXI.Texture.fromImage( filename + '?v=' + (new Date() / 1000)) );
+                return new PIXI.Sprite(PIXI.Texture.fromImage(filename + '?v=' + (new Date() / 1000)));
             };
 
             window.ub.setup_views = function () {
@@ -369,16 +358,16 @@ $(document).ready(function () {
 
                     var view_name = view + '_view';
 
-                    var shape                               = ub.pixi.new_sprite( ub.assets[view_name].shape );
-                    var shape_mask                          = ub.pixi.new_sprite( ub.assets[view_name].shape );
+                    var shape = ub.pixi.new_sprite(ub.assets[view_name].shape);
+                    var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
 
-                    ub.objects[view_name]                   = {};
-                    ub.objects[view_name].shape             = shape;
-                    ub.objects[view_name].shape_mask        = shape_mask;
+                    ub.objects[view_name] = {};
+                    ub.objects[view_name].shape = shape;
+                    ub.objects[view_name].shape_mask = shape_mask;
 
-                    shape.tint                              = 0xeeeded; 
-                    shape.zIndex                            = 2;
-                    shape_mask.zIndex                       = 1;
+                    shape.tint = 0xeeeded; 
+                    shape.zIndex = 2;
+                    shape_mask.zIndex = 1;
            
                     ub[view_name].addChild(shape);
                     ub.updateLayersOrder(ub[view_name]);
@@ -757,11 +746,11 @@ $(document).ready(function () {
 
                         var name = obj.name.toLowerCase().replace(' ', '_');
 
-                        current_view_objects[name] = ub.pixi.new_sprite( obj.material_option_path );
+                        current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
                         var current_object = current_view_objects[name];
 
                         current_object.name = name;
-                        current_object.zIndex = ( obj.layer_level * 2 ) * ( -1 );
+                        current_object.zIndex = (obj.layer_level * 2) * (-1);
                         
                         
                         if (obj.setting_type === 'highlights') {
@@ -775,7 +764,7 @@ $(document).ready(function () {
                         } else {
                             
                             var default_color = JSON.parse(obj.colors)[0];
-                            var color = _.find( ub.data.colors, { color_code: default_color });
+                            var color = _.find(ub.data.colors, { color_code: default_color });
 
                             current_object.tint = parseInt(color.hex_code, 16);
 
@@ -797,7 +786,7 @@ $(document).ready(function () {
 
                         if (obj.setting_type === 'shape') {
 
-                            var mask =  ub.pixi.new_sprite( obj.material_option_path );
+                            var mask =  ub.pixi.new_sprite(obj.material_option_path);
                             mask.name = name + '_mask';
                             mask.zIndex = current_object.zIndex + (-1);
                             mask.blendMode = PIXI.BLEND_MODES.MULTIPLY;
@@ -845,7 +834,7 @@ $(document).ready(function () {
 
                         _.each(obj.available_colors, function (color_obj) {
 
-                            var color = _.find( ub.data.colors, { color_code: color_obj});
+                            var color = _.find(ub.data.colors, { color_code: color_obj});
                             var element = '<div class="color_element">';
 
                             element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
@@ -924,10 +913,10 @@ $(document).ready(function () {
 
             window.ub.setup_pattern_view = function () {
 
-                var layer_1 = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
-                var layer_2 = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
-                var layer_3 = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
-                var layer_4 = ub.pixi.new_sprite( ub.assets.pattern.layers[3] );
+                var layer_1 = ub.pixi.new_sprite(ub.assets.pattern.layers[0]);
+                var layer_2 = ub.pixi.new_sprite(ub.assets.pattern.layers[1]);
+                var layer_3 = ub.pixi.new_sprite(ub.assets.pattern.layers[2]);
+                var layer_4 = ub.pixi.new_sprite(ub.assets.pattern.layers[3]);
 
                 layer_1.width = ub.dimensions.width;
                 layer_1.height = ub.dimensions.height;
@@ -985,7 +974,7 @@ $(document).ready(function () {
 
                     var view = v + '_view';
 
-                    temp_pattern[v] = new PIXI.Sprite( texture );
+                    temp_pattern[v] = new PIXI.Sprite(texture);
 
                     if (typeof(ub.objects[view].pattern) !== 'undefined') {
                         ub[view].removeChild(ub.objects[view].pattern);    
@@ -1028,7 +1017,7 @@ $(document).ready(function () {
                     var view_name = view + '_view';
                     var id = 'a#' + 'view_' + view + ' > img';
 
-                    $( id ).attr('src', ub.getThumbnailImage( view_name ) );
+                    $(id).attr('src', ub.getThumbnailImage(view_name));
 
                 });
 
@@ -1102,7 +1091,7 @@ $(document).ready(function () {
 
                 var s = $(e.currentTarget);
 
-                if ( s.is($('#right-sidebar > a.active_button')[0]) ) {
+                if (s.is($('#right-sidebar > a.active_button')[0])) {
                     return;
                 }
 
@@ -1124,7 +1113,7 @@ $(document).ready(function () {
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
 
-                if ( _.contains(sidebar_classes, s) ) {
+                if (_.contains(sidebar_classes, s)) {
 
                     if (s === 'btn-new' && $('a.' + s).data('status') === 'close') {
                         return;
@@ -1144,7 +1133,7 @@ $(document).ready(function () {
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
 
-                if ( _.contains(sidebar_classes, s) ) {
+                if (_.contains(sidebar_classes, s)) {
 
                     if ($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
                         
@@ -1167,7 +1156,7 @@ $(document).ready(function () {
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 
-                if ( s === "btn-new" ) {
+                if (s === "btn-new") {
 
                     var status = $('a.btn-new').data('status');
 
@@ -1247,7 +1236,7 @@ $(document).ready(function () {
 
             $('div.sports_categories').click(function (e){
 
-                if ( typeof( ub.ui.active_element  ) !== 'undefined'  ) {
+                if (typeof(ub.ui.active_element) !== 'undefined') {
 
                     ub.ui.active_element.removeClass('sports_categories_activated');
 
@@ -1296,7 +1285,7 @@ $(document).ready(function () {
 
                     id = ub.ui.active_style_element.data('id');
 
-                    if ( option === 'All') {
+                    if (option === 'All') {
                         url = ub.config.host + '/builder/' + id;    
                     }
                     else {
@@ -1312,9 +1301,9 @@ $(document).ready(function () {
                     var category_name = ub.ui.active_style_element.data('category-name');
                     var gender_name = ub.ui.active_style_element.data('gender').toLowerCase();
 
-                    ub.display_design_sets( category_name, gender_name, 'All' );
+                    ub.display_design_sets(category_name, gender_name, 'All');
 
-                    $('#active_sports_category').text( category_name.toUpperCase() + ' > ' + gender_name.toUpperCase() );
+                    $('#active_sports_category').text(category_name.toUpperCase() + ' > ' + gender_name.toUpperCase());
 
                 }
 
@@ -1325,10 +1314,10 @@ $(document).ready(function () {
 
                 $('div.gender_picker').click(function (e){
 
-                    var element                 = $( e.currentTarget );
-                    var gender                  = element.data( 'gender' );
+                    var element = $(e.currentTarget);
+                    var gender = element.data('gender');
 
-                    ub.display_categories( gender );
+                    ub.display_categories(gender);
 
                 });
 
@@ -1364,18 +1353,18 @@ $(document).ready(function () {
                var selection = $(window.ce).data('selection');
 
                if (selection !== 'none') {
-                    $( '#' + selection ).css( 'background-color', color );
+                    $('#' + selection).css('background-color', color);
                }
 
-               color_element.parent().data( "active_color", color );
-               ub.change_color( target, color, panel );
+               color_element.parent().data("active_color", color);
+               ub.change_color(target, color, panel);
 
                $("button[data-target='" + target +"']").html('');
 
                var path = '/images/sidebar/';
                var highlighter = '';
 
-               if ( color === "#ffffff") {
+               if (color === "#ffffff") {
                     path = path + 'highlighter-dark.png';
                }
                else {
@@ -1401,12 +1390,12 @@ $(document).ready(function () {
 
                 if (panel === 'body') {
 
-                    if (typeof( ub.objects.left_view['pattern'] ) !== 'undefined') {
+                    if (typeof(ub.objects.left_view['pattern']) !== 'undefined') {
 
-                        ub.objects.front_view['pattern'].visible    = false;
-                        ub.objects.back_view['pattern'].visible     = false;
-                        ub.objects.left_view['pattern'].visible     = false;
-                        ub.objects.right_view['pattern'].visible    = false;
+                        ub.objects.front_view['pattern'].visible = false;
+                        ub.objects.back_view['pattern'].visible = false;
+                        ub.objects.left_view['pattern'].visible = false;
+                        ub.objects.right_view['pattern'].visible = false;
 
                     }
 
@@ -1445,25 +1434,25 @@ $(document).ready(function () {
 
                 } else {
 
-                    if (typeof( ub.objects.front_view[obj] ) !== 'undefined') {
+                    if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
 
                         ub.objects.front_view[obj].tint = color_value;    
 
                     }
 
-                    if (typeof( ub.objects.back_view[obj] ) !== 'undefined') {
+                    if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
 
                         ub.objects.back_view[obj].tint = color_value;    
 
                     }
 
-                    if (typeof( ub.objects.left_view[obj] ) !== 'undefined') {
+                    if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
 
                         ub.objects.left_view[obj].tint = color_value;    
 
                     }
 
-                    if (typeof( ub.objects.right_view[obj] ) !== 'undefined') {
+                    if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
 
                         ub.objects.right_view[obj].tint = color_value;    
 
@@ -1491,8 +1480,8 @@ $(document).ready(function () {
 
                    var selection = $(window.ce).data('selection');
 
-                   gradient_element.parent().data( "active_gradient", gradient );
-                   ub.change_gradient( target, gradient, panel );
+                   gradient_element.parent().data("active_gradient", gradient);
+                   ub.change_gradient(target, gradient, panel);
 
                    $("button[data-target-gradient='" + target +"']").html('');
 
@@ -1510,7 +1499,7 @@ $(document).ready(function () {
 
         };
 
-        ub.change_gradient = function ( target, gradient, panel ) {
+        ub.change_gradient = function (target, gradient, panel) {
 
             var el = _.find(ub.data.gradients.items, { code: gradient });
             var clone = {};
@@ -1577,7 +1566,7 @@ $(document).ready(function () {
                 min: 0,
                 max: 100,
                 gap: 0,
-                change: function ( event, ui ) {
+                change: function (event, ui) {
 
                     $("button#update-gradient-" + target).click();
 
@@ -1589,7 +1578,7 @@ $(document).ready(function () {
                 min: 0,
                 max: 360,
                 startAngle: 90,
-                change: function ( event, ui ) {
+                change: function (event, ui) {
                     
                     $("button#update-gradient-" + target).click();
 
@@ -1624,7 +1613,7 @@ $(document).ready(function () {
                     var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
 
-                    color_obj = _.find( ub.data.colors, { color_code: color_code})
+                    color_obj = _.find(ub.data.colors, { color_code: color_code})
 
                     var new_color_stop = {
 
@@ -1643,7 +1632,7 @@ $(document).ready(function () {
 
                     });
 
-                    ub.change_gradient( target, gradient, panel );
+                    ub.change_gradient(target, gradient, panel);
 
                 });
 
@@ -1659,7 +1648,7 @@ $(document).ready(function () {
                             color_stop.value = index * spacing;
                         });
 
-                        ub.change_gradient( target, gradient, panel );
+                        ub.change_gradient(target, gradient, panel);
     
                     }
                    
@@ -1778,7 +1767,7 @@ $(document).ready(function () {
             var bounds;
             var guides;
 
-            if ( uniform_type === "upper" ) {
+            if (uniform_type === "upper") {
 
                 guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
@@ -1849,7 +1838,7 @@ $(document).ready(function () {
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if ( typeof( ub.objects.pattern_view.gradient_layer ) === "object" ) {
+            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
                 ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
             }
 
@@ -1863,7 +1852,7 @@ $(document).ready(function () {
 
                 var view = v + '_view';
 
-                temp_pattern[v] = new PIXI.Sprite( texture );
+                temp_pattern[v] = new PIXI.Sprite(texture);
 
                 if (typeof(ub.objects[view].gradient) !== 'undefined') {
                     ub[view].removeChild(ub.objects[view].gradient);    
@@ -1872,7 +1861,7 @@ $(document).ready(function () {
                 ub[view].removeChild(ub.objects[view].gradient);
                 temp_pattern[v].zIndex = 1;
 
-                if ( target === 'body' ) {
+                if (target === 'body') {
                     temp_pattern[v].mask = ub.objects[view].shape_mask;
                 }    
                 else{
@@ -1944,7 +1933,7 @@ $(document).ready(function () {
    
     // Reposition All Tethers
 
-        $(window).scroll( function (e) {
+        $(window).scroll(function (e) {
 
             _.each(ub.tethers, function (obj) {
                 obj.position();
