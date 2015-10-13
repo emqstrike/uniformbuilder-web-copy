@@ -6,7 +6,7 @@ $(document).ready(function(){
 
         window.ub.initialize = function (){
 
-            if(window.ub.config.material_id === -1) {
+            if (window.ub.config.material_id === -1) {
                 return;
             }
 
@@ -53,7 +53,7 @@ $(document).ready(function(){
  
         ub.callback = function (obj, object_name) {
 
-            if(object_name === 'colors' || object_name === 'patterns'){
+            if (object_name === 'colors' || object_name === 'patterns') {
                 ub.data[object_name] = obj
             }
             else {
@@ -66,7 +66,7 @@ $(document).ready(function(){
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined';  
 
-            if( ok ){
+            if ( ok ) {
 
                 ub.load_assets();            
 
@@ -186,7 +186,7 @@ $(document).ready(function(){
 
             var design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
 
-            if(type === 'All'){
+            if (type === 'All') {
             
                 design_sets = _.where( ub.design_sets, { category: category, gender: gender.toLowerCase() } );
             
@@ -349,7 +349,7 @@ $(document).ready(function(){
                 ub.refresh_thumbnails();
             }   
 
-            if( ub.pass < frames_to_refresh ) {
+            if ( ub.pass < frames_to_refresh ) {
                 ub.pass += 1; 
             }
 
@@ -764,11 +764,11 @@ $(document).ready(function(){
                         current_object.zIndex = ( obj.layer_level * 2 ) * ( -1 );
                         
                         
-                        if( obj.setting_type === 'highlights' ) {
+                        if (obj.setting_type === 'highlights') {
 
                             current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
 
-                        } else if( obj.setting_type === 'shadows' ) {
+                        } else if (obj.setting_type === 'shadows') {
 
                             current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
@@ -781,7 +781,7 @@ $(document).ready(function(){
 
                             var modifier_label = name;
 
-                            if ( name.search('shape') > 0 ) {
+                            if (name.search('shape') > 0) {
 
                                 modifier_label = name.substr(0, name.length - 6);
 
@@ -795,7 +795,7 @@ $(document).ready(function(){
                         // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
                         // dummy layer will be used as a mask for patterns and gradients
 
-                        if (obj.setting_type === 'shape'){
+                        if (obj.setting_type === 'shape') {
 
                             var mask =  ub.pixi.new_sprite( obj.material_option_path );
                             mask.name = name + '_mask';
@@ -831,7 +831,7 @@ $(document).ready(function(){
 
                         var no_modifiers = ['static_layer', 'highlights', 'shadows'];
 
-                        if ( _.contains(no_modifiers, obj.setting_type) ) {
+                        if (_.contains(no_modifiers, obj.setting_type)) {
                             return;
                         }
 
@@ -878,7 +878,7 @@ $(document).ready(function(){
 
                         var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
 
-                        if ( _.contains(no_modifiers, obj.setting_type) ) {
+                        if (_.contains(no_modifiers, obj.setting_type)) {
                             return;
                         }
 
@@ -987,14 +987,14 @@ $(document).ready(function(){
 
                     temp_pattern[v] = new PIXI.Sprite( texture );
 
-                    if(typeof(ub.objects[view].pattern) !== 'undefined'){
+                    if (typeof(ub.objects[view].pattern) !== 'undefined') {
                         ub[view].removeChild(ub.objects[view].pattern);    
                     }
                     
-                    if(target === 'body'){
+                    if (target === 'body') {
                         temp_pattern[v].mask = ub.objects[view].shape_mask;
                     }    
-                    else{
+                    else {
                         var mask = ub.objects[view][target + "_mask"];
                         temp_pattern[v].mask = mask;
                         temp_pattern[v].zIndex = mask.zIndex;
@@ -1061,11 +1061,11 @@ $(document).ready(function(){
 
         /// RIGHT SIDEBAR
 
-            $('div#right-sidebar > a.sidebar-buttons').on('click', function(e){
+            $('div#right-sidebar > a.sidebar-buttons').on('click', function (e) {
 
                 $('#arrow_design_sets').remove();
 
-                if(ub.active !== null){
+                if (ub.active !== null) {
 
                     filename    = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
                     ub.active.css('background-image', 'url(' + filename + ')');
@@ -1085,24 +1085,24 @@ $(document).ready(function(){
 
             });
 
-            $('div#right-sidebar > a.sidebar-buttons').hover(function(e){
+            $('div#right-sidebar > a.sidebar-buttons').hover(function(e) {
 
                 var s = $(e.currentTarget)
                 var option = s.data('filename');
                 var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
-                if( s.is($('#right-sidebar > a.active_button')[0]) ) {
+                if (s.is($('#right-sidebar > a.active_button')[0])) {
                     return;
                 }
                 
                 s.css('background-color','#363636');
                 s.css('background-image', 'url(' + filename + ')');
  
-            }, function (e){
+            }, function (e) {
 
                 var s = $(e.currentTarget);
 
-                if( s.is($('#right-sidebar > a.active_button')[0]) ) {
+                if ( s.is($('#right-sidebar > a.active_button')[0]) ) {
                     return;
                 }
 
@@ -1126,7 +1126,7 @@ $(document).ready(function(){
 
                 if ( _.contains(sidebar_classes, s) ) {
 
-                    if(s === 'btn-new' && $('a.' + s).data('status') === 'close'){
+                    if (s === 'btn-new' && $('a.' + s).data('status') === 'close') {
                         return;
                     }
 
@@ -1146,7 +1146,7 @@ $(document).ready(function(){
 
                 if ( _.contains(sidebar_classes, s) ) {
 
-                    if($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
+                    if ($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
                         
                         $('a.' + s).css('background-color','#acacac');
 
@@ -1171,7 +1171,7 @@ $(document).ready(function(){
 
                     var status = $('a.btn-new').data('status');
 
-                    if(status === 'new') {
+                    if (status === 'new') {
 
                         $('#main_view > canvas').hide();
                         $('#right-main-window > .options_panel').hide();
@@ -1247,7 +1247,7 @@ $(document).ready(function(){
 
             $('div.sports_categories').click(function(e){
 
-                if( typeof( ub.ui.active_element  ) !== 'undefined'  ) {
+                if ( typeof( ub.ui.active_element  ) !== 'undefined'  ) {
 
                     ub.ui.active_element.removeClass('sports_categories_activated');
 
@@ -1287,7 +1287,7 @@ $(document).ready(function(){
 
                 var picker_type = ub.ui.active_style_element.data('picker-type');
 
-                if(picker_type === 'design_sets') {
+                if (picker_type === 'design_sets') {
 
                     var id = -1;
                     var url = '';
@@ -1363,7 +1363,7 @@ $(document).ready(function(){
 
                var selection = $(window.ce).data('selection');
 
-               if(selection !== 'none'){
+               if (selection !== 'none') {
                     $( '#' + selection ).css( 'background-color', color );
                }
 
@@ -1375,7 +1375,7 @@ $(document).ready(function(){
                var path = '/images/sidebar/';
                var highlighter = '';
 
-               if( color === "#ffffff"){
+               if ( color === "#ffffff") {
                     path = path + 'highlighter-dark.png';
                }
                else {
@@ -1393,15 +1393,15 @@ $(document).ready(function(){
 
                 var color_param = color;
 
-                if(color_param === '#ffffff'){
+                if (color_param === '#ffffff') {
                     color_param = "#eeeded";
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
 
-                if(panel === 'body'){
+                if (panel === 'body') {
 
-                    if( typeof( ub.objects.left_view['pattern'] ) !== 'undefined' ){
+                    if (typeof( ub.objects.left_view['pattern'] ) !== 'undefined') {
 
                         ub.objects.front_view['pattern'].visible    = false;
                         ub.objects.back_view['pattern'].visible     = false;
@@ -1410,7 +1410,7 @@ $(document).ready(function(){
 
                     }
 
-                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+                    if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
 
                         ub.objects.front_view['gradient'].visible    = false;
                         ub.objects.back_view['gradient'].visible     = false;
@@ -1427,7 +1427,7 @@ $(document).ready(function(){
   
                 } else if (panel == 'patterns') {
 
-                    if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+                    if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
 
                         ub.objects.pattern_view.gradient_layer.visible = false;
 
@@ -1445,25 +1445,25 @@ $(document).ready(function(){
 
                 } else {
 
-                    if(typeof( ub.objects.front_view[obj] ) !== 'undefined') {
+                    if (typeof( ub.objects.front_view[obj] ) !== 'undefined') {
 
                         ub.objects.front_view[obj].tint = color_value;    
 
                     }
 
-                    if(typeof( ub.objects.back_view[obj] ) !== 'undefined') {
+                    if (typeof( ub.objects.back_view[obj] ) !== 'undefined') {
 
                         ub.objects.back_view[obj].tint = color_value;    
 
                     }
 
-                    if(typeof( ub.objects.left_view[obj] ) !== 'undefined') {
+                    if (typeof( ub.objects.left_view[obj] ) !== 'undefined') {
 
                         ub.objects.left_view[obj].tint = color_value;    
 
                     }
 
-                    if(typeof( ub.objects.right_view[obj] ) !== 'undefined') {
+                    if (typeof( ub.objects.right_view[obj] ) !== 'undefined') {
 
                         ub.objects.right_view[obj].tint = color_value;    
 
@@ -1480,7 +1480,7 @@ $(document).ready(function(){
 
             /// Change Gradient ///
 
-                $('.change-gradient').on('click', function(e){
+                $('.change-gradient').on('click', function(e) {
 
                    var gradient = $(this).data('gradient');
                    var target = $(this).data('target-gradient');
@@ -1510,7 +1510,7 @@ $(document).ready(function(){
 
         };
 
-        ub.change_gradient = function( target, gradient, panel ){
+        ub.change_gradient = function( target, gradient, panel ) {
 
             var el = _.find(ub.data.gradients.items, { code: gradient });
             var clone = {};
@@ -1521,12 +1521,12 @@ $(document).ready(function(){
 
             var elements = "";
 
-            if(el.color_stops.length > 0){
+            if (el.color_stops.length > 0) {
 
                 elements = "<br />Color Stops<br /><br />";
             }
 
-            _.each(el.color_stops, function(e, index){
+            _.each(el.color_stops, function(e, index) {
 
                 var val = e.value;
                 var col = e.color;
@@ -1536,7 +1536,7 @@ $(document).ready(function(){
             });
 
             
-            if(el.code === "custom" ){
+            if (el.code === "custom" ) {
 
                 var add_button = "<button id='add_gradient_color_stop'><i class='fa fa-plus-circle'></i></button>";
                 var delete_button = "<button id='delete_gradient_color_stop'><i class='fa fa-minus-circle'></i></button>";
@@ -1565,7 +1565,7 @@ $(document).ready(function(){
             var stops = _.pluck(clone.color_stops, 'value');
             var stops_clone = [];
 
-            _.each(stops, function(e){
+            _.each(stops, function(e) {
 
                 stops_clone.push(e * 100);
 
@@ -1596,7 +1596,7 @@ $(document).ready(function(){
                 },
              });
 
-            $("button#update-gradient-" + target).click('click', function(e){
+            $("button#update-gradient-" + target).click('click', function(e) {
 
                 _.each(clone.color_stops, function(e, index) {
 
@@ -1617,9 +1617,9 @@ $(document).ready(function(){
             });
 
 
-            if(el.code === "custom"){
+            if (el.code === "custom") {
 
-                $('#add_gradient_color_stop').on('click', function(){
+                $('#add_gradient_color_stop').on('click', function() {
 
                     var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
@@ -1637,7 +1637,7 @@ $(document).ready(function(){
                     clone.color_stops.push(new_color_stop);
                     var spacing = 1 / (clone.color_stops.length - 1);
 
-                    _.each(clone.color_stops, function(color_stop, index){
+                    _.each(clone.color_stops, function(color_stop, index) {
                         
                         color_stop.value = index * spacing;
 
@@ -1647,15 +1647,15 @@ $(document).ready(function(){
 
                 });
 
-                $('#delete_gradient_color_stop').on('click', function(){
+                $('#delete_gradient_color_stop').on('click', function() {
 
-                    if(clone.color_stops.length > 2){
+                    if (clone.color_stops.length > 2) {
 
                         clone.color_stops.pop();
 
                         var spacing = 1 / (clone.color_stops.length - 1);
                         
-                        _.each(clone.color_stops, function(color_stop, index){
+                        _.each(clone.color_stops, function(color_stop, index) {
                             color_stop.value = index * spacing;
                         });
 
@@ -1671,7 +1671,7 @@ $(document).ready(function(){
 
         };
 
-        ub.create_color_picker = function(index, value, color, target, gradient){
+        ub.create_color_picker = function(index, value, color, target, gradient) {
 
             var element = "";
             element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
@@ -1680,7 +1680,7 @@ $(document).ready(function(){
 
         };
 
-        ub.bind_design_sets_tab_handlers = function(){
+        ub.bind_design_sets_tab_handlers = function() {
 
             $('button.button_tabs').click(function(e) {
 
@@ -1700,7 +1700,7 @@ $(document).ready(function(){
 
         ub.bind_left_sidebar_tab_handlers = function() {
 
-            $('.color_base').click(function (e){
+            $('.color_base').click(function (e) {
 
                 var option = $(this).data('option');
 
@@ -1734,7 +1734,7 @@ $(document).ready(function(){
             $("div[data-option='body']").fadeIn('fast');
 
 
-            $('.gradient_base').click(function (e){
+            $('.gradient_base').click(function (e) {
 
                 var option = $(this).data('option');
 
@@ -1778,7 +1778,7 @@ $(document).ready(function(){
             var bounds;
             var guides;
 
-            if( uniform_type === "upper" ) {
+            if ( uniform_type === "upper" ) {
 
                 guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
@@ -1800,7 +1800,7 @@ $(document).ready(function(){
 
             var gradient;
 
-            if (gradient_obj.code === "radial" ){
+            if (gradient_obj.code === "radial" ) {
 
                 var center_x = 250;
                 var center_y = 250;
@@ -1823,7 +1823,7 @@ $(document).ready(function(){
 
             }
             
-            _.each(gradient_obj.color_stops, function(color_stop){
+            _.each(gradient_obj.color_stops, function(color_stop) {
 
                 gradient.addColorStop(color_stop.value, color_stop.color);
 
@@ -1849,7 +1849,7 @@ $(document).ready(function(){
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if( typeof( ub.objects.pattern_view.gradient_layer ) === "object" ) {
+            if ( typeof( ub.objects.pattern_view.gradient_layer ) === "object" ) {
                 ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
             }
 
@@ -1865,14 +1865,14 @@ $(document).ready(function(){
 
                 temp_pattern[v] = new PIXI.Sprite( texture );
 
-                if( typeof(ub.objects[view].gradient) !== 'undefined' ){
+                if ( typeof(ub.objects[view].gradient) !== 'undefined' ) {
                     ub[view].removeChild(ub.objects[view].gradient);    
                 }
 
                 ub[view].removeChild(ub.objects[view].gradient);
                 temp_pattern[v].zIndex = 1;
 
-                if( target === 'body' ){
+                if ( target === 'body' ) {
                     temp_pattern[v].mask = ub.objects[view].shape_mask;
                 }    
                 else{
@@ -1922,7 +1922,7 @@ $(document).ready(function(){
 
         /// Camera Views
             
-            $('a.change-view').on('click', function(e){
+            $('a.change-view').on('click', function(e) {
 
                 var view = $(this).data('view');
 
@@ -1955,12 +1955,12 @@ $(document).ready(function(){
     /// End Reposition All Tethers
 
     // New Design
-    $('.new-design').on('click', function(){
+    $('.new-design').on('click', function() {
         // To Do
     });
 
     // Open Design
-    $('.open-design').on('click', function(){
+    $('.open-design').on('click', function() {
         openSavedUniformDesigns(ub.user.id);
     });
 
@@ -1991,7 +1991,7 @@ $(document).ready(function(){
                 if (response.success) {
                     var orders = response.orders;
                     $('#orders-list').html(''); // Clear the list
-                    $.each(orders, function(i, order){
+                    $.each(orders, function(i, order) {
                         $('#orders-list').append('<tr>' +
                             '<td>' + order.client + '</td>' +
                             '<td>' + order.uniform_type + '</td>' +
@@ -2109,11 +2109,11 @@ $(document).ready(function(){
         });
     }
 
-    $('.open-team-roster-modal').on('click', function(){
+    $('.open-team-roster-modal').on('click', function() {
         $('#team-roster-modal').modal('show');
     });
 
-    $('.add-roster-record').on('click', function(){
+    $('.add-roster-record').on('click', function() {
         var roster_source = $('#roster-record').html();
         var roster_template = Handlebars.compile(roster_source);
         $('#team-roster-form .table-roster-list').append(roster_template);
