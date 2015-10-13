@@ -44,3 +44,20 @@ a:hover{
 table > thead > tr > th{
     text-align: center;
 }
+
+.modal.modal-wide .modal-dialog {
+  	width: 90%;
+}
+
+.modal-wide .modal-body {
+  	overflow-y: auto;
+}
+
+#material-option-gradients {
+    width: 500px;
+    height: 500px;
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+}

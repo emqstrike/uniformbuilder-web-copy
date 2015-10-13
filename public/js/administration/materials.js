@@ -1,4 +1,108 @@
 $(document).ready(function(){
+    $( "#file-src" ).change(function() {
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+ 
+        if (/^image/.test( files[0].type)){
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+ 
+            reader.onloadend = function(){
+                $("#material-option-gradients").css("background-image", "url("+this.result+")");
+                $("#material-option-placements").css("background-image", "url("+this.result+")");
+            }
+        }
+    });
+
+    (function() {
+        var canvas = this.__canvas = new fabric.Canvas('c');
+        fabric.Object.prototype.transparentCorners = false;
+        canvas.setWidth( 496 );
+        canvas.setHeight( 550 );
+
+        window.shapes = {};
+
+        var data = {
+                    topLeft:[{x:0,y:0}],
+                    topRight:[{x:0,y:0}],
+                    bottomLeft:[{x:0,y:0}],
+                    bottomRight:[{x:0,y:0}],
+                    pivot: 0,
+                    rotation: 0,
+                };
+
+        var box = new fabric.Rect({
+            width: 250, height: 250, angle: 0,
+            fill: 'transparent',
+            stroke: '#e3e3e3',
+            originX: 'center',
+            originY: 'center'
+        });
+
+        window.shapes.box = box;
+
+        var circle = new fabric.Circle({
+            radius: 40,
+            fill: 'red',
+            opacity: 0.35,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        circle.hasBorders = false;
+        circle.hasControls = false;
+
+        var text = new fabric.Text('Bounding box', {
+            fontSize: 11,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var bounding_box = new fabric.Group([ box, text ], {
+            left: canvas.width/2.6,
+            top: canvas.height/5
+        });
+
+        window.shapes.bounding_box = bounding_box;
+
+        bounding_box.transparentCorners = false;
+        canvas.add(bounding_box);
+
+        canvas.on({
+            'object:moving': updateCoordinates,
+            'object:scaling': updateCoordinates,
+            'object:rotating': updateCoordinates,
+            'mouse:up': updateCoordinates
+        });
+
+        function updateCoordinates() {
+
+            circle.radius = box.height/2;
+
+            var topLeftX                = bounding_box.oCoords.tl.x;
+            var topLeftY                = bounding_box.oCoords.tl.y;
+            var topRightX               = bounding_box.oCoords.tr.x;
+            var topRightY               = bounding_box.oCoords.tr.y;
+            var bottomLeftX             = bounding_box.oCoords.bl.x;
+            var bottomLeftY             = bounding_box.oCoords.bl.y;
+            var bottomRightX            = bounding_box.oCoords.br.x;
+            var bottomRightY            = bounding_box.oCoords.br.y;
+
+            canvas.renderAll();
+
+            data['topLeft'][0]['x']     = topLeftX;
+            data['topLeft'][0]['y']     = topLeftY;
+            data['topRight'][0]['x']    = topRightX;
+            data['topRight'][0]['y']    = topRightY;
+            data['bottomLeft'][0]['x']  = bottomLeftX;
+            data['bottomLeft'][0]['y']  = bottomLeftY;
+            data['bottomRight'][0]['x'] = bottomRightX;
+            data['bottomRight'][0]['y'] = bottomRightY;
+            data['pivot']               = bounding_box.getCenterPoint();
+            data['rotation']            = bounding_box.getAngle();
+        }
+
+    })();
 
     $(".modal").each(function(i) {
         $(this).draggable({

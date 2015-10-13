@@ -44,10 +44,10 @@
                 </div>
 
             </div>
-            <!-- <div class="modal-footer">
+            <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
-            </div> -->
+            </div>
             </form>
         </div>
     </div>

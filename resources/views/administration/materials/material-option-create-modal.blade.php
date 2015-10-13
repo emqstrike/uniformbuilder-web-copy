@@ -86,7 +86,6 @@
                         <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="Save">

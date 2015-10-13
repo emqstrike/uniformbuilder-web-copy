@@ -5,22 +5,6 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
-<style type="text/css">
-    .modal.modal-wide .modal-dialog {
-      width: 90%;
-    }
-    .modal-wide .modal-body {
-      overflow-y: auto;
-    }
-    #material-option-gradients {
-        width: 500px;
-        height: 500px;
-        background-position: center center;
-        background-size: cover;
-        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
-        display: inline-block;
-    }
-</style>
 
 @endsection
 
@@ -70,41 +54,6 @@
 
             <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
                 <td>
-                    <!-- @if ($material->thumbnail_path)
-                    <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
-                    @else
-                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
-                    @endif -->
-                    <!-- B E G I N of new LAYOUT -->
-
-
-                    <!-- <div class="item row" style="display: inline;">
-                        <div class="thumbnail">
-                            <img src="https://www.blueinc.co.uk/images/mens-white-baseball-jersey-t-shirt-p20950-24151_image.jpg" width="300px" height="300px" alt="{{ $material->slug }}">
-                            <div class="caption" style="display: inline;">
-                                <center>
-                                    <span>
-                                        {{ $material->code }}
-                                        <span>{{ $material->name }}</span>
-                                        {{ $material->code }}
-                                    </span>
-                                    <span>
-                                        {{ $material->uniform_category }}
-                                    </span>
-                                    <span>
-                                        {{ ucfirst($material->type) }}
-                                    </span>
-                                    <span>
-                                        @if ($material->gender == "men")
-                                        <i class="fa fa-mars"></i>
-                                        @else
-                                        <i class="fa fa-venus"></i>
-                                        @endif
-                                    </span>
-                                </center>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="item row" style="display: inline;">
                         <div style="border: 1px solid #e3e3e3;">
                             <div>
@@ -378,15 +327,12 @@
                     </div>
                 </td>
             </tr>
-
         @empty
-
             <tr>
                 <td colspan='4' align='center'>
                     No Materials
                 </td>
             </tr>
-
         @endforelse
 
         </tbody>
@@ -413,172 +359,6 @@
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $( "#file-src" ).change(function() {
-        // console.log("changed");
-        // var src = $( "#file-src" ).val();
-        // console.log(src);
-        // $( "#material-option-preview" ).attr('src',src);
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
- 
-        if (/^image/.test( files[0].type)){ // only image file
-            var reader = new FileReader(); // instance of the FileReader
-            reader.readAsDataURL(files[0]); // read the local file
- 
-            reader.onloadend = function(){ // set image data as background of div
-                $("#material-option-gradients").css("background-image", "url("+this.result+")");
-                $("#material-option-placements").css("background-image", "url("+this.result+")");
-            }
-        }
-    });
-
-    (function() {
-        var canvas = this.__canvas = new fabric.Canvas('c');
-        fabric.Object.prototype.transparentCorners = false;
-        canvas.setWidth( 496 );
-        canvas.setHeight( 550 );
-
-        window.shapes = {};
-
-        var data = {
-
-                    topLeft:[{x:0,y:0}],
-                    topRight:[{x:0,y:0}],
-                    bottomLeft:[{x:0,y:0}],
-                    bottomRight:[{x:0,y:0}],
-                    pivot: 0,
-                    rotation: 0,
-
-                };
-
-        var box = new fabric.Rect({
-            width: 250, height: 250, angle: 0,
-            fill: 'green',
-            opacity: 0.35,
-            originX: 'center',
-            originY: 'center'
-        });
-
-        window.shapes.box = box;
-
-        var circle = new fabric.Circle({
-            //radius: box.getHeight()/2,
-            radius: 40,
-            fill: 'red',
-            opacity: 0.35,
-            originX: 'center',
-            originY: 'center'
-        });
-        circle.hasBorders = false;
-        circle.hasControls = false;
-
-        var text = new fabric.Text('Bounding box', {
-            fontSize: 11,
-            originX: 'center',
-            originY: 'center'
-        });
-
-        var bounding_box = new fabric.Group([ box, text ], {
-            left: canvas.width/2.6,
-            top: canvas.height/5
-        });
-
-        window.shapes.bounding_box = bounding_box;
-        //bounding_box.lockRotation = true;
-        //bounding_box.on('moving', resizeCircle);
-
-        // bounding_box.on('moving', backgroundMoveHandler);
-
-        // children = [];
-        // function addItem() {
-        //     canvas.add(circle);
-        //     children.push(circle);
-        // }
-
-        // Add some children
-        // addItem();
-        // addItem();
-
-        // Whenever the parent is moved, move the children as well.
-        // function backgroundMoveHandler(options) {
-        //     var x = options.e.movementX;
-        //     var y = options.e.movementY;
-        //     $.each(children, function(i, obj) {
-        //         obj.set('left', obj.left + x);
-        //         obj.set('top', obj.top + y);
-        //         obj.setCoords();
-        //     });
-        // }
-        bounding_box.transparentCorners = false;
-        canvas.add(bounding_box);
-
-        canvas.on({
-            'object:moving': updateCoordinates,
-            'object:scaling': updateCoordinates,
-            'object:rotating': updateCoordinates,
-            'mouse:up': updateCoordinates
-        });
-
-        function updateCoordinates() {
-
-            circle.radius = box.height/2;
-
-            // var pivot           = bounding_box.getCenterPoint();
-            var topLeftX                = bounding_box.oCoords.tl.x;
-            var topLeftY                = bounding_box.oCoords.tl.y;
-            var topRightX               = bounding_box.oCoords.tr.x;
-            var topRightY               = bounding_box.oCoords.tr.y;
-            var bottomLeftX             = bounding_box.oCoords.bl.x;
-            var bottomLeftY             = bounding_box.oCoords.bl.y;
-            var bottomRightX            = bounding_box.oCoords.br.x;
-            var bottomRightY            = bounding_box.oCoords.br.y;
-
-            // var topRightX       = bounding_box.getLeft() + bounding_box.getWidth();
-            // var topRightY       = bounding_box.getTop();
-            // var bottomLeftX     = bounding_box.getLeft();
-            // var bottomLeftY     = bounding_box.getTop() + bounding_box.getHeight();
-            // var bottomRightX    = bounding_box.getLeft() + bounding_box.getWidth();
-            // var bottomRightY    = bounding_box.getTop() + bounding_box.getHeight();
-
-            canvas.renderAll();
-
-            data['topLeft'][0]['x']     = topLeftX;
-            data['topLeft'][0]['y']     = topLeftY;
-            data['topRight'][0]['x']    = topRightX;
-            data['topRight'][0]['y']    = topRightY;
-            data['bottomLeft'][0]['x']  = bottomLeftX;
-            data['bottomLeft'][0]['y']  = bottomLeftY;
-            data['bottomRight'][0]['x'] = bottomRightX;
-            data['bottomRight'][0]['y'] = bottomRightY;
-            data['pivot']               = bounding_box.getCenterPoint();
-            data['rotation']            = bounding_box.getAngle();
-            //data['tl'][0]['y'] = topLeftY;
-            // data['tr'][0]['x'] = topRightX;
-            // data['tr'][0]['y'] = topRightY;
-            // data['bl'][0]['x'] = bottomLeftX;
-            // data['bl'][0]['y'] = bottomLeftY;
-            // data['br'][0]['x'] = bottomRightX;
-            // data['br'][0]['y'] = bottomRightY;
-            // data['pivot'] = pivot;
-
-            var str = JSON.stringify(data, null, 2);
-
-            console.log(str);
-
-            //console.log(topLeftX);
-            //console.log(topLeftY);
-            // console.log(topRight);
-            // console.log(bottomLeft);
-            // console.log(bottomRight);
-            //console.log(bounding_box.oCoords.tl.x + ", " + bounding_box.oCoords.tl.y);
-        }
-
-})();
-
-});
-</script>
 @if (Session::has('message'))
 <script type="text/javascript">
 $(document).ready(function(){

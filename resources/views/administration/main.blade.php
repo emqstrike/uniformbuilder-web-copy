@@ -57,22 +57,27 @@
                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     Welcome
                     @if (Session::get('fullname'))
-                    <strong>{{ Session::get('fullname') }}</strong> <span class="glyphicon glyphicon-user"></span>
+                    <strong>{{ Session::get('fullname') }}</strong>
+                    <span class="glyphicon glyphicon-user"></span>
                     @endif
                     <strong class="caret"></strong>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="/administration/account_settings/{{ Session::get('userId') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
+                        <a href="/administration/account_settings/{{ Session::get('userId') }}">
+                        <span class="glyphicon glyphicon-user"></span> Account Settings</a>
                     </li>
                     <li class="divider">
                     <li>
-                        <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}"><span class="fa fa-slack"></span> Change Password</a>
+                        <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}">
+                        <span class="fa fa-slack"></span> Change Password</a>
                     </li>
                     <li class="divider">
                     </li>
                     <li>
-                        <a href="/administration/logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
+                        <a href="/administration/logout"><span class="glyphicon glyphicon-log-out">
+                            
+                        </span> Sign out</a>
                     </li>
                 </ul>
             </li>
