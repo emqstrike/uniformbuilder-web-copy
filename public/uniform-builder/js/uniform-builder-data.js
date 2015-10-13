@@ -1,26 +1,26 @@
 $(document).ready(function(){
 
-    ub.ui                       = {};
-    ub.modifiers                = {};
-    ub.tethers                  = {}; 
-    ub.dimensions               = {};
-    ub.dimensions.width         = 496;
-    ub.dimensions.height        = 550;
-    ub.active                   = null;
+    ub.ui = {};
+    ub.modifiers = {};
+    ub.tethers = {}; 
+    ub.dimensions = {};
+    ub.dimensions.width = 496;
+    ub.dimensions.height = 550;
+    ub.active = null;
 
-    ub.container_div            = 'main_view';
-    ub.views                    = ['front', 'back', 'left', 'right'];
-    ub.stage                    = new PIXI.Container();
-    ub.left_view                = new PIXI.Container();
-    ub.front_view               = new PIXI.Container();
-    ub.back_view                = new PIXI.Container();
-    ub.right_view               = new PIXI.Container();
-    ub.pattern_view             = new PIXI.Container();
-    ub.gradient_preview         = new PIXI.Container();
+    ub.container_div = 'main_view';
+    ub.views = ['front', 'back', 'left', 'right'];
+    ub.stage = new PIXI.Container();
+    ub.left_view = new PIXI.Container();
+    ub.front_view = new PIXI.Container();
+    ub.back_view = new PIXI.Container();
+    ub.right_view = new PIXI.Container();
+    ub.pattern_view = new PIXI.Container();
+    ub.gradient_preview = new PIXI.Container();
 
-    ub.stage.interactive        = true;
-    ub.pCanvas                  = document.getElementById( ub.container_div );
-    ub.renderer                 = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
+    ub.stage.interactive = true;
+    ub.pCanvas = document.getElementById( ub.container_div );
+    ub.renderer = PIXI.autoDetectRenderer( ub.dimensions.width, ub.dimensions.height );
     ub.renderer.backgroundColor = 0xffffff;
     
     ub.stage.addChild(ub.left_view);
@@ -34,12 +34,12 @@ $(document).ready(function(){
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
-    ub.front_view.position.x                = 0;
+    ub.front_view.position.x = 0;
     
-    ub.right_view.position.x                = ub.dimensions.width;
-    ub.back_view.position.x                 = ub.dimensions.width;
-    ub.left_view.position.x                 = ub.dimensions.width;
-    ub.pattern_view.position.x              = ub.dimensions.width;
+    ub.right_view.position.x = ub.dimensions.width;
+    ub.back_view.position.x = ub.dimensions.width;
+    ub.left_view.position.x = ub.dimensions.width;
+    ub.pattern_view.position.x = ub.dimensions.width;
 
     ub.current_material = {};
     ub.current_material.settings = {};

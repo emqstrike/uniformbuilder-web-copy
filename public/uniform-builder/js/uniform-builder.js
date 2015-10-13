@@ -390,6 +390,11 @@ $(document).ready(function(){
     // Returns the uniform customization settings made by the user
     // @return JSONObject
     ub.exportSettings = function() {
+
+        /// Save Preview
+        var uniform_type = ub.current_material.material.type;
+        ub.current_material.settings[uniform_type].preview = ub.getThumbnailImage('front_view');
+
         return ub.current_material.settings;
     }
 
@@ -421,7 +426,18 @@ $(document).ready(function(){
                 ];
 
                 settings.upper = {};
-                settings.lower = {};
+                settings.lower = {
+
+                    preview: '',
+
+                };
+
+                settings.upper = {
+
+                    preview: '',
+
+                };
+
 
                 var current_material = ub.current_material.material;
                 var material_options = ub.current_material.materials_options;
@@ -908,10 +924,10 @@ $(document).ready(function(){
 
             window.ub.setup_pattern_view = function(){
 
-                var layer_1                         = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
-                var layer_2                         = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
-                var layer_3                         = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
-                var layer_4                         = ub.pixi.new_sprite( ub.assets.pattern.layers[3] );
+                var layer_1 = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
+                var layer_2 = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
+                var layer_3 = ub.pixi.new_sprite( ub.assets.pattern.layers[2] );
+                var layer_4 = ub.pixi.new_sprite( ub.assets.pattern.layers[3] );
 
                 layer_1.width = ub.dimensions.width;
                 layer_1.height = ub.dimensions.height;
@@ -922,17 +938,17 @@ $(document).ready(function(){
                 layer_4.width = ub.dimensions.width;
                 layer_4.height = ub.dimensions.height;
 
-                ub.objects.pattern_view             = {};
+                ub.objects.pattern_view = {};
 
-                ub.objects.pattern_view.layer_1     = layer_1;
-                ub.objects.pattern_view.layer_2     = layer_2;
-                ub.objects.pattern_view.layer_3     = layer_3;
-                ub.objects.pattern_view.layer_4     = layer_4;
+                ub.objects.pattern_view.layer_1 = layer_1;
+                ub.objects.pattern_view.layer_2 = layer_2;
+                ub.objects.pattern_view.layer_3 = layer_3;
+                ub.objects.pattern_view.layer_4 = layer_4;
                 
-                layer_1.zIndex                      = 1;
-                layer_2.zIndex                      = 2;
-                layer_3.zIndex                      = 3;
-                layer_4.zIndex                      = 4;
+                layer_1.zIndex = 1;
+                layer_2.zIndex = 2;
+                layer_3.zIndex = 3;
+                layer_4.zIndex = 4;
 
                 // default colors
 
@@ -1002,7 +1018,6 @@ $(document).ready(function(){
                 return texture.getImage().src;
 
             }
-
             
             /// Refresh Thumbnail Views ///
 
@@ -1018,7 +1033,6 @@ $(document).ready(function(){
                 });
 
                 $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
-                                                                                
             
             }
 
@@ -1832,10 +1846,10 @@ $(document).ready(function(){
             var texture = PIXI.Texture.fromCanvas(canvas);
             var temp_pattern = {};
 
-            var gradient_layer = new PIXI.Sprite( texture );
+            var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if(typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+            if( typeof( ub.objects.pattern_view.gradient_layer ) === "object" ) {
                 ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
             }
 
@@ -1851,14 +1865,14 @@ $(document).ready(function(){
 
                 temp_pattern[v] = new PIXI.Sprite( texture );
 
-                if(typeof(ub.objects[view].gradient) !== 'undefined'){
+                if( typeof(ub.objects[view].gradient) !== 'undefined' ){
                     ub[view].removeChild(ub.objects[view].gradient);    
                 }
 
                 ub[view].removeChild(ub.objects[view].gradient);
                 temp_pattern[v].zIndex = 1;
 
-                if(target === 'body'){
+                if( target === 'body' ){
                     temp_pattern[v].mask = ub.objects[view].shape_mask;
                 }    
                 else{
