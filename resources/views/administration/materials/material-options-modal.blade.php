@@ -14,7 +14,7 @@
                 <div class="col-md-3">
                 <span class="label label-info">FRONT</span>                        
                 @foreach ($material->options as $option)
-                    @if ( $option->perspective == "front")
+                    @if ($option->perspective == "front")
                         <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;"
                              class="form-group material-option-{{ $option->id }}  material-option-item"
                              data-material-option-name="{{ $option->name }}">

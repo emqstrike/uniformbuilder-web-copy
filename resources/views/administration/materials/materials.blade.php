@@ -36,7 +36,7 @@
 <div class="row-fluid col-md-12">
     <table data-toggle='table' class='materials'>
         <thead>
-            <tr>
+            <tr class="center-table-heads">
                 <th>Thumbnail</th>
                 <th>Material Name</th>
                 <th>Material Options</th>

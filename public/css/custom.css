@@ -41,7 +41,7 @@ a:hover{
         background-color: #fff !important;
 }
 
-table > thead > tr > th{
+tr.center-table-heads > th{
     text-align: center;
 }
 
