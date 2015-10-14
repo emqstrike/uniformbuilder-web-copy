@@ -1534,6 +1534,8 @@ $(document).ready(function () {
                 min: 0,
                 max: 360,
                 startAngle: 90,
+                width: 5,
+                handleSize: "+14",
                 change: function (event, ui) {
                     
                     $("button#update-gradient-" + target).click();
