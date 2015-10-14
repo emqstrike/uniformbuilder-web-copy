@@ -3,7 +3,9 @@
         <span class="label label-info">FRONT</span>                        
         @foreach ($material->options as $option)
             @if ($option->perspective == "front")
-                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" class="material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;"
+                     class="material-option-{{ $option->id }}  material-option-item"
+                     data-material-option-name="{{ $option->name }}">
                     @if ($material->thumbnail_path)
                     <img src="{{ $material->thumbnail_path }}"
                          class="pull-right"
