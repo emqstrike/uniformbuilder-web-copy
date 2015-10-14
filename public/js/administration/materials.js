@@ -198,17 +198,7 @@ $(document).ready(function(){
             name: $(this).data('material-name')
         };
         $('#add-material-option-modal .material-id').val(material.id);
-        $('#add-material-option-modal .modal-title span').html(material.name);
-        $('#add-material-option-modal').modal('show');
-    });
-
-    $('.test-modal').on('click', function(){
-        var material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name')
-        };
-        $('#add-material-option-modal .material-id').val(material.id);
-        $('#add-material-option-modal .modal-title span').html(material.name);
+        $('#add-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
         $('#add-material-option-modal').modal('show');
     });
 
@@ -230,62 +220,82 @@ $(document).ready(function(){
             }
         };
 
-        console.log("ID: "+material['option']['id']);
-        console.log("Name: "+material['option']['name']);
-        console.log("Layer Level: "+material['option']['layer_level']);
-        console.log("Type: "+material['option']['type']);
-        console.log("Code: "+material['option']['code']);
-        console.log("Path: "+material['option']['path']);
-        console.log("Perspective: "+material['option']['perspective']);
-        console.log("Colors: "+material['option']['colors']);
-        console.log("Gradients: "+material['option']['gradients']);
-        console.log("Blend: "+material['option']['blend']);
+        // console.log("ID: "+material['option']['id']);
+        // console.log("Name: "+material['option']['name']);
+        // console.log("Layer Level: "+material['option']['layer_level']);
+        // console.log("Type: "+material['option']['type']);
+        // console.log("Code: "+material['option']['code']);
+        // console.log("Path: "+material['option']['path']);
+        // console.log("Perspective: "+material['option']['perspective']);
+        // console.log("Colors: "+material['option']['colors']);
+        // console.log("Gradients: "+material['option']['gradients']);
+        // console.log("Blend: "+material['option']['blend']);
 
-        var select_options = materialOptionSettings[material.option.type];
-        $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
-        $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
-        $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
-        if (material.option.colors.length)
+        // var select_options = materialOptionSettings[material.option.type];
+        // $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
+        // $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
+        // $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
+        // if (material.option.colors.length)
+        // {
+        //     material.option.colors.forEach(function(item){
+        //         $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
+        //     });
+        // }
+        // bindColorsSelect2();
+
+        // if (material.option.gradients.length) {
+        //     material.option.gradients.forEach(function(item){
+        //         $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
+        //     });    
+        // }
+
+        // bindGradientsSelect2();
+
+        var type = capitalize(material.option.type);
+        var perspective = capitalize(material.option.perspective);
+
+        $('#material-option-name').val(material.option.name);
+
+        $('#saved-setting-type').val(material.option.type);
+        $('#saved-setting-type').text(type);
+
+        $('#saved-perspective').val(material.option.perspective);
+        $('#saved-perspective').text(perspective + " View");
+
+        $("#file-src").prop("src", material.option.path);
+
+        console.log($('input[type=file]').val());
+
+        $("#material-option-gradients").css("background-image", "url(" + material.option.path + ")");
+
+
+        function capitalize(c)
         {
-            material.option.colors.forEach(function(item){
-                $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
-            });
-        }
-        bindColorsSelect2();
-
-        if (material.option.gradients.length) {
-            material.option.gradients.forEach(function(item){
-                $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
-            });    
+            return c[0].toUpperCase() + c.slice(1);
         }
 
-        bindGradientsSelect2();
-
-        $('#edit-material-option-modal .material-id').val(material.id);
-        $('#edit-material-option-modal .material-option-id').val(material.option.id);
-        $('#edit-material-option-modal .modal-title span').html(material.name);
-        $('#edit-material-option-modal .option-name').val(material.option.name);
-        $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
-        if (material.option.path.length) {
-            $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-            $('#edit-material-option-modal .material-option-path').show();
-        } else {
-            $('#edit-material-option-modal .material-option-path').hide();
-        }
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        console.log("TYPE: " + material.option.type);
+        // $('#edit-material-option-modal .material-option-id').val(material.option.id);
+        // $('#edit-material-option-modal .modal-title span').html(material.name);
+        // $('#edit-material-option-modal .option-name').val(material.option.name);
+        // $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
+        // if (material.option.path.length) {
+        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+        //     $('#edit-material-option-modal .material-option-path').show();
+        // } else {
+        //     $('#edit-material-option-modal .material-option-path').hide();
+        // }
         if (material.option.blend) {
-            $('#edit-material-option-modal .is-blend').attr('checked', 'checked');
+            $('.is-blend').attr('checked', 'checked');
         } else {
-            $('#edit-material-option-modal .is-blend').removeAttr('checked');
+            $('.is-blend').removeAttr('checked');
         }
-        $('#edit-material-option-modal').modal('show');
-        console.log("edit event");
-        $('.modal-dialog').draggable({
-            handle: ".modal-header"
-        });
 
-        $('#edit-material-option-modal .material-id').val(material.id);
-        $('#edit-material-option-modal .modal-title span').html(material.name);
-        $('#edit-material-option-modal').modal('show');
+        $('#add-material-option-modal .material-id').val(material.id);
+        $('#add-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#add-material-option-modal').modal('show');
     });
 
     $('.enable-material').on('click', function(){

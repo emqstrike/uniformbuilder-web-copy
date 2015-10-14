@@ -1,19 +1,28 @@
-<!-- Edit Material Option Modal -->
-<div class="modal fade" id="edit-material-option-modal" aria-hidden="true">
+<!-- Add Material Option Modal -->
+<div class="modal modal-wide fade" id="edit-material-option-modal" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/administration/material_option/update" role="form" method="POST" enctype="multipart/form-data">
+            <form action="/administration/material_option/add" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-id" name="material_id">
-            <input type="hidden" class="material-option-id" name="material_option_id">
+            <input type="hidden" name="boundary_properties" id="boundary-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Edit a Material Option for <span style='color: blue'></span></h4>
+                <h4 class="modal-title">Add a Material Option for <span style='color: blue'></span></h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="col-md-6">
+                    <div id="material-option-gradients" style="border: 1px solid black;">
+                        <canvas id="bounding-box-preview"></canvas>
+                    </div>
+
+                    <div id="material-option-placements">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                     <label class="control-label">Name:</label>
-                    <input type="text" name="name" class="form-control option-name" />
+                    <input type="text" name="name" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Setting Type:</label>
@@ -38,19 +47,18 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Material Option File:</label>
-                    <input type="file" name="material_option_path">
-                    <img src="" class="material-option-path" width="300px" height="300px" style="display: none">
+                    <input type="file" name="material_option_path" id="file-src">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" class="form-control layer-level" value='1' />
+                    <input type="number" name="layer_level" class="form-control" value='1' />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Colors:</label>
                     <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
                         @foreach ($colors as $color)
                             @if ($color->active)
-                            <option value='{{ $color->color_code }}'>
+                            <option value='{{ $color->color_code }}' selected="selected">
                                 {{ $color->name }}
                             </option>
                             @endif
@@ -62,7 +70,7 @@
                     <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
                         @foreach ($gradients as $gradient)
                             @if ($gradient->active)
-                            <option value='{{ $gradient->id }}'>
+                            <option value='{{ $gradient->id }}' selected="selected">
                                 {{ $gradient->name }}
                             </option>
                             @endif
@@ -74,10 +82,9 @@
                         <label class="control-label">Blend</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="is_blend" class='is-blend' /> Check this if the material option could be <strong>blended</strong> with other material options.
+                        <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" value="Save">

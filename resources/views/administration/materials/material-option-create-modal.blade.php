@@ -8,7 +8,7 @@
             <input type="hidden" name="boundary_properties" id="boundary-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Add a Material Option for <span style='color: blue'></span></h4>
+                <h4 class="modal-title"><span style='color: blue'></span></h4>
             </div>
             <div class="modal-body">
                 <div class="col-md-6">
@@ -22,11 +22,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                     <label class="control-label">Name:</label>
-                    <input type="text" name="name" class="form-control" />
+                    <input type="text" name="name" class="form-control" id="material-option-name" />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
+                        <option id='saved-setting-type'></option>
                         <option value='part'>Part</option>
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>
@@ -39,6 +40,7 @@
                 <div class="form-group">
                     <label class="control-label">Perspective:</label>
                     <select name='perspective' class='form-control perspective'>
+                        <option id='saved-perspective'></option>
                         <option value='front'>Front View</option>
                         <option value='back'>Back View</option>
                         <option value='right'>Right Side View</option>
@@ -82,7 +84,7 @@
                         <label class="control-label">Blend</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="is_blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
+                        <input type="checkbox" name="is_blend" id="is-blend" /> Check this if the material option could be <strong>blended</strong> with other material options.
                     </div>
                 </div>
             </div>
