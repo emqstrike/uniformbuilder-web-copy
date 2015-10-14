@@ -87,7 +87,7 @@ div.navbar-header a.navbar-brand img {
 #main_container #main-row {
   height: 100%;
 }
-#main_container #main-row left-pane-column {
+#main_container #main-row #left-pane-column {
   height: 100%;
 }
 #main_container #main-row #right-pane-column {
