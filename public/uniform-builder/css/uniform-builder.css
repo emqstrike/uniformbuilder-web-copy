@@ -84,13 +84,13 @@ div.navbar-header a.navbar-brand img {
   height: 80%;
   margin-top: 125px;
 }
-#main_container main-row {
+#main_container #main-row {
   height: 100%;
 }
-#main_container main-row left-pane-column {
+#main_container #main-row left-pane-column {
   height: 100%;
 }
-#main_container main-row right-pane-column {
+#main_container #main-row #right-pane-column {
   height: 100%;
 }
 /* End Main Container */
