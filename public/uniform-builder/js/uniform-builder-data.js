@@ -309,12 +309,12 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 1,
+                       id: 2,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -358,27 +358,27 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.3,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 4,
                        value: 0.4,
                        color: '#ffffff',     
                     },
                     {
-                       id: 2,
+                       id: 5,
                        value: 0.8,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 6,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 7,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -402,27 +402,27 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.3,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 4,
                        value: 0.4,
                        color: '#ffffff',     
                     },
                     {
-                       id: 2,
+                       id: 5,
                        value: 0.8,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 6,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 7,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -446,13 +446,13 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.6,
                        color: '#5e5e5e',     
                     },
 
                     {
-                       id: 2,
+                       id: 4,
                        value: 1,
                        color: '#ffffff',     
                     },
