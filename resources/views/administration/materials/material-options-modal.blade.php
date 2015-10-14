@@ -15,13 +15,24 @@
                 <span class="label label-info">FRONT</span>                        
                 @foreach ($material->options as $option)
                     @if ( $option->perspective == "front")
-                        <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" class="form-group material-option-{{ $option->id }}  material-option-item" data-material-option-name="{{ $option->name }}">
+                        <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;"
+                             class="form-group material-option-{{ $option->id }}  material-option-item"
+                             data-material-option-name="{{ $option->name }}">
                             @if ($material->thumbnail_path)
-                            <img src="{{ $material->thumbnail_path }}" class="pull-right" width="45px" height="45px" alt="{{ $material->slug }}">
+                            <img src="{{ $material->thumbnail_path }}"
+                                 class="pull-right"
+                                 width="45px"
+                                 height="45px"
+                                 alt="{{ $material->slug }}">
                             @else
-                            <img src="http://dummyimage.com/100" width="45px" height="45px" alt="{{ $material->slug }}">
+                            <img src="http://dummyimage.com/100"
+                                 width="45px"
+                                 height="45px"
+                                 alt="{{ $material->slug }}">
                             @endif
-                            <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" data-material-option-id="{{ $option->id }}" role="button">
+                            <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                        data-material-option-id="{{ $option->id }}"
+                                        role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a><br>
                             <a class="btn btn-success btn-xs edit-material-option"
