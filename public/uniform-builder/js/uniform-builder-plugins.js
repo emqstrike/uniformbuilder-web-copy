@@ -2,15 +2,7 @@
 
     $.fn.ubColorPicker = function(options) {
 
-        /// Setup defaults
-        /// Iterate over valid colors
-        /// Setup events
-        /// Return colors
-
-        var settings = $.extend({
-            colors: ['black', 'white'],
-            target: 'target',
-        }, options);
+        var settings = $.extend({ target: 'target' }, options);
 
         return this.each(function() {
 
@@ -33,7 +25,7 @@
             
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
-                var color = _.find( ub.current_material.colors, { color_code: color_obj});
+                var color = _.find( ub.data.colors, { color_code: color_obj});
                 var element = '<div class="color_element">';
 
                 element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
@@ -62,36 +54,38 @@
             el_parent.append(btn_el);
             el_parent.append(popup_picker);
 
-            var btn = el_parent.find('.btn');
-
-            $('.btn[data-elid="' + btn_el_id + '"]').on('click', function(){
+            /// Handler for the color buttons
+            var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
+            
+            colors_btn.on('click', function() {
 
                 var color  = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
-                $('button#update-gradient').click();
+                $("button#update-gradient-" + settings.target).click();
                 el_parent.find('span').css('background-color', color);
 
             });
 
-            $('span[data-target="' + settings.target + '"][data-type="' + settings.type + '"][data-index="' +  color_stop_index + '"]').on("click", function(){
-
+            /// Handler for the color stop button
+            var preamble = 'div.options_panel_section.ubColorPicker';
+            var panels = util.dataSelector(preamble, { 'option': target_name });
+            var color_stop_btn = util.dataSelector('span', { 'target': settings.target, 'type': settings.type, 'index': color_stop_index });
+            
+            color_stop_btn.on("click", function() {
                 
-                var picker_panel = $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"][data-index="' +  color_stop_index + '"]');
+                var picker_panel = util.dataSelector(preamble, { 'option': target_name, 'index': color_stop_index });
 
-                if(picker_panel.css('display') === "none"){
-                    $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
+                if (picker_panel.css('display') === "none") {
+                    panels.hide();
                     picker_panel.show();
                 }
                 else {
-                    $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
+                    panels.hide();
                 }
-
 
             });
 
-            $('div.options_panel_section.ubColorPicker[data-option="' + target_name + '"]').hide();
-
-            /// Init Popover
+            panels.hide();
 
         });
 

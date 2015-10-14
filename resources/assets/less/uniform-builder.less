@@ -64,30 +64,73 @@
 
         }
 
-
-
     /* End Navbar */
 
 
     /* Main Container */
 
+        /* LEFT Side Bar Icons */
+        #left-sidebar .new {
+          background-image: url(/images/sidebar/new.png);
+        }
+        #left-sidebar .load {
+          background-image: url(/images/sidebar/load.png);
+        }
+        #left-sidebar .compare {
+          background-image: url(/images/sidebar/compare.png);
+        }
+        #left-sidebar .save {
+          background-image: url(/images/sidebar/save.png);
+        }
+        /* END LEFT Side Bar Icons */
 
-        div#main_container {
+        /* RIGHT Side Bar Icons */
+        #right-sidebar .materials {
+          background-image: url(/images/sidebar/materials.png);
+        }
+        #right-sidebar .colors {
+          background-image: url(/images/sidebar/colors.png);
+        }
+        #right-sidebar .patterns {
+          background-image: url(/images/sidebar/patterns.png);
+        }
+        #right-sidebar .gradients {
+          background-image: url(/images/sidebar/gradients.png);
+        }
+        #right-sidebar .texts {
+          background-image: url(/images/sidebar/texts.png);
+        }
+        #right-sidebar .numbers {
+          background-image: url(/images/sidebar/numbers.png);
+        }
+        #right-sidebar .graphics {
+          background-image: url(/images/sidebar/graphics.png);
+        }
+        #right-sidebar .sizes {
+          background-image: url(/images/sidebar/sizes.png);
+        }
+        
+        /* END RIGHT Side Bar Icons */
+
+
+
+
+        #main_container {
 
             height: 80%;
             margin-top: @main-container-margin;
 
-            div#main-row {
+            #main-row {
 
                 height: 100%;
 
-                div#left-pane-column {
+                #left-pane-column {
 
                     height: 100%;
 
                 }
 
-                div#right-pane-column {
+                #right-pane-column {
 
                     height: 100%;
 
@@ -178,9 +221,9 @@
 
     /* Left Pane - Main Canvas */
 
-        div#left-pane {
+        #left-pane {
 
-            div#left-main-window {
+            #left-main-window {
 
                 overflow: hidden;
 
@@ -188,7 +231,7 @@
 
         }
 
-        div#left-main-window {
+        #left-main-window {
 
             canvas#canvas-views {
 
@@ -202,7 +245,7 @@
 
     /* Camera Views */
 
-        div#camera-views {
+        #camera-views {
 
             float: right;
             text-align: center;
@@ -234,7 +277,7 @@
 
     /* Right Pane - Property Customizer */
         
-        div#right-pane {
+        #right-pane {
 
 
 
@@ -324,7 +367,7 @@
 
             }
 
-            div#color_panel_section {
+            #color_panel_section {
 
                 padding-bottom: 30px;
 
@@ -379,7 +422,7 @@
     /* Right Main Window */
 
         
-        div#right-main-window {
+        #right-main-window {
 
             overflow-y: scroll;
 
@@ -399,7 +442,7 @@
 
         }
 
-        div#popover_color_panel {
+        #popover_color_panel {
 
             width: 412px;
 
@@ -806,6 +849,21 @@
 
     /* End Pickers */
 
+/* TEAM Roster Modal */
+#team-roster-modal .modal-dialog {
+  width: 70%;
+  height: 70%;
+  padding: 0;
+}
+
+#team-roster-modal select {
+  background: maroon;
+  color: white;
+}
+
+.table-roster-list tr td {
+  padding: 5px;
+}
 
 
    
