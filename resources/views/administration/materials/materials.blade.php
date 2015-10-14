@@ -82,25 +82,25 @@
                         <div class="col-md-3">
                         <span class="label label-info">FRONT</span>                        
                         @foreach ($material->options as $option)
-                            @if ( $option->perspective == "front")
+                            @if ($option->perspective == "front")
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
+                                     class="material-option-{{ $option->id }}  material-option-item" 
+                                     data-material-option-name="{{ $option->name }}">
                                     @if ($material->thumbnail_path)
                                         <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             class="pull-right" 
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @else
                                         <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @endif
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
+                                                data-material-option-id="{{ $option->id }}" 
+                                                role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
@@ -125,25 +125,25 @@
                         <div class="col-md-3">
                         <span class="label label-info">BACK</span>
                         @foreach ($material->options as $option)
-                            @if ( $option->perspective == "back")
+                            @if ($option->perspective == "back")
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
+                                     class="material-option-{{ $option->id }}  material-option-item" 
+                                     data-material-option-name="{{ $option->name }}">
                                     @if ($material->thumbnail_path)
                                         <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             class="pull-right" 
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @else
                                         <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @endif
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
+                                                data-material-option-id="{{ $option->id }}" 
+                                                role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
@@ -168,25 +168,25 @@
                         <div class="col-md-3">
                         <span class="label label-info">RIGHT</span>
                         @foreach ($material->options as $option)
-                            @if ( $option->perspective == "right")
+                            @if ($option->perspective == "right")
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
                                 class="material-option-{{ $option->id }}  material-option-item" 
                                 data-material-option-name="{{ $option->name }}">
                                     @if ($material->thumbnail_path)
                                         <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             class="pull-right" 
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @else
                                         <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @endif
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
+                                                data-material-option-id="{{ $option->id }}" 
+                                                role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
@@ -211,25 +211,25 @@
                         <div class="col-md-3">
                         <span class="label label-info">LEFT</span>
                         @foreach ($material->options as $option)
-                            @if ( $option->perspective == "left")
+                            @if ($option->perspective == "left")
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
+                                     class="material-option-{{ $option->id }}  material-option-item" 
+                                     data-material-option-name="{{ $option->name }}">
                                     @if ($material->thumbnail_path)
                                         <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             class="pull-right" 
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @else
                                         <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                             width="45px" 
+                                             height="45px" 
+                                             alt="{{ $material->slug }}">
                                     @endif
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
+                                                data-material-option-id="{{ $option->id }}" 
+                                                role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
