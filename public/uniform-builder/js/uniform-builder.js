@@ -175,7 +175,7 @@ $(document).ready(function () {
             var group_element_2 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
             var group_element_3 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
             var group_header = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
-f
+
             elements = header + category_header + group_header;
 
             var design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
@@ -753,7 +753,6 @@ f
                             
                         }
 
-
                         // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
                         // dummy layer will be used as a mask for patterns and gradients
 
@@ -874,6 +873,56 @@ f
                     ub.bind_left_sidebar_tab_handlers();
 
                 /// End Setup Modifiers Gradients
+
+
+                /// Setup Modifiers Patterns
+
+
+                    var modifiers = '';
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+
+                    _.each(sorted, function (obj){
+
+                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+
+                        if (_.contains(no_modifiers, obj.setting_type)) {
+                            return;
+                        }
+
+                        var code = obj.material_option;
+                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        
+                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="pattern_base modifier button_tabs" data-option="' + code + '">pattern </button> </div>';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="patterns"><div class="pattern_panel_container">';
+                        var pattern_elements = '';
+
+                        _.each(ub.data.patterns, function (pattern_obj) {
+
+                            console.log(pattern_obj);
+
+                            var element = '<div class="pattern_element">';
+                            var filename = '/images/sidebar/' + pattern_obj.code + '.png';
+
+                            element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
+                            element = element + '</div>';    
+
+                            pattern_elements = pattern_elements + element;
+
+                        });
+
+                        str_builder = str_builder + pattern_elements;
+                        str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
+                        modifiers = modifiers + str_builder;
+
+                    });
+
+                    var pattern_container = $('#patterns_panel').append(modifiers);
+                    ub.bind_handlers();
+                    ub.bind_left_sidebar_tab_handlers();
+
+                /// End Setup Modifiers Patterns
 
 
                 /// Setup Settings obj, for persisting customizer selection

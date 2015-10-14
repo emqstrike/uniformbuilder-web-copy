@@ -84,13 +84,13 @@ div.navbar-header a.navbar-brand img {
   height: 80%;
   margin-top: 125px;
 }
-#main_container div#main-row {
+#main_container main-row {
   height: 100%;
 }
-#main_container div#main-row div#left-pane-column {
+#main_container main-row left-pane-column {
   height: 100%;
 }
-#main_container div#main-row div#right-pane-column {
+#main_container main-row right-pane-column {
   height: 100%;
 }
 /* End Main Container */
@@ -138,15 +138,15 @@ a.active_button {
 }
 /* End UI Generic */
 /* Left Pane - Main Canvas */
-div#left-pane div#left-main-window {
+#left-pane #left-main-window {
   overflow: hidden;
 }
-div#left-main-window canvas#canvas-views {
+#left-main-window canvas#canvas-views {
   position: absolute;
 }
 /* End Left Pane - Main Canvas */
 /* Camera Views */
-div#camera-views {
+#camera-views {
   float: right;
   text-align: center;
   width: 90%;
@@ -154,14 +154,14 @@ div#camera-views {
   position: relative;
   margin-top: -73px;
 }
-div#camera-views a {
+#camera-views a {
   color: #3d3d3d;
   width: 63px;
   height: 70px;
   text-align: center;
   padding: 0;
 }
-div#camera-views a img {
+#camera-views a img {
   width: 100%;
   height: 100%;
 }
@@ -215,7 +215,7 @@ div.options_panel div.options_panel_section div.color_panel_container {
   margin-left: 23px;
   margin-top: 23px;
 }
-div.options_panel div#color_panel_section {
+div.options_panel #color_panel_section {
   padding-bottom: 30px;
 }
 div.color_element {
@@ -246,7 +246,7 @@ div.gradient_panel_container {
 /* End Gradients */
 /* End Options Panel */
 /* Right Main Window */
-div#right-main-window {
+#right-main-window {
   overflow-y: scroll;
 }
 /* End Right Main Window */
@@ -257,10 +257,10 @@ div#right-main-window {
   max-width: 100%;
   left: 105px !important;
 }
-div#popover_color_panel {
+#popover_color_panel {
   width: 412px;
 }
-div#popover_color_panel div.color_element {
+#popover_color_panel div.color_element {
   float: left;
 }
 div.popper {

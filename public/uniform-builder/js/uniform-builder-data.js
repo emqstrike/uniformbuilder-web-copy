@@ -49,6 +49,7 @@ $(document).ready(function(){
     ub.data.design_sets = {}
     ub.data.materials = {};
     ub.data.colors = {};
+    ub.data.applications = {};
 
     ub.data.patterns = {
       
@@ -146,7 +147,7 @@ $(document).ready(function(){
                         filename: '1.png'
                     },
                 ],
-                
+
             },
 
 
