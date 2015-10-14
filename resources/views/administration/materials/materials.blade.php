@@ -90,7 +90,7 @@
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
                                     @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
+                                        <img src="{{ $option->material_option_path }}" 
                                              class="pull-right" 
                                              width="45px" 
                                              height="45px" 
@@ -132,8 +132,8 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
+                                    @if ($option->material_option_path)
+                                        <img src="{{ $option->material_option_path }}" 
                                              class="pull-right" 
                                              width="45px" 
                                              height="45px" 
@@ -175,8 +175,8 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
                                 class="material-option-{{ $option->id }}  material-option-item" 
                                 data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
+                                    @if ($option->material_option_path)
+                                        <img src="{{ $option->material_option_path }}" 
                                              class="pull-right" 
                                              width="45px" 
                                              height="45px" 
@@ -218,8 +218,8 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
+                                    @if ($option->material_option_path)
+                                        <img src="{{ $option->material_option_path }}" 
                                              class="pull-right" 
                                              width="45px" 
                                              height="45px" 

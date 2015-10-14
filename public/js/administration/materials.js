@@ -257,6 +257,7 @@ $(document).ready(function(){
             $('#edit-material-option-modal .is-blend').removeAttr('checked');
         }
         $('#edit-material-option-modal').modal('show');
+        console.log("edit event");
         $('.modal-dialog').draggable({
             handle: ".modal-header"
         });
@@ -332,6 +333,7 @@ $(document).ready(function(){
             'confirm-yes',
             'confirmation-modal-material-option'
         );
+        console.log("GETS IN EVENT");
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
