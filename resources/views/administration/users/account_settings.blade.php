@@ -2,6 +2,15 @@
 
 @section('content')
 
+@if (Session::has('message'))
+<div class="alert alert-info alert-dismissable flash-alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        ×
+    </button>
+    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+</div>
+@endif
+
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -123,7 +132,10 @@ $('#update-user-form').submit(function(){
     $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
     $('.flash-alert').addClass('alert-info');
     $('.flash-alert').show();
-    $('.main-content').fadeOut('slow');
+    $('.main-content').delay(3000).fadeOut();
 });
+@if (Session::has('message'))
+    setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
+@endif
 
 @endsection

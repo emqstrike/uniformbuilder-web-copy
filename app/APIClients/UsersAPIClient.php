@@ -70,7 +70,6 @@ class UsersAPIClient extends APIClient
         $response = $this->post('user/update', [
             'json' => $data
         ]);
-
         return $this->decoder->decode($response->getBody());
     }
 

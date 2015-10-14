@@ -1,5 +1,4 @@
- $(document).ready(function(){
-
+$(document).ready(function(){
 
     /// NEW RENDERER ///
 
@@ -41,12 +40,14 @@
                 ub.back_view            = new PIXI.Container();
                 ub.right_view           = new PIXI.Container();
                 ub.pattern_view         = new PIXI.Container();
+                ub.gradient_preview     = new PIXI.Container();
 
                 ub.stage.addChild(ub.left_view);
                 ub.stage.addChild(ub.front_view);
                 ub.stage.addChild(ub.back_view);
                 ub.stage.addChild(ub.right_view);
                 ub.stage.addChild(ub.pattern_view);
+                ub.stage.addChild(ub.gradient_preview);
 
                 ub.updateLayersOrder = function (container) {
                     
@@ -328,19 +329,19 @@
                 {
                     name: "Top To Bottom",
                     code: "top_to_bottom",
-                    angle: 180,
+                    angle: 0,
 
                     color_stops: [
 
                         {
                            id: 1,
                            value: 0,
-                           color: '#ffffff',     
+                           color: '#535353',     
                         },
                         {
                            id: 2,
                            value: 0.9,
-                           color: '#5e5e5e',     
+                           color: '#ffffff',     
                         },
 
                     ],
@@ -438,7 +439,7 @@
               {
                     name: "Diagonal 2",
                     code: "diagonal_2",
-                    angle: -45,
+                    angle: 315,
 
                     color_stops: [
                         {
@@ -508,7 +509,25 @@
                         },
 
                     ],
-                },       
+                },
+                     {
+                    name: "Custom",
+                    code: "custom",
+                    angle: 0,
+
+                    color_stops: [
+                        {
+                           id: 1,
+                           value: 0,
+                           color: '#008da9',     
+                        },
+                        {
+                           id: 2,
+                           value: 1,
+                           color: '#ffde00',
+                        },
+                    ],
+                },              
  
             ]
 
@@ -745,11 +764,21 @@
 
             };
 
-            ub.export_settings = function(){
-                return ub.current_material.settings;
-            }
+    // Returns the uniform customization settings made by the user
+    // @return JSONObject
+    ub.exportSettings = function() {
+        return ub.current_material.settings;
+    }
 
-            ub.setup_settings = function () {
+    // Change the uniform customization settings using the passed JSONObject parameter
+    // @param JSONObject settings
+    ub.loadSettings = function(settings) {
+        ub.current_material.settings = settings;
+        // ToDo: Redraw the canvas ~ Arthur's part here
+    };
+
+            // Initialize uniform settings
+            ub.init = function () {
         
                 var settings = ub.current_material.settings;
 
@@ -926,6 +955,7 @@
                             font_style: '',
                         },
 
+
                         colors: [
                             
                             {
@@ -1067,8 +1097,9 @@
 
                     };
 
-                });
+                    obj.team_roster = [];
 
+                });
 
             };
 
@@ -1201,7 +1232,7 @@
                             var element = '<div class="gradient_element">';
                             var filename = '/images/sidebar/' + gradient_obj.code + '.png';
 
-                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #656565; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
 
                             gradient_elements = gradient_elements + element;
@@ -1222,14 +1253,13 @@
 
                 /// Setup Settings obj, for persisting customizer selection
 
-                    ub.setup_settings();
+                    ub.init();
 
                 /// End Setup Settings obj
 
             };
 
             window.ub.setup_pattern_view = function(){
-
 
                 var layer_1                         = ub.pixi.new_sprite( ub.assets.pattern.layers[0] );
                 var layer_2                         = ub.pixi.new_sprite( ub.assets.pattern.layers[1] );
@@ -1342,9 +1372,9 @@
             }
 
 
-            ub.getThumbnailImage = function (view) {
+            ub.getThumbnailImage = function (view, rotate) {
 
-                var texture                         = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
@@ -1825,7 +1855,6 @@
                    var selection = $(window.ce).data('selection');
 
                    gradient_element.parent().data( "active_gradient", gradient );
-                   
                    ub.change_gradient( target, gradient, panel );
 
                    $("button[data-target-gradient='" + target +"']").html('');
@@ -1834,7 +1863,6 @@
                    var highlighter = '';
 
                    path = path + 'highlighter_1.png';
-
                    highlighter = "<img src = '" + path + "'>"
                    
                    $(this).html(highlighter);
@@ -1848,58 +1876,168 @@
         ub.change_gradient = function( target, gradient, panel ){
 
             var el = _.find(ub.gradients.items, { code: gradient });
-
             var clone = _.clone(el);
 
             ub.generate_gradient(el,target);
-            var cont = $("[data-group=gradients][data-option=" + target +  "]").find('div.color_stops_container');
+            var cont = $("[data-group=gradients][data-option=" + target + "]").find('div.color_stops_container');
             cont.html('');
             var elements = "";
 
             if(el.color_stops.length > 0){
 
-                elements = "Color Stops: <br />";
-
+                elements = "<br />Color Stops<br /><br />";
             }
 
-            _.each(el.color_stops, function(e){
+            _.each(el.color_stops, function(e, index){
 
                 var val = e.value;
                 var col = e.color;
-                var el = "";
-
-                el += "<label>" + val + "</label>";
-                elements += el;
-                elements += ub.create_color_picker(val, col, target, el.code); 
+                
+                elements += ub.create_color_picker(index, val, col, target, el.code); 
 
             });
 
+            
+            if(el.code === "custom" ){
+
+                var add_button = "<button id='add_gradient_color_stop'><i class='fa fa-plus-circle'></i></button>";
+                var delete_button = "<button id='delete_gradient_color_stop'><i class='fa fa-minus-circle'></i></button>";
+
+                var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
+                elements += "<br />";
+                elements += add_color_stop_button;                
+
+            }
+
+            elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
             elements += "<hr />";
-            elements += "<label>Angle</label><input type='text' value='" + el.angle + "'>";
-            elements += "<br /><br /><label></label><button id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+
+            elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
+            elements += "<hr />";
+            
+            elements += "<button style='width: 100%;' id='update-gradient' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
 
             cont.html(elements);
 
+            $('input.gradient_' + target).ubColorPicker({
+                target: target,
+                type: 'gradient',
+            });
+
+            var stops = _.pluck(clone.color_stops, 'value');
+            var stops_clone = [];
+
+            _.each(stops, function(e){
+
+                stops_clone.push(e * 100);
+
+            });
+
+            $('#' + 'gradient_slider_' + target).limitslider({
+                
+                values: stops_clone,
+                min: 0,
+                max: 100,
+                gap: 0,
+                change: function( event, ui ) {
+
+                    $('button#update-gradient').click();
+
+                },
+             });
+
+            $('#' + 'angle_gradient_slider_' + target).roundSlider({
+                value: el.angle,
+                min: 0,
+                max: 360,
+                startAngle: 90,
+                change: function( event, ui ) {
+                    
+                    $('button#update-gradient').click();
+
+                },
+             });
+
             $('button#update-gradient').click('click', function(e){
 
-                _.each(clone.color_stops, function(e) {
+                _.each(clone.color_stops, function(e, index) {
 
-                    var s = $('[data-value="' + e.value + '"][data-target="' + target + '"]');
+                    var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                    $('#gradient_slider_body').find('span:eq(' + index + ')').css('background',s.val());
                     e.color = s.val();
+                    var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
+                    temp = Math.floor(temp / 10);
+                    temp = temp / 10;
+
+                    e.value = temp;
 
                 });
 
+                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
                 ub.generate_gradient(clone, target);
 
             });
 
 
+            if(el.code === "custom"){
+
+                $('#add_gradient_color_stop').on('click', function(){
+
+                    var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
+                    var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
+
+                    color_obj = _.find( ub.current_material.colors, { color_code: color_code})
+
+                    var new_color_stop = {
+
+                        id: clone.color_stops.length + 1,
+                        value: 0,
+                        color: '#' + color_obj.hex_code,
+
+                    };
+
+                    clone.color_stops.push(new_color_stop);
+                    var spacing = 1 / (clone.color_stops.length - 1);
+
+                    _.each(clone.color_stops, function(color_stop, index){
+                        
+                        color_stop.value = index * spacing;
+
+                    });
+
+                    ub.change_gradient( target, gradient, panel );
+
+                });
+
+                $('#delete_gradient_color_stop').on('click', function(){
+
+                    if(clone.color_stops.length > 2){
+
+                        clone.color_stops.pop();
+
+                        var spacing = 1 / (clone.color_stops.length - 1);
+                        
+                        _.each(clone.color_stops, function(color_stop, index){
+                            color_stop.value = index * spacing;
+                        });
+
+                        ub.change_gradient( target, gradient, panel );
+    
+                    }
+                   
+                });
+
+            }
+
+
+            $('button#update-gradient').click();
+
         };
 
-        ub.create_color_picker = function(value, color, target, gradient){
+        ub.create_color_picker = function(index, value, color, target, gradient){
 
             var element = "";
-            element = "<input type='text' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/><br />"
+            element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
 
             return element;
 
@@ -1985,7 +2123,7 @@
                 });
 
                 current_button.addClass('tether_button');
-                $('.down_arrow:not(.tether-element)').remove();
+                $('.down_arrow:not(.gra-element)').remove();
 
                 ub.tethers['modifiers'] = t;
 
@@ -2072,6 +2210,11 @@
 
             var rotation = gradient_obj.angle;
 
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            var dURL = canvas.toDataURL();
+
+            ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
+
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.rotate(rotation*Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
@@ -2144,6 +2287,14 @@
 
             ub.refresh_thumbnails();
 
+            var rad = (90 + parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()));
+            $('#' + 'gradient_slider_' + target).find('.range_container').remove();
+            $('#' + 'gradient_slider_' + target).prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css('background-image', 'url(' + dURL + ')');
+            $('#angle_' + 'gradient_slider_' + target).find('div.rs-bg-color').css({
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+            });
+
         };
 
         /// End Process Changes /// 
@@ -2199,7 +2350,7 @@
 
     // Open Design
     $('.open-design').on('click', function(){
-        // To Do
+        openSavedUniformDesigns(ub.user.id);
     });
 
     // Compare Designs
@@ -2208,14 +2359,51 @@
     });
 
     // Save Design Modal
-    $('.open-save-design-modal').on('click', function(){
-        $('#save-design-modal').modal('show');
+    $('.open-save-design-modal').on('click', function() {
+        if (ub.user === false) {
+            showSignUpModal();
+            return;
+        } else {
+            $('#save-design-modal').modal('show');
+        }
     });
 
-    // Save Uniform Design
-    $('.save-uniform-design').on('click', function(){
+    function openSavedUniformDesigns(userId) {
+        $.ajax({
+            url: ub.config.api_host + '/api/order/user/' + userId,
+            type: 'GET',
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function(response) {
+                if (response.success) {
+                    var orders = response.orders;
+                    $('#orders-list').html(''); // Clear the list
+                    $.each(orders, function(i, order){
+                        $('#orders-list').append('<tr>' +
+                            '<td>' + order.client + '</td>' +
+                            '<td>' + order.uniform_type + '</td>' +
+                            '<td>' + order.status + '</td>' +
+                            '<td>' +
+                                '<a href="/order/' + order.order_id + '" class="btn btn-xs btn-default">Open ' +
+                                '<span class="fa fa-folder-open-o"></span></a>' +
+                                '<a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="' + order.order_id + '">Share ' +
+                                '<span class="fa fa-mail-forward"></span></a>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                    $('#open-design-modal').modal('show');
+                }
+                bindShareDesigns();
+            }
+        });
+    }
+
+    function saveUniformDesign() {
         var data = {
             uniformType: $('#save-design-modal .uniform-type').val(),
+            builder_customizations: ub.exportSettings(),
             athletic_director: {
                 organization: $('#athletic-director .organization').val(),
                 contact: $('#athletic-director .contact').val(),
@@ -2251,49 +2439,168 @@
                 expiration_date: $('#credit-card-information .expiration-month-and-year').val(),
             }
         };
-        if (ub.user !== false) {
+        if (ub.user === false) {
+            showSignUpModal();
+            return;
+        } else {
             data.user_id = ub.user.id;
             data.client = ub.user.fullname;
         }
+        $('#save-design-modal').modal('hide');
+        $('.flash-alert .flash-sub-title').text('Please wait...');
+        $('.flash-alert .flash-message').text('Saving your order');
+        $('.flash-alert').fadeIn();
+        var endpoint = ub.config.api_host + '/api/order';
+        if (ub.order !== false) {
+            endpoint = ub.config.api_host + '/api/order/update';
+        }
+
+        data.image_perspectives = {
+            front: ub.getThumbnailImage('front_view'),
+            back: ub.getThumbnailImage('back_view'),
+            left: ub.getThumbnailImage('left_view'),
+            right: ub.getThumbnailImage('right_view')
+        };
 
         $.ajax({
-            url: ub.config.api_host + '/api/order',
+            url: endpoint,
             data: JSON.stringify(data),
             type: 'POST',
-            dataType: "json",
+            dataType: 'json',
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 if (response.success) {
-                    $('#save-design-modal .save-uniform-design').fadeOut();
-                    $('#save-design-modal .close-save-uniform-design-modal').text('Finished Saving Uniform Design. Close this modal');
-                    $('#save-design-modal .close-save-uniform-design-modal').removeClass('btn-default');
-                    $('#save-design-modal .close-save-uniform-design-modal').addClass('btn-success');
+                    $('.flash-alert').fadeOut();
+                    $('.flash-alert .flash-sub-title').text('Complete:');
+                    $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
+                    $('.flash-alert').fadeIn();
+                    // Redirect to Order Page
+                    location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
+            }
+        });
+    }
+
+    function showSignUpModal() {
+        $('#signup-modal').modal('show');
+    }
+
+    // Save Uniform Design
+    $('.save-uniform-design').on('click', saveUniformDesign);
+
+    // User Signup
+    $('.user-signup').on('click', showSignUpModal);
+
+    if (ub.user !== false) {
+        // Credit Card Validator
+        var creditly = Creditly.initialize(
+              '.creditly-wrapper .expiration-month-and-year',
+              '.creditly-wrapper .credit-card-number',
+              '.creditly-wrapper .security-code',
+              '.creditly-wrapper .card-type');
+        $(".creditly-card-form .validate-cc").click(function(e) {
+            e.preventDefault();
+            var output = creditly.validate();
+            if (output) {
+              // Your validated credit card output
+       
+            }
+        });
+    }
+
+    $('.open-team-roster-modal').on('click', function(){
+        $('#team-roster-modal').modal('show');
+    });
+
+    $('.add-roster-record').on('click', function(){
+        var roster_source = $('#roster-record').html();
+        var roster_template = Handlebars.compile(roster_source);
+        $('#team-roster-form .table-roster-list').append(roster_template);
+        bindRemoveButtonBehavior();
+    });
+
+    $('.close-share-uniform-design-modal').on('click', function(){
+        $('#open-design-modal').modal('show');
+        $('#share-design-modal .team-email').val('');
+    });
+
+    $('.share-uniform-design-by-email').on('click', function(){
+        var data = {
+            email_list: $('#share-design-modal .team-email').val(),
+            order_id: $(this).data('order-id')
+        };
+
+        $.ajax({
+            url: ub.config.api_host + '/api/order/share',
+            data: JSON.stringify(data),
+            type: 'POST',
+            dataType: 'json',
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function(response) {
+                $('#share-design-modal').modal('hide');
+                if (response.success) {
+                    $('.flash-alert .flash-sub-title').text('Success: ');
+                } else {
+                    $('.flash-alert .flash-sub-title').text('Error: ');
+                    $('.flash-alert').addClass('alert-warning');
+                }
+                $('.flash-alert .flash-message').text(response.message);
+                $('.flash-alert').show();
             }
         });
     });
 
-    // User Signup
-    $('.user-signup').on('click', function(){
-        $('#signup-modal').modal('show');
-    });
+    function bindShareDesigns() {
+        $('.share-uniform-design').on('click', function(){
+            var order_id = $(this).data('order-id');
+            $('#open-design-modal').modal('hide');
+            $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);
+            $('#share-design-modal').modal('show');
+        });
+    }
 
-    // Credit Card Validator
-    var creditly = Creditly.initialize(
-          '.creditly-wrapper .expiration-month-and-year',
-          '.creditly-wrapper .credit-card-number',
-          '.creditly-wrapper .security-code',
-          '.creditly-wrapper .card-type');
-    $(".creditly-card-form .validate-cc").click(function(e) {
-        e.preventDefault();
-        var output = creditly.validate();
-        if (output) {
-          // Your validated credit card output
-          console.log(output);
-        }
-    });
+    function bindRemoveButtonBehavior() {
+        $('.remove-roster-record').on('click', function(){
+            $(this).parents('tr').remove();
+        });
+    }
+
+    $('.save-team-roster').on('click', saveTeamRoster);
+
+    function saveTeamRoster() {
+        var roster = [];
+        var i = 0;
+        $('.table-roster-list tr').each(function(i, row) {
+            // 0th element contains the headers
+            if (i > 0) {
+                var number = $(row).find('td').eq(0).find('input').val();
+                var name = $(row).find('td').eq(1).find('input').val();
+                var application = $(row).find('td').eq(2).find('select').val();
+                var size = $(row).find('td').eq(3).find('select').val();
+                if ((number != "") && (name != "")) {
+                    roster.push({
+                        number: number,
+                        name: name,
+                        application: application,
+                        size: size
+                    });
+                }
+            }
+        });
+        ub.current_material.team_roster = roster;
+        $('#team-roster-modal').modal('hide');
+
+        $('.flash-alert .flash-sub-title').text('Success: ');
+        $('.flash-alert .flash-message').text('Updated team roster list');
+        $('.flash-alert').fadeIn();
+        setTimeout(function(){
+            $('.flash-alert').fadeOut();
+        }, 3000);
+    }
 
     function getUniformSuggestions(categoryId) {
         $.ajax({

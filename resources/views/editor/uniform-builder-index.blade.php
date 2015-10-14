@@ -13,23 +13,28 @@
       
         <div id="left-sidebar" class="pane-sidebar">
 
-            <a class="btn-new sidebar-buttons"
-                data-filename="materials"
+            <a class="btn-new sidebar-buttons new"
+                data-filename='materials'
                 data-status="new"
-                data-option="new">
+                data-option='new'>
             </a>
 
-            <button>
-                <span class="fa fa-folder-open fa-2x open-design"></span>
-            </button>
+@if (Session::get('isLoggedIn'))
+            <a class="btn-load sidebar-buttons load open-design"
+                data-filename='load'
+                data-option='load'>
+            </a>
 
-            <button>
-                <span class="fa fa-columns fa-2x compare-design"></span>
-            </button>
+            <a class="btn-compare sidebar-buttons compare compare-design"
+                data-filename='compare'
+                data-option='compare'>
+            </a>
 
-            <button>
-                <span class="fa fa-save fa-2x open-save-design-modal"></span>
-            </button>
+            <a class="btn-save sidebar-buttons save open-save-design-modal"
+                data-filename='save'
+                data-option='save'">
+            </a>
+@endif
 
         </div>
 
@@ -47,7 +52,7 @@
             <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
             <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
             <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
-            <a class="btn change-view" data-view="pattern"  id="view_pattern"><img src=""></a>
+            <a class="btn change-view" data-view="pattern" id="view_pattern"><img src=""></a>
 
         </div>
 
@@ -70,28 +75,28 @@
 
         <div id="right-sidebar" class="pane-sidebar">
 
-            <a href="" class="sidebar-buttons" data-filename='materials' style="background-image: url('/images/sidebar/materials.png');">
+            <a href="" class="sidebar-buttons materials" data-filename='materials'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='colors' style="background-image: url('/images/sidebar/colors.png');">
+            <a href="" class="sidebar-buttons colors" data-filename='colors'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='patterns' style="background-image: url('/images/sidebar/patterns.png');">
+            <a href="" class="sidebar-buttons patterns" data-filename='patterns'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='gradients' style="background-image: url('/images/sidebar/gradients.png');">
+            <a href="" class="sidebar-buttons gradients" data-filename='gradients'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='texts' style="background-image: url('/images/sidebar/texts.png');">
+            <a href="" class="sidebar-buttons texts open-team-roster-modal" data-filename='texts'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='numbers' style="background-image: url('/images/sidebar/numbers.png');">
+            <a href="" class="sidebar-buttons numbers" data-filename='numbers'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='graphics' style="background-image: url('/images/sidebar/graphics.png');">
+            <a href="" class="sidebar-buttons graphics" data-filename='graphics'>
             </a>
 
-            <a href="" class="sidebar-buttons" data-filename='sizes' style="background-image: url('/images/sidebar/sizes.png');">
+            <a href="" class="sidebar-buttons sizes" data-filename='sizes'>
             </a>
 
         </div>

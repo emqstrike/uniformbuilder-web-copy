@@ -90,12 +90,7 @@ class AuthenticationController extends Controller
 
     protected function clearLoginSession()
     {
-        if (Session::has('userId')) Session::forget('userId');
-        if (Session::has('isLoggedIn')) Session::forget('isLoggedIn');
-        if (Session::has('fullname')) Session::forget('fullname');
-        if (Session::has('email')) Session::forget('email');
-        if (Session::has('accountType')) Session::forget('accountType');
-        if (Session::has('accessToken')) Session::forget('accessToken');
+        Session::flush();
     }
 
     public function main()
