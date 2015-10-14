@@ -202,6 +202,16 @@ $(document).ready(function(){
         $('#add-material-option-modal').modal('show');
     });
 
+    $('.test-modal').on('click', function(){
+        var material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name')
+        };
+        $('#add-material-option-modal .material-id').val(material.id);
+        $('#add-material-option-modal .modal-title span').html(material.name);
+        $('#add-material-option-modal').modal('show');
+    });
+
     $('.edit-material-option').on('click', function(){
         var material = {
             id: $(this).data('material-id'),
@@ -219,6 +229,17 @@ $(document).ready(function(){
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
             }
         };
+
+        console.log("ID: "+material['option']['id']);
+        console.log("Name: "+material['option']['name']);
+        console.log("Layer Level: "+material['option']['layer_level']);
+        console.log("Type: "+material['option']['type']);
+        console.log("Code: "+material['option']['code']);
+        console.log("Path: "+material['option']['path']);
+        console.log("Perspective: "+material['option']['perspective']);
+        console.log("Colors: "+material['option']['colors']);
+        console.log("Gradients: "+material['option']['gradients']);
+        console.log("Blend: "+material['option']['blend']);
 
         var select_options = materialOptionSettings[material.option.type];
         $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
@@ -261,6 +282,10 @@ $(document).ready(function(){
         $('.modal-dialog').draggable({
             handle: ".modal-header"
         });
+
+        $('#edit-material-option-modal .material-id').val(material.id);
+        $('#edit-material-option-modal .modal-title span').html(material.name);
+        $('#edit-material-option-modal').modal('show');
     });
 
     $('.enable-material').on('click', function(){
@@ -324,16 +349,15 @@ $(document).ready(function(){
     });
 
     // DELETE MATERIAL OPTION
-    $('.delete-material-option').on('click', function(){
-        var id = $(this).data('material-option-id');
+    $('.delete-material-option').on('click', function(e){
+        //var id = $(this).data('material-option-id');
         modalConfirm(
             'Remove Material Option',
             'Are you sure you want to delete the Material Option?',
-            id,
+            //id,
             'confirm-yes',
             'confirmation-modal-material-option'
         );
-        console.log("GETS IN EVENT");
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){

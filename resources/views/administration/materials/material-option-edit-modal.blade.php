@@ -1,5 +1,5 @@
 <!-- Edit Material Option Modal -->
-<div class="modal fade" id="edit-material-option-modal" aria-hidden="false">
+<div class="modal fade" id="edit-material-option-modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/administration/material_option/update" role="form" method="POST" enctype="multipart/form-data">
