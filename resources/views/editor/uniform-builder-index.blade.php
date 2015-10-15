@@ -4,10 +4,8 @@
     
     <div id="left-pane" class="pane">
 
-        
         <div id="left-top" class="pane-top">
         
-
         </div>
 
       
@@ -238,20 +236,37 @@
                     <span class="header_text">GRAPHICS OPTIONS</span>
 
                 </div>
-                
-            </div>
 
+                <div class="options_panel_section">
+                    
+                    <div class="file_upload logo">
+                        
+                        <div class="image_preview">
 
-            <div class="options_panel" id="sizes_panel">
+                        </div>  
 
-                <div class="options_panel_header">
-                
-                    <span class="header_text">SIZES OPTIONS</span>
+                        <form>
+                            <input type="file" id="file-src" name="material_option_path">
+                        </form>
+
+                        <table class="table table-striped logos">
+                            <thead>
+                                <th>Thumbnail</th><th>File name</th><th>Remove</th>
+                            </thead>
+                            
+                        </table>
+
+                    </div>
+
 
                 </div>
 
             </div>
-
+            <div class="options_panel" id="sizes_panel">
+                <div class="options_panel_header">
+                    <span class="header_text">SIZES OPTIONS</span>
+                </div>
+            </div>
         </div>
 
 

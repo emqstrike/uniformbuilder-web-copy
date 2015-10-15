@@ -385,333 +385,338 @@ $(document).ready(function () {
         // ToDo: Redraw the canvas ~ Arthur's part here
     };
 
-            // Initialize uniform settings
-            ub.init = function () {
+    // Initialize uniform settings
+    ub.init = function () {
+
+        var settings = ub.current_material.settings;
+
+        settings.team_colors = [
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+        ];
+
+        settings.upper = {};
+
+        settings.lower = {
+            preview: '',
+        };
+
+        settings.upper = {
+            preview: '',
+        };
+
+        settings.files = {};
+
+        settings.files.logos = {};
+
+        var current_material = ub.current_material.material;
+        var material_options = ub.current_material.materials_options;
+        var type = current_material.type;
+
+        settings[type].material_id = current_material.id;
         
-                var settings = ub.current_material.settings;
+        _.each(material_options, function (material_option) {
 
-                settings.team_colors = [
-                    {
-                        color: '',
+            var name = '';
+            var obj  = '';
+
+            name = material_option.name;
+            settings[type][name] = {};
+
+            obj = settings[type][name];
+
+            obj.code = name.replace(' ', '_').toLowerCase();
+            obj.color = '';
+            obj.gradient_is_above_pattern = false;
+            
+            obj.has_gradient = false;
+            obj.has_pattern = false;
+            
+            obj.gradient = {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
                     },
-                    {
-                        color: '',
-                    },
-                    {
-                        color: '',
-                    },
-                    {
-                        color: '',
-                    },
-                ];
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
 
-                settings.upper = {};
-                settings.lower = {
-                    preview: '',
-                };
+            };    
 
-                settings.upper = {
-                    preview: '',
-                };
+            obj.pattern = {
+                pattern_id: '',
+                scale: 0,
+                rotation: 0,
+                opacity: 0,
+                position: {
+                    x: 0,
+                    y:0,
+                },
+            };
 
-                var current_material = ub.current_material.material;
-                var material_options = ub.current_material.materials_options;
-                var type = current_material.type;
+            obj.fabric = {
+                fabric_id: '',
+            }
 
-                settings[type].material_id = current_material.id;
+            obj.logo = {
+                filename: '',
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                }
+            }
+
+            obj.team_name = {
                 
-                _.each(material_options, function (material_option) {
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
 
-                    var name = '';
-                    var obj  = '';
-
-                    name = material_option.name;
-                    settings[type][name] = {};
-
-                    obj = settings[type][name];
-
-                    obj.code = name.replace(' ', '_').toLowerCase();
-                    obj.color = '';
-                    obj.gradient_is_above_pattern = false;
+                colors: [
                     
-                    obj.has_gradient = false;
-                    obj.has_pattern = false;
-                    
-                    obj.gradient = {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
 
-                    };    
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
 
-                    obj.pattern = {
-                        pattern_id: '',
-                        scale: 0,
-                        rotation: 0,
-                        opacity: 0,
-                        position: {
-                            x: 0,
-                            y:0,
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
                         },
-                    };
-
-                    obj.fabric = {
-                        fabric_id: '',
-                    }
-
-                    obj.logo = {
-                        filename: '',
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
+                        {
+                            value: 1,
+                            color: '',
                         }
-                    }
+                    ],
 
-                    obj.team_name = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
+                },    
 
-                        colors: [
-                            
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.number = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
-
-                        colors: [
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.player_name = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
-
-                        colors: [
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.team_roster = [];
-
-                });
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
 
             };
+
+            obj.number = {
+                
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
+
+                colors: [
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
+
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
+
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
+
+                },    
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
+
+            };
+
+            obj.player_name = {
+                
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
+
+                colors: [
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
+
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
+
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
+
+                },    
+
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
+
+            };
+
+            obj.team_roster = [];
+
+        });
+
+    };
 
             window.ub.setup_material_options = function () {
 
@@ -1490,7 +1495,7 @@ $(document).ready(function () {
 
                 var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
                 elements += "<br />";
-                elements += add_color_stop_button;                
+                elements += add_color_stop_button;
 
             }
 
@@ -1896,6 +1901,73 @@ $(document).ready(function () {
         });
 
     /// End Reposition All Tethers
+
+    /// Logo Uploads
+
+        $( "#file-src" ).change(function() {
+
+            var files = !!this.files ? this.files : [];
+            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+     
+            if (/^image/.test( files[0].type)){ // only image file
+
+                var reader = new FileReader(); // instance of the FileReader
+                reader.readAsDataURL(files[0]); // read the local file
+     
+                reader.onloadend = function(){ // set image data as background of div
+
+                    var logos = ub.current_material.settings.files.logos;
+                    var file = files[0];
+                    var id = new Date().getTime();
+
+                    logos[id] = {
+                        id: id,
+                        filename: file.name,
+                        dataUrl: this.result,
+                    };
+
+                    var markup =  "<tr data-id='" + id + "'>";
+                    markup     +=    "<td>" + "<img class='logo_list' src='" + this.result + "' />" + "</td>";
+                    markup     +=    "<td>" + "<a class='logo_list' data-id='" + id + "' data-action='preview'>" + file.name + "</a>" + "</td>";
+                    markup     +=    "<td>" + "<a class='logo_list' data-action='remove' data-id='" + id + "' class='btn-remove'>" + "<i class='fa fa-times'></i>" + "</td>";
+                    markup     += "</tr>";
+
+                    $('table.logos').append(markup);
+                    $('.file_upload.logo > .image_preview').css("background-image", "url("+this.result+")");
+
+
+                    $('a.logo_list').on('click', function () {
+
+                        var action = $(this).data('action');
+                        var id = $(this).data('id');
+                        var logos = ub.current_material.settings.files.logos;
+
+                        if(action === 'remove') {
+                            
+                            $('tr[data-id="' + id + '"]').remove();
+                            logos[id] = null;
+                            delete logos[id];
+        
+                            $('.file_upload.logo > .image_preview').css("background-image", "none");
+                            $( "#file-src" ).val('');
+
+                        }
+                        else if (action === 'preview') {
+
+                            $('.file_upload.logo > .image_preview').css('background-image', "url(" + logos[id].dataUrl + ")");
+
+                        }
+
+
+
+                    })
+
+                }
+            }
+
+        });
+
+    /// End Logo Uploads 
 
     // New Design
     $('.new-design').on('click', function () {
