@@ -117,6 +117,7 @@
 <script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/drop/js/drop.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/handlebars/handlebars.min.js{{$asset_version}}"></script>
@@ -145,14 +146,14 @@ $(document).ready(function () {
     });
 });
 
-
-
 </script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
+
 </body>
 </html>
