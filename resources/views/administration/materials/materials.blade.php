@@ -344,7 +344,7 @@
 
 @include('administration.materials.material-view-modal')
 
-@include('administration.materials.material-option-create-modal')
+@include('administration.materials.material-option-modal')
 
 @include('administration.materials.material-option-edit-modal')
 

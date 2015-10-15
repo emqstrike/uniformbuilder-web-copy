@@ -8,14 +8,14 @@ $(document).ready(function(){
             reader.readAsDataURL(files[0]);
  
             reader.onloadend = function(){
-                $("#material-option-gradients").css("background-image", "url("+this.result+")");
-                $("#material-option-placements").css("background-image", "url("+this.result+")");
+                $("#material-option-bounding-box").css("background-image", "url("+this.result+")");
+                //$("#material-option-placements").css("background-image", "url("+this.result+")");
             }
         }
     });
 
     (function() {
-        var canvas = this.__canvas = new fabric.Canvas('bounding-box-preview');
+        var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         fabric.Object.prototype.transparentCorners = false;
         canvas.setWidth( 496 );
         canvas.setHeight( 550 );
@@ -193,16 +193,20 @@ $(document).ready(function(){
     });
 
     $('.add-material-option').on('click', function(){
+        $('#form-action').attr('value','add');
         var material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name')
         };
-        $('#add-material-option-modal .material-id').val(material.id);
-        $('#add-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-        $('#add-material-option-modal').modal('show');
+        $('#add-edit-material-option-modal .material-id').val(material.id);
+        $('#add-edit-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
+        $('#add-edit-material-option-modal').modal('show');
+        console.log($('#form-action').val());
+        console.log($('.material-option-id').val());
     });
 
     $('.edit-material-option').on('click', function(){
+        $('#form-action').attr('value','edit');
         var material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
@@ -254,6 +258,8 @@ $(document).ready(function(){
         var type = capitalize(material.option.type);
         var perspective = capitalize(material.option.perspective);
 
+        $('.material-option-id').prop("value", material.option.id);
+
         $('#material-option-name').val(material.option.name);
 
         $('#saved-setting-type').val(material.option.type);
@@ -264,9 +270,19 @@ $(document).ready(function(){
 
         $("#file-src").prop("src", material.option.path);
 
+        $("#layer-level").prop("value", material.option.layer_level);
+
         console.log($('input[type=file]').val());
 
-        $("#material-option-gradients").css("background-image", "url(" + material.option.path + ")");
+        $("#material-option-bounding-box").css("background-image", "url(" + material.option.path + ")");
+
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+            console.log('checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+            console.log('unchecked');
+        }
 
 
         function capitalize(c)
@@ -287,15 +303,15 @@ $(document).ready(function(){
         // } else {
         //     $('#edit-material-option-modal .material-option-path').hide();
         // }
-        if (material.option.blend) {
-            $('.is-blend').attr('checked', 'checked');
-        } else {
-            $('.is-blend').removeAttr('checked');
-        }
+        console.log(material.option.blend);
+        
 
-        $('#add-material-option-modal .material-id').val(material.id);
-        $('#add-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#add-material-option-modal').modal('show');
+        $('#add-edit-material-option-modal .material-id').val(material.id);
+        $('#add-edit-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#add-edit-material-option-modal').modal('show');
+
+        console.log($('#form-action').val());
+        console.log($('.material-option-id').val());
     });
 
     $('.enable-material').on('click', function(){

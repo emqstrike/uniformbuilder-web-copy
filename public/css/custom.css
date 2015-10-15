@@ -53,7 +53,7 @@ tr.center-table-heads > th{
   	overflow-y: auto;
 }
 
-#material-option-gradients {
+#material-option-bounding-box {
     width: 500px;
     height: 500px;
     background-position: center center;
