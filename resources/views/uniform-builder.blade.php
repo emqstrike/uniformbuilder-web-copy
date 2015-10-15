@@ -94,8 +94,6 @@
     <div class="suggestions"></div>
 </div>
 
-    
-
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
     @include('partials.share-design-modal')
@@ -105,6 +103,8 @@
 @endif
 
 @include('partials.team-roster-modal')
+
+
 
 <!-- Third Party Scripts -->
 
@@ -120,7 +120,7 @@
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/handlebars/handlebars.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
@@ -138,12 +138,6 @@ $(document).ready(function () {
 @if (Session::has('message'))
     setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
 @endif
-    var roster_source = $('#roster-record').html();
-    var roster_template = Handlebars.compile(roster_source);
-    $('#team-roster-form .table-roster-list').append(roster_template);
-    $('.remove-roster-record').on('click', function(){
-        $(this).parents('tr').fadeOut();
-    });
 });
 
 </script>
