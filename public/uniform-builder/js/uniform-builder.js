@@ -2085,7 +2085,8 @@ $(document).ready(function () {
     $('.share-uniform-design-by-email').on('click', function(){
         var data = {
             email_list: $('#share-design-modal .team-email').val(),
-            order_id: $(this).data('order-id')
+            order_id: $(this).data('order-id'),
+            sharer_name: ub.user.fullname
         };
 
         $.ajax({
