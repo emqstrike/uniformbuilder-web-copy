@@ -1935,7 +1935,6 @@ $(document).ready(function () {
                     $('table.logos').append(markup);
                     $('.file_upload.logo > .image_preview').css("background-image", "url("+this.result+")");
 
-
                     $('a.logo_list').on('click', function () {
 
                         var action = $(this).data('action');
@@ -1957,8 +1956,6 @@ $(document).ready(function () {
                             $('.file_upload.logo > .image_preview').css('background-image', "url(" + logos[id].dataUrl + ")");
 
                         }
-
-
 
                     })
 
