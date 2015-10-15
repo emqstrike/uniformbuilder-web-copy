@@ -242,37 +242,6 @@ $(document).ready(function(){
             }
         };
 
-        // console.log("ID: "+material['option']['id']);
-        // console.log("Name: "+material['option']['name']);
-        // console.log("Layer Level: "+material['option']['layer_level']);
-        // console.log("Type: "+material['option']['type']);
-        // console.log("Code: "+material['option']['code']);
-        // console.log("Path: "+material['option']['path']);
-        // console.log("Perspective: "+material['option']['perspective']);
-        // console.log("Colors: "+material['option']['colors']);
-        // console.log("Gradients: "+material['option']['gradients']);
-        // console.log("Blend: "+material['option']['blend']);
-
-        // var select_options = materialOptionSettings[material.option.type];
-        // $('#edit-material-option-modal .setting-types option[value="' + material.option.type + '"]').attr("selected","selected");
-        // $('#edit-material-option-modal .setting-codes option[value="' + material.option.code + '"]').attr("selected","selected");
-        // $('#edit-material-option-modal .perspective option[value="' + material.option.perspective + '"]').attr("selected","selected");
-        // if (material.option.colors.length)
-        // {
-        //     material.option.colors.forEach(function(item){
-        //         $('#edit-material-option-modal .colors option[value="' + item + '"]').attr("selected","selected");
-        //     });
-        // }
-        // bindColorsSelect2();
-
-        // if (material.option.gradients.length) {
-        //     material.option.gradients.forEach(function(item){
-        //         $('#edit-material-option-modal .gradients option[value="' + item + '"]').attr("selected","selected");
-        //     });    
-        // }
-
-        // bindGradientsSelect2();
-
         var type = capitalize(material.option.type);
         var perspective = capitalize(material.option.perspective);
 
@@ -336,16 +305,8 @@ $(document).ready(function(){
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
         console.log("TYPE: " + material.option.type);
-        // $('#edit-material-option-modal .material-option-id').val(material.option.id);
-        // $('#edit-material-option-modal .modal-title span').html(material.name);
-        // $('#edit-material-option-modal .option-name').val(material.option.name);
-        // $('#edit-material-option-modal .layer-level').val(material.option.layer_level);
-        // if (material.option.path.length) {
         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        //     $('#edit-material-option-modal .material-option-path').show();
-        // } else {
-        //     $('#edit-material-option-modal .material-option-path').hide();
-        // }
+        
         console.log(material.option.blend);        
 
         $('#add-edit-material-option-modal .material-id').val(material.id);
@@ -419,7 +380,7 @@ $(document).ready(function(){
     });
 
     // DELETE MATERIAL OPTION
-    $('.delete-material-option').on('click', function(e){
+    $('.delete-material-option').on('click', function(){
         var id = $(this).data('material-option-id');
         modalConfirm(
             'Remove Material Option',

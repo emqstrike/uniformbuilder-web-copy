@@ -81,7 +81,6 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials Options
     Route::post('material_option/add_edit', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
-    //Route::post('material_option/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
 
     // Base Models
     Route::get('models', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@index']);
