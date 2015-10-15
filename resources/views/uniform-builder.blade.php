@@ -98,6 +98,7 @@
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
+    @include('partials.share-design-modal')
     @include('partials.save-design-modal')
 @else
     @include('partials.signup-modal')
@@ -146,14 +147,14 @@ $(document).ready(function () {
     });
 });
 
-
-
 </script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
+
 </body>
 </html>

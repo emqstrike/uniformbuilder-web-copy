@@ -1,4 +1,5 @@
 /vendor
 /node_modules
+/public/uniform-builder/css/*
 Homestead.yaml
 .env
