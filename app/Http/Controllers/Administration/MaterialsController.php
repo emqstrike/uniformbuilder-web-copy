@@ -91,10 +91,7 @@ class MaterialsController extends Controller
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
-
-        $material = $this->client->getMaterial($id);
         return view('administration.materials.material-create', [
-            'material' => $material,
             'uniform_categories' => $uniformCategories,
             'colors' => $colors,
             'factories' => $factories
