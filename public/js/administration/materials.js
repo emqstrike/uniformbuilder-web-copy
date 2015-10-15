@@ -22,14 +22,22 @@ $(document).ready(function(){
         window.shapes = {};
 
         var data = {
-                    topLeftX: 0,
-                    topLeftY: 0,
-                    topRightX: 0,
-                    topRightY: 0,
-                    bottomLeftX: 0,
-                    bottomLeftY: 0,
-                    bottomRightX: 0,
-                    bottomRightY: 0,
+                    topLeft:   { 
+                                    "x":0, 
+                                    "y":0
+                                },
+                    topRight:   { 
+                                    "x":0, 
+                                    "y":0
+                                },
+                    bottomLeft: { 
+                                    "x":0, 
+                                    "y":0
+                                },
+                    bottomRight:{ 
+                                    "x":0, 
+                                    "y":0
+                                },
                     pivot: 0,
                     rotation: 0,
                 };
@@ -41,8 +49,6 @@ $(document).ready(function(){
             originX: 'center',
             originY: 'center'
         });
-
-        window.shapes.box = box;
 
         var circle = new fabric.Circle({
             radius: 40,
@@ -70,6 +76,7 @@ $(document).ready(function(){
 
         bounding_box.transparentCorners = false;
         canvas.add(bounding_box);
+        updateCoordinates();
 
         canvas.on({
             'object:moving': updateCoordinates,
@@ -93,16 +100,18 @@ $(document).ready(function(){
 
             canvas.renderAll();
 
-            data.topLeftX       = topLeftX;
-            data.topLeftY       = topLeftY;
-            data.topRightX      = topRightX;
-            data.topRightY      = topRightY;
-            data.bottomLeftX    = bottomLeftX;
-            data.bottomLeftY    = bottomLeftY;
-            data.bottomRightX   = bottomRightX;
-            data.bottomRightY   = bottomRightY;
-            data.pivot          = bounding_box.getCenterPoint();
-            data.rotation       = bounding_box.getAngle();
+            data.topLeft.x          = topLeftX;
+            data.topLeft.y          = topLeftY;
+            data.topRight.x         = topRightX;
+            data.topRight.y         = topRightY;
+            data.bottomLeft.x       = bottomLeftX;
+            data.bottomLeft.y       = bottomLeftY;
+            data.bottomRight.x      = bottomRightX;
+            data.bottomRight.y      = bottomRightY;
+            data.pivot              = bounding_box.getCenterPoint();
+            data.rotation           = bounding_box.getAngle();
+
+            console.log("BOOM RESULT!!! - " + data.topLeft.x);
 
             var boundaryProperties = JSON.stringify(data);
 
@@ -202,15 +211,14 @@ $(document).ready(function(){
 
         $('.material-id').prop("value", material.id);
         console.log($('.material-id').val());
-        // $('#material-option-name').prop("value", '');
-        // $('#saved-setting-type').prop("value", '');
-        // $('#saved-setting-type').text(type);
-        // $('#saved-perspective').prop("value", '');
-        // $('#saved-perspective').text(perspective + " View");
-        // $("#file-src").prop("src", '');
-        // $("#layer-level").prop("value", '');
-        // $("#material-option-bounding-box").css("background-image", "url("")");
-        // $('#is-blend').attr('checked', 'unchecked');
+        $('.material-option-id').val('');
+        $('#material-option-name').val('');
+        $('#saved-setting-type').val('');
+        $('#saved-setting-type').prop("visible", false);
+        $('#saved-perspective').val('');
+        $('#saved-perspective').prop("visible", false);
+        $('#boundary-properties').val('');
+        $("#material-option-bounding-box").css("background-image", '');
 
     });
 
@@ -281,24 +289,24 @@ $(document).ready(function(){
         var output = jason.substring(1, jason.length-1);
         var myData = JSON.parse(output);
 
-        bounding_box.oCoords.tl.x   = myData.topLeftX;
-        bounding_box.oCoords.tl.y   = myData.topLeftY;
-        bounding_box.oCoords.tr.x   = myData.topRightX;
-        bounding_box.oCoords.tr.y   = myData.topRightY;
-        bounding_box.oCoords.bl.x   = myData.bottomLeftX;
-        bounding_box.oCoords.bl.y   = myData.bottomLeftY;
-        bounding_box.oCoords.br.x   = myData.bottomRightX;
-        bounding_box.oCoords.br.y   = myData.bottomRightY;
+        bounding_box.oCoords.tl.x   = myData.topLeft.x;
+        bounding_box.oCoords.tl.y   = myData.topLeft.y;
+        bounding_box.oCoords.tr.x   = myData.topRight.x;
+        bounding_box.oCoords.tr.y   = myData.topRight.y;
+        bounding_box.oCoords.bl.x   = myData.bottomLeft.x;
+        bounding_box.oCoords.bl.y   = myData.bottomLeft.y;
+        bounding_box.oCoords.br.x   = myData.bottomRight.x;
+        bounding_box.oCoords.br.y   = myData.bottomRight.y;
         bounding_box.centerPoint    = myData.pivot;
         bounding_box.angle          = myData.rotation;
 
         
-        bounding_box.width = myData.topRightX - myData.topLeftX;
-        bounding_box.height = myData.bottomLeftY - myData.topLeftY;
-        box.width = myData.topRightX - myData.topLeftX;
-        box.height = myData.bottomLeftY - myData.topLeftY;
-        bounding_box.left = myData.topLeftX;
-        bounding_box.top = myData.topLeftY;
+        bounding_box.width = myData.topRight.x - myData.topLeft.x;
+        bounding_box.height = myData.bottomLeft.y - myData.topLeft.y;
+        box.width = myData.topRight.x - myData.topLeft.x;
+        box.height = myData.bottomLeft.y - myData.topLeft.y;
+        bounding_box.left = myData.topLeft.x;
+        bounding_box.top = myData.topLeft.y;
 
         canvas.renderAll();
 
