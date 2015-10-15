@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<script id="roster-record" type="text/x-handlebars-template">
+<script id="roster-record" type="text/mustache">
     <tr>
         <td class='row-roster-number col-md-1'>
             <input type='number' class='form-control roster-number' size='3' />
@@ -55,27 +55,46 @@
         </td>
         <td class='row-roster-size'>
             <select class='form-control roster-size'>
-                <option value='YXS'>Youth Extra Small</option>
-                <option value='YS'>Youth Small</option>
-                <option value='YM'>Youth Medium</option>
-                <option value='YL'>Youth Large</option>
-                <option value='YXL'>Youth Extra Large (XL)</option>
-                <option value='Y2XL'>Youth Double Extra Large (Y2XL)</option>
-                <option value='Y3XL'>Youth Triple Extra Large (Y3XL)</option>
-                <option value='XS'>Extra Small</option>
-                <option value='S'>Small</option>
-                <option value='M'>Medium</option>
-                <option value='L'>Large</option>
-                <option value='XL'>Extra Large (XL)</option>
-                <option value='2XL'>Double Extra Large (2XL)</option>
-                <option value='3XL'>Triple Extra Large (2XL)</option>
+                @{{#uniformSizes.YXS.active}}<option value='YXS'>Youth Extra Small</option>@{{/uniformSizes.YXS.active}}
+                @{{#uniformSizes.YS.active}}<option value='YS'>Youth Small</option>@{{/uniformSizes.YS.active}}
+                @{{#uniformSizes.YM.active}}<option value='YM'>Youth Medium</option>@{{/uniformSizes.YM.active}}
+                @{{#uniformSizes.YL.active}}<option value='YL'>Youth Large</option>@{{/uniformSizes.YL.active}}
+                @{{#uniformSizes.YXL.active}}<option value='YXL'>Youth Extra Large (YXL)</option>@{{/uniformSizes.YXL.active}}
+                @{{#uniformSizes.Y2XL.active}}<option value='Y2XL'>Youth Double Extra Large (Y2XL)</option>@{{/uniformSizes.Y2XL.active}}
+                @{{#uniformSizes.Y3XL.active}}<option value='Y3XL'>Youth Triple Extra Large (Y3XL)</option>@{{/uniformSizes.Y3XL.active}}
+                @{{#uniformSizes.XS.active}}<option value='XS'>Extra Small</option>@{{/uniformSizes.XS.active}}
+                @{{#uniformSizes.S.active}}<option value='S'>Small</option>@{{/uniformSizes.S.active}}
+                @{{#uniformSizes.M.active}}<option value='M'>Medium</option>@{{/uniformSizes.M.active}}
+                @{{#uniformSizes.L.active}}<option value='L'>Large</option>@{{/uniformSizes.L.active}}
+                @{{#uniformSizes.XL.active}}<option value='XL'>Extra Large (XL)</option>@{{/uniformSizes.XL.active}}
+                @{{#uniformSizes.2XL.active}}<option value='2XL'>Double Extra Large (2XL)</option>@{{/uniformSizes.2XL.active}}
+                @{{#uniformSizes.3XL.active}}<option value='3XL'>Triple Extra Large (2XL)</option>@{{/uniformSizes.3XL.active}}
             </select>
         </td>
         <td>
-            <a class="btn btn-sm btn-danger remove-roster-record" data-row-number="@{{ $rowNumber }}">
+            <a class="btn btn-sm btn-danger remove-roster-record">
                 <i class="fa fa-trash-o"></i>
                 Remove
             </a>
         </td>
     </tr>
+</script>
+
+<script id='roster-sizes-options' type="text/mustache">
+<select class='form-control roster-size'>
+    @{{#uniformSizes.YXS.active}}<option value='YXS'>Youth Extra Small</option>@{{/uniformSizes.YXS.active}}
+    @{{#uniformSizes.YS.active}}<option value='YS'>Youth Small</option>@{{/uniformSizes.YS.active}}
+    @{{#uniformSizes.YM.active}}<option value='YM'>Youth Medium</option>@{{/uniformSizes.YM.active}}
+    @{{#uniformSizes.YL.active}}<option value='YL'>Youth Large</option>@{{/uniformSizes.YL.active}}
+    @{{#uniformSizes.YXL.active}}<option value='YXL'>Youth Extra Large (YXL)</option>@{{/uniformSizes.YXL.active}}
+    @{{#uniformSizes.Y2XL.active}}<option value='Y2XL'>Youth Double Extra Large (Y2XL)</option>@{{/uniformSizes.Y2XL.active}}
+    @{{#uniformSizes.Y3XL.active}}<option value='Y3XL'>Youth Triple Extra Large (Y3XL)</option>@{{/uniformSizes.Y3XL.active}}
+    @{{#uniformSizes.XS.active}}<option value='XS'>Extra Small</option>@{{/uniformSizes.XS.active}}
+    @{{#uniformSizes.S.active}}<option value='S'>Small</option>@{{/uniformSizes.S.active}}
+    @{{#uniformSizes.M.active}}<option value='M'>Medium</option>@{{/uniformSizes.M.active}}
+    @{{#uniformSizes.L.active}}<option value='L'>Large</option>@{{/uniformSizes.L.active}}
+    @{{#uniformSizes.XL.active}}<option value='XL'>Extra Large (XL)</option>@{{/uniformSizes.XL.active}}
+    @{{#uniformSizes.2XL.active}}<option value='2XL'>Double Extra Large (2XL)</option>@{{/uniformSizes.2XL.active}}
+    @{{#uniformSizes.3XL.active}}<option value='3XL'>Triple Extra Large (2XL)</option>@{{/uniformSizes.3XL.active}}
+</select>
 </script>

@@ -42,7 +42,7 @@
 	</div>
 </div>
 
-<script id="roster-list" type="text/x-handlebars-template">
+<script id="roster-list" type="text/mustache">
 <tr>
 	<td>
 		@{{ number }}

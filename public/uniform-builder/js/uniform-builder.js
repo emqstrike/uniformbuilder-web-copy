@@ -37,7 +37,65 @@ $(document).ready(function () {
 
             /// End Activate Views
 
-        }
+            ub.uniformSizes = {
+                'YXS': {
+                    name: 'Youth Extra Small',
+                    active: false
+                },
+                'YS': {
+                    name: 'Youth Small',
+                    active: false
+                },
+                'YM': {
+                    name: 'Youth Medium',
+                    active: false
+                },
+                'YL': {
+                    name: 'Youth Large',
+                    active: false
+                },
+                'YXL': {
+                    name: 'Youth Extra Large',
+                    active: false
+                },
+                'Y2XL': {
+                    name: 'Youth Double Extra Large',
+                    active: false
+                },
+                'Y3XL': {
+                    name: 'Youth Triple Extra Large',
+                    active: false
+                },
+                'XS': {
+                    name: 'Extra Small',
+                    active: false
+                },
+                'S': {
+                    name: 'Small',
+                    active: false
+                },
+                'M': {
+                    name: 'Medium',
+                    active: false
+                },
+                'L': {
+                    name: 'Large',
+                    active: false
+                },
+                'XL': {
+                    name: 'Extra Large',
+                    active: false
+                },
+                '2XL': {
+                    name: 'Double Extra Large',
+                    active: false
+                },
+                '3XL': {
+                    name: 'Triple Extra Large',
+                    active: false
+                }
+            };
+        };
 
         ub.updateLayersOrder = function (container) {
                 
@@ -2070,12 +2128,23 @@ $(document).ready(function () {
         $('#team-roster-modal').modal('show');
     });
 
-    $('.add-roster-record').on('click', function () {
-        var roster_source = $('#roster-record').html();
-        var roster_template = Handlebars.compile(roster_source);
-        $('#team-roster-form .table-roster-list').append(roster_template);
+    $('.add-roster-record').on('click', createNewRosterRecordForm);
+
+    function createNewRosterRecordForm() {
+        var template = $('#roster-record').html();
+        var item = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
+        $('#team-roster-form .table-roster-list').append(item);
         bindRemoveButtonBehavior();
-    });
+    }
+
+    function refreshUniformSizesInRosterSelect() {
+        $('.row-roster-size').each(function(i, item){
+            $(item).html('');
+            var template = $('#roster-sizes-options').html();
+            var cell_content = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
+            $(item).html(cell_content);
+        });
+    }
 
     $('.close-share-uniform-design-modal').on('click', function(){
         $('#open-design-modal').modal('show');
@@ -2189,19 +2258,23 @@ $(document).ready(function () {
 
     function onSizeSelect() {
         var isSelected = parseInt($(this).data('is-selected'));
+        var size = $(this).data('size');
         // Toggle Size Selection
         if (isSelected) {
             // Turn Size Off
             $(this).removeClass('selected');
             $(this).data('is-selected', 0);
+            ub.uniformSizes[size].active = false;
         } else {
             // Turn Size On
             $(this).addClass('selected');
             $(this).data('is-selected', 1);
+            ub.uniformSizes[size].active = true;
         }
-
-        var size = $(this).data('size');
-
+        refreshUniformSizesInRosterSelect();
     }
+
+    // Initial Roster Item
+    createNewRosterRecordForm();
 
 });
