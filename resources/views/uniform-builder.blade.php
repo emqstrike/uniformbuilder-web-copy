@@ -63,16 +63,12 @@
 
 <div id="main_container" class="container">
     
-    @if (Session::has('message'))
-        
-        <div class="alert alert-info alert-dismissable flash-alert">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                ×
-            </button>
-            <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-        </div>
-
-    @endif
+    <div class="alert alert-info alert-dismissable flash-alert" style="display: none">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            ×
+        </button>
+        <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+    </div>
 
     <div id="main-row" class="row">
        
@@ -102,6 +98,7 @@
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
+    @include('partials.share-design-modal')
     @include('partials.save-design-modal')
 @else
     @include('partials.signup-modal')

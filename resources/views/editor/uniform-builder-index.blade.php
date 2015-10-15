@@ -1,14 +1,13 @@
 @extends('uniform-builder')
 
 @section('left-pane')
-    
     <div id="left-pane" class="pane">
 
         <div id="left-top" class="pane-top">
         
+
         </div>
 
-      
         <div id="left-sidebar" class="pane-sidebar">
 
             <a class="btn-new sidebar-buttons new"
@@ -61,13 +60,10 @@
 
 
 @section('right-pane')
-    
 
     <div id="right-pane" class="pane">
 
-        
         <div id="right-top" class="pane-top">
-            
 
         </div>
 
@@ -85,7 +81,7 @@
             <a href="" class="sidebar-buttons gradients" data-filename='gradients'>
             </a>
 
-            <a href="" class="sidebar-buttons texts open-team-roster-modal" data-filename='texts'>
+            <a href="" class="sidebar-buttons texts" data-filename='texts'>
             </a>
 
             <a href="" class="sidebar-buttons numbers" data-filename='numbers'>
@@ -100,42 +96,31 @@
         </div>
 
         <div id="right-main-window" class="pane-main-window">
-            
-      
-            <div class="options_panel" id="materials_panel">
-                
-                <div class="options_panel_header">
-                
-                    <span class="header_text">MATERIAL OPTIONS</span>
 
+            <div class="options_panel" id="materials_panel">
+
+                <div class="options_panel_header">
+                    <span class="header_text">MATERIAL OPTIONS</span>
                 </div>
 
             </div>
 
-
             <div class="options_panel" id="colors_panel">
-                
-                <div class="options_panel_header">
-                
-                    <span class="header_text">COLOR OPTIONS</span>
 
+                <div class="options_panel_header">
+                    <span class="header_text">COLOR OPTIONS</span>
                 </div>
 
                  <div class="options_panel_section">
-                
                     <label>Team Color</label> 
-
                 </div>
 
             </div>
 
-
             <div class="options_panel" id="gradients_panel">
-                
-                <div class="options_panel_header">
-                
-                    <span class="header_text">GRADIENTS OPTIONS</span>
 
+                <div class="options_panel_header">
+                    <span class="header_text">GRADIENTS OPTIONS</span>
                 </div>
 
             </div>
@@ -143,21 +128,16 @@
 
             <div class="options_panel" id="patterns_panel">
                 
-               <div class="options_panel_header">
-                
+                <div class="options_panel_header">
                     <span class="header_text">PATTERNS OPTIONS</span>
-
                 </div>
 
                 <div class="options_panel_section">
             
                     <label>LAYER 1</label>
-
                     <div class="color_panel_container">
-                
                         @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color',])
-                        
-                    </div>   
+                    </div>
 
                 </div>
 
@@ -165,54 +145,41 @@
                 <div class="options_panel_section">
             
                     <label>LAYER 2</label>
-
                     <div class="color_panel_container">
-                
                         @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_2', 'event_class' => 'change-color',])
-                        
-                    </div>   
+                    </div>
 
                 </div>
 
                 <div class="options_panel_section">
-            
-                    <label>LAYER 3</label>
 
+                    <label>LAYER 3</label>
                     <div class="color_panel_container">
-                
                         @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_3', 'event_class' => 'change-color',])
-                        
-                    </div>   
+                    </div>
 
                 </div>
 
                 <div class="options_panel_section">
             
                     <label>LAYER 4</label>
-
                     <div class="color_panel_container">
-                
                         @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_4', 'event_class' => 'change-color',])
-                        
                     </div>   
 
                 </div>
 
                 <div class="options_panel_section">
-
                     <button id="toggle_pattern_preview">Pattern Preview</button>
-                    
                 </div>
 
             </div>
 
 
             <div class="options_panel" id="texts_panel">
-                
-                <div class="options_panel_header">
-                
-                    <span class="header_text">TEXTS OPTIONS</span>
 
+                <div class="options_panel_header">
+                    <span class="header_text">TEXTS OPTIONS</span>
                 </div>
 
             </div>
@@ -221,9 +188,7 @@
             <div class="options_panel" id="numbers_panel">
                 
                 <div class="options_panel_header">
-                
                     <span class="header_text">NUMBER OPTIONS</span>
-
                 </div>
 
             </div>
@@ -232,9 +197,7 @@
             <div class="options_panel" id="graphics_panel">
                 
                 <div class="options_panel_header">
-                
                     <span class="header_text">GRAPHICS OPTIONS</span>
-
                 </div>
 
                 <div class="options_panel_section">
@@ -258,18 +221,28 @@
 
                     </div>
 
-
-                </div>
+            </div>
 
             </div>
             <div class="options_panel" id="sizes_panel">
+
                 <div class="options_panel_header">
                     <span class="header_text">SIZES OPTIONS</span>
                 </div>
+                 
+                <div class="options_panel_section">
+
+                    <label>TEAM INFO</label>
+
+                    <div class='sizes_panel_container'>
+                        <a class='open-team-roster-modal'>Team Roster</a>
+                    </div>
+
+                </div>    
+
             </div>
         </div>
 
-
     </div>
-        
+
 @endsection('right-pane')

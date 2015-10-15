@@ -1,8 +1,12 @@
 /vendor
 /node_modules
+<<<<<<< HEAD
 public/uniform-builder/css/uniform-builder-plugins.css
 public/uniform-builder/css/uniform-builder-plugins.css.map
 public/uniform-builder/css/uniform-builder.css
 public/uniform-builder/css/uniform-builder.css.map
+=======
+/public/uniform-builder/css/*
+>>>>>>> 0db8084510736b585b6adffb1aab11a8584bea5e
 Homestead.yaml
 .env
