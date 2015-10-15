@@ -2176,4 +2176,23 @@ $(document).ready(function () {
 
     getUniformSuggestions(ub.config.category_id);
 
+    // Uniform Sizes - Size Clicked Behavior
+    $('.uniform-sizes .uniform-size').on('click', onSizeSelect);
+
+    function onSizeSelect() {
+        var isSelected = parseInt($(this).data('is-selected'));
+        // Toggle Size Selection
+        if (isSelected) {
+            // Turn Size Off
+            $(this).removeClass('selected');
+            $(this).data('is-selected', 0);
+        } else {
+            // Turn Size On
+            $(this).addClass('selected');
+            $(this).data('is-selected', 1);
+        }
+
+        var size = $(this).data('size');
+    }
+
 });
