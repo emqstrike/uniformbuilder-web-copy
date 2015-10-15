@@ -107,6 +107,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
+                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
@@ -150,6 +151,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
+                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
@@ -193,6 +195,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
+                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
@@ -236,6 +239,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
+                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"

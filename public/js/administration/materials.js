@@ -9,12 +9,11 @@ $(document).ready(function(){
  
             reader.onloadend = function(){
                 $("#material-option-bounding-box").css("background-image", "url("+this.result+")");
-                //$("#material-option-placements").css("background-image", "url("+this.result+")");
             }
         }
     });
 
-    (function() {
+
         var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         fabric.Object.prototype.transparentCorners = false;
         canvas.setWidth( 496 );
@@ -112,7 +111,6 @@ $(document).ready(function(){
             console.log(boundaryProperties);
         }
 
-    })();
 
     $(".modal").each(function(i) {
         $(this).draggable({
@@ -201,8 +199,19 @@ $(document).ready(function(){
         $('#add-edit-material-option-modal .material-id').val(material.id);
         $('#add-edit-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
         $('#add-edit-material-option-modal').modal('show');
-        console.log($('#form-action').val());
-        console.log($('.material-option-id').val());
+
+        $('.material-id').prop("value", material.id);
+        console.log($('.material-id').val());
+        // $('#material-option-name').prop("value", '');
+        // $('#saved-setting-type').prop("value", '');
+        // $('#saved-setting-type').text(type);
+        // $('#saved-perspective').prop("value", '');
+        // $('#saved-perspective').text(perspective + " View");
+        // $("#file-src").prop("src", '');
+        // $("#layer-level").prop("value", '');
+        // $("#material-option-bounding-box").css("background-image", "url("")");
+        // $('#is-blend').attr('checked', 'unchecked');
+
     });
 
     $('.edit-material-option').on('click', function(){
@@ -221,6 +230,7 @@ $(document).ready(function(){
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
+                boundary_properties: ($(this).data('material-option-boundary-properties'))
             }
         };
 
@@ -258,22 +268,47 @@ $(document).ready(function(){
         var type = capitalize(material.option.type);
         var perspective = capitalize(material.option.perspective);
 
+        $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
-
         $('#material-option-name').val(material.option.name);
-
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(type);
-
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(perspective + " View");
+        $('#boundary-properties').prop("value", material.option.boundary_properties);
+
+        var jason = $('#boundary-properties').val().replace(/\\/g, '');
+        var output = jason.substring(1, jason.length-1);
+        var myData = JSON.parse(output);
+
+        bounding_box.oCoords.tl.x   = myData.topLeftX;
+        bounding_box.oCoords.tl.y   = myData.topLeftY;
+        bounding_box.oCoords.tr.x   = myData.topRightX;
+        bounding_box.oCoords.tr.y   = myData.topRightY;
+        bounding_box.oCoords.bl.x   = myData.bottomLeftX;
+        bounding_box.oCoords.bl.y   = myData.bottomLeftY;
+        bounding_box.oCoords.br.x   = myData.bottomRightX;
+        bounding_box.oCoords.br.y   = myData.bottomRightY;
+        bounding_box.centerPoint    = myData.pivot;
+        bounding_box.angle          = myData.rotation;
+
+        
+        bounding_box.width = myData.topRightX - myData.topLeftX;
+        bounding_box.height = myData.bottomLeftY - myData.topLeftY;
+        box.width = myData.topRightX - myData.topLeftX;
+        box.height = myData.bottomLeftY - myData.topLeftY;
+        bounding_box.left = myData.topLeftX;
+        bounding_box.top = myData.topLeftY;
+
+        canvas.renderAll();
+
+        var boundaryProperties = JSON.stringify(data);
+
+        $( '#boundary-properties' ).prop('value',boundaryProperties);
+
 
         $("#file-src").prop("src", material.option.path);
-
         $("#layer-level").prop("value", material.option.layer_level);
-
-        console.log($('input[type=file]').val());
-
         $("#material-option-bounding-box").css("background-image", "url(" + material.option.path + ")");
 
         if (material.option.blend) {
@@ -303,15 +338,16 @@ $(document).ready(function(){
         // } else {
         //     $('#edit-material-option-modal .material-option-path').hide();
         // }
-        console.log(material.option.blend);
-        
+        console.log(material.option.blend);        
 
         $('#add-edit-material-option-modal .material-id').val(material.id);
         $('#add-edit-material-option-modal .modal-title span').html("Edit: " + material.option.name);
         $('#add-edit-material-option-modal').modal('show');
 
         console.log($('#form-action').val());
-        console.log($('.material-option-id').val());
+        console.log($('.material-id').val());
+
+        console.log(material.option.colors);
     });
 
     $('.enable-material').on('click', function(){
@@ -376,11 +412,11 @@ $(document).ready(function(){
 
     // DELETE MATERIAL OPTION
     $('.delete-material-option').on('click', function(e){
-        //var id = $(this).data('material-option-id');
+        var id = $(this).data('material-option-id');
         modalConfirm(
             'Remove Material Option',
             'Are you sure you want to delete the Material Option?',
-            //id,
+            id,
             'confirm-yes',
             'confirmation-modal-material-option'
         );

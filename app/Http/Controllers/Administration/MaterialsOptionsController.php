@@ -31,12 +31,19 @@ class MaterialsOptionsController extends Controller
     {
         $materialId = $request->input('material_id');
         $materialOptionId = $request->input('material_option_id');
-        $materialObject = $this->materialClient->getMaterial($materialId);
+        $materialObject = null;
+        
+        if (!is_null($materialId))
+        {
+            $materialObject = $this->materialClient->getMaterial($materialId);
+        }
+
         $materialFolder = null;
         if (!is_null($materialObject))
         {
             $materialFolder = $materialObject->slug;
         }
+
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
         $layerLevel = $request->input('layer_level');
@@ -45,7 +52,7 @@ class MaterialsOptionsController extends Controller
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
-        
+
         $data = [
             'material_id' => $materialId,
             'name' => $materialOptionName,
@@ -96,9 +103,9 @@ class MaterialsOptionsController extends Controller
             $response = $this->client->create($data);
         }
 
+
         if ($response->success)
         {
-            
             Log::info('Success');
             return Redirect::to('/administration/materials')
                             ->with('message', $response->message);

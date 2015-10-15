@@ -104,6 +104,7 @@ class MaterialsController extends Controller
     public function store(Request $request)
     {
         $materialName = $request->input('name');
+        $materialID = $request->input('material_id');
         $materialCode = $request->input('code');
         $factoryCode = $request->input('factory_code');
         $type = $request->input('type');
@@ -112,7 +113,6 @@ class MaterialsController extends Controller
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
-
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
