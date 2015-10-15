@@ -1997,22 +1997,26 @@ $(document).ready(function () {
         } else {
             data.user_id = ub.user.id;
             data.client = ub.user.fullname;
+            data.email = ub.user.email;
         }
         $('#save-design-modal').modal('hide');
         $('.flash-alert .flash-sub-title').text('Please wait...');
         $('.flash-alert .flash-message').text('Saving your order');
         $('.flash-alert').fadeIn();
         var endpoint = ub.config.api_host + '/api/order';
-        if (ub.order !== false) {
+        if (typeof(ub.order) !== "undefined") {
             endpoint = ub.config.api_host + '/api/order/update';
         }
 
-        data.image_perspectives = {
-            front: ub.getThumbnailImage('front_view'),
-            back: ub.getThumbnailImage('back_view'),
-            left: ub.getThumbnailImage('left_view'),
-            right: ub.getThumbnailImage('right_view')
-        };
+        var use_perspectives = 0;
+        if (use_perspectives) {
+            data.image_perspectives = {
+                front: ub.getThumbnailImage('front_view'),
+                back: ub.getThumbnailImage('back_view'),
+                left: ub.getThumbnailImage('left_view'),
+                right: ub.getThumbnailImage('right_view')
+            };
+        }
 
         $.ajax({
             url: endpoint,
@@ -2081,7 +2085,8 @@ $(document).ready(function () {
     $('.share-uniform-design-by-email').on('click', function(){
         var data = {
             email_list: $('#share-design-modal .team-email').val(),
-            order_id: $(this).data('order-id')
+            order_id: $(this).data('order-id'),
+            sharer_name: ub.user.fullname
         };
 
         $.ajax({
