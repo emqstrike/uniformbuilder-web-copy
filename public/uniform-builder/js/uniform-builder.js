@@ -2149,6 +2149,14 @@ $(document).ready(function () {
             }
         });
         ub.current_material.team_roster = roster;
+
+        $('.roster-list').html(''); // Clear current roster list
+        $.each(roster, function(i, template_data){
+            var template = $('#roster-list').html();
+            var row = Mustache.to_html(template, template_data)
+            $('.roster-list').append(row);
+        });
+
         $('#team-roster-modal').modal('hide');
 
         $('.flash-alert .flash-sub-title').text('Success: ');
@@ -2193,6 +2201,7 @@ $(document).ready(function () {
         }
 
         var size = $(this).data('size');
+
     }
 
 });

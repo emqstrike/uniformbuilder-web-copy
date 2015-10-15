@@ -55,6 +55,13 @@
         </td>
         <td class='row-roster-size'>
             <select class='form-control roster-size'>
+                <option value='YXS'>Youth Extra Small</option>
+                <option value='YS'>Youth Small</option>
+                <option value='YM'>Youth Medium</option>
+                <option value='YL'>Youth Large</option>
+                <option value='YXL'>Youth Extra Large (XL)</option>
+                <option value='Y2XL'>Youth Double Extra Large (Y2XL)</option>
+                <option value='Y3XL'>Youth Triple Extra Large (Y3XL)</option>
                 <option value='XS'>Extra Small</option>
                 <option value='S'>Small</option>
                 <option value='M'>Medium</option>
@@ -62,17 +69,10 @@
                 <option value='XL'>Extra Large (XL)</option>
                 <option value='2XL'>Double Extra Large (2XL)</option>
                 <option value='3XL'>Triple Extra Large (2XL)</option>
-                <option value='YXS'>Youth Extra Small</option>
-                <option value='YS'>Youth Small</option>
-                <option value='YM'>Youth Medium</option>
-                <option value='YL'>Youth Large</option>
-                <option value='YXL'>Youth Extra Large (XL)</option>
-                <option value='Y2XL'>Youth Double Extra Large (2XL)</option>
-                <option value='Y3XL'>Youth Triple Extra Large (2XL)</option>
             </select>
         </td>
         <td>
-            <a class="btn btn-sm btn-danger remove-roster-record" data-row-number="{{ $rowNumber }}">
+            <a class="btn btn-sm btn-danger remove-roster-record" data-row-number="@{{ $rowNumber }}">
                 <i class="fa fa-trash-o"></i>
                 Remove
             </a>

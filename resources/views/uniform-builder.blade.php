@@ -94,8 +94,6 @@
     <div class="suggestions"></div>
 </div>
 
-    
-
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
     @include('partials.share-design-modal')
@@ -105,6 +103,8 @@
 @endif
 
 @include('partials.team-roster-modal')
+
+
 
 <!-- Third Party Scripts -->
 
@@ -121,6 +121,7 @@
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/handlebars/handlebars.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
