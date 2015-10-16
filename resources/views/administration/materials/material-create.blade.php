@@ -8,7 +8,6 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
                 <div class="panel-body col-md-4">
-                    <div class="divImg"></div>
                 </div>
                 <div class="panel-body col-md-4">
                 </div>

@@ -1,13 +1,13 @@
-$(document).ready(function(){
-    $( "#file-src" ).change(function() {
+$(document).ready(function() {
+    $("#file-src").change(function() {
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return;
  
-        if (/^image/.test( files[0].type)){
+        if (/^image/.test(files[0].type)){
             var reader = new FileReader();
             reader.readAsDataURL(files[0]);
  
-            reader.onloadend = function(){
+            reader.onloadend = function() {
                 $("#material-option-bounding-box").css("background-image", "url("+this.result+")");
             }
         }
@@ -70,8 +70,8 @@ $(document).ready(function(){
     });
 
     var bounding_box = new fabric.Group([ box, text ], {
-        left: canvas.width/2.6,
-        top: canvas.height/5
+        left: canvas.width / 2.6,
+        top: canvas.height / 5
     });
 
     window.shapes.bounding_box = bounding_box;
@@ -89,31 +89,31 @@ $(document).ready(function(){
 
     function updateCoordinates() {
 
-        circle.radius = box.height/2;
+        circle.radius = box.height / 2;
 
-        var topLeftX                = bounding_box.oCoords.tl.x;
-        var topLeftY                = bounding_box.oCoords.tl.y;
-        var topRightX               = bounding_box.oCoords.tr.x;
-        var topRightY               = bounding_box.oCoords.tr.y;
-        var bottomLeftX             = bounding_box.oCoords.bl.x;
-        var bottomLeftY             = bounding_box.oCoords.bl.y;
-        var bottomRightX            = bounding_box.oCoords.br.x;
-        var bottomRightY            = bounding_box.oCoords.br.y;
+        var topLeftX = bounding_box.oCoords.tl.x;
+        var topLeftY = bounding_box.oCoords.tl.y;
+        var topRightX = bounding_box.oCoords.tr.x;
+        var topRightY = bounding_box.oCoords.tr.y;
+        var bottomLeftX = bounding_box.oCoords.bl.x;
+        var bottomLeftY = bounding_box.oCoords.bl.y;
+        var bottomRightX = bounding_box.oCoords.br.x;
+        var bottomRightY = bounding_box.oCoords.br.y;
 
         canvas.renderAll();
 
-        data.topLeft.x          = topLeftX;
-        data.topLeft.y          = topLeftY;
-        data.topRight.x         = topRightX;
-        data.topRight.y         = topRightY;
-        data.bottomLeft.x       = bottomLeftX;
-        data.bottomLeft.y       = bottomLeftY;
-        data.bottomRight.x      = bottomRightX;
-        data.bottomRight.y      = bottomRightY;
-        data.boxWidth           = bounding_box.getWidth();
-        data.boxHeight          = bounding_box.getHeight();
-        data.pivot              = bounding_box.getCenterPoint();
-        data.rotation           = bounding_box.getAngle();
+        data.topLeft.x = topLeftX;
+        data.topLeft.y = topLeftY;
+        data.topRight.x = topRightX;
+        data.topRight.y = topRightY;
+        data.bottomLeft.x = bottomLeftX;
+        data.bottomLeft.y = bottomLeftY;
+        data.bottomRight.x = bottomRightX;
+        data.bottomRight.y = bottomRightY;
+        data.boxWidth = bounding_box.getWidth();
+        data.boxHeight = bounding_box.getHeight();
+        data.pivot = bounding_box.getCenterPoint();
+        data.rotation = bounding_box.getAngle();
 
         var boundaryProperties = JSON.stringify(data);
 
@@ -257,15 +257,15 @@ $(document).ready(function(){
         var output = jason.substring(1, jason.length-1);
         var myData = JSON.parse(output);
 
-        bounding_box.oCoords.tl.x   = myData.topLeft.x;
-        bounding_box.oCoords.tl.y   = myData.topLeft.y;
-        bounding_box.oCoords.tr.x   = myData.topRight.x;
-        bounding_box.oCoords.tr.y   = myData.topRight.y;
-        bounding_box.oCoords.bl.x   = myData.bottomLeft.x;
-        bounding_box.oCoords.bl.y   = myData.bottomLeft.y;
-        bounding_box.oCoords.br.x   = myData.bottomRight.x;
-        bounding_box.oCoords.br.y   = myData.bottomRight.y;
-        bounding_box.centerPoint    = myData.pivot;
+        bounding_box.oCoords.tl.x = myData.topLeft.x;
+        bounding_box.oCoords.tl.y = myData.topLeft.y;
+        bounding_box.oCoords.tr.x = myData.topRight.x;
+        bounding_box.oCoords.tr.y = myData.topRight.y;
+        bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+        bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+        bounding_box.oCoords.br.x = myData.bottomRight.x;
+        bounding_box.oCoords.br.y = myData.bottomRight.y;
+        bounding_box.centerPoint = myData.pivot;
         bounding_box.setAngle(myData.rotation);
 
         
@@ -280,7 +280,7 @@ $(document).ready(function(){
 
         var boundaryProperties = JSON.stringify(data);
 
-        $( '#boundary-properties' ).prop('value',boundaryProperties);
+        $('#boundary-properties').prop('value', boundaryProperties);
 
 
         $("#file-src").prop("src", material.option.path);

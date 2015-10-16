@@ -96,7 +96,7 @@
                                              height="45px" 
                                              alt="{{ $material->slug }}">
                                     @else
-                                        <img src="http://dummyimage.com/100" 
+                                        <img src="" 
                                              width="45px" 
                                              height="45px" 
                                              alt="{{ $material->slug }}">
@@ -140,7 +140,7 @@
                                              height="45px" 
                                              alt="{{ $material->slug }}">
                                     @else
-                                        <img src="http://dummyimage.com/100" 
+                                        <img src="" 
                                              width="45px" 
                                              height="45px" 
                                              alt="{{ $material->slug }}">
@@ -184,7 +184,7 @@
                                              height="45px" 
                                              alt="{{ $material->slug }}">
                                     @else
-                                        <img src="http://dummyimage.com/100" 
+                                        <img src="" 
                                              width="45px" 
                                              height="45px" 
                                              alt="{{ $material->slug }}">
@@ -228,7 +228,7 @@
                                              height="45px" 
                                              alt="{{ $material->slug }}">
                                     @else
-                                        <img src="http://dummyimage.com/100" 
+                                        <img src="" 
                                              width="45px" 
                                              height="45px" 
                                              alt="{{ $material->slug }}">
