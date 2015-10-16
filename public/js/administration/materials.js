@@ -22,27 +22,27 @@ $(document).ready(function(){
     window.shapes = {};
 
     var data = {
-                topLeft:   { 
-                                "x":0, 
-                                "y":0
-                            },
-                topRight:   { 
-                                "x":0, 
-                                "y":0
-                            },
-                bottomLeft: { 
-                                "x":0, 
-                                "y":0
-                            },
-                bottomRight:{ 
-                                "x":0, 
-                                "y":0
-                            },
-                width: 0,
-                height: 0,
-                pivot: 0,
-                rotation: 0,
-            };
+        topLeft:   { 
+            "x":0, 
+            "y":0
+        },
+        topRight:   { 
+            "x":0, 
+            "y":0
+        },
+        bottomLeft: { 
+            "x":0, 
+            "y":0
+        },
+        bottomRight:{ 
+            "x":0, 
+            "y":0
+        },
+        width: 0,
+        height: 0,
+        pivot: 0,
+        rotation: 0,
+        };
 
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
