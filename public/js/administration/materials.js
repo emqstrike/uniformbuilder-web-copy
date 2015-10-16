@@ -14,111 +14,107 @@ $(document).ready(function(){
     });
 
 
-        var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
-        fabric.Object.prototype.transparentCorners = false;
-        canvas.setWidth( 496 );
-        canvas.setHeight( 550 );
+    var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
+    fabric.Object.prototype.transparentCorners = false;
+    canvas.setWidth( 496 );
+    canvas.setHeight( 550 );
 
-        window.shapes = {};
+    window.shapes = {};
 
-        var data = {
-                    topLeft:   { 
-                                    "x":0, 
-                                    "y":0
-                                },
-                    topRight:   { 
-                                    "x":0, 
-                                    "y":0
-                                },
-                    bottomLeft: { 
-                                    "x":0, 
-                                    "y":0
-                                },
-                    bottomRight:{ 
-                                    "x":0, 
-                                    "y":0
-                                },
-                    pivot: 0,
-                    rotation: 0,
-                };
+    var data = {
+                topLeft:   { 
+                                "x":0, 
+                                "y":0
+                            },
+                topRight:   { 
+                                "x":0, 
+                                "y":0
+                            },
+                bottomLeft: { 
+                                "x":0, 
+                                "y":0
+                            },
+                bottomRight:{ 
+                                "x":0, 
+                                "y":0
+                            },
+                pivot: 0,
+                rotation: 0,
+            };
 
-        var box = new fabric.Rect({
-            width: 250, height: 250, angle: 0,
-            fill: 'transparent',
-            stroke: '#e3e3e3',
-            originX: 'center',
-            originY: 'center'
-        });
+    var box = new fabric.Rect({
+        width: 250, height: 250, angle: 0,
+        fill: 'transparent',
+        stroke: '#e3e3e3',
+        originX: 'center',
+        originY: 'center'
+    });
 
-        var circle = new fabric.Circle({
-            radius: 40,
-            fill: 'red',
-            opacity: 0.35,
-            originX: 'center',
-            originY: 'center'
-        });
+    var circle = new fabric.Circle({
+        radius: 40,
+        fill: 'red',
+        opacity: 0.35,
+        originX: 'center',
+        originY: 'center'
+    });
 
-        circle.hasBorders = false;
-        circle.hasControls = false;
+    circle.hasBorders = false;
+    circle.hasControls = false;
 
-        var text = new fabric.Text('Bounding box', {
-            fontSize: 11,
-            originX: 'center',
-            originY: 'center'
-        });
+    var text = new fabric.Text('Bounding box', {
+        fontSize: 11,
+        originX: 'center',
+        originY: 'center'
+    });
 
-        var bounding_box = new fabric.Group([ box, text ], {
-            left: canvas.width/2.6,
-            top: canvas.height/5
-        });
+    var bounding_box = new fabric.Group([ box, text ], {
+        left: canvas.width/2.6,
+        top: canvas.height/5
+    });
 
-        window.shapes.bounding_box = bounding_box;
+    window.shapes.bounding_box = bounding_box;
 
-        bounding_box.transparentCorners = false;
-        canvas.add(bounding_box);
-        updateCoordinates();
+    bounding_box.transparentCorners = false;
+    canvas.add(bounding_box);
+    updateCoordinates();
 
-        canvas.on({
-            'object:moving': updateCoordinates,
-            'object:scaling': updateCoordinates,
-            'object:rotating': updateCoordinates,
-            'mouse:up': updateCoordinates
-        });
+    canvas.on({
+        'object:moving': updateCoordinates,
+        'object:scaling': updateCoordinates,
+        'object:rotating': updateCoordinates,
+        'mouse:up': updateCoordinates
+    });
 
-        function updateCoordinates() {
+    function updateCoordinates() {
 
-            circle.radius = box.height/2;
+        circle.radius = box.height/2;
 
-            var topLeftX                = bounding_box.oCoords.tl.x;
-            var topLeftY                = bounding_box.oCoords.tl.y;
-            var topRightX               = bounding_box.oCoords.tr.x;
-            var topRightY               = bounding_box.oCoords.tr.y;
-            var bottomLeftX             = bounding_box.oCoords.bl.x;
-            var bottomLeftY             = bounding_box.oCoords.bl.y;
-            var bottomRightX            = bounding_box.oCoords.br.x;
-            var bottomRightY            = bounding_box.oCoords.br.y;
+        var topLeftX                = bounding_box.oCoords.tl.x;
+        var topLeftY                = bounding_box.oCoords.tl.y;
+        var topRightX               = bounding_box.oCoords.tr.x;
+        var topRightY               = bounding_box.oCoords.tr.y;
+        var bottomLeftX             = bounding_box.oCoords.bl.x;
+        var bottomLeftY             = bounding_box.oCoords.bl.y;
+        var bottomRightX            = bounding_box.oCoords.br.x;
+        var bottomRightY            = bounding_box.oCoords.br.y;
 
-            canvas.renderAll();
+        canvas.renderAll();
 
-            data.topLeft.x          = topLeftX;
-            data.topLeft.y          = topLeftY;
-            data.topRight.x         = topRightX;
-            data.topRight.y         = topRightY;
-            data.bottomLeft.x       = bottomLeftX;
-            data.bottomLeft.y       = bottomLeftY;
-            data.bottomRight.x      = bottomRightX;
-            data.bottomRight.y      = bottomRightY;
-            data.pivot              = bounding_box.getCenterPoint();
-            data.rotation           = bounding_box.getAngle();
+        data.topLeft.x          = topLeftX;
+        data.topLeft.y          = topLeftY;
+        data.topRight.x         = topRightX;
+        data.topRight.y         = topRightY;
+        data.bottomLeft.x       = bottomLeftX;
+        data.bottomLeft.y       = bottomLeftY;
+        data.bottomRight.x      = bottomRightX;
+        data.bottomRight.y      = bottomRightY;
+        data.pivot              = bounding_box.getCenterPoint();
+        data.rotation           = bounding_box.getAngle();
 
-            console.log("BOOM RESULT!!! - " + data.topLeft.x);
+        var boundaryProperties = JSON.stringify(data);
 
-            var boundaryProperties = JSON.stringify(data);
-
-            $( '#boundary-properties' ).prop('value',boundaryProperties);
-
-            console.log(boundaryProperties);
-        }
+        $( '#boundary-properties' ).prop('value',boundaryProperties);
+    }
 
 
     $(".modal").each(function(i) {
@@ -205,12 +201,11 @@ $(document).ready(function(){
             id: $(this).data('material-id'),
             name: $(this).data('material-name')
         };
-        $('#add-edit-material-option-modal .material-id').val(material.id);
-        $('#add-edit-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-        $('#add-edit-material-option-modal').modal('show');
+        $('#save-material-option-modal .material-id').val(material.id);
+        $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
+        $('#save-material-option-modal').modal('show');
 
         $('.material-id').prop("value", material.id);
-        console.log($('.material-id').val());
         $('.material-option-id').val('');
         $('#material-option-name').val('');
         $('#saved-setting-type').val('');
@@ -290,10 +285,8 @@ $(document).ready(function(){
 
         if (material.option.blend) {
             $('#is-blend').attr('checked', 'checked');
-            console.log('checked');
         } else {
             $('#is-blend').attr('checked', 'unchecked');
-            console.log('unchecked');
         }
 
 
@@ -304,19 +297,10 @@ $(document).ready(function(){
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
-        console.log("TYPE: " + material.option.type);
         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        
-        console.log(material.option.blend);        
-
-        $('#add-edit-material-option-modal .material-id').val(material.id);
-        $('#add-edit-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#add-edit-material-option-modal').modal('show');
-
-        console.log($('#form-action').val());
-        console.log($('.material-id').val());
-
-        console.log(material.option.colors);
+        $('#save-material-option-modal .material-id').val(material.id);
+        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-modal').modal('show');
     });
 
     $('.enable-material').on('click', function(){
@@ -466,8 +450,8 @@ $(document).ready(function(){
 
     // Delete Material Image
     $('.delete-material-image').on('click', function(){
-        var id = $(this).data('material-id');console.log(id);
-        var field = $(this).data('field');console.log(field);
+        var id = $(this).data('material-id');
+        var field = $(this).data('field');
         $('#confirmation-modal .confirm-delete-field').data('field', field);
         modalConfirm('Remove pattern', 'Are you sure you want to delete this image?', id, 'confirm-delete-field');
     });

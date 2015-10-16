@@ -23,7 +23,7 @@ class MaterialsOptionsAPIClient extends APIClient
 
     public function create($data)
     {
-        $response = $this->post('material_option/add_edit', [
+        $response = $this->post('material_option/save', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
