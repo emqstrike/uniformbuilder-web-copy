@@ -38,6 +38,8 @@ $(document).ready(function(){
                                 "x":0, 
                                 "y":0
                             },
+                width: 0,
+                height: 0,
                 pivot: 0,
                 rotation: 0,
             };
@@ -108,6 +110,8 @@ $(document).ready(function(){
         data.bottomLeft.y       = bottomLeftY;
         data.bottomRight.x      = bottomRightX;
         data.bottomRight.y      = bottomRightY;
+        data.boxWidth           = bounding_box.getWidth();
+        data.boxHeight          = bounding_box.getHeight();
         data.pivot              = bounding_box.getCenterPoint();
         data.rotation           = bounding_box.getAngle();
 
@@ -262,13 +266,13 @@ $(document).ready(function(){
         bounding_box.oCoords.br.x   = myData.bottomRight.x;
         bounding_box.oCoords.br.y   = myData.bottomRight.y;
         bounding_box.centerPoint    = myData.pivot;
-        bounding_box.angle          = myData.rotation;
+        bounding_box.setAngle(myData.rotation);
 
         
-        bounding_box.width = myData.topRight.x - myData.topLeft.x;
-        bounding_box.height = myData.bottomLeft.y - myData.topLeft.y;
-        box.width = myData.topRight.x - myData.topLeft.x;
-        box.height = myData.bottomLeft.y - myData.topLeft.y;
+        bounding_box.width = myData.boxWidth;
+        bounding_box.height = myData.boxHeight;
+        box.width = myData.boxWidth;
+        box.height = myData.boxHeight;
         bounding_box.left = myData.topLeft.x;
         bounding_box.top = myData.topLeft.y;
 
@@ -373,6 +377,7 @@ $(document).ready(function(){
             'confirm-yes',
             'confirmation-modal-material-option'
         );
+        console.log("click");
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){

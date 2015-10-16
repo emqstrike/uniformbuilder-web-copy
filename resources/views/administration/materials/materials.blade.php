@@ -350,8 +350,6 @@
 
 @include('administration.materials.material-option-modal')
 
-@include('administration.materials.material-option-edit-modal')
-
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
