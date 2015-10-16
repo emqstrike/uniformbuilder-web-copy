@@ -377,7 +377,6 @@ $(document).ready(function(){
             'confirm-yes',
             'confirmation-modal-material-option'
         );
-        console.log("click");
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
