@@ -31,10 +31,10 @@ a:hover{
 }
 
 .tablist-content{
-	  width: 60%;
-	  display: inline-block;
-	  vertical-align: top;
-	  margin-left: 5%;
+    width: 60%;
+	display: inline-block;
+    vertical-align: top;
+	margin-left: 5%;
 }
 
 .material-option-item:hover{

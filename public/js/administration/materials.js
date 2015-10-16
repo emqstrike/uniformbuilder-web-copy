@@ -200,7 +200,6 @@ $(document).ready(function() {
     });
 
     $('.add-material-option').on('click', function(){
-        $('#form-action').attr('value','add');
         var material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name')
@@ -222,7 +221,6 @@ $(document).ready(function() {
     });
 
     $('.edit-material-option').on('click', function(){
-        $('#material-option-form').attr('action','/administration/material_option/save');
         var material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
