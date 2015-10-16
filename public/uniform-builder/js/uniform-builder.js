@@ -418,6 +418,7 @@ $(document).ready(function () {
         settings.files = {};
 
         settings.files.logos = {};
+        settings.applications = {};
 
         var current_material = ub.current_material.material;
         var material_options = ub.current_material.materials_options;
@@ -751,7 +752,6 @@ $(document).ready(function () {
                             var modifier_label = name;
 
                             if (name.search('shape') > 0) {
-                                modifier_label = name.substr(0, name.length - 6);
                             } 
 
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
@@ -878,6 +878,21 @@ $(document).ready(function () {
                     ub.bind_left_sidebar_tab_handlers();
 
                 /// End Setup Modifiers Gradients
+
+                /// Setup Modifiers Applications 
+
+                    var markup = '';
+
+                    _.each(ub.data.applications.items, function (application) {
+
+                        markup += application.id + ". " + application.name + "<br /><br />";
+                        markup += "<div data-id='" + application.id + "' class='logos_picker'></div>";
+
+                    });
+
+                    $('div.applications_container').html(markup);
+
+                /// End Setup Modifiers Applications
 
                 /// Setup Settings obj, for persisting customizer selection
 
@@ -1934,6 +1949,7 @@ $(document).ready(function () {
 
                     $('table.logos').append(markup);
                     $('.file_upload.logo > .image_preview').css("background-image", "url("+this.result+")");
+                    ub.funcs.update_logos_picker();
 
                     $('a.logo_list').on('click', function () {
 
@@ -1948,7 +1964,9 @@ $(document).ready(function () {
                             delete logos[id];
         
                             $('.file_upload.logo > .image_preview').css("background-image", "none");
-                            $( "#file-src" ).val('');
+                            $("#file-src").val('');
+
+                            ub.funcs.update_logos_picker();
 
                         }
                         else if (action === 'preview') {
@@ -1963,6 +1981,197 @@ $(document).ready(function () {
             }
 
         });
+
+        ub.funcs.update_logos_picker = function () {
+
+            _.each($('.logos_picker'), function(e){
+
+                var $container = $(e);
+                var logos = ub.current_material.settings.files.logos;
+                var application_id = $container.data('id');
+                var markup = "";
+
+                markup += "<div class='row'>";
+                
+                _.each(logos, function (logo) {
+                    markup += "<div class='col-md-4'>";
+                    markup += "<a class='thumbnail logo_picker' data-id='" + logo.id + "'>" + "<img class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
+                    markup += "</div>";
+                });
+                
+                markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
+                markup += "Scale: <div class='scale_slider' data-id='" + application_id + "'></div><br />";
+                markup += "Rotation: <div class='rotation_slider' data-id='" + application_id + "'></div><br />";
+                markup += "X Position: <div class='x_slider' data-id='" + application_id + "'></div><br />";
+                markup += "Y Position: <div data-id='" + application_id + "' class='y_slider'></div></div><br />";
+                
+                $container.html(markup);
+
+                var application = _.find(ub.data.applications.items, {id: application_id});
+
+                $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+                    
+                    values: [application.position.y],
+                    min: 0,
+                    max: ub.dimensions.height,
+                    gap: 0,
+
+                    change: function (event, ui) {
+
+                        var application = _.find(ub.data.applications.items, {id: application_id});
+                        var value = $(this).limitslider("values")[0];
+                        var object = ub.objects.front_view['objects_0' + application_id];
+                        object.y = value;
+
+                    },
+
+                 });
+
+                $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+                    
+                    values: [application.position.x],
+                    min: 0,
+                    max: ub.dimensions.width,
+                    gap: 0,
+
+                    change: function (event, ui) {
+
+                        var application = _.find(ub.data.applications.items, {id: application_id});
+                        var value = $(this).limitslider("values")[0];
+                        var object = ub.objects.front_view['objects_0' + application_id];
+                        object.x = value;
+
+                    },
+
+                 });
+
+                $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+                    
+                    values: [100],
+                    min: 0,
+                    max: 100,
+                    gap: 0,
+
+                    change: function (event, ui) {
+
+                        var application = _.find(ub.data.applications.items, {id: application_id});
+                        var value = $(this).limitslider("values")[0];
+                        var object = ub.objects.front_view['objects_0' + application_id];
+                        object.scale = new PIXI.Point(value / 100, value / 100 )
+
+                    },
+
+                 });
+
+                var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+                $rotation_slider.roundSlider({
+                    
+                    values: [0],
+                    min: 0,
+                    max: 315,
+                    gap: 0,
+                    startAngle: 90,
+
+                    change: function (event, ui) {
+
+                        var application = _.find(ub.data.applications.items, {id: application_id});
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+                        var object = ub.objects.front_view['objects_0' + application_id];
+
+                        console.log('value:'  + value);
+                        object.anchor.set(0.5, 0.5);
+                        object.rotation = value / 100;
+
+                    },
+
+                });
+
+                $('a.logo_picker').on('click', function () {
+
+                    $a = $(this);
+                
+                    var application_id = $a.parent().parent().parent().data('id');
+                    var logo_id = $a.data('id');
+
+                    var logo = _.find(logos, {id: logo_id});
+                    var application = _.find( ub.data.applications.items, {id: application_id});
+
+                    ub.funcs.update_application(application, logo);
+
+                });
+
+            });
+
+        };
+
+        ub.funcs.update_application = function (application, logo) {
+
+            var x = ub.dimensions.width * application.position.x;
+            var y = ub.dimensions.height * application.position.y;
+            var settings = ub.current_material.settings;
+            var application_logo_code = application.code + '_' + logo.id;
+
+            settings.applications[application.code] = {
+                application: application,
+                logo: logo,
+            };
+
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
+            var mask = _.find(ub.current_material.material.options, {perspective: application.perspective, name: 'Body'});
+            var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+            sprite.mask = mask;
+            
+            var s = view_objects['objects_' + application.code];
+            
+            if(typeof(s) === 'object'){
+                view.removeChild(view_objects['objects_' + application.code]);
+                delete view_objects['objects_' + application.code];
+            }
+
+            view_objects['objects_' + application.code] = sprite;
+            view.addChild(sprite);
+
+            ub.updateLayersOrder(view);
+
+            sprite.position.x = x - (sprite.width);
+            sprite.position.y = y - (sprite.height);
+            sprite.zIndex = -51;
+
+            sprite.draggable({ manager: ub.dragAndDropManager });
+            
+            sprite.mousedown = sprite.touchstart = function(data)
+            {
+                this.data = data;
+                this.alpha = 0.9;
+                this.dragging = true;
+
+                console.log('mouse_down');
+            };
+
+            sprite.mousemove = sprite.mousemove = function(data)
+            {
+
+                this.data = data;
+                this.alpha = 0.9;
+                this.dragging = true;
+
+                console.log('mouse_move');
+                
+            };
+
+            sprite.mousedown = sprite.mousedown = function(data)
+            {
+                this.data = data;
+                this.alpha = 0.9;
+                this.dragging = true;
+
+                console.log('mouse down');
+            };
+
+        };
 
     /// End Logo Uploads 
 

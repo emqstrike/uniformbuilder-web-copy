@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    ub.funcs = {};
     ub.ui = {};
     ub.modifiers = {};
     ub.tethers = {}; 
@@ -30,6 +31,9 @@ $(document).ready(function(){
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
     ub.pCanvas.appendChild(ub.renderer.view);
+
+    ub.interactionManager = new PIXI.interaction.InteractionManager(ub.renderer, {});
+    ub.dragAndDropManager = new PIXI.DragAndDropManager(ub.interactionManager);
      
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
@@ -49,7 +53,41 @@ $(document).ready(function(){
     ub.data.design_sets = {}
     ub.data.materials = {};
     ub.data.colors = {};
-    ub.data.applications = {};
+    ub.data.applications = {
+
+        items: [
+
+            /// One
+            {
+
+                id: 1,
+                perspective: 'front',
+                name: 'Front / Center',
+                code: '01',
+                position: {
+                    x: .5,
+                    y: .5,
+                },
+
+            },
+
+            /// Two
+            {
+
+                id: 2,
+                perspective: 'front',
+                name: 'Front / Right',
+                code: '02',
+                position: {
+                    x: .75,
+                    y: .25,
+                },
+
+            },
+
+        ]
+
+    };
 
     ub.data.patterns = {
       

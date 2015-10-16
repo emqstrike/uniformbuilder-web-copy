@@ -216,8 +216,11 @@
                             <thead>
                                 <th>Thumbnail</th><th>File name</th><th>Remove</th>
                             </thead>
-                            
                         </table>
+
+                        <div class="applications_container">
+                            
+                        </div>
 
                     </div>
 
