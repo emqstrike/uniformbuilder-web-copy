@@ -69,18 +69,14 @@ class UploadImageController extends Controller
 
     public function uploadImageForm()
     {
-        // $response = $this->client->get('images');
-        // $decoder = new JsonDecoder();
-        // $result = $decoder->decode($response->getBody());
-        // $images = [];
-        // if ($result->success)
-        // {
-        //     $images = $result->images;
-        // }
-
         return view('upload-image-form', [
-           // 'images' => $images,
            'api_upload_image_endpoint' => 'http://' . env('API_HOST') . '/api/image/upload'
         ]);
+    }
+
+    public function saveBase64Image(Request $request)
+    {
+        $data = $request->input('image');
+        error_log(print_r($data, true));exit;
     }
 }
