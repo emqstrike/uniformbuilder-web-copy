@@ -119,12 +119,12 @@
                             </div>
                         </div>
 @elseif (env('BUILDER_APPROACH') == '2D')
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Front View File</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control front-view-file" name="front_view_path" accept="image/*">
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Front View Shape</label>
@@ -133,12 +133,12 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Back View File</label>
                             <div class="col-md-6 back-view">
                                 <input type="file" class="form-control back-view-file" name="back_view_path" accept="image/*">
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Back View Shape</label>
@@ -147,12 +147,12 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View File</label>
                             <div class="col-md-6 right-side-view">
                                 <input type="file" class="form-control right-side-view-file" name="right_side_view_path" accept="image/*">
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View Shape</label>
@@ -161,12 +161,12 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View File</label>
                             <div class="col-md-6 left-side-view">
                                 <input type="file" class="form-control left-side-view-file" name="left_side_view_shape" accept="image/*">
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View Shape</label>

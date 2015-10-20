@@ -32,9 +32,9 @@ a:hover{
 
 .tablist-content{
     width: 60%;
-	display: inline-block;
+    display: inline-block;
     vertical-align: top;
-	margin-left: 5%;
+    margin-left: 5%;
 }
 
 .material-option-item:hover{
@@ -46,11 +46,11 @@ tr.center-table-heads > th{
 }
 
 .modal.modal-wide .modal-dialog {
-  	width: 90%;
+    width: 90%;
 }
 
 .modal-wide .modal-body {
-  	overflow-y: auto;
+    overflow-y: auto;
 }
 
 #material-option-bounding-box, .divImg {
