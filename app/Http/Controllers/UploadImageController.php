@@ -22,6 +22,7 @@ class UploadImageController extends Controller
     }
 
     /**
+     * FOR TESTING PURPOSES ONLY
      * Upload file to S3 and return path
      * @param Request $request
      * @return String URL from S3
