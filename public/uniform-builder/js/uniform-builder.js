@@ -2093,6 +2093,23 @@ $(document).ready(function () {
                     // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
+                saveImagePerspectives('front_view', ub.getThumbnailImage('front_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('back_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('left_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('right_view'));
+            }
+        });
+    }
+
+    window.saveImagePerspectives = function(perspective, imageBase64) {
+        $.ajax({
+            url: '/saveBase64Image',
+            type: 'POST',
+            dataType: {
+                image: imageBase64
+            },
+            success: function(response) {
+                console.log(perspective + ' upload finished');
             }
         });
     }
