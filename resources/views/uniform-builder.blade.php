@@ -56,7 +56,7 @@
                 </a>
             </form>
             @else
-            Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
+            Welcome back <strong>{{ Session::get('first_name') }}</strong>!
             <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
             @endif
         </div>
