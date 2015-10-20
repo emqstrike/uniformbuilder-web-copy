@@ -22,11 +22,11 @@ $(document).ready(function() {
     window.shapes = {};
 
     var data = {
-        topLeft:   { 
+        topLeft: { 
             "x":0, 
             "y":0
         },
-        topRight:   { 
+        topRight: { 
             "x":0, 
             "y":0
         },
@@ -34,7 +34,7 @@ $(document).ready(function() {
             "x":0, 
             "y":0
         },
-        bottomRight:{ 
+        bottomRight: { 
             "x":0, 
             "y":0
         },

@@ -57,7 +57,7 @@
                     <div class="item row" style="display: inline;">
                         <div style="border: 1px solid #e3e3e3;">
                             <div>
-                                <center><img src="https://www.blueinc.co.uk/images/mens-white-baseball-jersey-t-shirt-p20950-24151_image.jpg"
+                                <center><img src=""
                                              width="300px"
                                              height="300px"
                                              alt="{{ $material->slug }}"></center>
