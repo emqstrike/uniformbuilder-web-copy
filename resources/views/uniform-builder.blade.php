@@ -39,10 +39,12 @@
             @if (!Session::get('isLoggedIn'))
             <form class="form-inline" role="form" method="POST" action="/login">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                     <input type="email" name="email" class="form-control col-sm-2" id="login-email" placeholder="Email Address">
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                     <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-xs">
@@ -54,7 +56,7 @@
                 </a>
             </form>
             @else
-            Welcome <strong>{{ Session::get('fullname') }} &lt;{{ Session::get('email') }}&gt;</strong>
+            Welcome back <strong>{{ Session::get('first_name') }}</strong>!
             <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
             @endif
         </div>

@@ -159,3 +159,4 @@ Route::group(array('prefix' => 'administration'), function() {
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');
+Route::post('saveBase64Image', 'UploadImageController@saveBase64Image');
