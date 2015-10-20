@@ -32,10 +32,30 @@
 
                 <div class='form-group tabbable row-fluid'>
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#athletic-director" data-toggle="tab">Athletic Director</a></li>
-                        <li><a href="#billing-information" data-toggle="tab">Billing Information</a></li>
-                        <li><a href="#shipping-information" data-toggle="tab">Shipping Information</a></li>
-                        <li><a href="#credit-card-information" data-toggle="tab">Credit Card Information</a></li>
+                        <li class="active">
+                            <a href="#athletic-director" data-toggle="tab">
+                                <i class="fa fa-user"></i>
+                                Athletic Director
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#billing-information" data-toggle="tab">
+                                <i class="fa fa-dollar"></i>
+                                Billing Information
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#shipping-information" data-toggle="tab">
+                                <i class="fa fa-truck"></i>
+                                Shipping Information
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#credit-card-information" data-toggle="tab">
+                                <i class="fa fa-cc"></i>
+                                Credit Card Information
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
 
@@ -201,6 +221,7 @@
 
             <div class="modal-footer">
                 <a class="btn btn-small btn-primary save-uniform-design">
+                    <i class="fa fa-save"></i>
                     Save Design
                 </a>
                 <button class="btn btn-default close-save-uniform-design-modal" data-dismiss="modal">Close</button>
