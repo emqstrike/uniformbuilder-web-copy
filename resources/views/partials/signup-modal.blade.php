@@ -4,7 +4,7 @@
         <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form'>
             <div class="modal-content"> 
                 <div class="modal-header" align="center">
-                    <img id="img_logo" src="{{ env('LOGO_URL') }}">
+                    <img id="img_logo" src="{{ env('LOGO_URL') }}" width='200em'>
                     <button type="button" class="close" data-dismiss="modal">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
