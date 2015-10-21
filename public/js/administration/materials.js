@@ -13,6 +13,59 @@ $(document).ready(function() {
         }
     });
 
+    $(".shape-view").change(function() {
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+    //console.log($(this).data('perspective'));
+    var perspective = $(this).data('perspective');
+        if (/^image/.test(files[0].type)){
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+ 
+            reader.onloadend = function() {
+                
+                if(perspective == 'front') {
+                    $("#front-shape-view").css("background-image", "url("+this.result+")");
+                }
+
+            }
+        }
+    });
+
+    var canvasx = this.__canvas = new fabric.Canvas('applications-front-canvas');
+    fabric.Object.prototype.transparentCorners = false;
+    canvasx.setWidth( 250 );
+    canvasx.setHeight( 250 );
+
+    $('#add_front_application').mousedown(function(){
+
+        var cricx = new fabric.Circle({
+            fill: '#e3e3e3',
+            radius: 15,
+            strokeWidth: 1,
+            stroke: 'red',
+            opacity: 0.6,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var appID = new fabric.IText('#\'t5',{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'center'
+        });
+
+        // var group = new fabric.Group([ cricx, appID ], {
+        //     left: canvas.width / 2.6,
+        //     top: canvas.height / 5
+        // });
+
+        cricx.lockRotation = true;
+        appID.lockRotation = true;
+
+        canvasx.add(appID);;
+     }); 
+
 
     var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
     fabric.Object.prototype.transparentCorners = false;
@@ -22,20 +75,20 @@ $(document).ready(function() {
     window.shapes = {};
 
     var data = {
-        topLeft: { 
-            "x":0, 
+        topLeft: {
+            "x":0,
             "y":0
         },
-        topRight: { 
-            "x":0, 
+        topRight: {
+            "x":0,
             "y":0
         },
-        bottomLeft: { 
-            "x":0, 
+        bottomLeft: {
+            "x":0,
             "y":0
         },
-        bottomRight: { 
-            "x":0, 
+        bottomRight: {
+            "x":0,
             "y":0
         },
         width: 0,

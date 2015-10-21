@@ -1,4 +1,10 @@
 @extends('administration.main')
+
+@section('styles')
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+@endsection
  
 @section('content')
 
@@ -7,21 +13,22 @@
         <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
-                <div class="panel-body col-md-3 text-center">
-                    <div class="row" style="border: 1px solid black">
+                <div class="panel-body col-md-2 col-md-offset-2 text-center">
+                    <div id="front-shape-view" style="border: 1px solid black; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                        <canvas id="applications-front-canvas"></canvas>
+                        <div style="float: right;"><button class="btn btn-xs btn-success" id="add_front_application">+</button></div>
+                    </div>
+                    <!-- <div class="shape-views" style="border: 1px solid black">
                         <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
                     </div>
-                    <div class="row" style="border: 1px solid black">
+                </div> -->
+                <!-- <div class="panel-body col-md-2 text-center">
+                    <div class="shape-views" style="border: 1px solid black">
                         <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
                     </div>
-                </div>
-                <div class="panel-body col-md-3 text-center">
-                    <div class="row" style="border: 1px solid black">
+                    <div class="shape-views" style="border: 1px solid black">
                         <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
-                    </div>
-                    <div class="row" style="border: 1px solid black">
-                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="panel-body col-md-6">
                     @if (count($errors) > 0)
@@ -131,26 +138,26 @@
                             </div>
                         </div>
 @elseif (env('BUILDER_APPROACH') == '2D')
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Front View File</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control front-view-file" name="front_view_path" accept="image/*">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Front View Shape</label>
                             <div class="col-md-8 front-view">
-                                <input type="file" class="form-control front-shape-file" name="front_view_shape" accept="image/*">
+                                <input type="file" class="form-control front-shape-file shape-view" data-perspective="front" name="front_view_shape" accept="image/*">
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Back View File</label>
                             <div class="col-md-6 back-view">
                                 <input type="file" class="form-control back-view-file" name="back_view_path" accept="image/*">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Back View Shape</label>
@@ -159,12 +166,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View File</label>
                             <div class="col-md-6 right-side-view">
                                 <input type="file" class="form-control right-side-view-file" name="right_side_view_path" accept="image/*">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View Shape</label>
@@ -173,12 +180,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View File</label>
                             <div class="col-md-6 left-side-view">
                                 <input type="file" class="form-control left-side-view-file" name="left_side_view_shape" accept="image/*">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View Shape</label>
@@ -213,6 +220,15 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/administration/materials.js"></script>
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 
 @endsection
 

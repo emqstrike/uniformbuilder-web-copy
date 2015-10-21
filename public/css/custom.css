@@ -61,3 +61,13 @@ tr.center-table-heads > th{
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
     display: inline-block;
 }
+
+#front-shape-view, .shape-views {
+    width: 250px;
+    height: 250px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: green;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+}
