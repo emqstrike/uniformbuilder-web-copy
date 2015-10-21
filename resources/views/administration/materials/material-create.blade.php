@@ -7,11 +7,23 @@
         <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
-                <div class="panel-body col-md-4">
+                <div class="panel-body col-md-3 text-center">
+                    <div class="row" style="border: 1px solid black">
+                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
+                    </div>
+                    <div class="row" style="border: 1px solid black">
+                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
+                    </div>
                 </div>
-                <div class="panel-body col-md-4">
+                <div class="panel-body col-md-3 text-center">
+                    <div class="row" style="border: 1px solid black">
+                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
+                    </div>
+                    <div class="row" style="border: 1px solid black">
+                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
+                    </div>
                 </div>
-                <div class="panel-body col-md-4">
+                <div class="panel-body col-md-6">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
