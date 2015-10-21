@@ -24,6 +24,7 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 // Display the Order
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
@@ -159,4 +160,3 @@ Route::group(array('prefix' => 'administration'), function() {
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');
-Route::post('saveBase64Image', 'UploadImageController@saveBase64Image');
