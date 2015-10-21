@@ -75,9 +75,4 @@ class UploadImageController extends Controller
         ]);
     }
 
-    public function saveBase64Image(Request $request)
-    {
-        $data = $request->input('image');
-        error_log(print_r($data, true));exit;
-    }
 }
