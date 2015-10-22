@@ -1390,41 +1390,47 @@ $(document).ready(function () {
 
                     if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
 
-                        ub.objects.front_view['gradient'].visible    = false;
-                        ub.objects.back_view['gradient'].visible     = false;
-                        ub.objects.left_view['gradient'].visible     = false;
-                        ub.objects.right_view['gradient'].visible    = false;
-                         
+                        if (typeof ub.objects.front_view['gradient'] === "object") {
+                            ub.objects.front_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.back_view['gradient'] === "object") {
+                            ub.objects.back_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.left_view['gradient'] === "object") {
+                            ub.objects.left_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.right_view['gradient'] === "object") {
+                            ub.objects.right_view['gradient'].visible = false;    
+                        }
+                        
                     }
                     
                     ub.objects.front_view[obj].tint                 = color_value;
                     ub.objects.back_view[obj].tint                  = color_value;
                     ub.objects.left_view[obj].tint                  = color_value;
                     ub.objects.right_view[obj].tint                 = color_value;
-                   
   
                 } else if (panel == 'patterns') {
 
                     if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-
                         ub.objects.pattern_view.gradient_layer.visible = false;
-
                     }
 
-                    ub.objects.pattern_view[obj].tint   = color_value;
-
+                    ub.objects.pattern_view[obj].tint = color_value;
                     ub.applyMaterial(panel);
-
+                    
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
                     ub.objects.left_view['pattern'].visible = true;
                     ub.objects.right_view['pattern'].visible = true;
                   
-
                 } else {
 
                     if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                        ub.objects.front_view[obj].tint = color_value;    
+                        ub.objects.front_view[obj].tint = color_value;
                     }
 
                     if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
@@ -1842,13 +1848,20 @@ $(document).ready(function () {
                 else{
 
                     var mask = ub.objects[view][target + "_mask"];
-                    temp_pattern[v].mask = mask;
-                    temp_pattern[v].zIndex = mask.zIndex;
 
+                    if (typeof mask === "object"){
+                        temp_pattern[v].mask = mask;
+                        temp_pattern[v].zIndex = mask.zIndex;
+                    }
+    
                 }
 
-                ub.objects[view].gradient = temp_pattern[v];
-                ub[view].addChild(temp_pattern[v]);
+                if (typeof mask === "object"){
+
+                    ub.objects[view].gradient = temp_pattern[v];
+                    ub[view].addChild(temp_pattern[v]);
+                    
+                }
 
                 ub.updateLayersOrder(ub[view]);
 

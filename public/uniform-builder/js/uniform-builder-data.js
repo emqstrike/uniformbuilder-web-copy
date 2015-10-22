@@ -104,22 +104,22 @@ $(document).ready(function(){
                     {
                         default_color: '#ffffff',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '1.png',
                     },
                     {
                         default_color: '#ffffff',
                         layer_number: 2,
-                        filename: '2.png'
+                        filename: '2.png',
                     },
                     {
                         default_color: '#ffffff',
                         layer_number: 3,
-                        filename: '3.png'
+                        filename: '3.png',
                     },
                     {
                         default_color: '#ffffff',
                         layer_number: 4,
-                        filename: '4.png'
+                        filename: '4.png',
                     },
                 ],
             },
@@ -135,17 +135,17 @@ $(document).ready(function(){
                     {
                         default_color: '#ffffff',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '1.png',
                     },
                     {
                         default_color: '#ffffff',
                         layer_number: 2,
-                        filename: '2.png'
+                        filename: '2.png',
                     },
                     {
                         default_color: '#ffffff',
                         layer_number: 3,
-                        filename: '3.png'
+                        filename: '3.png',
                     },
                 ],
             },
