@@ -37,11 +37,33 @@ $(document).ready(function() {
     canvasx.setWidth( 250 );
     canvasx.setHeight( 250 );
 
+    function onObjectSelected(e) {
+        console.log(e.target.get('default_item'));
+    }
+
+    canvasx.on('object:selected', onObjectSelected);
+
+    var application_number = 1;
+
+    $('.update-application:button').click(function() {
+        console.log("SHAKEYS");
+        // var itemIdx = $(this).data('id');
+        // console.log("Index: " + itemIdx);
+    });
+
+    $('input:select.app-def-item').change(function() {
+        console.log("change");
+    });
+
     $('#add_front_application').mousedown(function(){
 
-        var cricx = new fabric.Circle({
+        var default_item = $('#front-default-item').val();
+
+        var area = new fabric.Rect({
+            id: application_number,
             fill: '#e3e3e3',
-            radius: 15,
+            height: 30,
+            width: 30,
             strokeWidth: 1,
             stroke: 'red',
             opacity: 0.6,
@@ -49,21 +71,62 @@ $(document).ready(function() {
             originY: 'center'
         });
 
-        var appID = new fabric.IText('#\'t5',{
+        var appID = new fabric.IText(application_number.toString(),{
             fontFamily: 'arial black',
             originX: 'center',
-            originY: 'center'
+            originY: 'center',
+            opacity: 0.6,
+            fontSize: 11
         });
 
-        // var group = new fabric.Group([ cricx, appID ], {
-        //     left: canvas.width / 2.6,
-        //     top: canvas.height / 5
-        // });
+        var itemText = new fabric.IText(default_item.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'top',
+            opacity: 0.6,
+            fontSize: 8
+        });
 
-        cricx.lockRotation = true;
+        var group = new fabric.Group([ area, appID, itemText ], {
+            id: area.id,
+            left: canvas.width / 2.6,
+            top: canvas.height / 5,
+            default_item: default_item
+        });
+
+        area.lockRotation = true;
         appID.lockRotation = true;
 
-        canvasx.add(appID);;
+        canvasx.add(group);
+        //console.log(group.id);
+        application_number++;
+
+        var text = $(this).val();
+
+        var itemsArr = ["logo", "number", "team_name", "player_name"];
+
+        var selectAppend = "<select class=\"app-def-item\">";
+
+        var updateApplication = "<input type=\"button\" class=\"btn btn-xs btn-success update-application\" value=\"Update\">";
+        //var removeApplication = "<button class=\"btn btn-xs btn-danger remove-application\"><i class=\"fa fa-trash\"></i></button>";
+
+        //console.log(canvasx.getObjects().indexOf(group));
+
+        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
+
+        for(var i = 0; i<itemsArr.length; i++) {
+
+            if(group.default_item != itemsArr[i]) {
+                selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+            }
+
+        }
+
+        selectAppend += "</select>";
+
+        //console.log("BUILT: "+selectAppend);
+        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+        //$( "#password" ).fadeIn('slow');
      }); 
 
 

@@ -13,10 +13,18 @@
         <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
-                <div class="panel-body col-md-2 col-md-offset-2 text-center">
+                <div class="panel-body col-md-8 text-center">
                     <div id="front-shape-view" style="border: 1px solid black; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
                         <canvas id="applications-front-canvas"></canvas>
-                        <div style="float: right;"><button class="btn btn-xs btn-success" id="add_front_application">+</button></div>
+                        <div style="float: left; text-align: center;" class="front-applications text-center">
+                            <button class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></button>
+                            <select name="default_item" id="front-default-item">
+                                <option value="logo">Logo</option>
+                                <option value="number">Number</option>
+                                <option value="team_name">Team Name</option>
+                                <option value="player_name">Player Name</option>
+                            </select>
+                        </div>
                     </div>
                     <!-- <div class="shape-views" style="border: 1px solid black">
                         <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
@@ -30,7 +38,7 @@
                         <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
                     </div> -->
                 </div>
-                <div class="panel-body col-md-6">
+                <div class="panel-body col-md-4">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
