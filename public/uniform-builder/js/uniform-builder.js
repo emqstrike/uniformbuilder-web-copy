@@ -2025,7 +2025,7 @@ $(document).ready(function () {
 
                     },
 
-                 });
+                });
 
                 $('div.x_slider[data-id="' + application_id + '"]').limitslider({
                     
@@ -2079,7 +2079,7 @@ $(document).ready(function () {
                         var object = ub.objects.front_view['objects_0' + application_id];
 
                         console.log('value:'  + value);
-                        object.anchor.set(0.5, 0.5);
+                        
                         object.rotation = value / 100;
 
                     },
@@ -2136,9 +2136,13 @@ $(document).ready(function () {
 
             ub.updateLayersOrder(view);
 
-            sprite.position.x = x - (sprite.width);
-            sprite.position.y = y - (sprite.height);
+            sprite.position.x = x - (sprite.width / 2);
+            sprite.position.y = y - (sprite.height / 2);
             sprite.zIndex = -51;
+            sprite.anchor.set(0.5, 0.5);
+
+            $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x,]);
+            $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y,]);
 
             sprite.draggable({ manager: ub.dragAndDropManager });
             

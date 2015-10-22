@@ -4,7 +4,6 @@
     <div id="left-pane" class="pane">
 
         <div id="left-top" class="pane-top">
-        
 
         </div>
 
