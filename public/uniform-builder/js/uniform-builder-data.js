@@ -65,8 +65,8 @@ $(document).ready(function(){
                 name: 'Front / Center',
                 code: '01',
                 position: {
-                    x: .5,
-                    y: .5,
+                    x: 0.5,
+                    y: 0.5,
                 },
 
             },
@@ -76,11 +76,11 @@ $(document).ready(function(){
 
                 id: 2,
                 perspective: 'front',
-                name: 'Front / Right',
+                name: 'Front / Bottom',
                 code: '02',
                 position: {
-                    x: .75,
-                    y: .25,
+                    x: 0.7,
+                    y: 0.7,
                 },
 
             },
