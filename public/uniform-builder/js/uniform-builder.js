@@ -737,7 +737,8 @@ $(document).ready(function () {
 
                         current_object.name = name;
                         current_object.zIndex = (obj.layer_level * 2) * (-1);
-                        
+                        current_object.originalZIndex = (obj.layer_level * 2) * (-1);
+
                         if (obj.setting_type === 'highlights') {
                             current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
                         } else if (obj.setting_type === 'shadows') {
@@ -2068,7 +2069,7 @@ $(document).ready(function () {
                     
                     values: [0],
                     min: 0,
-                    max: 315,
+                    max: 620,
                     gap: 0,
                     startAngle: 90,
 
@@ -2078,8 +2079,6 @@ $(document).ready(function () {
                         var value = parseInt($rotation_slider.find('span.edit').html());
                         var object = ub.objects.front_view['objects_0' + application_id];
 
-                        console.log('value:'  + value);
-                        
                         object.rotation = value / 100;
 
                     },
@@ -2148,31 +2147,36 @@ $(document).ready(function () {
             
             sprite.mousedown = sprite.touchstart = function(data)
             {
+              
                 this.data = data;
                 this.alpha = 0.9;
                 this.dragging = true;
 
-                console.log('mouse_down');
             };
 
-            sprite.mousemove = sprite.mousemove = function(data)
+            sprite.mousemove = sprite.mousemove = function(interactionData)
             {
 
-                this.data = data;
+                this.interactionData = interactionData;
                 this.alpha = 0.9;
                 this.dragging = true;
 
-                console.log('mouse_move');
-                
-            };
+                window.data = this.interactionData.data;
+                window.this = this;
+                window.sprite = sprite;
 
-            sprite.mousedown = sprite.mousedown = function(data)
-            {
-                this.data = data;
-                this.alpha = 0.9;
-                this.dragging = true;
+                var point = {x: window.data.global.x, y: window.data.global.y};
 
-                console.log('mouse down');
+                if(sprite.containsPoint(point)) {
+                    sprite.zIndex = -500;
+                    ub.updateLayersOrder(view);
+                }
+                else {
+                    sprite.zIndex = sprite.originalZIndex;
+                    ub.updateLayersOrder(view);
+                }
+
+
             };
 
         };
