@@ -88,7 +88,7 @@ $(document).ready(function() {
         var text = $(this).val();
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\">";
-        var updateApplication = "<button class=\"btn btn-xs btn-success update-application\" data-id=" + canvasx.getObjects().indexOf(group) + ">Update</button>";
+        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasx.getObjects().indexOf(group) + ">Update</a>";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
 
@@ -106,6 +106,13 @@ $(document).ready(function() {
      });
 
     $(document).on('click', '.update-application', function() {
+
+
+
+        
+
+
+
         var itemIdx = $(this).data('id');
         var applicationId = $(this).siblings("input[name=application_id]").val();
         var applicationType = $(this).siblings("select[class=app-def-item]").val();
@@ -122,6 +129,10 @@ $(document).ready(function() {
         canvasx.setActiveObject(canvasx.item(itemIdx));
 
         canvas.renderAll();
+
+
+        //e.defaultPrevented();
+        // return true;
     });
     
 
@@ -235,9 +246,26 @@ $(document).ready(function() {
 
     $(".modal").each(function(i) {
         $(this).draggable({
-            handle: ".modal-header"  
+            handle: ".modal-header",
+            // backdrop: 'static',
+            // keyboard: false
+            // backdrop: "static"
         });
+        // onApprove: function () {
+        //     return false
+        // }
     });
+
+    // $('#save-material-option-modal').modal({
+    //     //backdrop: 'static',
+    //     //keyboard: false
+    // });
+// $('.modal')
+//   .modal({
+//     selector: { 
+//       close: 'icon.close'
+//     } 
+//   });
 
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
