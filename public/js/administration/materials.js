@@ -16,8 +16,9 @@ $(document).ready(function() {
     $(".shape-view").change(function() {
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return;
-    //console.log($(this).data('perspective'));
-    var perspective = $(this).data('perspective');
+
+        var perspective = $(this).data('perspective');
+
         if (/^image/.test(files[0].type)){
             var reader = new FileReader();
             reader.readAsDataURL(files[0]);
@@ -37,23 +38,7 @@ $(document).ready(function() {
     canvasx.setWidth( 250 );
     canvasx.setHeight( 250 );
 
-    function onObjectSelected(e) {
-        console.log(e.target.get('default_item'));
-    }
-
-    canvasx.on('object:selected', onObjectSelected);
-
     var application_number = 1;
-
-    $('.update-application:button').click(function() {
-        console.log("SHAKEYS");
-        // var itemIdx = $(this).data('id');
-        // console.log("Index: " + itemIdx);
-    });
-
-    $('input:select.app-def-item').change(function() {
-        console.log("change");
-    });
 
     $('#add_front_application').mousedown(function(){
 
@@ -89,8 +74,8 @@ $(document).ready(function() {
 
         var group = new fabric.Group([ area, appID, itemText ], {
             id: area.id,
-            left: canvas.width / 2.6,
-            top: canvas.height / 5,
+            left: canvasx.width / 2.6,
+            top: canvasx.height / 5,
             default_item: default_item
         });
 
@@ -98,19 +83,12 @@ $(document).ready(function() {
         appID.lockRotation = true;
 
         canvasx.add(group);
-        //console.log(group.id);
         application_number++;
 
         var text = $(this).val();
-
         var itemsArr = ["logo", "number", "team_name", "player_name"];
-
         var selectAppend = "<select class=\"app-def-item\">";
-
-        var updateApplication = "<input type=\"button\" class=\"btn btn-xs btn-success update-application\" value=\"Update\">";
-        //var removeApplication = "<button class=\"btn btn-xs btn-danger remove-application\"><i class=\"fa fa-trash\"></i></button>";
-
-        //console.log(canvasx.getObjects().indexOf(group));
+        var updateApplication = "<button class=\"btn btn-xs btn-success update-application\" data-id=" + canvasx.getObjects().indexOf(group) + ">Update</button>";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
 
@@ -124,10 +102,28 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        //console.log("BUILT: "+selectAppend);
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-        //$( "#password" ).fadeIn('slow');
-     }); 
+        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+     });
+
+    $(document).on('click', '.update-application', function() {
+        var itemIdx = $(this).data('id');
+        var applicationId = $(this).siblings("input[name=application_id]").val();
+        var applicationType = $(this).siblings("select[class=app-def-item]").val();
+        var items = canvasx.getObjects();
+        var item = items[itemIdx];
+
+        item.id = applicationId;
+
+        var thisGroup = canvasx.item(itemIdx);
+
+        thisGroup.item(1).text = applicationId;
+        thisGroup.item(2).text = applicationType;
+
+        canvasx.setActiveObject(canvasx.item(itemIdx));
+
+        canvas.renderAll();
+    });
+    
 
 
     var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');

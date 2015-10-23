@@ -13,7 +13,7 @@
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
             </div>
             <div class="modal-body">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div id="material-option-bounding-box" style="border: 1px solid black;">
                         <canvas id="bounding-box-canvas"></canvas>
                     </div>
@@ -21,10 +21,10 @@
                     <div id="material-option-placements">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="form-group">
                     <label class="control-label">Name:</label>
-                    <input type="text" name="name" class="form-control" id="material-option-name" />
+                    <input type="text" name="name" class="form-control" id="material-option-name">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Setting Type:</label>
