@@ -252,7 +252,7 @@ class UniformBuilderController extends Controller
             ]
         ];
 
-        dd($this->ordersClient->saveOrder($data));
+        return $this->ordersClient->saveOrder($data);
 
     }
 
