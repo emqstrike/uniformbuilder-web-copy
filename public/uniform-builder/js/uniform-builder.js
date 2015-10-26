@@ -1408,10 +1408,22 @@ $(document).ready(function () {
                         
                     }
                     
-                    ub.objects.front_view[obj].tint                 = color_value;
-                    ub.objects.back_view[obj].tint                  = color_value;
-                    ub.objects.left_view[obj].tint                  = color_value;
-                    ub.objects.right_view[obj].tint                 = color_value;
+                    if (typeof(ub.objects.front_view[obj]) === "object") {
+                        ub.objects.front_view[obj].tint = color_value;
+                    }
+                    
+                    if (typeof(ub.objects.back_view[obj]) === "object") {
+                        ub.objects.back_view[obj].tint = color_value;    
+                    }
+
+                    if (typeof(ub.objects.left_view[obj]) === "object") {
+                        ub.objects.left_view[obj].tint = color_value;    
+                    }
+                    
+                    if (typeof(ub.objects.right_view[obj]) === "object") {
+                        ub.objects.right_view[obj].tint = color_value;    
+                    }
+                    
   
                 } else if (panel == 'patterns') {
 
@@ -1848,21 +1860,18 @@ $(document).ready(function () {
                 else{
 
                     var mask = ub.objects[view][target + "_mask"];
-
-                    if (typeof mask === "object"){
-                        temp_pattern[v].mask = mask;
-                        temp_pattern[v].zIndex = mask.zIndex;
-                    }
-    
+               
+                    temp_pattern[v].mask = mask;
+                    temp_pattern[v].zIndex = mask.zIndex;
+                   
                 }
 
-                if (typeof mask === "object"){
+          
 
-                    ub.objects[view].gradient = temp_pattern[v];
-                    ub[view].addChild(temp_pattern[v]);
+                ub.objects[view].gradient = temp_pattern[v];
+                ub[view].addChild(temp_pattern[v]);
                     
-                }
-
+          
                 ub.updateLayersOrder(ub[view]);
 
             });
@@ -2116,6 +2125,19 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.lineDistance = function (point1, point2){
+            var xs = 0;
+            var ys = 0;
+             
+            xs = point2.x - point1.x;
+            xs = xs * xs;
+             
+            ys = point2.y - point1.y;
+            ys = ys * ys;
+             
+            return Math.sqrt( xs + ys );
+        };
+
         ub.funcs.update_application = function (application, logo) {
 
             var x = ub.dimensions.width * application.position.x;
@@ -2158,11 +2180,29 @@ $(document).ready(function () {
 
             sprite.draggable({ manager: ub.dragAndDropManager });
             
+            sprite.mouseup = sprite.touchend = function(data)
+            {
+
+                if (!sprite.snapped && $('#chkSnap').is(":checked")){
+
+                    sprite.x = sprite.oldX;
+                    sprite.y = sprite.oldY;
+
+                }
+
+                this.data = data;
+                this.dragging = true;
+
+            };
+
             sprite.mousedown = sprite.touchstart = function(data)
             {
-              
+
                 this.data = data;
-                this.alpha = 0.9;
+
+                sprite.oldX = sprite.x;
+                sprite.oldY = sprite.y;
+                sprite.snapped = false;
                 this.dragging = true;
 
             };
@@ -2171,8 +2211,46 @@ $(document).ready(function () {
             {
 
                 this.interactionData = interactionData;
-                this.alpha = 0.9;
-                this.dragging = true;
+                
+                if(this.dragging){
+
+                    _.each(ub.data.applications.items, function(application){
+
+                        var x =  application.position.x * ub.dimensions.width;
+                        var y =  application.position.y * ub.dimensions.height;
+
+                        var p_app = new PIXI.Point(x,y);
+                        var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+
+                        var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                        if ($('#chkSnap').is(":checked")) {
+
+                            var minimum_distance_to_snap = 50;
+
+                            if (distance < minimum_distance_to_snap) {
+                              
+                                sprite.x = x;
+                                sprite.y = y;
+                                sprite.oldX = x;
+                                sprite.oldY = y;
+                              
+                                sprite.snapped = true;
+                                this.dragging = false;
+
+                                return false; // Exit loop if the logo snapped to an application point
+
+                            } else {
+
+                                sprite.snapped = false;
+
+                            }
+
+                        }
+
+                    });
+
+                }
 
                 window.data = this.interactionData.data;
                 window.this = this;
@@ -2182,13 +2260,14 @@ $(document).ready(function () {
 
                 if(sprite.containsPoint(point)) {
                     sprite.zIndex = -500;
+                    this.tint = 0x555555;
                     ub.updateLayersOrder(view);
                 }
                 else {
                     sprite.zIndex = sprite.originalZIndex;
+                    this.tint = 0xffffff;
                     ub.updateLayersOrder(view);
                 }
-
 
             };
 

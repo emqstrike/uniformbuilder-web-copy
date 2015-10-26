@@ -92,6 +92,9 @@
             <a href="" class="sidebar-buttons sizes" data-filename='sizes'>
             </a>
 
+            <a href="" class="sidebar-buttons attachments" data-filename='attachments'>
+            </a>
+
         </div>
 
         <div id="right-main-window" class="pane-main-window">
@@ -102,7 +105,7 @@
                     <span class="header_text">MATERIAL OPTIONS</span>
                 </div>
 
-            </div>
+            </div>  <!-- End Materials Panel -->
 
             <div class="options_panel" id="colors_panel">
 
@@ -114,7 +117,7 @@
                     <label>Team Color</label> 
                 </div>
 
-            </div>
+            </div> <!-- End Gradients Panel -->
 
             <div class="options_panel" id="gradients_panel">
 
@@ -172,7 +175,7 @@
                     <button id="toggle_pattern_preview">Pattern Preview</button>
                 </div>
 
-            </div>
+            </div> <!-- End Patterns Panel -->
 
 
             <div class="options_panel" id="texts_panel">
@@ -181,7 +184,7 @@
                     <span class="header_text">TEXTS OPTIONS</span>
                 </div>
 
-            </div>
+            </div> <!-- End Text Panel -->
 
 
             <div class="options_panel" id="numbers_panel">
@@ -190,7 +193,7 @@
                     <span class="header_text">NUMBER OPTIONS</span>
                 </div>
 
-            </div>
+            </div> <!-- End Numbers Panel -->
 
 
             <div class="options_panel" id="graphics_panel">
@@ -217,15 +220,17 @@
                             </thead>
                         </table>
 
+                        <input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>
                         <div class="applications_container">
                             
                         </div>
 
                     </div>
 
-            </div>
+                </div>
 
-            </div>
+            </div> <!-- End Graphics Panel -->
+
             <div class="options_panel" id="sizes_panel">
 
                 <div class="options_panel_header">
@@ -242,7 +247,21 @@
 
                 </div>    
 
-            </div>
+            </div> <!-- End Sizes Panel -->
+
+            
+            <div class="options_panel" id="attachments_panel">
+                
+                <div class="options_panel_header">
+                    <span class="header_text">Attachments</span>
+                </div>
+
+                <div class="options_panel_section">
+
+                </div>
+
+            </div> <!-- End Attachments Panel -->
+
         </div>
 
     </div>

@@ -61,6 +61,7 @@ $(document).ready(function(){
             {
 
                 id: 1,
+                layer: 'body',
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '01',
@@ -75,11 +76,28 @@ $(document).ready(function(){
             {
 
                 id: 2,
+                layer: 'body',
                 perspective: 'front',
-                name: 'Front / Bottom',
+                name: 'Front / Bottom Right',
                 code: '02',
                 position: {
-                    x: 0.7,
+                    x: 0.30,
+                    y: 0.75,
+                },
+
+            },
+
+
+            /// Three
+            {
+
+                id: 3,
+                layer: 'body',
+                perspective: 'front',
+                name: 'Front / Bottom Left',
+                code: '03',
+                position: {
+                    x: 0.60,
                     y: 0.7,
                 },
 
