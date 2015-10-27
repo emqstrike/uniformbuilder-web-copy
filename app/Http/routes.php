@@ -21,6 +21,7 @@ Route::post('register', 'RegistrationController@register');
 Route::get('index', 'UniformBuilderController@showBuilder');
 
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 // Display the Order
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
