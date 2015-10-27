@@ -34,27 +34,30 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-        $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']))
+        $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
-        $materialId = (isset($config['material_id']) && !empty($config['material_id']))
+        $materialId = (isset($config['material_id']) && !empty($config['material_id']) && !($config['material_id'] == 0))
             ? $config['material_id']
             : null;
 
         $accessToken = null;
         $colors = $this->colorsClient->getColors();
+        $categoryId = null;
 
         if (is_null($designSetId))
         {
-            if (is_null($materialId) )
+            if (!is_null($materialId))
+            {
+                $material = $this->materialsClient->getMaterial($materialId);
+            }
+
+            if (is_null($material))
             {
                 $material = $this->materialsClient->getMaterials()[0];
                 $materialId = $material->id;
             }
-            else
-            {
-                $material = $this->materialsClient->getMaterial($materialId);
-            }
+            $categoryId = $material->uniform_category_id;
         }
         else
         {
@@ -62,8 +65,6 @@ class UniformBuilderController extends Controller
             $material = $this->materialsClient->getMaterialByCode($design_set->upper_body_uniform);
             $materialId = $material->id;
         }
-
-        $categoryId = $material->uniform_category_id;
 
         $params = [
             'page_title' => env('APP_TITLE'),
