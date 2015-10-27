@@ -26,10 +26,10 @@
 
 <script id='list-saved-designs' type="text/mustache">
 <div class='col-md-6 uniform-design-item'>
+    <label class='label label-info'>@{{created_at}}</label>
+    <br />
     <img height='70em' src="@{{upper_front_thumbnail_path}}" />
     <img height='70em' src="@{{upper_back_thumbnail_path}}" />
-    <br />
-    @{{created_at}}
     <br />
     <a href="/order/@{{order_id}}" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="bottom" title="Open"><span class="fa fa-folder-open-o"></span>
     </a>
