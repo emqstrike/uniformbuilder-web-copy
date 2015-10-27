@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use Redirect;
+use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
@@ -251,7 +252,20 @@ class UniformBuilderController extends Controller
             ]
         ];
 
-        return $this->ordersClient->saveOrder($data);
+        Log::info('Saving uniform design');
+        $response = $this->ordersClient->saveOrder($data);
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/')
+                        ->with('message', 'Successfully saved your uniform design');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/')
+                        ->with('message', 'There was a problem saving your uniform design.');
+        }
 
     }
 
