@@ -261,7 +261,6 @@ class UniformBuilderController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            error_log('Redirect to /order/' . $response->order->order_id);
             return Redirect::to('/order/' . $response->order->order_id)
                         ->with('message', 'Successfully saved your uniform design');
         }
