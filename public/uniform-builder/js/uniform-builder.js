@@ -1978,7 +1978,38 @@ $(document).ready(function () {
         }
     });
 
+    // Remove Uniform Design Trigger
+    function bindDeleteUniformDesign() {
+        $('.delete-uniform-design').on('click', function() {
+            var data = {
+                id: $(this).data('order-id')
+            };
+            $.ajax({
+                url: ub.config.api_host + '/api/order/delete',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function(response) {
+                    if (response.success) {
+                        $('.delete-uniform-design[data-order-id="' + data.id + '"]').parents('.uniform-design-item').fadeOut();
+                    }
+                }
+            });
+        });
+    }
+
     function openSavedUniformDesigns(userId) {
+        var options = {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        };
         $.ajax({
             url: ub.config.api_host + '/api/order/user/' + userId,
             type: 'GET',
@@ -1991,24 +2022,21 @@ $(document).ready(function () {
                     var orders = response.orders;
                     $('#orders-list').html(''); // Clear the list
                     $.each(orders, function (i, order) {
-                        $('#orders-list').append('<tr>' +
-                            '<td>' + order.client + '</td>' +
-                            '<td>' + order.uniform_type + '</td>' +
-                            '<td>' + order.status + '</td>' +
-                            '<td>' +
-                                '<a href="/order/' + order.order_id + '" class="btn btn-xs btn-default">Open ' +
-                                '<span class="fa fa-folder-open-o"></span></a>' +
-                                '<a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="' + order.order_id + '">Share ' +
-                                '<span class="fa fa-mail-forward"></span></a>' +
-                            '</td>' +
-                            '</tr>');
+                        var template = $('#list-saved-designs').html();
+                        var date_ordered = new Date(order.created_at);
+                        order.created_at = date_ordered.toLocaleTimeString("en-us", options);
+                        var row = Mustache.to_html(template, order)
+                        $('#orders-list').append(row);
                     });
+                    $('#orders-list [data-toggle="tooltip"]').tooltip();
                     $('#open-design-modal').modal('show');
                 }
                 bindShareDesigns();
+                bindDeleteUniformDesign();
             }
         });
     }
+
 
     function saveUniformDesign() {
         var data = {
