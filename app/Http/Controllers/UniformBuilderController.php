@@ -208,6 +208,9 @@ class UniformBuilderController extends Controller
         }
 
         $data = [
+            'user_id' => $request->input('user_id'),
+            'client' => $request->input('client'),
+            'email' => $request->input('email'),
             'upper_front_thumbnail_path' => $perspectives['upper']['front'],
             'upper_back_thumbnail_path' => $perspectives['upper']['back'],
             'upper_left_thumbnail_path' => $perspectives['upper']['left'],
@@ -258,7 +261,8 @@ class UniformBuilderController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('/')
+            error_log('Redirect to /order/' . $response->order->order_id);
+            return Redirect::to('/order/' . $response->order->order_id)
                         ->with('message', 'Successfully saved your uniform design');
         }
         else

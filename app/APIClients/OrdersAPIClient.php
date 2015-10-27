@@ -57,14 +57,7 @@ class OrdersAPIClient extends APIClient
         $response = $this->post('order', [
             'json' => $data
         ]);
-        return $this->decoder->decode($response->getBody());
-    }
 
-    public function saveOrder($data)
-    {
-        $response = $this->post('order', [
-            'json' => $data
-        ]);
         return $this->decoder->decode($response->getBody());
     }
 

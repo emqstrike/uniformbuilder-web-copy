@@ -19,6 +19,8 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @if (Session::get('isLoggedIn'))
                     <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
+                    <input type="hidden" name="client" value="{{ Session::get('fullname') }}">
+                    <input type="hidden" name="email" value="{{ Session::get('email') }}">
                     @endif
 
                     <div class="form-group">

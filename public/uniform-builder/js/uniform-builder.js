@@ -2109,8 +2109,11 @@ $(document).ready(function () {
     $('.save-uniform-design').on('click', function() {
         $('#save-uniform-design-form .upper_front_view').val(ub.getThumbnailImage('front_view'));
         $('#save-uniform-design-form .upper_back_view').val(ub.getThumbnailImage('back_view'));
-        $('#save-uniform-design-form .upper_right_view').val(ub.getThumbnailImage('right_view'));
-        $('#save-uniform-design-form .upper_left_view').val(ub.getThumbnailImage('left_view'));
+        var disable_left_and_right = true;
+        if (disable_left_and_right == false) {
+            $('#save-uniform-design-form .upper_right_view').val(ub.getThumbnailImage('right_view'));
+            $('#save-uniform-design-form .upper_left_view').val(ub.getThumbnailImage('left_view'));
+        }
 
         // Show spinner
         $('#save-design-modal .fa-save').removeClass('fa-save').addClass('fa-spin fa-circle-o-notch');
