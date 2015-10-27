@@ -1981,19 +1981,20 @@ $(document).ready(function () {
     // Remove Uniform Design Trigger
     function bindDeleteUniformDesign() {
         $('.delete-uniform-design').on('click', function() {
+            var data = {
+                id: $(this).data('order-id')
+            };
             $.ajax({
                 url: ub.config.api_host + '/api/order/delete',
                 type: 'POST',
                 dataType: 'json',
-                data: {
-                    id: $(this).data('order-id')
-                },
+                data: JSON.stringify(data),
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function(response) {
                     if (response.success) {
-                        //
+                        $('.delete-uniform-design[data-order-id="' + data.id + '"]').parents('.uniform-design-item').fadeOut();
                     }
                 }
             });

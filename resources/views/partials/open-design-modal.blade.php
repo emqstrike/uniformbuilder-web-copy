@@ -25,7 +25,7 @@
 </div>
 
 <script id='list-saved-designs' type="text/mustache">
-<div class='col-md-6'>
+<div class='col-md-6 uniform-design-item'>
     <img height='70em' src="@{{upper_front_thumbnail_path}}" />
     <img height='70em' src="@{{upper_back_thumbnail_path}}" />
     <br />
