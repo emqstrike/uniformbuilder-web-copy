@@ -42,8 +42,9 @@ class UniformBuilderController extends Controller
             : null;
 
         $accessToken = null;
+        $categoryId = 0;
+        $material = null;
         $colors = $this->colorsClient->getColors();
-        $categoryId = null;
 
         if (is_null($designSetId))
         {
