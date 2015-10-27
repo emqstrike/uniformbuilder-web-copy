@@ -2001,6 +2001,10 @@ $(document).ready(function () {
     }
 
     function openSavedUniformDesigns(userId) {
+        var options = {
+            weekday: "long", year: "numeric", month: "short",
+            day: "numeric", hour: "2-digit", minute: "2-digit"
+        };
         $.ajax({
             url: ub.config.api_host + '/api/order/user/' + userId,
             type: 'GET',
@@ -2014,6 +2018,8 @@ $(document).ready(function () {
                     $('#orders-list').html(''); // Clear the list
                     $.each(orders, function (i, order) {
                         var template = $('#list-saved-designs').html();
+                        var date_ordered = new Date(order.created_at);
+                        order.created_at = date_ordered.toLocaleTimeString("en-us", options);
                         var row = Mustache.to_html(template, order)
                         $('#orders-list').append(row);
                     });
