@@ -22,26 +22,32 @@
 <div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
-        <th>Order ID</th>
+        <th>Order</th>
         <th>Client</th>
-        <th>Director</th>
-        <th>Billing</th>
-        <th>Shipping</th>
         <th>Uniform Type</th>
         <th>Upper Uniform</th>
         <th>Lower Uniform</th>
         <th>Status</th>
-        <th>Change Status</th>
         <th></th>
     </tr>
 @forelse ($orders as $order)
 
     <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
         <td>
-            <strong>{{ $order->order_id }}</strong>
+            <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
+            <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" />
+            <br />
+            <small>
+                ID: <strong>{{ $order->order_id }}</strong>
+            </small>
         </td>
         <td>
-            <div>{{ $order->client }}</div>
+            <div>
+                {{ $order->client }}
+                <small class='label label-info'>
+                    &lt;{{ $order->email }}&gt;
+                </small>
+            </div>
             @if ($order->director_contact_person)
             <div class="label label-default">Director: <strong>{{ $order->director_contact_person }}</strong> @if (!is_null($order->bill_organization)) of {{ $order->bill_organization }} @endif</div><br>
             @endif
@@ -52,9 +58,6 @@
             <div class="label label-success">Shipping: <strong>{{ $order->ship_contact_person }}</strong></div>
             @endif
         </td>
-        <td>{{ $order->director_contact_person }}</td>
-        <td>{{ $order->bill_contact_person }}</td>
-        <td>{{ $order->ship_contact_person }}</td>
         <td>
             {{ $order->uniform_type }}
         </td>
@@ -63,9 +66,6 @@
         </td>
         <td>
             {{ $order->total_lower_uniforms }}
-        </td>
-        <td>
-            {{ $order->status }}
         </td>
         <td>
             <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
