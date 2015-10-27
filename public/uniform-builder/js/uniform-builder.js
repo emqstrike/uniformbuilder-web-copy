@@ -2101,25 +2101,27 @@ $(document).ready(function () {
         });
     }
 
-    window.saveImagePerspectives = function(perspective, imageBase64) {
-        $.ajax({
-            url: '/saveBase64Image',
-            type: 'POST',
-            dataType: {
-                image: imageBase64
-            },
-            success: function(response) {
-                console.log(perspective + ' upload finished');
-            }
-        });
-    }
-
     function showSignUpModal() {
         $('#signup-modal').modal('show');
     }
 
     // Save Uniform Design
-    $('.save-uniform-design').on('click', saveUniformDesign);
+    $('.save-uniform-design').on('click', function() {
+        $('#save-uniform-design-form .upper_front_view').val(ub.getThumbnailImage('front_view'));
+        $('#save-uniform-design-form .upper_back_view').val(ub.getThumbnailImage('back_view'));
+        var disable_left_and_right = true;
+        if (disable_left_and_right == false) {
+            $('#save-uniform-design-form .upper_right_view').val(ub.getThumbnailImage('right_view'));
+            $('#save-uniform-design-form .upper_left_view').val(ub.getThumbnailImage('left_view'));
+        }
+
+        // Show spinner
+        $('#save-design-modal .fa-save').removeClass('fa-save').addClass('fa-spin fa-circle-o-notch');
+        $(this).attr('disabled', 'disabled');
+
+        // disable the modal-close behaviour
+        $('#save-uniform-design-form').submit();
+    });
 
     // User Signup
     $('.user-signup').on('click', showSignUpModal);
