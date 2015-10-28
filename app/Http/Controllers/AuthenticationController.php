@@ -49,6 +49,7 @@ class AuthenticationController extends AdminAuthController
             }
             else
             {
+                Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 Session::flash('flash_message', $result->message);
             }
 
