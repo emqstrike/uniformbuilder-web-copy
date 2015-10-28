@@ -61,7 +61,7 @@ class AuthenticationController extends AdminAuthController
         }
 
         return Redirect::to('/index')
-                        ->with('message', 'Login failed.');
+                        ->with('message', "The email and password you entered don't match.");
     }
 
     public function logout()
