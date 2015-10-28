@@ -53,15 +53,18 @@ $(document).ready(function(){
     $('.view-oder-details').on('click', function(){
         var orderId = $(this).data('order-id');
         var client = $(this).data('client');
-        console.log('FRONT VIEW: ' + $(this).data('upper-front-view'));
+
         $('#view-order-modal .order-client strong').html(client);
         $('#view-order-modal .order-email strong').html($(this).data('email'));
         $('#view-order-modal .order-uniform-type strong').html($(this).data('uniform-type'));
+        // Athletic Director
         $('#view-order-modal .order-director-organization strong').html($(this).data('director-organization'));
         $('#view-order-modal .order-director-contact-person strong').html($(this).data('director-contact-person'));
+        // Billing Information
         $('#view-order-modal .order-bill-organization strong').html($(this).data('bill-organization'));
         $('#view-order-modal .order-bill-contact-person strong').html($(this).data('bill-contact-person'));
         $('#view-order-modal .order-bill-email strong').html($(this).data('bill-email'));
+        // Shipping Information
         $('#view-order-modal .order-ship-organization strong').html($(this).data('ship-organization'));
         $('#view-order-modal .order-ship-contact-person strong').html($(this).data('ship-contact-person'));
         $('#view-order-modal .order-status strong').html($(this).data('status'));
