@@ -13,6 +13,7 @@ $(document).ready(function () {
             /// Initialize Assets
 
             ub.current_material.id = window.ub.config.material_id;
+            ub.current_material.code = window.ub.config.code;
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
@@ -477,6 +478,7 @@ $(document).ready(function () {
                 var type = current_material.type;
 
                 settings[type].material_id = current_material.id;
+                settings[type].code = current_material.code;
                 
                 _.each(material_options, function (material_option) {
 
@@ -2135,6 +2137,14 @@ $(document).ready(function () {
 
     // Save Uniform Design
     $('.save-uniform-design').on('click', function() {
+        // Uniform Codes
+        $('#save-uniform-design-form .upper_body_uniform').val(ub.current_material.settings.upper.code);
+        $('#save-uniform-design-form .lower_body_uniform').val(ub.current_material.settings.lower.code);
+        // Team Roster Counts
+        var countRoster = ub.current_material.team_roster.length;
+        $('#save-uniform-design-form .total_upper_uniforms').val(countRoster);
+        $('#save-uniform-design-form .total_lower_uniforms').val(countRoster);
+        // Perspectives: Base64 format images
         $('#save-uniform-design-form .upper_front_view').val(ub.getThumbnailImage('front_view'));
         $('#save-uniform-design-form .upper_back_view').val(ub.getThumbnailImage('back_view'));
         $('#save-uniform-design-form .upper_right_view').val(ub.getThumbnailImage('right_view'));
