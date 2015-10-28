@@ -87,7 +87,11 @@
                 data-bill-email="{{ $order->bill_email }}"
                 data-ship-organization="{{ $order->ship_organization }}"
                 data-ship-contact-person="{{ $order->ship_contact_person }}"
-                data-status="{{ $order->status }}">
+                data-status="{{ $order->status }}"
+                data-upper-front-view="{{ $order->upper_front_thumbnail_path }}"
+                data-upper-back-view="{{ $order->upper_back_thumbnail_path }}"
+                data-upper-right-view="{{ $order->upper_right_thumbnail_path }}"
+                data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                 View Order Details
             </button>
             <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
