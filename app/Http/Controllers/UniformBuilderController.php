@@ -149,6 +149,7 @@ class UniformBuilderController extends Controller
 
     public function saveOrder(Request $request)
     {
+        $time_start = microtime(true);
         $perspectives = [
             'upper' => [
                 'front' => null,
@@ -255,6 +256,11 @@ class UniformBuilderController extends Controller
                 'expiration_date' => $request->input('cc_expiration_date')
             ]
         ];
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+        Log::info("Finished converting base64 image and uploaded to S3");
+        Log::info("It took {$time} seconds\n");
 
         Log::info('Saving uniform design');
         $response = $this->ordersClient->saveOrder($data);
