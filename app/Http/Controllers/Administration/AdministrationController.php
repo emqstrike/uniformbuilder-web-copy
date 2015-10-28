@@ -20,4 +20,15 @@ class AdministrationController extends Controller
         }
         return redirect('administration/login');
     }
+
+    public function dashboard()
+    {
+        if (Session::has('isLoggedIn'))
+        {
+            if (Session::get('isLoggedIn') == true)
+            {
+                return view('administration.lte-dashboard');
+            }
+        }
+    }
 }

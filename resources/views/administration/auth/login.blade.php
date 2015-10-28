@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div align='center'>
-            <img src="https://s3-us-west-2.amazonaws.com/qstrike/images/Qx.png" style='height: 10vh'>
+            <img src="{{ env('LOGO_URL') }}" style='height: 10vh; padding: 20px; margin-top: 50px;'>
         </div>
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">

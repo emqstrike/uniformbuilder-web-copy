@@ -1,4 +1,15 @@
-@extends('administration.main')
+@extends('administration.lte-main')
+
+@section('content-header')
+<h1>
+    <span class="fa fa-building-o"></span>
+    Orders
+</h1>
+<ol class="breadcrumb">
+  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li class="active">Orders</li>
+</ol>
+@endsection
 
 @section('content')
 
@@ -11,13 +22,6 @@
     <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
-
-<div class="col-md-12">
-    <h1>
-        <span class="fa fa-building-o"></span>
-        Orders
-    </h1>
-</div>
 
 <div class="row col-md-12">
     <table class='table table-bordered'>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>QuickStrike Uniform Builder Administration</title>
+    <title>{{ env('APP_TITLE') }}</title>
 
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
@@ -39,8 +39,8 @@
                          <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/administration/main">
-                        <img src="/images/branding/small-logo.png" alt="QuickStrike" style="width: 35px; padding-right: 10px;" align="left">
-                        <span> Admin Dashboard</span>
+                        <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
+                        <span>Dashboard</span>
                     </a>
                 </div>
                 

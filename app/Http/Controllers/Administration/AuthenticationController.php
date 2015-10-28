@@ -92,9 +92,4 @@ class AuthenticationController extends Controller
     {
         Session::flush();
     }
-
-    public function main()
-    {
-        return view('administration.oops');
-    }
 }
