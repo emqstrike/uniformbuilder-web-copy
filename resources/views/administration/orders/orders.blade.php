@@ -75,7 +75,21 @@
             </select>
         </td>
         <td>
-            <button class='btn btn-default btn-xs btn-primary view-oder-items' data-order-id="{{ $order->id }}" data-client="{{ $order->client }}">View Order Items</button>
+            <button class='btn btn-default btn-xs btn-primary view-oder-details'
+                data-order-id="{{ $order->id }}"
+                data-client="{{ $order->client }}"
+                data-email="{{ $order->email }}"
+                data-uniform-type="{{ $order->uniform_type }}"
+                data-director-organization="{{ $order->director_organization }}"
+                data-director-contact-person="{{ $order->director_contact_person }}"
+                data-bill-organization="{{ $order->bill_organization }}"
+                data-bill-contact-person="{{ $order->bill_contact_person }}"
+                data-bill-email="{{ $order->bill_email }}"
+                data-ship-organization="{{ $order->ship_organization }}"
+                data-ship-contact-person="{{ $order->ship_contact_person }}"
+                data-status="{{ $order->status }}">
+                View Order Details
+            </button>
             <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                 <i class="glyphicon glyphicon-trash"></i>
                 Remove
