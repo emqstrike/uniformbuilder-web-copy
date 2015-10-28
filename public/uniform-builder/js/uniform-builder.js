@@ -2141,7 +2141,10 @@ $(document).ready(function () {
         $('#save-uniform-design-form .upper_body_uniform').val(ub.current_material.settings.upper.code);
         $('#save-uniform-design-form .lower_body_uniform').val(ub.current_material.settings.lower.code);
         // Team Roster Counts
-        var countRoster = ub.current_material.team_roster.length;
+        var countRoster = 0;
+        if (typeof(ub.current_material.team_roster) !== "undefined") {
+            countRoster = ub.current_material.team_roster.length;
+        }
         $('#save-uniform-design-form .total_upper_uniforms').val(countRoster);
         $('#save-uniform-design-form .total_lower_uniforms').val(countRoster);
         // Perspectives: Base64 format images
