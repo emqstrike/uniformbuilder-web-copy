@@ -46,5 +46,6 @@ class AdministrationController extends Controller
                 return view('administration.lte-dashboard', $params);
             }
         }
+        return redirect('administration/login');
     }
 }
