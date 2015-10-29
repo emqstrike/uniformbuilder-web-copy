@@ -40,7 +40,7 @@
                     </button>
                     <a class="navbar-brand" href="/administration/main">
                         <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
-                        <span> Admin Dashboard</span>
+                        <span>Dashboard</span>
                     </a>
                 </div>
                 
