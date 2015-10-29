@@ -113,7 +113,13 @@ class UniformBuilderController extends Controller
         ]);
         if (!is_null($order))
         {
+            // Check whether the upper body or the lower body has something in it
             $material = $this->materialsClient->getMaterialByCode($order->upper_body_uniform);
+            if (is_null($material))
+            {
+                $material = $this->materialsClient->getMaterialByCode($order->lower_body_uniform);
+            }
+
             if (!is_null($material))
             {
                 $config = [
