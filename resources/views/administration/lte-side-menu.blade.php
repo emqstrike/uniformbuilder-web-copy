@@ -8,7 +8,7 @@
   <li>
     <a href="/administration/orders">
       <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
-      <small class="label pull-right bg-red">N</small>
+      <small class="label pull-right bg-red">{{ $new_orders_count + $pending_orders_count }}</small>
     </a>
   </li>
   <li class="treeview">
