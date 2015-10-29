@@ -113,7 +113,13 @@ class UniformBuilderController extends Controller
         ]);
         if (!is_null($order))
         {
+            // Check whether the upper body or the lower body has something in it
             $material = $this->materialsClient->getMaterialByCode($order->upper_body_uniform);
+            if (is_null($material))
+            {
+                $material = $this->materialsClient->getMaterialByCode($order->lower_body_uniform);
+            }
+
             if (!is_null($material))
             {
                 $config = [
@@ -149,6 +155,7 @@ class UniformBuilderController extends Controller
 
     public function saveOrder(Request $request)
     {
+        $time_start = microtime(true);
         $perspectives = [
             'upper' => [
                 'front' => null,
@@ -211,6 +218,10 @@ class UniformBuilderController extends Controller
             'user_id' => $request->input('user_id'),
             'client' => $request->input('client'),
             'email' => $request->input('email'),
+            'upper_body_uniform' => $request->input('upper_body_uniform'),
+            'lower_body_uniform' => $request->input('lower_body_uniform'),
+            'total_upper_uniforms' => $request->input('total_upper_uniforms'),
+            'total_lower_uniforms' => $request->input('total_lower_uniforms'),
             'upper_front_thumbnail_path' => $perspectives['upper']['front'],
             'upper_back_thumbnail_path' => $perspectives['upper']['back'],
             'upper_left_thumbnail_path' => $perspectives['upper']['left'],
@@ -255,6 +266,11 @@ class UniformBuilderController extends Controller
                 'expiration_date' => $request->input('cc_expiration_date')
             ]
         ];
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+        Log::info("Finished converting base64 image and uploaded to S3");
+        Log::info("It took {$time} seconds\n");
 
         Log::info('Saving uniform design');
         $response = $this->ordersClient->saveOrder($data);

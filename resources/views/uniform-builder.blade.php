@@ -139,7 +139,8 @@ $(document).ready(function () {
     window.ub.user = false;
 @endif
 @if (Session::has('message'))
-    setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
+    $('.flash-alert').fadeIn();
+    setTimeout(function(){$('.flash-alert').fadeOut();}, 5000);
 @endif
 });
 </script>
