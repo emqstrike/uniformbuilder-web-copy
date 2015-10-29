@@ -30,7 +30,7 @@ Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
     
-    Route::get('/',  function(){ return view('administration.oops'); });
+    Route::get('/', 'Administration\AdministrationController@dashboard');
 
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
@@ -38,7 +38,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('logout', 'Administration\AuthenticationController@administrationLogout');
 
     // Admin page
-    Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AuthenticationController@main']);
+    Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
 
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);

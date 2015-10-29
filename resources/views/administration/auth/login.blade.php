@@ -1,70 +1,71 @@
-@extends('administration.main')
- 
-@section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div align='center'>
-            <img src="{{ env('LOGO_URL') }}" style='width: 10em; padding: 20px; margin-top: 50px'>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Login | {{ env('APP_TITLE') }}</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Bootstrap 3.3.5 -->
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="hold-transition login-page">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="{{ env('LOGO_URL') }}" style='height: 10vh; padding: 20px; margin-top: 50px;'>
         </div>
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/login">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary">
-                                    Login
-                                    <span class="glyphicon glyphicon-lock"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="login-box-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
+            @endif
+            @if (Session::has('flash_message'))
+            <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
+            @endif
+            <form method="POST" action="/administration/login">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group has-feedback">
+                    <input type="email" name="email" class="form-control" placeholder="Email">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8"></div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-@endsection
+<script src="/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

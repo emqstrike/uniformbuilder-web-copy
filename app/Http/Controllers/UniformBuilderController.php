@@ -215,6 +215,7 @@ class UniformBuilderController extends Controller
         }
 
         $data = [
+            'status' => 'pending',
             'user_id' => $request->input('user_id'),
             'client' => $request->input('client'),
             'email' => $request->input('email'),
