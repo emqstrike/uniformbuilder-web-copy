@@ -97,12 +97,63 @@
                     <div id="material-option-placements">
                     </div>
                 </div>
+
+                <!-- START -->
                 <div class="col-md-2">
-                    <div id="front-shape-view" style="border: 1px solid black; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                    <span class="badge badge-success">Front</span>
+                    <div id="front-shape-view" style="border: 1px solid #e3e3e3; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
                         <canvas id="applications-front-canvas"></canvas>
                         <div style="float: left; text-align: center;" class="front-applications text-center">
                             <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
                             <select name="default_item" id="front-default-item">
+                                <option value="logo">Logo</option>
+                                <option value="number">Number</option>
+                                <option value="team_name">Team Name</option>
+                                <option value="player_name">Player Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <span class="badge badge-success">Back</span>
+                    <div id="front-shape-view" style="border: 1px solid #e3e3e3; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                        <canvas id="applications-back-canvas"></canvas>
+                        <div style="float: left; text-align: center;" class="xfront-applications text-center">
+                            <a class="btn btn-xs btn-primary" id="xadd_front_application"><i class="fa fa-plus"></i></a>
+                            <select name="default_item" id="xfront-default-item">
+                                <option value="logo">Logo</option>
+                                <option value="number">Number</option>
+                                <option value="team_name">Team Name</option>
+                                <option value="player_name">Player Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <span class="badge badge-success">Left</span>
+                    <div id="front-shape-view" style="border: 1px solid #e3e3e3; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                        <canvas id="applications-left-canvas"></canvas>
+                        <div style="float: left; text-align: center;" class="xfront-applications text-center">
+                            <a class="btn btn-xs btn-primary" id="xadd_front_application"><i class="fa fa-plus"></i></a>
+                            <select name="default_item" id="xfront-default-item">
+                                <option value="logo">Logo</option>
+                                <option value="number">Number</option>
+                                <option value="team_name">Team Name</option>
+                                <option value="player_name">Player Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <span class="badge badge-success">Right</span>
+                    <div id="front-shape-view" style="border: 1px solid #e3e3e3; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                        <canvas id="applications-right-canvas"></canvas>
+                        <div style="float: left; text-align: center;" class="xfront-applications text-center">
+                            <a class="btn btn-xs btn-primary" id="xadd_front_application"><i class="fa fa-plus"></i></a>
+                            <select name="default_item" id="xfront-default-item">
                                 <option value="logo">Logo</option>
                                 <option value="number">Number</option>
                                 <option value="team_name">Team Name</option>

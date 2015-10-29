@@ -33,10 +33,22 @@ $(document).ready(function() {
         }
     });
 
-    var canvasx = this.__canvas = new fabric.Canvas('applications-front-canvas');
+    var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
+    canvasFront.setWidth( 250 );
+    canvasFront.setHeight( 250 );
+
+    var canvasBack = this.__canvas = new fabric.Canvas('applications-back-canvas');
+    canvasBack.setWidth( 250 );
+    canvasBack.setHeight( 250 );
+
+    var canvasLeft = this.__canvas = new fabric.Canvas('applications-left-canvas');
+    canvasLeft.setWidth( 250 );
+    canvasLeft.setHeight( 250 );
+
+    var canvasRight = this.__canvas = new fabric.Canvas('applications-right-canvas');
     fabric.Object.prototype.transparentCorners = false;
-    canvasx.setWidth( 250 );
-    canvasx.setHeight( 250 );
+    canvasRight.setWidth( 250 );
+    canvasRight.setHeight( 250 );
 
     var application_number = 1;
 
@@ -74,21 +86,22 @@ $(document).ready(function() {
 
         var group = new fabric.Group([ area, appID, itemText ], {
             id: area.id,
-            left: canvasx.width / 2.6,
-            top: canvasx.height / 5,
+            left: canvasFront.width / 2.6,
+            top: canvasFront.height / 5,
             default_item: default_item
         });
 
         area.lockRotation = true;
         appID.lockRotation = true;
 
-        canvasx.add(group);
+        canvasFront.add(group);
         application_number++;
 
         var text = $(this).val();
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\">";
-        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasx.getObjects().indexOf(group) + ">Update</a>";
+        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
+        var removeApplication = "<a class=\"btn btn-xs btn-danger remove-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">x</a>";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
 
@@ -102,37 +115,45 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + removeApplication + "</div>");
      });
 
     $(document).on('click', '.update-application', function() {
-
-
-
-        
-
-
-
         var itemIdx = $(this).data('id');
         var applicationId = $(this).siblings("input[name=application_id]").val();
         var applicationType = $(this).siblings("select[class=app-def-item]").val();
-        var items = canvasx.getObjects();
+        var items = canvasFront.getObjects();
         var item = items[itemIdx];
 
         item.id = applicationId;
 
-        var thisGroup = canvasx.item(itemIdx);
+        var thisGroup = canvasFront.item(itemIdx);
 
         thisGroup.item(1).text = applicationId;
         thisGroup.item(2).text = applicationType;
 
-        canvasx.setActiveObject(canvasx.item(itemIdx));
+        canvasFront.setActiveObject(canvasFront.item(itemIdx));
 
-        canvas.renderAll();
+        canvasFront.renderAll();
+
+    });
+
+    $(document).on('click', '.remove-application', function() {
+        var itemIdx = $(this).data('id');
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+
+        console.log("REMOVE");
+        // canvasx.remove(canvas.item(itemIdx));
+
+        canvasFront.setActiveObject(canvasFront.item(itemIdx));
+
+        canvasFront.remove(canvasFront.getActiveObject());
 
 
-        //e.defaultPrevented();
-        // return true;
+        canvasFront.renderAll();
+
     });
     
 
