@@ -2,6 +2,7 @@
 namespace App\Utilities;
 
 use Storage;
+use App\Utilities\Random;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -54,7 +55,7 @@ class FileUploader
         {
             throw new Exception('Material name cannot be null');
         }
-        $temporaryFolder = '/tmp/' . self::makeSlug($objectName) . '/';
+        $temporaryFolder = '/tmp/' . Random::randomize(6) . '/' . self::makeSlug($objectName) . '/';
         $filePath = $temporaryFolder . $filename;
         if (!file_exists($filePath))
         {

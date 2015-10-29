@@ -261,7 +261,6 @@ $(document).ready(function() {
         $('#saved-default-color').val(material.option.default_color);
         $('#saved-default-color').text(material.option.default_color);
         $('#saved-default-color').attr('selected','selected');
-        console.log("DEFAULT COLOR: "+material.option.default_color);
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(perspective + " View");
         $('#saved-perspective').attr('selected','selected');

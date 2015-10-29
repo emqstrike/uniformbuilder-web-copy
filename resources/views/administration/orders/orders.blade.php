@@ -1,5 +1,16 @@
 @extends('administration.main')
 
+@section('content-header')
+<h1>
+    <span class="fa fa-building-o"></span>
+    Orders
+</h1>
+<ol class="breadcrumb">
+  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li class="active">Orders</li>
+</ol>
+@endsection
+
 @section('content')
 
 @if (Session::has('message'))
@@ -12,36 +23,35 @@
 </div>
 @endif
 
-<div class="col-md-12">
-    <h1>
-        <span class="fa fa-building-o"></span>
-        Orders
-    </h1>
-</div>
-
 <div class="row col-md-12">
     <table class='table table-bordered'>
     <tr>
-        <th>Order ID</th>
+        <th>Order</th>
         <th>Client</th>
-        <th>Director</th>
-        <th>Billing</th>
-        <th>Shipping</th>
         <th>Uniform Type</th>
         <th>Upper Uniform</th>
         <th>Lower Uniform</th>
         <th>Status</th>
-        <th>Change Status</th>
         <th></th>
     </tr>
 @forelse ($orders as $order)
 
     <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
         <td>
-            <strong>{{ $order->order_id }}</strong>
+            <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
+            <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" />
+            <br />
+            <small>
+                ID: <strong>{{ $order->order_id }}</strong>
+            </small>
         </td>
         <td>
-            <div>{{ $order->client }}</div>
+            <div>
+                {{ $order->client }}
+                <small class='label label-info'>
+                    &lt;{{ $order->email }}&gt;
+                </small>
+            </div>
             @if ($order->director_contact_person)
             <div class="label label-default">Director: <strong>{{ $order->director_contact_person }}</strong> @if (!is_null($order->bill_organization)) of {{ $order->bill_organization }} @endif</div><br>
             @endif
@@ -52,9 +62,6 @@
             <div class="label label-success">Shipping: <strong>{{ $order->ship_contact_person }}</strong></div>
             @endif
         </td>
-        <td>{{ $order->director_contact_person }}</td>
-        <td>{{ $order->bill_contact_person }}</td>
-        <td>{{ $order->ship_contact_person }}</td>
         <td>
             {{ $order->uniform_type }}
         </td>
@@ -65,9 +72,6 @@
             {{ $order->total_lower_uniforms }}
         </td>
         <td>
-            {{ $order->status }}
-        </td>
-        <td>
             <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
             @foreach ($order_statuses as $status)
                 <option value="{{ $status }}"@if ($status == $order->status) selected @endif>{{ ucfirst($status) }}</option>
@@ -75,7 +79,25 @@
             </select>
         </td>
         <td>
-            <button class='btn btn-default btn-xs btn-primary view-oder-items' data-order-id="{{ $order->id }}" data-client="{{ $order->client }}">View Order Items</button>
+            <button class='btn btn-default btn-xs btn-primary view-oder-details'
+                data-order-id="{{ $order->id }}"
+                data-client="{{ $order->client }}"
+                data-email="{{ $order->email }}"
+                data-uniform-type="{{ $order->uniform_type }}"
+                data-director-organization="{{ $order->director_organization }}"
+                data-director-contact-person="{{ $order->director_contact_person }}"
+                data-bill-organization="{{ $order->bill_organization }}"
+                data-bill-contact-person="{{ $order->bill_contact_person }}"
+                data-bill-email="{{ $order->bill_email }}"
+                data-ship-organization="{{ $order->ship_organization }}"
+                data-ship-contact-person="{{ $order->ship_contact_person }}"
+                data-status="{{ $order->status }}"
+                data-upper-front-view="{{ $order->upper_front_thumbnail_path }}"
+                data-upper-back-view="{{ $order->upper_back_thumbnail_path }}"
+                data-upper-right-view="{{ $order->upper_right_thumbnail_path }}"
+                data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
+                View Order Details
+            </button>
             <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                 <i class="glyphicon glyphicon-trash"></i>
                 Remove

@@ -37,6 +37,7 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
+                Session::put('first_name', $result->user->first_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
@@ -48,6 +49,7 @@ class AuthenticationController extends AdminAuthController
             }
             else
             {
+                Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 Session::flash('flash_message', $result->message);
             }
 
@@ -59,7 +61,7 @@ class AuthenticationController extends AdminAuthController
         }
 
         return Redirect::to('/index')
-                        ->with('message', 'Login failed.');
+                        ->with('message', "The email and password you entered don't match.");
     }
 
     public function logout()
