@@ -30,9 +30,14 @@ class OrdersAPIClient extends APIClient
         return null;
     }
 
-    public function getOrders()
+    public function getOrders($status = null)
     {
-        $response = $this->get('orders');
+        $endpoint = 'orders';
+        if (!is_null($status))
+        {
+            $endpoint .= '/' . $status;
+        }
+        $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());
 
         $orders = [];
