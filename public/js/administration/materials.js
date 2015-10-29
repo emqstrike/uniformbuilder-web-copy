@@ -27,20 +27,20 @@ $(document).ready(function() {
     window.shapes = {};
 
     var data = {
-        topLeft: { 
-            "x":0, 
+        topLeft: {
+            "x":0,
             "y":0
         },
-        topRight: { 
-            "x":0, 
+        topRight: {
+            "x":0,
             "y":0
         },
-        bottomLeft: { 
-            "x":0, 
+        bottomLeft: {
+            "x":0,
             "y":0
         },
-        bottomRight: { 
-            "x":0, 
+        bottomRight: {
+            "x":0,
             "y":0
         },
         width: 0,
