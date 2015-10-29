@@ -227,6 +227,7 @@ $(document).ready(function() {
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
+                origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
@@ -247,8 +248,13 @@ $(document).ready(function() {
         $('#material-option-name').val(material.option.name);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(type);
+        $('#saved-setting-type').attr('selected','selected');
+        $('#saved-origin').val(material.option.origin);
+        $('#saved-origin').text(material.option.origin);
+        $('#saved-origin').attr('selected','selected');
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(perspective + " View");
+        $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
 
         var jason = $('#boundary-properties').val().replace(/\\/g, '');

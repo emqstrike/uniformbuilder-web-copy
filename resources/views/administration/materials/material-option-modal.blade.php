@@ -29,7 +29,6 @@
                 <div class="form-group">
                     <label class="control-label">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
-                        <option id='saved-setting-type'></option>
                         <option value='part'>Part</option>
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>
@@ -37,21 +36,30 @@
                         <option value='static_layer'>Static Layer</option>
                         <option value='highlights'>Highlights</option>
                         <option value='shadows'>Shadows</option>
+                        <option id='saved-setting-type'></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Perspective:</label>
                     <select name='perspective' class='form-control perspective'>
-                        <option id='saved-perspective'></option>
                         <option value='front'>Front View</option>
                         <option value='back'>Back View</option>
                         <option value='right'>Right Side View</option>
                         <option value='left'>Left Side View</option>
+                        <option id='saved-perspective'></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Material Option File:</label>
                     <input type="file" name="material_option_path" id="file-src">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Origin:</label>
+                    <select name="origin" class="form-control origin">
+                        <option value="web">Web</option>
+                        <option value="ipad">ipad</option>
+                        <option id='saved-origin'></option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Layer Level:</label>
