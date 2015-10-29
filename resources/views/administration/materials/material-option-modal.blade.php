@@ -66,6 +66,18 @@
                     <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
                 </div>
                 <div class="form-group">
+                    <label class="control-label">Default Color:</label>
+                        <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                        @foreach ($colors as $color)
+                            @if ($color->active)
+                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
+                                {{ $color->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label">Colors:</label>
                     <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
                         @foreach ($colors as $color)
