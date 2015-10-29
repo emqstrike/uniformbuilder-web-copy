@@ -67,15 +67,16 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Default Color:</label>
-                        <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                        @foreach ($colors as $color)
-                            @if ($color->active)
-                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                                {{ $color->name }}
-                            </option>
-                            @endif
-                        @endforeach
-                    </div>
+                    <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                    @foreach ($colors as $color)
+                        @if ($color->active)
+                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
+                            {{ $color->name }}
+                        </option>
+                        @endif
+                    @endforeach
+                    <option data-color="" value="" id="saved-default-color"></option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Colors:</label>

@@ -48,6 +48,7 @@ class MaterialsOptionsController extends Controller
         $settingType = $request->input('setting_type');
         $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
+        $defaultColor = $request->input('default_color');
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
         $gradients = $request->input('gradients');
@@ -60,6 +61,7 @@ class MaterialsOptionsController extends Controller
             'setting_type' => $settingType,
             'origin' => $origin,
             'layer_level' => $layerLevel,
+            'default_color' => $defaultColor,
             'perspective' => $perspective,
             'colors' => $colors,
             'gradients' => $gradients,

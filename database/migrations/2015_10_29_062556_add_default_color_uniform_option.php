@@ -13,7 +13,7 @@ class AddDefaultColorUniformOption extends Migration
     public function up()
     {
         Schema::table('materials_options', function (Blueprint $table) {
-            $table->string('dafault_color', 5);
+            $table->string('default_color', 5);
         });
     }
 
@@ -25,7 +25,7 @@ class AddDefaultColorUniformOption extends Migration
     public function down()
     {
         Schema::table('materials_options', function (Blueprint $table) {
-            Schema::drop('dafault_color');
+            $table->dropColumn('default_color');
         });
     }
 }

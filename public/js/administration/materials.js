@@ -13,6 +13,11 @@ $(document).ready(function() {
         }
     });
 
+    $('.default-color').change(function(){
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
+    });
+
 
     var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
     fabric.Object.prototype.transparentCorners = false;
@@ -229,6 +234,7 @@ $(document).ready(function() {
                 name: $(this).data('material-option-name'),
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
+                default_color: $(this).data('material-option-default-color'),
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
@@ -252,6 +258,10 @@ $(document).ready(function() {
         $('#saved-origin').val(material.option.origin);
         $('#saved-origin').text(material.option.origin);
         $('#saved-origin').attr('selected','selected');
+        $('#saved-default-color').val(material.option.default_color);
+        $('#saved-default-color').text(material.option.default_color);
+        $('#saved-default-color').attr('selected','selected');
+        console.log("DEFAULT COLOR: "+material.option.default_color);
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(perspective + " View");
         $('#saved-perspective').attr('selected','selected');
