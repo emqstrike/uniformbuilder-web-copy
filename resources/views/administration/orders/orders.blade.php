@@ -1,4 +1,4 @@
-@extends('administration.lte-main')
+@extends('administration.main')
 
 @section('content-header')
 <h1>
