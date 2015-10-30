@@ -29,113 +29,49 @@
 </head>
 <body>
 @if (Session::get('isLoggedIn'))
-<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
-    <div class="navbar-header">
-         
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-             <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/administration/main">
-            <img src="/images/branding/small-logo.png" alt="QuickStrike" style="width: 35px; padding-right: 10px;" align="left">
-            <span> Admin Dashboard</span>
-        </a>
-    </div>
-    
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
-        @include('administration.top-menu')
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" style='width:500px'>
-            </div>
-            <button type="" class="btn btn-default">
-                Search
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-header">
+             
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </button>
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="divider-vertical"></li>
-            <li class="dropdown">
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Welcome
-                    @if (Session::get('fullname'))
-                    <strong>{{ Session::get('fullname') }}</strong>
-                    <span class="glyphicon glyphicon-user"></span>
-                    @endif
-                    <strong class="caret"></strong>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="/administration/account_settings/{{ Session::get('userId') }}">
-                        <span class="glyphicon glyphicon-user"></span> Account Settings</a>
-                    </li>
-                    <li class="divider">
-                    <li>
-                        <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}">
-                        <span class="fa fa-slack"></span> Change Password</a>
-                    </li>
-                    <li class="divider">
-                    </li>
-                    <li>
-                        <a href="/administration/logout"><span class="glyphicon glyphicon-log-out">
-                            
-                        </span> Sign out</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
-@endif
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="col-md-12">
-<<<<<<< HEAD
-=======
-            @if (Session::get('isLoggedIn'))
-            <nav class="navbar navbar-default navbar-static-top" role="navigation">
-                <div class="navbar-header">
-                     
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/administration/main">
-                        <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
-                        <span>Dashboard</span>
+            <a class="navbar-brand" href="/administration/main">
+                <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
+                <span>Dashboard</span>
+            </a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
+            @include('administration.top-menu')
+            <ul class="nav navbar-nav navbar-right">
+                <li class="divider-vertical"></li>
+                <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Welcome
+                        @if (Session::get('fullname'))
+                        <strong>{{ Session::get('fullname') }}</strong> <span class="glyphicon glyphicon-user"></span>
+                        @endif
+                        <strong class="caret"></strong>
                     </a>
-                </div>
-                
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
-                    @include('administration.top-menu')
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="divider-vertical"></li>
-                        <li class="dropdown">
-                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Welcome
-                                @if (Session::get('fullname'))
-                                <strong>{{ Session::get('fullname') }}</strong> <span class="glyphicon glyphicon-user"></span>
-                                @endif
-                                <strong class="caret"></strong>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/administration/account_settings/{{ Session::get('userId') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
-                                </li>
-                                <li class="divider">
-                                <li>
-                                    <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}"><span class="fa fa-slack"></span> Change Password</a>
-                                </li>
-                                <li class="divider">
-                                </li>
-                                <li>
-                                    <a href="/administration/logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
-                                </li>
-                            </ul>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/administration/account_settings/{{ Session::get('userId') }}"><span class="glyphicon glyphicon-user"></span> Account Settings</a>
+                        </li>
+                        <li class="divider">
+                        <li>
+                            <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}"><span class="fa fa-slack"></span> Change Password</a>
+                        </li>
+                        <li class="divider">
+                        </li>
+                        <li>
+                            <a href="/administration/logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
                         </li>
                     </ul>
-                </div>
-            </nav>
-            @endif
-
->>>>>>> ce53b53a40f25a4a980eb74508618c151d8f3d89
+                </li>
+            </ul>
+        </div>
+    </nav>
+    @endif
             <div class="alert alert-dismissable flash-alert" style="display: none;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                     ×
