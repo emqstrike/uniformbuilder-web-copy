@@ -62,7 +62,7 @@ tr.center-table-heads > th{
     display: inline-block;
 }
 
-#front-shape-view, .shape-views {
+#front-shape-view, #back-shape-view, #left-shape-view, #right-shape-view, .shape-views {
     width: 250px;
     height: 250px;
     background-position: center center;

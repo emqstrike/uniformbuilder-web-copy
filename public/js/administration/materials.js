@@ -56,12 +56,14 @@ $(document).ready(function() {
     canvasLeft.setHeight( 250 );
 
     var canvasRight = this.__canvas = new fabric.Canvas('applications-right-canvas');
-    fabric.Object.prototype.transparentCorners = false;
     canvasRight.setWidth( 250 );
     canvasRight.setHeight( 250 );
 
+    fabric.Object.prototype.transparentCorners = false;
+
     var application_number = 1;
 
+    var frontData = {};
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
@@ -101,9 +103,6 @@ $(document).ready(function() {
             default_item: default_item
         });
 
-        area.lockRotation = true;
-        appID.lockRotation = true;
-
         canvasFront.add(group);
         application_number++;
 
@@ -126,8 +125,11 @@ $(document).ready(function() {
 
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
         
-        var frontApplicationProperties = JSON.stringify(testData);
-        $( '#front-application-properties' ).prop('value',frontApplicationProperties);
+        var canvasItem = "application"+group.id;
+        frontData[canvasItem] = JSON.stringify(group);
+        var frontDataParsed = JSON.stringify(frontData);
+        $( '#front-application-properties' ).prop('value',frontDataParsed);
+        console.log(frontData);
     });
 
     $('#add_back_application').mousedown(function(){
@@ -169,9 +171,6 @@ $(document).ready(function() {
             default_item: default_item
         });
 
-        area.lockRotation = true;
-        appID.lockRotation = true;
-
         canvasBack.add(group);
         application_number++;
 
@@ -194,7 +193,8 @@ $(document).ready(function() {
 
         $( ".back-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
 
-        var backApplicationProperties = JSON.stringify(testData);
+        var backApplicationProperties = JSON.stringify(group);
+        console.log("BAP"+backApplicationProperties);
         $( '#back-application-properties' ).prop('value',backApplicationProperties);
     });
 
@@ -236,9 +236,6 @@ $(document).ready(function() {
             top: canvasLeft.height / 5,
             default_item: default_item
         });
-
-        area.lockRotation = true;
-        appID.lockRotation = true;
 
         canvasLeft.add(group);
         application_number++;
@@ -303,9 +300,6 @@ $(document).ready(function() {
             top: canvasRight.height / 5,
             default_item: default_item
         });
-
-        area.lockRotation = true;
-        appID.lockRotation = true;
 
         canvasRight.add(group);
         application_number++;

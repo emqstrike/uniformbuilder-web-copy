@@ -80,10 +80,10 @@ class MaterialsOptionsController extends Controller
         try
         {
             $materialOptionFile = $request->file('material_option_path');
-            $frontShapeFile = $request->file('front_shape_path');
-            $backShapeFile = $request->file('back_shape_path');
-            $leftShapeFile = $request->file('left_shape_path');
-            $rightShapeFile = $request->file('right_shape_path');
+            $frontShapeFile = $request->file('material_option_front_shape_path');
+            $backShapeFile = $request->file('material_option_back_shape_path');
+            $leftShapeFile = $request->file('material_option_left_shape_path');
+            $rightShapeFile = $request->file('material_option_right_shape_path');
             if (!is_null($materialOptionFile))
             {
                 if ($materialOptionFile->isValid())
