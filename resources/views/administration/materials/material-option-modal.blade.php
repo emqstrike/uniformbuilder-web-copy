@@ -65,43 +65,43 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                <div class="form-group">
-                    <label class="control-label">Origin:</label>
-                    <select name="origin" class="form-control origin">
-                        <option value="web">Web</option>
-                        <option value="ipad">ipad</option>
-                        <option id='saved-origin'></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Default Color:</label>
-                    <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                    @foreach ($colors as $color)
-                        @if ($color->active)
-                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                            {{ $color->name }}
-                        </option>
-                        @endif
-                    @endforeach
-                    <option data-color="" value="" id="saved-default-color"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Colors:</label>
-                    <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                    <div class="form-group">
+                        <label class="control-label">Origin:</label>
+                        <select name="origin" class="form-control origin">
+                            <option value="web">Web</option>
+                            <option value="ipad">ipad</option>
+                            <option id='saved-origin'></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Layer Level:</label>
+                        <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Default Color:</label>
+                        <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
                         @foreach ($colors as $color)
                             @if ($color->active)
-                            <option value='{{ $color->color_code }}' selected="selected">
+                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
                                 {{ $color->name }}
                             </option>
                             @endif
                         @endforeach
-                    </select>
-                </div>
+                        <option data-color="" value="" id="saved-default-color"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Colors:</label>
+                        <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                            @foreach ($colors as $color)
+                                @if ($color->active)
+                                <option value='{{ $color->color_code }}' selected="selected">
+                                    {{ $color->name }}
+                                </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                <!--  <div class="col-md-6">
                     <label class="control-label">Gradients:</label>
                     <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
@@ -113,7 +113,8 @@
                             @endif
                         @endforeach
                     </select>
-                </div> --><br>
+                </div> -->
+                </div>
                 <div class="col-md-4">
                     <div id="material-option-bounding-box" style="border: 1px solid black;">
                         <canvas id="bounding-box-canvas"></canvas>
