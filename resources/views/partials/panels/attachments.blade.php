@@ -5,7 +5,7 @@
     </div>
 
     <div class="options_panel_section">
-
+    
     </div>
 
 </div> <!-- End Attachments Panel -->
