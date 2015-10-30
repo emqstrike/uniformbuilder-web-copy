@@ -20,7 +20,6 @@
                 <div class="col-md-2">
                     <label class="control-label">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
-                        <option id='saved-setting-type'></option>
                         <option value='part'>Part</option>
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>
@@ -28,25 +27,22 @@
                         <option value='static_layer'>Static Layer</option>
                         <option value='highlights'>Highlights</option>
                         <option value='shadows'>Shadows</option>
+                        <option id='saved-setting-type'></option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label class="control-label">Perspective:</label>
                     <select name='perspective' class='form-control perspective'>
-                        <option id='saved-perspective'></option>
                         <option value='front'>Front View</option>
                         <option value='back'>Back View</option>
                         <option value='right'>Right Side View</option>
                         <option value='left'>Left Side View</option>
+                        <option id='saved-perspective'></option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label class="control-label">Material Option File:</label>
                     <input type="file" name="material_option_path" id="file-src">
-                </div>
-                <div class="col-md-2">
-                    <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
                 </div>
                 <div class="col-md-2">
                     <label class="control-label">Layer Level:</label>
@@ -65,6 +61,32 @@
                     </select>
                 </div>
                 <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Origin:</label>
+                    <select name="origin" class="form-control origin">
+                        <option value="web">Web</option>
+                        <option value="ipad">ipad</option>
+                        <option id='saved-origin'></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Layer Level:</label>
+                    <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Default Color:</label>
+                    <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                    @foreach ($colors as $color)
+                        @if ($color->active)
+                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
+                            {{ $color->name }}
+                        </option>
+                        @endif
+                    @endforeach
+                    <option data-color="" value="" id="saved-default-color"></option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="control-label">Colors:</label>
                     <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
                         @foreach ($colors as $color)

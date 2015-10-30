@@ -176,6 +176,10 @@
                 <div class="options_panel_header">
                     <span class="header_text">TEXTS OPTIONS</span>
                 </div>
+            
+                <div class="options_panel_section">
+                    @include('partials.layout.text')
+                </div>
 
             </div>
 
@@ -185,6 +189,10 @@
                 <div class="options_panel_header">
                     <span class="header_text">NUMBER OPTIONS</span>
                 </div>
+            
+                <div class="options_panel_section">
+                    @include('partials.layout.number')
+                </div>
 
             </div>
 
@@ -193,6 +201,10 @@
                 
                 <div class="options_panel_header">
                     <span class="header_text">GRAPHICS OPTIONS</span>
+                </div>
+            
+                <div class="options_panel_section">
+                    @include('partials.layout.graphics')
                 </div>
 
             </div>
@@ -204,10 +216,8 @@
                     <span class="header_text">SIZES OPTIONS</span>
                 </div>
             
-                <label>TEAM INFO</label>
-
-                <div class='sizes_panel_container'>
-                    <a class='open-team-roster-modal'>Team Roster</a>
+                <div class="options_panel_section">
+                    @include('partials.layout.size')
                 </div>
 
             </div>

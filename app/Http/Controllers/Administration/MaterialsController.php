@@ -101,7 +101,7 @@ class MaterialsController extends Controller
     public function store(Request $request)
     {
         $materialName = $request->input('name');
-        $materialID = $request->input('material_id');
+        $materialId = $request->input('material_id');
         $materialCode = $request->input('code');
         $factoryCode = $request->input('factory_code');
         $type = $request->input('type');

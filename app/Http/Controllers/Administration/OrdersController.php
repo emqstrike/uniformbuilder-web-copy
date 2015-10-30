@@ -19,9 +19,17 @@ class OrdersController extends Controller
         $this->client = $apiClient;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $orders = $this->client->getOrders();
+        $status = $request->get('status');
+        if (is_null($status))
+        {
+            $orders = $this->client->getOrders();
+        }
+        else
+        {
+            $orders = $this->client->getOrders($status);
+        }
 
         return view('administration.orders.orders', [
             'orders' => $orders,

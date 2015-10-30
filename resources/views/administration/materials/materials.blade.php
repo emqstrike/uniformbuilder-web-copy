@@ -109,7 +109,9 @@
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
+                                            data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
+                                            data-material-option-default-color="{{ $option->default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -153,7 +155,9 @@
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
+                                            data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
+                                            data-material-option-default-color="{{ $option->default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -197,7 +201,9 @@
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
+                                            data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
+                                            data-material-option-default-color="{{ $option->default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -241,7 +247,9 @@
                                     <a class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-name="{{ $option->name }}"
+                                            data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
+                                            data-material-option-default-color="{{ $option->default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -282,15 +290,11 @@
                     {{ ucfirst($material->gender) }}
                 </td>
                 <td>
-                    <a href="#" class="btn btn-default btn-xs disable-material" 
-                    data-material-id="{{ $material->id }}" 
-                    role="button" {{ ($material->active) ? : 'disabled="disabled"' }}>
+                    <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
                         <i class="glyphicon glyphicon-eye-close"></i>
                         Disable
                     </a>
-                    <a href="#" class="btn btn-info btn-xs enable-material" 
-                    data-material-id="{{ $material->id }}" 
-                    role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
+                    <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
                         <i class="glyphicon glyphicon-eye-open"></i>
                         Enable
                     </a>
