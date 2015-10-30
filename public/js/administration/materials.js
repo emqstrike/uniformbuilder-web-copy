@@ -27,6 +27,12 @@ $(document).ready(function() {
                 
                 if(perspective == 'front') {
                     $("#front-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'back') {
+                    $("#back-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'left') {
+                    $("#left-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'right') {
+                    $("#right-shape-view").css("background-image", "url("+this.result+")");
                 }
 
             }
@@ -101,7 +107,6 @@ $(document).ready(function() {
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var removeApplication = "<a class=\"btn btn-xs btn-danger remove-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">x</a>";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
 
@@ -115,7 +120,202 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + removeApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+     });
+
+    $('#add_back_application').mousedown(function(){
+
+        var default_item = $('#back-default-item').val();
+
+        var area = new fabric.Rect({
+            id: application_number,
+            fill: '#e3e3e3',
+            height: 30,
+            width: 30,
+            strokeWidth: 1,
+            stroke: 'red',
+            opacity: 0.6,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var appID = new fabric.IText(application_number.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'center',
+            opacity: 0.6,
+            fontSize: 11
+        });
+
+        var itemText = new fabric.IText(default_item.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'top',
+            opacity: 0.6,
+            fontSize: 8
+        });
+
+        var group = new fabric.Group([ area, appID, itemText ], {
+            id: area.id,
+            left: canvasBack.width / 2.6,
+            top: canvasBack.height / 5,
+            default_item: default_item
+        });
+
+        area.lockRotation = true;
+        appID.lockRotation = true;
+
+        canvasBack.add(group);
+        application_number++;
+
+        var text = $(this).val();
+        var itemsArr = ["logo", "number", "team_name", "player_name"];
+        var selectAppend = "<select class=\"app-def-item\">";
+        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasBack.getObjects().indexOf(group) + ">Update</a>";
+
+        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
+
+        for(var i = 0; i<itemsArr.length; i++) {
+
+            if(group.default_item != itemsArr[i]) {
+                selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+            }
+
+        }
+
+        selectAppend += "</select>";
+
+        $( ".back-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+     });
+
+    $('#add_left_application').mousedown(function(){
+
+        var default_item = $('#left-default-item').val();
+
+        var area = new fabric.Rect({
+            id: application_number,
+            fill: '#e3e3e3',
+            height: 30,
+            width: 30,
+            strokeWidth: 1,
+            stroke: 'red',
+            opacity: 0.6,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var appID = new fabric.IText(application_number.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'center',
+            opacity: 0.6,
+            fontSize: 11
+        });
+
+        var itemText = new fabric.IText(default_item.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'top',
+            opacity: 0.6,
+            fontSize: 8
+        });
+
+        var group = new fabric.Group([ area, appID, itemText ], {
+            id: area.id,
+            left: canvasLeft.width / 2.6,
+            top: canvasLeft.height / 5,
+            default_item: default_item
+        });
+
+        area.lockRotation = true;
+        appID.lockRotation = true;
+
+        canvasLeft.add(group);
+        application_number++;
+
+        var text = $(this).val();
+        var itemsArr = ["logo", "number", "team_name", "player_name"];
+        var selectAppend = "<select class=\"app-def-item\">";
+        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasLeft.getObjects().indexOf(group) + ">Update</a>";
+
+        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
+
+        for(var i = 0; i<itemsArr.length; i++) {
+
+            if(group.default_item != itemsArr[i]) {
+                selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+            }
+
+        }
+
+        selectAppend += "</select>";
+
+        $( ".left-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+     });
+
+    $('#add_right_application').mousedown(function(){
+
+        var default_item = $('#right-default-item').val();
+
+        var area = new fabric.Rect({
+            id: application_number,
+            fill: '#e3e3e3',
+            height: 30,
+            width: 30,
+            strokeWidth: 1,
+            stroke: 'red',
+            opacity: 0.6,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        var appID = new fabric.IText(application_number.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'center',
+            opacity: 0.6,
+            fontSize: 11
+        });
+
+        var itemText = new fabric.IText(default_item.toString(),{
+            fontFamily: 'arial black',
+            originX: 'center',
+            originY: 'top',
+            opacity: 0.6,
+            fontSize: 8
+        });
+
+        var group = new fabric.Group([ area, appID, itemText ], {
+            id: area.id,
+            left: canvasRight.width / 2.6,
+            top: canvasRight.height / 5,
+            default_item: default_item
+        });
+
+        area.lockRotation = true;
+        appID.lockRotation = true;
+
+        canvasRight.add(group);
+        application_number++;
+
+        var text = $(this).val();
+        var itemsArr = ["logo", "number", "team_name", "player_name"];
+        var selectAppend = "<select class=\"app-def-item\">";
+        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasRight.getObjects().indexOf(group) + ">Update</a>";
+
+        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
+
+        for(var i = 0; i<itemsArr.length; i++) {
+
+            if(group.default_item != itemsArr[i]) {
+                selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+            }
+
+        }
+
+        selectAppend += "</select>";
+
+        $( ".right-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
      });
 
     $(document).on('click', '.update-application', function() {
@@ -137,25 +337,6 @@ $(document).ready(function() {
         canvasFront.renderAll();
 
     });
-
-    $(document).on('click', '.remove-application', function() {
-        var itemIdx = $(this).data('id');
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-
-        console.log("REMOVE");
-        // canvasx.remove(canvas.item(itemIdx));
-
-        canvasFront.setActiveObject(canvasFront.item(itemIdx));
-
-        canvasFront.remove(canvasFront.getActiveObject());
-
-
-        canvasFront.renderAll();
-
-    });
-    
 
 
     var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
