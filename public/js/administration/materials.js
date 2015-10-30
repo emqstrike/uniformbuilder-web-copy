@@ -39,6 +39,10 @@ $(document).ready(function() {
         }
     });
 
+    var testData = {
+            content: "Item"
+        };
+
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 250 );
     canvasFront.setHeight( 250 );
@@ -122,8 +126,8 @@ $(document).ready(function() {
 
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
         
-        var frontApplicationProperties = JSON.stringify(data);
-        $( '#boundary-properties' ).prop('value',frontApplicationProperties);
+        var frontApplicationProperties = JSON.stringify(testData);
+        $( '#front-application-properties' ).prop('value',frontApplicationProperties);
     });
 
     $('#add_back_application').mousedown(function(){
@@ -189,7 +193,10 @@ $(document).ready(function() {
         selectAppend += "</select>";
 
         $( ".back-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-     });
+
+        var backApplicationProperties = JSON.stringify(testData);
+        $( '#back-application-properties' ).prop('value',backApplicationProperties);
+    });
 
     $('#add_left_application').mousedown(function(){
 
@@ -254,7 +261,9 @@ $(document).ready(function() {
         selectAppend += "</select>";
 
         $( ".left-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-     });
+        var leftApplicationProperties = JSON.stringify(testData);
+        $( '#left-application-properties' ).prop('value',leftApplicationProperties);
+    });
 
     $('#add_right_application').mousedown(function(){
 
@@ -319,7 +328,10 @@ $(document).ready(function() {
         selectAppend += "</select>";
 
         $( ".right-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-     });
+        
+        var rightApplicationProperties = JSON.stringify(testData);
+        $( '#right-application-properties' ).prop('value',rightApplicationProperties);
+    });
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
