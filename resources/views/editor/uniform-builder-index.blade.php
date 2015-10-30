@@ -99,155 +99,27 @@
 
         <div id="right-main-window" class="pane-main-window">
 
-            <div class="options_panel" id="materials_panel">
+            @include('partials.panels.materials')
 
-                <div class="options_panel_header">
-                    <span class="header_text">MATERIAL OPTIONS</span>
-                </div>
+            @include('partials.panels.colors')
 
-            </div>  <!-- End Materials Panel -->
+            @include('partials.panels.gradients')
 
-            <div class="options_panel" id="colors_panel">
+            @include('partials.panels.patterns')
 
-                <div class="options_panel_header">
-                    <span class="header_text">COLOR OPTIONS</span>
-                </div>
+            @include('partials.panels.texts')
 
-                 <div class="options_panel_section">
-                    <label>Team Color</label> 
-                </div>
+            @include('partials.panels.numbers')
 
-            </div> <!-- End Gradients Panel -->
+            @include('partials.panels.graphics')
 
-            <div class="options_panel" id="gradients_panel">
+            @include('partials.panels.sizes')
 
-                <div class="options_panel_header">
-                    <span class="header_text">GRADIENTS OPTIONS</span>
-                </div>
-
-            </div>
+            @include('partials.panels.attachments')
 
 
-            <div class="options_panel" id="patterns_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">PATTERNS OPTIONS</span>
-                </div>
-
-                <div class="options_panel_section">
-            
-                    <label>LAYER 1</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
 
 
-                <div class="options_panel_section">
-            
-                    <label>LAYER 2</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_2', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
-
-                <div class="options_panel_section">
-
-                    <label>LAYER 3</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_3', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
-
-                <div class="options_panel_section">
-            
-                    <label>LAYER 4</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_4', 'event_class' => 'change-color',])
-                    </div>   
-
-                </div>
-
-                <div class="options_panel_section">
-                    <button id="toggle_pattern_preview">Pattern Preview</button>
-                </div>
-
-            </div> <!-- End Patterns Panel -->
-
-
-            <div class="options_panel" id="texts_panel">
-
-                <div class="options_panel_header">
-                    <span class="header_text">TEXTS OPTIONS</span>
-                </div>
-
-            </div> <!-- End Text Panel -->
-
-
-            <div class="options_panel" id="numbers_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">NUMBER OPTIONS</span>
-                </div>
-
-            </div> <!-- End Numbers Panel -->
-
-
-            <div class="options_panel" id="graphics_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">GRAPHICS OPTIONS</span>
-                </div>
-
-                <div class="options_panel_section">
-                    
-                    <div class="file_upload logo">
-                        
-                        <div class="image_preview">
-
-                        </div>  
-
-                        <form>
-                            <input type="file" id="file-src" name="material_option_path">
-                        </form>
-
-                        <table class="table table-striped logos">
-                            <thead>
-                                <th>Thumbnail</th><th>File name</th><th>Remove</th>
-                            </thead>
-                        </table>
-
-                        <input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>
-                        <div class="applications_container">
-                            
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div> <!-- End Graphics Panel -->
-
-            <div class="options_panel" id="sizes_panel">
-
-                <div class="options_panel_header">
-                    <span class="header_text">SIZES OPTIONS</span>
-                </div>
-                 
-                <div class="options_panel_section">
-
-                    <label>TEAM INFO</label>
-
-                    <div class='sizes_panel_container'>
-                        <a class='open-team-roster-modal'>Team Roster</a>
-                    </div>
-
-                </div>    
-
-            </div> <!-- End Sizes Panel -->
 
             
             <div class="options_panel" id="attachments_panel">
