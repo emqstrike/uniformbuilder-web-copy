@@ -893,6 +893,25 @@ $(document).ready(function () {
 
                     $('div.applications_container').html(markup);
 
+                    markup = '';
+
+                    _.each(ub.data.applications.items, function (application) {
+
+                        var ddowns =  '<div class="applications_dropdown"><select data-label="applications" data-id="' + application.id + '">';
+                        ddowns     +=   '<option>Logo</option>';
+                        ddowns     +=   '<option>Team Name</option>';
+                        ddowns     +=   '<option>Player Number</option>';
+                        ddowns     +=   '<option>Player Name</option>';
+                        ddowns     +=   '<option>Sublimation Image</option>';
+                        ddowns     += '</select>';
+                        ddowns     += '&nbsp;<button class="btn btn-xs">Edit</button></div>';
+
+                        markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
+
+                    });
+
+                    $('div.applications').html(markup);
+
                 /// End Setup Modifiers Applications
 
                 /// Setup Settings obj, for persisting customizer selection

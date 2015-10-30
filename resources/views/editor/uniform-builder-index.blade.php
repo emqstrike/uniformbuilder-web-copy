@@ -80,6 +80,9 @@
             <a href="" class="sidebar-buttons gradients" data-filename='gradients'>
             </a>
 
+            <a href="" class="sidebar-buttons applications" data-filename='applications'>
+            </a>
+
             <a href="" class="sidebar-buttons texts" data-filename='texts'>
             </a>
 
@@ -103,9 +106,11 @@
 
             @include('partials.panels.colors')
 
+            @include('partials.panels.patterns')
+
             @include('partials.panels.gradients')
 
-            @include('partials.panels.patterns')
+            @include('partials.panels.applications')
 
             @include('partials.panels.texts')
 
@@ -117,22 +122,8 @@
 
             @include('partials.panels.attachments')
 
-
-
-
-
             
-            <div class="options_panel" id="attachments_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">Attachments</span>
-                </div>
 
-                <div class="options_panel_section">
-
-                </div>
-
-            </div> <!-- End Attachments Panel -->
 
         </div>
 

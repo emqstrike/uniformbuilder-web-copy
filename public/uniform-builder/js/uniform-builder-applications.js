@@ -150,7 +150,6 @@ $(document).ready(function() {
 
                     $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
 
-
                 }
 
             });
