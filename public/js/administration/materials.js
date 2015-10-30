@@ -121,7 +121,10 @@ $(document).ready(function() {
         selectAppend += "</select>";
 
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-     });
+        
+        var frontApplicationProperties = JSON.stringify(data);
+        $( '#boundary-properties' ).prop('value',frontApplicationProperties);
+    });
 
     $('#add_back_application').mousedown(function(){
 

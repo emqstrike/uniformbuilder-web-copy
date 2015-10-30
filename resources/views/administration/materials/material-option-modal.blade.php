@@ -8,6 +8,10 @@
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties">
+            <input type="hidden" name="front_application_properties" id="front-application-properties">
+            <input type="hidden" name="back_application_properties" id="back-application-properties">
+            <input type="hidden" name="left_application_properties" id="left-application-properties">
+            <input type="hidden" name="right_application_properties" id="right-application-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>

@@ -54,6 +54,10 @@ class MaterialsOptionsController extends Controller
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
+        $front_application_properties = $request->input('front_application_properties');
+        $back_application_properties = $request->input('back_application_properties');
+        $left_application_properties = $request->input('left_application_properties');
+        $right_application_properties = $request->input('right_application_properties');
 
         $data = [
             'material_id' => $materialId,
@@ -66,12 +70,20 @@ class MaterialsOptionsController extends Controller
             'colors' => $colors,
             'gradients' => $gradients,
             'is_blend' => $is_blend,
-            'boundary_properties' => $boundary_properties
+            'boundary_properties' => $boundary_properties,
+            'front_application_properties' => $front_application_properties,
+            'back_application_properties' => $back_application_properties,
+            'left_application_properties' => $left_application_properties,
+            'right_application_properties' => $right_application_properties
         ];
 
         try
         {
             $materialOptionFile = $request->file('material_option_path');
+            $frontShapeFile = $request->file('front_shape_path');
+            $backShapeFile = $request->file('back_shape_path');
+            $leftShapeFile = $request->file('left_shape_path');
+            $rightShapeFile = $request->file('right_shape_path');
             if (!is_null($materialOptionFile))
             {
                 if ($materialOptionFile->isValid())
@@ -79,6 +91,50 @@ class MaterialsOptionsController extends Controller
                     $filename = Random::randomize(12);
                     $data['material_option_path'] = FileUploader::upload(
                                                                 $materialOptionFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+                if ($frontShapeFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['front_shape_path'] = FileUploader::upload(
+                                                                $frontShapeFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+                if ($backShapeFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['back_shape_path'] = FileUploader::upload(
+                                                                $backShapeFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+                if ($leftShapeFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['left_shape_path'] = FileUploader::upload(
+                                                                $leftShapeFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+                if ($rightShapeFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['right_shape_path'] = FileUploader::upload(
+                                                                $rightShapeFile,
                                                                 $materialOptionName,
                                                                 'material_option',
                                                                 "materials",
