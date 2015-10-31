@@ -99,7 +99,7 @@ $(document).ready(function() {
         var selectAppend = "<select class=\"app-def-item\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
 
-        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>"
+        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
         for(var i = 0; i<itemsArr.length; i++) {
 
@@ -112,12 +112,13 @@ $(document).ready(function() {
         selectAppend += "</select>";
 
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-        
+
         var canvasItem = "application"+group.id;
         frontData[canvasItem] = JSON.stringify(group);
         var frontDataParsed = JSON.stringify(frontData);
         $( '#front-application-properties' ).prop('value',frontDataParsed);
         console.log(frontData);
+
     });
 
     $(document).on('click', '.update-application', function() {
