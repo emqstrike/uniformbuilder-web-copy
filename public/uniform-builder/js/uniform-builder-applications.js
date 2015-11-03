@@ -103,11 +103,31 @@ $(document).ready(function() {
                     obj.flipped = true;
                     obj.scale.x = Math.abs(obj.scale.x) * -1;
 
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(-1)',
+                        '-o-transform': 'scaleX(-1)',
+                        '-webkit-transform': 'scaleX(-1)',
+                        'transform': 'scaleX(-1)',
+                        'filter': 'FlipH',
+                        '-ms-filter': "FlipH",
+                    });
+
                 }
                 else {
                 
                     obj.flipped = false;
                     obj.scale.x = Math.abs(obj.scale.x);
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(1)',
+                        '-o-transform': 'scaleX(1)',
+                        '-webkit-transform': 'scaleX(1)',
+                        'transform': 'scaleX(1)',
+                        'filter': 'none',
+                        '-ms-filter': "none",
+                    });
 
                 }
 
@@ -205,6 +225,14 @@ $(document).ready(function() {
 
                     $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
 
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                    var opacity =  value / 100;
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        "opacity": opacity,
+                    });
+
                 }
 
             });
@@ -230,6 +258,13 @@ $(document).ready(function() {
 
                     object.rotation = value / 100;
 
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                    var rotation = ( value / 620 ) * 360;
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        "-webkit-transform": "rotate(" + rotation + "deg)",
+                    });
+
                 }
 
             });
@@ -249,6 +284,28 @@ $(document).ready(function() {
                 });
 
                 ub.funcs.update_application(application, logo);
+
+                //// Change Background 
+
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                $angle_slider_logo.find('div.rs-bg-color').css({
+                    'background-image': 'url(' + logo.dataUrl + ')',
+                    'background-size': '80%',
+                    'background-position': 'center center',
+                    'background-repeat': 'no-repeat',
+                });
+
+                console.log(logo.dataUrl);
+                console.log($angle_slider_logo);
+                console.log('div.rotation_slider[data-id="' + application_id + '"]');
+
+                console.log('-----');
+                console.log($angle_slider_logo.find('div.rs-bg-color'));
+
+                window.s = $angle_slider_logo.find('div.rs-bg-color');
+    
+                //// End Change Background
 
             });
 
