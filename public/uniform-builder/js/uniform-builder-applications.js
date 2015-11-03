@@ -97,8 +97,11 @@ $(document).ready(function() {
 
                 var obj = ub.objects.front_view['objects_0'+application_id];
 
-                if( $(this).is(':checked') ) {
+                var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+                var value = parseInt($rotation_slider.find('span.edit').html());
+                var rotation = ( value / 620 ) * 360;
 
+                if( $(this).is(':checked') ) {
 
                     obj.flipped = true;
                     obj.scale.x = Math.abs(obj.scale.x) * -1;
@@ -107,10 +110,11 @@ $(document).ready(function() {
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         '-moz-transform': 'scaleX(-1)',
                         '-o-transform': 'scaleX(-1)',
-                        '-webkit-transform': 'scaleX(-1)',
                         'transform': 'scaleX(-1)',
                         'filter': 'FlipH',
                         '-ms-filter': "FlipH",
+                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+
                     });
 
                 }
@@ -123,10 +127,11 @@ $(document).ready(function() {
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         '-moz-transform': 'scaleX(1)',
                         '-o-transform': 'scaleX(1)',
-                        '-webkit-transform': 'scaleX(1)',
                         'transform': 'scaleX(1)',
                         'filter': 'none',
                         '-ms-filter': "none",
+                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+
                     });
 
                 }
@@ -253,17 +258,40 @@ $(document).ready(function() {
                     var application = _.find(ub.data.applications.items, {
                         id: application_id
                     });
+
                     var value = parseInt($rotation_slider.find('span.edit').html());
                     var object = ub.objects.front_view['objects_0' + application_id];
 
                     object.rotation = value / 100;
+                    var rotation = ( value / 620 ) * 360;
 
                     $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                    var rotation = ( value / 620 ) * 360;
-                    $angle_slider_logo.find('div.rs-bg-color').css({
-                        "-webkit-transform": "rotate(" + rotation + "deg)",
-                    });
+                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
+
+                    if (flipped) {
+
+                        $angle_slider_logo.find('div.rs-bg-color').css({
+                            '-moz-transform': 'scaleX(-1)',
+                            '-o-transform': 'scaleX(-1)', 
+                            'transform': 'scaleX(-1)',
+                            'filter': 'FlipH',
+                            '-ms-filter': "FlipH",
+                            '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                        });
+
+                    } else {
+
+                        $angle_slider_logo.find('div.rs-bg-color').css({
+                            '-moz-transform': 'scaleX(1)',
+                            '-o-transform': 'scaleX(1)',
+                            'transform': 'scaleX(1)',
+                            'filter': 'none',
+                            '-ms-filter': "none",
+                            '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                        });
+
+                    }
 
                 }
 
@@ -279,6 +307,7 @@ $(document).ready(function() {
                 var logo = _.find(logos, {
                     id: logo_id
                 });
+
                 var application = _.find(ub.data.applications.items, {
                     id: application_id
                 });
@@ -295,15 +324,6 @@ $(document).ready(function() {
                     'background-position': 'center center',
                     'background-repeat': 'no-repeat',
                 });
-
-                console.log(logo.dataUrl);
-                console.log($angle_slider_logo);
-                console.log('div.rotation_slider[data-id="' + application_id + '"]');
-
-                console.log('-----');
-                console.log($angle_slider_logo.find('div.rs-bg-color'));
-
-                window.s = $angle_slider_logo.find('div.rs-bg-color');
     
                 //// End Change Background
 
