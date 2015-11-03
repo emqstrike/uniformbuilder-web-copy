@@ -80,7 +80,8 @@ $(document).ready(function() {
             });
 
             markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
-            markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
+            markup += "<input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip<br /><br />";
+            markup += "Opacity 1: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
             markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
             markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
             markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
@@ -90,6 +91,24 @@ $(document).ready(function() {
 
             var application = _.find(ub.data.applications.items, {
                 id: application_id
+            });
+
+            $('input#flip_logo_' + application_id).click( function(){
+                
+                if( $(this).is(':checked') ) {
+                    var obj = ub.objects.front_view['objects_0'+application_id];
+
+                    obj.flipped = true;
+                    obj.scale.x = obj.scale.x * -1;
+
+                }
+                else {
+                    
+                    obj.flipped = false;
+                    obj.scale.x = obj.scale.x * 1;
+
+                }
+
             });
 
             $('div.y_slider[data-id="' + application_id + '"]').limitslider({
@@ -145,8 +164,18 @@ $(document).ready(function() {
                         id: application_id
                     });
                     var value = $(this).limitslider("values")[0];
+
+
                     var object = ub.objects.front_view['objects_0' + application_id];
-                    object.scale = new PIXI.Point(value / 100, value / 100)
+
+                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
+                    var scale = new PIXI.Point(value / 100, value / 100);
+                    
+                    if (flipped) {
+                        scale.x = scale.x * -1;
+                    }
+
+                    object.scale = scale;
 
                     $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
 
