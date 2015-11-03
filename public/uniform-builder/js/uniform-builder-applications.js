@@ -95,7 +95,7 @@ $(document).ready(function() {
 
             $('input#flip_logo_' + application_id).click( function(){
 
-                var obj = ub.objects.front_view['objects_0'+application_id];
+                var obj = ub.objects.front_view['objects_0' + application_id];
 
                 var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
                 var value = parseInt($rotation_slider.find('span.edit').html());
@@ -114,7 +114,6 @@ $(document).ready(function() {
                         'filter': 'FlipH',
                         '-ms-filter': "FlipH",
                         '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-
                     });
 
                 }
@@ -131,7 +130,6 @@ $(document).ready(function() {
                         'filter': 'none',
                         '-ms-filter': "none",
                         '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-
                     });
 
                 }
@@ -178,22 +176,19 @@ $(document).ready(function() {
 
             });
 
+            var max_scale = 100;
             $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
 
                 values: [100],
                 min: 0,
-                max: 100,
+                max: max_scale,
                 gap: 0,
 
                 change: function(event, ui) {
 
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
+                    var application = _.find(ub.data.applications.items, { id: application_id });
                     var value = $(this).limitslider("values")[0];
-
                     var object = ub.objects.front_view['objects_0' + application_id];
-
                     var flipped = $('input#flip_logo_' + application_id).is(':checked');
                     var scale = new PIXI.Point(value / 100, value / 100);
                     
@@ -212,11 +207,12 @@ $(document).ready(function() {
 
             });
 
+            var max_opacity = 100;
             $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
 
                 values: [100],
                 min: 0,
-                max: 100,
+                max: max_opacity,
                 gap: 0,
 
                 change: function(event, ui) {
@@ -226,14 +222,13 @@ $(document).ready(function() {
                     });
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects.front_view['objects_0' + application_id];
-                    object.alpha = value / 100;
+                    object.alpha = value / max_opacity;
 
                     $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
 
-
                     $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                    var opacity =  value / 100;
+                    var opacity =  value / max_opacity;
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         "opacity": opacity,
                     });
@@ -242,12 +237,13 @@ $(document).ready(function() {
 
             });
 
+            var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
             $rotation_slider.roundSlider({
 
                 values: [0],
                 min: 0,
-                max: 620,
+                max: max_rotation,
                 gap: 0,
                 width: 5,
                 handleSize: "+14",
@@ -263,7 +259,7 @@ $(document).ready(function() {
                     var object = ub.objects.front_view['objects_0' + application_id];
 
                     object.rotation = value / 100;
-                    var rotation = ( value / 620 ) * 360;
+                    var rotation = ( value / max_rotation ) * 360;
 
                     $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
@@ -314,8 +310,6 @@ $(document).ready(function() {
 
                 ub.funcs.update_application(application, logo);
 
-                //// Change Background 
-
                 $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
                 $angle_slider_logo.find('div.rs-bg-color').css({
@@ -325,8 +319,6 @@ $(document).ready(function() {
                     'background-repeat': 'no-repeat',
                 });
     
-                //// End Change Background
-
             });
 
         });
