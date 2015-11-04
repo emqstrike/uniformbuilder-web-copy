@@ -93,7 +93,7 @@ $(document).ready(function() {
                 id: application_id
             });
 
-            $('input#flip_logo_' + application_id).click( function(){
+            $('input#flip_logo_' + application_id).click( function () {
 
                 var obj = ub.objects.front_view['objects_0' + application_id];
 
@@ -359,6 +359,7 @@ $(document).ready(function() {
             perspective: application.perspective,
             name: 'Body'
         });
+
         var mask = ub.pixi.new_sprite(mask.material_option_path);
 
         sprite.mask = mask;

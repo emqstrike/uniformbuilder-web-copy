@@ -924,15 +924,38 @@ $(document).ready(function () {
                             var $button = $(this);
                             var action = $button.data('action');
                             
-                            if (action === "identify") { 
-                                
+                            if (action === "identify") {
+
                                 var data_id = $button.data("id");
                                 var application = _.find(ub.data.applications.items, { id: data_id });
+                                var perspective = application.perspective;
+                                var view = ub[perspective + '_view'];
+                                var view_objects = ub.objects[perspective + '_view'];
+
+                                if($button.hasClass('appactive')){
+
+                                    $button.html('Identify');
+
+                                    $button.removeClass('appactive');
+                                    if (typeof view_objects['point'] === "object") {
+
+                                        view.removeChild(view_objects['point']);
+                                        delete view_objects['point'];
+
+                                    }
+
+                                    return;
+                                }
+
+                                $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
+                                $('button[data-option="applications"][data-action="identify"]').html('Identify');
+
+                                $button.addClass('appactive');
+                                $button.html('Hide');
 
                                 var point = ub.pixi.new_sprite('/images/misc/point.png');
                                 point.anchor.set(0.5, 0.5);
 
-                                var perspective = application.perspective;
                                 $('a.change-view[data-view="' + perspective + '"]').click();
 
                                 var x = ub.dimensions.width * application.position.x;
@@ -941,8 +964,7 @@ $(document).ready(function () {
                                 point.position.x = x;
                                 point.position.y = y;
 
-                                var view = ub[perspective + '_view'];
-                                var view_objects = ub.objects[perspective + '_view'];
+
 
                                 if (typeof view_objects['point'] === "object") {
 
@@ -2007,6 +2029,14 @@ $(document).ready(function () {
         });
 
     /// End Reposition All Tethers
+
+    /// Change Bg of Canvas
+
+
+
+        
+
+    ///
 
     
 

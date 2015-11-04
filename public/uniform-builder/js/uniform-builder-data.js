@@ -21,9 +21,9 @@ $(document).ready(function(){
 
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height);
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);
     ub.renderer.backgroundColor = 0xffffff;
-    
+
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
     ub.stage.addChild(ub.back_view);
@@ -99,6 +99,21 @@ $(document).ready(function(){
                 position: {
                     x: 0.60,
                     y: 0.7,
+                },
+
+            },
+
+            /// Four
+            {
+
+                id: 4,
+                layer: 'body',
+                perspective: 'front',
+                name: 'Front / Top',
+                code: '04',
+                position: {
+                    x: 0.5,
+                    y: 0.35,
                 },
 
             },
