@@ -897,20 +897,70 @@ $(document).ready(function () {
 
                     _.each(ub.data.applications.items, function (application) {
 
-                        var ddowns =  '<div class="applications_dropdown"><select data-label="applications" data-id="' + application.id + '">';
-                        ddowns     +=   '<option>Logo</option>';
-                        ddowns     +=   '<option>Team Name</option>';
-                        ddowns     +=   '<option>Player Number</option>';
-                        ddowns     +=   '<option>Player Name</option>';
-                        ddowns     +=   '<option>Sublimation Image</option>';
-                        ddowns     += '</select>';
-                        ddowns     += '&nbsp;<button class="btn btn-xs">Edit</button></div>';
+                        var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
+                        ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
+                        ddowns     +=       '<option value="logo">Logo</option>';
+                        ddowns     +=       '<option value="team_name">Team Name</option>';
+                        ddowns     +=       '<option value="player_number">Player Number</option>';
+                        ddowns     +=       '<option value="player_name">Player Name</option>';
+                        ddowns     +=       '<option value="image">Image</option>';
+                        ddowns     +=   '</select>&nbsp;';
+                        ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
+                        ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Identify</button>';
+                        ddowns     += '</div>';
 
                         markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
 
                     });
 
+                    markup += '<div class="application_footer"><button data-action="show_all_locations" data-option="applications" class="btn btn-xs show_all_locations">Show All Locations</button></div>';
+
                     $('div.applications').html(markup);
+
+                    // Event handler for Application Buttons
+
+                        $('button[data-option="applications"]').on('click', function(e) {
+
+                            var $button = $(this);
+                            var action = $button.data('action');
+                            
+                            if (action === "identify") { 
+                                
+                                var data_id = $button.data("id");
+                                var application = _.find(ub.data.applications.items, { id: data_id });
+
+                                var point = ub.pixi.new_sprite('/images/misc/point.png');
+                                point.anchor.set(0.5, 0.5);
+
+                                var perspective = application.perspective;
+                                $('a.change-view[data-view="' + perspective + '"]').click();
+
+                                var x = ub.dimensions.width * application.position.x;
+                                var y = ub.dimensions.height * application.position.y;
+
+                                point.position.x = x;
+                                point.position.y = y;
+
+                                var view = perspective + '_view';
+
+
+                                if (typeof ub.objects[view]['point'] === "object") {
+
+                                    ub[view].removeChild(ub.objects.front_view['point']);
+                                    delete ub.objects[view]['point'];
+
+                                }
+
+                                ub.objects[view]['point'] = point;
+                                ub[view].addChild(point);
+
+                            }
+
+
+                        });
+
+                    // End Event handler for Applications Buttons
+
 
                 /// End Setup Modifiers Applications
 
