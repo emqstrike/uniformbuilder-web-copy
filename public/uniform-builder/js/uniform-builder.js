@@ -941,21 +941,20 @@ $(document).ready(function () {
                                 point.position.x = x;
                                 point.position.y = y;
 
-                                var view = perspective + '_view';
+                                var view = ub[perspective + '_view'];
+                                var view_objects = ub.objects[perspective + '_view'];
 
+                                if (typeof view_objects['point'] === "object") {
 
-                                if (typeof ub.objects[view]['point'] === "object") {
-
-                                    ub[view].removeChild(ub.objects.front_view['point']);
-                                    delete ub.objects[view]['point'];
+                                    view.removeChild(view_objects['point']);
+                                    delete view_objects['point'];
 
                                 }
 
-                                ub.objects[view]['point'] = point;
-                                ub[view].addChild(point);
+                                view_objects['point'] = point;
+                                view.addChild(point);
 
                             }
-
 
                         });
 
