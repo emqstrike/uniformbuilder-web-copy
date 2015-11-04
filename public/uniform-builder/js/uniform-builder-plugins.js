@@ -91,4 +91,108 @@
 
     };
 
+    
+    $.fn.ubLogoDialog = function(options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var html_builder = '';
+
+            html_builder += "<hr />";
+            html_builder += "Logo Dialog from Plugin";
+            html_builder += "<hr />";
+
+            $container.html(html_builder);
+
+        });
+
+    };
+
+    $.fn.ubImageDialog = function(options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var html_builder = '';
+
+            html_builder += "<hr />";
+            html_builder += "Image Dialog from Plugin";
+            html_builder += "<hr />";
+
+            $container.html(html_builder);
+
+        });
+
+    };
+
+    $.fn.ubTeamNameDialog = function(options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var html_builder = '';
+
+            html_builder += "<hr />";
+            html_builder += "Team Name Dialog from Plugin";
+            html_builder += "<hr />";
+
+            $container.html(html_builder);
+
+        });
+
+    };
+
+
+    $.fn.ubPlayerNumberDialog = function(options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var html_builder = '';
+
+            html_builder += "<hr />";
+            html_builder += "Player Number Dialog from Plugin";
+            html_builder += "<hr />";
+
+            $container.html(html_builder);
+
+        });
+
+    };
+
+    $.fn.ubPlayerNameDialog = function(options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var html_builder = '';
+
+            html_builder += "<hr />";
+            html_builder += "Player Name Dialog from Plugin";
+            html_builder += "<hr />";
+
+            $container.html(html_builder);
+
+        });
+
+    };
+
+
+
 }(jQuery));

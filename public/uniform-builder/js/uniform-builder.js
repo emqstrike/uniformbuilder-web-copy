@@ -899,6 +899,7 @@ $(document).ready(function () {
 
                         var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
                         ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
+                        ddowns     +=       '<option value="none">-- Select an Application --</option>';
                         ddowns     +=       '<option value="logo">Logo</option>';
                         ddowns     +=       '<option value="team_name">Team Name</option>';
                         ddowns     +=       '<option value="player_number">Player Number</option>';
@@ -908,6 +909,8 @@ $(document).ready(function () {
                         ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
                         ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Identify</button>';
                         ddowns     += '</div>';
+                        ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
+
 
                         markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
 
@@ -917,7 +920,55 @@ $(document).ready(function () {
 
                     $('div.applications').html(markup);
 
-                    // Event handler for Application Buttons
+                    // Event handler for Application Buttons and Dropdowns
+
+                        $('select.application_type_dropdown').on('change', function (e) {
+
+                            $select = $(this);
+
+                            var id = $select.data('id');
+                            var application_type = $select.val();
+
+                            $modifier_container = $('div.applications_modifier_container[data-id="' + id + '"]');
+
+                            if (application_type === "logo") {
+                                
+                                $modifier_container.ubLogoDialog();
+
+                            }
+
+                            if (application_type === "image") {
+                                
+                                $modifier_container.ubImageDialog();
+
+                            }
+
+                            if (application_type === "team_name") {
+                                
+                                $modifier_container.ubTeamNameDialog();
+
+                            }
+
+                            if (application_type === "player_name") {
+                                
+                                $modifier_container.ubPlayerNameDialog();
+
+                            }
+
+                            if (application_type === "player_number") {
+                                
+                                $modifier_container.ubPlayerNumberDialog();
+
+                            }
+
+
+                            if (application_type === "none") {
+
+                                $modifier_container.html('');
+
+                            }
+                            
+                        });
 
                         $('button[data-option="applications"]').on('click', function(e) {
 
@@ -2029,16 +2080,6 @@ $(document).ready(function () {
         });
 
     /// End Reposition All Tethers
-
-    /// Change Bg of Canvas
-
-
-
-        
-
-    ///
-
-    
 
     // New Design
     $('.new-design').on('click', function () {

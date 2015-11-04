@@ -46,7 +46,7 @@ class UniformBuilderController extends Controller
 
         if (is_null($designSetId))
         {
-            if (is_null($materialId) )
+            if (is_null($materialId))
             {
                 $material = $this->materialsClient->getMaterials()[0];
                 $materialId = $material->id;
