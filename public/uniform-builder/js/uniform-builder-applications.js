@@ -62,11 +62,279 @@ $(document).ready(function() {
 
     });
 
+    ub.funcs.update_logos_picker_2 = function(application_id) {
+
+        _.each($('.logos_picker'), function(e) {
+
+            var $container = $('div.logo-controls[data-id="' + application_id + '"]');
+            var $logo_container = $('div.logo-container');
+
+            var logos = ub.current_material.settings.files.logos;
+            
+            var markup = "";
+            var logo_list = "";
+
+            markup += "<div class='row'>";
+
+            _.each(logos, function(logo) {
+                logo_list += "<div class='col-md-4'>";
+                logo_list += "<a class='thumbnail logo_picker' data-id='" + logo.id + "'>" + "<img class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
+                logo_list += "</div>";
+            });
+
+            markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
+            markup += "<input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip<br /><br />";
+            markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
+            markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
+            markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
+            markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
+            markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
+
+            $logo_container.html(logo_list);
+            $container.html(markup);
+
+            var application = _.find(ub.data.applications.items, {
+                id: application_id
+            });
+
+            $('input#flip_logo_' + application_id).click( function () {
+
+                var obj = ub.objects.front_view['objects_0' + application_id];
+
+                var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+                var value = parseInt($rotation_slider.find('span.edit').html());
+                var rotation = ( value / 620 ) * 360;
+
+                if( $(this).is(':checked') ) {
+
+                    obj.flipped = true;
+                    obj.scale.x = Math.abs(obj.scale.x) * -1;
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(-1)',
+                        '-o-transform': 'scaleX(-1)',
+                        'transform': 'scaleX(-1)',
+                        'filter': 'FlipH',
+                        '-ms-filter': "FlipH",
+                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                    });
+
+                }
+                else {
+                
+                    obj.flipped = false;
+                    obj.scale.x = Math.abs(obj.scale.x);
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(1)',
+                        '-o-transform': 'scaleX(1)',
+                        'transform': 'scaleX(1)',
+                        'filter': 'none',
+                        '-ms-filter': "none",
+                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                    });
+
+                }
+
+            });
+
+            $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+
+                values: [application.position.y],
+                min: 0,
+                max: ub.dimensions.height,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var application = _.find(ub.data.applications.items, {
+                        id: application_id
+                    });
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application_id];
+                    object.y = value;
+
+                }
+
+            });
+
+            $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+
+                values: [application.position.x],
+                min: 0,
+                max: ub.dimensions.width,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var application = _.find(ub.data.applications.items, {
+                        id: application_id
+                    });
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application_id];
+                    object.x = value;
+
+                }
+
+            });
+
+            var max_scale = 100;
+            $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_scale,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var application = _.find(ub.data.applications.items, { id: application_id });
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application_id];
+                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
+                    var scale = new PIXI.Point(value / 100, value / 100);
+                    
+                    if (flipped) {
+                        scale.x = scale.x * -1;
+                    }
+                    else {
+                        scale.x = scale.x * 1;   
+                    }
+
+                    object.scale = scale;
+
+                    $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+
+                }
+
+            });
+
+            var max_opacity = 100;
+            $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_opacity,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var application = _.find(ub.data.applications.items, {
+                        id: application_id
+                    });
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application_id];
+                    object.alpha = value / max_opacity;
+
+                    $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                    var opacity =  value / max_opacity;
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        "opacity": opacity,
+                    });
+
+                }
+
+            });
+
+            var max_rotation = 620;
+            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+            $rotation_slider.roundSlider({
+
+                values: [0],
+                min: 0,
+                max: max_rotation,
+                gap: 0,
+                width: 5,
+                handleSize: "+14",
+                startAngle: 90,
+
+                change: function(event, ui) {
+
+                    var application = _.find(ub.data.applications.items, {
+                        id: application_id
+                    });
+
+                    var value = parseInt($rotation_slider.find('span.edit').html());
+                    var object = ub.objects.front_view['objects_0' + application_id];
+
+                    object.rotation = value / 100;
+                    var rotation = ( value / max_rotation ) * 360;
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
+
+                    if (flipped) {
+
+                        $angle_slider_logo.find('div.rs-bg-color').css({
+                            '-moz-transform': 'scaleX(-1)',
+                            '-o-transform': 'scaleX(-1)', 
+                            'transform': 'scaleX(-1)',
+                            'filter': 'FlipH',
+                            '-ms-filter': "FlipH",
+                            '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                        });
+
+                    } else {
+
+                        $angle_slider_logo.find('div.rs-bg-color').css({
+                            '-moz-transform': 'scaleX(1)',
+                            '-o-transform': 'scaleX(1)',
+                            'transform': 'scaleX(1)',
+                            'filter': 'none',
+                            '-ms-filter': "none",
+                            '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                        });
+
+                    }
+
+                }
+
+            });
+
+            $('a.logo_picker').on('click', function() {
+
+                $a = $(this);
+
+                var application_id = $a.parent().parent().parent().data('id');
+                var logo_id = $a.data('id');
+
+                var logo = _.find(logos, {
+                    id: logo_id
+                });
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+
+                ub.funcs.update_application(application, logo);
+
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                $angle_slider_logo.find('div.rs-bg-color').css({
+                    'background-image': 'url(' + logo.dataUrl + ')',
+                    'background-size': '80%',
+                    'background-position': 'center center',
+                    'background-repeat': 'no-repeat',
+                });
+    
+            });
+
+        });
+
+    };
+
     ub.funcs.update_logos_picker = function() {
 
         _.each($('.logos_picker'), function(e) {
 
             var $container = $(e);
+
             var logos = ub.current_material.settings.files.logos;
             var application_id = $container.data('id');
             var markup = "";

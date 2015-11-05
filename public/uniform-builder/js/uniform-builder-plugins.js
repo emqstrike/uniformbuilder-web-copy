@@ -98,12 +98,17 @@
 
         return this.each(function () {
 
+            console.log('Application ID: ');
+            console.log(settings.application.id);
+
             var $container = $(this);
 
             var html_builder = '';
 
             html_builder += "<hr />";
-            html_builder += "<div class='logo_drop' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>"
+            html_builder += "<div class='logo_drop' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<img class='logo-preview' id='preview-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
+            html_builder += "<div class='logo-controls' id='controls-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
             html_builder += "<hr />";
 
             $container.html(html_builder);
@@ -111,30 +116,19 @@
             var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
             
             var drop;
-
+            console.log('FS');
             var content = "";
-            content += "<div class='row'>";
-            content +=      "<div class='col-md-4'>";
-            content +=          "<img src='/images/misc/point.png'>";
-            content +=      "</div>";
-            content +=      "<div class='col-md-4'>";
-            content +=          "<img src='/images/misc/point.png'>";
-            content +=      "</div>";
-            content +=      "<div class='col-md-4'>";
-            content +=          "<img src='/images/misc/point.png'>";
-            content +=      "</div>";
+            content += "<div class='row logo-container' id='logo-container-" + settings.application.id + "'>";
             content += "</div>";
             content += "<hr />";
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
             content +=      "<form>";
-            content +=          "<input type='file' id='file-src' name='material_option_path'>";
+            content +=          "<input type='file' id='file-src-" + settings.application.id + "' data-id='" + settings.application.id + "' name='material_option_path'>";
             content +=      "</form>";
             content +=      "</div>";
             content += "</div>";
             content += "<hr />";
-
-            
 
             drop = new Drop({
                 target: document.querySelector(selector),
@@ -144,6 +138,127 @@
                 openOn: 'click'
             });
 
+            var file_change_handler = function () {
+
+                var $file_input = $(this);
+                var data_id = settings.application.id;
+                
+                var files = !!this.files ? this.files : [];
+                if (!files.length || !window.FileReader) { return; } // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) { // only image file
+
+                    var reader = new FileReader(); // instance of the FileReader
+                    reader.readAsDataURL(files[0]); // read the local file
+
+                    reader.onloadend = function() { // set image data as background of div
+
+                        var logos = ub.current_material.settings.files.logos;
+                        var file = files[0];
+                        var id = new Date().getTime();
+
+                        logos[id] = {
+                            id: id,
+                            filename: file.name,
+                            dataUrl: this.result
+                        };
+
+                        var markup = "<tr data-id='" + id + "'>";
+                        markup += "<td>" + "<img class='logo_list' src='" + this.result + "' />" + "</td>";
+                        markup += "<td>" + "<a class='logo_list' data-id='" + id + "' data-action='preview'>" + file.name + "</a>" + "</td>";
+                        markup += "<td>" + "<a class='logo_list' data-action='remove' data-id='" + id + "' class='btn-remove'>" + "<i class='fa fa-times'></i>" + "</td>";
+                        markup += "</tr>";
+
+                        $('table.logos').append(markup);
+                        $('.file_upload.logo > .image_preview').css("background-image", "url(" + this.result + ")");
+                        
+                        /// Update Preview and Application
+
+                            $('img#preview-' + settings.application.id).css("background-image", "url(" + this.result + ")");
+                            drop.close();
+
+                            $a = $(this);
+
+                            var application_id = settings.application.id;
+                            var logo_id = id;
+
+                            var logo = _.find(logos, {
+                                id: logo_id
+                            });
+
+                            var application = _.find(ub.data.applications.items, {
+                                id: application_id
+                            });
+
+                            ub.funcs.update_application(application, logo);
+
+                            $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                            $angle_slider_logo.find('div.rs-bg-color').css({
+                                'background-image': 'url(' + logo.dataUrl + ')',
+                                'background-size': '80%',
+                                'background-position': 'center center',
+                                'background-repeat': 'no-repeat',
+                            });
+
+                        /// End Update Preview and Application 
+
+                        ub.funcs.update_logos_picker_2(settings.application.id);
+
+                        $('a.logo_list').on('click', function() {
+
+                            var action = $(this).data('action');
+                            var id = $(this).data('id');
+                            var logos = ub.current_material.settings.files.logos;
+
+                            if (action === 'remove') {
+
+                                $('tr[data-id="' + id + '"]').remove();
+                                logos[id] = null;
+                                delete logos[id];
+
+                                $('.file_upload.logo > .image_preview').css("background-image", "none");
+                                $selector.val('');
+
+                                ub.funcs.update_logos_picker();
+
+                            } else if (action === 'preview') {
+
+                                $('.file_upload.logo > .image_preview').css('background-image', "url(" + logos[id].dataUrl + ")");
+
+                            }
+
+                        });
+
+                    }
+                }
+
+
+            };
+
+            drop.once('open', function () {
+
+                var $selector = $('#file-src-' + settings.application.id);
+                $selector.on('change', file_change_handler);
+
+                ub.data.panels = {};
+                ub.data.panels['logo_panel'] = $selector;
+
+                var $logo_container = $('div.logo-container');
+                var logos = ub.current_material.settings.files.logos;
+
+                var logo_list = "";
+
+                _.each(logos, function(logo) {
+                    logo_list += "<div class='col-md-4'>";
+                    logo_list += "<a class='thumbnail logo_picker' data-id='" + logo.id + "'>" + "<img class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
+                    logo_list += "</div>";
+                });
+
+                $logo_container.html(logo_list);
+
+            });
+            
         });
 
     };

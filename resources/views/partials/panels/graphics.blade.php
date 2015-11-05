@@ -13,7 +13,7 @@
             </div>  
 
             <form>
-                <input type="file" id="file-src" name="material_option_path">
+                <input type="file" id="file-src-2" name="material_option_path">
             </form>
 
             <table class="table table-striped logos">
