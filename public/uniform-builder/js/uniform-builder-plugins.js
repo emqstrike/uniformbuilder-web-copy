@@ -94,7 +94,7 @@
     
     $.fn.ubLogoDialog = function(options) {
 
-        var settings = $.extend({ target: 'target' }, options);
+        var settings = $.extend({ application: {} }, options);
 
         return this.each(function () {
 
@@ -103,10 +103,46 @@
             var html_builder = '';
 
             html_builder += "<hr />";
-            html_builder += "Logo Dialog from Plugin";
+            html_builder += "<div class='logo_drop' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>"
             html_builder += "<hr />";
 
             $container.html(html_builder);
+
+            var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
+            
+            var drop;
+
+            var content = "";
+            content += "<div class='row'>";
+            content +=      "<div class='col-md-4'>";
+            content +=          "<img src='/images/misc/point.png'>";
+            content +=      "</div>";
+            content +=      "<div class='col-md-4'>";
+            content +=          "<img src='/images/misc/point.png'>";
+            content +=      "</div>";
+            content +=      "<div class='col-md-4'>";
+            content +=          "<img src='/images/misc/point.png'>";
+            content +=      "</div>";
+            content += "</div>";
+            content += "<hr />";
+            content += "<div class='row'>";
+            content +=      "<div col-md-12>";
+            content +=      "<form>";
+            content +=          "<input type='file' id='file-src' name='material_option_path'>";
+            content +=      "</form>";
+            content +=      "</div>";
+            content += "</div>";
+            content += "<hr />";
+
+            
+
+            drop = new Drop({
+                target: document.querySelector(selector),
+                content: content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
 
         });
 
@@ -114,7 +150,7 @@
 
     $.fn.ubImageDialog = function(options) {
 
-        var settings = $.extend({ target: 'target' }, options);
+        var settings = $.extend({ application: {} }, options);
 
         return this.each(function () {
 
@@ -134,7 +170,7 @@
 
     $.fn.ubTeamNameDialog = function(options) {
 
-        var settings = $.extend({ target: 'target' }, options);
+        var settings = $.extend({ application: {} }, options);
 
         return this.each(function () {
 
@@ -155,7 +191,7 @@
 
     $.fn.ubPlayerNumberDialog = function(options) {
 
-        var settings = $.extend({ target: 'target' }, options);
+        var settings = $.extend({ application: {} }, options);
 
         return this.each(function () {
 
@@ -175,7 +211,7 @@
 
     $.fn.ubPlayerNameDialog = function(options) {
 
-        var settings = $.extend({ target: 'target' }, options);
+        var settings = $.extend({ application: {} }, options);
 
         return this.each(function () {
 

@@ -928,44 +928,32 @@ $(document).ready(function () {
 
                             var id = $select.data('id');
                             var application_type = $select.val();
+                            var application = _.find(ub.data.applications.items, { id: id });
 
-                            $modifier_container = $('div.applications_modifier_container[data-id="' + id + '"]');
+                            $container = $('div.applications_modifier_container[data-id="' + id + '"]');
 
                             if (application_type === "logo") {
-                                
-                                $modifier_container.ubLogoDialog();
-
+                                $container.ubLogoDialog({ application: application });
                             }
 
                             if (application_type === "image") {
-                                
-                                $modifier_container.ubImageDialog();
-
+                                $container.ubImageDialog({ application: application });
                             }
 
                             if (application_type === "team_name") {
-                                
-                                $modifier_container.ubTeamNameDialog();
-
+                                $container.ubTeamNameDialog({ application: application });
                             }
 
                             if (application_type === "player_name") {
-                                
-                                $modifier_container.ubPlayerNameDialog();
-
+                                $container.ubPlayerNameDialog({ application: application });
                             }
 
                             if (application_type === "player_number") {
-                                
-                                $modifier_container.ubPlayerNumberDialog();
-
+                                $container.ubPlayerNumberDialog({ application: application });
                             }
 
-
                             if (application_type === "none") {
-
-                                $modifier_container.html('');
-
+                                $container.html('');
                             }
                             
                         });
