@@ -84,9 +84,9 @@ $(document).ready(function() {
 
             markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
             markup += "<input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip<br /><br />";
+            markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
             markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
             markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
-            markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
             markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
             markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
 

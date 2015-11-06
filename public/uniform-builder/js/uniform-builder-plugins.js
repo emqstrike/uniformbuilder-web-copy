@@ -104,7 +104,6 @@
 
             html_builder += "<hr />";
             html_builder += "<div class='logo_drop' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<img class='logo-preview' id='preview-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
             html_builder += "<div class='logo-controls' id='controls-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
             html_builder += "<hr />";
 
@@ -167,11 +166,9 @@
                         markup += "</tr>";
 
                         $('table.logos').append(markup);
-                        $('.file_upload.logo > .image_preview').css("background-image", "url(" + this.result + ")");
                         
                         /// Update Preview and Application
 
-                            $('img#preview-' + settings.application.id).css("background-image", "url(" + this.result + ")");
                             drop.close();
 
                             $a = $(this);
