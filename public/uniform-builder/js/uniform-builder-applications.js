@@ -114,7 +114,7 @@ $(document).ready(function() {
 
         $('div.y_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.y],
+            values: [application.position.y  * ub.dimensions.height],
             min: 0,
             max: ub.dimensions.height,
             gap: 0,
@@ -134,7 +134,7 @@ $(document).ready(function() {
 
         $('div.x_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.x],
+            values: [application.position.x * ub.dimensions.width],
             min: 0,
             max: ub.dimensions.width,
             gap: 0,
