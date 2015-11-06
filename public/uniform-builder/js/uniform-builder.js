@@ -891,7 +891,7 @@ $(document).ready(function () {
 
                     });
 
-                    $('div.applications_container').html(markup);
+                    //$('div.applications_container').html(markup);
 
                     markup = '';
 
@@ -915,6 +915,7 @@ $(document).ready(function () {
 
                     });
 
+                    markup += '<input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>';
                     markup += '<div class="application_footer"><button data-action="show_all_locations" data-option="applications" class="btn btn-xs show_all_locations">Show All Locations</button></div>';
 
                     $('div.applications').html(markup);

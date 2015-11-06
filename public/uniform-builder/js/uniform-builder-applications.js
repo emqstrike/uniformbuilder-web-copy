@@ -1,67 +1,5 @@
 $(document).ready(function() {
 
-    $("#file-src").change(function() {
-
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) { return; } // no file selected, or no FileReader support
-
-        if (/^image/.test(files[0].type)) { // only image file
-
-            var reader = new FileReader(); // instance of the FileReader
-            reader.readAsDataURL(files[0]); // read the local file
-
-            reader.onloadend = function() { // set image data as background of div
-
-                var logos = ub.current_material.settings.files.logos;
-                var file = files[0];
-                var id = new Date().getTime();
-
-                logos[id] = {
-                    id: id,
-                    filename: file.name,
-                    dataUrl: this.result
-                };
-
-                var markup = "<tr data-id='" + id + "'>";
-                markup += "<td>" + "<img class='logo_list' src='" + this.result + "' />" + "</td>";
-                markup += "<td>" + "<a class='logo_list' data-id='" + id + "' data-action='preview'>" + file.name + "</a>" + "</td>";
-                markup += "<td>" + "<a class='logo_list' data-action='remove' data-id='" + id + "' class='btn-remove'>" + "<i class='fa fa-times'></i>" + "</td>";
-                markup += "</tr>";
-
-                $('table.logos').append(markup);
-                $('.file_upload.logo > .image_preview').css("background-image", "url(" + this.result + ")");
-                ub.funcs.update_logos_picker();
-
-                $('a.logo_list').on('click', function() {
-
-                    var action = $(this).data('action');
-                    var id = $(this).data('id');
-                    var logos = ub.current_material.settings.files.logos;
-
-                    if (action === 'remove') {
-
-                        $('tr[data-id="' + id + '"]').remove();
-                        logos[id] = null;
-                        delete logos[id];
-
-                        $('.file_upload.logo > .image_preview').css("background-image", "none");
-                        $("#file-src").val('');
-
-                        ub.funcs.update_logos_picker();
-
-                    } else if (action === 'preview') {
-
-                        $('.file_upload.logo > .image_preview').css('background-image', "url(" + logos[id].dataUrl + ")");
-
-                    }
-
-                });
-
-            }
-        }
-
-    });
-
     ub.funcs.update_logo_list = function() {
 
         var $logo_container = $('div.logo-container');
@@ -106,64 +44,216 @@ $(document).ready(function() {
 
             ///
 
-
         });
 
     }
 
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
-        _.each($('.logos_picker'), function (e) {
+        var $container = $('div.logo-controls[data-id="' + application_id + '"]');
+        
+        var markup = "";
 
-            var $container = $('div.logo-controls[data-id="' + application_id + '"]');
+        markup += "<div class='row'>";
+        markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
+        markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
+        markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
+        markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
+        markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
+        markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
+        markup += "<div class='flip-container'><input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip Logo<br /></div><br />";
+        
+        $container.html(markup);
+
+        var application = _.find(ub.data.applications.items, {
+            id: application_id
+        });
+
+        $('input#flip_logo_' + application_id).click( function () {
+
+            var obj = ub.objects.front_view['objects_0' + application_id];
+
+            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+            var value = parseInt($rotation_slider.find('span.edit').html());
+            var rotation = ( value / 620 ) * 360;
+
+            if( $(this).is(':checked') ) {
+
+                obj.flipped = true;
+                obj.scale.x = Math.abs(obj.scale.x) * -1;
+
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                $angle_slider_logo.find('div.rs-bg-color').css({
+                    '-moz-transform': 'scaleX(-1)',
+                    '-o-transform': 'scaleX(-1)',
+                    'transform': 'scaleX(-1)',
+                    'filter': 'FlipH',
+                    '-ms-filter': "FlipH",
+                    '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                });
+
+            }
+            else {
             
-            var markup = "";
+                obj.flipped = false;
+                obj.scale.x = Math.abs(obj.scale.x);
 
-            markup += "<div class='row'>";
-            markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
-            markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
-            markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
-            markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
-            markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
-            markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
-            markup += "<div class='flip-container'><input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip Logo<br /></div><br />";
-            
-            $container.html(markup);
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                $angle_slider_logo.find('div.rs-bg-color').css({
+                    '-moz-transform': 'scaleX(1)',
+                    '-o-transform': 'scaleX(1)',
+                    'transform': 'scaleX(1)',
+                    'filter': 'none',
+                    '-ms-filter': "none",
+                    '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                });
 
-            var application = _.find(ub.data.applications.items, {
-                id: application_id
-            });
+            }
 
-            $('input#flip_logo_' + application_id).click( function () {
+        });
 
-                var obj = ub.objects.front_view['objects_0' + application_id];
+        $('div.y_slider[data-id="' + application_id + '"]').limitslider({
 
-                var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+            values: [application.position.y],
+            min: 0,
+            max: ub.dimensions.height,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects.front_view['objects_0' + application_id];
+                object.y = value;
+
+            }
+
+        });
+
+        $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [application.position.x],
+            min: 0,
+            max: ub.dimensions.width,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects.front_view['objects_0' + application_id];
+                object.x = value;
+
+            }
+
+        });
+
+        var max_scale = 100;
+        $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [100],
+            min: 0,
+            max: max_scale,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, { id: application_id });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects.front_view['objects_0' + application_id];
+                var flipped = $('input#flip_logo_' + application_id).is(':checked');
+                var scale = new PIXI.Point(value / 100, value / 100);
+                
+                if (flipped) {
+                    scale.x = scale.x * -1;
+                }
+                else {
+                    scale.x = scale.x * 1;   
+                }
+
+                object.scale = scale;
+
+                $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+
+            }
+
+        });
+
+        var max_opacity = 100;
+        $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [100],
+            min: 0,
+            max: max_opacity,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects.front_view['objects_0' + application_id];
+                object.alpha = value / max_opacity;
+
+                $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                var opacity =  value / max_opacity;
+                $angle_slider_logo.find('div.rs-bg-color').css({
+                    "opacity": opacity,
+                });
+
+            }
+
+        });
+
+        var max_rotation = 620;
+        var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        $rotation_slider.roundSlider({
+
+            values: [0],
+            min: 0,
+            max: max_rotation,
+            gap: 0,
+            width: 5,
+            handleSize: "+14",
+            startAngle: 90,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+
                 var value = parseInt($rotation_slider.find('span.edit').html());
-                var rotation = ( value / 620 ) * 360;
+                var object = ub.objects.front_view['objects_0' + application_id];
 
-                if( $(this).is(':checked') ) {
+                object.rotation = value / 100;
+                var rotation = ( value / max_rotation ) * 360;
 
-                    obj.flipped = true;
-                    obj.scale.x = Math.abs(obj.scale.x) * -1;
+                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+                var flipped = $('input#flip_logo_' + application_id).is(':checked');
+
+                if (flipped) {
+
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         '-moz-transform': 'scaleX(-1)',
-                        '-o-transform': 'scaleX(-1)',
+                        '-o-transform': 'scaleX(-1)', 
                         'transform': 'scaleX(-1)',
                         'filter': 'FlipH',
                         '-ms-filter': "FlipH",
                         '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
                     });
 
-                }
-                else {
-                
-                    obj.flipped = false;
-                    obj.scale.x = Math.abs(obj.scale.x);
+                } else {
 
-                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         '-moz-transform': 'scaleX(1)',
                         '-o-transform': 'scaleX(1)',
@@ -175,175 +265,18 @@ $(document).ready(function() {
 
                 }
 
-            });
+            }
 
-            $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+        });
 
-                values: [application.position.y],
-                min: 0,
-                max: ub.dimensions.height,
-                gap: 0,
+        $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                change: function(event, ui) {
-
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
-                    var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application_id];
-                    object.y = value;
-
-                }
-
-            });
-
-            $('div.x_slider[data-id="' + application_id + '"]').limitslider({
-
-                values: [application.position.x],
-                min: 0,
-                max: ub.dimensions.width,
-                gap: 0,
-
-                change: function(event, ui) {
-
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
-                    var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application_id];
-                    object.x = value;
-
-                }
-
-            });
-
-            var max_scale = 100;
-            $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
-
-                values: [100],
-                min: 0,
-                max: max_scale,
-                gap: 0,
-
-                change: function(event, ui) {
-
-                    var application = _.find(ub.data.applications.items, { id: application_id });
-                    var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application_id];
-                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
-                    var scale = new PIXI.Point(value / 100, value / 100);
-                    
-                    if (flipped) {
-                        scale.x = scale.x * -1;
-                    }
-                    else {
-                        scale.x = scale.x * 1;   
-                    }
-
-                    object.scale = scale;
-
-                    $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
-
-                }
-
-            });
-
-            var max_opacity = 100;
-            $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
-
-                values: [100],
-                min: 0,
-                max: max_opacity,
-                gap: 0,
-
-                change: function(event, ui) {
-
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
-                    var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application_id];
-                    object.alpha = value / max_opacity;
-
-                    $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
-
-                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-                    var opacity =  value / max_opacity;
-                    $angle_slider_logo.find('div.rs-bg-color').css({
-                        "opacity": opacity,
-                    });
-
-                }
-
-            });
-
-            var max_rotation = 620;
-            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-            $rotation_slider.roundSlider({
-
-                values: [0],
-                min: 0,
-                max: max_rotation,
-                gap: 0,
-                width: 5,
-                handleSize: "+14",
-                startAngle: 90,
-
-                change: function(event, ui) {
-
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
-
-                    var value = parseInt($rotation_slider.find('span.edit').html());
-                    var object = ub.objects.front_view['objects_0' + application_id];
-
-                    object.rotation = value / 100;
-                    var rotation = ( value / max_rotation ) * 360;
-
-                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-                    var flipped = $('input#flip_logo_' + application_id).is(':checked');
-
-                    if (flipped) {
-
-                        $angle_slider_logo.find('div.rs-bg-color').css({
-                            '-moz-transform': 'scaleX(-1)',
-                            '-o-transform': 'scaleX(-1)', 
-                            'transform': 'scaleX(-1)',
-                            'filter': 'FlipH',
-                            '-ms-filter': "FlipH",
-                            '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                        });
-
-                    } else {
-
-                        $angle_slider_logo.find('div.rs-bg-color').css({
-                            '-moz-transform': 'scaleX(1)',
-                            '-o-transform': 'scaleX(1)',
-                            'transform': 'scaleX(1)',
-                            'filter': 'none',
-                            '-ms-filter': "none",
-                            '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                        });
-
-                    }
-
-                }
-
-            });
-
-            $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-            $rotation_slider.find('div.rs-bg-color').css({
-                'background-image': 'url(' + logo.dataUrl + ')',
-                'background-size': '80%',
-                'background-position': 'center center',
-                'background-repeat': 'no-repeat',
-            });
-
-        }); 
+        $rotation_slider.find('div.rs-bg-color').css({
+            'background-image': 'url(' + logo.dataUrl + ')',
+            'background-size': '80%',
+            'background-position': 'center center',
+            'background-repeat': 'no-repeat',
+        });
 
     };
 
@@ -398,30 +331,18 @@ $(document).ready(function() {
 
         ub.updateLayersOrder(view);
 
+        sprite.position.x = x;
+        sprite.position.y = y;
+
         if(sprite.width === 1) {
         
-            sprite.position.x = x - (sprite.width / 2);
-            sprite.position.y = y - (sprite.height / 2);
+            sprite.position.x -= (sprite.width / 2);
+            sprite.position.y -= (sprite.height / 2);
 
         }
-        else {
-
-            sprite.position.x = x;
-            sprite.position.y = y;
-
-        }
-
+  
         sprite.anchor.set(0.5, 0.5);
         sprite.zIndex = -51;
-        
-        console.log('x: ' + x);
-        console.log('y: ' + y);
-
-        // console.log('Anchor');
-        // console.log(sprite.anchor);
-
-        // console.log('Position');
-        // console.log(sprite.position);
 
         window.sprite = sprite;
 
