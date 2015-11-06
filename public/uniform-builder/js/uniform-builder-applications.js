@@ -89,6 +89,8 @@ $(document).ready(function() {
                     var application_id = $link.data('application-id');
                     var logo_id = $link.data('id');
 
+                    ub.ui.drops[application_id].close();
+
                     var logo = _.find(logos, {
                         id: logo_id
                     });
@@ -396,10 +398,32 @@ $(document).ready(function() {
 
         ub.updateLayersOrder(view);
 
-        sprite.position.x = x - (sprite.width / 2);
-        sprite.position.y = y - (sprite.height / 2);
-        sprite.zIndex = -51;
+        if(sprite.width === 1) {
+        
+            sprite.position.x = x - (sprite.width / 2);
+            sprite.position.y = y - (sprite.height / 2);
+
+        }
+        else {
+
+            sprite.position.x = x;
+            sprite.position.y = y;
+
+        }
+
         sprite.anchor.set(0.5, 0.5);
+        sprite.zIndex = -51;
+        
+        console.log('x: ' + x);
+        console.log('y: ' + y);
+
+        // console.log('Anchor');
+        // console.log(sprite.anchor);
+
+        // console.log('Position');
+        // console.log(sprite.position);
+
+        window.sprite = sprite;
 
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);

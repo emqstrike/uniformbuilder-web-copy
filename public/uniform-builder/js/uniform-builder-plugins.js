@@ -103,7 +103,7 @@
             var html_builder = '';
 
             html_builder += "<hr />";
-            html_builder += "<div class='logo_drop' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='logo_drop btn' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='logo-controls' id='controls-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
             html_builder += "<hr />";
 
@@ -133,6 +133,8 @@
                 position: 'bottom left',
                 openOn: 'click'
             });
+
+            ub.ui.drops[settings.application.id] = drop;
 
             var file_change_handler = function () {
 
@@ -169,20 +171,7 @@
                         
                         /// Update Preview and Application
 
-                            drop.close();
-
-                            $a = $(this);
-
                             var application_id = settings.application.id;
-                            var logo_id = id;
-
-                            var logo = _.find(logos, {
-                                id: logo_id
-                            });
-
-                            var application = _.find(ub.data.applications.items, {
-                                id: application_id
-                            });
 
                             ub.funcs.update_logo_list();
                             $('a.logo_picker[data-application-id="' + application_id + '"]').click();
@@ -204,7 +193,7 @@
                 ub.data.panels['logo_panel'] = $selector;
 
                 ub.funcs.update_logo_list();
-                
+
             });
 
             drop.open();
