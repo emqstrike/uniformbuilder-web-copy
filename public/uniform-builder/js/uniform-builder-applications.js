@@ -69,56 +69,49 @@ $(document).ready(function() {
 
         _.each($logo_container, function (el) {
 
-        var $element = $(el)
-        var logo_list = "";
+            var $element = $(el)
+            var logo_list = "";
 
-        _.each(logos, function(logo) {
-            logo_list += "<div class='col-md-4'>";
-            logo_list += "<a class='thumbnail logo_picker' data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "'>" + "<img  data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "' class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
-            logo_list += "</div>";
-        });
-
-        $element.html(logo_list);
-
-        ///
-
-             $('a.logo_picker').on('click', function (e) {
-
-                $link = $(e.target);
-
-
-                var application_id = $link.data('application-id');
-                var logo_id = $link.data('id');
-
-                var logo = _.find(logos, {
-                    id: logo_id
-                });
-
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-
-                console.log('Application ID: ');
-                console.log(application.id);
-
-                console.log('Logo ID: ');
-                console.log(logo.id);
-
-                ub.funcs.update_application(application, logo);
-    
+            _.each(logos, function(logo) {
+                logo_list += "<div class='col-md-4'>";
+                logo_list += "<a class='thumbnail logo_picker' data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "'>" + "<img  data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "' class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
+                logo_list += "</div>";
             });
 
-        ///
+            $element.html(logo_list);
+
+            ///
+
+                $('a.logo_picker').on('click', function (e) {
+
+                    $link = $(e.target);
+
+                    var application_id = $link.data('application-id');
+                    var logo_id = $link.data('id');
+
+                    var logo = _.find(logos, {
+                        id: logo_id
+                    });
+
+                    var application = _.find(ub.data.applications.items, {
+                        id: application_id
+                    });
+
+                    ub.funcs.update_application(application, logo);
+                    ub.funcs.update_logos_picker(application.id, logo); 
+
+                });
+
+            ///
 
 
-    });
+        });
+
     }
 
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
-        ub.funcs.update_logo_list();
-
-        _.each($('.logos_picker'), function(e) {
+        _.each($('.logos_picker'), function (e) {
 
             var $container = $('div.logo-controls[data-id="' + application_id + '"]');
             
@@ -126,13 +119,13 @@ $(document).ready(function() {
 
             markup += "<div class='row'>";
             markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
-            markup += "<input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip<br /><br />";
             markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
             markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
             markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
             markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
             markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
-
+            markup += "<div class='flip-container'><input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip Logo<br /></div><br />";
+            
             $container.html(markup);
 
             var application = _.find(ub.data.applications.items, {
@@ -351,8 +344,6 @@ $(document).ready(function() {
         }); 
 
     };
-
-    
 
     ub.funcs.lineDistance = function(point1, point2) {
         

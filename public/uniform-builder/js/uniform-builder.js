@@ -911,7 +911,6 @@ $(document).ready(function () {
                         ddowns     += '</div>';
                         ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
 
-
                         markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
 
                     });

@@ -184,11 +184,10 @@
                                 id: application_id
                             });
 
-                            ub.funcs.update_application(application, logo);
+                            ub.funcs.update_logo_list();
+                            $('a.logo_picker[data-application-id="' + application_id + '"]').click();
 
                         /// End Update Preview and Application 
-
-                        ub.funcs.update_logos_picker(settings.application.id, logo);
 
                     }
                 }
@@ -205,8 +204,10 @@
                 ub.data.panels['logo_panel'] = $selector;
 
                 ub.funcs.update_logo_list();
-
+                
             });
+
+            drop.open();
             
         });
 
