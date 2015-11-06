@@ -114,7 +114,7 @@
             var drop;
             
             var content = "";
-            content += "<div class='row logo-container' id='logo-container-" + settings.application.id + "'>";
+            content += "<div data-id='" + settings.application.id + "' class='row logo-container' id='logo-container-" + settings.application.id + "'>";
             content += "</div>";
             content += "<hr />";
             content += "<div class='row'>";
@@ -188,32 +188,7 @@
 
                         /// End Update Preview and Application 
 
-                        ub.funcs.update_logos_picker_2(settings.application.id, logo);
-
-                        $('a.logo_list').on('click', function() {
-
-                            var action = $(this).data('action');
-                            var id = $(this).data('id');
-                            var logos = ub.current_material.settings.files.logos;
-
-                            if (action === 'remove') {
-
-                                $('tr[data-id="' + id + '"]').remove();
-                                logos[id] = null;
-                                delete logos[id];
-
-                                $('.file_upload.logo > .image_preview').css("background-image", "none");
-                                $selector.val('');
-
-                                ub.funcs.update_logos_picker();
-
-                            } else if (action === 'preview') {
-
-                                $('.file_upload.logo > .image_preview').css('background-image', "url(" + logos[id].dataUrl + ")");
-
-                            }
-
-                        });
+                        ub.funcs.update_logos_picker(settings.application.id, logo);
 
                     }
                 }
@@ -229,18 +204,7 @@
                 ub.data.panels = {};
                 ub.data.panels['logo_panel'] = $selector;
 
-                var $logo_container = $('div.logo-container');
-                var logos = ub.current_material.settings.files.logos;
-
-                var logo_list = "";
-
-                _.each(logos, function(logo) {
-                    logo_list += "<div class='col-md-4'>";
-                    logo_list += "<a class='thumbnail logo_picker' data-id='" + logo.id + "'>" + "<img class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
-                    logo_list += "</div>";
-                });
-
-                $logo_container.html(logo_list);
+                ub.funcs.update_logo_list();
 
             });
             
