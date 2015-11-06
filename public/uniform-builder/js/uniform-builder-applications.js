@@ -18,32 +18,30 @@ $(document).ready(function() {
 
             $element.html(logo_list);
 
-            ///
+            /// Handler for clicking a logo on the list of uploaded logos
+            $('a.logo_picker').on('click', function (e) {
 
-                $('a.logo_picker').on('click', function (e) {
+                $link = $(e.target);
 
-                    $link = $(e.target);
+                var application_id = $link.data('application-id');
+                var logo_id = $link.data('id');
 
-                    var application_id = $link.data('application-id');
-                    var logo_id = $link.data('id');
+                ub.ui.drops[application_id].close();
 
-                    ub.ui.drops[application_id].close();
-
-                    var logo = _.find(logos, {
-                        id: logo_id
-                    });
-
-                    var application = _.find(ub.data.applications.items, {
-                        id: application_id
-                    });
-
-                    ub.funcs.update_application(application, logo);
-                    ub.funcs.update_logos_picker(application.id, logo); 
-
+                var logo = _.find(logos, {
+                    id: logo_id
                 });
 
-            ///
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
 
+                ub.funcs.update_application(application, logo);
+                ub.funcs.update_logos_picker(application.id, logo); 
+
+            }); /// End $('a.logo_picker').on('click'...
+
+            
         });
 
     }

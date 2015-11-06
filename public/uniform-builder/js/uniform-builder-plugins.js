@@ -171,10 +171,10 @@
                         
                         /// Update Preview and Application
 
-                            var application_id = settings.application.id;
+                        var application_id = settings.application.id;
 
-                            ub.funcs.update_logo_list();
-                            $('a.logo_picker[data-application-id="' + application_id + '"]').click();
+                        ub.funcs.update_logo_list();
+                        $('a.logo_picker[data-application-id="' + application_id + '"]').click();
 
                         /// End Update Preview and Application 
 
@@ -247,6 +247,8 @@
 
         var settings = $.extend({ application: {} }, options);
 
+        var application = settings.application;
+
         return this.each(function () {
 
             var $container = $(this);
@@ -254,10 +256,283 @@
             var html_builder = '';
 
             html_builder += "<hr />";
-            html_builder += "Player Number Dialog from Plugin";
+
+            html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "'>";
+
+            html_builder += "<div class='row'>";
+            html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
+            html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
+            html_builder += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application.id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application.id + "'></div><br />";
+            html_builder += "Scale: <span data-target='logo' data-label='scale' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application.id + "'></div><br />";
+            html_builder += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application.id + "'></div><br />";
+            html_builder += "Y Position: <span></span> <div data-id='" + application.id + "' class='y_slider logo_slider'></div></div><br />";
+       
             html_builder += "<hr />";
 
             $container.html(html_builder);
+
+            var max_rotation = 620;
+
+            var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
+            $rotation_slider.roundSlider({
+
+                values: [0],
+                min: 0,
+                max: max_rotation,
+                gap: 0,
+                width: 5,
+                handleSize: "+14",
+                startAngle: 90,
+
+                change: function(event, ui) {
+
+                    var value = parseInt($rotation_slider.find('span.edit').html());
+                    var object = ub.objects.front_view['objects_0' + application.id];
+
+                    object.rotation = value / 100;
+                    var rotation = ( value / max_rotation ) * 360;
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application.id + '"]');
+
+                }
+
+            });
+
+            var max_scale = 200;
+            $('div.scale_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_scale,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var scale = new PIXI.Point(value / 100, value / 100);
+                    
+                    object.scale = scale;
+
+                    $('span[data-target="logo"][data-label="scale"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+
+            var max_opacity = 100;
+            $('div.opacity_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_opacity,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application.id];
+                    object.alpha = value / max_opacity;
+
+                    $('span[data-target="logo"][data-label="opacity"][data-id="' + application.id + '"]').text(value);
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application.id + '"]');
+
+                    var opacity =  value / max_opacity;
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        "opacity": opacity,
+                    });
+
+                }
+
+            });
+
+            $('div.y_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [application.position.y  * ub.dimensions.height],
+                min: 0,
+                max: ub.dimensions.height,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application.id];
+                    object.y = value;
+
+                }
+
+            });
+
+            $('div.x_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [application.position.x * ub.dimensions.width],
+                min: 0,
+                max: ub.dimensions.width,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application.id];
+                    object.x = value;
+
+                }
+
+            });
+
+            var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
+            $textbox.on('input', function () {
+                     
+                var x = ub.dimensions.width * application.position.x;
+                var y = ub.dimensions.height * application.position.y;
+                var settings = ub.current_material.settings;
+
+                var text_input = $textbox.val();
+                var sprite = new PIXI.Text(text_input, {font:"70px Arial", fill:"gray"});
+                
+                settings.applications[application.code] = {
+                    application: application,
+                    text: text_input,
+                    text_obj: sprite
+                };
+
+                var view = ub[application.perspective + '_view'];
+                var view_objects = ub.objects[application.perspective + '_view'];
+
+
+                var mask = _.find(ub.current_material.material.options, {
+                    perspective: application.perspective,
+                    name: 'Body'
+                });
+
+                var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+                sprite.mask = mask;
+
+                var s = view_objects['objects_' + application.code];
+
+                if (typeof(s) === 'object') {
+                    view.removeChild(view_objects['objects_' + application.code]);
+                    delete view_objects['objects_' + application.code];
+                }
+
+                view_objects['objects_' + application.code] = sprite;
+                view.addChild(sprite);
+
+                ub.updateLayersOrder(view);
+
+                sprite.position.x = x;
+                sprite.position.y = y;
+
+                if(sprite.width === 1) {
+                
+                    sprite.position.x -= (sprite.width / 2);
+                    sprite.position.y -= (sprite.height / 2);
+
+                }
+          
+                sprite.anchor.set(0.5, 0.5);
+                sprite.zIndex = -51;
+
+                $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+                $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+
+                sprite.draggable({
+                    manager: ub.dragAndDropManager
+                });
+
+                sprite.mouseup = sprite.touchend = function(data) {
+
+                    if (!sprite.snapped && $('#chkSnap').is(":checked")) {
+
+                        sprite.x = sprite.oldX;
+                        sprite.y = sprite.oldY;
+
+                    }
+
+                    this.data = data;
+                    this.dragging = true;
+
+                };
+
+                sprite.mousedown = sprite.touchstart = function(data) {
+
+                    this.data = data;
+
+                    sprite.oldX = sprite.x;
+                    sprite.oldY = sprite.y;
+                    sprite.snapped = false;
+                    this.dragging = true;
+
+                };
+
+                sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+                    this.interactionData = interactionData;
+
+                    if (this.dragging) {
+
+                        _.each(ub.data.applications.items, function(application) {
+
+                            var x = application.position.x * ub.dimensions.width;
+                            var y = application.position.y * ub.dimensions.height;
+
+                            var p_app = new PIXI.Point(x, y);
+                            var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+
+                            var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                            if ($('#chkSnap').is(":checked")) {
+
+                                var minimum_distance_to_snap = 50;
+
+                                if (distance < minimum_distance_to_snap) {
+
+                                    sprite.x = x;
+                                    sprite.y = y;
+                                    sprite.oldX = x;
+                                    sprite.oldY = y;
+
+                                    sprite.snapped = true;
+                                    this.dragging = false;
+
+                                    return false; // Exit loop if the logo snapped to an application point
+
+                                } else {
+
+                                    sprite.snapped = false;
+
+                                }
+
+                            }
+
+                        });
+
+                    }
+
+                    window.data = this.interactionData.data;
+                    window.this = this;
+                    window.sprite = sprite;
+
+                    var point = {
+                        x: window.data.global.x,
+                        y: window.data.global.y
+                    };
+
+                    if (sprite.containsPoint(point)) {
+                        sprite.zIndex = -500;
+                        //this.tint = 0x555555;
+                        ub.updateLayersOrder(view);
+                    } else {
+                        sprite.zIndex = sprite.originalZIndex;
+                        //this.tint = 0xffffff;
+                        ub.updateLayersOrder(view);
+                    }
+
+                };
+
+            });
 
         });
 
@@ -282,7 +557,5 @@
         });
 
     };
-
-
 
 }(jQuery));
