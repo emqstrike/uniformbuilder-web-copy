@@ -19,6 +19,8 @@ $(document).ready(function(){
     ub.pattern_view = new PIXI.Container();
     ub.gradient_preview = new PIXI.Container();
 
+    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
     ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);

@@ -98,9 +98,6 @@
 
         return this.each(function () {
 
-            console.log('Application ID: ');
-            console.log(settings.application.id);
-
             var $container = $(this);
 
             var html_builder = '';
@@ -116,7 +113,7 @@
             var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
             
             var drop;
-            console.log('FS');
+            
             var content = "";
             content += "<div class='row logo-container' id='logo-container-" + settings.application.id + "'>";
             content += "</div>";
@@ -192,18 +189,9 @@
 
                             ub.funcs.update_application(application, logo);
 
-                            $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-                            $angle_slider_logo.find('div.rs-bg-color').css({
-                                'background-image': 'url(' + logo.dataUrl + ')',
-                                'background-size': '80%',
-                                'background-position': 'center center',
-                                'background-repeat': 'no-repeat',
-                            });
-
                         /// End Update Preview and Application 
 
-                        ub.funcs.update_logos_picker_2(settings.application.id);
+                        ub.funcs.update_logos_picker_2(settings.application.id, logo);
 
                         $('a.logo_list').on('click', function() {
 

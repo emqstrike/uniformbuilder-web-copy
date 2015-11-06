@@ -62,7 +62,7 @@ $(document).ready(function() {
 
     });
 
-    ub.funcs.update_logos_picker_2 = function(application_id) {
+    ub.funcs.update_logos_picker_2 = function(application_id, logo) {
 
         _.each($('.logos_picker'), function(e) {
 
@@ -295,6 +295,15 @@ $(document).ready(function() {
 
                 }
 
+            });
+
+            $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+            $rotation_slider.find('div.rs-bg-color').css({
+                'background-image': 'url(' + logo.dataUrl + ')',
+                'background-size': '80%',
+                'background-position': 'center center',
+                'background-repeat': 'no-repeat',
             });
 
             $('a.logo_picker').on('click', function() {
