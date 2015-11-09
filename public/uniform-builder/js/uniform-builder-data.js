@@ -557,4 +557,35 @@ $(document).ready(function(){
 
     /// END GRADIENTS
 
+    /// Fonts 
+
+    ub.data.fonts = {
+
+        items: [
+
+            {
+                name: 'Aachen Bold',
+                type: 'default',
+                font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/aachen-bold/font.ttf',
+                active: '1',
+            },
+            {
+                name: 'Algerian',
+                type: 'default',
+                font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/algerian/font.ttf',
+                active: '1',
+            },
+            {
+                name: 'Arabian Nights',
+                type: 'default',
+                font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/arabian-nights/font.ttf',
+                active: '1',
+            },
+
+        ]
+
+    }
+
+    /// End Fonts 
+
 });

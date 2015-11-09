@@ -103,7 +103,7 @@
             var html_builder = '';
 
             html_builder += "<hr />";
-            html_builder += "<div class='logo_drop btn' data-id='" + settings.application.id + "'>Choose a Logo <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='logo_drop btn' data-id='" + settings.application.id + "'>Choose a Logo: <i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='logo-controls' id='controls-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
             html_builder += "<hr />";
 
@@ -257,6 +257,7 @@
 
             html_builder += "<hr />";
 
+            html_builder += "<div class='font_style_drop' data-id='" + settings.application.id + "' >Font Style: <i class='fa fa-caret-down'></i></div>";
             html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "'>";
 
             html_builder += "<div class='row'>";
@@ -270,6 +271,60 @@
             html_builder += "<hr />";
 
             $container.html(html_builder);
+
+
+            /// Font Style Selector
+
+            var selector = 'div.font_style_drop[data-id="' + settings.application.id + '"]';
+            var drop;
+
+            var content = "";
+            content += "<div data-id='" + settings.application.id + "' class='row font-container' id='font-container-" + settings.application.id + "'>";
+            content += "</div>";
+            // content += "<hr />";
+            content += "<div class='row'>";
+            content +=      "<div col-md-12>";
+
+            var els = '';
+
+            _.each(ub.data.fonts.items, function (item) {
+                els += '<a class="font-selector" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
+            });
+
+            content += els;
+            content +=      "</div>";
+            content += "</div>";
+            // content += "<hr />";
+
+            drop = new Drop({
+                target: document.querySelector(selector),
+                content: content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            ub.ui.drops[settings.application.id] = drop;
+
+            // Font Style Event Handler 
+
+            drop.once('open', function () {
+
+                var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
+                //console.log('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
+
+                console.log('Selector');
+                console.log($link_selector);
+
+                $link_selector.click( function (e) {
+                    console.log('detected!');
+                });
+
+            });
+        
+            // End Font Style Event Handler 
+
+            /// End Font Style Selector 
 
             var max_rotation = 620;
 
