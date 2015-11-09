@@ -1214,6 +1214,7 @@ a:focus {
   position: absolute;
   right: 0;
   left: auto;
+  opacity: 0.8;
 }
 @media (max-width: 991px) {
   .navbar-custom-menu > .navbar-nav {
