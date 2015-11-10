@@ -257,7 +257,7 @@
 
             html_builder += "<hr />";
 
-            html_builder += "<div class='font_style_drop' data-id='" + settings.application.id + "' >Font Style: <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' data-id='" + settings.application.id + "' >Select a font... <i class='fa fa-caret-down'></i></div>";
             html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "'>";
 
             html_builder += "<div class='row'>";
@@ -285,17 +285,16 @@
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
 
-            var els = '';
+            var els = '<a class="font-selector" data-font-id="-1" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
 
             _.each(ub.data.fonts.items, function (item) {
-                els += '<a class="font-selector" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
+                els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
             });
 
             content += els;
             content +=      "</div>";
             content += "</div>";
-            // content += "<hr />";
-
+            
             drop = new Drop({
                 target: document.querySelector(selector),
                 content: content,
@@ -313,7 +312,16 @@
                 var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
 
                 $link_selector.click( function (e) {
-        
+
+                    var $dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
+                    
+                    $dropdown.html($(this).html());
+                    $dropdown.data('font-id');
+                    $dropdown.data('font-id', $(this).data('font-id'));
+                    $dropdown.css('font-family', $(this).html());
+
+                    drop.close();
+
                 });
 
             });
@@ -450,7 +458,6 @@
 
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
-
 
                 var mask = _.find(ub.current_material.material.options, {
                     perspective: application.perspective,

@@ -563,18 +563,21 @@ $(document).ready(function(){
         items: [
 
             {
+                id: '1',
                 name: 'Aachen Bold',
                 type: 'default',
                 font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/aachen-bold/font.ttf',
                 active: '1',
             },
             {
+                id: '2',
                 name: 'Algerian',
                 type: 'default',
                 font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/algerian/font.ttf',
                 active: '1',
             },
             {
+                id: '3',
                 name: 'Arabian Nights',
                 type: 'default',
                 font_path: 'https://s3-us-west-2.amazonaws.com/uniformbuilder/fonts/staging/prolook/arabian-nights/font.ttf',
