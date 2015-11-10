@@ -25,8 +25,9 @@
     </h1>
 </div>
 
-<div class="row col-md-12">
-    <table class='table table-bordered'>
+<div class="row-fluid col-md-12">
+<table class='data-table table table-bordered'>
+<thead>
     <tr>
         <th>Thumbnail</th>
         <th>Design Sets</th>
@@ -39,8 +40,10 @@
         <th>Fabric</th>
         <th>Lining</th>
         <th>Active Status</th>
-        <th></th>
+        <th>Actions</th>
     </tr>
+</thead>
+<tbody>
 @forelse ($designs as $design)
 
     <tr class='design-{{ $design->id }} {{ (!$design->active) ? ' inactive' : '' }}'>
@@ -109,6 +112,7 @@
     </tr>
 
 @endforelse
+</tbody>
     </table>
 </div>
 @include('partials.confirmation-modal')

@@ -33,7 +33,7 @@
 </div>
 
 <div class="row-fluid col-md-12">
-    <table data-toggle='table' class='materials'>
+    <table data-toggle='table' class='data-table table table-bordered materials'>
         <thead>
             <tr>
                 <th>Thumbnail</th>
@@ -44,7 +44,7 @@
                 <th>Uniform Category</th>
                 <th>Gender</th>
                 <th>Active Status</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -163,7 +163,7 @@
         @empty
 
             <tr>
-                <td colspan='4' align='center'>
+                <td colspan='9' align='center'>
                     No Materials
                 </td>
             </tr>

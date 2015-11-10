@@ -25,13 +25,16 @@
     </h1>
 </div>
 
-<div class="row col-md-5">
-    <table class='table table-bordered'>
+<div class="row-fluid col-md-5">
+<table class='data-table table table-bordered'>
+<thead>
     <tr>
-        <th colspan='3'>
-            Categories
-        </th>
+        <th>Categories</th>
+        <th>Status</th>
+        <th>Actions</th>
     </tr>
+</thead>
+<tbody>
 @forelse ($categories as $category)
 
     <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
@@ -69,6 +72,7 @@
     </tr>
 
 @endforelse
+</tbody>
     </table>
 </div>
 @include('partials.confirmation-modal')

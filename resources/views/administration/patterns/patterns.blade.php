@@ -31,8 +31,8 @@
     </h1>
 </div>
 
-<div class="row col-md-6">
-    <table data-toggle='table' class='patterns'>
+<div class="row-fluid col-md-6">
+    <table data-toggle='table' class='data-table table table-bordered patterns'>
         <thead>
             <tr>
                 <th>Pattern Name</th>
