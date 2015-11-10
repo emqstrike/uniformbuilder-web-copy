@@ -252,12 +252,11 @@
         return this.each(function () {
 
             var $container = $(this);
-
+            var first_font = ub.data.fonts.items[0];
             var html_builder = '';
 
             html_builder += "<hr />";
-
-            html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' data-id='" + settings.application.id + "' >Select a font... <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
             html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'>";
 
             html_builder += "<div class='row'>";
@@ -310,7 +309,6 @@
             drop.once('open', function () {
 
                 var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
-
                 $link_selector.click( function (e) {
 
                     var $dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
@@ -459,6 +457,11 @@
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
                 var font_obj = _.find(ub.data.fonts.items, {id: selected_font_id});
+
+                if(typeof font_obj === 'undefined'){
+                    return;
+                }
+
                 var text_input = $textbox.val();
                 var sprite = new PIXI.Text(text_input, {font:"70px " + font_obj.name, fill:"gray", style: {padding: 100}});
                 
