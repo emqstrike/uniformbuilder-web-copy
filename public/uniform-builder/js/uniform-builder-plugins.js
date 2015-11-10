@@ -257,8 +257,7 @@
 
             html_builder += "<hr />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'>";
-
+            html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
             html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
@@ -270,7 +269,6 @@
             html_builder += "<hr />";
 
             $container.html(html_builder);
-
 
             /// Font Style Selector
 
@@ -486,6 +484,8 @@
                 var position = '';
                 var scale = '';
                 var rotation = '';
+                var opacity = '';
+                var tint = '';
 
                 var s = view_objects['objects_' + application.code];
 
@@ -496,6 +496,8 @@
                     position = obj.position;
                     scale = obj.scale;
                     rotation = obj.rotation;
+                    opacity = obj.opacity;
+                    tint = obj.tint;
 
                     view.removeChild(view_objects['objects_' + application.code]);
                     delete view_objects['objects_' + application.code];
@@ -512,6 +514,8 @@
                     sprite.position = position;
                     sprite.scale = scale;
                     sprite.rotation = rotation;
+                    sprite.opacity = opacity;
+                    sprite.tint = tint;
 
                 }
 
