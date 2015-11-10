@@ -53,7 +53,7 @@ $(document).ready(function(){
 
     ub.data = {};
 
-    ub.data.design_sets = {}
+    ub.data.design_sets = {};
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.applications = {
@@ -523,7 +523,6 @@ $(document).ready(function(){
                        value: 0.6,
                        color: '#5e5e5e',     
                     },
-
                     {
                        id: 4,
                        value: 1,
@@ -585,6 +584,27 @@ $(document).ready(function(){
         ]
 
     }
+
+    ub.funcs.load_fonts = function () {
+
+        var font_builder = '';
+
+        _.each( ub.data.fonts.items, function (item) {
+
+            font_builder +=  "@font-face {\n" +
+                             "\tfont-family: \"" +  item.name + "\";\n" + 
+                             "\tsrc: url('" + item.font_path + "');\n" + 
+                             "}\n";
+
+        });
+
+        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
+        $("head").prepend(font_builder);
+
+    };
+
+    ub.funcs.load_fonts();
+    
 
     /// End Fonts 
 

@@ -118,6 +118,7 @@
 <script src="{{$asset_storage}}/drop/js/drop.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.draggable.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/opentype/js/opentype.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
