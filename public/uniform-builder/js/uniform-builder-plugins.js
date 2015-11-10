@@ -257,6 +257,7 @@
 
             html_builder += "<hr />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
@@ -329,6 +330,83 @@
             // End Font Style Event Handler 
 
             /// End Font Style Selector 
+
+            /// Color Drop 
+
+            var color_drop_selector = 'div.color_drop[data-id="' + settings.application.id + '"]';
+            var color_drop;
+
+            color_content = "";
+            var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(settings.application.layer)});
+
+            var material_colors = JSON.parse(material_option_obj.colors);
+
+            var colors_obj = _.filter(ub.data.colors, function(color){
+                
+                var s = _.indexOf(material_colors, color.color_code);
+                return s !== -1;
+
+            });
+
+            var color_drop_content = "";
+            color_drop_content += "<div data-id='" + settings.application.id + "' class='row color-container' id='color-container-" + settings.application.id + "'>";
+            color_drop_content += "</div>";
+            color_drop_content += "<div class='row'>";
+            color_drop_content +=      "<div col-md-12>";
+
+            var color_els = ''; // '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
+
+            _.each(colors_obj, function (color) {
+
+                var foreground = 'white';
+
+                if (color.hex_code === 'ffffff') { 
+                    foreground = 'black';
+                }
+
+                color_els += '<a class="color-selector" style="color: ' + foreground + '; background-color: #' + color.hex_code + '" data-color="' + color.hex_code + '" data-target="color_drop_element" data-id="' + settings.application.id + '">' + color.name + '</a>';
+
+            });
+
+            color_drop_content += color_els;
+            color_drop_content +=      "</div>";
+            color_drop_content += "</div>";
+
+            color_drop = new Drop({
+                target: document.querySelector(color_drop_selector),
+                content: color_drop_content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            color_drop.once('open', function () {
+
+                var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
+                $link_selector.click( function (e) {
+
+                    var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
+                    
+                    // $dropdown.html($(this).html());
+                    // $dropdown.data('color-id');
+                    // $dropdown.data('color-id', $(this).data('color-id'));
+                    // $dropdown.data('color-name', $(this).data('color-name'));
+                    // $dropdown.css('background-color', $(this).data('color'));
+
+                    // color_drop.close();
+
+                    // var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
+                    // $textbox.trigger('change');
+
+                    color_code =  $(this).data('color');
+                    ub.current_material.settings.applications[settings.application.code].text_obj.tint = parseInt(color_code, 16);
+                    color_drop.close();
+                    
+                });
+
+            });
+
+            /// End Color Drop 
 
             var max_rotation = 620;
 
@@ -484,7 +562,7 @@
                 var position = '';
                 var scale = '';
                 var rotation = '';
-                var opacity = '';
+                var alpha = '';
                 var tint = '';
 
                 var s = view_objects['objects_' + application.code];
@@ -496,7 +574,7 @@
                     position = obj.position;
                     scale = obj.scale;
                     rotation = obj.rotation;
-                    opacity = obj.opacity;
+                    alpha = obj.alpha;
                     tint = obj.tint;
 
                     view.removeChild(view_objects['objects_' + application.code]);
@@ -508,16 +586,6 @@
                 view.addChild(sprite);
 
                 ub.updateLayersOrder(view);
-
-                if(position !== ''){
-
-                    sprite.position = position;
-                    sprite.scale = scale;
-                    sprite.rotation = rotation;
-                    sprite.opacity = opacity;
-                    sprite.tint = tint;
-
-                }
 
                 sprite.position.x = x;
                 sprite.position.y = y;
@@ -531,6 +599,16 @@
           
                 sprite.anchor.set(0.5, 0.5);
                 sprite.zIndex = -51;
+
+               if(position !== ''){
+
+                    sprite.position = position;
+                    sprite.scale = scale;
+                    sprite.rotation = rotation;
+                    sprite.alpha = alpha;
+                    sprite.tint = tint;
+
+                }
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
