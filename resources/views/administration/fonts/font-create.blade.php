@@ -1,5 +1,13 @@
 @extends('administration.main')
 
+@section('custom-styles')
+
+@foreach ($fonts as $fontItem)
+@font-face { font-family: "{{ $fontItem->name }}"; src: url("{{ $fontItem->font_path }}"); }
+@endforeach
+
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -40,6 +48,30 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Font Type</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name='type'>
+                                    <option value='default'>Default</option>
+                                    <option value='base'>Base (IN) --- a child of a "default"-type font</option>
+                                    <option value='outline'>Outline (OUT) --- a child of a "default"-type font</option>
+                                    <option value='accent'>Accent (3D) --- a child of a "default"-type font</option>
+                                    <option value='tail sweeps'>Tail Sweep --- a child of a "default"-type font</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Parent Font</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name='parent_id'>
+                                    <option value='0'>---</option>
+                                @foreach ($fonts as $font)
+                                    <option value='{{ $font->id }}' style="font-family: '{{ $font->name }}'; font-size: 30px;">{{ $font->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
