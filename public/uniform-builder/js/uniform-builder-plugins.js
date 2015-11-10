@@ -258,7 +258,7 @@
             html_builder += "<hr />";
 
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' data-id='" + settings.application.id + "' >Select a font... <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "'>";
+            html_builder += "<input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'>";
 
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
@@ -285,10 +285,10 @@
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
 
-            var els = '<a class="font-selector" data-font-id="-1" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
+            var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
 
             _.each(ub.data.fonts.items, function (item) {
-                els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
+                els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
             });
 
             content += els;
@@ -318,9 +318,13 @@
                     $dropdown.html($(this).html());
                     $dropdown.data('font-id');
                     $dropdown.data('font-id', $(this).data('font-id'));
+                    $dropdown.data('font-name', $(this).data('font-name'));
                     $dropdown.css('font-family', $(this).html());
 
                     drop.close();
+
+                    var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
+                    $textbox.trigger('change');
 
                 });
 
@@ -441,14 +445,22 @@
             });
 
             var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
-            $textbox.on('input', function () {
-                     
+
+            $textbox.on('keyup', function() {
+                _.debounce(500, $textbox.change());
+            });
+
+            $textbox.on('change', function () {
+                
+                if ($textbox.val().length === 0) { return; }
+
                 var x = ub.dimensions.width * application.position.x;
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
-
+                var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+                var font_obj = _.find(ub.data.fonts.items, {id: selected_font_id});
                 var text_input = $textbox.val();
-                var sprite = new PIXI.Text(text_input, {font:"70px Arial", fill:"gray"});
+                var sprite = new PIXI.Text(text_input, {font:"70px " + font_obj.name, fill:"gray", style: {padding: 100}});
                 
                 settings.applications[application.code] = {
                     application: application,
@@ -580,11 +592,9 @@
 
                     if (sprite.containsPoint(point)) {
                         sprite.zIndex = -500;
-                        //this.tint = 0x555555;
                         ub.updateLayersOrder(view);
                     } else {
                         sprite.zIndex = sprite.originalZIndex;
-                        //this.tint = 0xffffff;
                         ub.updateLayersOrder(view);
                     }
 
