@@ -447,7 +447,7 @@
             var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
 
             $textbox.on('keyup', function() {
-                _.debounce(500, $textbox.change());
+                _.debounce(500, $textbox.trigger('change'));
             });
 
             $textbox.on('change', function () {
@@ -480,17 +480,37 @@
 
                 sprite.mask = mask;
 
+                var position = '';
+                var scale = '';
+                var rotation = '';
+
                 var s = view_objects['objects_' + application.code];
 
                 if (typeof(s) === 'object') {
+
+                    var obj = view_objects['objects_' + application.code];
+
+                    position = obj.position;
+                    scale = obj.scale;
+                    rotation = obj.rotation;
+
                     view.removeChild(view_objects['objects_' + application.code]);
                     delete view_objects['objects_' + application.code];
+
                 }
 
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
                 ub.updateLayersOrder(view);
+
+                if(position !== ''){
+
+                    sprite.position = position;
+                    sprite.scale = scale;
+                    sprite.rotation = rotation;
+
+                }
 
                 sprite.position.x = x;
                 sprite.position.y = y;
