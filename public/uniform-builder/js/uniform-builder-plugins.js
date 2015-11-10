@@ -311,13 +311,9 @@
             drop.once('open', function () {
 
                 var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
-                //console.log('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
-
-                console.log('Selector');
-                console.log($link_selector);
 
                 $link_selector.click( function (e) {
-                    console.log('detected!');
+        
                 });
 
             });
