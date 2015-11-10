@@ -44,7 +44,10 @@ class FontsController extends Controller
     public function editFontForm($id)
     {
         $font = $this->client->getFont($id);
+        $fonts = $this->client->getDefaultFonts();
+
         return view('administration.fonts.font-edit', [
+            'fonts' => $fonts,
             'font' => $font
         ]);
     }
@@ -52,6 +55,8 @@ class FontsController extends Controller
     public function store(Request $request)
     {
         $fontName = $request->input('name');
+        $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
+        $fontParent = $request->input('parent_id');
 
         $fontId = null;
         if (!empty($request->input('font_id')))
@@ -69,6 +74,12 @@ class FontsController extends Controller
         $data = [
             'name' => $fontName
         ];
+
+        if ($fontType != 'default')
+        {
+            $data['type'] = $fontType;
+            $data['parent_id'] = $fontParent;
+        }
 
         try
         {

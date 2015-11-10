@@ -55,7 +55,14 @@
 
     <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
         <td>
-            {{ $font->name }}
+            {{ $font->name }}<br />
+            @if ($font->type == 'default')
+            <span class="label label-info">
+            @else
+            <span class="label label-success">
+            @endif
+                {{ $font->type }}
+            </span>
         </td>
         <td>
             <span style="font-family: '{{ $font->name }}'; font-size: 10x;">

@@ -2,8 +2,8 @@
 
 @section('custom-styles')
 
-@foreach ($fonts as $font)
-@font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
+@foreach ($fonts as $fontItem)
+@font-face { font-family: "{{ $fontItem->name }}"; src: url("{{ $fontItem->font_path }}"); }
 @endforeach
 
 @endsection
@@ -64,7 +64,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Parent Font</label>
                             <div class="col-md-6">
-                                <select class="form-control" name='type'>
+                                <select class="form-control" name='parent_id'>
                                     <option value='0'>---</option>
                                 @foreach ($fonts as $font)
                                     <option value='{{ $font->id }}' style="font-family: '{{ $font->name }}'; font-size: 30px;">{{ $font->name }}</option>
