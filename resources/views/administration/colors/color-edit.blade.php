@@ -91,6 +91,9 @@ $(document).ready(function(){
         showInput: true,
         move: function(tinycolor) {
             $('#hex-code').val(tinycolor);
+        },
+        hide: function(tinycolor) {
+            $('#hex-code').val(tinycolor);
         }
     });
 
