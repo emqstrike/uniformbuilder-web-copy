@@ -129,7 +129,9 @@
                         <input type="file" name="material_option_front_shape_path" id="front-src" class="shape-view" data-perspective="front">
                     </div>
                     <br><br><br>
-                    <div id="front-shape-view" style="border: 1px solid #e3e3e3; background-image: url(http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg);">
+                    <p>SHAPE: {{ $material->right_side_view_shape }}</p>
+                    @if($option->perspective == "right")<div id="right-shape-view" style="border: 1px solid #e3e3e3; background-image: url({{ $material->right_side_view_shape }});">
+                    @endif
                         <canvas id="applications-front-canvas"></canvas>
                         <div style="float: left; text-align: center;" class="front-applications text-center">
                             <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>

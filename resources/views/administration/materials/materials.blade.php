@@ -38,14 +38,14 @@
         <thead>
             <tr class="center-table-heads">
                 <th>Thumbnail</th>
-                <th>Material Name</th>
                 <th>Material Options</th>
+                <!-- <th>Material Options</th>
                 <th>Code</th>
                 <th>Type</th>
                 <th>Uniform Category</th>
-                <th>Gender</th>
-                <th>Active Status</th>
-                <th></th>
+                <th>Gender</th> -->
+                <th>Action</th>
+                <!-- <th></th> -->
             </tr>
         </thead>
         <tbody>
@@ -56,30 +56,43 @@
                 <td>
                     <div class="item row" style="display: inline;">
                         <div style="border: 1px solid #e3e3e3;">
+                            <div style="float:right;">
+                                <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
+                                    <i class="glyphicon glyphicon-eye-close"></i>
+                                    Disable
+                                </a>
+                                <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    Enable
+                                </a>
+                            </div>
                             <div>
-                                <center><img src=""
+                                <center><img src="{{ $material->thumbnail_path }}"
                                              width="300px"
                                              height="300px"
                                              alt="{{ $material->slug }}"></center>
                             </div>
                             <div class="caption">
-                                <div class="col-md-5">{{ $material->name }}{{ $material->code }}</div>
-                                <div class="col-md-3">{{ $material->uniform_category }}</div>
-                                <div class="col-md-2">{{ ucfirst($material->type) }}</div>
+                                <div class="col-md-6">{{ $material->name }} <span class="label label-default">{{ $material->code }}</span> {{-- {{ $material->right_side_view_shape }} --}}</div>
+                                <div class="col-md-2"><span class="label label-info">{{ $material->uniform_category }}</span></div>
+                                <div class="col-md-2"><span class="label label-success">{{ ucfirst($material->type) }}</span></div>
                                 <div class="col-md-2">
                                     @if ($material->gender == "men")
-                                    <i class="fa fa-mars"></i>
+                                    <span class="label label-primary">
+                                    <i class="fa fa-mars fa-lg"></i>
                                     @else
-                                    <i class="fa fa-venus"></i>
+                                    <span class="label label-danger">
+                                    <i class="fa fa-venus fa-lg"></i>
                                     @endif
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </td>
-                <td>
+                <!-- <td>
                     {{ $material->name }}
-                </td>
+                </td> -->
                 <td>
                     <div class="row">
                         <div class="col-md-3">
@@ -121,7 +134,11 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
+                                            data-material-id="{{ $material->id }}"
+                                            data-material-front-shape="{{ $material->front_view_shape }}"
+                                            data-material-back-shape="{{ $material->back_view_shape }}"
+                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
@@ -167,7 +184,11 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
+                                            data-material-id="{{ $material->id }}"
+                                            data-material-front-shape="{{ $material->front_view_shape }}"
+                                            data-material-back-shape="{{ $material->back_view_shape }}"
+                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }} 
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
@@ -213,7 +234,11 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
+                                            data-material-id="{{ $material->id }}"
+                                            data-material-front-shape="{{ $material->front_view_shape }}"
+                                            data-material-back-shape="{{ $material->back_view_shape }}"
+                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }} 
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
@@ -259,7 +284,11 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
+                                            data-material-id="{{ $material->id }}"
+                                            data-material-front-shape="{{ $material->front_view_shape }}"
+                                            data-material-back-shape="{{ $material->back_view_shape }}"
+                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }} 
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
@@ -275,7 +304,7 @@
                             Add Material Option
                         </a>
                 </td>
-                <td>
+                <!-- <td>
                     <span class="label label-default">
                         {{ $material->code }}
                     </span>
@@ -288,8 +317,8 @@
                 </td>
                 <td>
                     {{ ucfirst($material->gender) }}
-                </td>
-                <td>
+                </td> -->
+                <!-- <td>
                     <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
                         <i class="glyphicon glyphicon-eye-close"></i>
                         Disable
@@ -298,7 +327,7 @@
                         <i class="glyphicon glyphicon-eye-open"></i>
                         Enable
                     </a>
-                </td>
+                </td> -->
                 <td>
                     <div>
                         <a href="#" class="btn btn-default btn-xs show-material" role="button"
