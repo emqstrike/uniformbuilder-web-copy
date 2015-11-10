@@ -34,7 +34,11 @@ class FontsController extends Controller
 
     public function addFontForm()
     {
-        return view('administration.fonts.font-create');
+        $fonts = $this->client->getDefaultFonts();
+
+        return view('administration.fonts.font-create', [
+            'fonts' => $fonts
+        ]);
     }
 
     public function editFontForm($id)
