@@ -26,14 +26,16 @@
 </div>
 
 <div class="row-fluid col-md-9">
-    <table class='table table-bordered'>
+<table class='data-table table table-bordered'>
+<thead>
     <tr>
-        <th colspan='3'>
-            Color
-        </th>
+        <th>Color</th>
+        <th>Edit</th>
+        <th>Actions</th>
     </tr>
+</thead>
+<tbody>
 @forelse ($colors as $color)
-
     <tr class='color-{{ $color->id }} {{ (!$color->active) ? ' inactive' : '' }}'>
         <td>
             {{ $color->name }}
@@ -70,7 +72,8 @@
     </tr>
 
 @endforelse
-    </table>
+</tbody>
+</table>
 </div>
 
 @include('partials.confirmation-modal')

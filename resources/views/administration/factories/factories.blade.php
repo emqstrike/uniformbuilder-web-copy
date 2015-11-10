@@ -25,13 +25,17 @@
     </h1>
 </div>
 
-<div class="row col-md-7">
-    <table class='table table-bordered'>
+<div class="row-fluid col-md-5">
+<table class='data-table table table-bordered'>
+<thead>
     <tr>
-        <th colspan='2'>
-            Factories
-        </th>
+        <th>Factories</th>
+        <th>Code</th>
+        <th>Status</th>
+        <th>Actions</th>
     </tr>
+</thead>
+<tbody>
 @forelse ($factories as $factory)
 
     <tr class='factory-{{ $factory->id }} {{ (!$factory->active) ? ' inactive' : '' }}'>
@@ -72,6 +76,7 @@
     </tr>
 
 @endforelse
+</tbody>
     </table>
 </div>
 @include('partials.confirmation-modal')
