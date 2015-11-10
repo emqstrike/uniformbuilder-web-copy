@@ -8,7 +8,8 @@ $(document).ready(function() {
             reader.readAsDataURL(files[0]);
  
             reader.onloadend = function() {
-                $("#material-option-bounding-box").css("background-image", "url("+this.result+")");
+                //$("#material-option-bounding-box").css("background-image", "url("+this.result+")");
+                $("#shape-view-top").css("background-image", "url("+this.result+")");
             }
         }
     });
@@ -179,7 +180,7 @@ $(document).ready(function() {
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
         fill: 'transparent',
-        stroke: '#e3e3e3',
+        stroke: '#222',
         originX: 'center',
         originY: 'center'
     });
@@ -256,25 +257,8 @@ $(document).ready(function() {
     $(".modal").each(function(i) {
         $(this).draggable({
             handle: ".modal-header",
-            // backdrop: 'static',
-            // keyboard: false
-            // backdrop: "static"
         });
-        // onApprove: function () {
-        //     return false
-        // }
     });
-
-    // $('#save-material-option-modal').modal({
-    //     //backdrop: 'static',
-    //     //keyboard: false
-    // });
-// $('.modal')
-//   .modal({
-//     selector: { 
-//       close: 'icon.close'
-//     } 
-//   });
 
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
@@ -369,8 +353,29 @@ $(document).ready(function() {
 
     });
 
+    var material = {};
+
+    $("#select-perspective").on('change', function() {
+        var perspective = $(this).val();
+                
+        if(perspective == 'front') {
+            $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.option.front_shape+")");
+        } else if(perspective == 'back') {
+            $("#shape-view").css("background-image", "url("+material.option.back_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.option.back_shape+")");
+        } else if(perspective == 'left') {
+            $("#shape-view").css("background-image", "url("+material.option.left_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.option.left_shape+")");
+        } else if(perspective == 'right') {
+            $("#shape-view").css("background-image", "url("+material.option.right_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.option.right_shape+")");
+        }
+
+    });
+
     $('.edit-material-option').on('click', function(){
-        var material = {
+        material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
             option: {
@@ -386,7 +391,11 @@ $(document).ready(function() {
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
-                boundary_properties: ($(this).data('material-option-boundary-properties'))
+                boundary_properties: ($(this).data('material-option-boundary-properties')),
+                front_shape: ($(this).data('material-front-shape')),
+                back_shape: ($(this).data('material-back-shape')),
+                left_shape: ($(this).data('material-left-shape')),
+                right_shape: ($(this).data('material-right-shape'))
             }
         };
 
@@ -409,6 +418,21 @@ $(document).ready(function() {
         $('#saved-perspective').text(perspective + " View");
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
+        console.log("MATERIAL OPTION PERSPECTIVE: "+material.option.perspective);
+        console.log("URL: "+material.option.left_shape);
+        if(material.option.perspective == "front"){
+            $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.option.front_shape + ")");
+        }else if(material.option.perspective == "back"){
+            $("#shape-view").css("background-image", "url("+material.option.back_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.option.back_shape + ")");
+        }else if(material.option.perspective == "left"){
+            $("#shape-view").css("background-image", "url("+material.option.left_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.option.left_shape + ")");
+        }else if(material.option.perspective == "right"){
+            $("#shape-view").css("background-image", "url("+material.option.right_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.option.right_shape + ")");
+        }
 
         var jason = $('#boundary-properties').val().replace(/\\/g, '');
         var output = jason.substring(1, jason.length-1);
@@ -442,7 +466,6 @@ $(document).ready(function() {
 
         $("#file-src").prop("src", material.option.path);
         $("#layer-level").prop("value", material.option.layer_level);
-        $("#material-option-bounding-box").css("background-image", "url(" + material.option.path + ")");
 
         if (material.option.blend) {
             $('#is-blend').attr('checked', 'checked');

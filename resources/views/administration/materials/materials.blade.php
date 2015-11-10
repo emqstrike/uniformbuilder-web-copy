@@ -114,8 +114,8 @@
                                              height="45px" 
                                              alt="{{ $material->slug }}">
                                     @endif
-                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                                data-material-option-id="{{ $option->id }}" 
+                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                                data-material-option-id="{{ $option->id }}"
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a><br>

@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="control-label">Perspective:</label>
-                    <select name='perspective' class='form-control perspective'>
+                    <select name='perspective' class='form-control perspective' id="select-perspective">
                         <option value='front'>Front View</option>
                         <option value='back'>Back View</option>
                         <option value='right'>Right Side View</option>
@@ -125,13 +125,23 @@
                 </div>
 
                 <div class="col-md-2">
-                    <div class="col-md-2"><span class="badge badge-success">Front</span>
+                    <div class="col-md-2"><span class="badge badge-success">View</span>
                         <input type="file" name="material_option_front_shape_path" id="front-src" class="shape-view" data-perspective="front">
                     </div>
                     <br><br><br>
-                    <p>SHAPE: {{ $material->right_side_view_shape }}</p>
-                    @if($option->perspective == "right")<div id="right-shape-view" style="border: 1px solid #e3e3e3; background-image: url({{ $material->right_side_view_shape }});">
-                    @endif
+                    <div id="shape-view" style="border: 1px solid #e3e3e3;">
+                        <!-- <canvas id="applications-front-canvas"></canvas>
+                        <div style="float: left; text-align: center;" class="front-applications text-center">
+                            <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
+                            <select name="default_item" id="front-default-item">
+                                <option value="logo">Logo</option>
+                                <option value="number">Number</option>
+                                <option value="team_name">Team Name</option>
+                                <option value="player_name">Player Name</option>
+                            </select>
+                        </div> -->
+                    </div>
+                    <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 20; position: relative; float: left; margin-top: -250px;">
                         <canvas id="applications-front-canvas"></canvas>
                         <div style="float: left; text-align: center;" class="front-applications text-center">
                             <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
