@@ -66,6 +66,37 @@ class FontsAPIClient extends APIClient
         return $fonts;
     }
 
+    public function getAllFonts()
+    {
+        $response = $this->get('fonts/all');
+        $result = $this->decoder->decode($response->getBody());
+
+        $fonts = [];
+        if ($result->success)
+        {
+            $fonts = $result->fonts;
+        }
+        return $fonts;
+    }
+
+    public function getDefaultFonts()
+    {
+        return $this->getFontByType('default');
+    }
+
+    public function getFontByType($type = 'default')
+    {
+        $response = $this->get('fonts/' . $type);
+        $result = $this->decoder->decode($response->getBody());
+
+        $fonts = [];
+        if ($result->success)
+        {
+            $fonts = $result->fonts;
+        }
+        return $fonts;
+    }
+
     public function getFont($id)
     {
         $response = $this->get('font/' . $id);
