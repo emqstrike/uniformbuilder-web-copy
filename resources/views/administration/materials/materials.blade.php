@@ -20,7 +20,7 @@
 </div>
 @endif
 
-<div class="col-md-12">
+<div class="col-md-12"> 
     <h1>
         <span class="fa fa-cubes"></span>
         Materials
