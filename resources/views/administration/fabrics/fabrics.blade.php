@@ -31,18 +31,18 @@
     </h1>
 </div>
 
-<div class="row col-md-7">
-    <table data-toggle='table' class='fabrics'>
-        <thead>
-            <tr>
-                <th>Thumbnail</th>
-                <th>Fabric Name</th>
-                <th>Code</th>
-                <th>Active Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="row-fluid col-md-9">
+<table data-toggle='table' class='data-table table table-bordered fabrics'>
+<thead>
+    <tr>
+        <th>Thumbnail</th>
+        <th>Fabric Name</th>
+        <th>Code</th>
+        <th>Active Status</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
 
 @forelse ($fabrics as $fabric)
 
@@ -91,15 +91,15 @@
 @empty
 
     <tr>
-        <td colspan='3'>
+        <td colspan='5'>
             No Fabrics
         </td>
     </tr>
 
 @endforelse
 
-        </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 
 <!-- Information Modal -->

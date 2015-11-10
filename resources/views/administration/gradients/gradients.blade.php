@@ -31,17 +31,17 @@
     </h1>
 </div>
 
-<div class="row-fluid col-md-6">
-    <table data-toggle='table' class='gradients'>
-        <thead>
-            <tr>
-                <th>Thumbnail</th>
-                <th>Gradient Name</th>
-                <th>Active Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="row-fluid col-md-7">
+<table data-toggle='table' class='data-table table table-bordered gradients'>
+<thead>
+    <tr>
+        <th>Thumbnail</th>
+        <th>Gradient Name</th>
+        <th>Active Status</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
 
 @forelse ($gradients as $gradient)
 
@@ -84,8 +84,8 @@
 
 @endforelse
 
-        </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 
 @include('partials.confirmation-modal')
