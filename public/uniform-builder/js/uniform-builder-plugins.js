@@ -387,14 +387,8 @@
 
                     var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
                     var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
-                    
-                    console.log('Color: ');
-                    console.log($(this).data('color'));
 
                     $dropdown.html($(this).html());
-                    // $dropdown.data('color-id');
-                    // $dropdown.data('color-id', $(this).data('color-id'));
-                    // $dropdown.data('color-name', $(this).data('color-name'));
 
                     var foreground = '';
                     if($(this).data('color') === "ffffff"){
