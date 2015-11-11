@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Session;
@@ -86,7 +85,31 @@ class AuthenticationController extends AdminAuthController
     public function recoverPassword(Request $request)
     {
         $email = $request->input('email');
-        // Prepare reset password hash
-        // Send email
+
+        return $this->client->recoverPassword($email);
+    }
+
+    public function resetPassword($hash)
+    {
+        $response = $this->client->getUserFromHash($hash);
+        if ($response['success'])
+        {
+            $user = $response['user'];
+            $params = [
+                'page_title' => env('APP_TITLE'),
+                'app_title' => env('APP_TITLE'),
+                'asset_version' => env('ASSET_VERSION'),
+                'asset_storage' => env('ASSET_STORAGE'),
+                'full_name' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'hash' => $user->password_reset_hash,
+                'user_id' => $user->id
+            ];
+            return view('forms.reset-password', $params);
+        }
+
+        // Redirect to forgot-password
+        return Redirect::to('/forgotPassword')
+                        ->with('message', 'Invalid password reset token.');
     }
 }

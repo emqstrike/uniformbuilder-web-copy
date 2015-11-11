@@ -51,6 +51,26 @@ class UsersAPIClient extends APIClient
         ];
     }
 
+    public function getUserFromHash($hash)
+    {
+        $data = ['hash' => $hash];
+        $response = $this->post('user/identifyHash', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true,
+                'user' => $result->user
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
+    }
+
     public function isEmailTaken($email, $id = null)
     {
         $data = ['email' => $email];
