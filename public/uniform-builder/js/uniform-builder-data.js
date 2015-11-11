@@ -579,7 +579,7 @@ $(document).ready(function(){
                 ], 
             },  // End Drop Shadow
             {   // Double Shadow
-                id: 1,
+                id: 2,
                 name: 'Double Shadow',
                 code: 'double_shadow',
                 thumbnail: 'double_shadow.png',
@@ -605,7 +605,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Shadow
             {   // Shadow
-                id: 1,
+                id: 3,
                 name: 'Shadow',
                 code: 'shadow',
                 thumbnail: 'shadow.png',
@@ -625,7 +625,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Shadow
             {   // Double Drop Shadow
-                id: 1,
+                id: 4,
                 name: 'Double Drop Shadow',
                 code: 'double_drop_shadow',
                 thumbnail: 'double_drop_shadow.png',
@@ -651,7 +651,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Drop Shadow
             {   // Outlined with Drop Shadow
-                id: 1,
+                id: 5,
                 name: 'Outlined with Drop Shadow',
                 code: 'outlined_with_drop_shadow',
                 thumbnail: 'outlined_with_drop_shadow.png',
@@ -671,7 +671,7 @@ $(document).ready(function(){
                 ], 
             },  // End Outlined with Drop Shadow
             {   // Center Shadow
-                id: 1,
+                id: 6,
                 name: 'Center Shadow',
                 code: 'center_shadow',
                 thumbnail: 'center_shadow.png',
@@ -691,7 +691,7 @@ $(document).ready(function(){
                 ], 
             },  // End Center Shadow
             {   // Outlined with Drop Shadow
-                id: 1,
+                id: 7,
                 name: 'Collegiate Drop Shadow',
                 code: 'collegiate_drop_shadow',
                 thumbnail: 'collegiate_drop_shadow.png',

@@ -401,7 +401,7 @@
                 }
 
                 var text_input = $textbox.val();
-                var sprite = create_text(text_input, font_obj.name);
+                var sprite = create_text(text_input, font_obj.name, application);
                 
                 settings.applications[application.code] = {
                     application: application,
@@ -588,9 +588,12 @@
 
     };
 
-    function create_text (text_input, font_name) {
+    function create_text (text_input, font_name, application) {
 
-        return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "gray"});
+        var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+        var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+
+        return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
 
         // return a display object container here, 
         // with a js object containing the number of layers so that modifiers can be created
