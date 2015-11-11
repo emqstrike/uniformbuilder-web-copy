@@ -22,7 +22,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="#"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
         </div>
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
@@ -112,6 +112,7 @@
                     <div class="input-group col-md-12">
                         <button id="forgot-password-submit" type="button" class="btn btn-info btn-large col-md-12" style="display: inline-block;">
                             Retrieve password
+                            <i class="loading fa fa-spinner fa-pulse" style="display: none"></i>
                         </button>
                     </div>
                 </div>
@@ -121,6 +122,12 @@
             <div id="forgot-password-sent" class="col-md-12 vert-offset-top-2" style='display: none'>
                 <div class="col-md-12 alert alert-success">
                     <strong>Email sent!</strong> We've sent you an email with instructions to reset your password.
+                </div>
+            </div>
+
+            <div id="forgot-password-error" class="col-md-12 vert-offset-top-2" style='display: none'>
+                <div class="col-md-12 alert alert-warning message">
+                    Server error occurred. Please contact the administrator.
                 </div>
             </div>
 

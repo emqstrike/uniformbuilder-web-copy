@@ -32,6 +32,25 @@ class UsersAPIClient extends APIClient
         return null;
     }
 
+    public function recoverPassword($email)
+    {
+        $data = ['email' => $email];
+        $response = $this->post('user/recoverPassword', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
+    }
+
     public function isEmailTaken($email, $id = null)
     {
         $data = ['email' => $email];
