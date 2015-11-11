@@ -88,7 +88,7 @@
         <div id="forgot-password-pane"  class="col-md-4 col-md-offset-4 text-center">
 
             <form id="forgot-password" class="forgot-password pinhp-form" method="POST" novalidate="novalidate" style="display: block;">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" class='csrf-token' name="_token" value="{{ csrf_token() }}">
                 <div class='col-md-12'>
                     <label for="signup-email">
                         <strong class="placeholder">Enter your email</strong>
@@ -110,7 +110,7 @@
 
                 <div class='col-md-12'>
                     <div class="input-group col-md-12">
-                        <button id="forgot-password-submit" type="submit" class="btn btn-info btn-large col-md-12" style="display: inline-block;">
+                        <button id="forgot-password-submit" type="button" class="btn btn-info btn-large col-md-12" style="display: inline-block;">
                             Retrieve password
                         </button>
                     </div>
