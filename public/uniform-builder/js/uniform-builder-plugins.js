@@ -253,6 +253,7 @@
             html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Accent</div><div class='accent_drop' data-id='" + settings.application.id + "'>Choose an Accent...<i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
             html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
@@ -265,6 +266,7 @@
             $container.html(html_builder);
             create_font_dropdown(settings);
             create_color_dropdown(settings);
+            create_accent_dropdown(settings);
 
             var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
@@ -734,7 +736,7 @@
 
                     $font_dropdown.css('color', '#' + $(this).data('color'));
                     $font_selectors.css('color', '#' + $(this).data('color'));
-                    
+
                     color_code =  $(this).data('color');
 
                     var app = ub.current_material.settings.applications[settings.application.code];
@@ -753,6 +755,62 @@
 
             /// End Color Drop 
 
-    }
+    } 
+
+   function create_accent_dropdown (settings) {
+
+        var selector = 'div.accent_drop[data-id="' + settings.application.id + '"]';
+        var drop;
+
+        var content = "";
+        content += "<div data-id='" + settings.application.id + "' class='row accent-container' id='accent-container-" + settings.application.id + "'>";
+        content += "</div>";
+        content += "<div class='row'>";
+        
+        var els = '<div class="col-md-3"><a class="accent-selector" data-accent-id="-1" data-accent-name="None" data-target="accent_drop_element" data-id="' + settings.application.id + '">' + '<img class="accent_element" src="/images/sidebar/no-accent.png">' + '</a></div>';
+
+        _.each(ub.data.accents.items, function (item) {
+            els += '<div class="col-md-3">';
+            els += '<a class="accent-selector" data-accent-id="' + item.id + '" data-accent-name="' + item.name + '" data-target="accent_drop_element" data-id="' + settings.application.id + '">' + '<img class="accent_element" src="/images/sidebar/' + item.thumbnail + '">' + '</a><br />';
+            els += '</div>';
+        });
+
+        content += els;
+        
+        content += "</div>";
+        
+        drop = new Drop({
+            target: document.querySelector(selector),
+            content: content,
+            classes: 'drop-theme-arrows',
+            position: 'bottom left',
+            openOn: 'click'
+        });
+
+        ub.ui.drops[settings.application.id] = drop;
+
+        // Font Style Event Handler 
+
+        drop.once('open', function () {
+
+            var $link_selector = $('a.accent-selector[data-target="accent_drop_element"][data-id="' + settings.application.id + '"]');
+            
+            $link_selector.click( function (e) {
+
+                var $dropdown = $('div.accent_drop[data-id="' + settings.application.id + '"]')
+                
+                $dropdown.html($(this).html());
+                $dropdown.data('accent-id');
+                $dropdown.data('accent-id', $(this).data('accent-id'));
+                $dropdown.data('accent-name', $(this).data('accent-name'));
+                
+                drop.close();
+
+            });
+
+        });
+
+    } /// End Accent Drop Function 
+
 
 }(jQuery));
