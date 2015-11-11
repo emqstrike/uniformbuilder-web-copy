@@ -65,9 +65,10 @@ class UsersAPIClient extends APIClient
                 'user' => $result->user
             ];
         }
+
         return [
             'success' => false,
-            'message' => $result->message
+            'message' => 'Invalid reset password token'
         ];
     }
 
@@ -118,5 +119,24 @@ class UsersAPIClient extends APIClient
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
+    }
+
+    public function saveNewPassword($data)
+    {
+        $response = $this->post('user/saveNewPassword', [
+            'json' => $data
+        ]);
+
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success) {
+            return [
+                'success' => true,
+                'message' => $result->message
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
     }
 }

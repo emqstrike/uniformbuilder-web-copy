@@ -14,8 +14,9 @@
         <div id="reset-password-pane"  class="col-md-4 col-md-offset-4 text-center">
 
             <form id="reset-password" class="reset-password pinhp-form" method="POST" novalidate="novalidate" style="display: block;">
-                <input type="hidden" class='csrf-token' name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" class='user_id' name="_token" value="{{ $user_id }}">
+                <input type="hidden" class='csrf-token' value="{{ csrf_token() }}">
+                <input type="hidden" class='hash' value="{{ $hash }}">
+                <input type="hidden" class='user-id' value="{{ $user_id }}">
                 <div class='col-md-12'>
                     <label>
                         <span class="control has-icon">

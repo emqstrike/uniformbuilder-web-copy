@@ -19,7 +19,8 @@ Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
 Route::get('forgotPassword', 'AuthenticationController@forgotPasswordForm');
-Route::get('resetPassword/{hash}', 'AuthenticationController@resetPassword');
+Route::get('resetPassword/{hash}', 'AuthenticationController@resetPasswordForm');
+Route::post('saveNewPassword', 'AuthenticationController@saveNewPassword');
 Route::post('recoverPassword', 'AuthenticationController@recoverPassword');
 Route::get('index', 'UniformBuilderController@showBuilder');
 

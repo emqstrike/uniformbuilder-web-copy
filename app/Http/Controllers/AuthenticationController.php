@@ -89,7 +89,7 @@ class AuthenticationController extends AdminAuthController
         return $this->client->recoverPassword($email);
     }
 
-    public function resetPassword($hash)
+    public function resetPasswordForm($hash)
     {
         $response = $this->client->getUserFromHash($hash);
         if ($response['success'])
@@ -111,5 +111,16 @@ class AuthenticationController extends AdminAuthController
         // Redirect to forgot-password
         return Redirect::to('/forgotPassword')
                         ->with('message', 'Invalid password reset token.');
+    }
+
+    public function saveNewPassword(Request $request)
+    {
+        $data = [
+            'user_id' => $request->input('user_id'),
+            'password' => $request->input('password'),
+            'hash' => $request->input('hash')
+        ];
+
+        return $this->client->saveNewPassword($data);
     }
 }

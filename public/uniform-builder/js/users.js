@@ -73,11 +73,13 @@ $(document).ready(function () {
         $('#reset-password-submit .loading').fadeIn();
         $('#reset-password-submit').attr('disabled', 'disabled');
         var data = {
+            user_id: $('#reset-password .user-id').val(),
             password: $('#reset-password .password').val(),
+            hash: $('#reset-password .hash').val(),
             _token: $('.csrf-token').val()
         }
         $.ajax({
-            url: window.location.origin + '/resetPassword',
+            url: window.location.origin + '/saveNewPassword',
             data: data,
             method: 'POST',
             success: function(response) {
