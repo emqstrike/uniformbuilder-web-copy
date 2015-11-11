@@ -42,4 +42,53 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('#reset-password .password, #reset-password .confirm-password').on('change', isValidNewPassword);
+
+    function isValidNewPassword() {
+        var password = $('#reset-password .password').val();
+        var confirm_password = $('#reset-password .confirm-password').val();
+        if (password.length && confirm_password.length) {
+            if (password == confirm_password) {
+                if (password.length >= 6) {
+                    $('#reset-password-error').fadeOut();
+                } else {
+                    $('#reset-password-error .message').text('Password should be at least six (6) characters.');
+                    $('#reset-password-error').fadeIn();
+                    return false;
+                }
+                $('#reset-password-submit').removeAttr('disabled');
+                return true;
+            }
+        }
+        $('#reset-password-error .message').text('Passwords does not match.');
+        $('#reset-password-error').fadeIn();
+        $('#reset-password-submit').attr('disabled', 'disabled');
+        return false;
+    }
+
+    $('#reset-password-submit').on('click', resetPassword);
+
+    function resetPassword() {
+        $('#reset-password-submit .loading').fadeIn();
+        $('#reset-password-submit').attr('disabled', 'disabled');
+        var data = {
+            password: $('#reset-password .password').val(),
+            _token: $('.csrf-token').val()
+        }
+        $.ajax({
+            url: window.location.origin + '/resetPassword',
+            data: data,
+            method: 'POST',
+            success: function(response) {
+                $('#reset-password').fadeOut();
+                if (response.success) {
+                    $('#reset-password-sent').fadeIn();
+                } else {
+                    $('#reset-password-error .message').text(response.message);
+                    $('#reset-password-error').fadeIn();
+                }
+            }
+        });
+    }
 });

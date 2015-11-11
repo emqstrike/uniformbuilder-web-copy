@@ -74,7 +74,7 @@ class AuthenticationController extends AdminAuthController
     public function forgotPasswordForm()
     {
         $params = [
-            'page_title' => env('APP_TITLE'),
+            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE')
@@ -96,7 +96,7 @@ class AuthenticationController extends AdminAuthController
         {
             $user = $response['user'];
             $params = [
-                'page_title' => env('APP_TITLE'),
+                'page_title' => 'Reset your password | ' . env('APP_TITLE'),
                 'app_title' => env('APP_TITLE'),
                 'asset_version' => env('ASSET_VERSION'),
                 'asset_storage' => env('ASSET_STORAGE'),
