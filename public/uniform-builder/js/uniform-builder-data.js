@@ -556,6 +556,164 @@ $(document).ready(function(){
 
     /// END GRADIENTS
 
+    ub.data.accents = {
+        items: [
+            {   // Drop Shadow
+                id: 1,
+                name: 'Drop Shadow',
+                code: 'drop_shadow',
+                thumbnail: 'drop_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0.9,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Drop Shadow
+            {   // Double Shadow
+                id: 1,
+                name: 'Double Shadow',
+                code: 'double_shadow',
+                thumbnail: 'double_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0,
+                        outline: 0,
+                    },
+                    {
+                        layer_no: 3,
+                        increment_x: 0.9, 
+                        increment_y: 0,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Double Shadow
+            {   // Shadow
+                id: 1,
+                name: 'Shadow',
+                code: 'shadow',
+                thumbnail: 'shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Double Shadow
+            {   // Double Drop Shadow
+                id: 1,
+                name: 'Double Drop Shadow',
+                code: 'double_drop_shadow',
+                thumbnail: 'double_drop_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0.9,
+                        outline: 0,
+                    },
+                    {
+                        layer_no: 3,
+                        increment_x: 0.9, 
+                        increment_y: 0.9,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Double Drop Shadow
+            {   // Outlined with Drop Shadow
+                id: 1,
+                name: 'Outlined with Drop Shadow',
+                code: 'outlined_with_drop_shadow',
+                thumbnail: 'outlined_with_drop_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 2, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0.9,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Outlined with Drop Shadow
+            {   // Center Shadow
+                id: 1,
+                name: 'Center Shadow',
+                code: 'center_shadow',
+                thumbnail: 'center_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: -0.9, 
+                        increment_y: -0.9,
+                        outline: 0,
+                    },
+                ], 
+            },  // End Center Shadow
+            {   // Outlined with Drop Shadow
+                id: 1,
+                name: 'Collegiate Drop Shadow',
+                code: 'collegiate_drop_shadow',
+                thumbnail: 'collegiate_drop_shadow.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                    {
+                        layer_no: 2,
+                        increment_x: 0.9, 
+                        increment_y: 0.9,
+                        outline: 2,
+                    },
+                ], 
+            },  // End Outlined with Drop Shadow
+
+        ],
+    }
+
     /// Fonts 
 
     ub.data.fonts = {

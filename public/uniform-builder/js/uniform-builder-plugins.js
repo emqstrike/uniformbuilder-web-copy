@@ -590,10 +590,15 @@
 
         return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "gray"});
 
+        // return a display object container here, 
+        // with a js object containing the number of layers so that modifiers can be created
+
+        // add accent and configuration to the input 
+
     }
 
     function create_font_dropdown (settings) {
-        
+
             var selector = 'div.font_style_drop[data-id="' + settings.application.id + '"]';
             var drop;
 
@@ -705,7 +710,10 @@
                 var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
                 $link_selector.click( function (e) {
 
-                    var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
+                    var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]');
+                    var $font_selectors = $('a.font-selector');
+                    var font_selector_links = $('a.font-selector');
+
                     var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
 
                     $dropdown.html($(this).html());
@@ -725,7 +733,8 @@
                     });
 
                     $font_dropdown.css('color', '#' + $(this).data('color'));
-
+                    $font_selectors.css('color', '#' + $(this).data('color'));
+                    
                     color_code =  $(this).data('color');
 
                     var app = ub.current_material.settings.applications[settings.application.code];
