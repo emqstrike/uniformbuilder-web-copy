@@ -13,13 +13,33 @@ $(document).ready(function () {
         }
     });
 
-    $('#forgot-password-email').on('click', function(){
-        var csrf_token = $('.csrf-token').val();
-        var email = $('#forgot-password-email').val();
-    });
+    $('#forgot-password-submit').on('click', recoverPassword);
 
     function isValidEmail(email) {
-        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        var re = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         return re.test(email);
+    }
+
+    function recoverPassword() {
+        $('#forgot-password-submit .loading').fadeIn();
+        $('#forgot-password-submit').attr('disabled', 'disabled');
+        var data = {
+            email: $('#forgot-password-email').val(),
+            _token: $('.csrf-token').val()
+        }
+        $.ajax({
+            url: window.location.origin + '/recoverPassword',
+            data: data,
+            method: 'POST',
+            success: function(response) {
+                $('#forgot-password').fadeOut();
+                if (response.success) {
+                    $('#forgot-password-sent').fadeIn();
+                } else {
+                    $('#forgot-password-error .message').text(response.message);
+                    $('#forgot-password-error').fadeIn();
+                }
+            }
+        });
     }
 });
