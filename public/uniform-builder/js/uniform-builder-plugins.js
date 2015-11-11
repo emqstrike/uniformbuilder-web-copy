@@ -256,9 +256,9 @@
             var html_builder = '';
 
             html_builder += "<hr />";
+            html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
             html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
@@ -385,22 +385,37 @@
                 var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
                 $link_selector.click( function (e) {
 
+                    var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
                     var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
                     
-                    // $dropdown.html($(this).html());
+                    console.log('Color: ');
+                    console.log($(this).data('color'));
+
+                    $dropdown.html($(this).html());
                     // $dropdown.data('color-id');
                     // $dropdown.data('color-id', $(this).data('color-id'));
                     // $dropdown.data('color-name', $(this).data('color-name'));
-                    // $dropdown.css('background-color', $(this).data('color'));
 
-                    // color_drop.close();
+                    var foreground = '';
+                    if($(this).data('color') === "ffffff"){
+                        foreground = '#000000';
+                    } else {
+                        foreground = '#ffffff';
+                    }
 
-                    // var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
-                    // $textbox.trigger('change');
+                    $dropdown.css({
+                        'background-color': '#' + $(this).data('color'),
+                        'color': foreground,
+                        'border': 'solid 1px #3d3d3d',   
+                    });
+
+                    $font_dropdown.css('color', '#' + $(this).data('color'));
 
                     color_code =  $(this).data('color');
                     ub.current_material.settings.applications[settings.application.code].text_obj.tint = parseInt(color_code, 16);
                     color_drop.close();
+
+                    ub.refresh_thumbnails();
                     
                 });
 
