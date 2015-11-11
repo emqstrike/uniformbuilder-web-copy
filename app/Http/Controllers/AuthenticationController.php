@@ -71,4 +71,22 @@ class AuthenticationController extends AdminAuthController
         return Redirect::to('/index')
                         ->with('message', 'You have been logged out.');
     }
+
+    public function forgotPasswordForm()
+    {
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE')
+        ];
+        return view('forms.forgot-password', $params);
+    }
+
+    public function recoverPassword(Request $request)
+    {
+        $email = $request->input('email');
+        // Prepare reset password hash
+        // Send email
+    }
 }

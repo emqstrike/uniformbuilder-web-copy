@@ -55,7 +55,7 @@
                                                 <i class="fa fa-sign-in"></i>
                                                 Sign in
                                             </button>
-                                            <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                                            <div class="help-block text-right"><a href="/forgotPassword">Forgot your password?</a></div>
                                         </div>
                                     </form>
                                 </div>
