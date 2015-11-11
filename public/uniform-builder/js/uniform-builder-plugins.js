@@ -1,3 +1,4 @@
+
 (function ($) {
 
     $.fn.ubColorPicker = function(options) {
@@ -22,7 +23,7 @@
             var header = '';
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
-            
+
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
@@ -30,7 +31,6 @@
 
                 element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                 element = element + '</div>';    
-
                 color_elements = color_elements + element;
 
             });
@@ -56,7 +56,7 @@
 
             /// Handler for the color buttons
             var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
-            
+
             colors_btn.on('click', function() {
 
                 var color  = $(this).data('color');
@@ -99,7 +99,6 @@
         return this.each(function () {
 
             var $container = $(this);
-
             var html_builder = '';
 
             html_builder += "<hr />";
@@ -110,10 +109,9 @@
             $container.html(html_builder);
 
             var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
-            
             var drop;
-            
             var content = "";
+
             content += "<div data-id='" + settings.application.id + "' class='row logo-container' id='logo-container-" + settings.application.id + "'>";
             content += "</div>";
             content += "<hr />";
@@ -181,7 +179,6 @@
                     }
                 }
 
-
             };
 
             drop.once('open', function () {
@@ -209,7 +206,6 @@
         return this.each(function () {
 
             var $container = $(this);
-
             var html_builder = '';
 
             html_builder += "<hr />";
@@ -229,7 +225,6 @@
         return this.each(function () {
 
             var $container = $(this);
-
             var html_builder = '';
 
             html_builder += "<hr />";
@@ -246,7 +241,6 @@
     $.fn.ubPlayerNumberDialog = function(options) {
 
         var settings = $.extend({ application: {} }, options);
-
         var application = settings.application;
 
         return this.each(function () {
@@ -266,160 +260,15 @@
             html_builder += "Scale: <span data-target='logo' data-label='scale' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application.id + "'></div><br />";
             html_builder += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application.id + "'></div><br />";
             html_builder += "Y Position: <span></span> <div data-id='" + application.id + "' class='y_slider logo_slider'></div></div><br />";
-       
             html_builder += "<hr />";
 
             $container.html(html_builder);
-
-            /// Font Style Selector
-
-            var selector = 'div.font_style_drop[data-id="' + settings.application.id + '"]';
-            var drop;
-
-            var content = "";
-            content += "<div data-id='" + settings.application.id + "' class='row font-container' id='font-container-" + settings.application.id + "'>";
-            content += "</div>";
-            // content += "<hr />";
-            content += "<div class='row'>";
-            content +=      "<div col-md-12>";
-
-            var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
-
-            _.each(ub.data.fonts.items, function (item) {
-                els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
-            });
-
-            content += els;
-            content +=      "</div>";
-            content += "</div>";
-            
-            drop = new Drop({
-                target: document.querySelector(selector),
-                content: content,
-                classes: 'drop-theme-arrows',
-                position: 'bottom left',
-                openOn: 'click'
-            });
-
-            ub.ui.drops[settings.application.id] = drop;
-
-            // Font Style Event Handler 
-
-            drop.once('open', function () {
-
-                var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
-                $link_selector.click( function (e) {
-
-                    var $dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
-                    
-                    $dropdown.html($(this).html());
-                    $dropdown.data('font-id');
-                    $dropdown.data('font-id', $(this).data('font-id'));
-                    $dropdown.data('font-name', $(this).data('font-name'));
-                    $dropdown.css('font-family', $(this).html());
-
-                    drop.close();
-
-                    var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
-                    $textbox.trigger('change');
-
-                });
-
-            });
-        
-            // End Font Style Event Handler 
-
-            /// End Font Style Selector 
-
-            /// Color Drop 
-
-            var color_drop_selector = 'div.color_drop[data-id="' + settings.application.id + '"]';
-            var color_drop;
-
-            color_content = "";
-            var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(settings.application.layer)});
-
-            var material_colors = JSON.parse(material_option_obj.colors);
-
-            var colors_obj = _.filter(ub.data.colors, function(color){
-                
-                var s = _.indexOf(material_colors, color.color_code);
-                return s !== -1;
-
-            });
-
-            var color_drop_content = "";
-            color_drop_content += "<div data-id='" + settings.application.id + "' class='row color-container' id='color-container-" + settings.application.id + "'>";
-            color_drop_content += "</div>";
-            color_drop_content += "<div class='row'>";
-            color_drop_content +=      "<div col-md-12>";
-
-            var color_els = ''; // '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
-
-            _.each(colors_obj, function (color) {
-
-                var foreground = 'white';
-
-                if (color.hex_code === 'ffffff') { 
-                    foreground = 'black';
-                }
-
-                color_els += '<a class="color-selector" style="color: ' + foreground + '; background-color: #' + color.hex_code + '" data-color="' + color.hex_code + '" data-target="color_drop_element" data-id="' + settings.application.id + '">' + color.name + '</a>';
-
-            });
-
-            color_drop_content += color_els;
-            color_drop_content +=      "</div>";
-            color_drop_content += "</div>";
-
-            color_drop = new Drop({
-                target: document.querySelector(color_drop_selector),
-                content: color_drop_content,
-                classes: 'drop-theme-arrows',
-                position: 'bottom left',
-                openOn: 'click'
-            });
-
-            color_drop.once('open', function () {
-
-                var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
-                $link_selector.click( function (e) {
-
-                    var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
-                    var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
-
-                    $dropdown.html($(this).html());
-
-                    var foreground = '';
-                    if($(this).data('color') === "ffffff"){
-                        foreground = '#000000';
-                    } else {
-                        foreground = '#ffffff';
-                    }
-
-                    $dropdown.css({
-                        'background-color': '#' + $(this).data('color'),
-                        'color': foreground,
-                        'border': 'solid 1px #3d3d3d',   
-                    });
-
-                    $font_dropdown.css('color', '#' + $(this).data('color'));
-
-                    color_code =  $(this).data('color');
-                    ub.current_material.settings.applications[settings.application.code].text_obj.tint = parseInt(color_code, 16);
-                    color_drop.close();
-
-                    ub.refresh_thumbnails();
-                    
-                });
-
-            });
-
-            /// End Color Drop 
+            create_font_dropdown(settings);
+            create_color_dropdown(settings);
 
             var max_rotation = 620;
-
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
+
             $rotation_slider.roundSlider({
 
                 values: [0],
@@ -445,6 +294,7 @@
             });
 
             var max_scale = 200;
+            
             $('div.scale_slider[data-id="' + application.id + '"]').limitslider({
 
                 values: [100],
@@ -467,6 +317,7 @@
             });
 
             var max_opacity = 100;
+
             $('div.opacity_slider[data-id="' + application.id + '"]').limitslider({
 
                 values: [100],
@@ -486,7 +337,7 @@
 
                     var opacity =  value / max_opacity;
                     $angle_slider_logo.find('div.rs-bg-color').css({
-                        "opacity": opacity,
+                        "opacity": opacity
                     });
 
                 }
@@ -534,7 +385,7 @@
             });
 
             $textbox.on('change', function () {
-                
+
                 if ($textbox.val().length === 0) { return; }
 
                 var x = ub.dimensions.width * application.position.x;
@@ -543,12 +394,12 @@
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
                 var font_obj = _.find(ub.data.fonts.items, {id: selected_font_id});
 
-                if(typeof font_obj === 'undefined'){
+                if (typeof font_obj === 'undefined') {
                     return;
                 }
 
                 var text_input = $textbox.val();
-                var sprite = new PIXI.Text(text_input, {font:"70px " + font_obj.name, fill:"gray", style: {padding: 100}});
+                var sprite = create_text(text_input, font_obj.name);
                 
                 settings.applications[application.code] = {
                     application: application,
@@ -558,7 +409,6 @@
 
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
-
                 var mask = _.find(ub.current_material.material.options, {
                     perspective: application.perspective,
                     name: 'Body'
@@ -600,12 +450,12 @@
                 sprite.position.y = y;
 
                 if(sprite.width === 1) {
-                
+
                     sprite.position.x -= (sprite.width / 2);
                     sprite.position.y -= (sprite.height / 2);
 
                 }
-          
+
                 sprite.anchor.set(0.5, 0.5);
                 sprite.zIndex = -51;
 
@@ -661,10 +511,8 @@
 
                             var x = application.position.x * ub.dimensions.width;
                             var y = application.position.y * ub.dimensions.height;
-
                             var p_app = new PIXI.Point(x, y);
                             var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-
                             var distance = ub.funcs.lineDistance(p_app, p_sprite);
 
                             if ($('#chkSnap').is(":checked")) {
@@ -696,7 +544,6 @@
                     }
 
                     window.data = this.interactionData.data;
-                    window.this = this;
                     window.sprite = sprite;
 
                     var point = {
@@ -727,7 +574,6 @@
         return this.each(function () {
 
             var $container = $(this);
-
             var html_builder = '';
 
             html_builder += "<hr />";
@@ -739,5 +585,165 @@
         });
 
     };
+
+    function create_text (text_input, font_name) {
+
+        return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "gray"});
+
+    }
+
+    function create_font_dropdown (settings) {
+        
+            var selector = 'div.font_style_drop[data-id="' + settings.application.id + '"]';
+            var drop;
+
+            var content = "";
+            content += "<div data-id='" + settings.application.id + "' class='row font-container' id='font-container-" + settings.application.id + "'>";
+            content += "</div>";
+            content += "<div class='row'>";
+            content +=      "<div col-md-12>";
+
+            var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
+
+            _.each(ub.data.fonts.items, function (item) {
+                els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
+            });
+
+            content += els;
+            content +=      "</div>";
+            content += "</div>";
+            
+            drop = new Drop({
+                target: document.querySelector(selector),
+                content: content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            ub.ui.drops[settings.application.id] = drop;
+
+            // Font Style Event Handler 
+
+            drop.once('open', function () {
+
+                var $link_selector = $('a.font-selector[data-target="font_style_drop_element"][data-id="' + settings.application.id + '"]');
+                
+                $link_selector.click( function (e) {
+
+                    var $dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
+                    
+                    $dropdown.html($(this).html());
+                    $dropdown.data('font-id');
+                    $dropdown.data('font-id', $(this).data('font-id'));
+                    $dropdown.data('font-name', $(this).data('font-name'));
+                    $dropdown.css('font-family', $(this).html());
+
+                    drop.close();
+
+                    var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
+                    $textbox.trigger('change');
+
+                });
+
+            });
+    }
+
+    function create_color_dropdown (settings) {
+
+        /// Color Drop 
+
+            var color_drop_selector = 'div.color_drop[data-id="' + settings.application.id + '"]';
+            var color_drop;
+
+            color_content = "";
+
+            var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(settings.application.layer)});
+            var material_colors = JSON.parse(material_option_obj.colors);
+            var colors_obj = _.filter(ub.data.colors, function(color){
+                
+                var s = _.indexOf(material_colors, color.color_code);
+                return s !== -1;
+
+            });
+
+            var color_drop_content = "";
+            
+            color_drop_content += "<div data-id='" + settings.application.id + "' class='row color-container' id='color-container-" + settings.application.id + "'>";
+            color_drop_content += "</div>";
+            color_drop_content += "<div class='row'>";
+            color_drop_content +=      "<div col-md-12>";
+
+            var color_els = ''; 
+
+            _.each(colors_obj, function (color) {
+
+                var foreground = 'white';
+
+                if (color.hex_code === 'ffffff') { 
+                    foreground = 'black';
+                }
+
+                color_els += '<a class="color-selector" style="color: ' + foreground + '; background-color: #' + color.hex_code + '" data-color="' + color.hex_code + '" data-target="color_drop_element" data-id="' + settings.application.id + '">' + color.name + '</a>';
+
+            });
+
+            color_drop_content += color_els;
+            color_drop_content +=      "</div>";
+            color_drop_content += "</div>";
+
+            color_drop = new Drop({
+                target: document.querySelector(color_drop_selector),
+                content: color_drop_content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            color_drop.once('open', function () {
+
+                var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
+                $link_selector.click( function (e) {
+
+                    var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]')
+                    var $dropdown = $('div.color_drop[data-id="' + settings.application.id + '"]')
+
+                    $dropdown.html($(this).html());
+
+                    var foreground = '';
+                   
+                    if($(this).data('color') === "ffffff"){
+                        foreground = '#000000';
+                    } else {
+                        foreground = '#ffffff';
+                    }
+
+                    $dropdown.css({
+                        'background-color': '#' + $(this).data('color'),
+                        'color': foreground,
+                        'border': 'solid 1px #3d3d3d'   
+                    });
+
+                    $font_dropdown.css('color', '#' + $(this).data('color'));
+
+                    color_code =  $(this).data('color');
+
+                    var app = ub.current_material.settings.applications[settings.application.code];
+                    
+                    if( typeof app !== 'undefined') {
+                        app.text_obj.tint = parseInt(color_code, 16);    
+                    }
+                    
+                    color_drop.close();
+
+                    ub.refresh_thumbnails();
+                    
+                });
+
+            });
+
+            /// End Color Drop 
+
+    }
 
 }(jQuery));
