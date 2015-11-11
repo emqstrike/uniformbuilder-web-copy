@@ -8,8 +8,8 @@ $(document).ready(function() {
             reader.readAsDataURL(files[0]);
  
             reader.onloadend = function() {
-                //$("#material-option-bounding-box").css("background-image", "url("+this.result+")");
                 $("#shape-view-top").css("background-image", "url("+this.result+")");
+                $("#material-option-bounding-box-top").css("background-image", "url("+this.result+")");
             }
         }
     });
@@ -45,8 +45,8 @@ $(document).ready(function() {
         };
 
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
-    canvasFront.setWidth( 250 );
-    canvasFront.setHeight( 250 );
+    canvasFront.setWidth( 496 );
+    canvasFront.setHeight( 550 );
 
     fabric.Object.prototype.transparentCorners = false;
 
@@ -118,7 +118,6 @@ $(document).ready(function() {
         frontData[canvasItem] = JSON.stringify(group);
         var frontDataParsed = JSON.stringify(frontData);
         $( '#front-application-properties' ).prop('value',frontDataParsed);
-        console.log(frontData);
 
     });
 
@@ -176,6 +175,7 @@ $(document).ready(function() {
         pivot: 0,
         rotation: 0,
         };
+
 
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
@@ -418,8 +418,6 @@ $(document).ready(function() {
         $('#saved-perspective').text(perspective + " View");
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
-        console.log("MATERIAL OPTION PERSPECTIVE: "+material.option.perspective);
-        console.log("URL: "+material.option.left_shape);
         if(material.option.perspective == "front"){
             $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
             $("#material-option-bounding-box").css("background-image", "url(" + material.option.front_shape + ")");
@@ -537,7 +535,6 @@ $(document).ready(function() {
         });
     });
 
-    // DELETE MATERIAL
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
         modalConfirm(
@@ -547,7 +544,6 @@ $(document).ready(function() {
         );
     });
 
-    // DELETE MATERIAL OPTION
     $('.delete-material-option').on('click', function(){
         var id = $(this).data('material-option-id');
         modalConfirm(
@@ -632,7 +628,6 @@ $(document).ready(function() {
         }
     }
 
-    // Delete Material Image
     $('.delete-material-image').on('click', function(){
         var id = $(this).data('material-id');
         var field = $(this).data('field');
@@ -640,7 +635,6 @@ $(document).ready(function() {
         modalConfirm('Remove pattern', 'Are you sure you want to delete this image?', id, 'confirm-delete-field');
     });
 
-    // Delete Layer
     $('#confirmation-modal .confirm-delete-field').on('click', function(){
         var id = $(this).data('value');
         var field = $(this).data('field');

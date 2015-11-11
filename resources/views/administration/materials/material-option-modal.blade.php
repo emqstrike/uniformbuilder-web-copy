@@ -102,25 +102,11 @@
                             @endforeach
                         </select>
                     </div>
-               <!--  <div class="col-md-6">
-                    <label class="control-label">Gradients:</label>
-                    <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
-                        @foreach ($gradients as $gradient)
-                            @if ($gradient->active)
-                            <option value='{{ $gradient->id }}' selected="selected">
-                                {{ $gradient->name }}
-                            </option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div> -->
                 </div>
                 <div class="col-md-4">
-                    <div id="material-option-bounding-box" style="border: 1px solid black;">
+                    <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
+                    <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px;">
                         <canvas id="bounding-box-canvas"></canvas>
-                    </div>
-
-                    <div id="material-option-placements">
                     </div>
                 </div>
 
@@ -129,19 +115,8 @@
                         <input type="file" name="material_option_front_shape_path" id="front-src" class="shape-view" data-perspective="front">
                     </div>
                     <br><br><br>
-                    <div id="shape-view" style="border: 1px solid #e3e3e3;">
-                        <!-- <canvas id="applications-front-canvas"></canvas>
-                        <div style="float: left; text-align: center;" class="front-applications text-center">
-                            <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
-                            <select name="default_item" id="front-default-item">
-                                <option value="logo">Logo</option>
-                                <option value="number">Number</option>
-                                <option value="team_name">Team Name</option>
-                                <option value="player_name">Player Name</option>
-                            </select>
-                        </div> -->
-                    </div>
-                    <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 20; position: relative; float: left; margin-top: -250px;">
+                    <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
+                    <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px;">
                         <canvas id="applications-front-canvas"></canvas>
                         <div style="float: left; text-align: center;" class="front-applications text-center">
                             <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>

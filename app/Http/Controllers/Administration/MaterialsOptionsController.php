@@ -107,39 +107,6 @@ class MaterialsOptionsController extends Controller
                 //                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
                 //                                             );
                 // }
-                // if ($backShapeFile->isValid())
-                // {
-                //     $filename = Random::randomize(12);
-                //     $data['back_shape_path'] = FileUploader::upload(
-                //                                                 $backShapeFile,
-                //                                                 $materialOptionName,
-                //                                                 'material_option',
-                //                                                 "materials",
-                //                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
-                //                                             );
-                // }
-                // if ($leftShapeFile->isValid())
-                // {
-                //     $filename = Random::randomize(12);
-                //     $data['left_shape_path'] = FileUploader::upload(
-                //                                                 $leftShapeFile,
-                //                                                 $materialOptionName,
-                //                                                 'material_option',
-                //                                                 "materials",
-                //                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
-                //                                             );
-                // }
-                // if ($rightShapeFile->isValid())
-                // {
-                //     $filename = Random::randomize(12);
-                //     $data['right_shape_path'] = FileUploader::upload(
-                //                                                 $rightShapeFile,
-                //                                                 $materialOptionName,
-                //                                                 'material_option',
-                //                                                 "materials",
-                //                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
-                //                                             );
-                // }
             }
         }
         catch (S3Exception $e)

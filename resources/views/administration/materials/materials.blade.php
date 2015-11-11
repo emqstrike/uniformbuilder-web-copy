@@ -39,13 +39,7 @@
             <tr class="center-table-heads">
                 <th>Thumbnail</th>
                 <th>Material Options</th>
-                <!-- <th>Material Options</th>
-                <th>Code</th>
-                <th>Type</th>
-                <th>Uniform Category</th>
-                <th>Gender</th> -->
                 <th>Action</th>
-                <!-- <th></th> -->
             </tr>
         </thead>
         <tbody>
@@ -90,9 +84,6 @@
                         </div>
                     </div>
                 </td>
-                <!-- <td>
-                    {{ $material->name }}
-                </td> -->
                 <td>
                     <div class="row">
                         <div class="col-md-3">
@@ -304,30 +295,6 @@
                             Add Material Option
                         </a>
                 </td>
-                <!-- <td>
-                    <span class="label label-default">
-                        {{ $material->code }}
-                    </span>
-                </td>
-                <td>
-                    {{ ucfirst($material->type) }}
-                </td>
-                <td>
-                    {{ $material->uniform_category }}
-                </td>
-                <td>
-                    {{ ucfirst($material->gender) }}
-                </td> -->
-                <!-- <td>
-                    <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                        <i class="glyphicon glyphicon-eye-close"></i>
-                        Disable
-                    </a>
-                    <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                        Enable
-                    </a>
-                </td> -->
                 <td>
                     <div>
                         <a href="#" class="btn btn-default btn-xs show-material" role="button"
