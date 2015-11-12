@@ -786,8 +786,6 @@
                     $dropdown.data('color');
                     $dropdown.data('color', $(this).data('color'));
 
-                    console.log($dropdown.data('color'));
-
                     $dropdown.css({
                         'background-color': '#' + $(this).data('color'),
                         'color': foreground,
