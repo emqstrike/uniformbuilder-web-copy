@@ -402,6 +402,12 @@
 
                 var text_input = $textbox.val();
                 var sprite = create_text(text_input, font_obj.name, application);
+
+                /// Set First Three Colors
+
+
+
+                /// End Set First Three Colors 
                 
                 settings.applications[application.code] = {
                     application: application,
@@ -689,14 +695,7 @@
 
             color_content = "";
 
-            var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(settings.application.layer)});
-            var material_colors = JSON.parse(material_option_obj.colors);
-            var colors_obj = _.filter(ub.data.colors, function(color){
-                
-                var s = _.indexOf(material_colors, color.color_code);
-                return s !== -1;
-
-            });
+            var colors_obj = get_colors_obj(settings.application.layer);
 
             var color_drop_content = "";
             
@@ -852,6 +851,29 @@
         drop.close();
 
     } /// End Accent Drop Function 
+
+
+    /// Get Colors and Hex Codes For Given Material Option
+
+    function get_colors_obj(layer) {
+
+        var colors_obj = '';
+
+        var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(layer)});
+        var material_colors = JSON.parse(material_option_obj.colors);
+
+        var colors_obj = _.filter(ub.data.colors, function(color){
+            
+            var s = _.indexOf(material_colors, color.color_code);
+            return s !== -1;
+
+        });
+
+        return colors_obj;
+
+    }
+
+    /// End Get Colors and Hex Codes For Given Material Option
 
 
 }(jQuery));
