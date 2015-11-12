@@ -252,13 +252,15 @@
             html_builder += "<hr />";
             html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='ub_label'>Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Accent</div><div class='accent_drop' data-id='" + settings.application.id + "'>Choose an Accent...<i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
+            html_builder += "Font Size: <span data-target='logo' data-label='font_size' data-id='" + application.id + "'>100</span>px <div class='logo_slider font_size_slider' data-id='" + application.id + "'></div><br />";
             html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
             html_builder += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application.id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application.id + "'></div><br />";
-            html_builder += "Scale: <span data-target='logo' data-label='scale' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application.id + "'></div><br />";
+            html_builder += "Scale Width: <span data-target='logo' data-label='scale_x' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider_x' data-id='" + application.id + "'></div><br />";
+            html_builder += "Scale Height: <span data-target='logo' data-label='scale_y' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider_y' data-id='" + application.id + "'></div><br />";
             html_builder += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application.id + "'></div><br />";
             html_builder += "Y Position: <span></span> <div data-id='" + application.id + "' class='y_slider logo_slider'></div></div><br />";
             html_builder += "<hr />";
@@ -267,6 +269,29 @@
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
+
+            var max_font_size = 300;
+            
+            $('div.font_size_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [70],
+                min: 0,
+                max: max_font_size,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    
+                    var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
+                    $textbox.trigger('change');
+                    
+                    $('span[data-target="logo"][data-label="font_size"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+            
 
             var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
@@ -297,7 +322,7 @@
 
             var max_scale = 200;
             
-            $('div.scale_slider[data-id="' + application.id + '"]').limitslider({
+            $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider({
 
                 values: [100],
                 min: 0,
@@ -308,11 +333,42 @@
 
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects.front_view['objects_0' + application.id];
-                    var scale = new PIXI.Point(value / 100, value / 100);
+
+                    var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
+                    var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
+
+                    var scale = new PIXI.Point(value_x / 100, value_y / 100);
                     
                     object.scale = scale;
 
-                    $('span[data-target="logo"][data-label="scale"][data-id="' + application.id + '"]').text(value);
+                    $('span[data-target="logo"][data-label="scale_x"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+
+            var max_scale = 200;
+            
+            $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_scale,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects.front_view['objects_0' + application.id];
+
+                    var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
+                    var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
+
+                    var scale = new PIXI.Point(value_x / 100, value_y / 100);
+                    
+                    object.scale = scale;
+
+                    $('span[data-target="logo"][data-label="scale_y"][data-id="' + application.id + '"]').text(value);
 
                 }
 
@@ -621,23 +677,21 @@
             text_layer.no = layer.layer_no;
             text_layer.accent_obj = layer;
 
-            var style = {font:"70px " + font_name, fill: "white"};
+            var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
+            var style = {font: font_size + "px " + font_name, fill: "white"};
 
             if (layer.outline === 1){
                 style.stroke = '#3d3d3d';
-                style.strokeThickness = 7;
+                style.strokeThickness = 6;
             }
 
             if (layer.outline === 2){
                 style.stroke = '#acacac';
-                style.strokeThickness = 10;
+                style.strokeThickness = 12;
 
                 if (typeof layer.type === 'string') {
-
                     style.stroke = '#ffffff';
-
                 }
-
 
             }
 
