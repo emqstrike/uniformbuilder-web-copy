@@ -396,6 +396,8 @@
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
                 var font_obj = _.find(ub.data.fonts.items, {id: selected_font_id});
 
+                var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
+
                 if (typeof font_obj === 'undefined') {
                     return;
                 }
@@ -405,7 +407,15 @@
 
                 /// Set First Three Colors
 
+                var colors_obj = get_colors_obj(application.layer);
 
+                _.each(sprite.children, function (child, index) {
+
+                    child.tint = '0x' + colors_obj[index + 1].hex_code;
+
+                })
+
+                _.last(sprite.children).tint = '0x' + selected_color;
 
                 /// End Set First Three Colors 
                 
@@ -611,7 +621,19 @@
             text_layer.no = layer.layer_no;
             text_layer.accent_obj = layer;
 
-            text_layer.text_sprite = new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
+            var style = {font:"70px " + font_name, fill: "white"};
+
+            if (layer.outline === 1){
+                style.stroke = '#3d3d3d';
+                style.strokeThickness = 7;
+            }
+
+            if (layer.outline === 2){
+                style.stroke = '#acacac';
+                style.strokeThickness = 10;
+            }
+
+            text_layer.text_sprite = new PIXI.Text(text_input, style);
 
             text_layer.text_sprite.zIndex = layer.zIndex;
             text_layer.text_sprite.x += text_layer.text_sprite.width * layer.increment_x;
@@ -753,6 +775,11 @@
                         foreground = '#ffffff';
                     }
 
+                    $dropdown.data('color');
+                    $dropdown.data('color', $(this).data('color'));
+
+                    console.log($dropdown.data('color'));
+
                     $dropdown.css({
                         'background-color': '#' + $(this).data('color'),
                         'color': foreground,
@@ -837,6 +864,9 @@
                 $dropdown.data('accent-id');
                 $dropdown.data('accent-id', $(this).data('accent-id'));
                 $dropdown.data('accent-name', $(this).data('accent-name'));
+
+                var $textbox = $('input.applications.player_number[data-application-id="' + settings.application.id + '"]');
+                $textbox.trigger('change');
                 
                 drop.close();
 
