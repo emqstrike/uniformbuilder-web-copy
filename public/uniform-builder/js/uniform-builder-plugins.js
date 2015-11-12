@@ -474,7 +474,7 @@
 
                 }
 
-                sprite.zIndex = -51;
+               sprite.zIndex = -51;
 
                if(position !== ''){
 
@@ -568,7 +568,7 @@
                         y: window.data.global.y
                     };
 
-                    if (sprite.containsPoint(point)) {
+                    if (_.last(sprite.children).containsPoint(point)) {
                         sprite.zIndex = -500;
                         ub.updateLayersOrder(view);
                     } else {
