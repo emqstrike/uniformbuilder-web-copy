@@ -631,6 +631,14 @@
             if (layer.outline === 2){
                 style.stroke = '#acacac';
                 style.strokeThickness = 10;
+
+                if (typeof layer.type === 'string') {
+
+                    style.stroke = '#ffffff';
+
+                }
+
+
             }
 
             text_layer.text_sprite = new PIXI.Text(text_input, style);
