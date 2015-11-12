@@ -814,7 +814,8 @@
 
         drop.once('open', function () {
 
-            var $link_selector = $('a.accent-selector[data-target="accent_drop_element"][data-id="' + settings.application.id + '"]');
+            var selector_str = 'a.accent-selector[data-target="accent_drop_element"][data-id="' + settings.application.id + '"]';
+            var $link_selector = $(selector_str);
             
             $link_selector.click( function (e) {
 
@@ -829,7 +830,13 @@
 
             });
 
+            var default_accent = ub.data.accents.items[0];
+            $(selector_str + "[data-accent-id='" + default_accent.id + "']").click();
+
         });
+
+        drop.open();
+        drop.close();
 
     } /// End Accent Drop Function 
 
