@@ -40,10 +40,6 @@ $(document).ready(function() {
         }
     });
 
-    var testData = {
-            content: "Item"
-        };
-
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
@@ -52,7 +48,6 @@ $(document).ready(function() {
 
     var application_number = 1;
 
-    var frontData = {};
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
@@ -115,11 +110,52 @@ $(document).ready(function() {
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
 
         var canvasItem = "application"+group.id;
-        frontData[canvasItem] = JSON.stringify(group);
-        var frontDataParsed = JSON.stringify(frontData);
-        $( '#front-application-properties' ).prop('value',frontDataParsed);
+        // frontData[canvasItem] = JSON.stringify(group);
+        // var frontDataParsed = JSON.stringify(frontData);
+        // $( '#front-application-properties' ).prop('value',frontDataParsed);
 
     });
+
+var applicationProperties = {};
+
+// var applicationProperties = {
+//         0:{
+//             id: "",
+//             type: "",
+//             topLeft: {
+//                 "x":0,
+//                 "y":0,
+//                 "xp":0,
+//                 "yp":0
+//             },
+//             topRight: {
+//                 "x":0,
+//                 "y":0,
+//                 "xp":0,
+//                 "yp":0
+//             },
+//             bottomLeft: {
+//                 "x":0,
+//                 "y":0,
+//                 "xp":0,
+//                 "yp":0
+//             },
+//             bottomRight: {
+//                 "x":0,
+//                 "y":0,
+//                 "xp":0,
+//                 "yp":0
+//             },
+//             width: 0,
+//             widthp: 0,
+//             height: 0,
+//             heightp: 0,
+//             pivot: 0,
+//             rotation: 0,
+//         }
+// };
+
+        window.ap = applicationProperties;
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
@@ -138,6 +174,76 @@ $(document).ready(function() {
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
 
         canvasFront.renderAll();
+
+        $(".update-application").each(function(i) {
+
+            // BUILD APPLICATION PROPERTIES JSON
+
+            itemIdx = "layer"+$(this).data('id');
+            layer = $(this).data('id');
+            applicationType = $(this).siblings("select[class=app-def-item]").val();
+            applicationId = $(this).siblings("input[name=application_id]").val();
+
+            // console.log("ID: " + $(itemIdx));
+
+            thisGroup = canvasFront.item(layer);
+
+            var topLeftX = thisGroup.oCoords.tl.x;
+            var topLeftY = thisGroup.oCoords.tl.y;
+            var topRightX = thisGroup.oCoords.tr.x;
+            var topRightY = thisGroup.oCoords.tr.y;
+            var bottomLeftX = thisGroup.oCoords.bl.x;
+            var bottomLeftY = thisGroup.oCoords.bl.y;
+            var bottomRightX = thisGroup.oCoords.br.x;
+            var bottomRightY = thisGroup.oCoords.br.y;
+
+            canvas.renderAll();
+
+            applicationProperties[itemIdx]                      = {};
+            applicationProperties[itemIdx]['type']              = {};
+            applicationProperties[itemIdx]['id']                = {};
+            applicationProperties[itemIdx]['topLeft']           = {};
+            applicationProperties[itemIdx]['topLeft']['x']      = {};
+            applicationProperties[itemIdx]['topLeft']['y']      = {};
+            applicationProperties[itemIdx]['topRight']          = {};
+            applicationProperties[itemIdx]['topRight']['x']     = {};
+            applicationProperties[itemIdx]['topRight']['y']     = {};
+            applicationProperties[itemIdx]['bottomLeft']        = {};
+            applicationProperties[itemIdx]['bottomLeft']['x']   = {};
+            applicationProperties[itemIdx]['bottomLeft']['y']   = {};
+            applicationProperties[itemIdx]['bottomRight']       = {};
+            applicationProperties[itemIdx]['bottomRight']['x']  = {};
+            applicationProperties[itemIdx]['bottomRight']['y']  = {};
+
+            applicationProperties[itemIdx].type             = applicationType;
+            applicationProperties[itemIdx].id               = applicationId;
+            applicationProperties[itemIdx].topLeft.x        = topLeftX;
+            applicationProperties[itemIdx].topLeft.y        = topLeftY;
+            applicationProperties[itemIdx].topRight.x       = topRightX;
+            applicationProperties[itemIdx].topRight.y       = topRightY;
+            applicationProperties[itemIdx].bottomLeft.x     = bottomLeftX;
+            applicationProperties[itemIdx].bottomLeft.y     = bottomLeftY;
+            applicationProperties[itemIdx].bottomRight.x    = bottomRightX;
+            applicationProperties[itemIdx].bottomRight.y    = bottomRightY;
+
+            applicationProperties[itemIdx].topLeft.xp       = (topLeftX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].topLeft.yp       = (topLeftY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].topRight.xp      = (topRightX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].topRight.yp      = (topRightY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].bottomLeft.xp    = (bottomLeftX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].bottomLeft.yp    = (bottomLeftY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].bottomRight.xp   = (bottomRightX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].bottomRight.yp   = (bottomRightY / canvasFront.height) * 100;
+
+            applicationProperties[itemIdx].width            = thisGroup.getWidth();
+            applicationProperties[itemIdx].height           = thisGroup.getHeight();
+            applicationProperties[itemIdx].widthp           = (thisGroup.getWidth() / canvasFront.width) * 100;;
+            applicationProperties[itemIdx].heightp          = (thisGroup.getHeight() / canvasFront.height) * 100;;
+            applicationProperties[itemIdx].pivot            = thisGroup.getCenterPoint();
+            applicationProperties[itemIdx].rotation         = thisGroup.getAngle();
+        });
+        var appProperties = JSON.stringify(applicationProperties);
+        $( '#application-properties' ).prop('value', appProperties);
     });
 
     $('.default-color').change(function(){
@@ -335,7 +441,11 @@ $(document).ready(function() {
     $('.add-material-option').on('click', function(){
         var material = {
             id: $(this).data('material-id'),
-            name: $(this).data('material-name')
+            name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape'))
         };
         $('#save-material-option-modal .material-id').val(material.id);
         $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
@@ -392,6 +502,7 @@ $(document).ready(function() {
                 gradients: $(this).data('material-option-gradients'),
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
+                applications_properties: ($(this).data('material-option-applications-properties')),
                 front_shape: ($(this).data('material-front-shape')),
                 back_shape: ($(this).data('material-back-shape')),
                 left_shape: ($(this).data('material-left-shape')),
@@ -418,6 +529,7 @@ $(document).ready(function() {
         $('#saved-perspective').text(perspective + " View");
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
+        $('#application-properties').prop("value", material.option.applications_properties);
         if(material.option.perspective == "front"){
             $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
             $("#material-option-bounding-box").css("background-image", "url(" + material.option.front_shape + ")");
@@ -431,6 +543,9 @@ $(document).ready(function() {
             $("#shape-view").css("background-image", "url("+material.option.right_shape+")");
             $("#material-option-bounding-box").css("background-image", "url(" + material.option.right_shape + ")");
         }
+
+        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+        $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
 
         var jason = $('#boundary-properties').val().replace(/\\/g, '');
         var output = jason.substring(1, jason.length-1);
@@ -456,6 +571,126 @@ $(document).ready(function() {
         bounding_box.top = myData.topLeft.y;
 
         canvas.renderAll();
+
+        var appPropJson = $('#application-properties').val().replace(/\\/g, '');
+        var appProp = appPropJson.substring(1, appPropJson.length-1);
+        var app_properties = JSON.parse(appProp);
+
+
+
+        // console.log("apProp" + appPropJson);
+        // START           ------------------------------------------------------------------------------------
+
+
+
+        for(c = 0; c < Object.keys(app_properties).length; c++){
+            var default_item = $('#front-default-item').val();
+            var l = "layer"+c;
+
+            if(!app_properties[l].id){
+                break;
+            }
+
+            console.log(app_properties[l].id);
+
+            var area = new fabric.Rect({
+                id: c,
+                fill: '#e3e3e3',
+                height: 30,
+                width: 30,
+                strokeWidth: 1,
+                stroke: 'red',
+                opacity: 0.6,
+                originX: 'center',
+                originY: 'center'
+            });
+
+            var appID = new fabric.IText(c.toString(),{
+                fontFamily: 'arial black',
+                originX: 'center',
+                originY: 'center',
+                opacity: 0.6,
+                fontSize: 11
+            });
+
+            var text = app_properties[l].type;
+            console.log("TEXT: " + text);
+            var itemText = new fabric.IText(text.toString(),{
+                fontFamily: 'arial black',
+                originX: 'center',
+                originY: 'top',
+                opacity: 0.6,
+                fontSize: 8
+            });
+
+            var group = new fabric.Group([ area, appID, itemText ], {
+                id: c,
+                left: canvasFront.width / 2.6,
+                top: canvasFront.height / 5,
+                default_item: default_item
+            });
+
+            if(app_properties[l].id != null){
+
+                canvasFront.add(group);
+
+                console.log("NOT NULL ! ! !");
+
+                // var text = $(this).val();
+                var itemsArr = ["logo", "number", "team_name", "player_name"];
+                var selectAppend = "<select class=\"app-def-item\">";
+                var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
+
+                selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
+
+                for(var i = 0; i<itemsArr.length; i++) {
+
+                    if(group.default_item != itemsArr[i]) {
+                        selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+                    }
+
+                }
+
+                selectAppend += "</select>";
+
+                $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+                
+                var canvasItem = "application"+group.id;
+                var thisGroup = canvasFront.item(c);
+
+                // thisGroup.item(1).text = applicationId;
+                // thisGroup.item(2).text = applicationType;
+
+                thisGroup.oCoords.tl.x = app_properties[l].topLeft.x;
+                thisGroup.oCoords.tl.y = app_properties[l].topLeft.y;
+                thisGroup.oCoords.tr.x = app_properties[l].topRight.x;
+                thisGroup.oCoords.tr.y = app_properties[l].topRight.y;
+                thisGroup.oCoords.bl.x = app_properties[l].bottomLeft.x;
+                thisGroup.oCoords.bl.y = app_properties[l].bottomLeft.y;
+                thisGroup.oCoords.br.x = app_properties[l].bottomRight.x;
+                thisGroup.oCoords.br.y = app_properties[l].bottomRight.y;
+                thisGroup.centerPoint = app_properties[l].pivot;
+                thisGroup.setAngle(app_properties[l].rotation);
+
+                
+                thisGroup.width = app_properties[l].boxWidth;
+                thisGroup.height = app_properties[l].boxHeight;
+                thisGroup.left = app_properties[l].topLeft.x;
+                thisGroup.top = app_properties[l].topLeft.y;
+
+                console.log("JSON: " + app_properties[l].topLeft.x);
+
+                canvasFront.renderAll();
+
+            }
+            else{
+                break;
+            }
+            console.log("NOS PROBLEMOS");
+        }
+        // END
+
+        
 
         var boundaryProperties = JSON.stringify(data);
 

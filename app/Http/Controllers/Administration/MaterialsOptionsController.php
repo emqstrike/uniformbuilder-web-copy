@@ -54,10 +54,7 @@ class MaterialsOptionsController extends Controller
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
-        $front_application_properties = $request->input('front_application_properties');
-        $back_application_properties = $request->input('back_application_properties');
-        $left_application_properties = $request->input('left_application_properties');
-        $right_application_properties = $request->input('right_application_properties');
+        $applications_properties = $request->input('applications_properties');
 
         $data = [
             'material_id' => $materialId,
@@ -71,19 +68,12 @@ class MaterialsOptionsController extends Controller
             'gradients' => $gradients,
             'is_blend' => $is_blend,
             'boundary_properties' => $boundary_properties,
-            'front_application_properties' => $front_application_properties,
-            'back_application_properties' => $back_application_properties,
-            'left_application_properties' => $left_application_properties,
-            'right_application_properties' => $right_application_properties
+            'applications_properties' => $applications_properties
         ];
 
         try
         {
             $materialOptionFile = $request->file('material_option_path');
-            $frontShapeFile = $request->file('material_option_front_shape_path');
-            $backShapeFile = $request->file('material_option_back_shape_path');
-            $leftShapeFile = $request->file('material_option_left_shape_path');
-            $rightShapeFile = $request->file('material_option_right_shape_path');
             if (!is_null($materialOptionFile))
             {
                 if ($materialOptionFile->isValid())
@@ -97,16 +87,6 @@ class MaterialsOptionsController extends Controller
                                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
                                                             );
                 }
-                // if ($frontShapeFile->isValid())
-                //     $filename = Random::randomize(12);
-                //     $data['front_shape_path'] = FileUploader::upload(
-                //                                                 $frontShapeFile,
-                //                                                 $materialOptionName,
-                //                                                 'material_option',
-                //                                                 "materials",
-                //                                                 "{$materialFolder}/options/{$settingType}/{$filename}.png"
-                //                                             );
-                // }
             }
         }
         catch (S3Exception $e)

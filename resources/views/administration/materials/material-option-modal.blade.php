@@ -8,10 +8,7 @@
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties">
-            <input type="hidden" name="front_application_properties" id="front-application-properties">
-            <input type="hidden" name="back_application_properties" id="back-application-properties">
-            <input type="hidden" name="left_application_properties" id="left-application-properties">
-            <input type="hidden" name="right_application_properties" id="right-application-properties">
+            <input type="text" name="applications_properties" id="application-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -110,10 +107,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="col-md-2"><span class="badge badge-success">View</span>
-                        <input type="file" name="material_option_front_shape_path" id="front-src" class="shape-view" data-perspective="front">
-                    </div>
+                <div class="col-md-4">
                     <br><br><br>
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px;">

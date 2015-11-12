@@ -112,6 +112,7 @@
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
+                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
@@ -162,6 +163,7 @@
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
+                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
@@ -212,6 +214,7 @@
                                     </a><br>
                                     <a href="#" class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
+                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
@@ -262,6 +265,7 @@
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
+                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
