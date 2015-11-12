@@ -66,8 +66,23 @@ $(document).ready(function(){
                 id: 1,
                 layer: 'body',
                 perspective: 'front',
-                name: 'Front / Center',
+                name: 'Front / Top',
                 code: '01',
+                position: {
+                    x: 0.5,
+                    y: 0.35,
+                },
+
+            },
+
+            /// One
+            {
+
+                id: 2,
+                layer: 'body',
+                perspective: 'front',
+                name: 'Front / Center',
+                code: '02',
                 position: {
                     x: 0.5,
                     y: 0.5,
@@ -78,11 +93,11 @@ $(document).ready(function(){
             /// Two
             {
 
-                id: 2,
+                id: 3,
                 layer: 'body',
                 perspective: 'front',
                 name: 'Front / Bottom Right',
-                code: '02',
+                code: '03',
                 position: {
                     x: 0.30,
                     y: 0.75,
@@ -94,29 +109,14 @@ $(document).ready(function(){
             /// Three
             {
 
-                id: 3,
-                layer: 'body',
-                perspective: 'front',
-                name: 'Front / Bottom Left',
-                code: '03',
-                position: {
-                    x: 0.60,
-                    y: 0.7,
-                },
-
-            },
-
-            /// Four
-            {
-
                 id: 4,
                 layer: 'body',
                 perspective: 'front',
-                name: 'Front / Top',
+                name: 'Front / Bottom Left',
                 code: '04',
                 position: {
-                    x: 0.5,
-                    y: 0.35,
+                    x: 0.60,
+                    y: 0.7,
                 },
 
             },
