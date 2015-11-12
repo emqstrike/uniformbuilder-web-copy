@@ -590,8 +590,16 @@
 
     function create_text (text_input, font_name, application) {
 
+        var text_layers = {};
+
         var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
         var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+
+        _.each(accent_obj.layers, function (layer){
+
+
+
+        });
 
         return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
 
@@ -712,7 +720,9 @@
 
             color_drop.once('open', function () {
 
-                var $link_selector = $('a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]');
+                var selector_str = 'a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]';
+                var $link_selector = $(selector_str);
+
                 $link_selector.click( function (e) {
 
                     var $font_dropdown = $('div.font_style_drop[data-id="' + settings.application.id + '"]');
@@ -754,7 +764,13 @@
                     
                 });
 
+                var first_color = colors_obj[0];
+                $(selector_str + "[data-color='" + first_color.hex_code + "']").click();
+
             });
+
+            color_drop.open();
+            color_drop.close();
 
             /// End Color Drop 
 
@@ -770,7 +786,9 @@
         content += "</div>";
         content += "<div class='row'>";
         
-        var els = '<div class="col-md-3"><a class="accent-selector" data-accent-id="-1" data-accent-name="None" data-target="accent_drop_element" data-id="' + settings.application.id + '">' + '<img class="accent_element" src="/images/sidebar/no-accent.png">' + '</a></div>';
+        var default_accent = ub.data.accents.items[0];
+
+        var els = ''; // '<div class="col-md-3"><a class="accent-selector" data-accent-id="' + default_accent.id + '" data-accent-name="' + default_accent.name + '" data-target="accent_drop_element" data-id="' + settings.application.id + '">' + '<img class="accent_element" src="/images/sidebar/' + default_accent.thumbnail + '">' + '</a></div>';
 
         _.each(ub.data.accents.items, function (item) {
             els += '<div class="col-md-3">';

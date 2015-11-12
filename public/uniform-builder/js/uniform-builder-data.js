@@ -558,6 +558,20 @@ $(document).ready(function(){
 
     ub.data.accents = {
         items: [
+            {   // Default
+                id: 0,
+                name: 'Default',
+                code: 'default',
+                thumbnail: 'no-accent.png',
+                layers: [
+                    {
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                    },
+                ], 
+            },  // End Drop Shadow
             {   // Drop Shadow
                 id: 1,
                 name: 'Drop Shadow',
