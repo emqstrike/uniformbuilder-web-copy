@@ -458,7 +458,6 @@
 
                 }
 
-                sprite.anchor.set(0.5, 0.5);
                 sprite.zIndex = -51;
 
                if(position !== ''){
@@ -591,22 +590,36 @@
     function create_text (text_input, font_name, application) {
 
         var text_layers = {};
+        var container = new PIXI.Container();
 
         var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
         var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
 
         _.each(accent_obj.layers, function (layer){
 
+            var text_layer = '';
 
+            text_layers[layer.layer_no] = {};
+            text_layer = text_layers[layer.layer_no];
+
+            text_layer.no = layer.layer_no;
+            text_layer.accent_obj = layer;
+
+            text_layer.text_sprite = new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
+
+            text_layer.text_sprite.zIndex = layer.zIndex;
+            text_layer.text_sprite.x += text_layer.text_sprite.width * layer.increment_x;
+            text_layer.text_sprite.y += text_layer.text_sprite.height * layer.increment_y;
+            text_layer.text_sprite.anchor.set(0.5, 0.5);
+
+            container.addChild(text_layer.text_sprite);
 
         });
 
-        return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
+        ub.updateLayersOrder(container);
 
-        // return a display object container here, 
-        // with a js object containing the number of layers so that modifiers can be created
-
-        // add accent and configuration to the input 
+        return container;
+        //return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
 
     }
 
@@ -755,7 +768,7 @@
                     var app = ub.current_material.settings.applications[settings.application.code];
                     
                     if( typeof app !== 'undefined') {
-                        app.text_obj.tint = parseInt(color_code, 16);    
+                        _.last(app.text_obj.children).tint = parseInt(color_code, 16);    
                     }
                     
                     color_drop.close();
