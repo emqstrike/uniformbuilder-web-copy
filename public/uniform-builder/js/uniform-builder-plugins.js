@@ -252,8 +252,9 @@
             html_builder += "<hr />";
             html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Accent</div><div class='accent_drop' data-id='" + settings.application.id + "'>Choose an Accent...<i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
+            html_builder += "<div class='other_color_container' data-id='" + settings.application.id + "'></div>";
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
             html_builder += "Font Size: <span data-target='logo' data-label='font_size' data-id='" + application.id + "'>100</span>px <div class='logo_slider font_size_slider' data-id='" + application.id + "'></div><br />";
@@ -667,6 +668,10 @@
         var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
         var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
 
+        var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
+
+        $other_color_container.html('');
+
         _.each(accent_obj.layers, function (layer) {
 
             var text_layer = '';
@@ -682,14 +687,14 @@
 
             if (layer.outline === 1){
 
-                style.stroke = '#3d3d3d';
+                style.stroke = '#ffffff';
                 style.strokeThickness = 6;
 
             }
 
             if (layer.outline === 2){
 
-                style.stroke = '#acacac';
+                style.stroke = '#ffffff';
                 style.strokeThickness = 12;
 
                 if (typeof layer.type === 'string') {
@@ -707,35 +712,25 @@
 
             if(layer.type === 'outer_stroke' && layer.outline === 2) {
 
-                style.stroke = '#000000';
+                style.stroke = '#ffffff';
                 style.strokeThickness = 12;
 
             }
 
             if(layer.type === 'outer_stroke' && layer.outline === 1) {
 
-                style.stroke = '#000000';
+                style.stroke = '#ffffff';
                 style.strokeThickness = 6;
 
             }
 
             if(layer.type === 'shadow' && layer.outline > 0) {
-                style.fill = '#000000';
-                style.stroke = '#000000';
+                style.fill = '#ffffff';
+                style.stroke= '#ffffff';
             }
 
-            // if (layer.outline === 3){
-
-            //     style.stroke = '#acacac';
-            //     style.strokeThickness = 12;
-
-            //     if (typeof layer.type === 'string') {
-            //         style.stroke = '#ffffff';
-            //     }
-
-            // }
-
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+            text_layer.text_sprite.ubName = layer.name;
 
             var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
 
@@ -745,6 +740,15 @@
             text_layer.text_sprite.anchor.set(0.5, 0.5);
 
             container.addChild(text_layer.text_sprite);
+
+            if (layer.name !== 'Base Color') {
+                
+                $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
+
+                var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
+                create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+
+            }
 
         });
 
@@ -811,6 +815,112 @@
 
             });
     }
+
+    var temp_drops = {};
+
+    function create_color_dropdown_other_container (application, sprite, selector, layer_no) {
+
+        /// Color Drop 
+
+            var color_drop_selector = $(selector);
+            var color_drop;
+
+            color_content = "";
+
+            var colors_obj = get_colors_obj(application.layer);
+
+            var color_drop_content = "";
+            
+            color_drop_content += "<div data-id='" + application.id + "' class='row color-container' id='color-container-" + application.id + "'>";
+            color_drop_content += "</div>";
+            color_drop_content += "<div class='row'>";
+            color_drop_content +=      "<div col-md-12>";
+
+            var color_els = ''; 
+
+            _.each(colors_obj, function (color) {
+
+                var foreground = 'white';
+
+                if (color.hex_code === 'ffffff') { 
+                    foreground = 'black';
+                }
+
+                color_els += '<a class="other-color-selector" style="color: ' + foreground + '; background-color: #' + color.hex_code + '" data-layer-no="' + layer_no + '" data-color="' + color.hex_code + '" data-target="color_drop_element" data-id="' + application.id + '">' + color.name + '</a>';
+
+            });
+
+            color_drop_content += color_els;
+            color_drop_content +=      "</div>";
+            color_drop_content += "</div>";
+
+            color_drop = new Drop({
+                target: document.querySelector(selector),
+                content: color_drop_content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            temp_drops[application.id + ' ' + layer_no] = color_drop;
+            console.log('Drops');
+            console.log(temp_drops);
+
+            color_drop.once('open', function () {
+
+                var selector_str = 'a.other-color-selector[data-target="color_drop_element"][data-id="' + application.id + '"][data-layer-no="' + layer_no + '"]';
+                var $link_selector = $(selector_str);
+
+                $link_selector.click( function (e) {
+
+                    var $dropdown = $(selector);
+
+                    $dropdown.html($(this).html());
+
+                    var foreground = '';
+                   
+                    if($(this).data('color') === "ffffff"){
+                        foreground = '#000000';
+                    } else {
+                        foreground = '#ffffff';
+                    }
+
+                    $dropdown.data('color');
+                    $dropdown.data('color', $(this).data('color'));
+
+                    $dropdown.css({
+                        'background-color': '#' + $(this).data('color'),
+                        'color': foreground,
+                        'border': 'solid 1px #3d3d3d'   
+                    });
+
+                    color_code =  $(this).data('color');
+
+                    var app = ub.current_material.settings.applications[application.code];
+                    
+                    if( typeof app !== 'undefined') {
+                        sprite.tint = parseInt(color_code, 16); 
+                        console.log('Sprite Name: ' + sprite.ubName);
+                    }
+                    
+                    color_drop.close();
+
+                    ub.refresh_thumbnails();
+                    
+                });
+
+                var first_color = colors_obj[0];
+                $(selector_str + "[data-color='" + first_color.hex_code + "']").click();
+
+            });
+
+            color_drop.open();
+            color_drop.close();
+
+            /// End Color Drop 
+
+    } 
+
 
     function create_color_dropdown (settings) {
 

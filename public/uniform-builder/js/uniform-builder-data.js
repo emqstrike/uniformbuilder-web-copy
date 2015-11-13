@@ -566,6 +566,7 @@ $(document).ready(function(){
                 thumbnail: 'no-accent.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -581,6 +582,7 @@ $(document).ready(function(){
                 thumbnail: 'drop_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -588,6 +590,7 @@ $(document).ready(function(){
                         zIndex: -2,
                     },
                     {
+                        name: 'Shadow',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -603,6 +606,7 @@ $(document).ready(function(){
                 thumbnail: 'double_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -610,6 +614,7 @@ $(document).ready(function(){
                         zIndex: -3, 
                     },
                     {
+                        name: 'Shadow 1',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0,
@@ -617,6 +622,7 @@ $(document).ready(function(){
                         zIndex: -2,
                     },
                     {
+                        name: 'Shadow 2',
                         layer_no: 3,
                         increment_x: 0.12, 
                         increment_y: 0,
@@ -632,6 +638,7 @@ $(document).ready(function(){
                 thumbnail: 'shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -639,6 +646,7 @@ $(document).ready(function(){
                         zIndex: -2, 
                     },
                     {
+                        name: 'Shadow',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0,
@@ -654,6 +662,7 @@ $(document).ready(function(){
                 thumbnail: 'double_drop_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -661,6 +670,7 @@ $(document).ready(function(){
                         zIndex: -3, 
                     },
                     {
+                        name: 'Shadow 1',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -668,6 +678,7 @@ $(document).ready(function(){
                         zIndex: -2,
                     },
                     {
+                        name: 'Shadow 2',
                         layer_no: 3,
                         increment_x: 0.10, 
                         increment_y: 0.10,
@@ -683,6 +694,7 @@ $(document).ready(function(){
                 thumbnail: 'outlined_with_drop_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -691,6 +703,7 @@ $(document).ready(function(){
                         zIndex: -3,
                     },
                     {
+                        name: 'Outline 1',
                         layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,
@@ -699,7 +712,8 @@ $(document).ready(function(){
                         zIndex: -2,
                     },
                     {
-                        layer_no: 2,
+                        name: 'Outline 2',
+                        layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 2,
@@ -707,7 +721,8 @@ $(document).ready(function(){
                         zIndex: -1,
                     },
                     {
-                        layer_no: 3,
+                        name: 'Shadow',
+                        layer_no: 4,
                         increment_x: 0.06, 
                         increment_y: 0.06,
                         outline: 2,
@@ -724,6 +739,7 @@ $(document).ready(function(){
                 thumbnail: 'center_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -731,6 +747,7 @@ $(document).ready(function(){
                         zIndex: -2, 
                     },
                     {
+                        name: 'Shadow',
                         layer_no: 2,
                         increment_x: -0.03, 
                         increment_y: -0.03,
@@ -746,19 +763,30 @@ $(document).ready(function(){
                 thumbnail: 'collegiate_drop_shadow.png',
                 layers: [
                     {
+                        name: 'Base Color',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
-                        outline: 0,
+                        outline: 1,
                         zIndex: -2, 
                     },
                     {
+                        name: 'Shadow',
                         layer_no: 2,
+                        increment_x: 0.06, 
+                        increment_y: 0.06,
+                        outline: 0,
+                        type: 'shadow',
+                        zIndex: -1,
+                    },
+                    {
+                        name: 'Shadow Outline',
+                        layer_no: 3,
                         increment_x: 0.06, 
                         increment_y: 0.06,
                         outline: 1,
                         type: 'outer_stroke',
-                        zIndex: -1,
+                        zIndex: 0,
                     },
                 ], 
             },  // End Outlined with Drop Shadow
