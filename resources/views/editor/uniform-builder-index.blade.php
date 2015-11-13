@@ -122,8 +122,6 @@
 
             @include('partials.panels.attachments')
 
-            
-
 
         </div>
 

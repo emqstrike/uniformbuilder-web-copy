@@ -667,7 +667,7 @@
         var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
         var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
 
-        _.each(accent_obj.layers, function (layer){
+        _.each(accent_obj.layers, function (layer) {
 
             var text_layer = '';
 
@@ -681,11 +681,14 @@
             var style = {font: font_size + "px " + font_name, fill: "white", padding: 10};
 
             if (layer.outline === 1){
+
                 style.stroke = '#3d3d3d';
                 style.strokeThickness = 6;
+
             }
 
             if (layer.outline === 2){
+
                 style.stroke = '#acacac';
                 style.strokeThickness = 12;
 
@@ -694,6 +697,43 @@
                 }
 
             }
+
+            if(layer.type === 'middle_stroke' && layer.outline === 1) {
+
+                style.stroke = '#ffffff';
+                style.strokeThickness = 6;
+
+            }
+
+            if(layer.type === 'outer_stroke' && layer.outline === 2) {
+
+                style.stroke = '#000000';
+                style.strokeThickness = 12;
+
+            }
+
+            if(layer.type === 'outer_stroke' && layer.outline === 1) {
+
+                style.stroke = '#000000';
+                style.strokeThickness = 6;
+
+            }
+
+            if(layer.type === 'shadow' && layer.outline > 0) {
+                style.fill = '#000000';
+                style.stroke = '#000000';
+            }
+
+            // if (layer.outline === 3){
+
+            //     style.stroke = '#acacac';
+            //     style.strokeThickness = 12;
+
+            //     if (typeof layer.type === 'string') {
+            //         style.stroke = '#ffffff';
+            //     }
+
+            // }
 
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
 
