@@ -57,8 +57,6 @@ $(document).ready(function () {
 
             if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts') {
                 ub.data[object_name] = obj;
-                console.log('Object Name');
-                console.log(object_name);
             }
             else {
                 ub.current_material[object_name] = obj;
