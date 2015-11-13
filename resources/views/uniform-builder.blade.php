@@ -9,7 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Uniform Builder">
 <meta name="author" content="Engineering">
+
 <title>{{ $page_title }}</title>
+
 <link rel="icon" type="image/png" href="/images/branding/brand.png" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">

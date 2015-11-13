@@ -56,6 +56,7 @@ $(document).ready(function(){
     ub.data.design_sets = {};
     ub.data.materials = {};
     ub.data.colors = {};
+    ub.data.fonts = {};
     ub.data.applications = {
 
         items: [
@@ -755,7 +756,7 @@ $(document).ready(function(){
 
     /// Fonts 
 
-    ub.data.fonts = {
+    ub.data.fonts_2 = {
 
         items: [
 
@@ -789,7 +790,7 @@ $(document).ready(function(){
 
         var font_builder = '';
 
-        _.each( ub.data.fonts.items, function (item) {
+        _.each( ub.data.fonts, function (item) {
 
             font_builder +=  "@font-face {\n" +
                              "\tfont-family: \"" +  item.name + "\";\n" + 
@@ -802,9 +803,6 @@ $(document).ready(function(){
         $("head").prepend(font_builder);
 
     };
-
-    ub.funcs.load_fonts();
-    
 
     /// End Fonts 
 

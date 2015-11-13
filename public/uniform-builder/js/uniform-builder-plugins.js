@@ -246,7 +246,7 @@
         return this.each(function () {
 
             var $container = $(this);
-            var first_font = ub.data.fonts.items[0];
+            var first_font = ub.data.fonts[0];
             var html_builder = '';
 
             html_builder += "<hr />";
@@ -450,7 +450,7 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = _.find(ub.data.fonts.items, {id: selected_font_id});
+                var font_obj = _.find(ub.data.fonts, {id: selected_font_id});
 
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
@@ -459,7 +459,7 @@
                 }
 
                 var text_input = $textbox.val();
-                var sprite = create_text(text_input, font_obj.name, application);
+                var sprite = create_text(" " + text_input + " ", font_obj.name, application);
 
                 /// Set First Three Colors
 
@@ -678,7 +678,7 @@
             text_layer.accent_obj = layer;
 
             var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
-            var style = {font: font_size + "px " + font_name, fill: "white"};
+            var style = {font: font_size + "px " + font_name, fill: "white", padding: 10};
 
             if (layer.outline === 1){
                 style.stroke = '#3d3d3d';
@@ -695,11 +695,13 @@
 
             }
 
-            text_layer.text_sprite = new PIXI.Text(text_input, style);
+            text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+
+            var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
 
             text_layer.text_sprite.zIndex = layer.zIndex;
-            text_layer.text_sprite.x += text_layer.text_sprite.width * layer.increment_x;
-            text_layer.text_sprite.y += text_layer.text_sprite.height * layer.increment_y;
+            text_layer.text_sprite.x += dummy.width * layer.increment_x;
+            text_layer.text_sprite.y += dummy.height * layer.increment_y;
             text_layer.text_sprite.anchor.set(0.5, 0.5);
 
             container.addChild(text_layer.text_sprite);
@@ -726,7 +728,7 @@
 
             var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
 
-            _.each(ub.data.fonts.items, function (item) {
+            _.each(ub.data.fonts, function (item) {
                 els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
             });
 

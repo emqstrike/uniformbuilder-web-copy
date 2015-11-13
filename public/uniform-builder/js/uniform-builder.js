@@ -15,11 +15,13 @@ $(document).ready(function () {
             ub.current_material.id = window.ub.config.material_id;
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+            ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
@@ -53,8 +55,10 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns') {
-                ub.data[object_name] = obj
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts') {
+                ub.data[object_name] = obj;
+                console.log('Object Name');
+                console.log(object_name);
             }
             else {
                 ub.current_material[object_name] = obj;
@@ -63,7 +67,8 @@ $(document).ready(function () {
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
                      typeof(ub.data.colors) !== 'undefined' &&
-                     typeof(ub.data.patterns) !== 'undefined';  
+                     typeof(ub.data.patterns) !== 'undefined' &&
+                     typeof(ub.data.fonts) !== 'undefined';  
 
             if (ok) {
                 ub.load_assets();            
@@ -306,11 +311,14 @@ $(document).ready(function () {
 
             /// Begin Rendering after assets are loaded
 
+            ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
             ub.setup_pattern_view(); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
+
+
             
         }
 
