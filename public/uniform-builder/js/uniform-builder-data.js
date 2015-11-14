@@ -567,6 +567,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: 'acacac',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -583,6 +584,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: 'acacac',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -591,6 +593,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow',
+                        default_color: '000000',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -607,6 +610,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: '98012e',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -615,6 +619,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow 1',
+                        default_color: 'acacac',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0,
@@ -623,6 +628,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow 2',
+                        default_color: '000000',
                         layer_no: 3,
                         increment_x: 0.12, 
                         increment_y: 0,
@@ -639,6 +645,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: 'acacac',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -647,8 +654,9 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow',
+                        default_color: '000000',
                         layer_no: 2,
-                        increment_x: 0.06, 
+                        increment_x: 0.12, 
                         increment_y: 0,
                         outline: 0,
                         zIndex: -1,
@@ -663,6 +671,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: '98012e',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -671,6 +680,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow 1',
+                        default_color: 'acacac',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -679,6 +689,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow 2',
+                        default_color: '000000',
                         layer_no: 3,
                         increment_x: 0.10, 
                         increment_y: 0.10,
@@ -695,6 +706,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: '98012e',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -704,6 +716,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Outline 1',
+                        default_color: 'ffffff',
                         layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,
@@ -713,6 +726,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Outline 2',
+                        default_color: '000000',
                         layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
@@ -722,6 +736,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow',
+                        default_color: '000000',
                         layer_no: 4,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -740,6 +755,7 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: 'acacac',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -748,6 +764,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow',
+                        default_color: '000000',
                         layer_no: 2,
                         increment_x: -0.03, 
                         increment_y: -0.03,
@@ -764,16 +781,18 @@ $(document).ready(function(){
                 layers: [
                     {
                         name: 'Base Color',
+                        default_color: '98012e',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
-                        outline: 1,
+                        outline: 0,
                         zIndex: -2, 
                     },
                     {
                         name: 'Shadow',
+                        default_color: 'acacac',
                         layer_no: 2,
-                        increment_x: 0.06, 
+                        increment_x: 0.12, 
                         increment_y: 0.06,
                         outline: 0,
                         type: 'shadow',
@@ -781,8 +800,9 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Shadow Outline',
+                        default_color: '000000',
                         layer_no: 3,
-                        increment_x: 0.06, 
+                        increment_x: 0.12, 
                         increment_y: 0.06,
                         outline: 1,
                         type: 'outer_stroke',

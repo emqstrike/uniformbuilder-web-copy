@@ -468,7 +468,8 @@
 
                 _.each(sprite.children, function (child, index) {
 
-                    child.tint = '0x' + colors_obj[index + 1].hex_code;
+                    //child.tint = '0x' + colors_obj[index + 1].hex_code;
+                    child.tint = parseInt(child.ubDefaultColor,16);
 
                 })
 
@@ -730,7 +731,11 @@
             }
 
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+            
+            /// Custom Properties
             text_layer.text_sprite.ubName = layer.name;
+            text_layer.text_sprite.ubDefaultColor = layer.default_color;
+
 
             var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
 
