@@ -823,6 +823,8 @@
 
     var temp_drops = {};
 
+    var ctr = 0;
+
     function create_color_dropdown_other_container (application, sprite, selector, layer_no) {
 
         /// Color Drop 
@@ -868,8 +870,6 @@
             });
 
             temp_drops[application.id + ' ' + layer_no] = color_drop;
-            console.log('Drops');
-            console.log(temp_drops);
 
             color_drop.once('open', function () {
 
@@ -905,13 +905,10 @@
                     
                     if( typeof app !== 'undefined') {
                         sprite.tint = parseInt(color_code, 16); 
-                        console.log('Sprite Name: ' + sprite.ubName);
                     }
                     
                     color_drop.close();
 
-                    ub.refresh_thumbnails();
-                    
                 });
 
                 var first_color = colors_obj[0];
@@ -921,6 +918,7 @@
 
             color_drop.open();
             color_drop.close();
+            ub.refresh_thumbnails();
 
             /// End Color Drop 
 
