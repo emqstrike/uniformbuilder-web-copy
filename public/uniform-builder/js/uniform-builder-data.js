@@ -69,6 +69,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Top',
                 code: '01',
+                rotation: 0,
                 position: {
                     x: 0.5,
                     y: 0.35,
@@ -84,6 +85,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '02',
+                rotation: 0,
                 position: {
                     x: 0.5,
                     y: 0.5,
@@ -99,6 +101,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Right',
                 code: '03',
+                rotation: 0,
                 position: {
                     x: 0.30,
                     y: 0.75,
@@ -115,6 +118,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Left',
                 code: '04',
+                rotation: 0,
                 position: {
                     x: 0.60,
                     y: 0.7,
@@ -130,6 +134,7 @@ $(document).ready(function(){
                 perspective: 'back',
                 name: 'Back Center',
                 code: '05',
+                rotation: 0,
                 position: {
                     x: 0.5,
                     y: 0.3,
@@ -144,6 +149,7 @@ $(document).ready(function(){
                 perspective: 'left',
                 name: 'Left Center',
                 code: '06',
+                rotation: 0,
                 position: {
                     x: 0.5,
                     y: 0.3,
