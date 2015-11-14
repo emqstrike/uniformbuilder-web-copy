@@ -95,6 +95,10 @@
     $.fn.ubLogoDialog = function(options) {
 
         var settings = $.extend({ application: {} }, options);
+        var application = settings.application;
+
+        var view_str = application.perspective + '_view';
+        $('a#view_' + application.perspective).click();
 
         return this.each(function () {
 
@@ -243,6 +247,9 @@
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
 
+        var view_str = application.perspective + '_view';
+        $('a#view_' + application.perspective).click();
+
         return this.each(function () {
 
             var $container = $(this);
@@ -293,7 +300,6 @@
 
             });
             
-
             var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
 
@@ -310,7 +316,7 @@
                 change: function(event, ui) {
 
                     var value = parseInt($rotation_slider.find('span.edit').html());
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
 
                     object.rotation = value / 100;
                     var rotation = ( value / max_rotation ) * 360;
@@ -333,7 +339,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
 
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
@@ -360,7 +366,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
 
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
@@ -387,7 +393,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
                     object.alpha = value / max_opacity;
 
                     $('span[data-target="logo"][data-label="opacity"][data-id="' + application.id + '"]').text(value);
@@ -413,7 +419,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
                     object.y = value;
 
                 }
@@ -430,7 +436,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects.front_view['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_0' + application.id];
                     object.x = value;
 
                 }
@@ -468,7 +474,6 @@
 
                 _.each(sprite.children, function (child, index) {
 
-                    //child.tint = '0x' + colors_obj[index + 1].hex_code;
                     child.tint = parseInt(child.ubDefaultColor,16);
 
                 })
@@ -487,7 +492,7 @@
                 var view_objects = ub.objects[application.perspective + '_view'];
                 var mask = _.find(ub.current_material.material.options, {
                     perspective: application.perspective,
-                    name: 'Body'
+                    name: application.layer
                 });
 
                 var mask = ub.pixi.new_sprite(mask.material_option_path);
@@ -520,10 +525,10 @@
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
-                ub.updateLayersOrder(view);
-
                 sprite.position.x = x;
                 sprite.position.y = y;
+                sprite.rotation = application.rotation;
+
 
                 if(sprite.width === 1) {
 
@@ -532,7 +537,8 @@
 
                 }
 
-               sprite.zIndex = -51;
+               sprite.zIndex = -10;
+               ub.updateLayersOrder(view);
 
                if(position !== ''){
 
@@ -627,11 +633,12 @@
                     };
 
                     if (_.last(sprite.children).containsPoint(point)) {
+                        sprite.originalZIndex = sprite.zIndex;
                         sprite.zIndex = -500;
                         ub.updateLayersOrder(view);
                     } else {
-                        sprite.zIndex = sprite.originalZIndex;
-                        ub.updateLayersOrder(view);
+                        // sprite.zIndex = sprite.originalZIndex;
+                        // ub.updateLayersOrder(view);
                     }
 
                 };
@@ -822,8 +829,6 @@
     }
 
     var temp_drops = {};
-
-    var ctr = 0;
 
     function create_color_dropdown_other_container (application, sprite, selector, layer_no) {
 

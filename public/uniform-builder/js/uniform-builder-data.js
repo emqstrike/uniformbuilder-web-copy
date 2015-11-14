@@ -65,7 +65,7 @@ $(document).ready(function(){
             {
 
                 id: 1,
-                layer: 'body',
+                layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Top',
                 code: '01',
@@ -76,11 +76,11 @@ $(document).ready(function(){
 
             },
 
-            /// One
+            /// Two
             {
 
                 id: 2,
-                layer: 'body',
+                layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '02',
@@ -91,11 +91,11 @@ $(document).ready(function(){
 
             },
 
-            /// Two
+            /// Three
             {
 
                 id: 3,
-                layer: 'body',
+                layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Bottom Right',
                 code: '03',
@@ -107,11 +107,11 @@ $(document).ready(function(){
             },
 
 
-            /// Three
+            /// Four
             {
 
                 id: 4,
-                layer: 'body',
+                layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Bottom Left',
                 code: '04',
@@ -121,6 +121,67 @@ $(document).ready(function(){
                 },
 
             },
+
+            /// Five
+            {
+
+                id: 5,
+                layer: 'Body',
+                perspective: 'back',
+                name: 'Back Center',
+                code: '05',
+                position: {
+                    x: 0.5,
+                    y: 0.3,
+                },
+
+            },
+            /// Six
+            {
+
+                id: 6,
+                layer: 'Body',
+                perspective: 'left',
+                name: 'Left Center',
+                code: '06',
+                position: {
+                    x: 0.5,
+                    y: 0.3,
+                },
+
+            },
+            /// Seven
+            {
+
+                id: 7,
+                layer: 'Sleeves',
+                perspective: 'front',
+                name: 'Right Sleeve',
+                code: '07',
+                rotation: 0.96,
+                position: {
+                    x: 0.14,
+                    y: 0.25,
+                },
+
+            },
+
+            /// Eight
+            {
+
+                id: 8,
+                layer: 'Sleeves',
+                perspective: 'front',
+                name: 'Left Sleeve',
+                code: '08',
+                rotation: 5.31,
+                position: {
+                    x: 0.86,
+                    y: 0.25,
+                },
+
+            },
+
 
         ]
 

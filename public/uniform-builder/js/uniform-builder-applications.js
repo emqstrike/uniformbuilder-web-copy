@@ -310,7 +310,8 @@ $(document).ready(function() {
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
-            name: 'Body'
+            name: application.layer
+
         });
 
         var mask = ub.pixi.new_sprite(mask.material_option_path);
@@ -331,6 +332,7 @@ $(document).ready(function() {
 
         sprite.position.x = x;
         sprite.position.y = y;
+        sprite.rotation = application.rotation;
 
         if(sprite.width === 1) {
         
@@ -340,7 +342,7 @@ $(document).ready(function() {
         }
   
         sprite.anchor.set(0.5, 0.5);
-        sprite.zIndex = -51;
+        sprite.zIndex = -10;
 
         window.sprite = sprite;
 
@@ -430,11 +432,11 @@ $(document).ready(function() {
             };
 
             if (sprite.containsPoint(point)) {
-                sprite.zIndex = -500;
+               // sprite.zIndex = -500;
                 this.tint = 0x555555;
                 ub.updateLayersOrder(view);
             } else {
-                sprite.zIndex = sprite.originalZIndex;
+               // sprite.zIndex = sprite.originalZIndex;
                 this.tint = 0xffffff;
                 ub.updateLayersOrder(view);
             }
