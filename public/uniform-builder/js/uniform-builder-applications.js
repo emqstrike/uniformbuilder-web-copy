@@ -49,7 +49,6 @@ $(document).ready(function() {
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
         var $container = $('div.logo-controls[data-id="' + application_id + '"]');
-        
         var markup = "";
 
         markup += "<div class='row'>";
@@ -305,7 +304,8 @@ $(document).ready(function() {
 
         settings.applications[application.code] = {
             application: application,
-            logo: logo
+            logo: logo,
+            type: 'logo',
         };
 
         var view = ub[application.perspective + '_view'];

@@ -241,7 +241,6 @@
 
     };
 
-
     $.fn.ubPlayerNumberDialog = function(options) {
 
         var settings = $.extend({ application: {} }, options);
@@ -274,6 +273,7 @@
             html_builder += "<hr />";
 
             $container.html(html_builder);
+            
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
@@ -467,25 +467,12 @@
 
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
-
-                /// Set First Three Colors
-
-                var colors_obj = get_colors_obj(application.layer);
-
-                _.each(sprite.children, function (child, index) {
-
-                    child.tint = parseInt(child.ubDefaultColor,16);
-
-                })
-
-                // _.last(sprite.children).tint = '0x' + selected_color;
-
-                /// End Set First Three Colors 
-                
+   
                 settings.applications[application.code] = {
                     application: application,
                     text: text_input,
-                    text_obj: sprite
+                    text_obj: sprite,
+                    type: 'player_number',
                 };
 
                 var view = ub[application.perspective + '_view'];
@@ -522,13 +509,24 @@
 
                 }
 
+                /// Set First Three Colors
+
+                var colors_obj = get_colors_obj(application.layer);
+
+                _.each(sprite.children, function (child, index) {
+
+                    child.tint = parseInt(child.ubDefaultColor,16);
+
+                })
+
+                /// End Set First Three Colors 
+
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
                 sprite.position.x = x;
                 sprite.position.y = y;
                 sprite.rotation = application.rotation;
-
 
                 if(sprite.width === 1) {
 
@@ -1013,8 +1011,12 @@
 
                     var app = ub.current_material.settings.applications[settings.application.code];
                     
-                    if( typeof app !== 'undefined') {
-                        _.last(app.text_obj.children).tint = parseInt(color_code, 16);    
+                    if (typeof app !== 'undefined') {
+
+                        if(app.type !== 'logo') {
+                            _.last(app.text_obj.children).tint = parseInt(color_code, 16);    
+                        }
+
                     }
                     
                     color_drop.close();
