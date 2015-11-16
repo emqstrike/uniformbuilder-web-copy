@@ -703,7 +703,7 @@ $(document).ready(function(){
                     },
                     {
                         name: 'Outline 1',
-                        default_color: '#acacac',
+                        default_color: '#ffffff',
                         layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,

@@ -59,7 +59,7 @@
 
             colors_btn.on('click', function() {
 
-                var color  = $(this).data('color');
+                var color = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
                 $("button#update-gradient-" + settings.target).click();
                 el_parent.find('span').css('background-color', color);
@@ -478,7 +478,7 @@
 
                 })
 
-                _.last(sprite.children).tint = '0x' + selected_color;
+                // _.last(sprite.children).tint = '0x' + selected_color;
 
                 /// End Set First Three Colors 
                 

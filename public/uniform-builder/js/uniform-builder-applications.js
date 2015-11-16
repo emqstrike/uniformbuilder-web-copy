@@ -67,9 +67,12 @@ $(document).ready(function() {
             id: application_id
         });
 
+        var view_str = application.perspective + '_view';
+        $('a#view_' + application.perspective).click();
+
         $('input#flip_logo_' + application_id).click( function () {
 
-            var obj = ub.objects.front_view['objects_0' + application_id];
+            var obj = ub.objects[view_str]['objects_0' + application_id];
 
             var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
             var value = parseInt($rotation_slider.find('span.edit').html());
@@ -143,7 +146,7 @@ $(document).ready(function() {
                     id: application_id
                 });
                 var value = $(this).limitslider("values")[0];
-                var object = ub.objects.front_view['objects_0' + application_id];
+                var object = ub.objects[view_str]['objects_0' + application_id];
                 object.x = value;
 
             }
@@ -162,7 +165,7 @@ $(document).ready(function() {
 
                 var application = _.find(ub.data.applications.items, { id: application_id });
                 var value = $(this).limitslider("values")[0];
-                var object = ub.objects.front_view['objects_0' + application_id];
+                var object =  ub.objects[view_str]['objects_0' + application_id];
                 var flipped = $('input#flip_logo_' + application_id).is(':checked');
                 var scale = new PIXI.Point(value / 100, value / 100);
                 
@@ -195,7 +198,7 @@ $(document).ready(function() {
                     id: application_id
                 });
                 var value = $(this).limitslider("values")[0];
-                var object = ub.objects.front_view['objects_0' + application_id];
+                var object =  ub.objects[view_str]['objects_0' + application_id];
                 object.alpha = value / max_opacity;
 
                 $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
@@ -230,7 +233,7 @@ $(document).ready(function() {
                 });
 
                 var value = parseInt($rotation_slider.find('span.edit').html());
-                var object = ub.objects.front_view['objects_0' + application_id];
+                var object =  ub.objects[view_str]['objects_0' + application_id];
 
                 object.rotation = value / 100;
                 var rotation = ( value / max_rotation ) * 360;
