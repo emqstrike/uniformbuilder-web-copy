@@ -125,14 +125,13 @@ $(document).ready(function(){
                 },
 
             },
-
             /// Five
             {
 
                 id: 5,
                 layer: 'Body',
                 perspective: 'back',
-                name: 'Back Center',
+                name: 'Back Top',
                 code: '05',
                 rotation: 0,
                 position: {
@@ -146,13 +145,13 @@ $(document).ready(function(){
 
                 id: 6,
                 layer: 'Body',
-                perspective: 'left',
-                name: 'Left Center',
+                perspective: 'back',
+                name: 'Back Center',
                 code: '06',
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.3,
+                    y: 0.5,
                 },
 
             },
@@ -160,10 +159,25 @@ $(document).ready(function(){
             {
 
                 id: 7,
+                layer: 'Body',
+                perspective: 'left',
+                name: 'Left Center',
+                code: '07',
+                rotation: 0,
+                position: {
+                    x: 0.5,
+                    y: 0.3,
+                },
+
+            },
+            /// Eight
+            {
+
+                id: 8,
                 layer: 'Sleeves',
                 perspective: 'front',
                 name: 'Right Sleeve',
-                code: '07',
+                code: '08',
                 rotation: 0.96,
                 position: {
                     x: 0.14,
@@ -172,14 +186,14 @@ $(document).ready(function(){
 
             },
 
-            /// Eight
+            /// Nine
             {
 
-                id: 8,
+                id: 9,
                 layer: 'Sleeves',
                 perspective: 'front',
                 name: 'Left Sleeve',
-                code: '08',
+                code: '09',
                 rotation: 5.31,
                 position: {
                     x: 0.86,
