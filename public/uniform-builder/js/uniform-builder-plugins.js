@@ -537,6 +537,7 @@
 
                 }
 
+               sprite.originalZIndex = -10;
                sprite.zIndex = -10;
                ub.updateLayersOrder(view);
 
@@ -633,12 +634,11 @@
                     };
 
                     if (_.last(sprite.children).containsPoint(point)) {
-                        sprite.originalZIndex = sprite.zIndex;
                         sprite.zIndex = -500;
                         ub.updateLayersOrder(view);
                     } else {
-                        // sprite.zIndex = sprite.originalZIndex;
-                        // ub.updateLayersOrder(view);
+                        sprite.zIndex = sprite.originalZIndex;
+                        ub.updateLayersOrder(view);
                     }
 
                 };

@@ -342,6 +342,7 @@ $(document).ready(function() {
         }
   
         sprite.anchor.set(0.5, 0.5);
+        sprite.originalZIndex = -10;
         sprite.zIndex = -10;
 
         window.sprite = sprite;
@@ -432,12 +433,12 @@ $(document).ready(function() {
             };
 
             if (sprite.containsPoint(point)) {
-               // sprite.zIndex = -500;
-                this.tint = 0x555555;
+                sprite.zIndex = -500;
+                // this.tint = 0x555555;
                 ub.updateLayersOrder(view);
             } else {
-               // sprite.zIndex = sprite.originalZIndex;
-                this.tint = 0xffffff;
+                sprite.zIndex = sprite.originalZIndex;
+                // this.tint = 0xffffff;
                 ub.updateLayersOrder(view);
             }
 

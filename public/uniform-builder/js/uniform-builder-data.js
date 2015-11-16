@@ -643,7 +643,7 @@ $(document).ready(function(){
                     },
                 ], 
             },  // End Drop Shadow
-             {   // Outlined with Drop Shadow
+            {   // Outlined
                 id: 1,
                 name: 'Outlined',
                 code: 'outlined',
@@ -670,9 +670,47 @@ $(document).ready(function(){
                         zIndex: -1,
                     },
                 ], 
+            },  // End Outlined
+            {   // Outlined
+                id: 2,
+                name: 'Double Outline',
+                code: 'double_outline',
+                thumbnail: 'double_outline.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        type: 'fill',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Outline 1',
+                        default_color: '#acacac',
+                        layer_no: 2,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 1,
+                        type: 'middle_stroke',
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Outline 2',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 2,
+                        type: 'outer_stroke',
+                        zIndex: -1,
+                    },
+                ], 
             },  // End Outlined with Drop Shadow
             {   // Drop Shadow
-                id: 2,
+                id: 3,
                 name: 'Drop Shadow',
                 code: 'drop_shadow',
                 thumbnail: 'drop_shadow.png',
@@ -698,7 +736,7 @@ $(document).ready(function(){
                 ], 
             },  // End Drop Shadow
             {   // Double Shadow
-                id: 3,
+                id: 4,
                 name: 'Double Shadow',
                 code: 'double_shadow',
                 thumbnail: 'double_shadow.png',
@@ -733,7 +771,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Shadow
             {   // Shadow
-                id: 4,
+                id: 5,
                 name: 'Shadow',
                 code: 'shadow',
                 thumbnail: 'shadow.png',
@@ -759,7 +797,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Shadow
             {   // Double Drop Shadow
-                id: 5,
+                id: 6,
                 name: 'Double Drop Shadow',
                 code: 'double_drop_shadow',
                 thumbnail: 'double_drop_shadow.png',
@@ -794,7 +832,7 @@ $(document).ready(function(){
                 ], 
             },  // End Double Drop Shadow
             {   // Outlined with Drop Shadow
-                id: 6,
+                id: 7,
                 name: 'Outlined with Drop Shadow',
                 code: 'outlined_with_drop_shadow',
                 thumbnail: 'outlined_with_drop_shadow.png',
@@ -843,7 +881,7 @@ $(document).ready(function(){
                 ], 
             },  // End Outlined with Drop Shadow
             {   // Center Shadow
-                id: 7,
+                id: 8,
                 name: 'Center Shadow',
                 code: 'center_shadow',
                 thumbnail: 'center_shadow.png',
@@ -869,7 +907,7 @@ $(document).ready(function(){
                 ], 
             },  // End Center Shadow
             {   // Outlined with Drop Shadow
-                id: 8,
+                id: 9,
                 name: 'Collegiate Drop Shadow',
                 code: 'collegiate_drop_shadow',
                 thumbnail: 'collegiate_drop_shadow.png',
