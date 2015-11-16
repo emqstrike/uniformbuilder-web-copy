@@ -290,10 +290,9 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    
                     var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
-                    $textbox.trigger('change');
                     
+                    $textbox.trigger('change');
                     $('span[data-target="logo"][data-label="font_size"][data-id="' + application.id + '"]').text(value);
 
                 }

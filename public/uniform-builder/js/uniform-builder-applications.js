@@ -323,16 +323,31 @@ $(document).ready(function() {
 
         var s = view_objects['objects_' + application.code];
 
+        var position = '';
+        var scale = '';
+        var rotation = '';
+        var alpha = '';
+        var tint = '';
+
+
         if (typeof(s) === 'object') {
+
+            var obj = view_objects['objects_' + application.code];
+
+            position = obj.position;
+            scale = obj.scale;
+            rotation = obj.rotation;
+            alpha = obj.alpha;
+            tint = obj.tint;
+
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
+
         }
 
         view_objects['objects_' + application.code] = sprite;
         view.addChild(sprite);
-
-        ub.updateLayersOrder(view);
-
+        
         sprite.position.x = x;
         sprite.position.y = y;
         sprite.rotation = application.rotation;
@@ -347,6 +362,21 @@ $(document).ready(function() {
         sprite.anchor.set(0.5, 0.5);
         sprite.originalZIndex = -10;
         sprite.zIndex = -10;
+        ub.updateLayersOrder(view);
+
+        if(position !== ''){
+
+            console.log(position);
+
+            sprite.position = position;
+            sprite.scale = scale;
+            sprite.rotation = rotation;
+            sprite.alpha = alpha;
+            sprite.tint = tint;
+
+        }
+
+
 
         window.sprite = sprite;
 
