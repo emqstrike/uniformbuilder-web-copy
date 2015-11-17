@@ -40,33 +40,33 @@
 </div>
 
 <div class="row-fluid col-md-10">
-    <table data-toggle='table' class='fonts'>
-        <thead>
-            <tr>
-                <th>Font Name</th>
-                <th></th>
-                <th>Active Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+<table data-toggle='table' class='data-table table table-bordered fonts'>
+<thead>
+    <tr>
+        <th>Font Name</th>
+        <th>Sample</th>
+        <th>Active Status</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
 
 @forelse ($fonts as $font)
 
     <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
         <td>
-            {{ $font->name }}
+            {{ $font->name }}<br />
+            @if ($font->type == 'default')
+            <span class="label label-info">
+            @else
+            <span class="label label-success">
+            @endif
+                {{ $font->type }}
+            </span>
         </td>
         <td>
-            <span style="font-family: '{{ $font->name }}'; font-size: 10x;">
-                ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
-            </span>
-            <br/>
-            <span style="font-family: '{{ $font->name }}'; font-size: 20px;">
-                ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
-            </span>
-            <br/>
             <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
+                {{ env('WEBSITE_NAME') }}<br>
                 ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
             </span>
         </td>
@@ -95,15 +95,15 @@
 @empty
 
     <tr>
-        <td colspan='3'>
+        <td colspan='4'>
             No Fonts
         </td>
     </tr>
 
 @endforelse
 
-        </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 
 @include('partials.confirmation-modal')

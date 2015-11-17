@@ -14,16 +14,15 @@
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/round-slider/roundslider.min.css{{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/drop/css/drop-theme-basic.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-3-vert-offset-shim.css{{$asset_version}}">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="#"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
         </div>
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
@@ -77,63 +76,19 @@
     </div>
 </nav>
 
-<div id="main_container" class="container">
-    <div class="alert alert-info alert-dismissable flash-alert" style="display: none">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-            ×
-        </button>
-        <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-    </div>
+@yield('main-content')
 
-    <div id="main-row" class="row">
-        <div id="left-pane-column"  class="col-md-6">
-            <!-- Main Preview Window -->
-            @yield('left-pane')
-        </div>
-        <div id="right-pane-column" class="col-md-6">
-            <!-- Customizer -->
-            @yield('right-pane')
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid uniform-suggestions">
-    <div class="col-md-12 you-might-like">
-        You might also like:
-    </div>
-    <div class="suggestions"></div>
-</div>
-
-@if (Session::get('isLoggedIn'))
-    @include('partials.open-design-modal')
-    @include('partials.share-design-modal')
-    @include('partials.save-design-modal')
-@else
-    @include('partials.signup-modal')
-@endif
-@include('partials.team-roster-modal')
+@include('partials.signup-modal')
 
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/underscore/underscore-min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/drop/js/drop.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/users.js{{$asset_version}}"></script>
 <!-- End Third Party Scripts -->
 
-
-<!-- Uniform Builder Scripts -->
 <script type="text/javascript">
 $(document).ready(function () {
-    window.ub = {}; window.ub.objects = {}; window.ub.config = {api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }}, host: 'http://{{ Request::server ("HTTP_HOST") }}', thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' };
+    window.ub = {};
 @if (Session::get('isLoggedIn'))
     window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
 @else
@@ -145,11 +100,6 @@ $(document).ready(function () {
 @endif
 });
 </script>
-<script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
-<!-- End Uniform Builder Scripts -->
 
 </body>
 </html>

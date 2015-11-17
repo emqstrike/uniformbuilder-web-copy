@@ -24,7 +24,8 @@
 @endif
 
 <div class="row col-md-12">
-    <table class='table table-bordered'>
+<table class='data-table table table-bordered'>
+<thead>
     <tr>
         <th>Order</th>
         <th>Client</th>
@@ -32,8 +33,10 @@
         <th>Upper Uniform</th>
         <th>Lower Uniform</th>
         <th>Status</th>
-        <th></th>
+        <th>Actions</th>
     </tr>
+</thead>
+<tbody>
 @forelse ($orders as $order)
 
     <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
@@ -114,7 +117,8 @@
     </tr>
 
 @endforelse
-    </table>
+</tbody>
+</table>
 </div>
 
 @include('administration.orders.order-view-modal')

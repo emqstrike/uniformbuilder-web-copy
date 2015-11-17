@@ -26,4 +26,6 @@ $(document).ready(function(){
             $('.flash-alert').fadeOut();
         }, 3000);
     };
+
+    $('.data-table').DataTable();
 });

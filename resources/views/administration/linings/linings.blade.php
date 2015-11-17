@@ -32,16 +32,16 @@
 </div>
 
 <div class="row col-md-7">
-    <table data-toggle='table' class='linings'>
-        <thead>
-            <tr>
-                <th>Lining Name</th>
-                <th>Code</th>
-                <th>Active Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+<table data-toggle='table' class='data-table table table-bordered linings'>
+<thead>
+    <tr>
+        <th>Lining Name</th>
+        <th>Code</th>
+        <th>Active Status</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
 
 @forelse ($linings as $lining)
 
@@ -84,8 +84,8 @@
 
 @endforelse
 
-        </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 
 @include('partials.confirmation-modal')

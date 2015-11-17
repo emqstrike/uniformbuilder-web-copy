@@ -26,7 +26,7 @@
 </div>
 
 <div class="row-fluid col-md-9">
-    <table class='table table-bordered users-table display' cellspacing="0">
+    <table class='data-table table table-bordered users-table display' cellspacing="0">
         <thead>
             <tr>
                 <th>Name</th>
@@ -37,9 +37,9 @@
             </tr>
         </thead>
 
+        <tbody>
         @forelse ($users as $user)
 
-        <tbody>
             <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}'>
                 <td>
                     {{ $user->first_name }} {{ $user->last_name }}
@@ -70,10 +70,14 @@
                         <i class="glyphicon glyphicon-trash"></i>
                         Remove
                     </a>
+                    @else
+                    <a href="#" class="btn btn-warning pull-right btn-xs" role="button">
+                        <i class="fa fa-diamond"></i>
+                        This is YOU
+                    </a>
                     @endif
                 </td>
             </tr>
-        </tbody>
 
         @empty
 
@@ -84,6 +88,7 @@
             </tr>
 
         @endforelse
+        </tbody>
     </table>
 </div>
 
