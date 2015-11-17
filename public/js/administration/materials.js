@@ -25,7 +25,7 @@ $(document).ready(function() {
             reader.readAsDataURL(files[0]);
  
             reader.onloadend = function() {
-                
+
                 if(perspective == 'front') {
                     $("#front-shape-view").css("background-image", "url("+this.result+")");
                 } else if(perspective == 'back') {
@@ -155,7 +155,7 @@ var applicationProperties = {};
 //         }
 // };
 
-        window.ap = applicationProperties;
+        
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
@@ -244,6 +244,7 @@ var applicationProperties = {};
         });
         var appProperties = JSON.stringify(applicationProperties);
         $( '#application-properties' ).prop('value', appProperties);
+        window.ap = appProperties;
     });
 
     $('.default-color').change(function(){
@@ -484,6 +485,9 @@ var applicationProperties = {};
 
     });
 
+var app_properties = {};
+var appPropJson = "";
+
     $('.edit-material-option').on('click', function(){
         material = {
             id: $(this).data('material-id'),
@@ -573,8 +577,12 @@ var applicationProperties = {};
         canvas.renderAll();
 
         var appPropJson = $('#application-properties').val().replace(/\\/g, '');
+        // appPropJson = $('#application-properties').val();
         var appProp = appPropJson.substring(1, appPropJson.length-1);
-        var app_properties = JSON.parse(appProp);
+        console.log(appPropJson);
+        // app_properties = JSON.parse(appPropJson);
+        // JSON.parse(appPropJson);
+
 
 
 
@@ -582,10 +590,13 @@ var applicationProperties = {};
         // START           ------------------------------------------------------------------------------------
 
 
-
+        app_properties = JSON.parse(appProp); 
         for(c = 0; c < Object.keys(app_properties).length; c++){
-            var default_item = $('#front-default-item').val();
+            // var default_item = $('#front-default-item').val();
+
             var l = "layer"+c;
+            var default_item = app_properties[l].type;
+            var iid = app_properties[l].id;
 
             if(!app_properties[l].id){
                 break;
@@ -605,7 +616,7 @@ var applicationProperties = {};
                 originY: 'center'
             });
 
-            var appID = new fabric.IText(c.toString(),{
+            var appID = new fabric.IText(iid.toString(),{
                 fontFamily: 'arial black',
                 originX: 'center',
                 originY: 'center',
@@ -625,14 +636,16 @@ var applicationProperties = {};
 
             var group = new fabric.Group([ area, appID, itemText ], {
                 id: c,
-                left: canvasFront.width / 2.6,
-                top: canvasFront.height / 5,
+                // left: canvasFront.width / 2.6,
+                // top: canvasFront.height / 5,
+                left: app_properties[l].topLeft.x,
+                top: app_properties[l].topLeft.y,
                 default_item: default_item
             });
 
             if(app_properties[l].id != null){
 
-                canvasFront.add(group);
+                // canvasFront.add(group);
 
                 console.log("NOT NULL ! ! !");
 
@@ -654,12 +667,13 @@ var applicationProperties = {};
                 selectAppend += "</select>";
 
                 $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-                
+                canvasFront.add(group);
                 var canvasItem = "application"+group.id;
-                var thisGroup = canvasFront.item(c);
+                // var thisGroup = canvasFront.item(c);
 
                 // thisGroup.item(1).text = applicationId;
                 // thisGroup.item(2).text = applicationType;
+                var thisGroup = group;
 
                 thisGroup.oCoords.tl.x = app_properties[l].topLeft.x;
                 thisGroup.oCoords.tl.y = app_properties[l].topLeft.y;
@@ -673,13 +687,23 @@ var applicationProperties = {};
                 thisGroup.setAngle(app_properties[l].rotation);
 
                 
-                thisGroup.width = app_properties[l].boxWidth;
-                thisGroup.height = app_properties[l].boxHeight;
+                thisGroup.width = app_properties[l].width;
+                thisGroup.height = app_properties[l].height;
                 thisGroup.left = app_properties[l].topLeft.x;
                 thisGroup.top = app_properties[l].topLeft.y;
+                thisGroup.originX = app_properties[l].topLeft.x;
+                thisGroup.originY = app_properties[l].topLeft.y;
 
-                console.log("JSON: " + app_properties[l].topLeft.x);
+                console.log("TLeft: " + app_properties[l].topLeft.x);
+                console.log("TTop: " + app_properties[l].topLeft.y);
+                console.log("This oCoords x:"+thisGroup.oCoords.tl.x);
+                console.log("This oCoords y:"+thisGroup.oCoords.tl.y);
+                console.log("Center point x:"+thisGroup.centerPoint.x);
+                console.log("Center point y:"+thisGroup.centerPoint.y);
 
+                window.g = {};
+                window.g = group;
+                
                 canvasFront.renderAll();
 
             }
