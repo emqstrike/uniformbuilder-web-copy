@@ -116,46 +116,7 @@ $(document).ready(function() {
 
     });
 
-var applicationProperties = {};
-
-// var applicationProperties = {
-//         0:{
-//             id: "",
-//             type: "",
-//             topLeft: {
-//                 "x":0,
-//                 "y":0,
-//                 "xp":0,
-//                 "yp":0
-//             },
-//             topRight: {
-//                 "x":0,
-//                 "y":0,
-//                 "xp":0,
-//                 "yp":0
-//             },
-//             bottomLeft: {
-//                 "x":0,
-//                 "y":0,
-//                 "xp":0,
-//                 "yp":0
-//             },
-//             bottomRight: {
-//                 "x":0,
-//                 "y":0,
-//                 "xp":0,
-//                 "yp":0
-//             },
-//             width: 0,
-//             widthp: 0,
-//             height: 0,
-//             heightp: 0,
-//             pivot: 0,
-//             rotation: 0,
-//         }
-// };
-
-        
+var applicationProperties = {};        
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
@@ -174,7 +135,11 @@ var applicationProperties = {};
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
 
         canvasFront.renderAll();
+        refreshApplicationsCoords();
+        
+    });
 
+    function refreshApplicationsCoords(){
         $(".update-application").each(function(i) {
 
             // BUILD APPLICATION PROPERTIES JSON
@@ -183,8 +148,6 @@ var applicationProperties = {};
             layer = $(this).data('id');
             applicationType = $(this).siblings("select[class=app-def-item]").val();
             applicationId = $(this).siblings("input[name=application_id]").val();
-
-            // console.log("ID: " + $(itemIdx));
 
             thisGroup = canvasFront.item(layer);
 
@@ -245,7 +208,7 @@ var applicationProperties = {};
         var appProperties = JSON.stringify(applicationProperties);
         $( '#application-properties' ).prop('value', appProperties);
         window.ap = appProperties;
-    });
+    }
 
     $('.default-color').change(function(){
         var color = $('option:selected', this).data('color');
@@ -327,6 +290,13 @@ var applicationProperties = {};
         'mouse:up': updateCoordinates
     });
 
+    canvasFront.on({
+        'object:moving': refreshApplicationsCoords,
+        'object:scaling': refreshApplicationsCoords,
+        'object:rotating': refreshApplicationsCoords,
+        'mouse:up': refreshApplicationsCoords
+    });
+
     function updateCoordinates() {
 
         circle.radius = box.height / 2;
@@ -358,6 +328,7 @@ var applicationProperties = {};
         var boundaryProperties = JSON.stringify(data);
 
         $( '#boundary-properties' ).prop('value',boundaryProperties);
+        refreshApplicationsCoords();
     }
 
 
@@ -607,8 +578,8 @@ var appPropJson = "";
             var area = new fabric.Rect({
                 id: c,
                 fill: '#e3e3e3',
-                height: 30,
-                width: 30,
+                height: app_properties[l].height,
+                width: app_properties[l].width,
                 strokeWidth: 1,
                 stroke: 'red',
                 opacity: 0.6,
@@ -691,15 +662,16 @@ var appPropJson = "";
                 thisGroup.height = app_properties[l].height;
                 thisGroup.left = app_properties[l].topLeft.x;
                 thisGroup.top = app_properties[l].topLeft.y;
-                thisGroup.originX = app_properties[l].topLeft.x;
-                thisGroup.originY = app_properties[l].topLeft.y;
+                thisGroup.pivot = thisGroup.centerPoint;
+                // thisGroup.originX = app_properties[l].pivot.x;
+                // thisGroup.originY = app_properties[l].pivot.y;
 
-                console.log("TLeft: " + app_properties[l].topLeft.x);
-                console.log("TTop: " + app_properties[l].topLeft.y);
-                console.log("This oCoords x:"+thisGroup.oCoords.tl.x);
-                console.log("This oCoords y:"+thisGroup.oCoords.tl.y);
-                console.log("Center point x:"+thisGroup.centerPoint.x);
-                console.log("Center point y:"+thisGroup.centerPoint.y);
+                // console.log("TLeft: " + app_properties[l].topLeft.x);
+                // console.log("TTop: " + app_properties[l].topLeft.y);
+                // console.log("This oCoords x:"+thisGroup.oCoords.tl.x);
+                // console.log("This oCoords y:"+thisGroup.oCoords.tl.y);
+                // console.log("Center point x:"+thisGroup.centerPoint.x);
+                // console.log("Center point y:"+thisGroup.centerPoint.y);
 
                 window.g = {};
                 window.g = group;
@@ -714,7 +686,6 @@ var appPropJson = "";
         }
         // END
 
-        
 
         var boundaryProperties = JSON.stringify(data);
 
@@ -729,7 +700,6 @@ var appPropJson = "";
         } else {
             $('#is-blend').attr('checked', 'unchecked');
         }
-
 
         function capitalize(c)
         {
