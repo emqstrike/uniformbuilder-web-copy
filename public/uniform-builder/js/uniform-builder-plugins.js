@@ -473,8 +473,6 @@
 
                 }    
 
-                console.clear();
-
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
 
@@ -492,8 +490,6 @@
                     settings.applications[application.code].color_array = color_array;
                     print_color_array(settings.applications[application.code].color_array, 'Newly Assigned');
                 }
-
-                /// insert color array here... 
 
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
@@ -513,11 +509,8 @@
                 var tint = '';
 
                 var s = view_objects['objects_' + application.code];
-                var exists = false; 
 
                 if (typeof(s) === 'object') {
-
-                    exists = true;
 
                     var obj = view_objects['objects_' + application.code];
                     var color_array = settings.applications[application.code].color_array;
@@ -549,16 +542,13 @@
 
                         var array = ub.current_material.settings.applications[application.code].color_array;
                         var color_array_size = _.size(array);
-                        var code = ub.current_material.settings.applications[application.code].color_array[index];
+                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
 
                         if (typeof code !== 'undefined') {
                             
                             child.tint = parseInt(code.color_code, 16);
 
                         }
-
-                        console.log('UB Name')
-                        console.log(index + '. ' + child.ubName);
 
                     }
 
@@ -780,9 +770,6 @@
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
             
             /// Custom Properties
-
-            console.log('Ub Name - Create Text: ');
-            console.log(layer.name);
 
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
@@ -1192,23 +1179,5 @@
     }
 
     /// End Get Colors and Hex Codes For Given Material Option
-
-    function print_color_array(color_array, caption){
-
-        // console.log('[' + caption + '] Color Array: ');
-
-        // var indeces = [1,2,3,4];
-
-        // _.each(indeces, function (index) {
-
-        //     var obj = color_array[index];
-        //     if ( typeof obj === 'object' ) {
-        //         console.log('Color ' + index + ': ' + obj.color_code);
-        //     }
-
-        // });
-
-    }
-
 
 }(jQuery));
