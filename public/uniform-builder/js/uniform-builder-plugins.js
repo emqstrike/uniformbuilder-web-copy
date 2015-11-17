@@ -464,14 +464,19 @@
                     return;
                 }
 
-                var text_input = $textbox.val();
-                var sprite = create_text(" " + text_input + " ", font_obj.name, application);
-
                 var color_array = '';
 
-                if(typeof settings.applications[application.code] !== 'undefined' ) {
+                if(typeof settings.applications[application.code] !== 'undefined') {
+                    
                     var color_array = settings.applications[application.code].color_array;
+                    print_color_array(color_array, 'Previous');
+
                 }    
+
+                console.clear();
+
+                var text_input = $textbox.val();
+                var sprite = create_text(" " + text_input + " ", font_obj.name, application);
 
                 settings.applications[application.code] = {
                     application: application,
@@ -481,8 +486,11 @@
                     color_array: {},
                 };
 
+                print_color_array(settings.applications[application.code].color_array, 'New');
+
                 if (color_array !== ''){
                     settings.applications[application.code].color_array = color_array;
+                    print_color_array(settings.applications[application.code].color_array, 'Newly Assigned');
                 }
 
                 /// insert color array here... 
@@ -505,17 +513,20 @@
                 var tint = '';
 
                 var s = view_objects['objects_' + application.code];
+                var exists = false; 
 
                 if (typeof(s) === 'object') {
 
+                    exists = true;
+
                     var obj = view_objects['objects_' + application.code];
+                    var color_array = settings.applications[application.code].color_array;
 
                     position = obj.position;
                     scale = obj.scale;
                     rotation = obj.rotation;
                     alpha = obj.alpha;
                     tint = obj.tint;
-                    var color_array = settings.applications[application.code].color_array;
 
                     view.removeChild(view_objects['objects_' + application.code]);
                     delete view_objects['objects_' + application.code];
@@ -525,28 +536,34 @@
                 /// Set First Three Colors
 
                 var colors_obj = get_colors_obj(application.layer);
+                var length = sprite.children.length;
 
-                _.each(sprite.children, function (child, index) {
+                var children = _.clone(sprite.children);
+                children.reverse();
+
+                _.each(children, function (child, index) {
 
                     child.tint = parseInt(child.ubDefaultColor,16);
 
                     if(color_array !== ''){
 
-                        var array = ub.current_material.settings.applications[application.code].color_array
+                        var array = ub.current_material.settings.applications[application.code].color_array;
                         var color_array_size = _.size(array);
                         var code = ub.current_material.settings.applications[application.code].color_array[index];
 
-                        if (typeof code !== 'undefined'){
+                        if (typeof code !== 'undefined') {
                             
-                            child.tint = parseInt(code.color_code ,16);
+                            child.tint = parseInt(code.color_code, 16);
 
                         }
 
+                        console.log('UB Name')
+                        console.log(index + '. ' + child.ubName);
 
                     }
 
                 });
-
+         
                 /// End Set First Three Colors 
 
                 view_objects['objects_' + application.code] = sprite;
@@ -751,20 +768,22 @@
             }
 
             if(layer.type === 'outer_stroke' && layer.outline === 1) {
-
                 style.stroke = '#ffffff';
                 style.strokeThickness = 6;
-
             }
 
             if(layer.type === 'shadow' && layer.outline > 0) {
                 style.fill = '#ffffff';
-                style.stroke= '#ffffff';
+                style.stroke = '#ffffff';
             }
 
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
             
             /// Custom Properties
+
+            console.log('Ub Name - Create Text: ');
+            console.log(layer.name);
+
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
             text_layer.text_sprite.ubLayerNo = layer.layer_no;
@@ -792,8 +811,7 @@
         ub.updateLayersOrder(container);
 
         return container;
-        //return new PIXI.Text(text_input, {font:"70px " + font_name, fill: "white"});
-
+        
     }
 
     function create_font_dropdown (settings) {
@@ -899,6 +917,8 @@
                 openOn: 'click'
             });
 
+            color_drop.nonce = true;
+
             temp_drops[application.id + ' ' + layer_no] = color_drop;
 
             color_drop.once('open', function () {
@@ -929,19 +949,19 @@
                         'border': 'solid 1px #3d3d3d'   
                     });
 
-                    color_code =  $(this).data('color');
+                    color_code = $(this).data('color');
 
                     var app = ub.current_material.settings.applications[application.code];
                     
                     if( typeof app !== 'undefined') {
-                        
-                        sprite.tint = parseInt(color_code, 16); 
 
                         app.color_array[sprite.ubLayerNo] = {};
                         app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
                         app.color_array[sprite.ubLayerNo].layer_no = sprite.ubLayerNo;
                         app.color_array[sprite.ubLayerNo].color_code = color_code;
-
+                        sprite.tint = parseInt(color_code, 16);
+                        color_drop.nonce = false;
+                        
                     }
                     
                     color_drop.close();
@@ -1006,6 +1026,8 @@
                 openOn: 'click'
             });
 
+            color_drop.nonce = true;
+
             color_drop.once('open', function () {
 
                 var selector_str = 'a.color-selector[data-target="color_drop_element"][data-id="' + settings.application.id + '"]';
@@ -1041,13 +1063,13 @@
                     $font_dropdown.css('color', '#' + $(this).data('color'));
                     $font_selectors.css('color', '#' + $(this).data('color'));
 
-                    color_code =  $(this).data('color');
+                    color_code = $(this).data('color');
 
                     var app = ub.current_material.settings.applications[settings.application.code];
-                    
+
                     if (typeof app !== 'undefined') {
 
-                        if(app.type !== 'logo') {
+                        if (app.type !== 'logo') {
 
                             var sprite = _.last(app.text_obj.children);
 
@@ -1055,8 +1077,10 @@
 
                             app.color_array[sprite.ubLayerNo] = {};
                             app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
-                            app.color_array[sprite.ubLayerNo].layer_no = _.last(app.text_obj.children).ubLayerNo;
+                            app.color_array[sprite.ubLayerNo].layer_no = _.first(app.text_obj.children).ubLayerNo;
                             app.color_array[sprite.ubLayerNo].color_code = color_code;
+                            sprite.tint = parseInt(color_code, 16); 
+                            color_drop.nonce = false;
 
                         }
 
@@ -1168,6 +1192,23 @@
     }
 
     /// End Get Colors and Hex Codes For Given Material Option
+
+    function print_color_array(color_array, caption){
+
+        // console.log('[' + caption + '] Color Array: ');
+
+        // var indeces = [1,2,3,4];
+
+        // _.each(indeces, function (index) {
+
+        //     var obj = color_array[index];
+        //     if ( typeof obj === 'object' ) {
+        //         console.log('Color ' + index + ': ' + obj.color_code);
+        //     }
+
+        // });
+
+    }
 
 
 }(jQuery));
