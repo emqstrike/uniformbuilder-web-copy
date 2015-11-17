@@ -259,8 +259,26 @@
             html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
             html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
             html_builder += "<div class='ub_label'>Accent</div><div class='accent_drop' data-id='" + settings.application.id + "'>Choose an Accent...<i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='other_color_container' data-id='" + settings.application.id + "'></div>";
+
+            html_builder += "<div class='tab_container_color' data-id='" + settings.application.id + "'>";
+            html_builder +=     "<div class='btn ub active' data-id='" + settings.application.id + "' data-option='colors'>Colors</div><div class='btn ub' data-option='gradients' data-id='" + settings.application.id + "'>Gradients</div><div class='btn ub' data-id='" + settings.application.id + "' data-option='patterns'>Patterns</div>";
+
+            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='colors'>";
+            html_builder +=         "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
+            html_builder +=         "<div class='other_color_container' data-id='" + settings.application.id + "'></div>";
+            html_builder +=     "</div>";
+
+            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='gradients'>";
+            html_builder +=         "Gradients";
+            html_builder +=     "</div>";
+
+            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='patterns'>";
+            html_builder +=         "Patterns";
+            html_builder +=     "</div>";
+
+            html_builder += "</div>";
+
+
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
             html_builder += "Font Size: <span data-target='logo' data-label='font_size' data-id='" + application.id + "'>100</span>px <div class='logo_slider font_size_slider' data-id='" + application.id + "'></div><br />";
@@ -273,6 +291,23 @@
             html_builder += "<hr />";
 
             $container.html(html_builder);
+
+            /// Color Container Handlers
+
+            $('div.colors_container[data-id="' + application.id + '"]').not('[data-option="colors"]').hide();
+
+            $('div.btn.ub[data-id="' + application.id + '"]').on('click', function (e) {
+
+                $('div.btn.ub[data-id="' + application.id + '"]').removeClass('active');
+                $(this).addClass('active');
+                $('div.colors_container').hide();
+                $('div.colors_container[data-option="' + $(this).data('option') + '"]').fadeIn();
+
+            });
+
+
+            /// End Color Container Handlers
+
             
             create_font_dropdown(settings);
             create_color_dropdown(settings);
@@ -469,7 +504,6 @@
                 if(typeof settings.applications[application.code] !== 'undefined') {
                     
                     var color_array = settings.applications[application.code].color_array;
-                    print_color_array(color_array, 'Previous');
 
                 }    
 
@@ -484,11 +518,8 @@
                     color_array: {},
                 };
 
-                print_color_array(settings.applications[application.code].color_array, 'New');
-
                 if (color_array !== ''){
                     settings.applications[application.code].color_array = color_array;
-                    print_color_array(settings.applications[application.code].color_array, 'Newly Assigned');
                 }
 
                 var view = ub[application.perspective + '_view'];
@@ -933,7 +964,7 @@
                     $dropdown.css({
                         'background-color': '#' + $(this).data('color'),
                         'color': foreground,
-                        'border': 'solid 1px #3d3d3d'   
+                        'border': 'solid 1px #3d3d3d'
                     });
 
                     color_code = $(this).data('color');
@@ -964,14 +995,14 @@
             color_drop.close();
             ub.refresh_thumbnails();
 
-            /// End Color Drop 
+            /// End Color Drop
 
     } 
 
 
     function create_color_dropdown (settings) {
 
-        /// Color Drop 
+        /// Color Drop
 
             var color_drop_selector = 'div.color_drop[data-id="' + settings.application.id + '"]';
             var color_drop;
@@ -979,7 +1010,6 @@
             color_content = "";
 
             var colors_obj = get_colors_obj(settings.application.layer);
-
             var color_drop_content = "";
             
             color_drop_content += "<div data-id='" + settings.application.id + "' class='row color-container' id='color-container-" + settings.application.id + "'>";
