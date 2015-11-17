@@ -110,9 +110,6 @@ $(document).ready(function() {
         $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
 
         var canvasItem = "application"+group.id;
-        // frontData[canvasItem] = JSON.stringify(group);
-        // var frontDataParsed = JSON.stringify(frontData);
-        // $( '#front-application-properties' ).prop('value',frontDataParsed);
 
     });
 
@@ -548,22 +545,14 @@ var appPropJson = "";
         canvas.renderAll();
 
         var appPropJson = $('#application-properties').val().replace(/\\/g, '');
-        // appPropJson = $('#application-properties').val();
         var appProp = appPropJson.substring(1, appPropJson.length-1);
-        console.log(appPropJson);
-        // app_properties = JSON.parse(appPropJson);
-        // JSON.parse(appPropJson);
-
-
-
-
-        // console.log("apProp" + appPropJson);
-        // START           ------------------------------------------------------------------------------------
 
 
         app_properties = JSON.parse(appProp); 
+
+        // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
         for(c = 0; c < Object.keys(app_properties).length; c++){
-            // var default_item = $('#front-default-item').val();
 
             var l = "layer"+c;
             var default_item = app_properties[l].type;
@@ -572,8 +561,6 @@ var appPropJson = "";
             if(!app_properties[l].id){
                 break;
             }
-
-            console.log(app_properties[l].id);
 
             var area = new fabric.Rect({
                 id: c,
@@ -596,7 +583,6 @@ var appPropJson = "";
             });
 
             var text = app_properties[l].type;
-            console.log("TEXT: " + text);
             var itemText = new fabric.IText(text.toString(),{
                 fontFamily: 'arial black',
                 originX: 'center',
@@ -607,8 +593,6 @@ var appPropJson = "";
 
             var group = new fabric.Group([ area, appID, itemText ], {
                 id: c,
-                // left: canvasFront.width / 2.6,
-                // top: canvasFront.height / 5,
                 left: app_properties[l].topLeft.x,
                 top: app_properties[l].topLeft.y,
                 default_item: default_item
@@ -616,11 +600,6 @@ var appPropJson = "";
 
             if(app_properties[l].id != null){
 
-                // canvasFront.add(group);
-
-                console.log("NOT NULL ! ! !");
-
-                // var text = $(this).val();
                 var itemsArr = ["logo", "number", "team_name", "player_name"];
                 var selectAppend = "<select class=\"app-def-item\">";
                 var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
@@ -640,10 +619,6 @@ var appPropJson = "";
                 $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
                 canvasFront.add(group);
                 var canvasItem = "application"+group.id;
-                // var thisGroup = canvasFront.item(c);
-
-                // thisGroup.item(1).text = applicationId;
-                // thisGroup.item(2).text = applicationType;
                 var thisGroup = group;
 
                 thisGroup.oCoords.tl.x = app_properties[l].topLeft.x;
@@ -663,15 +638,6 @@ var appPropJson = "";
                 thisGroup.left = app_properties[l].topLeft.x;
                 thisGroup.top = app_properties[l].topLeft.y;
                 thisGroup.pivot = thisGroup.centerPoint;
-                // thisGroup.originX = app_properties[l].pivot.x;
-                // thisGroup.originY = app_properties[l].pivot.y;
-
-                // console.log("TLeft: " + app_properties[l].topLeft.x);
-                // console.log("TTop: " + app_properties[l].topLeft.y);
-                // console.log("This oCoords x:"+thisGroup.oCoords.tl.x);
-                // console.log("This oCoords y:"+thisGroup.oCoords.tl.y);
-                // console.log("Center point x:"+thisGroup.centerPoint.x);
-                // console.log("Center point y:"+thisGroup.centerPoint.y);
 
                 window.g = {};
                 window.g = group;
@@ -682,9 +648,7 @@ var appPropJson = "";
             else{
                 break;
             }
-            console.log("NOS PROBLEMOS");
         }
-        // END
 
 
         var boundaryProperties = JSON.stringify(data);
