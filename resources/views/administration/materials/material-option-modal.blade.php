@@ -8,7 +8,7 @@
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties">
-            <input type="text" name="applications_properties" id="application-properties">
+            <input type="hidden" name="applications_properties" id="application-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -71,12 +71,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Layer Level:</label>
-                        <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
-                    </div>
-                    <div class="form-group">
                         <label class="control-label">Default Color:</label>
-                        <select class="form-control default-color" name="default_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                        <select class="form-control default-color" name="default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
                         @foreach ($colors as $color)
                             @if ($color->active)
                             <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
@@ -125,7 +121,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="submit" class="btn btn-primary save-changes" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
             </div>
             </form>

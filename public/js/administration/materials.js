@@ -1,43 +1,12 @@
 $(document).ready(function() {
-    $("#file-src").change(function() {
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return;
- 
-        if (/^image/.test(files[0].type)){
-            var reader = new FileReader();
-            reader.readAsDataURL(files[0]);
- 
-            reader.onloadend = function() {
-                $("#shape-view-top").css("background-image", "url("+this.result+")");
-                $("#material-option-bounding-box-top").css("background-image", "url("+this.result+")");
-            }
-        }
+
+    $("#material-option-name").keyup(function() {
+        checkNameLength();
     });
 
-    $(".shape-view").change(function() {
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return;
-
-        var perspective = $(this).data('perspective');
-
-        if (/^image/.test(files[0].type)){
-            var reader = new FileReader();
-            reader.readAsDataURL(files[0]);
- 
-            reader.onloadend = function() {
-
-                if(perspective == 'front') {
-                    $("#front-shape-view").css("background-image", "url("+this.result+")");
-                } else if(perspective == 'back') {
-                    $("#back-shape-view").css("background-image", "url("+this.result+")");
-                } else if(perspective == 'left') {
-                    $("#left-shape-view").css("background-image", "url("+this.result+")");
-                } else if(perspective == 'right') {
-                    $("#right-shape-view").css("background-image", "url("+this.result+")");
-                }
-
-            }
-        }
+    $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+        updateCoordinates();
+        refreshApplicationsCoords();
     });
 
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
@@ -136,77 +105,6 @@ var applicationProperties = {};
         
     });
 
-    function refreshApplicationsCoords(){
-        $(".update-application").each(function(i) {
-
-            // BUILD APPLICATION PROPERTIES JSON
-
-            itemIdx = "layer"+$(this).data('id');
-            layer = $(this).data('id');
-            applicationType = $(this).siblings("select[class=app-def-item]").val();
-            applicationId = $(this).siblings("input[name=application_id]").val();
-
-            thisGroup = canvasFront.item(layer);
-
-            var topLeftX = thisGroup.oCoords.tl.x;
-            var topLeftY = thisGroup.oCoords.tl.y;
-            var topRightX = thisGroup.oCoords.tr.x;
-            var topRightY = thisGroup.oCoords.tr.y;
-            var bottomLeftX = thisGroup.oCoords.bl.x;
-            var bottomLeftY = thisGroup.oCoords.bl.y;
-            var bottomRightX = thisGroup.oCoords.br.x;
-            var bottomRightY = thisGroup.oCoords.br.y;
-
-            canvas.renderAll();
-
-            applicationProperties[itemIdx]                      = {};
-            applicationProperties[itemIdx]['type']              = {};
-            applicationProperties[itemIdx]['id']                = {};
-            applicationProperties[itemIdx]['topLeft']           = {};
-            applicationProperties[itemIdx]['topLeft']['x']      = {};
-            applicationProperties[itemIdx]['topLeft']['y']      = {};
-            applicationProperties[itemIdx]['topRight']          = {};
-            applicationProperties[itemIdx]['topRight']['x']     = {};
-            applicationProperties[itemIdx]['topRight']['y']     = {};
-            applicationProperties[itemIdx]['bottomLeft']        = {};
-            applicationProperties[itemIdx]['bottomLeft']['x']   = {};
-            applicationProperties[itemIdx]['bottomLeft']['y']   = {};
-            applicationProperties[itemIdx]['bottomRight']       = {};
-            applicationProperties[itemIdx]['bottomRight']['x']  = {};
-            applicationProperties[itemIdx]['bottomRight']['y']  = {};
-
-            applicationProperties[itemIdx].type             = applicationType;
-            applicationProperties[itemIdx].id               = applicationId;
-            applicationProperties[itemIdx].topLeft.x        = topLeftX;
-            applicationProperties[itemIdx].topLeft.y        = topLeftY;
-            applicationProperties[itemIdx].topRight.x       = topRightX;
-            applicationProperties[itemIdx].topRight.y       = topRightY;
-            applicationProperties[itemIdx].bottomLeft.x     = bottomLeftX;
-            applicationProperties[itemIdx].bottomLeft.y     = bottomLeftY;
-            applicationProperties[itemIdx].bottomRight.x    = bottomRightX;
-            applicationProperties[itemIdx].bottomRight.y    = bottomRightY;
-
-            applicationProperties[itemIdx].topLeft.xp       = (topLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topLeft.yp       = (topLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].topRight.xp      = (topRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topRight.yp      = (topRightY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomLeft.xp    = (bottomLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomLeft.yp    = (bottomLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomRight.xp   = (bottomRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomRight.yp   = (bottomRightY / canvasFront.height) * 100;
-
-            applicationProperties[itemIdx].width            = thisGroup.getWidth();
-            applicationProperties[itemIdx].height           = thisGroup.getHeight();
-            applicationProperties[itemIdx].widthp           = (thisGroup.getWidth() / canvasFront.width) * 100;;
-            applicationProperties[itemIdx].heightp          = (thisGroup.getHeight() / canvasFront.height) * 100;;
-            applicationProperties[itemIdx].pivot            = thisGroup.getCenterPoint();
-            applicationProperties[itemIdx].rotation         = thisGroup.getAngle();
-        });
-        var appProperties = JSON.stringify(applicationProperties);
-        $( '#application-properties' ).prop('value', appProperties);
-        window.ap = appProperties;
-    }
-
     $('.default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
@@ -288,46 +186,11 @@ var applicationProperties = {};
     });
 
     canvasFront.on({
-        'object:moving': refreshApplicationsCoords,
-        'object:scaling': refreshApplicationsCoords,
-        'object:rotating': refreshApplicationsCoords,
-        'mouse:up': refreshApplicationsCoords
+        'object:moving': updateCoordinates,
+        'object:scaling': updateCoordinates,
+        'object:rotating': updateCoordinates,
+        'mouse:up': updateCoordinates
     });
-
-    function updateCoordinates() {
-
-        circle.radius = box.height / 2;
-
-        var topLeftX = bounding_box.oCoords.tl.x;
-        var topLeftY = bounding_box.oCoords.tl.y;
-        var topRightX = bounding_box.oCoords.tr.x;
-        var topRightY = bounding_box.oCoords.tr.y;
-        var bottomLeftX = bounding_box.oCoords.bl.x;
-        var bottomLeftY = bounding_box.oCoords.bl.y;
-        var bottomRightX = bounding_box.oCoords.br.x;
-        var bottomRightY = bounding_box.oCoords.br.y;
-
-        canvas.renderAll();
-
-        data.topLeft.x = topLeftX;
-        data.topLeft.y = topLeftY;
-        data.topRight.x = topRightX;
-        data.topRight.y = topRightY;
-        data.bottomLeft.x = bottomLeftX;
-        data.bottomLeft.y = bottomLeftY;
-        data.bottomRight.x = bottomRightX;
-        data.bottomRight.y = bottomRightY;
-        data.boxWidth = bounding_box.getWidth();
-        data.boxHeight = bounding_box.getHeight();
-        data.pivot = bounding_box.getCenterPoint();
-        data.rotation = bounding_box.getAngle();
-
-        var boundaryProperties = JSON.stringify(data);
-
-        $( '#boundary-properties' ).prop('value',boundaryProperties);
-        refreshApplicationsCoords();
-    }
-
 
     $(".modal").each(function(i) {
         $(this).draggable({
@@ -407,8 +270,10 @@ var applicationProperties = {};
         $('#view-material-modal').modal('show');
     });
 
+var material = {};
+
     $('.add-material-option').on('click', function(){
-        var material = {
+        material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
             front_shape: ($(this).data('material-front-shape')),
@@ -428,27 +293,33 @@ var applicationProperties = {};
         $('#saved-perspective').val('');
         $('#saved-perspective').prop("visible", false);
         $('#boundary-properties').val('');
+        $('#application-properties').val('');
         $("#material-option-bounding-box").css("background-image", '');
+        $("#shape-view-top").css("background-image", "url()");
+        $("#material-option-bounding-box-top").css("background-image", "url()");
+        checkNameLength();
+        canvasFront.clear();
+        clearAppPropOptions();
 
     });
 
-    var material = {};
-
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
-                
+                console.log("CHANGED");
+                console.log("PERSPECTIVE: "+perspective);
+                console.log("MATERIAL: "+material.front_shape);
         if(perspective == 'front') {
-            $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.option.front_shape+")");
+            $("#shape-view").css("background-image", "url("+material.front_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.front_shape+")");
         } else if(perspective == 'back') {
-            $("#shape-view").css("background-image", "url("+material.option.back_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.option.back_shape+")");
+            $("#shape-view").css("background-image", "url("+material.back_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.back_shape+")");
         } else if(perspective == 'left') {
-            $("#shape-view").css("background-image", "url("+material.option.left_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.option.left_shape+")");
+            $("#shape-view").css("background-image", "url("+material.left_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.left_shape+")");
         } else if(perspective == 'right') {
-            $("#shape-view").css("background-image", "url("+material.option.right_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.option.right_shape+")");
+            $("#shape-view").css("background-image", "url("+material.right_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url("+material.right_shape+")");
         }
 
     });
@@ -460,6 +331,10 @@ var appPropJson = "";
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape')),
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
@@ -475,21 +350,17 @@ var appPropJson = "";
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
-                front_shape: ($(this).data('material-front-shape')),
-                back_shape: ($(this).data('material-back-shape')),
-                left_shape: ($(this).data('material-left-shape')),
-                right_shape: ($(this).data('material-right-shape'))
             }
         };
 
-        var type = capitalize(material.option.type);
-        var perspective = capitalize(material.option.perspective);
+        // var type = capitalize(material.option.type);
+        // var perspective = capitalize(material.option.perspective);
 
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
         $('#saved-setting-type').val(material.option.type);
-        $('#saved-setting-type').text(type);
+        $('#saved-setting-type').text(material.option.type);
         $('#saved-setting-type').attr('selected','selected');
         $('#saved-origin').val(material.option.origin);
         $('#saved-origin').text(material.option.origin);
@@ -498,26 +369,27 @@ var appPropJson = "";
         $('#saved-default-color').text(material.option.default_color);
         $('#saved-default-color').attr('selected','selected');
         $('#saved-perspective').val(material.option.perspective);
-        $('#saved-perspective').text(perspective + " View");
+        $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('#application-properties').prop("value", material.option.applications_properties);
         if(material.option.perspective == "front"){
-            $("#shape-view").css("background-image", "url("+material.option.front_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.option.front_shape + ")");
+            $("#shape-view").css("background-image", "url("+material.front_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.front_shape + ")");
         }else if(material.option.perspective == "back"){
-            $("#shape-view").css("background-image", "url("+material.option.back_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.option.back_shape + ")");
+            $("#shape-view").css("background-image", "url("+material.back_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.back_shape + ")");
         }else if(material.option.perspective == "left"){
-            $("#shape-view").css("background-image", "url("+material.option.left_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.option.left_shape + ")");
+            $("#shape-view").css("background-image", "url("+material.left_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.left_shape + ")");
         }else if(material.option.perspective == "right"){
-            $("#shape-view").css("background-image", "url("+material.option.right_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.option.right_shape + ")");
+            $("#shape-view").css("background-image", "url("+material.right_shape+")");
+            $("#material-option-bounding-box").css("background-image", "url(" + material.right_shape + ")");
         }
 
         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
         $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
+        checkNameLength();
 
         var jason = $('#boundary-properties').val().replace(/\\/g, '');
         var output = jason.substring(1, jason.length-1);
@@ -543,12 +415,15 @@ var appPropJson = "";
         bounding_box.top = myData.topLeft.y;
 
         canvas.renderAll();
+        canvasFront.clear();
 
         var appPropJson = $('#application-properties').val().replace(/\\/g, '');
         var appProp = appPropJson.substring(1, appPropJson.length-1);
 
 
-        app_properties = JSON.parse(appProp); 
+        app_properties = JSON.parse(appProp);
+        // $(".front-applications").remove(".apOpt");
+        clearAppPropOptions();
 
         // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
 
@@ -616,7 +491,7 @@ var appPropJson = "";
 
                 selectAppend += "</select>";
 
-                $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+                $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
                 canvasFront.add(group);
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
@@ -665,10 +540,10 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        function capitalize(c)
-        {
-            return c[0].toUpperCase() + c.slice(1);
-        }
+        // function capitalize(c)
+        // {
+        //     return c[0].toUpperCase() + c.slice(1);
+        // }
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -866,6 +741,168 @@ var appPropJson = "";
             allowClear: true
         });
     }
+
+    function clearAppPropOptions(){
+        $(".apOpt").each(function(i) {
+            $(this).remove();
+        });
+    }
+
+    function checkNameLength(){
+        var uniformOptionName = $("#material-option-name").val();
+        if(uniformOptionName.length > 2){
+            $(".save-changes").prop('disabled',false);
+        }else{
+            $(".save-changes").prop('disabled',true);
+        }
+    }
+
+    function updateCoordinates() {
+
+        circle.radius = box.height / 2;
+
+        var topLeftX = bounding_box.oCoords.tl.x;
+        var topLeftY = bounding_box.oCoords.tl.y;
+        var topRightX = bounding_box.oCoords.tr.x;
+        var topRightY = bounding_box.oCoords.tr.y;
+        var bottomLeftX = bounding_box.oCoords.bl.x;
+        var bottomLeftY = bounding_box.oCoords.bl.y;
+        var bottomRightX = bounding_box.oCoords.br.x;
+        var bottomRightY = bounding_box.oCoords.br.y;
+
+        canvas.renderAll();
+
+        data.topLeft.x = topLeftX;
+        data.topLeft.y = topLeftY;
+        data.topRight.x = topRightX;
+        data.topRight.y = topRightY;
+        data.bottomLeft.x = bottomLeftX;
+        data.bottomLeft.y = bottomLeftY;
+        data.bottomRight.x = bottomRightX;
+        data.bottomRight.y = bottomRightY;
+        data.boxWidth = bounding_box.getWidth();
+        data.boxHeight = bounding_box.getHeight();
+        data.pivot = bounding_box.getCenterPoint();
+        data.rotation = bounding_box.getAngle();
+
+        var boundaryProperties = JSON.stringify(data);
+
+        $( '#boundary-properties' ).prop('value',boundaryProperties);
+        
+        $(".update-application").each(function(i) {
+
+            // BUILD APPLICATION PROPERTIES JSON
+
+            itemIdx = "layer"+$(this).data('id');
+            layer = $(this).data('id');
+            applicationType = $(this).siblings("select[class=app-def-item]").val();
+            applicationId = $(this).siblings("input[name=application_id]").val();
+
+            thisGroup = canvasFront.item(layer);
+
+            var topLeftX = thisGroup.oCoords.tl.x;
+            var topLeftY = thisGroup.oCoords.tl.y;
+            var topRightX = thisGroup.oCoords.tr.x;
+            var topRightY = thisGroup.oCoords.tr.y;
+            var bottomLeftX = thisGroup.oCoords.bl.x;
+            var bottomLeftY = thisGroup.oCoords.bl.y;
+            var bottomRightX = thisGroup.oCoords.br.x;
+            var bottomRightY = thisGroup.oCoords.br.y;
+
+            canvas.renderAll();
+
+            applicationProperties[itemIdx] = {};
+            applicationProperties[itemIdx]['type'] = {};
+            applicationProperties[itemIdx]['id'] = {};
+            applicationProperties[itemIdx]['topLeft'] = {};
+            applicationProperties[itemIdx]['topLeft']['x'] = {};
+            applicationProperties[itemIdx]['topLeft']['y'] = {};
+            applicationProperties[itemIdx]['topRight'] = {};
+            applicationProperties[itemIdx]['topRight']['x'] = {};
+            applicationProperties[itemIdx]['topRight']['y'] = {};
+            applicationProperties[itemIdx]['bottomLeft'] = {};
+            applicationProperties[itemIdx]['bottomLeft']['x'] = {};
+            applicationProperties[itemIdx]['bottomLeft']['y'] = {};
+            applicationProperties[itemIdx]['bottomRight'] = {};
+            applicationProperties[itemIdx]['bottomRight']['x'] = {};
+            applicationProperties[itemIdx]['bottomRight']['y'] = {};
+
+            applicationProperties[itemIdx].type = applicationType;
+            applicationProperties[itemIdx].id = applicationId;
+            applicationProperties[itemIdx].topLeft.x = topLeftX;
+            applicationProperties[itemIdx].topLeft.y = topLeftY;
+            applicationProperties[itemIdx].topRight.x = topRightX;
+            applicationProperties[itemIdx].topRight.y = topRightY;
+            applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
+            applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
+            applicationProperties[itemIdx].bottomRight.x = bottomRightX;
+            applicationProperties[itemIdx].bottomRight.y = bottomRightY;
+
+            // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
+
+            applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
+            applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
+            applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
+
+            applicationProperties[itemIdx].width = thisGroup.getWidth();
+            applicationProperties[itemIdx].height = thisGroup.getHeight();
+            applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;;
+            applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;;
+            applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+            applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+        });
+        var appProperties = JSON.stringify(applicationProperties);
+        $( '#application-properties' ).prop('value', appProperties);
+        window.ap = appProperties;
+    }
+
+    // CHANGES BACKGROUNDS OF CANVASES
+
+    $("#file-src").change(function() {
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+ 
+        if (/^image/.test(files[0].type)){
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+ 
+            reader.onloadend = function() {
+                $("#shape-view-top").css("background-image", "url("+this.result+")");
+                $("#material-option-bounding-box-top").css("background-image", "url("+this.result+")");
+            }
+        }
+    });
+
+    $(".shape-view").change(function() {
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+
+        var perspective = $(this).data('perspective');
+
+        if (/^image/.test(files[0].type)){
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+ 
+            reader.onloadend = function() {
+
+                if(perspective == 'front') {
+                    $("#front-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'back') {
+                    $("#back-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'left') {
+                    $("#left-shape-view").css("background-image", "url("+this.result+")");
+                } else if(perspective == 'right') {
+                    $("#right-shape-view").css("background-image", "url("+this.result+")");
+                }
+
+            }
+        }
+    });
 
     bindColorsSelect2();
     bindGradientsSelect2();

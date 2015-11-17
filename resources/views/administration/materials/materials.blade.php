@@ -37,7 +37,7 @@
     <table data-toggle='table' class='data-table table table-bordered materials'>
         <thead>
             <tr class="center-table-heads">
-                <th>Thumbnail</th>
+                <th>Material</th>
                 <th>Material Options</th>
                 <th>Action</th>
             </tr>
@@ -294,7 +294,11 @@
                     <hr>
                         <a href="#" class='btn btn-xs btn-success add-material-option'
                             data-material-name="{{ $material->name }}"
-                            data-material-id="{{ $material->id }}">
+                            data-material-id="{{ $material->id }}"
+                            data-material-front-shape="{{ $material->front_view_shape }}"
+                            data-material-back-shape="{{ $material->back_view_shape }}"
+                            data-material-left-shape="{{ $material->left_side_view_shape }}"
+                            data-material-right-shape="{{ $material->right_side_view_shape }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add Material Option
                         </a>
