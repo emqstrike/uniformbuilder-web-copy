@@ -306,7 +306,11 @@ $(document).ready(function() {
             application: application,
             logo: logo,
             type: 'logo',
+            color_array: {},
         };
+
+        /// insert color array here...
+
 
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
@@ -327,9 +331,7 @@ $(document).ready(function() {
         var scale = '';
         var rotation = '';
         var alpha = '';
-        var tint = '';
-
-
+        
         if (typeof(s) === 'object') {
 
             var obj = view_objects['objects_' + application.code];
@@ -339,6 +341,7 @@ $(document).ready(function() {
             rotation = obj.rotation;
             alpha = obj.alpha;
             tint = obj.tint;
+            var color_array = settings.applications[application.code].color_array;
 
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
@@ -347,9 +350,8 @@ $(document).ready(function() {
 
         view_objects['objects_' + application.code] = sprite;
         view.addChild(sprite);
-        
-        sprite.position.x = x;
-        sprite.position.y = y;
+
+        sprite.position = new PIXI.Point(x,y);
         sprite.rotation = application.rotation;
 
         if(sprite.width === 1) {
@@ -366,17 +368,12 @@ $(document).ready(function() {
 
         if(position !== ''){
 
-            console.log(position);
-
             sprite.position = position;
             sprite.scale = scale;
             sprite.rotation = rotation;
             sprite.alpha = alpha;
-            sprite.tint = tint;
 
         }
-
-
 
         window.sprite = sprite;
 
@@ -391,8 +388,8 @@ $(document).ready(function() {
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
 
-                sprite.x = sprite.oldX;
-                sprite.y = sprite.oldY;
+                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+                
 
             }
 
@@ -434,8 +431,7 @@ $(document).ready(function() {
 
                         if (distance < minimum_distance_to_snap) {
 
-                            sprite.x = x;
-                            sprite.y = y;
+                            sprite.position = new PIXI.Point(x, y);
                             sprite.oldX = x;
                             sprite.oldY = y;
 

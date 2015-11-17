@@ -466,13 +466,26 @@
 
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
-   
+
+                var color_array = '';
+
+                if(typeof settings.applications[application.code] !== 'undefined' ) {
+                    var color_array = settings.applications[application.code].color_array;
+                }    
+
                 settings.applications[application.code] = {
                     application: application,
                     text: text_input,
                     text_obj: sprite,
                     type: 'player_number',
+                    color_array: {},
                 };
+
+                if (color_array !== ''){
+                    settings.applications[application.code].color_array = color_array;
+                }
+
+                /// insert color array here... 
 
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
@@ -502,6 +515,7 @@
                     rotation = obj.rotation;
                     alpha = obj.alpha;
                     tint = obj.tint;
+                    var color_array = settings.applications[application.code].color_array;
 
                     view.removeChild(view_objects['objects_' + application.code]);
                     delete view_objects['objects_' + application.code];
@@ -516,7 +530,22 @@
 
                     child.tint = parseInt(child.ubDefaultColor,16);
 
-                })
+                    if(color_array !== ''){
+
+                        var array = ub.current_material.settings.applications[application.code].color_array
+                        var color_array_size = _.size(array);
+                        var code = ub.current_material.settings.applications[application.code].color_array[index];
+
+                        if (typeof code !== 'undefined'){
+                            
+                            child.tint = parseInt(code.color_code ,16);
+
+                        }
+
+
+                    }
+
+                });
 
                 /// End Set First Three Colors 
 
@@ -559,8 +588,7 @@
 
                     if (!sprite.snapped && $('#chkSnap').is(":checked")) {
 
-                        sprite.x = sprite.oldX;
-                        sprite.y = sprite.oldY;
+                        sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
 
                     }
 
@@ -600,8 +628,8 @@
 
                                 if (distance < minimum_distance_to_snap) {
 
-                                    sprite.x = x;
-                                    sprite.y = y;
+                                    sprite.position = new PIXI.Point(x,y);
+
                                     sprite.oldX = x;
                                     sprite.oldY = y;
 
@@ -739,7 +767,7 @@
             /// Custom Properties
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
-
+            text_layer.text_sprite.ubLayerNo = layer.layer_no;
 
             var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
 
@@ -906,7 +934,14 @@
                     var app = ub.current_material.settings.applications[application.code];
                     
                     if( typeof app !== 'undefined') {
+                        
                         sprite.tint = parseInt(color_code, 16); 
+
+                        app.color_array[sprite.ubLayerNo] = {};
+                        app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
+                        app.color_array[sprite.ubLayerNo].layer_no = sprite.ubLayerNo;
+                        app.color_array[sprite.ubLayerNo].color_code = color_code;
+
                     }
                     
                     color_drop.close();
@@ -1013,13 +1048,21 @@
                     if (typeof app !== 'undefined') {
 
                         if(app.type !== 'logo') {
-                            _.last(app.text_obj.children).tint = parseInt(color_code, 16);    
+
+                            var sprite = _.last(app.text_obj.children);
+
+                            sprite.tint = parseInt(color_code, 16);    
+
+                            app.color_array[sprite.ubLayerNo] = {};
+                            app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
+                            app.color_array[sprite.ubLayerNo].layer_no = _.last(app.text_obj.children).ubLayerNo;
+                            app.color_array[sprite.ubLayerNo].color_code = color_code;
+
                         }
 
                     }
                     
                     color_drop.close();
-
                     ub.refresh_thumbnails();
                     
                 });
