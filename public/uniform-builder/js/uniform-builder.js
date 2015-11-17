@@ -2088,10 +2088,9 @@ $(document).ready(function () {
             data.email = ub.user.email;
         }
         $('#save-design-modal').modal('hide');
-
-        // Notification Message
-        $.smkAlert({text: 'Saving your order. Please wait...', type:'info', permanent: true});
-
+        $('.flash-alert .flash-sub-title').text('Please wait...');
+        $('.flash-alert .flash-message').text('Saving your order');
+        $('.flash-alert').fadeIn();
         var endpoint = ub.config.api_host + '/api/order';
         if (typeof(ub.order) !== "undefined") {
             endpoint = ub.config.api_host + '/api/order/update';
@@ -2117,8 +2116,10 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
                 if (response.success) {
-                    // Notification Message
-                    $.smkAlert({text: 'Finished Saving Uniform Design', type:'success', permanent: false, 'time': 10});
+                    $('.flash-alert').fadeOut();
+                    $('.flash-alert .flash-sub-title').text('Complete:');
+                    $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
+                    $('.flash-alert').fadeIn();
                     // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
@@ -2224,9 +2225,14 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 $('#share-design-modal').modal('hide');
-                // Notification Message
-                var messageType = (response.success) ? 'success' : 'warning';
-                $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10});
+                if (response.success) {
+                    $('.flash-alert .flash-sub-title').text('Success: ');
+                } else {
+                    $('.flash-alert .flash-sub-title').text('Error: ');
+                    $('.flash-alert').addClass('alert-warning');
+                }
+                $('.flash-alert .flash-message').text(response.message);
+                $('.flash-alert').show();
             }
         });
     });
@@ -2279,8 +2285,12 @@ $(document).ready(function () {
 
         $('#team-roster-modal').modal('hide');
 
-        // Notification Message
-        $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5});
+        $('.flash-alert .flash-sub-title').text('Success: ');
+        $('.flash-alert .flash-message').text('Updated team roster list');
+        $('.flash-alert').fadeIn();
+        setTimeout(function(){
+            $('.flash-alert').fadeOut();
+        }, 3000);
     }
 
     function getUniformSuggestions(categoryId) {
