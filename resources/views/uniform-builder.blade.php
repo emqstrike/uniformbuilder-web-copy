@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/drop/css/drop-theme-basic.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/dist/css/smoke.min.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -128,7 +128,7 @@
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/smoke/dist/js/smoke.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/smoke/smoke.min.js{{$asset_version}}"></script>
 <!-- End Third Party Scripts -->
 
 <!-- Uniform Builder Scripts -->
