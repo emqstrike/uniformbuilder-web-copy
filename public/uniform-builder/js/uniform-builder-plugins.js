@@ -263,21 +263,20 @@
             html_builder += "<div class='tab_container_color' data-id='" + settings.application.id + "'>";
             html_builder +=     "<div class='btn ub active' data-id='" + settings.application.id + "' data-option='colors'>Colors</div><div class='btn ub' data-option='gradients' data-id='" + settings.application.id + "'>Gradients</div><div class='btn ub' data-id='" + settings.application.id + "' data-option='patterns'>Patterns</div>";
 
-            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='colors'>";
+            html_builder +=     "<div class='colors_container colors' data-id='" + settings.application.id + "' data-option='colors'>";
             html_builder +=         "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
             html_builder +=         "<div class='other_color_container' data-id='" + settings.application.id + "'></div>";
             html_builder +=     "</div>";
 
-            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='gradients'>";
+            html_builder +=     "<div class='colors_container gradients' data-id='" + settings.application.id + "' data-option='gradients'>";
             html_builder +=         "Gradients";
             html_builder +=     "</div>";
 
-            html_builder +=     "<div class='colors_container' data-id='" + settings.application.id + "' data-option='patterns'>";
+            html_builder +=     "<div class='colors_container patterns' data-id='" + settings.application.id + "' data-option='patterns'>";
             html_builder +=         "Patterns";
             html_builder +=     "</div>";
 
             html_builder += "</div>";
-
 
             html_builder += "<div class='row'>";
             html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
@@ -295,7 +294,6 @@
             /// Color Container Handlers
 
             $('div.colors_container[data-id="' + application.id + '"]').not('[data-option="colors"]').hide();
-
             $('div.btn.ub[data-id="' + application.id + '"]').on('click', function (e) {
 
                 $('div.btn.ub[data-id="' + application.id + '"]').removeClass('active');
@@ -305,13 +303,13 @@
 
             });
 
-
             /// End Color Container Handlers
-
             
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
+
+            create_gradient_dropdown(settings);
 
             var max_font_size = 300;
             
@@ -1185,8 +1183,34 @@
         drop.open();
         drop.close();
 
-    } /// End Accent Drop Function 
+    } /// End Accent Drop Function   
+    
+    ///  Create Gradient Dropdown
 
+    function create_gradient_dropdown(settings) {
+
+        var gradient_container = $('div.colors_container[data-id="' + settings.application.id + '"][data-option="gradients"]');
+        var gradient_elements = '<div class="gradient_panel_container">';
+
+        _.each(ub.data.gradients.items, function (gradient_obj) {
+
+            var element = '<div class="gradient_element">';
+            var filename = '/images/sidebar/' + gradient_obj.code + '.png';
+
+            element = element + '<button class="btn change-gradient" data-panel="' + settings.application.id + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+            element = element + '</div>';    
+
+            gradient_elements = gradient_elements + element;
+
+        });
+
+        gradient_elements += "</div><div class='color_stops_container'></div>";
+        gradient_container.html(gradient_elements);
+
+    }
+
+
+    /// End Create Gradient Dropdown
 
     /// Get Colors and Hex Codes For Given Material Option
 
