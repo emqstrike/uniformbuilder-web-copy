@@ -33,7 +33,7 @@
 </div>
 
 <div class="row-fluid col-md-12">
-    <table data-toggle='table' class='data-table table table-bordered materials'>
+    <table data-toggle='table' class='table table-bordered materials'>
         <thead>
             <tr>
                 <th>Thumbnail</th>
