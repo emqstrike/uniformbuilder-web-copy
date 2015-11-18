@@ -21,6 +21,8 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/user/add" id='create-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="user_create_origin" value="administration">
+                        <input type="hidden" name="created_by" value="{{ Session::get('userId') }}">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>

@@ -89,6 +89,8 @@ class UsersController extends Controller
         $lastName = $request->input('last_name');
         $email = $request->input('email');
         $password = $request->input('password');
+        $userCreateOrigin = $request->input('user_create_origin');
+        $createdBy = $request->input('created_by');
 
         $data = [
             'first_name' => $firstName,
@@ -108,6 +110,14 @@ class UsersController extends Controller
         if (!empty($request->input('password')))
         {
             $data['password'] = $request->input('password');
+        }
+        if (!empty($request->input('user_create_origin')))
+        {
+            $data['user_create_origin'] = $request->input('user_create_origin');
+        }
+        if (!empty($request->input('created_by')))
+        {
+            $data['created_by'] = $request->input('created_by');
         }
 
         // Does the User exist
@@ -139,9 +149,12 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Save or Modify User: Success');
-            if (Session::get('userId') == $data['id'])
+            if (isset($data['id']))
             {
-                Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                if (Session::get('userId') == $data['id'])
+                {
+                    Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                }
             }
             return redirect()->back()
                             ->with('message', 'Successfully updated user information');  
