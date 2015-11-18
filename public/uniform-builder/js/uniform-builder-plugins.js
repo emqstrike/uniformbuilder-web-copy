@@ -1197,7 +1197,7 @@
             var element = '<div class="gradient_element">';
             var filename = '/images/sidebar/' + gradient_obj.code + '.png';
 
-            element = element + '<button class="btn change-gradient" data-panel="' + settings.application.id + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+            element = element + '<button class="btn change-gradient" data-application-id="' + settings.application.id + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
             element = element + '</div>';    
 
             gradient_elements = gradient_elements + element;
@@ -1206,6 +1206,15 @@
 
         gradient_elements += "</div><div class='color_stops_container'></div>";
         gradient_container.html(gradient_elements);
+
+        $('button.change-gradient[data-application-id="' + settings.application.id + '"]').on('click', function (e) {
+
+            var code = $(this).data('gradient');
+            var gradient_obj = _.find(ub.data.gradients.items, {code: code});
+            var id = settings.application.id;
+
+
+        });
 
     }
 
