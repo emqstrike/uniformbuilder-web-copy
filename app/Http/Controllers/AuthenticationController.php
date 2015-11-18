@@ -123,4 +123,32 @@ class AuthenticationController extends AdminAuthController
 
         return $this->client->saveNewPassword($data);
     }
+
+    public function changePasswordForm()
+    {
+        $params = [
+            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'user_id' => Session::get('userId')
+        ];
+
+        return view('forms.change-password', $params);
+    }
+
+    public function saveChangedPassword(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $oldPassword = $request->input('old_password');
+        $newPassword = $request->input('new_password');
+
+        $response = $this->client->updatePassword([
+            'user_id' => $userId,
+            'old_password' => $oldPassword,
+            'new_password' => $newPassword
+        ]);
+
+        return $response;
+    }
 }
