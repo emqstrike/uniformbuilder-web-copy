@@ -9,6 +9,15 @@ $(document).ready(function() {
         refreshApplicationsCoords();
     });
 
+    $('a[data-toggle=popover]').popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'right',
+        content: function(){
+            return '<img src="'+$(this).data('img') + '" style="width: 200px; hieght: 200px; background-color: #e3e3e3;"/>';
+        }
+    });
+
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
@@ -305,22 +314,21 @@ var material = {};
 
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
+        var material_shape;
                 console.log("CHANGED");
                 console.log("PERSPECTIVE: "+perspective);
                 console.log("MATERIAL: "+material.front_shape);
         if(perspective == 'front') {
-            $("#shape-view").css("background-image", "url("+material.front_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.front_shape+")");
+            material_shape = material.front_shape;
         } else if(perspective == 'back') {
-            $("#shape-view").css("background-image", "url("+material.back_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.back_shape+")");
+            material_shape = material.back_shape;
         } else if(perspective == 'left') {
-            $("#shape-view").css("background-image", "url("+material.left_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.left_shape+")");
+            material_shape = material.left_shape;
         } else if(perspective == 'right') {
-            $("#shape-view").css("background-image", "url("+material.right_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url("+material.right_shape+")");
+            material_shape = material.right_shape;
         }
+        $("#shape-view").css("background-image", "url("+material_shape+")");
+        $("#material-option-bounding-box").css("background-image", "url("+material_shape+")");
 
     });
 
@@ -373,19 +381,34 @@ var appPropJson = "";
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('#application-properties').prop("value", material.option.applications_properties);
-        if(material.option.perspective == "front"){
-            $("#shape-view").css("background-image", "url("+material.front_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.front_shape + ")");
-        }else if(material.option.perspective == "back"){
-            $("#shape-view").css("background-image", "url("+material.back_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.back_shape + ")");
-        }else if(material.option.perspective == "left"){
-            $("#shape-view").css("background-image", "url("+material.left_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.left_shape + ")");
-        }else if(material.option.perspective == "right"){
-            $("#shape-view").css("background-image", "url("+material.right_shape+")");
-            $("#material-option-bounding-box").css("background-image", "url(" + material.right_shape + ")");
+        // if(material.option.perspective == "front"){
+        //     $("#shape-view").css("background-image", "url("+material.front_shape+")");
+        //     $("#material-option-bounding-box").css("background-image", "url(" + material.front_shape + ")");
+        // }else if(material.option.perspective == "back"){
+        //     $("#shape-view").css("background-image", "url("+material.back_shape+")");
+        //     $("#material-option-bounding-box").css("background-image", "url(" + material.back_shape + ")");
+        // }else if(material.option.perspective == "left"){
+        //     $("#shape-view").css("background-image", "url("+material.left_shape+")");
+        //     $("#material-option-bounding-box").css("background-image", "url(" + material.left_shape + ")");
+        // }else if(material.option.perspective == "right"){
+        //     $("#shape-view").css("background-image", "url("+material.right_shape+")");
+        //     $("#material-option-bounding-box").css("background-image", "url(" + material.right_shape + ")");
+        // }
+
+        var perspective = material.option.perspective;
+        var material_option_shape;
+        if(perspective == 'front') {
+            material_option_shape = material.front_shape;
+        } else if(perspective == 'back') {
+            material_option_shape = material.back_shape;
+        } else if(perspective == 'left') {
+            material_option_shape = material.left_shape;
+        } else if(perspective == 'right') {
+            material_option_shape = material.right_shape;
         }
+        
+        $("#shape-view").css("background-image", "url("+material_option_shape+")");
+        $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
         $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
