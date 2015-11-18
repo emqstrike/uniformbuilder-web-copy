@@ -102,12 +102,12 @@ $(document).ready(function () {
         var new_password = $('#new-password').val();
         var confirm_password = $('#confirm-password').val();
 
-        if (password == confirm_password) {
+        if (new_password == confirm_password) {
 
-            if (password.length == 0) {
+            if (new_password.length == 0) {
                 $('#change-password-error .message').text('Password cannot be empty');
                 $('#change-password-error').fadeIn();
-            } else if (password.length < 6) {
+            } else if (new_password.length < 6) {
                 $('#change-password-error .message').text('Password should be at least six (6) characters.');
                 $('#change-password-error').fadeIn();
             } else {
