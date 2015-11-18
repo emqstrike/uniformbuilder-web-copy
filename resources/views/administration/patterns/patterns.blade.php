@@ -65,10 +65,10 @@
             </a>
             <a href="#" class="btn btn-default btn-xs show-pattern" role="button"
                 data-pattern-name="{{ $pattern->name }}"
-                data-pattern-layer-one="{{ $pattern->layer_1_path }}"
-                data-pattern-layer-two="{{ $pattern->layer_2_path }}"
-                data-pattern-layer-three="{{ $pattern->layer_3_path }}"
-                data-pattern-layer-four="{{ $pattern->layer_4_path }}"
+                data-pattern-layer-one="{{ $pattern->layers[0]->url }}"
+                data-pattern-layer-two="{{ $pattern->layers[1]->url }}"
+                data-pattern-layer-three="{{ $pattern->layers[2]->url }}"
+                data-pattern-layer-four="{{ $pattern->layers[3]->url }}"
                 data-pattern-id="{{ $pattern->id }}">
                 <li class="glyphicon glyphicon-info-sign"></li>
                 View
@@ -113,19 +113,19 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-pattern-layer-1" align='center'>
                             <span class="badge pattern-layer-1-path"></span>
-                            <img src="" class="pattern-layer-1" width="300px" height="300px">
+                            <img src="" class="pattern-layer-1" width="300px" height="300px" style="background: black;">
                         </div>
                         <div class="tab-pane" id="tab-pattern-layer-2" align='center'>
                             <span class="badge pattern-layer-2-path"></span>
-                            <img src="" class="pattern-layer-2" width="300px" height="300px">
+                            <img src="" class="pattern-layer-2" width="300px" height="300px" style="background: black;">
                         </div>
                         <div class="tab-pane" id="tab-pattern-layer-3" align='center'>
                             <span class="badge pattern-layer-3-path"></span>
-                            <img src="" class="pattern-layer-3" width="300px" height="300px">
+                            <img src="" class="pattern-layer-3" width="300px" height="300px" style="background: black;">
                         </div>
                         <div class="tab-pane" id="tab-pattern-layer-4" align='center'>
                             <span class="badge pattern-layer-4-path"></span>
-                            <img src="" class="pattern-layer-4" width="300px" height="300px">
+                            <img src="" class="pattern-layer-4" width="300px" height="300px" style="background: black;">
                         </div>
                     </div>
                 </div>

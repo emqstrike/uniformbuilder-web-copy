@@ -48,8 +48,8 @@
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 pattern">
                                 <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
-                                @if ($pattern->layer_1_path)
-                                <img src="{{ $pattern->layer_1_path }}" class="layer_1_path" width="100px" height="100px">
+                                @if ($pattern->layers[0]->url)
+                                <img src="{{ $pattern->layers[0]->url }}" class="layer_1_path" width="100px" height="100px" style="background: black;">
                                 <a href="#" class="btn btn-danger btn-xs delete-pattern-layer layer_1_path"
                                     data-pattern-id="{{ $pattern->id }}"
                                     data-layer="layer_1_path"
@@ -63,8 +63,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Default color</label>
                             <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #{{ $pattern->color_1_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
-                                <option style="background-color: #{{ $pattern->color_1_hex_code }};" value="{{ $pattern->layer_1_default_color }}" selected>{{ $pattern->color_1_name }} (Default)</option>
+                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #{{ $pattern->layers[0]->color_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
+                                <option style="background-color: #{{ $pattern->layers[0]->color_hex_code }};" value="{{ $pattern->layers[0]->default_color }}" selected>{{ $pattern->layers[0]->color_name }} (Default)</option>
                                 @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @endforeach
@@ -76,8 +76,8 @@
                             <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
                             <div class="col-md-6 pattern">
                                 <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
-                                @if ($pattern->layer_2_path)
-                                <img src="{{ $pattern->layer_2_path }}" class="layer_2_path" width="100px" height="100px">
+                                @if ($pattern->layers[1]->url)
+                                <img src="{{ $pattern->layers[1]->url }}" class="layer_2_path" width="100px" height="100px" style="background: black;">
                                 <a href="#" class="btn btn-danger btn-xs delete-pattern-layer layer_2_path"
                                     data-pattern-id="{{ $pattern->id }}"
                                     data-layer="layer_2_path"
@@ -91,8 +91,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Default color</label>
                             <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #{{ $pattern->color_2_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
-                                <option style="background-color: #{{ $pattern->color_2_hex_code }};" value="{{ $pattern->layer_2_default_color }}" selected>{{ $pattern->color_2_name }} (Default)</option>
+                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #{{ $pattern->layers[1]->color_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
+                                <option style="background-color: #{{ $pattern->layers[1]->color_hex_code }};" value="{{ $pattern->layers[1]->default_color }}" selected>{{ $pattern->layers[0]->color_name }} (Default)</option>
                                 @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @endforeach
@@ -104,8 +104,8 @@
                             <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
                             <div class="col-md-6 pattern">
                                 <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
-                                @if ($pattern->layer_3_path)
-                                <img src="{{ $pattern->layer_3_path }}" class="layer_3_path" width="100px" height="100px">
+                                @if ($pattern->layers[2]->url)
+                                <img src="{{ $pattern->layers[2]->url }}" class="layer_3_path" width="100px" height="100px" style="background: black;">
                                 <a href="#" class="btn btn-danger btn-xs delete-pattern-layer layer_3_path"
                                     data-pattern-id="{{ $pattern->id }}"
                                     data-layer="layer_3_path"
@@ -119,8 +119,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Default color</label>
                             <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #{{ $pattern->color_3_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
-                                <option style="background-color: #{{ $pattern->color_3_hex_code }};" value="{{ $pattern->layer_3_default_color }}" selected>{{ $pattern->color_3_name }} (Default)</option>
+                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #{{ $pattern->layers[2]->color_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
+                                <option style="background-color: #{{ $pattern->layers[2]->color_hex_code }};" value="{{ $pattern->layers[2]->default_color }}" selected>{{ $pattern->layers[2]->color_name }} (Default)</option>
                                 @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @endforeach
@@ -132,8 +132,8 @@
                             <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
                             <div class="col-md-6 pattern">
                                 <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
-                                @if ($pattern->layer_4_path)
-                                <img src="{{ $pattern->layer_4_path }}" class="layer_4_path" width="100px" height="100px">
+                                @if ($pattern->layers[3]->url)
+                                <img src="{{ $pattern->layers[3]->url }}" class="layer_4_path" width="100px" height="100px" style="background: black;">
                                 <a href="#" class="btn btn-danger btn-xs delete-pattern-layer layer_4_path"
                                     data-pattern-id="{{ $pattern->id }}"
                                     data-layer="layer_4_path"
@@ -147,8 +147,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Default color</label>
                             <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #{{ $pattern->color_4_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
-                                <option style="background-color: #{{ $pattern->color_4_hex_code }};" value="{{ $pattern->layer_4_default_color }}" selected>{{ $pattern->color_4_name }} (Default)</option>
+                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #{{ $pattern->layers[3]->color_hex_code }}; color: #fff;text-shadow: 1px 1px #000;">
+                                <option style="background-color: #{{ $pattern->layers[3]->color_hex_code }};" value="{{ $pattern->layers[3]->default_color }}" selected>{{ $pattern->layers[3]->color_name }} (Default)</option>
                                 @foreach ($color as $colors)
                                 <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
                                 @endforeach
