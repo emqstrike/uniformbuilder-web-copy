@@ -2090,7 +2090,7 @@ $(document).ready(function () {
         $('#save-design-modal').modal('hide');
 
         // Notification Message
-        $.smkAlert({text: 'Saving your order. Please wait...', type:'info', permanent: true});
+        $.smkAlert({text: 'Saving your order. Please wait...', type:'info', permanent: true, marginTop: '90px'});
 
         var endpoint = ub.config.api_host + '/api/order';
         if (typeof(ub.order) !== "undefined") {
@@ -2118,7 +2118,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     // Notification Message
-                    $.smkAlert({text: 'Finished Saving Uniform Design', type:'success', permanent: false, 'time': 10});
+                    $.smkAlert({text: 'Finished Saving Uniform Design', type:'success', permanent: false, 'time': 10, marginTop: '90px'});
                     // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
@@ -2226,7 +2226,7 @@ $(document).ready(function () {
                 $('#share-design-modal').modal('hide');
                 // Notification Message
                 var messageType = (response.success) ? 'success' : 'warning';
-                $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10});
+                $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10, marginTop: '90px'});
             }
         });
     });
@@ -2280,7 +2280,7 @@ $(document).ready(function () {
         $('#team-roster-modal').modal('hide');
 
         // Notification Message
-        $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5});
+        $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
     function getUniformSuggestions(categoryId) {

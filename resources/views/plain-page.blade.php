@@ -19,62 +19,8 @@
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-3-vert-offset-shim.css{{$asset_version}}">
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
-        </div>
-        <div>
-            <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
-        </div>
-        <div class='user-profile pull-right'>
-            @if (!Session::get('isLoggedIn'))
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Login
-                        <span class="caret"></span>
-                    </a>
-                    <ul id="login-dp" class="dropdown-menu">
-                        <li>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="form-group form-group-sm input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                            <input type="email" name="email" class="form-control col-sm-2" id="login-email" placeholder="Email Address">
-                                        </div>
-                                        <div class="form-group form-group-sm input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                            <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
-                                        </div>
-                                        <div class="form-group col-md-12">
-                                            <button type="submit" class="btn btn-primary btn-block">
-                                                <i class="fa fa-sign-in"></i>
-                                                Sign in
-                                            </button>
-                                            <div class="help-block text-right"><a href="/forgotPassword">Forgot your password?</a></div>
-                                        </div>
-                                    </form>
-                                </div>
-                             </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="user-signup" href="#">
-                        Signup
-                    </a>
-                </li>
-            </ul>
-            @else
-            Welcome back <strong>{{ Session::get('first_name') }}</strong>!
-            <a href="/logout" class='btn btn-xs btn-primary'><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
-            @endif
-        </div>
-    </div>
-</nav>
+
+@include('partials.navbar')
 
 @yield('main-content')
 

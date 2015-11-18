@@ -93,4 +93,56 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('#change-password-submit').on('click', changePassword);
+
+    function changePassword() {
+        var user_id = $('#change-password .user_id').val();
+        var old_password = $('#old-password').val();
+        var new_password = $('#new-password').val();
+        var confirm_password = $('#confirm-password').val();
+
+        if (new_password == confirm_password) {
+
+            if (new_password.length == 0) {
+                $('#change-password-error .message').text('Password cannot be empty');
+                $('#change-password-error').fadeIn();
+            } else if (new_password.length < 6) {
+                $('#change-password-error .message').text('Password should be at least six (6) characters.');
+                $('#change-password-error').fadeIn();
+            } else {
+                $('#change-password-error').hide();
+                $('#change-password-error .message').text('');
+
+                $('#change-password-submit .loading').fadeIn();
+                $('#change-password-submit').attr('disabled', 'disabled');
+
+                $.ajax({
+                    url: window.location.origin + '/saveChangedPassword',
+                    data: {
+                        user_id: user_id,
+                        new_password: new_password,
+                        old_password: old_password,
+                        _token: $('.csrf-token').val()
+                    },
+                    method: 'POST',
+                    success: function(response) {
+                        $('#change-password').fadeOut();
+                        if (response.success) {
+                            $('#change-password-complete').fadeIn();
+                            setTimeout(function(){
+                                location.href = location.origin + '/logout';
+                            }, 5000);
+                        } else {
+                            $('#change-password-error .message').text(response.message);
+                            $('#change-password-error').fadeIn();
+                        }
+                    }
+                });
+            }
+        } else {
+            $('#change-password-error .message').text('Passwords does not match');
+            $('#change-password-error').fadeIn();
+        }
+    }
 });
