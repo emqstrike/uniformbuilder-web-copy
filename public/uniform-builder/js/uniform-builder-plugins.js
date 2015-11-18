@@ -8,7 +8,16 @@
         return this.each(function() {
 
             var target_name = window.util.toTitleCase(settings.target);
-            var obj_colors = _.find(ub.current_material.material.options, {name: target_name });
+            var obj_colors = ''
+
+            if (typeof settings.target_name === 'string') {
+                target_name  = settings.target_name
+            }
+            else{
+                 target_name = window.util.toTitleCase(settings.target);
+            }
+
+            obj_colors = _.find(ub.current_material.material.options, {name: target_name });
 
             var el = $(this);
             var el_parent = el.parent();
@@ -706,6 +715,8 @@
 
             });
 
+            $textbox.trigger('change');
+
         });
 
     };
@@ -1204,7 +1215,7 @@
 
         });
 
-        gradient_elements += "</div><div class='color_stops_container'></div>";
+        gradient_elements += "</div><div class='color_stops_container' data-id='" + settings.application.id + "'></div>";
         gradient_container.html(gradient_elements);
 
         $('button.change-gradient[data-application-id="' + settings.application.id + '"]').on('click', function (e) {
@@ -1212,11 +1223,327 @@
             var code = $(this).data('gradient');
             var gradient_obj = _.find(ub.data.gradients.items, {code: code});
             var id = settings.application.id;
+            var $color_stops_container = $('div.color_stops_container[data-id="1"]')
 
+            change_gradient(settings.application.id, gradient_obj, 'text', settings.application);
 
         });
 
     }
+
+        /// UB Plugin Gradient Utilities 
+
+        var change_gradient = function (target, gradient, panel, application) {
+
+            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+
+            var el = gradient;
+            var clone = {};
+            var clone = _.clone(el);
+
+            var cont = $('div.color_stops_container[data-id="' + target + '"]')
+            cont.html('');
+
+            var elements = "";
+
+            if (el.color_stops.length > 0) {
+                elements = "<br />Color Stops<br /><br />";
+            }
+
+            _.each(el.color_stops, function (e, index) {
+
+                var val = e.value;
+                var col = e.color;
+                
+                elements += create_color_picker(index, val, col, target, el.code); 
+
+            });
+
+            
+            if (el.code === "custom" ) {
+
+                var add_button = "<button id='add_gradient_color_stop'><i class='fa fa-plus-circle'></i></button>";
+                var delete_button = "<button id='delete_gradient_color_stop'><i class='fa fa-minus-circle'></i></button>";
+
+                var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
+                elements += "<br />";
+                elements += add_color_stop_button;
+
+            }
+
+            elements += "<div id='gradient_slider_" + target + "' class='gradient_slider'></div>";
+            elements += "<hr />";
+
+            elements += "<div id='angle_gradient_slider_" + target + "' class='gradient_slider_angle'></div>";
+            elements += "<hr />";
+            
+            elements += "<button style='width: 100%;' id='update-gradient-" + target + "' data-target='" + target + "' data-gradient='" + el.code + "'>Update Gradient</button>";
+
+            cont.html(elements);
+
+            $('input.gradient_' + target).ubColorPicker({
+                target: String(target),
+                type: 'gradient',
+                application: 'text',
+                target_name: application.layer,
+            });
+
+            var stops = _.pluck(clone.color_stops, 'value');
+            var stops_clone = [];
+
+            _.each(stops, function (e) {
+                stops_clone.push(e * 100);
+            });
+
+            $('#' + 'gradient_slider_' + target).limitslider({
+                
+                values: stops_clone,
+                min: 0,
+                max: 100,
+                gap: 0,
+                change: function (event, ui) {
+
+                    $("button#update-gradient-" + target).click();
+
+                },
+             });
+
+            $('#' + 'angle_gradient_slider_' + target).roundSlider({
+                value: el.angle,
+                min: 0,
+                max: 360,
+                startAngle: 90,
+                width: 5,
+                handleSize: "+14",
+                change: function (event, ui) {
+                    
+                    $("button#update-gradient-" + target).click();
+
+                },
+             });
+
+            $("button#update-gradient-" + target).click('click', function (e) {
+
+                _.each(clone.color_stops, function (e, index) {
+
+                    var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
+                    e.color = s.val();
+                    var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
+                    temp = Math.floor(temp / 10);
+                    temp = temp / 10;
+
+                    e.value = temp;
+
+                });
+
+                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
+                generate_gradient(clone, target, text_sprite, application.perspective);
+
+            });
+
+
+            if (el.code === "custom") {
+
+                $('#add_gradient_color_stop').on('click', function () {
+
+                    var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
+                    var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
+
+                    color_obj = _.find(ub.data.colors, { color_code: color_code })
+
+                    var new_color_stop = {
+
+                        id: clone.color_stops.length + 1,
+                        value: 0,
+                        color: '#' + color_obj.hex_code,
+
+                    };
+
+                    clone.color_stops.push(new_color_stop);
+                    var spacing = 1 / (clone.color_stops.length - 1);
+
+                    _.each(clone.color_stops, function (color_stop, index) {
+                        color_stop.value = index * spacing;
+                    });
+
+                    ub.change_gradient(target, gradient, panel);
+
+                });
+
+                $('#delete_gradient_color_stop').on('click', function () {
+
+                    if (clone.color_stops.length > 2) {
+
+                        clone.color_stops.pop();
+
+                        var spacing = 1 / (clone.color_stops.length - 1);
+                        
+                        _.each(clone.color_stops, function (color_stop, index) {
+                            color_stop.value = index * spacing;
+                        });
+
+                        change_gradient(target, gradient, panel);
+    
+                    }
+                   
+                });
+
+            }
+
+            $("button#update-gradient-" + target + "").click();
+
+        };
+
+        var create_color_picker = function (index, value, color, target, gradient) {
+
+            var element = "";
+            element = "<div class='color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='gradient_" + target + "' type='text' data-elid='gradient_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-gradient='" + gradient + "'  value='" + color + "'/></div>";
+
+            return element;
+
+        };
+
+        var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
+
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
+
+  
+            var uniform_type = ub.current_material.material.type;
+            var bounds;
+            var guides;
+
+            if (uniform_type === "upper") {
+
+                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
+
+            }
+            else {
+
+                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
+
+            }
+
+            var gradient_width  = 496;
+            var gradient_height = 550;
+            var canvas = document.createElement('canvas');
+
+            canvas.width = ub.dimensions.width;
+            canvas.height = ub.dimensions.height;
+
+            var ctx = canvas.getContext('2d');
+
+            var gradient;
+
+            if (gradient_obj.code === "radial" ) {
+
+                var center_x = 250;
+                var center_y = 250;
+
+                var radius_inner_circle = 20;
+                var radius_outer_circle = 100;
+
+                var canvas_width = 496;
+                var canvas_height = 550;
+
+                var origin_x = canvas_width / 2;
+                var origin_y = canvas_height / 2;
+
+                gradient = ctx.createRadialGradient(center_x, center_y, radius_inner_circle, center_x, center_y, radius_outer_circle);
+
+            }
+            else {
+
+                gradient = ctx.createLinearGradient(0,22,0,410);
+
+            }
+            
+            _.each(gradient_obj.color_stops, function (color_stop) {
+                gradient.addColorStop(color_stop.value, color_stop.color);
+            });
+
+            ctx.fillStyle = gradient;
+
+            var rotation = gradient_obj.angle;
+
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            
+            var dURL = canvas.toDataURL();
+
+            ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            ctx.translate(canvas.width/2, canvas.height/2);
+            ctx.rotate(rotation*Math.PI/180);
+            ctx.translate(-canvas.width/2, -canvas.height/2);
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+
+            var texture = PIXI.Texture.fromCanvas(canvas);
+            var temp_pattern = {};
+
+            var gradient_layer = new PIXI.Sprite(texture);
+            gradient_layer.zIndex = 1;
+
+            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            }
+
+            ub.objects.pattern_view.gradient_layer = gradient_layer;
+            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            ub.updateLayersOrder(ub.pattern_view);
+
+            
+            var v = perspective;
+            var view = v + '_view';
+
+            temp_pattern[v] = new PIXI.Sprite(texture);
+
+            if(typeof text_sprite.gradient_layer === "object" ){
+
+                text_sprite.removeChild(text_sprite.gradient_layer);
+
+            }
+            
+            if (typeof(ub.objects[view].gradient) !== 'undefined') {
+                ub[view].removeChild(ub.objects[view].gradient);    
+            }
+
+            ub[view].removeChild(ub.objects[view].gradient);
+            temp_pattern[v].zIndex = 1;
+
+            var mask = main_text_obj;
+
+            text_sprite.gradient_layer = temp_pattern[v];
+            temp_pattern[v].anchor.set(0.5, 0.5);
+            temp_pattern[v].mask = mask;
+            temp_pattern[v].zIndex = -10;
+
+            temp_pattern[v].height = main_text_obj.height;
+
+            ub.objects[view].gradient = temp_pattern[v];
+            text_sprite.addChild(temp_pattern[v]);
+      
+            ub.updateLayersOrder(text_sprite);
+
+            ub.refresh_thumbnails();
+
+            var data_url = 'url(' + dURL + ')';
+            var $slider = $('#' + 'gradient_slider_' + target);
+            var $angle_slider = $('#' + 'angle_gradient_slider_' + target);
+           
+            $slider.find('.range_container').remove();
+            $slider.prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', data_url);
+
+            var rad = (90 + parseInt($angle_slider.find('span.edit').html()));
+            
+            $angle_slider.find('div.rs-bg-color').css({
+                'background-image': data_url,
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+            });
+
+        };
+
+
+        /// End UB Plugin Gradient Utilities
+
 
 
     /// End Create Gradient Dropdown
