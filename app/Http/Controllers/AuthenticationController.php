@@ -149,6 +149,6 @@ class AuthenticationController extends AdminAuthController
             'new_password' => $newPassword
         ]);
 
-        return $response;
+        return (array) $response;
     }
 }
