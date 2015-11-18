@@ -68,7 +68,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Top',
-                code: '01',
+                code: '1',
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -84,7 +84,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Center',
-                code: '02',
+                code: '2',
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -100,7 +100,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Bottom Right',
-                code: '03',
+                code: '3',
                 rotation: 0,
                 position: {
                     x: 0.30,
@@ -117,7 +117,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'front',
                 name: 'Front / Bottom Left',
-                code: '04',
+                code: '4',
                 rotation: 0,
                 position: {
                     x: 0.60,
@@ -132,7 +132,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'back',
                 name: 'Back Top',
-                code: '05',
+                code: '5',
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -147,7 +147,7 @@ $(document).ready(function(){
                 layer: 'Body',
                 perspective: 'back',
                 name: 'Back Center',
-                code: '06',
+                code: '6',
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -161,12 +161,12 @@ $(document).ready(function(){
                 id: 7,
                 layer: 'Body',
                 perspective: 'left',
-                name: 'Left Center',
-                code: '07',
+                name: 'Left Shoulder - Top',
+                code: '7',
                 rotation: 0,
                 position: {
-                    x: 0.5,
-                    y: 0.3,
+                    x: 0.47,
+                    y: 0.15,
                 },
 
             },
@@ -174,10 +174,55 @@ $(document).ready(function(){
             {
 
                 id: 8,
+                layer: 'Body',
+                perspective: 'left',
+                name: 'Left Shoulder - Bottom',
+                code: '8',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.23,
+                },
+
+            },
+            /// Nine
+            {
+
+                id: 9,
+                layer: 'Body',
+                perspective: 'right',
+                name: 'Right Shoulder - Top',
+                code: '9',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.15,
+                },
+
+            },
+            /// 10
+            {
+
+                id: 10,
+                layer: 'Body',
+                perspective: 'right',
+                name: 'Right Shoulder - Bottom',
+                code: '10',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.27,
+                },
+
+            },
+            /// Eleven
+            {
+
+                id: 11,
                 layer: 'Sleeves',
                 perspective: 'front',
                 name: 'Right Sleeve',
-                code: '08',
+                code: '11',
                 rotation: 0.96,
                 position: {
                     x: 0.14,
@@ -186,14 +231,14 @@ $(document).ready(function(){
 
             },
 
-            /// Nine
+            /// Twelve
             {
 
-                id: 9,
+                id: 12,
                 layer: 'Sleeves',
                 perspective: 'front',
                 name: 'Left Sleeve',
-                code: '09',
+                code: '12',
                 rotation: 5.31,
                 position: {
                     x: 0.86,
@@ -677,7 +722,7 @@ $(document).ready(function(){
                         name: 'Outline 1',
                         default_color: '000000',
                         layer_no: 2,
-                        increment_x: 0, 
+                        increment_x: 0,
                         increment_y: 0,
                         outline: 1,
                         type: 'outer_stroke',

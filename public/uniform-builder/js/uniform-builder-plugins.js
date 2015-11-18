@@ -357,7 +357,7 @@
                 change: function(event, ui) {
 
                     var value = parseInt($rotation_slider.find('span.edit').html());
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
 
                     object.rotation = value / 100;
                     var rotation = ( value / max_rotation ) * 360;
@@ -380,7 +380,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
 
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
@@ -407,7 +407,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
 
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
@@ -434,7 +434,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
                     object.alpha = value / max_opacity;
 
                     $('span[data-target="logo"][data-label="opacity"][data-id="' + application.id + '"]').text(value);
@@ -460,7 +460,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
                     object.y = value;
 
                 }
@@ -477,7 +477,7 @@
                 change: function(event, ui) {
 
                     var value = $(this).limitslider("values")[0];
-                    var object = ub.objects[view_str]['objects_0' + application.id];
+                    var object = ub.objects[view_str]['objects_' + application.id];
                     object.x = value;
 
                 }
@@ -792,7 +792,7 @@
 
             if(layer.type === 'outer_stroke' && layer.outline === 2) {
 
-                style.stroke = '#ffffff';
+                style.stroke = '#ffffff';0
                 style.strokeThickness = 12;
 
             }
@@ -1489,7 +1489,6 @@
             ub.objects.pattern_view.gradient_layer = gradient_layer;
             ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
             ub.updateLayersOrder(ub.pattern_view);
-
             
             var v = perspective;
             var view = v + '_view';
@@ -1502,11 +1501,6 @@
 
             }
             
-            if (typeof(ub.objects[view].gradient) !== 'undefined') {
-                ub[view].removeChild(ub.objects[view].gradient);    
-            }
-
-            ub[view].removeChild(ub.objects[view].gradient);
             temp_pattern[v].zIndex = 1;
 
             var mask = main_text_obj;
@@ -1517,12 +1511,9 @@
             temp_pattern[v].zIndex = -10;
 
             temp_pattern[v].height = main_text_obj.height;
-
-            ub.objects[view].gradient = temp_pattern[v];
             text_sprite.addChild(temp_pattern[v]);
       
             ub.updateLayersOrder(text_sprite);
-
             ub.refresh_thumbnails();
 
             var data_url = 'url(' + dURL + ')';
