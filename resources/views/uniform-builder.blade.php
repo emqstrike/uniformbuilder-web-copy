@@ -74,7 +74,7 @@
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/smoke/smoke.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
 <!-- End Third Party Scripts -->
 
 <!-- Uniform Builder Scripts -->
@@ -87,7 +87,7 @@ $(document).ready(function () {
     window.ub.user = false;
 @endif
 @if (Session::has('message'))
-    $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5});
+    $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 @endif
 });
 </script>
