@@ -265,24 +265,24 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'd31145',
                         layer_number: 1,
-                        filename: '1.png',
+                        filename: '/images/patterns/camouflage/1.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'ffffff',
                         layer_number: 2,
-                        filename: '2.png',
+                        filename: '/images/patterns/camouflage/2.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: '543018',
                         layer_number: 3,
-                        filename: '3.png',
+                        filename: '/images/patterns/camouflage/3.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: '000000',
                         layer_number: 4,
-                        filename: '4.png',
+                        filename: '/images/patterns/camouflage/4.png',
                     },
                 ],
             },
@@ -297,19 +297,19 @@ $(document).ready(function(){
 
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: '000000',
                         layer_number: 1,
-                        filename: '1.png',
+                        filename: '/images/patterns/digital_camouflage/1.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'ffffff',
                         layer_number: 2,
-                        filename: '2.png',
+                        filename: '/images/patterns/digital_camouflage/2.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'acacac',
                         layer_number: 3,
-                        filename: '3.png',
+                        filename: '/images/patterns/digital_camouflage/3.png',
                     },
                 ],
             },
@@ -324,14 +324,14 @@ $(document).ready(function(){
 
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'ffffff',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '/images/patterns/halftone_chest/1.png'
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: '000000',
                         layer_number: 2,
-                        filename: '2.png'
+                        filename: '/images/patterns/halftone_chest/2.png'
                     },
                 ],
             },
@@ -346,9 +346,9 @@ $(document).ready(function(){
 
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'd31145',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '/images/patterns/tiger/1.png'
                     },
                 ],
 

@@ -38,7 +38,7 @@
                 var color = _.find( ub.data.colors, { color_code: color_obj});
                 var element = '<div class="color_element">';
 
-                element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                 element = element + '</div>';    
                 color_elements = color_elements + element;
 
@@ -68,10 +68,30 @@
 
             colors_btn.on('click', function() {
 
+
                 var color = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
-                $("button#update-gradient-" + settings.target).click();
                 el_parent.find('span').css('background-color', color);
+
+                if (settings.type === 'gradient') {
+
+                    $("button#update-gradient-" + settings.target).click();
+
+                }
+
+                if (settings.type === 'pattern') {
+
+                    var layer_no = $(this).data('index');
+                    var target = $(this).data('panel');
+                    var color = parseInt($(this).data('color-code'), 16);
+
+                    var views = ['front', 'back', 'left', 'right'];
+
+                    _.each(views, function (v){
+                        ub.current_material.settings.upper[target].pattern.containers[v].container.children[layer_no].tint = color;
+                    });
+
+                }
 
             });
 

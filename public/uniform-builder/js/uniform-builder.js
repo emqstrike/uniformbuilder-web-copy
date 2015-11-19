@@ -1693,8 +1693,6 @@ $(document).ready(function () {
 
                 _.each(el.layers, function (e, index) {
 
-                    console.log(e);
-
                     var val = e.default_color;
                     var col = e.default_color;
                     var filename = e.filename;
@@ -1725,14 +1723,96 @@ $(document).ready(function () {
 
                 cont.html(elements);
 
-
                 $('input.pattern_' + target).ubColorPicker({
                     target: target,
                     type: 'pattern',
                 });
 
+                var layers = _.pluck(clone.color_layers, 'value');
+                var layers_clone = [];
+
+                _.each(layers, function (e) {
+                    layers_clone.push(e * 100);
+                });
+
+
+
+                //// End Part
+
+                $("button#update-pattern-" + target).click('click', function (e) {
+
+                    console.clear();
+
+                    var target_name = util.toTitleCase(target);
+                    var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
+                    pattern_settings.containers = {};
+
+                    var views = ['front', 'back', 'left', 'right'];
+                    
+                    _.each(views, function (v){
+
+                        pattern_settings.containers[v] = {};
+                        
+                        var namespace = pattern_settings.containers[v];
+
+                        namespace.container = new PIXI.Container();
+                        var container = namespace.container;
+                        container.sprites = {};
+
+                        _.each(clone.layers, function (layer, index) {
+
+                            var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                            container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                            var sprite = container.sprites[index];
+
+                            sprite.zIndex = layer.layer_number;
+                            sprite.tint = parseInt(layer.default_color,16);
+
+                            container.addChild(sprite);
+
+                        });
+
+                        ub.updateLayersOrder(container);
+
+
+                        var view = v + '_view';
+                        var mask = ub.objects[view][target + "_mask"];
+
+                        container.mask = mask;
+
+                        if (typeof ub.objects[view].pattern === 'object') {
+
+                            ub[view].removeChild(ub.objects[view].pattern);
+
+                        }
+
+                        ub.objects[view].pattern = container;
+                        ub[view].addChild(container);
+                        container.zIndex = -2;
+
+                        ub.updateLayersOrder(ub[view]);
+
+                    });
+
+                    ub.refresh_thumbnails();
+
+                });
+
+
+                $("button#update-pattern-" + target + "").click();
 
             };
+
+            ub.generate_pattern = function (clone, target) {
+
+                // console.log('called');
+                // console.log("Clone: ");
+                // console.log(clone);
+                // console.log("Target: ");
+                // console.log(target);
+
+            }
 
             /// End Change Pattern ///
 
