@@ -1768,6 +1768,8 @@ $(document).ready(function () {
 
                             sprite.zIndex = layer.layer_number;
                             sprite.tint = parseInt(layer.default_color,16);
+                            sprite.width = ub.dimensions.width;
+                            sprite.height = ub.dimensions.height;
 
                             container.addChild(sprite);
 
