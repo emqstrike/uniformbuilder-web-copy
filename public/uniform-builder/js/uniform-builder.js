@@ -1768,8 +1768,8 @@ $(document).ready(function () {
 
                             sprite.zIndex = layer.layer_number;
                             sprite.tint = parseInt(layer.default_color,16);
-                            sprite.width = ub.dimensions.width;
-                            sprite.height = ub.dimensions.height;
+                            // sprite.width = ub.dimensions.width;
+                            // sprite.height = ub.dimensions.height;
 
                             container.addChild(sprite);
 
@@ -1791,8 +1791,9 @@ $(document).ready(function () {
 
                         ub.objects[view].pattern = container;
                         ub[view].addChild(container);
-                        container.zIndex = -2;
+                        container.zIndex = mask.zIndex + (-1);
 
+                        console.log('Mask Zindex: ' + mask.zIndex);
                         ub.updateLayersOrder(ub[view]);
 
                     });
@@ -2107,6 +2108,42 @@ $(document).ready(function () {
 
                 current_button.addClass('tether_button');
                 $('.down_arrow:not(.gra-element)').remove();
+
+                ub.tethers['modifiers'] = t;
+
+            });
+
+            $("div[data-group='patterns']").hide();
+            $("div[data-group='gradients']").hide();
+            $("div[data-option='body']").fadeIn('fast');
+
+            $('.pattern_base').click(function (e) {
+
+                var option = $(this).data('option');
+
+                $("[data-group='patterns']").css('display','none');
+                $("div[data-option='" + option + "']").show(100);
+
+                $('.pattern_base').removeClass('tether_button');
+
+                var current_button = $(this);
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+
+                });
+
+                current_button.addClass('tether_button');
+                $('.down_arrow:not(.pattern-element)').remove();
 
                 ub.tethers['modifiers'] = t;
 
