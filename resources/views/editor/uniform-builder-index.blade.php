@@ -77,6 +77,9 @@
             <a href="" class="sidebar-buttons patterns" data-filename='patterns'>
             </a>
 
+            <a href="" class="sidebar-buttons patterns" data-filename='pattern'>
+            </a>
+
             <a href="" class="sidebar-buttons gradients" data-filename='gradients'>
             </a>
 
@@ -107,6 +110,8 @@
             @include('partials.panels.colors')
 
             @include('partials.panels.patterns')
+
+            @include('partials.panels.pattern')
 
             @include('partials.panels.gradients')
 

@@ -261,8 +261,8 @@ $(document).ready(function(){
                 
                 name: 'Camouflage',
                 code: 'camouflage',
-                icon: '/images/sidebar/camo.png',
-
+                icon: '/images/sidebar/camouflage.png',
+                category: 'jersey',
                 layers: [
                     {
                         default_color: '#ffffff',
@@ -292,7 +292,8 @@ $(document).ready(function(){
                 
                 name: 'Digital Camouflage',
                 code: 'digital_camouflage',
-                icon: '/images/sidebar/digital_camo.png',
+                icon: '/images/sidebar/digital_camouflage.png',
+                category: 'jersey',
 
                 layers: [
                     {
@@ -319,6 +320,7 @@ $(document).ready(function(){
                 name: 'Halftone',
                 code: 'halftone',
                 icon: '/images/sidebar/halftone.png',
+                category: 'jersey',
 
                 layers: [
                     {
@@ -340,6 +342,7 @@ $(document).ready(function(){
                 name: 'Tiger',
                 code: 'tiger',
                 icon: '/images/sidebar/tiger.png',
+                category: 'jersey',
 
                 layers: [
                     {
@@ -682,6 +685,14 @@ $(document).ready(function(){
     }
 
     /// END GRADIENTS
+
+    /// START PATTERNS
+
+    // ub.data.patterns = {
+
+    // };
+
+    /// END PATTERNS
 
     ub.data.accents = {
         items: [

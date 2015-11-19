@@ -16,13 +16,13 @@ $(document).ready(function () {
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+            // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+            // ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
@@ -840,6 +840,54 @@ $(document).ready(function () {
 
                 /// End Setup Modifiers Colors
 
+
+                /// Setup Modifiers Patterns
+
+                    var modifiers = '';
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+
+                    _.each(sorted, function (obj){
+
+                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+
+                        if (_.contains(no_modifiers, obj.setting_type)) {
+                            return;
+                        }
+
+                        var code = obj.material_option;
+                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        
+                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="pattern_base modifier button_tabs" data-option="' + code + '">Pattern </button> </div>';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="patterns"><div class="pattern_panel_container">';
+                        var pattern_elements = '';
+
+                        _.each(ub.data.patterns.items, function (pattern_obj) {
+
+                            var element = '<div class="pattern_element">';
+                            var filename = '/images/sidebar/' + pattern_obj.code + '.png';
+
+                            element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
+                            element = element + '</div>';    
+
+                            pattern_elements = pattern_elements + element;
+
+                        });
+
+                        str_builder = str_builder + pattern_elements;
+                        str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
+                        modifiers = modifiers + str_builder;
+
+                    });
+
+                    var pattern_container = $('#patterns_panel').append(modifiers);
+                    ub.bind_handlers();
+                    ub.bind_left_sidebar_tab_handlers();
+
+                /// End Setup Modifiers Patterns
+
+
                 /// Setup Modifiers Gradients
 
                     var modifiers = '';
@@ -1599,6 +1647,43 @@ $(document).ready(function () {
 
             }
 
+            /// Change Pattern ///
+
+            $('.change-pattern').on('click', function (e) {
+
+               var pattern = $(this).data('pattern');
+               var target = $(this).data('target-pattern');
+               var panel = $(this).data('panel');
+               var pattern_element = $(this);
+
+               window.ce = pattern_element;
+
+               var selection = $(window.ce).data('selection');
+
+               pattern_element.parent().data("active_pattern", pattern);
+               ub.change_pattern(target, pattern, panel);
+
+               $("button[data-target-pattern='" + target +"']").html('');
+
+               var path = '/images/sidebar/';
+               var highlighter = '';
+
+               path = path + 'highlighter_1.png';
+               highlighter = "<img src = '" + path + "'>"
+               
+               $(this).html(highlighter);
+                
+            }); 
+
+            ub.change_pattern = function (target, pattern, panel) {
+
+                // console.log('Target: ' + target);
+                // console.log('Pattern: ' + pattern);
+                // console.log('Panel: ' + panel);
+
+            };
+
+            /// End Change Pattern ///
 
             /// Change Gradient ///
 
