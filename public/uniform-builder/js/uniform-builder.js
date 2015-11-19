@@ -876,7 +876,7 @@ $(document).ready(function () {
                         });
 
                         str_builder = str_builder + pattern_elements;
-                        str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
+                        str_builder = str_builder + '</div><div class="layers_container"></div></div>'; 
                         modifiers = modifiers + str_builder;
 
                     });
@@ -1677,9 +1677,60 @@ $(document).ready(function () {
 
             ub.change_pattern = function (target, pattern, panel) {
 
-                // console.log('Target: ' + target);
-                // console.log('Pattern: ' + pattern);
-                // console.log('Panel: ' + panel);
+                var el = _.find(ub.data.patterns.items, { code: pattern });
+                var clone = {};
+                var clone = _.clone(el);
+
+                var cont = $("[data-group=patterns][data-option=" + target + "]").find('div.layers_container');
+
+                cont.html('');
+
+                var elements = "";
+
+                if (el.layers.length > 0) {
+                    elements = "<br />Layers<br /><br />";
+                }
+
+                _.each(el.layers, function (e, index) {
+
+                    console.log(e);
+
+                    var val = e.default_color;
+                    var col = e.default_color;
+                    var filename = e.filename;
+                    
+                    elements += ub.create_pattern_color_picker(index, val, col, target, el.code); 
+
+                });
+
+
+                if (el.code === "custom" ) {
+
+                    var add_button = "<button id='add_pattern_color_stop'><i class='fa fa-plus-circle'></i></button>";
+                    var delete_button = "<button id='delete_pattern_color_stop'><i class='fa fa-minus-circle'></i></button>";
+
+                    var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
+                    elements += "<br />";
+                    elements += add_color_stop_button;
+
+                }
+
+                elements += "<div id='pattern_slider_" + target + "' class='pattern_slider'></div>";
+                elements += "<hr />";
+
+                elements += "<div id='angle_pattern_slider_" + target + "' class='pattern_slider_angle'></div>";
+                elements += "<hr />";
+                
+                elements += "<button style='width: 100%;' id='update-pattern-" + target + "' data-target='" + target + "' data-pattern='" + el.code + "'>Update Pattern</button>";
+
+                cont.html(elements);
+
+
+                $('input.pattern_' + target).ubColorPicker({
+                    target: target,
+                    type: 'pattern',
+                });
+
 
             };
 
@@ -1872,6 +1923,15 @@ $(document).ready(function () {
             }
 
             $("button#update-gradient-" + target + "").click();
+
+        };
+
+        ub.create_pattern_color_picker = function (index, value, color, target, pattern) {
+
+            var element = "";
+            element = "<div class='pattern_color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='pattern_" + target + "' type='text' data-elid='pattern_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-pattern='" + pattern + "'  value='" + color + "'/></div>";
+
+            return element;
 
         };
 
