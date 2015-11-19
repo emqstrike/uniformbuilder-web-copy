@@ -159,7 +159,7 @@ $(document).ready(function(){
             {
 
                 id: 7,
-                layer: 'Body',
+                layer: 'Left Sleeve',
                 perspective: 'left',
                 name: 'Left Shoulder - Top',
                 code: '7',
@@ -174,7 +174,7 @@ $(document).ready(function(){
             {
 
                 id: 8,
-                layer: 'Body',
+                layer: 'Left Sleeve',
                 perspective: 'left',
                 name: 'Left Shoulder - Bottom',
                 code: '8',
@@ -189,7 +189,7 @@ $(document).ready(function(){
             {
 
                 id: 9,
-                layer: 'Body',
+                layer: 'Right Sleeve',
                 perspective: 'right',
                 name: 'Right Shoulder - Top',
                 code: '9',
@@ -204,7 +204,7 @@ $(document).ready(function(){
             {
 
                 id: 10,
-                layer: 'Body',
+                layer: 'Right Sleeve',
                 perspective: 'right',
                 name: 'Right Shoulder - Bottom',
                 code: '10',
@@ -219,9 +219,9 @@ $(document).ready(function(){
             {
 
                 id: 11,
-                layer: 'Sleeves',
+                layer: 'Right Sleeve',
                 perspective: 'front',
-                name: 'Right Sleeve',
+                name: 'Right Sleeves',
                 code: '11',
                 rotation: 0.96,
                 position: {
@@ -235,7 +235,7 @@ $(document).ready(function(){
             {
 
                 id: 12,
-                layer: 'Sleeves',
+                layer: 'Left Sleeve',
                 perspective: 'front',
                 name: 'Left Sleeve',
                 code: '12',

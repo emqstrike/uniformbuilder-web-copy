@@ -1407,7 +1407,6 @@
         var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
-
   
             var uniform_type = ub.current_material.material.type;
             var bounds;
@@ -1465,14 +1464,12 @@
             ctx.fillStyle = gradient;
 
             var rotation = gradient_obj.angle;
-
             ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
-            
             var dURL = canvas.toDataURL();
 
             ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
             ctx.translate(canvas.width/2, canvas.height/2);
-            ctx.rotate(rotation*Math.PI/180);
+            ctx.rotate(rotation * Math.PI/180);
             ctx.translate(-canvas.width/2, -canvas.height/2);
             ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
 
