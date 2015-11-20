@@ -301,6 +301,7 @@ $(document).ready(function () {
             
             ub.assets.pattern = {};
             ub.assets.pattern.layers = [];
+            ub.objects.pattern_view = {};
             
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_1.png');
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_2.png');
@@ -312,7 +313,6 @@ $(document).ready(function () {
             ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            ub.setup_pattern_view(); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
@@ -1080,50 +1080,6 @@ $(document).ready(function () {
                 /// End Setup Settings obj
 
             };
-
-            window.ub.setup_pattern_view = function () {
-
-                var layer_1 = ub.pixi.new_sprite(ub.assets.pattern.layers[0]);
-                var layer_2 = ub.pixi.new_sprite(ub.assets.pattern.layers[1]);
-                var layer_3 = ub.pixi.new_sprite(ub.assets.pattern.layers[2]);
-                var layer_4 = ub.pixi.new_sprite(ub.assets.pattern.layers[3]);
-
-                layer_1.width = ub.dimensions.width;
-                layer_1.height = ub.dimensions.height;
-                layer_2.width = ub.dimensions.width;
-                layer_2.height = ub.dimensions.height;
-                layer_3.width = ub.dimensions.width;
-                layer_3.height = ub.dimensions.height;
-                layer_4.width = ub.dimensions.width;
-                layer_4.height = ub.dimensions.height;
-
-                ub.objects.pattern_view = {};
-
-                ub.objects.pattern_view.layer_1 = layer_1;
-                ub.objects.pattern_view.layer_2 = layer_2;
-                ub.objects.pattern_view.layer_3 = layer_3;
-                ub.objects.pattern_view.layer_4 = layer_4;
-                
-                layer_1.zIndex = 1;
-                layer_2.zIndex = 2;
-                layer_3.zIndex = 3;
-                layer_4.zIndex = 4;
-
-                // default colors
-
-                layer_1.tint = 0xdbd1c5;
-                layer_2.tint = 0x8a8275;
-                layer_3.tint = 0xb6b09f;
-                layer_4.tint = 0x594e50;
-
-                ub.pattern_view.addChild(layer_1);
-                ub.pattern_view.addChild(layer_2);
-                ub.pattern_view.addChild(layer_3);
-                ub.pattern_view.addChild(layer_4);
-
-                ub.updateLayersOrder(ub.pattern_view);
-
-            }
 
         /// End Render Different Views ///
 
