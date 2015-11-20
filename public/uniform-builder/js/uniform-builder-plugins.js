@@ -14,7 +14,10 @@
                 target_name  = settings.target_name
             }
             else{
-                 target_name = window.util.toTitleCase(settings.target);
+
+                var temp = settings.target.replace('_', ' ');
+                target_name = window.util.toTitleCase(temp);
+
             }
 
             obj_colors = _.find(ub.current_material.material.options, {name: target_name });
@@ -92,6 +95,7 @@
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
+
                     });
 
                     ub.refresh_thumbnails();

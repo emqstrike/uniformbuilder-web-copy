@@ -1653,18 +1653,6 @@ $(document).ready(function () {
 
                 });
 
-
-                if (el.code === "custom" ) {
-
-                    var add_button = "<button id='add_pattern_color_stop'><i class='fa fa-plus-circle'></i></button>";
-                    var delete_button = "<button id='delete_pattern_color_stop'><i class='fa fa-minus-circle'></i></button>";
-
-                    var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
-                    elements += "<br />";
-                    elements += add_color_stop_button;
-
-                }
-
                 elements += "<br />";
                 elements += "Opacity: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>%<br />";
                 elements += "<div id='opacity_pattern_slider_" + target + "' class='pattern_slider'></div>";
@@ -1750,7 +1738,9 @@ $(document).ready(function () {
 
                 $("button#update-pattern-" + target).click('click', function (e) {
 
-                    var target_name = util.toTitleCase(target);
+                    var target_name = target.replace('_', ' ');
+                    target_name = util.toTitleCase(target_name);
+
                     var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
                     pattern_settings.containers = {};
 
@@ -1773,6 +1763,7 @@ $(document).ready(function () {
                             var sprite = container.sprites[index];
 
                             sprite.zIndex = layer.layer_number * -1;
+
                             sprite.tint = parseInt(layer.default_color,16);
                             sprite.width = ub.dimensions.width;
                             sprite.height = ub.dimensions.height;
@@ -1808,13 +1799,13 @@ $(document).ready(function () {
 
                         container.mask = mask;
 
-                        if (typeof ub.objects[view].pattern === 'object') {
+                        if (typeof ub.objects[view][pattern + '_' + target_name] === 'object') {
 
-                            ub[view].removeChild(ub.objects[view].pattern);
+                            ub[view].removeChild(ub.objects[view][pattern + '_' + target_name]);
 
                         }
 
-                        ub.objects[view].pattern = container;
+                        ub.objects[view][pattern + '_' + target_name] = container;
                         ub[view].addChild(container);
                         container.zIndex = mask.zIndex + (-1);
 
