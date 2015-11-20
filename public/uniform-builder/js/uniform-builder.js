@@ -1665,7 +1665,12 @@ $(document).ready(function () {
 
                 }
 
-                elements += "<div id='pattern_slider_" + target + "' class='pattern_slider'></div>";
+                elements += "Opacity: <span data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>% <div class='pattern_slider opacity_slider'></div><br />";
+
+                console.log('target');
+                console.log(target);
+
+                elements += "<div id='opacity_pattern_slider_" + target + "' class='pattern_slider'></div>";
                 elements += "<hr />";
 
                 elements += "<div id='angle_pattern_slider_" + target + "' class='pattern_slider_angle'></div>";
@@ -1687,6 +1692,22 @@ $(document).ready(function () {
                     layers_clone.push(e * 100);
                 });
 
+                var max_opacity = 100;
+
+                $('#' + 'opacity_pattern_slider_' + target).limitslider({
+                    
+                    values: [max_opacity],
+                    min: 0,
+                    max: 100,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="opacity"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                 });
 
 
                 //// End Part
@@ -1724,6 +1745,9 @@ $(document).ready(function () {
                             sprite.height = ub.dimensions.height;
 
                             container.addChild(sprite);
+
+                            var value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                            container.alpha = value / 100; 
 
                         });
 
