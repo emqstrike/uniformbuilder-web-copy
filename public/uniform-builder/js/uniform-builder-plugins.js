@@ -88,11 +88,10 @@
                     var uniform_type = 'upper'; // TODO: Parameterized this.
 
                     var views = ['front', 'back', 'left', 'right'];
-
-                    var c = ub.current_material.settings[uniform_type][target].pattern.containers[v].container;
+                    var c = ub.current_material.settings[uniform_type][target].pattern.containers;
 
                     _.each(views, function (v){
-                        c.children[layer_no].tint = color;
+                        c[v].container.children[layer_no].tint = color;
                     });
 
                     ub.refresh_thumbnails();
