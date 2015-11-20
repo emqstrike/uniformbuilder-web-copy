@@ -1778,6 +1778,14 @@ $(document).ready(function () {
                             sprite.height = ub.dimensions.height;
                             sprite.anchor.set(0.5,0.5);
 
+                            var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
+                            var val = $inputbox.val();
+                            
+                            if (val.length === 7) {
+                                val = val.substr(1, 6);
+                            }
+
+                            sprite.tint = parseInt(val, 16);
                             container.addChild(sprite);
 
                             var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
