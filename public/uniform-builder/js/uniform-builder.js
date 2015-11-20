@@ -1750,8 +1750,6 @@ $(document).ready(function () {
 
                 $("button#update-pattern-" + target).click('click', function (e) {
 
-                    console.clear();
-
                     var target_name = util.toTitleCase(target);
                     var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
                     pattern_settings.containers = {};
@@ -1763,7 +1761,6 @@ $(document).ready(function () {
                         pattern_settings.containers[v] = {};
                         
                         var namespace = pattern_settings.containers[v];
-
                         namespace.container = new PIXI.Container();
                         var container = namespace.container;
                         container.sprites = {};
@@ -1779,16 +1776,24 @@ $(document).ready(function () {
                             sprite.tint = parseInt(layer.default_color,16);
                             sprite.width = ub.dimensions.width;
                             sprite.height = ub.dimensions.height;
+                            sprite.anchor.set(0.5,0.5);
 
                             container.addChild(sprite);
 
-                            var value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
-                            container.alpha = value / 100; 
+                            var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                            container.alpha = opacity_value / 100;
+
+                            var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                            var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+
+                            var x = ub.dimensions.width * (x_value / 100);
+                            var y = ub.dimensions.height * (y_value / 100);
+
+                            container.position = new PIXI.Point(x,y);
 
                         });
 
                         ub.updateLayersOrder(container);
-
 
                         var view = v + '_view';
                         var mask = ub.objects[view][target + "_mask"];
@@ -1812,7 +1817,6 @@ $(document).ready(function () {
                     ub.refresh_thumbnails();
 
                 });
-
 
                 $("button#update-pattern-" + target + "").click();
 
