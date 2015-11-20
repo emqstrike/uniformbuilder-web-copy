@@ -835,9 +835,6 @@ $(document).ready(function () {
 
                 var color_container = $('#colors_panel').append(modifiers);
 
-                ub.bind_handlers();
-                ub.bind_left_sidebar_tab_handlers();
-
                 /// End Setup Modifiers Colors
 
 
@@ -882,9 +879,7 @@ $(document).ready(function () {
                     });
 
                     var pattern_container = $('#patterns_panel').append(modifiers);
-                    ub.bind_handlers();
-                    ub.bind_left_sidebar_tab_handlers();
-
+                    
                 /// End Setup Modifiers Patterns
 
 
@@ -1197,7 +1192,7 @@ $(document).ready(function () {
                 });
 
                 $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
-            
+
             }
 
 
@@ -1642,8 +1637,10 @@ $(document).ready(function () {
 
                 }
 
-                ub.refresh_thumbnails();
+                
                 $('[rel="popover"]').popover("hide");
+
+                ub.refresh_thumbnails();
 
             }
 
