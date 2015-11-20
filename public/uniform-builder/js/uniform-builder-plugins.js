@@ -85,10 +85,14 @@
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
+                    var uniform_type = 'upper'; // TODO: Parameterized this.
+
                     var views = ['front', 'back', 'left', 'right'];
 
+                    var c = ub.current_material.settings[uniform_type][target].pattern.containers[v].container;
+
                     _.each(views, function (v){
-                        ub.current_material.settings.upper[target].pattern.containers[v].container.children[layer_no].tint = color;
+                        c.children[layer_no].tint = color;
                     });
 
                     ub.refresh_thumbnails();
