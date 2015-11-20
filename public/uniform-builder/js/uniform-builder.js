@@ -866,7 +866,7 @@ $(document).ready(function () {
                         _.each(ub.data.patterns.items, function (pattern_obj) {
 
                             var element = '<div class="pattern_element">';
-                            var filename = '/images/sidebar/' + pattern_obj.code + '.png';
+                            var filename = pattern_obj.icon;
 
                             element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
                             element = element + '</div>';    
@@ -1766,10 +1766,10 @@ $(document).ready(function () {
 
                             var sprite = container.sprites[index];
 
-                            sprite.zIndex = layer.layer_number;
+                            sprite.zIndex = layer.layer_number * -1;
                             sprite.tint = parseInt(layer.default_color,16);
-                            // sprite.width = ub.dimensions.width;
-                            // sprite.height = ub.dimensions.height;
+                            sprite.width = ub.dimensions.width;
+                            sprite.height = ub.dimensions.height;
 
                             container.addChild(sprite);
 
@@ -1793,7 +1793,6 @@ $(document).ready(function () {
                         ub[view].addChild(container);
                         container.zIndex = mask.zIndex + (-1);
 
-                        console.log('Mask Zindex: ' + mask.zIndex);
                         ub.updateLayersOrder(ub[view]);
 
                     });
@@ -1806,16 +1805,6 @@ $(document).ready(function () {
                 $("button#update-pattern-" + target + "").click();
 
             };
-
-            ub.generate_pattern = function (clone, target) {
-
-                // console.log('called');
-                // console.log("Clone: ");
-                // console.log(clone);
-                // console.log("Target: ");
-                // console.log(target);
-
-            }
 
             /// End Change Pattern ///
 

@@ -91,6 +91,8 @@
                         ub.current_material.settings.upper[target].pattern.containers[v].container.children[layer_no].tint = color;
                     });
 
+                    ub.refresh_thumbnails();
+
                 }
 
             });

@@ -256,6 +256,51 @@ $(document).ready(function(){
       
         items: [
 
+
+
+        ////// Patterns Start
+
+            /// Armour 
+            {
+                name: 'Armour',
+                code: 'armour',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/armour/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/armour/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/armour/3.png',
+                    },
+
+                ],
+            },
+
+            /// Arrow 
+            {
+                name: 'Arrow',
+                code: 'arrow',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/arrow/1.png',
+                    },
+                ],
+            },
+
             /// Camo 
             {
                 
@@ -286,7 +331,42 @@ $(document).ready(function(){
                     },
                 ],
             },
-         
+
+            /// Carbon Fiber 
+            {
+                name: 'Carbon Fiber',
+                code: 'carbon_fiber',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/carbon_fiber/1.png',
+                    },
+                ],
+            },
+
+            /// Checkered
+            {
+                name: 'Checkered',
+                code: 'checkered',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/checkered/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/checkered/2.png',
+                    },
+                ],
+            },
+
             /// Digital Camo
             {
                 
@@ -314,49 +394,430 @@ $(document).ready(function(){
                 ],
             },
 
-            /// Halftone
+            /// Grunge
             {
-                
-                name: 'Halftone',
-                code: 'halftone',
-                icon: '/images/sidebar/halftone.png',
+                name: 'Grunge',
+                code: 'grunge',
+                icon: '/images/sidebar/no-icon.png',
                 category: 'jersey',
-
-                layers: [
-                    {
-                        default_color: 'ffffff',
-                        layer_number: 1,
-                        filename: '/images/patterns/halftone_chest/1.png'
-                    },
-                    {
-                        default_color: '000000',
-                        layer_number: 2,
-                        filename: '/images/patterns/halftone_chest/2.png'
-                    },
-                ],
-            },
-
-            /// Tiger
-            {
-                
-                name: 'Tiger',
-                code: 'tiger',
-                icon: '/images/sidebar/tiger.png',
-                category: 'jersey',
-
                 layers: [
                     {
                         default_color: 'd31145',
                         layer_number: 1,
-                        filename: '/images/patterns/tiger/1.png'
+                        filename: '/images/patterns/grunge/1.png',
                     },
                 ],
-
             },
 
-      ],
+           /// Halftone Chest
+            {
+                name: 'Halftone Chest',
+                code: 'halftone_chest',
+                icon: '/images/sidebar/halftone.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/halftone_chest/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/halftone_chest/2.png',
+                    },
+                ],
+            },
 
+           /// Hexastar
+            {
+                name: 'Hexastar',
+                code: 'hexastar',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/hexastar/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/hexastar/2.png',
+                    },
+                ],
+            },
+
+            /// Interlock
+            {
+                name: 'Interlock',
+                code: 'interlock',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/interlock/1.png',
+                    },
+                ],
+            },
+
+            /// Line Fade Body
+            {
+                name: 'Line Fade Body',
+                code: 'line_fade_body',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/line_fade_body/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/line_fade_body/2.png',
+                    },
+                ],
+            },
+
+            /// Multicam Camo
+            {
+                name: 'Multicam Camo',
+                code: 'multicam_camo',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/multicam_camo/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/multicam_camo/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/multicam_camo/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/multicam_camo/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/multicam_camo/5.png',
+                    },
+                ]
+            },
+
+            /// NK Stripe
+            {
+                name: 'NK Stripe',
+                code: 'nk_stripe',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/nk_stripe/1.png',
+                    },
+                ],
+            },
+
+            /// Paw
+            {
+                name: 'Paw',
+                code: 'paw',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/paw/1.png',
+                    },
+                ],
+            },
+
+            /// Pinstripes
+            {
+                name: 'Pinstripes',
+                code: 'pinstripes',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/pinstripes/1.png',
+                    },
+                ],
+            },
+
+            /// Referee Stripes
+            {
+                name: 'Referee Stripes',
+                code: 'referee_stripes',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/referee_stripes/1.png',
+                    },
+                ],
+            },
+
+            /// Square
+            {
+                name: 'Square',
+                code: 'square',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/square/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/square/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/square/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/square/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/square/5.png',
+                    },
+                ]
+            },
+
+            /// Stairs
+            {
+                name: 'Stairs',
+                code: 'stairs',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stairs/1.png',
+                    },
+                ],
+            },
+
+            /// Stripes Thin and Thick
+            {
+                name: 'Stripes Thin and Thick',
+                code: 'stripes_thin_and_thick',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stripes_thin_and_thick/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/stripes_thin_and_thick/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/stripes_thin_and_thick/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/stripes_thin_and_thick/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/stripes_thin_and_thick/5.png',
+                    },
+                ]
+            },
+
+            /// Stripes Thin and Thick
+            {
+                name: 'Stripes Thin and Thick',
+                code: 'stripes_thin_and_thick',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stripes_thin_and_thick/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/stripes_thin_and_thick/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/stripes_thin_and_thick/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/stripes_thin_and_thick/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/stripes_thin_and_thick/5.png',
+                    },
+                ]
+            },
+
+            /// Stripes Thinner
+            {
+                name: 'Stripes Thinner',
+                code: 'stripes_thinner',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stripes_thinner/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/stripes_thinner/2.png',
+                    },
+                ]
+            },
+
+            /// Thatch
+            {
+                name: 'Thatch',
+                code: 'thatch',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/thatch/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/thatch/2.png',
+                    },
+                ]
+            },
+
+            /// Tiger
+            {
+                name: 'Tiger',
+                code: 'tiger',
+                icon: '/images/sidebar/tiger.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/tiger/1.png',
+                    },
+                ]
+            },
+
+            /// Upper Stripes
+            {
+                name: 'Upper Stripes',
+                code: 'upper_stripes',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/upper_stripes/1.png',
+                    },
+                ]
+            },
+
+            /// Waves
+            {
+                name: 'Wave',
+                code: 'wave',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/wave/1.png',
+                    },
+                ]
+            },
+
+            /// Web
+            {
+                name: 'Web',
+                code: 'web',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/web/1.png',
+                    },
+                ]
+            },
+
+            /// Wire
+            {
+                name: 'Wire',
+                code: 'wire',
+                icon: '/images/sidebar/no-icon.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/wire/1.png',
+                    },
+                ]
+            },
+
+        ]
     };
+
+    ////// Patterns End
 
     ub.data.sports = [
         {
