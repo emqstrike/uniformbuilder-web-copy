@@ -1665,12 +1665,18 @@ $(document).ready(function () {
 
                 }
 
-                elements += "Opacity: <span data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>% <div class='pattern_slider opacity_slider'></div><br />";
-
-                console.log('target');
-                console.log(target);
-
+                elements += "<br />";
+                elements += "Opacity: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>%<br />";
                 elements += "<div id='opacity_pattern_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Position X: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='position_x' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='position_x_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Position Y: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='position_y' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='position_y_slider_" + target + "' class='pattern_slider'></div>";
+
                 elements += "<hr />";
 
                 elements += "<div id='angle_pattern_slider_" + target + "' class='pattern_slider_angle'></div>";
@@ -1693,7 +1699,6 @@ $(document).ready(function () {
                 });
 
                 var max_opacity = 100;
-
                 $('#' + 'opacity_pattern_slider_' + target).limitslider({
                     
                     values: [max_opacity],
@@ -1707,8 +1712,39 @@ $(document).ready(function () {
                         $("button#update-pattern-" + target).click();
 
                     },
+                });
+
+                var max_x = 100;
+                $('#' + 'position_x_slider_' + target).limitslider({
+                    
+                    values: [50],
+                    min: 0,
+                    max: 100,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="slider_x"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
                  });
 
+                var max_y = 100;
+                $('#' + 'position_y_slider_' + target).limitslider({
+                    
+                    values: [50],
+                    min: 0,
+                    max: max_y,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="slider_y"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                 });
 
                 //// End Part
 
