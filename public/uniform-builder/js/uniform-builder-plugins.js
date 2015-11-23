@@ -71,7 +71,6 @@
 
             colors_btn.on('click', function() {
 
-
                 var color = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
                 el_parent.find('span').css('background-color', color);

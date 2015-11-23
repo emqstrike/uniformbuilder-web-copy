@@ -1763,7 +1763,6 @@ $(document).ready(function () {
                             var sprite = container.sprites[index];
 
                             sprite.zIndex = layer.layer_number * -1;
-
                             sprite.tint = parseInt(layer.default_color,16);
                             sprite.width = ub.dimensions.width;
                             sprite.height = ub.dimensions.height;
@@ -1797,15 +1796,17 @@ $(document).ready(function () {
                         var view = v + '_view';
                         var mask = ub.objects[view][target + "_mask"];
 
-                        container.mask = mask;
-
-                        if (typeof ub.objects[view][pattern + '_' + target_name] === 'object') {
-
-                            ub[view].removeChild(ub.objects[view][pattern + '_' + target_name]);
-
+                        if(typeof mask === 'undefined') {
+                            return;
                         }
 
-                        ub.objects[view][pattern + '_' + target_name] = container;
+                        container.mask = mask;
+
+                        if (typeof ub.objects[view]['pattern_' + target] === 'object') {
+                            ub[view].removeChild(ub.objects[view]['pattern_' + target]);
+                        }
+
+                        ub.objects[view]['pattern_' + target] = container;
                         ub[view].addChild(container);
                         container.zIndex = mask.zIndex + (-1);
 
