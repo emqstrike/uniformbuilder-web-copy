@@ -2034,7 +2034,6 @@ $(document).ready(function () {
 
             });
 
-
             if (el.code === "custom") {
 
                 $('#add_gradient_color_stop').on('click', function () {
@@ -2324,11 +2323,12 @@ $(document).ready(function () {
 
                 temp_pattern[v] = new PIXI.Sprite(texture);
 
-                if (typeof(ub.objects[view].gradient) !== 'undefined') {
-                    ub[view].removeChild(ub.objects[view].gradient);    
+                if (typeof(ub.objects[view]['gradient_' + target]) !== 'undefined') {
+                    
+                    ub[view].removeChild(ub.objects[view]['gradient_' + target]);
+
                 }
 
-                ub[view].removeChild(ub.objects[view].gradient);
                 temp_pattern[v].zIndex = 1;
 
                 if (target === 'body') {
@@ -2337,17 +2337,18 @@ $(document).ready(function () {
                 else{
 
                     var mask = ub.objects[view][target + "_mask"];
+
+                    if (typeof mask === 'undefined') {
+                        return;
+                    }
                
                     temp_pattern[v].mask = mask;
                     temp_pattern[v].zIndex = mask.zIndex;
                    
                 }
-
-          
-
-                ub.objects[view].gradient = temp_pattern[v];
+        
+                ub.objects[view]['gradient_' + target] = temp_pattern[v];
                 ub[view].addChild(temp_pattern[v]);
-                    
           
                 ub.updateLayersOrder(ub[view]);
 
