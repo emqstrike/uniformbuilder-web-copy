@@ -1818,8 +1818,6 @@ $(document).ready(function () {
 
                             sprite.zIndex = layer.layer_number * -1;
                             sprite.tint = parseInt(layer.default_color,16);
-                            sprite.width = ub.dimensions.width;
-                            sprite.height = ub.dimensions.height;
                             sprite.anchor.set(0.5,0.5);
 
                             var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
