@@ -1509,7 +1509,7 @@
                         color_stop.value = index * spacing;
                     });
 
-                    ub.change_gradient(target, gradient, panel);
+                    change_gradient(target, gradient, panel);
 
                 });
 
