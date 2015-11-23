@@ -1295,7 +1295,7 @@
         });
 
         elements += "<br />";
-        elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='rotation' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='rotation' data-id='" + application_id + "'>100</span>%<br /><br />";
         elements += "<div id='rotation_pattern_slider_" + application_id + "' class='pattern_slider pattern_rotation_slider'></div>";
 
         elements += "<br />";
@@ -1323,7 +1323,6 @@
 
         cont.html(elements);
 
-
         $('input.pattern_' + target).ubColorPicker({
                 target: String(target),
                 type: 'pattern',
@@ -1331,12 +1330,106 @@
                 target_name: application.layer,
         });
 
-        
+        var layers = _.pluck(clone.color_layers, 'value');
+        var layers_clone = [];
+
+        _.each(layers, function (e) {
+            layers_clone.push(e * 100);
+        });
+
+
+       //// Rotation 
+
+        var max_rotation = 620;
+        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+        $rotation_slider.roundSlider({
+
+            values: [0],
+            min: 0,
+            max: max_rotation,
+            gap: 0,
+            width: 5,
+            handleSize: "+14",
+            startAngle: 90,
+
+            change: function(event, ui) {
+
+                var value = parseInt($rotation_slider.find('span.edit').html());
+                $('span[data-target="pattern"][data-label="rotation"][data-layer="' + target + '"]').text(value);
+                $("button#update-pattern-" + target).click();
+
+            }
+
+        });
+
+        //// End Rotation 
+
+        var max_opacity = 100;
+        $('#' + 'opacity_pattern_slider_' + target).limitslider({
+            
+            values: [max_opacity],
+            min: 0,
+            max: 100,
+            gap: 0,
+            change: function (event, ui) {
+
+                var value = $(this).limitslider("values")[0];
+                $('span[data-target="pattern"][data-label="opacity"][data-id="' + target + '"]').text(value);
+                $("button#update-pattern-" + target).click();
+
+            },
+        });
+
+        var max_scale = 200;
+        $('#' + 'scale_pattern_slider_' + target).limitslider({
+            
+            values: [100],
+            min: 0,
+            max: max_scale,
+            gap: 0,
+            change: function (event, ui) {
+
+                var value = $(this).limitslider("values")[0];
+                $('span[data-target="pattern"][data-label="scale"][data-id="' + target + '"]').text(value);
+                $("button#update-pattern-" + target).click();
+
+            },
+        });
+
+
+        var max_x = 100;
+        $('#' + 'position_x_slider_' + target).limitslider({
+            
+            values: [50],
+            min: 0,
+            max: 100,
+            gap: 0,
+            change: function (event, ui) {
+
+                var value = $(this).limitslider("values")[0];
+                $('span[data-target="pattern"][data-label="position_x"][data-id="' + target + '"]').text(value);
+                $("button#update-pattern-" + target).click();
+
+            },
+         });
+
+        var max_y = 100;
+        $('#' + 'position_y_slider_' + target).limitslider({
+            
+            values: [50],
+            min: 0,
+            max: max_y,
+            gap: 0,
+            change: function (event, ui) {
+
+                var value = $(this).limitslider("values")[0];
+                $('span[data-target="pattern"][data-label="position_y"][data-id="' + target + '"]').text(value);
+                $("button#update-pattern-" + target).click();
+
+            },
+         });
 
     }
-
-
-
     
     ///  Create Gradient Dropdown
 
