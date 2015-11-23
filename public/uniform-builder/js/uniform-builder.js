@@ -1653,9 +1653,18 @@ $(document).ready(function () {
 
                 });
 
+
+                elements += "<br />";
+                elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='rotation' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='rotation_pattern_slider_" + target + "' class='pattern_slider pattern_rotation_slider'></div>";
+
                 elements += "<br />";
                 elements += "Opacity: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>%<br />";
                 elements += "<div id='opacity_pattern_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Scale: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='scale' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='scale_pattern_slider_" + target + "' class='pattern_slider'></div>";
 
                 elements += "<br />";
                 elements += "Position X: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='position_x' data-id='" + target + "'>100</span>%<br />";
@@ -1686,6 +1695,34 @@ $(document).ready(function () {
                     layers_clone.push(e * 100);
                 });
 
+
+                //// Rotation 
+
+                var max_rotation = 620;
+                var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                $rotation_slider.roundSlider({
+
+                    values: [0],
+                    min: 0,
+                    max: max_rotation,
+                    gap: 0,
+                    width: 5,
+                    handleSize: "+14",
+                    startAngle: 90,
+
+                    change: function(event, ui) {
+
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+                        $('span[data-target="pattern"][data-label="rotation"][data-layer="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    }
+
+                });
+
+                //// End Rotation 
+
+
                 var max_opacity = 100;
                 $('#' + 'opacity_pattern_slider_' + target).limitslider({
                     
@@ -1701,6 +1738,23 @@ $(document).ready(function () {
 
                     },
                 });
+
+                var max_scale = 200;
+                $('#' + 'scale_pattern_slider_' + target).limitslider({
+                    
+                    values: [100],
+                    min: 0,
+                    max: max_scale,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="scale"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                });
+
 
                 var max_x = 100;
                 $('#' + 'position_x_slider_' + target).limitslider({
@@ -1801,6 +1855,25 @@ $(document).ready(function () {
                         }
 
                         container.mask = mask;
+
+                        /// Process Rotation
+
+                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+
+                        container.rotation = value / 100
+
+                        /// End Rotation
+
+                        /// Process Scale 
+
+                        var $scale_slider = $('div#scale_pattern_slider_' + target);
+                        var value = $scale_slider.limitslider("values")[0];
+                        var scale = new PIXI.Point(value / 100, value / 100);
+
+                        container.scale = scale
+
+                        /// End Process Scale
 
                         if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                             ub[view].removeChild(ub.objects[view]['pattern_' + target]);
