@@ -1411,7 +1411,8 @@
                 $("button#update-pattern-" + target).click();
 
             },
-         });
+
+        });
 
         var max_y = 100;
         $('#' + 'position_y_slider_' + target).limitslider({
@@ -1427,7 +1428,19 @@
                 $("button#update-pattern-" + target).click();
 
             },
-         });
+
+        });
+
+        $("button#update-pattern-" + target).click('click', function (e) {
+
+            var val_rotation = parseInt($rotation_slider.find('span.edit').html());
+            var val_opacity = $('#' + 'opacity_pattern_slider_' + target).limitslider('values')[0];
+            var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
+            var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
+            var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
+
+        });
+
 
     }
     
