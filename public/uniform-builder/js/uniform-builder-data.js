@@ -256,15 +256,13 @@ $(document).ready(function(){
       
         items: [
 
-
-
         ////// Patterns Start
 
             /// Armour 
             {
                 name: 'Armour',
                 code: 'armour',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/armour.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -290,7 +288,7 @@ $(document).ready(function(){
             {
                 name: 'Arrow',
                 code: 'arrow',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/arrow.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -336,7 +334,7 @@ $(document).ready(function(){
             {
                 name: 'Carbon Fiber',
                 code: 'carbon_fiber',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/carbon_fiber.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -351,7 +349,7 @@ $(document).ready(function(){
             {
                 name: 'Checkered',
                 code: 'checkered',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/checkered.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -398,7 +396,7 @@ $(document).ready(function(){
             {
                 name: 'Grunge',
                 code: 'grunge',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/grunge.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -413,7 +411,7 @@ $(document).ready(function(){
             {
                 name: 'Halftone Chest',
                 code: 'halftone_chest',
-                icon: '/images/sidebar/halftone.png',
+                icon: '/images/sidebar/halftone_chest.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -433,7 +431,7 @@ $(document).ready(function(){
             {
                 name: 'Hexastar',
                 code: 'hexastar',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/hexastar.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -453,7 +451,7 @@ $(document).ready(function(){
             {
                 name: 'Interlock',
                 code: 'interlock',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/interlock.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -468,7 +466,7 @@ $(document).ready(function(){
             {
                 name: 'Line Fade Body',
                 code: 'line_fade_body',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/line_fade_body.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -488,7 +486,7 @@ $(document).ready(function(){
             {
                 name: 'Multicam Camo',
                 code: 'multicam_camo',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/multicam_camo.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -523,7 +521,7 @@ $(document).ready(function(){
             {
                 name: 'NK Stripe',
                 code: 'nk_stripe',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/nk_stripe.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -538,7 +536,7 @@ $(document).ready(function(){
             {
                 name: 'Paw',
                 code: 'paw',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/paw.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -553,7 +551,7 @@ $(document).ready(function(){
             {
                 name: 'Pinstripes',
                 code: 'pinstripes',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/pinstripes.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -568,7 +566,7 @@ $(document).ready(function(){
             {
                 name: 'Referee Stripes',
                 code: 'referee_stripes',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/referee_stripes.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -583,7 +581,7 @@ $(document).ready(function(){
             {
                 name: 'Square',
                 code: 'square',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/square.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -618,7 +616,7 @@ $(document).ready(function(){
             {
                 name: 'Stairs',
                 code: 'stairs',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/stairs.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -633,42 +631,7 @@ $(document).ready(function(){
             {
                 name: 'Stripes Thin and Thick',
                 code: 'stripes_thin_and_thick',
-                icon: '/images/sidebar/no-icon.png',
-                category: 'jersey',
-                layers: [
-                    {
-                        default_color: 'd31145',
-                        layer_number: 1,
-                        filename: '/images/patterns/stripes_thin_and_thick/1.png',
-                    },
-                    {
-                        default_color: 'ffffff',
-                        layer_number: 2,
-                        filename: '/images/patterns/stripes_thin_and_thick/2.png',
-                    },
-                    {
-                        default_color: '543018',
-                        layer_number: 3,
-                        filename: '/images/patterns/stripes_thin_and_thick/3.png',
-                    },
-                    {
-                        default_color: '000000',
-                        layer_number: 4,
-                        filename: '/images/patterns/stripes_thin_and_thick/4.png',
-                    },
-                    {
-                        default_color: '000000',
-                        layer_number: 5,
-                        filename: '/images/patterns/stripes_thin_and_thick/5.png',
-                    },
-                ]
-            },
-
-            /// Stripes Thin and Thick
-            {
-                name: 'Stripes Thin and Thick',
-                code: 'stripes_thin_and_thick',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/stripes_thin_and_thick.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -703,7 +666,7 @@ $(document).ready(function(){
             {
                 name: 'Stripes Thinner',
                 code: 'stripes_thinner',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/stripes_thinner.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -723,7 +686,7 @@ $(document).ready(function(){
             {
                 name: 'Thatch',
                 code: 'thatch',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/thatch.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -758,7 +721,7 @@ $(document).ready(function(){
             {
                 name: 'Upper Stripes',
                 code: 'upper_stripes',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/upper_stripes.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -773,7 +736,7 @@ $(document).ready(function(){
             {
                 name: 'Wave',
                 code: 'wave',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/wave.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -788,7 +751,7 @@ $(document).ready(function(){
             {
                 name: 'Web',
                 code: 'web',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/web.png',
                 category: 'jersey',
                 layers: [
                     {
@@ -803,7 +766,7 @@ $(document).ready(function(){
             {
                 name: 'Wire',
                 code: 'wire',
-                icon: '/images/sidebar/no-icon.png',
+                icon: '/images/sidebar/wire.png',
                 category: 'jersey',
                 layers: [
                     {

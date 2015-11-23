@@ -345,8 +345,8 @@
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
-
             create_gradient_dropdown(settings);
+            create_pattern_dropdown(settings);
 
             var max_font_size = 300;
             
@@ -1223,6 +1223,120 @@
         drop.close();
 
     } /// End Accent Drop Function   
+
+
+    /// Create Pattern Dropdown
+
+
+
+
+    /// End Create Pattern Dropdown
+
+    function create_pattern_dropdown(settings) {
+
+        var pattern_container = $('div.colors_container[data-id="' + settings.application.id + '"][data-option="patterns"]');
+        var pattern_elements = '<div class="pattern_panel_container">';
+
+        _.each(ub.data.patterns.items, function (pattern_obj) {
+
+            var element = '<div class="pattern_element">';
+            var filename = '/images/sidebar/' + pattern_obj.code + '.png';
+
+            element = element + '<button class="btn change-text-pattern" data-application-id="' + settings.application.id + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
+            element = element + '</div>';    
+
+            pattern_elements = pattern_elements + element;
+
+        });
+
+        pattern_elements += "</div><div class='color_stops_container' data-option='patterns' data-id='" + settings.application.id + "'></div>";
+        pattern_container.html(pattern_elements);
+
+        $('button.change-text-pattern[data-application-id="' + settings.application.id + '"]').on('click', function (e) {
+
+            var code = $(this).data('pattern');
+            var pattern_obj = _.find(ub.data.patterns.items, {code: code});
+            var id = settings.application.id;
+            var $color_stops_container = $('div.color_stops_container[data-id="1"]')
+
+            change_pattern(settings.application.id, pattern_obj, 'text', settings.application);
+
+        });
+
+    }
+
+    function change_pattern(target, pattern_obj, text, application){
+
+        var application_id = application.id;
+
+        var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+        var el = pattern_obj;
+        var clone = {};
+        var clone = _.clone(el);
+
+        var cont = $('div.color_stops_container[data-id="' + application_id + '"][data-option="patterns"]')
+
+        cont.html('');
+
+        var elements = "";
+
+        if (el.layers.length > 0) {
+            elements = "<br />Layers<br /><br />";
+        }
+
+        _.each(el.layers, function (e, index) {
+
+            var val = e.default_color;
+            var col = e.default_color;
+            var filename = e.filename;
+            
+            elements += ub.create_pattern_color_picker(index, val, col, application_id, el.code); 
+
+        });
+
+        elements += "<br />";
+        elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='rotation' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "<div id='rotation_pattern_slider_" + application_id + "' class='pattern_slider pattern_rotation_slider'></div>";
+
+        elements += "<br />";
+        elements += "Opacity: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='opacity' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "<div id='opacity_pattern_slider_" + application_id + "' class='pattern_slider'></div>";
+
+        elements += "<br />";
+        elements += "Scale: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='scale' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "<div id='scale_pattern_slider_" + application_id + "' class='pattern_slider'></div>";
+
+        elements += "<br />";
+        elements += "Position X: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='position_x' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "<div id='position_x_slider_" + application_id + "' class='pattern_slider'></div>";
+
+        elements += "<br />";
+        elements += "Position Y: <span class='pattern_slider_label' data-target='pattern' data-layer='" + application_id + "' data-label='position_y' data-id='" + application_id + "'>100</span>%<br />";
+        elements += "<div id='position_y_slider_" + application_id + "' class='pattern_slider'></div>";
+
+        elements += "<hr />";
+
+        elements += "<div id='angle_pattern_slider_" + application_id + "' class='pattern_slider_angle'></div>";
+        elements += "<hr />";
+
+        elements += "<button style='width: 100%;' id='update-pattern-" + application_id + "' data-target='" + application_id + "' data-pattern='" + el.code + "'>Update Pattern</button>";
+
+        cont.html(elements);
+
+
+        $('input.pattern_' + target).ubColorPicker({
+                target: String(target),
+                type: 'pattern',
+                application: 'text',
+                target_name: application.layer,
+        });
+
+        
+
+    }
+
+
+
     
     ///  Create Gradient Dropdown
 
@@ -1243,7 +1357,7 @@
 
         });
 
-        gradient_elements += "</div><div class='color_stops_container' data-id='" + settings.application.id + "'></div>";
+        gradient_elements += "</div><div class='color_stops_container' data-option='gradients' data-id='" + settings.application.id + "'></div>";
         gradient_container.html(gradient_elements);
 
         $('button.change-gradient[data-application-id="' + settings.application.id + '"]').on('click', function (e) {
@@ -1269,7 +1383,7 @@
             var clone = {};
             var clone = _.clone(el);
 
-            var cont = $('div.color_stops_container[data-id="' + target + '"]')
+            var cont = $('div.color_stops_container[data-id="' + target + '"][data-option="gradients"]')
             cont.html('');
 
             var elements = "";

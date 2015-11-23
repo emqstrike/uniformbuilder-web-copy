@@ -1632,7 +1632,6 @@ $(document).ready(function () {
                 var el = _.find(ub.data.patterns.items, { code: pattern });
                 var clone = {};
                 var clone = _.clone(el);
-
                 var cont = $("[data-group=patterns][data-option=" + target + "]").find('div.layers_container');
 
                 cont.html('');
@@ -1721,7 +1720,6 @@ $(document).ready(function () {
                 });
 
                 //// End Rotation 
-
 
                 var max_opacity = 100;
                 $('#' + 'opacity_pattern_slider_' + target).limitslider({
