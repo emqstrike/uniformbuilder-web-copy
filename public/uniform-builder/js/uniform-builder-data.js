@@ -52,6 +52,7 @@ $(document).ready(function(){
     ub.current_material.settings = {};
 
     ub.data = {};
+    ub.data.views = ['front', 'back', 'left', 'right'];
 
     ub.data.design_sets = {};
     ub.data.materials = {};

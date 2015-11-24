@@ -1652,7 +1652,6 @@ $(document).ready(function () {
 
                 });
 
-
                 elements += "<br />";
                 elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='rotation' data-id='" + target + "'>100</span>%<br />";
                 elements += "<div id='rotation_pattern_slider_" + target + "' class='pattern_slider pattern_rotation_slider'></div>";
@@ -1796,7 +1795,7 @@ $(document).ready(function () {
                     var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
                     pattern_settings.containers = {};
 
-                    var views = ['front', 'back', 'left', 'right'];
+                    var views = ub.data.views;
                     
                     _.each(views, function (v){
 

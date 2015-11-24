@@ -101,6 +101,18 @@
 
                 }
 
+                if (settings.type === 'text_pattern') {
+
+                    var pattern = ub.current_material.settings.applications[settings.application.code].pattern;
+                    var layer_no = $(this).data('index');
+                    var target = $(this).data('panel');
+                    var color = parseInt($(this).data('color-code'), 16);
+
+                    pattern.children[layer_no].tint = color;
+                    ub.refresh_thumbnails();
+
+                }
+
             });
 
             /// Handler for the color stop button
@@ -1267,13 +1279,14 @@
 
     function change_pattern(target, pattern_obj, text, application){
 
+        target = String(target);
         var application_id = application.id;
 
         var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+
         var el = pattern_obj;
         var clone = {};
         var clone = _.clone(el);
-
         var cont = $('div.color_stops_container[data-id="' + application_id + '"][data-option="patterns"]')
 
         cont.html('');
@@ -1325,8 +1338,8 @@
 
         $('input.pattern_' + target).ubColorPicker({
                 target: String(target),
-                type: 'pattern',
-                application: 'text',
+                type: 'text_pattern',
+                application: application,
                 target_name: application.layer,
         });
 
@@ -1433,14 +1446,105 @@
 
         $("button#update-pattern-" + target).click('click', function (e) {
 
+            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});  
+            var uniform_type = ub.current_material.material.type;
+
+            // Slider Values
+
             var val_rotation = parseInt($rotation_slider.find('span.edit').html());
             var val_opacity = $('#' + 'opacity_pattern_slider_' + target).limitslider('values')[0];
             var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
             var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
             var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
 
+            var target_name = target.replace('_', ' ');
+            target_name = util.toTitleCase(target_name);
+
+            var application_settings = ub.current_material.settings.applications[application.code]
+            
+            if(typeof application_settings.pattern === 'undefined') {
+
+                application_settings.pattern = new PIXI.Container();
+
+            }
+
+            if(typeof text_sprite.pattern_layer === "object" ){
+
+                text_sprite.pattern_layer.removeChildren();
+                text_sprite.removeChild(text_sprite.pattern_layer);
+                
+            }
+
+            var container = application_settings.pattern;
+            var v = application.perspective;
+            container.sprites = {};
+
+            _.each(clone.layers, function (layer, index) {
+
+                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                var sprite = container.sprites[index];
+
+                sprite.zIndex = layer.layer_number * -1;
+                sprite.tint = parseInt(layer.default_color,16);
+                sprite.anchor.set(0.5, 0.5);
+
+                var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
+                var val = $inputbox.val();
+                
+                if (val.length === 7) {
+                    val = val.substr(1, 6);
+                }
+
+                sprite.tint = parseInt(val, 16);
+                container.addChild(sprite);
+
+                var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                container.alpha = opacity_value / 100;
+
+                var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+
+                var x = ub.dimensions.width * (x_value / 100);
+                var y = ub.dimensions.height * (y_value / 100);
+
+                container.position = new PIXI.Point(x,y);
+
+            });
+
+            ub.updateLayersOrder(container);
+
+            var view = v + '_view';
+            var mask = main_text_obj;
+
+            if(typeof mask === 'undefined') {
+                return;
+            }
+
+            container.mask = mask;
+
+            container.rotation = val_rotation / 100;
+            container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
+            container.position = new PIXI.Point(val_x_position, val_y_position);
+
+            var mask = main_text_obj;
+
+            text_sprite.pattern_layer = container;
+            container.mask = mask;
+            container.zIndex = -11;
+
+            ub.pl = container;
+
+            text_sprite.addChild(text_sprite.pattern_layer);
+
+            ub.updateLayersOrder(text_sprite);
+            ub.refresh_thumbnails();
+
         });
 
+        $("button#update-pattern-" + target).click();
 
     }
     
@@ -1654,8 +1758,7 @@
 
         var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
 
-            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
-  
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});  
             var uniform_type = ub.current_material.material.type;
             var bounds;
             var guides;
@@ -1747,7 +1850,7 @@
             }
             
             temp_pattern[v].zIndex = 1;
-
+  
             var mask = main_text_obj;
 
             text_sprite.gradient_layer = temp_pattern[v];
