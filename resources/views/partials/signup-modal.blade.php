@@ -4,7 +4,7 @@
         <form class="form-horizontal" role="form" method="POST" action="/register" id='user-signup-form'>
             <div class="modal-content"> 
                 <div class="modal-header" align="center">
-                    <img id="img_logo" src="{{ env('LOGO_URL') }}" width='200em'>
+                    <img id="img_logo" src="{{ env('LOGO_URL') }}" height='50vh'>
                     <button type="button" class="close" data-dismiss="modal">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
@@ -22,10 +22,11 @@
                             <input name="last_name" class="form-control" type="text" placeholder="Last Name" required>
                             <input name="email" class="form-control" type="text" placeholder="E-Mail" required>
                             <input name="password" class="form-control" type="password" placeholder="Password" required>
+                            <div class="g-recaptcha" data-sitekey="6LfpnRETAAAAAGJUaxYcgs145rLqgtczzZJZP1yJ"></div>
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block register">Register</button>
                             </div>
                         </div>
                     </form>
