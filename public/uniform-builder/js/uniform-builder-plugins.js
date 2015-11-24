@@ -743,14 +743,18 @@
                         y: window.data.global.y
                     };
 
-                    if (_.last(sprite.children).containsPoint(point)) {
-                        sprite.zIndex = -500;
-                        ub.updateLayersOrder(view);
-                    } else {
-                        sprite.zIndex = sprite.originalZIndex;
-                        ub.updateLayersOrder(view);
-                    }
+                    if(typeof _.last(sprite.children).containsPoint === "function") {
 
+                        if (_.last(sprite.children).containsPoint(point)) {
+                            sprite.zIndex = -500;
+                            ub.updateLayersOrder(view);
+                        } else {
+                            sprite.zIndex = sprite.originalZIndex;
+                            ub.updateLayersOrder(view);
+                        }
+                        
+                    }
+                    
                 };
 
             });
