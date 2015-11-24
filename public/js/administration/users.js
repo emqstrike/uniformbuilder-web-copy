@@ -13,12 +13,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.user-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-user').removeAttr('disabled');
                     $(elem + ' .enable-user').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -38,12 +41,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.user-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .enable-user').removeAttr('disabled');
                     $(elem + ' .disable-user').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -71,8 +77,12 @@ $(document).ready(function(){
                     $('.user-' + id).fadeOut();
                 } else {
                     $('#confirmation-modal').modal('hide');
-                    showAlert(response.message);
-                    flashAlertFadeOut();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                 }
             }
         });
