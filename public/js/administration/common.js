@@ -1,9 +1,7 @@
 $(document).ready(function(){
-    modalConfirm = function(title, message, value, className, id)
-    {
+    modalConfirm = function(title, message, value, className, id) {
         className = typeof className !== 'undefined' ? className : 'confirm-yes';
-        if (typeof id === 'undefined')
-        {
+        if (typeof id === 'undefined') {
             id = 'confirmation-modal';
         }
         $('#' + id + ' .modal-title').text(title);
@@ -13,8 +11,7 @@ $(document).ready(function(){
         $('#' + id).modal('show');
     };
 
-    showAlert = function(msg)
-    {
+    showAlert = function(msg) {
         $('.flash-alert .flash-sub-title').text('Error: ');
         $('.flash-alert .flash-message').text(msg);
         $('.flash-alert').addClass('alert-warning');
