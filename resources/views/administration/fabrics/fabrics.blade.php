@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('styles')
 
@@ -8,99 +8,96 @@
 
 @section('content')
 
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h1>
+                        <span class="glyphicon glyphicon-th-list"></span>
+                        Fabrics
+                        <small>
+                            <a href="/administration/fabric/add" class='btn btn-xs btn-success'>
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                Add New Fabric
+                            </a>
+                        </small>
+                    </h1>
+                </div>
+                <div class="box-body">
+                    <table data-toggle='table' class='data-table table table-bordered fabrics'>
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Fabric Name</th>
+                            <th>Code</th>
+                            <th>Active Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
+                    @forelse ($fabrics as $fabric)
 
-<div class="col-md-12">
-    <h1>
-        <span class="glyphicon glyphicon-th-list"></span>
-        Fabrics
-        <small>
-            <a href="/administration/fabric/add" class='btn btn-xs btn-success'>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                Add New Fabric
-            </a>
-        </small>
-    </h1>
-</div>
+                        <tr class='fabric-{{ $fabric->id }} {{ (!$fabric->active) ? ' inactive' : '' }}'>
+                            <td>
+                                @if ($fabric->fabric_path)
+                                <a href="{{ $fabric->fabric_path }}">
+                                    <img src="{{ $fabric->fabric_path }}" height='100px' width='100px'>
+                                </a>
+                                <a href="{{ $fabric->fabric_path }}" class="btn btn-default btn-xs show-fabric" role="button" target="_blank">
+                                    <li class="glyphicon glyphicon-info-sign"></li>
+                                    View
+                                </a>
+                                @else
+                                <img src="http://dummyimage.com/100" height='100px' width='100px'>
+                                @endif
+                            </td>
+                            <td>
+                                {{ $fabric->name }}
+                            </td>
+                            <td>
+                                <span class="badge">{{ $fabric->code }}</span>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-default btn-xs disable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? : 'disabled="disabled"' }}>
+                                    <i class="glyphicon glyphicon-eye-close"></i>
+                                    Disable
+                                </a>
+                                <a href="#" class="btn btn-info btn-xs enable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? 'disabled="disabled"' : '' }}>
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    Enable
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/administration/fabric/edit/{{ $fabric->id }}" class="btn btn-primary btn-xs edit-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    Edit
+                                </a>
+                                <a href="#" class="btn btn-danger pull-right btn-xs delete-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    Remove
+                                </a>
+                            </td>
+                        </tr>
 
-<div class="row-fluid col-md-9">
-<table data-toggle='table' class='data-table table table-bordered fabrics'>
-<thead>
-    <tr>
-        <th>Thumbnail</th>
-        <th>Fabric Name</th>
-        <th>Code</th>
-        <th>Active Status</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
+                    @empty
 
-@forelse ($fabrics as $fabric)
+                        <tr>
+                            <td colspan='5'>
+                                No Fabrics
+                            </td>
+                        </tr>
 
-    <tr class='fabric-{{ $fabric->id }} {{ (!$fabric->active) ? ' inactive' : '' }}'>
-        <td>
-            @if ($fabric->fabric_path)
-            <a href="{{ $fabric->fabric_path }}">
-                <img src="{{ $fabric->fabric_path }}" height='100px' width='100px'>
-            </a>
-            <a href="{{ $fabric->fabric_path }}" class="btn btn-default btn-xs show-fabric" role="button" target="_blank">
-                <li class="glyphicon glyphicon-info-sign"></li>
-                View
-            </a>
-            @else
-            <img src="http://dummyimage.com/100" height='100px' width='100px'>
-            @endif
-        </td>
-        <td>
-            {{ $fabric->name }}
-        </td>
-        <td>
-            <span class="badge">{{ $fabric->code }}</span>
-        </td>
-        <td>
-            <a href="#" class="btn btn-default btn-xs disable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? : 'disabled="disabled"' }}>
-                <i class="glyphicon glyphicon-eye-close"></i>
-                Disable
-            </a>
-            <a href="#" class="btn btn-info btn-xs enable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? 'disabled="disabled"' : '' }}>
-                <i class="glyphicon glyphicon-eye-open"></i>
-                Enable
-            </a>
-        </td>
-        <td>
-            <a href="/administration/fabric/edit/{{ $fabric->id }}" class="btn btn-primary btn-xs edit-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
-                <i class="glyphicon glyphicon-edit"></i>
-                Edit
-            </a>
-            <a href="#" class="btn btn-danger pull-right btn-xs delete-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
-                <i class="glyphicon glyphicon-trash"></i>
-                Remove
-            </a>
-        </td>
-    </tr>
+                    @endforelse
 
-@empty
-
-    <tr>
-        <td colspan='5'>
-            No Fabrics
-        </td>
-    </tr>
-
-@endforelse
-
-</tbody>
-</table>
-</div>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Information Modal -->
 <div class="modal fade" id="view-fabric-modal" aria-hidden="false">
@@ -152,11 +149,17 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
-@if (Session::has('message'))
+
 <script type="text/javascript">
 $(document).ready(function(){
-    flashAlertFadeOut();
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
 });
 </script>
-@endif
 @endsection

@@ -13,12 +13,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.cut-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-cut').removeAttr('disabled');
                     $(elem + ' .enable-cut').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -38,12 +41,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.cut-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .enable-cut').removeAttr('disabled');
                     $(elem + ' .disable-cut').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });

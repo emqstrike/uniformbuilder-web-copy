@@ -15,7 +15,8 @@
 <link rel="stylesheet" href="/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
 <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker-bs3.css">
-<link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<link rel="stylesheet" type="text/css" href="/js/libs/pnotify/pnotify.css">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -141,6 +142,7 @@
 <script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <script src="/plugins/fastclick/fastclick.min.js"></script>
+<script type="text/javascript" src="/js/libs/pnotify/pnotify.js"></script>
 <script src="/dist/js/app.min.js"></script>
 
 @yield('scripts')

@@ -13,12 +13,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.category-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-category').removeAttr('disabled');
                     $(elem + ' .enable-category').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -38,12 +41,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.category-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-category').attr('disabled', 'disabled');
                     $(elem + ' .enable-category').removeAttr('disabled');
                     $('.category-' + id).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -67,11 +73,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal').modal('hide');
                     $('.category-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });

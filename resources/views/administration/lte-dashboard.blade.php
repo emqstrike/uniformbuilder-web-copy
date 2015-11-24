@@ -17,7 +17,7 @@
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-aqua">
       <div class="inner">
-        <h3>{{ $new_orders_count }}</h3>
+        <h3 class='new-orders-count'>0</h3>
         <p>New Orders</p>
       </div>
       <div class="icon">
@@ -30,7 +30,7 @@
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-red">
       <div class="inner">
-        <h3>{{ $pending_orders_count }}</h3>
+        <h3 class='pending-orders-count'>0</h3>
         <p>Pending Orders</p>
       </div>
       <div class="icon">
@@ -43,13 +43,13 @@
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-yellow">
       <div class="inner">
-        <h3>N</h3>
+        <h3 class='user-registration-count'>0</h3>
         <p>User Registrations</p>
       </div>
       <div class="icon">
         <i class="ion ion-person-add"></i>
       </div>
-      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      <a href="/administration/users" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
 
