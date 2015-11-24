@@ -12,7 +12,7 @@
                         <label>Email Addresses</label>
                         <textarea class='form-control team-email'></textarea>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6LfpnRETAAAAAGJUaxYcgs145rLqgtczzZJZP1yJ"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                 </form>
             </div>
 

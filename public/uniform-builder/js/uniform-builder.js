@@ -2227,6 +2227,9 @@ $(document).ready(function () {
                 // Notification Message
                 var messageType = (response.success) ? 'success' : 'warning';
                 $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10, marginTop: '90px'});
+
+                // Reload reCAPTCHA
+                grecaptcha.reset();
             }
         });
     });
