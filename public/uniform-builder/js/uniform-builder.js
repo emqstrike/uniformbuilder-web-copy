@@ -2214,6 +2214,13 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
+
+        var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
+        if (captcha_response.length == 0) {
+            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return false;
+        }
+
         $.ajax({
             url: ub.config.api_host + '/api/order/share',
             data: JSON.stringify(data),
