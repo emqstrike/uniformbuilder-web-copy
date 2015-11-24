@@ -6,16 +6,6 @@
 
 @section('content')
 
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
-
 <section class='content'>
     <div class="row">
         <div class="col-xs-12">
@@ -112,7 +102,6 @@
 <script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/users.js"></script>
-@if (Session::has('message'))
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
@@ -123,7 +112,15 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });
+@if (Session::has('message'))
+    new PNotify({
+        title: 'Success',
+        text: "{{ Session::get('message') }}",
+        type: 'success',
+        hide: true
+    });
+@endif
 });
 </script>
-@endif
+
 @endsection
