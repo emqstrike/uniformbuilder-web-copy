@@ -864,13 +864,17 @@
 
             container.addChild(text_layer.text_sprite);
 
-            if (layer.name !== 'Base Color') {
+            if (layer.name !== 'Base Color' && layer.name !== 'Mask') {
                 
                 $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
 
                 var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
                 create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
 
+            }
+
+            if (layer.name === 'Mask') {
+                text_layer.text_sprite.alpha = 0                
             }
 
         });
@@ -1137,7 +1141,7 @@
 
                         if (app.type !== 'logo') {
 
-                            var sprite = _.last(app.text_obj.children);
+                            var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
 
                             sprite.tint = parseInt(color_code, 16);    
 
@@ -1447,7 +1451,8 @@
         $("button#update-pattern-" + target).click('click', function (e) {
 
             var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
-            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});  
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
+            main_text_obj.alpha = 1;  
             var uniform_type = ub.current_material.material.type;
 
             // Slider Values
@@ -1522,8 +1527,6 @@
             if(typeof mask === 'undefined') {
                 return;
             }
-
-            container.mask = mask;
 
             container.rotation = val_rotation / 100;
             container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
@@ -1758,7 +1761,8 @@
 
         var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
 
-            var main_text_obj = _.find(text_sprite.children, {ubName: 'Base Color'});  
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
+            main_text_obj.alpha = 1;  
             var uniform_type = ub.current_material.material.type;
             var bounds;
             var guides;
