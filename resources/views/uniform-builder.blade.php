@@ -86,6 +86,14 @@ $(document).ready(function () {
     window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
 @else
     window.ub.user = false;
+    $('#signup-modal .register').on('click', function(){
+        var captcha_response = $('.g-recaptcha-response').val();
+        if (captcha_response.length == 0) {
+            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return false;
+        }
+        return true;
+    });
 @endif
 @if (Session::has('message'))
     $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});

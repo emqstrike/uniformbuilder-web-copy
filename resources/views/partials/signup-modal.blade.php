@@ -26,7 +26,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block register">Register</button>
                             </div>
                         </div>
                     </form>
