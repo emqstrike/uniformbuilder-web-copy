@@ -134,14 +134,6 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });
-@if (Session::has('message'))
-    new PNotify({
-        title: 'Success',
-        text: "{{ Session::get('message') }}",
-        type: 'success',
-        hide: true
-    });
-@endif
 });
 </script>
 @endsection
