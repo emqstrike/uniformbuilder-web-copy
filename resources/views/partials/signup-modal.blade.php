@@ -22,6 +22,7 @@
                             <input name="last_name" class="form-control" type="text" placeholder="Last Name" required>
                             <input name="email" class="form-control" type="text" placeholder="E-Mail" required>
                             <input name="password" class="form-control" type="password" placeholder="Password" required>
+                            <div class="g-recaptcha" data-sitekey="6LfpnRETAAAAAGJUaxYcgs145rLqgtczzZJZP1yJ"></div>
                         </div>
                         <div class="modal-footer">
                             <div>
