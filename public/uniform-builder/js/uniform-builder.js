@@ -2214,6 +2214,13 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
+
+        var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
+        if (captcha_response.length == 0) {
+            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return false;
+        }
+
         $.ajax({
             url: ub.config.api_host + '/api/order/share',
             data: JSON.stringify(data),
@@ -2227,6 +2234,9 @@ $(document).ready(function () {
                 // Notification Message
                 var messageType = (response.success) ? 'success' : 'warning';
                 $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10, marginTop: '90px'});
+
+                // Reload reCAPTCHA
+                grecaptcha.reset();
             }
         });
     });
