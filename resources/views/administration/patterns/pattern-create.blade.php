@@ -35,6 +35,13 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail</label>
+                            <div class="col-md-6 front-view">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">

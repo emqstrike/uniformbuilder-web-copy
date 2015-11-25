@@ -26,6 +26,7 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
+                                <th>Thumbnail</th>
                                 <th>Pattern Name</th>
                                 <th>Active Status</th>
                                 <th></th>
@@ -36,6 +37,13 @@
                 @forelse ($patterns as $pattern)
 
                     <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
+                        <td>
+                            @if ($pattern->thumbnail_path)
+                            <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
+                            @else
+                            <img src="http://dummyimage.com/100" width="100px" height="100px">
+                            @endif
+                        </td>
                         <td>
                             {{ $pattern->name }}
                         </td>
