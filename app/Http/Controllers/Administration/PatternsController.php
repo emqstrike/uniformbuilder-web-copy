@@ -126,7 +126,6 @@ class PatternsController extends Controller
             return Redirect::to('/administration/patterns')
                             ->with('message', 'There was a problem uploading your files');
         }
-
         $response = null;
         if (!empty($patternId))
         {

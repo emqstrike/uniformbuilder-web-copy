@@ -163,11 +163,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary update-pattern">
+                                <button type="submit" class="btn btn-primary update-pattern">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Pattern
                                 </button>
-                                <a href="/administration/patterns" class="btn btn-lg btn-danger">
+                                <a href="/administration/patterns" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

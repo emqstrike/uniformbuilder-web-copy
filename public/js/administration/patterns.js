@@ -131,7 +131,7 @@ $(document).ready(function(){
                         type: 'success',
                         hide: true
                     });
-                    $('#confirm-delete-pattern-thumbnail').modal('hide');
+                    $('#confirmation-modal-delete-thumbnail').modal('hide');
                     $('.thumbnail_path').fadeOut();
                 }
             }
