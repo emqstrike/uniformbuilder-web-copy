@@ -33,7 +33,7 @@
             var name = target_name.replace('_',' ').toUpperCase();
 
             var header = '';
-            var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
+            var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
 
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
@@ -123,7 +123,7 @@
             
             color_stop_btn.on("click", function() {
                 
-                var picker_panel = util.dataSelector(preamble, { 'option': target_name, 'index': color_stop_index });
+                var picker_panel = util.dataSelector(preamble, { 'type': settings.type, 'option': target_name, 'index': color_stop_index });
 
                 if (picker_panel.css('display') === "none") {
                     panels.hide();
