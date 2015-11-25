@@ -17,7 +17,10 @@ class PatternsController extends Controller
     protected $client;
     protected $colorsClient;
 
-    public function __construct(APIClient $apiClient, ColorsAPIClient $colorsAPIClient)
+    public function __construct(
+        APIClient $apiClient,
+        ColorsAPIClient $colorsAPIClient
+    )
     {
         $this->client = $apiClient;
         $this->colorsClient = $colorsAPIClient;
@@ -64,7 +67,7 @@ class PatternsController extends Controller
             'layer_1_default_color' => $layer_1_color,
             'layer_2_default_color' => $layer_2_color,
             'layer_3_default_color' => $layer_3_color,
-            'layer_4_default_color' => $layer_4_color
+            'layer_4_default_color' => $layer_4_color,
         ];
 
         $patternId = null;
@@ -75,7 +78,7 @@ class PatternsController extends Controller
         }
 
         // Does the Pattern Name exist
-        if ($this->client->isPatternNameTaken($patternName, $patternId))
+        if ($this->client->isPatternExist($patternName, $patternId))
         {
             return Redirect::to('administration/patterns')
                             ->with('message', 'Pattern name already exist');
@@ -101,6 +104,19 @@ class PatternsController extends Controller
                         );
 
                     }
+                }
+            }
+            $thumbnailFile = $request->file('thumbnail_path');
+            if (isset($thumbnailFile))
+            {
+                if ($thumbnailFile->isValid())
+                {
+                    $data['thumbnail_path'] = FileUploader::upload(
+                        $thumbnailFile,
+                        $patternName,
+                        'pattern_thumbnail',
+                        'patterns'
+                    );
                 }
             }
         }

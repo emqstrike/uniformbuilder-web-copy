@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    $('.patterns').bootstrapTable();
-
     $('.show-pattern').on('click', function(){
         var pattern = {};
         pattern.id = $(this).data('pattern-id');
@@ -104,9 +102,40 @@ $(document).ready(function(){
         });
     });
 
-    $('.delete-pattern').on('click', function(){
+    $('.delete-pattern-image').on('click', function(){
         var id = $(this).data('pattern-id');
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', id);
+    });
+
+    $('.delete-pattern-thumbnail').on('click', function(){
+        var id = $(this).data('pattern-id');
+        $('#confirmation-modal-delete-thumbnail').modal();
+    });
+
+    $('#confirmation-modal-delete-thumbnail .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/pattern/deleteThumbnail";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirm-delete-pattern-thumbnail').modal('hide');
+                    $('.thumbnail_path').fadeOut();
+                }
+            }
+        });
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){

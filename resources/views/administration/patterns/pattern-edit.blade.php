@@ -31,6 +31,25 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail</label>
+                            <div class="col-md-6 front-view">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                @if ($pattern->thumbnail_path)
+                                <div class="thumbnail_path">
+                                    <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-pattern-thumbnail"
+                                        data-pattern-id="{{ $pattern->id }}"
+                                        data-field="thumbnail_path"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 pattern">
                                 <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
@@ -162,6 +181,29 @@
 </div>
 @include('partials.confirmation-modal', ['attributes' => ['layer'], 'yes_class_name' => 'confirm-delete-layer'])
 
+<!-- Confirmation Modal -->
+<div class="modal confirmation-modal" id="confirmation-modal-delete-thumbnail" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Remove Pattern Thumbnail</h4>
+            </div>
+            <div class="modal-body">Are you sure you want to delete the pattern thumbnail?</div>
+            <div class="modal-footer">
+                <button class="btn btn-danger confirm-yes" data-value='{{$pattern->id}}'>
+                    <li class="glyphicon glyphicon-ok"></li>
+                    Yes
+                </button>
+                <button class="btn btn-default confirm-no" data-dismiss="modal">
+                    <li class="glyphicon glyphicon-remove"></li>
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -169,9 +211,8 @@
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 @endsection
 @section('custom-scripts')
-
-$(document).ready(function(){
 <script type="text/javascript">
+$(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
 
     $('.layer-default-color').change(function(){
