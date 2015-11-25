@@ -69,6 +69,7 @@
             /// Handler for the color buttons
             var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
 
+
             colors_btn.on('click', function() {
 
                 var color = $(this).data('color');

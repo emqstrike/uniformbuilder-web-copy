@@ -1693,7 +1693,6 @@ $(document).ready(function () {
                     layers_clone.push(e * 100);
                 });
 
-
                 //// Rotation 
 
                 var max_rotation = 620;
@@ -2013,9 +2012,13 @@ $(document).ready(function () {
 
                 _.each(clone.color_stops, function (e, index) {
 
-                    var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
-                    e.color = s.val();
+                    var temp_selector = 'gradient_' + target.toLowerCase() + '_' + index;
+                    var $input = $('input[data-elid="' + temp_selector + '"]');
+                    
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background', $input.val());
+                    
+                    e.color = $input.val();
+
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
                     temp = temp / 10;
@@ -2277,9 +2280,15 @@ $(document).ready(function () {
                 gradient = ctx.createLinearGradient(0,22,0,410);
 
             }
-            
+
             _.each(gradient_obj.color_stops, function (color_stop) {
+
+                if( color_stop.color.length === 6 ){
+                    color_stop.color = "#" + color_stop.color;
+                }
+
                 gradient.addColorStop(color_stop.value, color_stop.color);
+              
             });
 
             ctx.fillStyle = gradient;
@@ -2298,8 +2307,8 @@ $(document).ready(function () {
 
             var texture = PIXI.Texture.fromCanvas(canvas);
             var temp_pattern = {};
-
             var gradient_layer = new PIXI.Sprite(texture);
+
             gradient_layer.zIndex = 1;
 
             if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
