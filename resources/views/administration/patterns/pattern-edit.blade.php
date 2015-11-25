@@ -1,16 +1,6 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
 
 <div class="container-fluid main-content">
     <div class="row">
@@ -32,10 +22,6 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/pattern/update" enctype="multipart/form-data" id='edit-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="base_pattern_id" value="{{ $pattern->id }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
@@ -179,14 +165,13 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 @endsection
 @section('custom-scripts')
 
 $(document).ready(function(){
-
+<script type="text/javascript">
     $('select:not(:has(option))').attr('visible', false);
 
     $('.layer-default-color').change(function(){
@@ -194,5 +179,5 @@ $(document).ready(function(){
         $(this).css('background-color', color);
     });
 });
-
+</script>
 @endsection

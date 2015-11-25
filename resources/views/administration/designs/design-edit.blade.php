@@ -1,16 +1,6 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
 
 <div class="container-fluid main-content">
     <div class="row">
@@ -32,10 +22,6 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/design_set/update" enctype="multipart/form-data" id='edit-design-set-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="uniform_design_set_id" value="{{ $design->id }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -158,11 +144,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-design-set">
+                                <button type="submit" class="btn btn-primary create-design-set">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Save Design Set
                                 </button>
-                                <a href="/administration/design_sets" class="btn btn-lg btn-danger">
+                                <a href="/administration/design_sets" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -185,21 +171,4 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-
-    $('#edit-design-set-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating design set');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving design set...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
-
 @endsection

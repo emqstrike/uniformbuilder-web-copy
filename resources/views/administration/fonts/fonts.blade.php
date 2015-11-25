@@ -35,9 +35,9 @@
                     <thead>
                         <tr>
                             <th>Font Name</th>
+                            <th>Sample</th>
                             <th>Active Status</th>
                             <th>Actions</th>
-                            <th>Sample</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +53,11 @@
                                 <span class="label label-success">
                                 @endif
                                     {{ $font->type }}
+                                </span>
+                            </td>
+                            <td>
+                                <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
+                                    {{ env('WEBSITE_NAME') }}
                                 </span>
                             </td>
                             <td>
@@ -74,12 +79,6 @@
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
-                            </td>
-                            <td>
-                                <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
-                                    {{ env('WEBSITE_NAME') }}<br>
-                                    ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
-                                </span>
                             </td>
                         </tr>
 
