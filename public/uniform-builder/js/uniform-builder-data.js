@@ -650,16 +650,6 @@ $(document).ready(function(){
                         layer_number: 3,
                         filename: '/images/patterns/stripes_thin_and_thick/3.png',
                     },
-                    {
-                        default_color: '000000',
-                        layer_number: 4,
-                        filename: '/images/patterns/stripes_thin_and_thick/4.png',
-                    },
-                    {
-                        default_color: '000000',
-                        layer_number: 5,
-                        filename: '/images/patterns/stripes_thin_and_thick/5.png',
-                    },
                 ]
             },
 
