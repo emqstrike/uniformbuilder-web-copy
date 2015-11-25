@@ -259,6 +259,17 @@ $(document).ready(function(){
 
         ////// Patterns Start
 
+            /// None
+            {
+                name: 'None',
+                code: 'none',
+                icon: '/images/sidebar/none.png',
+                category: 'jersey',
+                layers: [
+                  
+                ],
+            },
+
             /// Armour 
             {
                 name: 'Armour',
