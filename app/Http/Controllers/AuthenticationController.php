@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Session;
@@ -37,6 +36,7 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
+                Session::put('first_name', $result->user->first_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
@@ -48,6 +48,7 @@ class AuthenticationController extends AdminAuthController
             }
             else
             {
+                Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 Session::flash('flash_message', $result->message);
             }
 
@@ -59,7 +60,7 @@ class AuthenticationController extends AdminAuthController
         }
 
         return Redirect::to('/index')
-                        ->with('message', 'Login failed.');
+                        ->with('message', "The email and password you entered don't match.");
     }
 
     public function logout()
@@ -68,5 +69,86 @@ class AuthenticationController extends AdminAuthController
         Log::info('User Logout', 'FRONT END');
         return Redirect::to('/index')
                         ->with('message', 'You have been logged out.');
+    }
+
+    public function forgotPasswordForm()
+    {
+        $params = [
+            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE')
+        ];
+        return view('forms.forgot-password', $params);
+    }
+
+    public function recoverPassword(Request $request)
+    {
+        $email = $request->input('email');
+
+        return $this->client->recoverPassword($email);
+    }
+
+    public function resetPasswordForm($hash)
+    {
+        $response = $this->client->getUserFromHash($hash);
+        if ($response['success'])
+        {
+            $user = $response['user'];
+            $params = [
+                'page_title' => 'Reset your password | ' . env('APP_TITLE'),
+                'app_title' => env('APP_TITLE'),
+                'asset_version' => env('ASSET_VERSION'),
+                'asset_storage' => env('ASSET_STORAGE'),
+                'full_name' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'hash' => $user->password_reset_hash,
+                'user_id' => $user->id
+            ];
+            return view('forms.reset-password', $params);
+        }
+
+        // Redirect to forgot-password
+        return Redirect::to('/forgotPassword')
+                        ->with('message', 'Invalid password reset token.');
+    }
+
+    public function saveNewPassword(Request $request)
+    {
+        $data = [
+            'user_id' => $request->input('user_id'),
+            'password' => $request->input('password'),
+            'hash' => $request->input('hash')
+        ];
+
+        return $this->client->saveNewPassword($data);
+    }
+
+    public function changePasswordForm()
+    {
+        $params = [
+            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'user_id' => Session::get('userId')
+        ];
+
+        return view('forms.change-password', $params);
+    }
+
+    public function saveChangedPassword(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $oldPassword = $request->input('old_password');
+        $newPassword = $request->input('new_password');
+
+        $response = $this->client->updatePassword([
+            'user_id' => $userId,
+            'old_password' => $oldPassword,
+            'new_password' => $newPassword
+        ]);
+
+        return (array) $response;
     }
 }

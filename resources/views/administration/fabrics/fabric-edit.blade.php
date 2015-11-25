@@ -1,16 +1,6 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
 
 <div class="container-fluid main-content">
     <div class="row">
@@ -32,10 +22,6 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/fabric/update" enctype="multipart/form-data" id='edit-fabric-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="fabric_id" value="{{ $fabric->id }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Fabric Name</label>
@@ -70,11 +56,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary update-fabric">
+                                <button type="submit" class="btn btn-primary update-fabric">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Fabric
                                 </button>
-                                <a href="/administration/fabrics" class="btn btn-lg btn-danger">
+                                <a href="/administration/fabrics" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -96,21 +82,4 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-
-    $('#edit-fabric-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating fabric');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving fabric...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
-
 @endsection

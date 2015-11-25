@@ -1,9 +1,7 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
 @endsection
 
 @section('content')
@@ -29,10 +27,6 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="color_id" value="{{ $color->id }}">
 
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Color Name</label>
                             <div class="col-md-6">
@@ -57,11 +51,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-color">
+                                <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Color
                                 </button>
-                                <a href="/administration/colors" class="btn btn-lg btn-danger">
+                                <a href="/administration/colors" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -83,7 +77,7 @@
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 $(document).ready(function(){
     $('#colorpicker').spectrum({
         color: "#{{ $color->hex_code }}",
@@ -91,18 +85,11 @@ $(document).ready(function(){
         showInput: true,
         move: function(tinycolor) {
             $('#hex-code').val(tinycolor);
+        },
+        hide: function(tinycolor) {
+            $('#hex-code').val(tinycolor);
         }
     });
-
-    $('#edit-color-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating color');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are updating color ...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
 });
-
+</script>
 @endsection

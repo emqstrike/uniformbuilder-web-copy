@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>QuickStrike Uniform Builder Administration</title>
+    <title>Administration | {{ env('WEBSITE_NAME') }}</title>
 
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
@@ -32,28 +32,20 @@
     <div class="row-fluid">
         <div class="col-md-12">
             @if (Session::get('isLoggedIn'))
-            <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
                 <div class="navbar-header">
                      
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                          <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/administration/main">
-                        <img src="/images/branding/small-logo.png" alt="QuickStrike" style="width: 35px; padding-right: 10px;" align="left">
-                        <span> Admin Dashboard</span>
+                        <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
+                        <span>Dashboard</span>
                     </a>
                 </div>
                 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
                     @include('administration.top-menu')
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" style='width:500px'>
-                        </div>
-                        <button type="" class="btn btn-default">
-                            Search
-                        </button>
-                    </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="divider-vertical"></li>
                         <li class="dropdown">

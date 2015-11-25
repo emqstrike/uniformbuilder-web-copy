@@ -28,7 +28,7 @@
 
             <a class="btn-save sidebar-buttons save open-save-design-modal"
                 data-filename='save'
-                data-option='save'">
+                data-option='save'>
             </a>
 @endif
 

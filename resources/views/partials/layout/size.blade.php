@@ -1,142 +1,57 @@
 <div class="row">
-			<div class="col-md-12">
-				
-			</div>
-			<div class="col-md-12">
-				<h3>Style:</h3>
-				<h3>Estimate:</h3>
-				<h3>Lead Time:</h3>
-			</div>
-			<div class="col-md-12">
-				<hr>
-				<center>
-				<img src="images/icons/YXS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/YS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/YM.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/YL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/YXL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/Y2XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/Y3XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<br><br>
-				<img src="images/icons/XS.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/S.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/M.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/L.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/2XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				<img src="images/icons/3XL.png" height="50" style="border-bottom-style: solid; border-width: 1px;">
-				</center>				
-			</div>
 
-			<div class="col-md-12">
-				<hr>
-				<h3>TEAM INFO</h3>
-				<hr>					
-
-				<table class="table table-hover">
-  					<div class="row">
-						<div class="col-md-3 col-md-offset-2">
-							<label for="sel11">Name/Number</label>
-							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
-								
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel11">Size:</label>
-							  <select class="form-control" id="sel1">
-							    <option>Small</option>
-							    <option>Medium</option>
-							    <option>Large</option>
-							  </select>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel12">QTY:</label>
-							  <select class="form-control" id="sel12">
-							    <option>1</option>
-							    <option>2</option>
-							    <option>3</option>
-							  </select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3 col-md-offset-2">
-							<label for="sel11">Name/Number</label>
-							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>								
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel11">Size:</label>
-							  <select class="form-control" id="sel1">
-							    <option>Small</option>
-							    <option>Medium</option>
-							    <option>Large</option>
-							  </select>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel12">QTY:</label>
-							  <select class="form-control" id="sel12">
-							    <option>1</option>
-							    <option>2</option>
-							    <option>3</option>
-							  </select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3 col-md-offset-2">
-							<label for="sel11">Name/Number</label>
-							<a data-toggle="modal" data-target="#myModal"><img src="images/icons/form.png" height="30"></a>
-								
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-							  <label for="sel11">Size:</label>
-							  <select class="form-control" id="sel1">
-							    <option>Small</option>
-							    <option>Medium</option>
-							    <option>Large</option>
-							  </select>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<input type="text" class="form-control bfh-number" data-zeros="true" data-min="5" data-max="25">
-						</div>
-					</div>
-
-				</table>
-
-				
-
-			</div>
+	<div class="col-md-12 uniform-sizes">
+		<div class="col-md-12">
+			<div class='col-md-1 uniform-size yxs' data-is-selected='0' data-size='YXS'>YXS</div>
+			<div class='col-md-1 uniform-size ys' data-is-selected='0' data-size='YS'>YS</div>
+			<div class='col-md-1 uniform-size ym' data-is-selected='0' data-size='YM'>YM</div>
+			<div class='col-md-1 uniform-size yl' data-is-selected='0' data-size='YL'>YL</div>
+			<div class='col-md-1 uniform-size yxl' data-is-selected='0' data-size='YXL'>YXL</div>
+			<div class='col-md-1 uniform-size y2xl' data-is-selected='0' data-size='Y2XL'>Y2XL</div>
+			<div class='col-md-1 uniform-size y3xl' data-is-selected='0' data-size='Y3XL'>Y3XL</div>
 		</div>
-	  		  			
+		<div class="col-md-12">
+			<div class='col-md-1 uniform-size xs' data-is-selected='0' data-size='XS'>XS</div>
+			<div class='col-md-1 uniform-size s' data-is-selected='0' data-size='S'>S</div>
+			<div class='col-md-1 uniform-size m' data-is-selected='0' data-size='M'>M</div>
+			<div class='col-md-1 uniform-size l' data-is-selected='0' data-size='L'>L</div>
+			<div class='col-md-1 uniform-size xl' data-is-selected='0' data-size='XL'>XL</div>
+			<div class='col-md-1 uniform-size 2xl' data-is-selected='0' data-size='2XL'>2XL</div>
+			<div class='col-md-1 uniform-size 3xl' data-is-selected='0' data-size='3XL'>3XL</div>
+		</div>			
+	</div>
 
-		<!-- modal test -->
-		<!-- Button trigger modal -->				  
+	<div class="col-md-12">
+		<hr>
+		<label>TEAM INFO</label>
+		<button class='open-team-roster-modal'>
+			<span class='fa fa-list-ol'></span>
+			Edit Roster
+		</button>
+		<hr>
 
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog modal-lg">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Jersey Information</h4>
-		      </div>
-		      <div class="modal-body">
-		        ...
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save changes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- modal test -->
-	  </div>
-	</div> <!-- size -->
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<th>Number</th>
+				<th>Name</th>
+				<th>Size</th>
+			</thead>
+			<tbody class='roster-list'>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script id="roster-list" type="text/mustache">
+<tr>
+	<td>
+		@{{ number }}
+	</td>
+	<td>
+		@{{ name }}
+	</td>
+	<td>
+		@{{ size }}
+	</td>
+</tr>
+</script>

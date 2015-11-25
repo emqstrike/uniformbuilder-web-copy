@@ -62,12 +62,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.pattern-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-pattern').removeAttr('disabled');
                     $(elem + ' .enable-pattern').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -87,12 +90,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.pattern-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .enable-pattern').removeAttr('disabled');
                     $(elem + ' .disable-pattern').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -116,11 +122,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal').modal('hide');
                     $('.pattern-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -128,12 +137,12 @@ $(document).ready(function(){
 
     // Edit Pattern Scripts
     $('#edit-pattern-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating pattern');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
+        new PNotify({
+            title: 'Updating pattern',
+            text: 'Please wait while we are saving pattern...',
+            type: 'success',
+            hide: true
+        });
         $('.main-content').fadeOut('slow');
     });
 
@@ -160,6 +169,12 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
+                    new PNotify({
+                        title: 'Updating pattern',
+                        text: 'Please wait while we are saving pattern...',
+                        type: 'success',
+                        hide: true
+                    });
                     $('.' + layer).fadeOut();
                 }
             }

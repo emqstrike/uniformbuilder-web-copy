@@ -13,6 +13,7 @@ $(document).ready(function () {
             /// Initialize Assets
 
             ub.current_material.id = window.ub.config.material_id;
+            ub.current_material.code = window.ub.config.code;
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -39,7 +40,65 @@ $(document).ready(function () {
 
             /// End Activate Views
 
-        }
+            ub.uniformSizes = {
+                'YXS': {
+                    name: 'Youth Extra Small',
+                    active: false
+                },
+                'YS': {
+                    name: 'Youth Small',
+                    active: false
+                },
+                'YM': {
+                    name: 'Youth Medium',
+                    active: false
+                },
+                'YL': {
+                    name: 'Youth Large',
+                    active: false
+                },
+                'YXL': {
+                    name: 'Youth Extra Large',
+                    active: false
+                },
+                'Y2XL': {
+                    name: 'Youth Double Extra Large',
+                    active: false
+                },
+                'Y3XL': {
+                    name: 'Youth Triple Extra Large',
+                    active: false
+                },
+                'XS': {
+                    name: 'Extra Small',
+                    active: false
+                },
+                'S': {
+                    name: 'Small',
+                    active: false
+                },
+                'M': {
+                    name: 'Medium',
+                    active: false
+                },
+                'L': {
+                    name: 'Large',
+                    active: false
+                },
+                'XL': {
+                    name: 'Extra Large',
+                    active: false
+                },
+                '2XL': {
+                    name: 'Double Extra Large',
+                    active: false
+                },
+                '3XL': {
+                    name: 'Triple Extra Large',
+                    active: false
+                }
+            };
+        };
 
         ub.updateLayersOrder = function (container) {
                 
@@ -431,7 +490,8 @@ $(document).ready(function () {
         var type = current_material.type;
 
         settings[type].material_id = current_material.id;
-        
+        settings[type].code = current_material.code;
+
         _.each(material_options, function (material_option) {
 
             var name = '';
@@ -2447,7 +2507,38 @@ $(document).ready(function () {
         }
     });
 
+    // Remove Uniform Design Trigger
+    function bindDeleteUniformDesign() {
+        $('.delete-uniform-design').on('click', function() {
+            var data = {
+                id: $(this).data('order-id')
+            };
+            $.ajax({
+                url: ub.config.api_host + '/api/order/delete',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function(response) {
+                    if (response.success) {
+                        $('.delete-uniform-design[data-order-id="' + data.id + '"]').parents('.uniform-design-item').fadeOut();
+                    }
+                }
+            });
+        });
+    }
+
     function openSavedUniformDesigns(userId) {
+        var options = {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        };
         $.ajax({
             url: ub.config.api_host + '/api/order/user/' + userId,
             type: 'GET',
@@ -2460,24 +2551,21 @@ $(document).ready(function () {
                     var orders = response.orders;
                     $('#orders-list').html(''); // Clear the list
                     $.each(orders, function (i, order) {
-                        $('#orders-list').append('<tr>' +
-                            '<td>' + order.client + '</td>' +
-                            '<td>' + order.uniform_type + '</td>' +
-                            '<td>' + order.status + '</td>' +
-                            '<td>' +
-                                '<a href="/order/' + order.order_id + '" class="btn btn-xs btn-default">Open ' +
-                                '<span class="fa fa-folder-open-o"></span></a>' +
-                                '<a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="' + order.order_id + '">Share ' +
-                                '<span class="fa fa-mail-forward"></span></a>' +
-                            '</td>' +
-                            '</tr>');
+                        var template = $('#list-saved-designs').html();
+                        var date_ordered = new Date(order.created_at);
+                        order.created_at = date_ordered.toLocaleTimeString("en-us", options);
+                        var row = Mustache.to_html(template, order)
+                        $('#orders-list').append(row);
                     });
+                    $('#orders-list [data-toggle="tooltip"]').tooltip();
                     $('#open-design-modal').modal('show');
                 }
                 bindShareDesigns();
+                bindDeleteUniformDesign();
             }
         });
     }
+
 
     function saveUniformDesign() {
         var data = {
@@ -2527,9 +2615,10 @@ $(document).ready(function () {
             data.email = ub.user.email;
         }
         $('#save-design-modal').modal('hide');
-        $('.flash-alert .flash-sub-title').text('Please wait...');
-        $('.flash-alert .flash-message').text('Saving your order');
-        $('.flash-alert').fadeIn();
+
+        // Notification Message
+        $.smkAlert({text: 'Saving your order. Please wait...', type:'info', permanent: true, marginTop: '90px'});
+
         var endpoint = ub.config.api_host + '/api/order';
         if (typeof(ub.order) !== "undefined") {
             endpoint = ub.config.api_host + '/api/order/update';
@@ -2555,13 +2644,15 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
                 if (response.success) {
-                    $('.flash-alert').fadeOut();
-                    $('.flash-alert .flash-sub-title').text('Complete:');
-                    $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
-                    $('.flash-alert').fadeIn();
+                    // Notification Message
+                    $.smkAlert({text: 'Finished Saving Uniform Design', type:'success', permanent: false, 'time': 10, marginTop: '90px'});
                     // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
+                saveImagePerspectives('front_view', ub.getThumbnailImage('front_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('back_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('left_view'));
+                saveImagePerspectives('front_view', ub.getThumbnailImage('right_view'));
             }
         });
     }
@@ -2571,7 +2662,30 @@ $(document).ready(function () {
     }
 
     // Save Uniform Design
-    $('.save-uniform-design').on('click', saveUniformDesign);
+    $('.save-uniform-design').on('click', function() {
+        // Uniform Codes
+        $('#save-uniform-design-form .upper_body_uniform').val(ub.current_material.settings.upper.code);
+        $('#save-uniform-design-form .lower_body_uniform').val(ub.current_material.settings.lower.code);
+        // Team Roster Counts
+        var countRoster = 0;
+        if (typeof(ub.current_material.team_roster) !== "undefined") {
+            countRoster = ub.current_material.team_roster.length;
+        }
+        $('#save-uniform-design-form .total_upper_uniforms').val(countRoster);
+        $('#save-uniform-design-form .total_lower_uniforms').val(countRoster);
+        // Perspectives: Base64 format images
+        $('#save-uniform-design-form .upper_front_view').val(ub.getThumbnailImage('front_view'));
+        $('#save-uniform-design-form .upper_back_view').val(ub.getThumbnailImage('back_view'));
+        $('#save-uniform-design-form .upper_right_view').val(ub.getThumbnailImage('right_view'));
+        $('#save-uniform-design-form .upper_left_view').val(ub.getThumbnailImage('left_view'));
+
+        // Show spinner
+        $('#save-design-modal .fa-save').removeClass('fa-save').addClass('fa-spin fa-circle-o-notch');
+        $(this).attr('disabled', 'disabled');
+
+        // disable the modal-close behaviour
+        $('#save-uniform-design-form').submit();
+    });
 
     // User Signup
     $('.user-signup').on('click', showSignUpModal);
@@ -2597,12 +2711,23 @@ $(document).ready(function () {
         $('#team-roster-modal').modal('show');
     });
 
-    $('.add-roster-record').on('click', function () {
-        var roster_source = $('#roster-record').html();
-        var roster_template = Handlebars.compile(roster_source);
-        $('#team-roster-form .table-roster-list').append(roster_template);
+    $('.add-roster-record').on('click', createNewRosterRecordForm);
+
+    function createNewRosterRecordForm() {
+        var template = $('#roster-record').html();
+        var item = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
+        $('#team-roster-form .table-roster-list').append(item);
         bindRemoveButtonBehavior();
-    });
+    }
+
+    function refreshUniformSizesInRosterSelect() {
+        $('.row-roster-size').each(function(i, item){
+            $(item).html('');
+            var template = $('#roster-sizes-options').html();
+            var cell_content = Mustache.to_html(template, {uniformSizes: ub.uniformSizes});
+            $(item).html(cell_content);
+        });
+    }
 
     $('.close-share-uniform-design-modal').on('click', function(){
         $('#open-design-modal').modal('show');
@@ -2616,6 +2741,13 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
+
+        var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
+        if (captcha_response.length == 0) {
+            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return false;
+        }
+
         $.ajax({
             url: ub.config.api_host + '/api/order/share',
             data: JSON.stringify(data),
@@ -2626,14 +2758,12 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 $('#share-design-modal').modal('hide');
-                if (response.success) {
-                    $('.flash-alert .flash-sub-title').text('Success: ');
-                } else {
-                    $('.flash-alert .flash-sub-title').text('Error: ');
-                    $('.flash-alert').addClass('alert-warning');
-                }
-                $('.flash-alert .flash-message').text(response.message);
-                $('.flash-alert').show();
+                // Notification Message
+                var messageType = (response.success) ? 'success' : 'warning';
+                $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10, marginTop: '90px'});
+
+                // Reload reCAPTCHA
+                grecaptcha.reset();
             }
         });
     });
@@ -2676,14 +2806,18 @@ $(document).ready(function () {
             }
         });
         ub.current_material.team_roster = roster;
+
+        $('.roster-list').html(''); // Clear current roster list
+        $.each(roster, function(i, template_data){
+            var template = $('#roster-list').html();
+            var row = Mustache.to_html(template, template_data)
+            $('.roster-list').append(row);
+        });
+
         $('#team-roster-modal').modal('hide');
 
-        $('.flash-alert .flash-sub-title').text('Success: ');
-        $('.flash-alert .flash-message').text('Updated team roster list');
-        $('.flash-alert').fadeIn();
-        setTimeout(function(){
-            $('.flash-alert').fadeOut();
-        }, 3000);
+        // Notification Message
+        $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
     function getUniformSuggestions(categoryId) {
@@ -2702,5 +2836,29 @@ $(document).ready(function () {
     }
 
     getUniformSuggestions(ub.config.category_id);
+
+    // Uniform Sizes - Size Clicked Behavior
+    $('.uniform-sizes .uniform-size').on('click', onSizeSelect);
+
+    function onSizeSelect() {
+        var isSelected = parseInt($(this).data('is-selected'));
+        var size = $(this).data('size');
+        // Toggle Size Selection
+        if (isSelected) {
+            // Turn Size Off
+            $(this).removeClass('selected');
+            $(this).data('is-selected', 0);
+            ub.uniformSizes[size].active = false;
+        } else {
+            // Turn Size On
+            $(this).addClass('selected');
+            $(this).data('is-selected', 1);
+            ub.uniformSizes[size].active = true;
+        }
+        refreshUniformSizesInRosterSelect();
+    }
+
+    // Initial Roster Item
+    createNewRosterRecordForm();
 
 });

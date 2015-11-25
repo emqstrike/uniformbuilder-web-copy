@@ -112,7 +112,6 @@ div.navbar-header {
 
 #main_container {
 
-    height: 80%;
     margin-top: @main-container-margin;
 
     #main-row {
@@ -130,6 +129,15 @@ div.navbar-header {
 }
 
 /* End Main Container */
+
+.uniform-suggestions {
+    text-align: center;
+    .you-might-like {
+        margin-top: 30px;
+        padding: 5px;
+        background-color: #eee;
+    }
+}
 
 /* Generic Panes */
 
@@ -977,20 +985,133 @@ img.highlighter {
     width: 70%;
     height: 70%;
     padding: 0;
+.modal-dialog {
+    select {
+        background: maroon;
+        color: white;
+    }
 }
 
-#team-roster-modal select {
-    background: maroon;
-    color: white;
+/* Save Uniform Design Modal */
+#save-design-modal {
+    .modal-dialog {
+        width: 50%;
+    }
+
+    #credit-card-information {
+        min-height: 200px;
+    }
+}
+
+/* TEAM Roster Modal */
+#team-roster-modal {
+    .modal-dialog {
+        width: 70%;
+        height: 80%;
+        padding: 0;
+    }
 }
 
 .table-roster-list tr td {
     padding: 5px;
 }
 
+
 div.applications_dropdown {
     
     margin: 0 auto;
 
+}
+
+.uniform-sizes {
+    .uniform-size {
+        border-radius: 50px;
+        padding: 11px;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        width: 45px;
+        height: 45px;
+        text-align: center;
+        vertical-align: middle;
+        border-style: solid;
+        border-color: black;
+        border-width: 2px;
+        margin: 7px;
+        display: block;
+        background: white;
+        color: black;
+    }
+
+    .uniform-size:hover,
+    .selected {
+        background: maroon;
+        color: white;
+    }
+}
+
+.space-30 {
+    padding: 30px;
+}
+
+/* Login Form */
+
+#login-dp {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: rgba(255,255,255,.8);
+
+    .help-block {
+        font-size: 12px;
+    }
+    .bottom{
+        background-color: rgba(255,255,255,.8);
+        border-top: 1px solid #ddd;
+        clear: both;
+        padding: 14px;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+}
+@media(max-width:768px) {
+    #login-dp{
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+.navbar-nav {
+    li {
+        a {
+            padding-top: -10px !important;
+        }
+    }
+}
+
+/* Tabs */
+.tabbable {
+    padding-top: 70px;
+}
+.tab-pane {
+    margin-top: 20px;
+}
+
+#open-design-modal {
+    .uniform-design-item {
+        text-align: center;
+        padding: 10px;
+    }
+}
+
+.help-inline {
+    .error {
+        color: red;
+        font-weight: normal;
+        font-size: smaller;
+    }
 }
 

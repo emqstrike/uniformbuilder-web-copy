@@ -1,15 +1,6 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
 
 <div class="container-fluid main-content">
     <div class="row">
@@ -31,10 +22,6 @@
                     <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">First Name</label>
@@ -92,25 +79,34 @@
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 function isReady() {
-    var firstName = $('.user-first-name');
-    var lastName = $('.user-last-name');
-    var password = $('.user-password');
-    var confirm = $('.user-confirm-password');
+    var firstName = $('.user-first-name').val();
+    var lastName = $('.user-last-name').val();
+    var password = $('.user-password').val();
+    var confirm = $('.user-confirm-password').val();
     var userType = $('.user-type');
-    if (firstName.val() && lastName.val()) {
-        if (password.val() || confirm.val()) {
-            if (password.val().length < 6) {
-                showAlert('Password should at least have a minimum of 6 characters');
+    if (firstName && lastName) {
+        if (password || confirm) {
+            if (password.length < 6) {
+                new PNotify({
+                    title: 'Warning',
+                    text: 'Password should at least have a minimum of 6 characters',
+                    type: 'warning',
+                    hide: true
+                });
                 return false;
             }
             if (password.val() != confirm.val()) {
-                showAlert('Passwords does not match');
+                new PNotify({
+                    title: 'Warning',
+                    text: 'Passwords does not match',
+                    type: 'warning',
+                    hide: true
+                });
                 return false;
             }
         }
-        $('.flash-alert').fadeOut();
         return true;
     }
     return false;
@@ -123,19 +119,5 @@ $('#update-user-form input').on('change', function(){
         $('#update-user-form .update-user').fadeOut()
     }
 });
-
-
-$('#update-user-form').submit(function(){
-    $('.flash-alert .flash-progress').show();
-    $('.flash-alert .flash-title').text('Updating user');
-    $('.flash-alert .flash-sub-title').text('Saving');
-    $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
-    $('.flash-alert').addClass('alert-info');
-    $('.flash-alert').show();
-    $('.main-content').delay(3000).fadeOut();
-});
-@if (Session::has('message'))
-    setTimeout(function(){$('.flash-alert').fadeOut();}, 3000);
-@endif
-
+</script>
 @endsection
