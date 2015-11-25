@@ -1,9 +1,7 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
 @endsection
 
 @section('content')
@@ -56,11 +54,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-color">
+                                <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Color
                                 </button>
-                                <a href="/administration/colors" class="btn btn-lg btn-danger">
+                                <a href="/administration/colors" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -76,13 +74,11 @@
 @endsection
 
 @section('scripts')
-
 <script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
-
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 $(document).ready(function(){
     $('#colorpicker').spectrum({
         color: "#ff0000",
@@ -95,16 +91,6 @@ $(document).ready(function(){
             $('#hex-code').val(tinycolor);
         }
     });
-
-    $('#create-color-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New color');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving color...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
 });
-
+</script>
 @endsection

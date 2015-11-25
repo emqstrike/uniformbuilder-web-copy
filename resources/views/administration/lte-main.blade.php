@@ -146,10 +146,7 @@
 <script src="/dist/js/app.min.js"></script>
 
 @yield('scripts')
-<script type="text/javascript">
-$(document).ready(function(){
 @yield('custom-scripts')
-});
-</script>
+
   </body>
 </html>
