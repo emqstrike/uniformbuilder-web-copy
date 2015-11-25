@@ -1,11 +1,12 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
-@section('content')
-<style>
+@section('custom-styles')
 select:hover {
   background-color: transparent;
 }
-</style>
+@endsection
+
+@section('content')
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -25,10 +26,6 @@ select:hover {
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/pattern/add" enctype="multipart/form-data" id='create-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
@@ -107,11 +104,11 @@ select:hover {
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-pattern">
+                                <button type="submit" class="btn btn-primary create-pattern">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Pattern
                                 </button>
-                                <a href="/administration/patterns" class="btn btn-lg btn-danger">
+                                <a href="/administration/patterns" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -127,25 +124,14 @@ select:hover {
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 $(document).ready(function(){
-
     $('select:not(:has(option))').attr('visible', false);
-
-    $('#create-pattern-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New pattern');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
 
     $('.layer-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
 });
-
+</script>
 @endsection

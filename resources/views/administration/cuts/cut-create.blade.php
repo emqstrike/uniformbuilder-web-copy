@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
 
@@ -22,10 +22,6 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/cut/add" enctype="multipart/form-data" id='create-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="cut_type" value="{{ $cut_type }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -59,22 +55,5 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-
-    $('#create-pattern-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New pattern');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving pattern...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
 
 @endsection

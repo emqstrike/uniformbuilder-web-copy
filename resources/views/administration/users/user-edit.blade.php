@@ -1,10 +1,4 @@
-@extends('administration.main')
-
-@section('styles')
-
-<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
-
-@endsection
+@extends('administration.lte-main')
 
 @section('content')
 
@@ -28,10 +22,6 @@
                     <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">First Name</label>
@@ -81,11 +71,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary update-user">
+                                <button type="submit" class="btn btn-primary update-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update User
                                 </button>
-                                <a href="/administration/users" class="btn btn-lg btn-danger">
+                                <a href="/administration/users" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -105,7 +95,7 @@
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 function isReady() {
     var firstName = $('.user-first-name');
     var lastName = $('.user-last-name');
@@ -115,26 +105,27 @@ function isReady() {
     if (firstName.val() && lastName.val()) {
         if (password.val() || confirm.val()) {
             if (password.val().length < 6) {
-                showAlert('Password should at least have a minimum of 6 characters');
+                new PNotify({
+                    title: 'Warning',
+                    text: 'Password should at least have a minimum of 6 characters',
+                    type: 'warning',
+                    hide: true
+                });
                 return false;
             }
             if (password.val() != confirm.val()) {
-                showAlert('Passwords does not match');
+                new PNotify({
+                    title: 'Warning',
+                    text: 'Passwords does not match',
+                    type: 'warning',
+                    hide: true
+                });
                 return false;
             }
         }
-        $('.flash-alert').fadeOut();
         return true;
     }
     return false;
-}
-
-function showAlert(msg) {
-    $('.flash-alert .flash-title').text('Alert');
-    $('.flash-alert .flash-sub-title').text('Error');
-    $('.flash-alert .flash-message').text(msg);
-    $('.flash-alert').addClass('alert-warning');
-    $('.flash-alert').show();
 }
 
 $('#update-user-form input').on('change', function(){
@@ -144,16 +135,5 @@ $('#update-user-form input').on('change', function(){
         $('#update-user-form .update-user').fadeOut()
     }
 });
-
-
-$('#update-user-form').submit(function(){
-    $('.flash-alert .flash-progress').show();
-    $('.flash-alert .flash-title').text('Updating user');
-    $('.flash-alert .flash-sub-title').text('Saving');
-    $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
-    $('.flash-alert').addClass('alert-info');
-    $('.flash-alert').show();
-    $('.main-content').delay(3000).fadeOut();
-});
-
+</script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
  
 @section('content')
 
@@ -24,42 +24,38 @@
                         <input type="hidden" name="user_create_origin" value="administration">
                         <input type="hidden" name="created_by" value="{{ Session::get('userId') }}">
 
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">First Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control user-first-name" name="first_name" value="{{ old('first_name') }}">
+                                <input type="text" class="form-control user-first-name" name="first_name" value="{{ old('first_name') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Last Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control user-last-name" name="last_name" value="{{ old('last_name') }}">
+                                <input type="text" class="form-control user-last-name" name="last_name" value="{{ old('last_name') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Address</label>
                             <div class="col-md-6 user">
-                                <input type="text" class="form-control user-email" name="email">
+                                <input type="text" class="form-control user-email" name="email" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Password</label>
                             <div class="col-md-6 bump">
-                                <input type="password" class="form-control user-password" name="password">
+                                <input type="password" class="form-control user-password" name="password" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6 shadow">
-                                <input type="password" class="form-control user-confirm-password" name="confirm_password">
+                                <input type="password" class="form-control user-confirm-password" name="confirm_password" required>
                             </div>
                         </div>
 
@@ -76,11 +72,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-user" style="display: none">
+                                <button type="submit" class="btn btn-primary create-user" style="display: none">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New User
                                 </button>
-                                <a href="/administration/users" class="btn btn-lg btn-danger">
+                                <a href="/administration/users" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -96,7 +92,7 @@
 @endsection
 
 @section('custom-scripts')
-
+<script type="text/javascript">
 function isReady() {
     var firstName = $('.user-first-name');
     var lastName = $('.user-last-name');
@@ -106,29 +102,35 @@ function isReady() {
     var userType = $('.user-type');
     if (firstName.val() && lastName.val() && email.val() && password.val()) {
         if (!(email.val().indexOf('@') > 0 && email.val().indexOf('.') > 0)) {
-            showAlert('Please enter a valid email address');
+            new PNotify({
+                title: 'Warning',
+                text: 'Please enter a valid email address',
+                type: 'warning',
+                hide: true
+            });
             return false;
         }
         if (password.val().length < 6) {
-            showAlert('Password should at least have a minimum of 6 characters');
+            new PNotify({
+                title: 'Warning',
+                text: 'Password should at least have a minimum of 6 characters',
+                type: 'warning',
+                hide: true
+            });
             return false;
         }
         if (password.val() != confirm.val()) {
-            showAlert('Passwords does not match');
+            new PNotify({
+                title: 'Warning',
+                text: 'Passwords does not match',
+                type: 'warning',
+                hide: true
+            });
             return false;
         }
-        $('.flash-alert').fadeOut();
         return true;
     }
     return false;
-}
-
-function showAlert(msg) {
-    $('.flash-alert .flash-title').text('Alert');
-    $('.flash-alert .flash-sub-title').text('Error');
-    $('.flash-alert .flash-message').text(msg);
-    $('.flash-alert').addClass('alert-warning');
-    $('.flash-alert').show();
 }
 
 $('#create-user-form input').on('change', function(){
@@ -139,15 +141,5 @@ $('#create-user-form input').on('change', function(){
     }
 });
 
-
-$('#create-user-form').submit(function(){
-    $('.flash-alert .flash-progress').show();
-    $('.flash-alert .flash-title').text('Creating New user');
-    $('.flash-alert .flash-sub-title').text('Saving');
-    $('.flash-alert .flash-message').text('Please wait while we are saving changes...');
-    $('.flash-alert').addClass('alert-info');
-    $('.flash-alert').show();
-    $('.main-content').fadeOut('slow');
-});
-
+</script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
 
@@ -23,10 +23,6 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="factory_id" value="{{ $factory->id }}">
 
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Factory Name</label>
                             <div class="col-md-6">
@@ -43,11 +39,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-color">
+                                <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Factory
                                 </button>
-                                <a href="/administration/factories" class="btn btn-lg btn-danger">
+                                <a href="/administration/factories" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -59,22 +55,5 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-
-    $('#edit-factory-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New factory');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving the factory...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
 
 @endsection
