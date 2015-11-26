@@ -4,23 +4,16 @@ $(document).ready(function() {
 
         var $logo_container = $('div.logo-container');
         var logos = ub.current_material.settings.files.logos;
-        var logos_transformed = [];
-
-        _.each(logos, function(e) {
-
-            logos_transformed.push(e);
-
-        });
 
         _.each($logo_container, function (el) {
 
-            var $element = $(el)
+            var $element = $(el);
             var logo_list = "";
             var template = $('#logo-list').html();
 
             var data = {
                 element_id: $element.data('id'),
-                logo_set: logos_transformed,
+                logo_set: logos,
             }
             
             var markup = Mustache.render(template, data);

@@ -482,7 +482,7 @@ $(document).ready(function () {
 
         settings.files = {};
 
-        settings.files.logos = {};
+        settings.files.logos = [];
         settings.applications = {};
 
         var current_material = ub.current_material.material;

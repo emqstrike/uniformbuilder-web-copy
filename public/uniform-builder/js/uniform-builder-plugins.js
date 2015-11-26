@@ -189,8 +189,8 @@
 
                 var $file_input = $(this);
                 var data_id = settings.application.id;
-                
                 var files = !!this.files ? this.files : [];
+                
                 if (!files.length || !window.FileReader) { return; }
 
                 if (/^image/.test(files[0].type)) { 
@@ -204,11 +204,13 @@
                         var file = files[0];
                         var id = new Date().getTime();
 
-                        logos[id] = {
+                        var logo = {
                             id: id,
                             filename: file.name,
                             dataUrl: this.result
                         };
+
+                        logos.push(logo)
 
                         var markup = "<tr data-id='" + id + "'>";
                         markup += "<td>" + "<img class='logo_list' src='" + this.result + "' />" + "</td>";
