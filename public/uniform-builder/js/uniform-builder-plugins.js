@@ -488,7 +488,7 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = _.find(ub.data.fonts, {id: selected_font_id});
+                var font_obj = _.find(ub.data.fonts, {id: selected_font_id.toString()});
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {
@@ -1125,7 +1125,7 @@
             color_drop.open();
             color_drop.close();
 
-            /// End Color Drop 
+            /// End Color Drop
 
     } 
 
@@ -1198,9 +1198,6 @@
 
 
     /// Create Pattern Dropdown
-
-
-
 
     /// End Create Pattern Dropdown
 
