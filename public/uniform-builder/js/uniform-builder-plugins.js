@@ -150,32 +150,20 @@
         return this.each(function () {
 
             var $container = $(this);
-            var html_builder = '';
 
-            html_builder += "<hr />";
-            html_builder += "<div class='logo_drop btn' data-id='" + settings.application.id + "'>Choose a Logo: <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='logo-controls' id='controls-" + settings.application.id + "' data-id='" + settings.application.id + "'>";
-            html_builder += "<hr />";
+            var data = {
+                application_id: settings.application.id,
+            }
 
-            $container.html(html_builder);
-
+            var template = $('#logo-dropdown').html();
+            var markup = Mustache.render(template, data);
+            $container.html(markup);
+            
             var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
-            var drop;
-            var content = "";
+            var upload_template = $('#logo-upload-dialog').html();
+            var content = Mustache.render(upload_template, data);
 
-            content += "<div data-id='" + settings.application.id + "' class='row logo-container' id='logo-container-" + settings.application.id + "'>";
-            content += "</div>";
-            content += "<hr />";
-            content += "<div class='row'>";
-            content +=      "<div col-md-12>";
-            content +=      "<form>";
-            content +=          "<input type='file' id='file-src-" + settings.application.id + "' data-id='" + settings.application.id + "' name='material_option_path'>";
-            content +=      "</form>";
-            content +=      "</div>";
-            content += "</div>";
-            content += "<hr />";
-
-            drop = new Drop({
+            var drop = new Drop({
                 target: document.querySelector(selector),
                 content: content,
                 classes: 'drop-theme-arrows',
@@ -190,7 +178,7 @@
                 var $file_input = $(this);
                 var data_id = settings.application.id;
                 var files = !!this.files ? this.files : [];
-                
+
                 if (!files.length || !window.FileReader) { return; }
 
                 if (/^image/.test(files[0].type)) { 

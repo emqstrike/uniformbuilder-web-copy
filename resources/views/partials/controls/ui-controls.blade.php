@@ -1,4 +1,34 @@
 <!-- Logo Dropdown -->
+<script  type="text/mustache" id="logo-dropdown">
+    <hr />
+        <div class='logo_drop btn' data-id='@{{application_id}}'>
+            Choose a Logo: <i class='fa fa-caret-down'></i>
+        </div>
+        
+        <div class='logo-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
+
+    <hr />
+</script>
+
+<!-- Logo Upload Dialog -->
+<script  type="text/mustache" id="logo-upload-dialog">
+
+ <div data-id='@{{application_id}}' class='row logo-container' id='logo-container-@{{application_id}}'>
+ </div>
+ <hr />
+ <div class='row'>
+      <div col-md-12>
+      <form>
+          <input type='file' id='file-src-@{{application_id}}' data-id='@{{application_id}}' name='material_option_path'>
+      </form>
+      </div>
+ </div>
+ <hr />
+ </script>
+
+
+
+<!-- Logo Picker -->
 <script  type="text/mustache" id="logo-list">
 
         @{{#logo_set}}
