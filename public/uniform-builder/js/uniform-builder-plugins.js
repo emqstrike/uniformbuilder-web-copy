@@ -278,43 +278,17 @@
 
             var $container = $(this);
             var first_font = ub.data.fonts[0];
-            var html_builder = '';
+            
+            var data = {
+                application_id: settings.application.id,
+                first_font_name: first_font.name,
+                first_font_id: first_font.id
+            }
 
-            html_builder += "<hr />";
-            html_builder += "<div class='ub_label'>Sample Text</div><input type='text' class='applications player_number' data-application-id='" + application.id + "' value='23'><br /><br />";
-            html_builder += "<div class='ub_label'>Font Style</div><div class='font_style_drop' style='font-family:" + first_font.name + ";' data-id='" + settings.application.id + "' data-font-id='" + first_font.id + "' data-font-name='" + first_font.name + "'>" + first_font.name + " <i class='fa fa-caret-down'></i></div>";
-            html_builder += "<div class='ub_label'>Accent</div><div class='accent_drop' data-id='" + settings.application.id + "'>Choose an Accent...<i class='fa fa-caret-down'></i></div>";
+            var text_ui_template = $('#text-ui').html();
+            var markup = Mustache.render(text_ui_template, data);
 
-            html_builder += "<div class='tab_container_color' data-id='" + settings.application.id + "'>";
-            html_builder +=     "<div class='btn ub active' data-id='" + settings.application.id + "' data-option='colors'>Colors</div><div class='btn ub' data-option='gradients' data-id='" + settings.application.id + "'>Gradients</div><div class='btn ub' data-id='" + settings.application.id + "' data-option='patterns'>Patterns</div>";
-
-            html_builder +=     "<div class='colors_container colors' data-id='" + settings.application.id + "' data-option='colors'>";
-            html_builder +=         "<div class='ub_label'>Base Color</div><div class='color_drop' data-id='" + settings.application.id + "'>Choose a Color...<i class='fa fa-caret-down'></i></div>";
-            html_builder +=         "<div class='other_color_container' data-id='" + settings.application.id + "'></div>";
-            html_builder +=     "</div>";
-
-            html_builder +=     "<div class='colors_container gradients' data-id='" + settings.application.id + "' data-option='gradients'>";
-            html_builder +=         "Gradients";
-            html_builder +=     "</div>";
-
-            html_builder +=     "<div class='colors_container patterns' data-id='" + settings.application.id + "' data-option='patterns'>";
-            html_builder +=         "Patterns";
-            html_builder +=     "</div>";
-
-            html_builder += "</div>";
-
-            html_builder += "<div class='row'>";
-            html_builder += "</div><div class='logo_sliders' data-id='" + application.id + "'>";
-            html_builder += "Font Size: <span data-target='logo' data-label='font_size' data-id='" + application.id + "'>100</span>px <div class='logo_slider font_size_slider' data-id='" + application.id + "'></div><br />";
-            html_builder += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application.id + "'></div><br />";
-            html_builder += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application.id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application.id + "'></div><br />";
-            html_builder += "Scale Width: <span data-target='logo' data-label='scale_x' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider_x' data-id='" + application.id + "'></div><br />";
-            html_builder += "Scale Height: <span data-target='logo' data-label='scale_y' data-id='" + application.id + "'>100</span>% <div class='logo_slider scale_slider_y' data-id='" + application.id + "'></div><br />";
-            html_builder += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application.id + "'></div><br />";
-            html_builder += "Y Position: <span></span> <div data-id='" + application.id + "' class='y_slider logo_slider'></div></div><br />";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
+            $container.html(markup);
 
             /// Color Container Handlers
 
