@@ -1,6 +1,16 @@
 $(document).ready(function() {
 
-    // $( "tbody" ).sortable();
+    var materialOptions = {};
+    materialOptions['front'] = {};
+    materialOptions['back'] = {};
+    materialOptions['left'] = {};
+    materialOptions['right'] = {};
+
+    $(document).on('change', function() {
+        var length = $('.options-row').length;
+        renumberRows(length);
+    });
+
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
         start: function( ) {
@@ -13,12 +23,14 @@ $(document).ready(function() {
                 $(this).find(".layer-number").val(length);
                 length = length-1;
             });
+            var newLength = $('.options-row').length;
+            renumberRows(newLength);
         }
     });
 
     $(document).on('click', '.clone-row', function() {
-
         var length = $('.options-row').length;
+        renumberRows(length);
         $(".options-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
@@ -33,7 +45,6 @@ $(document).ready(function() {
 
     $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         updateCoordinates();
-        refreshApplicationsCoords();
     });
 
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
@@ -41,7 +52,7 @@ $(document).ready(function() {
         trigger: 'hover',
         placement: 'left',
         content: function(){
-            return '<img src="'+$(this).data('img') + '" style="width: 200px; hieght: 200px; background-color: #e3e3e3;"/>';
+            return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
         }
     });
 
@@ -137,7 +148,8 @@ var applicationProperties = {};
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
 
         canvasFront.renderAll();
-        refreshApplicationsCoords();
+        // refreshApplicationsCoords();
+        updateCoordinates();
         
     });
 
@@ -801,6 +813,49 @@ var appPropJson = "";
         }
     }
 
+    function renumberRows(length){
+        $(".options-row").each(function(i) {
+            var thisLayer = "layer"+length;
+            var layer_class = ".mo-layer.layer" + length;
+
+            materialOptions.front[thisLayer] = {};
+            materialOptions.front[thisLayer]['image_file'] = {};
+            materialOptions.front[thisLayer]['layer'] = {};
+            materialOptions.front[thisLayer]['name'] = {};
+            materialOptions.front[thisLayer]['setting-type'] = {};
+
+            // console.log("LAYER VAL: " + $(this).find('.mo-layer').val());
+
+            $(this).find('.mo-layer').removeClass().addClass("mo-layer");
+            $(this).find('.mo-layer').addClass(thisLayer);
+            $(this).find(layer_class).addClass('mo-layer');
+
+            $(this).find('.mo-name').removeClass().addClass("mo-name");
+            $(this).find('.mo-name').addClass(thisLayer);
+            var name_class = ".mo-name.layer" + length;
+            $(this).find(name_class).addClass('mo-name');
+
+            $(this).find('.mo-options-src').removeClass().addClass("mo-options-src");
+            $(this).find('.mo-options-src').addClass(thisLayer);
+            var src_class = ".mo-options-src.layer" + length;
+            $(this).find(src_class).addClass('mo-options-src');
+
+            $(this).find('.mo-setting-type').removeClass().addClass("mo-setting-type");
+            $(this).find('.mo-setting-type').addClass(thisLayer);
+            var type_class = ".mo-setting-type.layer" + length;
+            $(this).find(type_class).addClass('mo-setting-type');
+
+            materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
+            materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
+            materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
+            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
+
+            length--;
+        });
+        var moProperties = JSON.stringify(materialOptions);
+        console.log("[[[MO-AP]]] --- "+moProperties);
+    }
+
     function updateCoordinates() {
 
         circle.radius = box.height / 2;
@@ -830,6 +885,7 @@ var appPropJson = "";
         data.rotation = bounding_box.getAngle();
 
         var boundaryProperties = JSON.stringify(data);
+        console.log("[[[BP]]] --- "+boundaryProperties);
 
         $( '#boundary-properties' ).prop('value',boundaryProperties);
         
@@ -901,6 +957,7 @@ var appPropJson = "";
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
         });
         var appProperties = JSON.stringify(applicationProperties);
+        console.log("[[[AP]]] --- "+appProperties);
         $( '#application-properties' ).prop('value', appProperties);
         window.ap = appProperties;
     }
@@ -948,7 +1005,7 @@ var appPropJson = "";
         }
     });
 
-    $(".options-src").change(function() {
+    $(".mo-options-src").change(function() {
 
         var elem = $(this).parent().siblings().find('.thumbnail-link');
         var elem2 = $(this).parent().siblings().find('.thumb-container');

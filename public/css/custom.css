@@ -94,3 +94,7 @@ tr.center-table-heads > th{
     -webkit-filter: drop-shadow(0px 1px 1px #222);
     filter:         drop-shadow(0px 1px 1px #222); 
 }
+
+tr:hover{
+    background-color: #e3e3e3;
+}

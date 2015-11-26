@@ -7,8 +7,6 @@
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="boundary_properties" id="boundary-properties">
-            <input type="hidden" name="applications_properties" id="application-properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -27,14 +25,14 @@
                     </thead>
                     <tbody id="options-row-container">
                         <tr class="options-row">
-                            <td><input type="text" class="mo_name"></td>
+                            <td><input type="text" class="mo-name layer1"></td>
                             <td>
-                                <select name="mo_layer" disabled>
+                                <select name="mo_layer" class="mo-layer layer1" disabled>
                                     <option value = '1' class="layer-number">1</option>
                                 </select>
                             </td>
                             <td>
-                                <select name="mo_setting_type">
+                                <select name="setting-type" class="mo-setting-type layer1">
                                     <option value='part'>Part</option>
                                     <option value='shape'>Shape</option>
                                     <option value='piping'>Piping</option>
@@ -45,10 +43,9 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="file" class="options-src">
+                                <input type="file" class="mo-options-src layer1">
                             </td>
                             <td>
-                                <!-- <a class="thumbnail-link" data-toggle="popover" data-img=""><i class="fa fa-eye"></i></a> -->
                                 <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
                             </td>
                         </tr>
