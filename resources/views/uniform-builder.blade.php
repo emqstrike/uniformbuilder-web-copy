@@ -7,7 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Uniform Builder">
 <meta name="author" content="Engineering">
+
 <title>{{ $page_title }}</title>
+
 <link rel="icon" type="image/png" href="/images/branding/brand.png" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
@@ -61,6 +63,8 @@
 @endif
 @include('partials.team-roster-modal')
 
+@include('partials.controls.ui-controls')
+
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
@@ -71,6 +75,9 @@
 <script src="{{$asset_storage}}/tether/js/tether.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/drop/js/drop.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/pixi/pixi.draggable.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/opentype/js/opentype.js{{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
@@ -102,6 +109,7 @@ $(document).ready(function () {
 </script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 <!-- End Uniform Builder Scripts -->

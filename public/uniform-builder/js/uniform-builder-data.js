@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
+    ub.funcs = {};
     ub.ui = {};
+    ub.ui.drops = {};
     ub.modifiers = {};
     ub.tethers = {}; 
     ub.dimensions = {};
@@ -18,11 +20,13 @@ $(document).ready(function(){
     ub.pattern_view = new PIXI.Container();
     ub.gradient_preview = new PIXI.Container();
 
+    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height);
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);
     ub.renderer.backgroundColor = 0xffffff;
-    
+
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
     ub.stage.addChild(ub.back_view);
@@ -30,6 +34,9 @@ $(document).ready(function(){
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
     ub.pCanvas.appendChild(ub.renderer.view);
+
+    ub.interactionManager = new PIXI.interaction.InteractionManager(ub.renderer, {});
+    ub.dragAndDropManager = new PIXI.DragAndDropManager(ub.interactionManager);
      
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
@@ -45,115 +52,737 @@ $(document).ready(function(){
     ub.current_material.settings = {};
 
     ub.data = {};
+    ub.data.views = ['front', 'back', 'left', 'right'];
 
-    ub.data.design_sets = {}
+    ub.data.design_sets = {};
     ub.data.materials = {};
     ub.data.colors = {};
-    ub.data.applications = {};
+    ub.data.fonts = {};
+    ub.data.applications = {
+
+        items: [
+
+            /// One
+            {
+
+                id: 1,
+                layer: 'Body',
+                perspective: 'front',
+                name: 'Front / Top',
+                code: '1',
+                rotation: 0,
+                position: {
+                    x: 0.5,
+                    y: 0.35,
+                },
+
+            },
+
+            /// Two
+            {
+
+                id: 2,
+                layer: 'Body',
+                perspective: 'front',
+                name: 'Front / Center',
+                code: '2',
+                rotation: 0,
+                position: {
+                    x: 0.5,
+                    y: 0.5,
+                },
+
+            },
+
+            /// Three
+            {
+
+                id: 3,
+                layer: 'Body',
+                perspective: 'front',
+                name: 'Front / Bottom Right',
+                code: '3',
+                rotation: 0,
+                position: {
+                    x: 0.30,
+                    y: 0.75,
+                },
+
+            },
+
+
+            /// Four
+            {
+
+                id: 4,
+                layer: 'Body',
+                perspective: 'front',
+                name: 'Front / Bottom Left',
+                code: '4',
+                rotation: 0,
+                position: {
+                    x: 0.60,
+                    y: 0.7,
+                },
+
+            },
+            /// Five
+            {
+
+                id: 5,
+                layer: 'Body',
+                perspective: 'back',
+                name: 'Back Top',
+                code: '5',
+                rotation: 0,
+                position: {
+                    x: 0.5,
+                    y: 0.3,
+                },
+
+            },
+            /// Six
+            {
+
+                id: 6,
+                layer: 'Body',
+                perspective: 'back',
+                name: 'Back Center',
+                code: '6',
+                rotation: 0,
+                position: {
+                    x: 0.5,
+                    y: 0.5,
+                },
+
+            },
+            /// Seven
+            {
+
+                id: 7,
+                layer: 'Left Sleeve',
+                perspective: 'left',
+                name: 'Left Shoulder - Top',
+                code: '7',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.15,
+                },
+
+            },
+            /// Eight
+            {
+
+                id: 8,
+                layer: 'Left Sleeve',
+                perspective: 'left',
+                name: 'Left Shoulder - Bottom',
+                code: '8',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.23,
+                },
+
+            },
+            /// Nine
+            {
+
+                id: 9,
+                layer: 'Right Sleeve',
+                perspective: 'right',
+                name: 'Right Shoulder - Top',
+                code: '9',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.15,
+                },
+
+            },
+            /// 10
+            {
+
+                id: 10,
+                layer: 'Right Sleeve',
+                perspective: 'right',
+                name: 'Right Shoulder - Bottom',
+                code: '10',
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.27,
+                },
+
+            },
+            /// Eleven
+            {
+
+                id: 11,
+                layer: 'Right Sleeve',
+                perspective: 'front',
+                name: 'Right Sleeves',
+                code: '11',
+                rotation: 0.96,
+                position: {
+                    x: 0.14,
+                    y: 0.25,
+                },
+
+            },
+
+            /// Twelve
+            {
+
+                id: 12,
+                layer: 'Left Sleeve',
+                perspective: 'front',
+                name: 'Left Sleeve',
+                code: '12',
+                rotation: 5.31,
+                position: {
+                    x: 0.86,
+                    y: 0.25,
+                },
+
+            },
+
+
+        ]
+
+    };
 
     ub.data.patterns = {
       
         items: [
+
+        ////// Patterns Start
+
+            /// None
+            {
+                name: 'None',
+                code: 'none',
+                icon: '/images/sidebar/none.png',
+                category: 'jersey',
+                layers: [
+                  
+                ],
+            },
+
+            /// Armour 
+            {
+                name: 'Armour',
+                code: 'armour',
+                icon: '/images/sidebar/armour.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/armour/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/armour/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/armour/3.png',
+                    },
+
+                ],
+            },
+
+            /// Arrow 
+            {
+                name: 'Arrow',
+                code: 'arrow',
+                icon: '/images/sidebar/arrow.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/arrow/1.png',
+                    },
+                ],
+            },
 
             /// Camo 
             {
                 
                 name: 'Camouflage',
                 code: 'camouflage',
-                icon: '/images/sidebar/camo.png',
-
+                icon: '/images/sidebar/camouflage.png',
+                category: 'jersey',
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'd31145',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '/images/patterns/camouflage/1.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'ffffff',
                         layer_number: 2,
-                        filename: '2.png'
+                        filename: '/images/patterns/camouflage/2.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: '543018',
                         layer_number: 3,
-                        filename: '3.png'
+                        filename: '/images/patterns/camouflage/3.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: '000000',
                         layer_number: 4,
-                        filename: '4.png'
+                        filename: '/images/patterns/camouflage/4.png',
                     },
                 ],
             },
-         
+
+            /// Carbon Fiber 
+            {
+                name: 'Carbon Fiber',
+                code: 'carbon_fiber',
+                icon: '/images/sidebar/carbon_fiber.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/carbon_fiber/1.png',
+                    },
+                ],
+            },
+
+            /// Checkered
+            {
+                name: 'Checkered',
+                code: 'checkered',
+                icon: '/images/sidebar/checkered.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/checkered/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/checkered/2.png',
+                    },
+                ],
+            },
+
             /// Digital Camo
             {
                 
                 name: 'Digital Camouflage',
                 code: 'digital_camouflage',
-                icon: '/images/sidebar/digital_camo.png',
+                icon: '/images/sidebar/digital_camouflage.png',
+                category: 'jersey',
 
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: '000000',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '/images/patterns/digital_camouflage/1.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'ffffff',
                         layer_number: 2,
-                        filename: '2.png'
+                        filename: '/images/patterns/digital_camouflage/2.png',
                     },
                     {
-                        default_color: '#ffffff',
+                        default_color: 'acacac',
                         layer_number: 3,
-                        filename: '3.png'
+                        filename: '/images/patterns/digital_camouflage/3.png',
                     },
                 ],
             },
 
-            /// Halftone
+            /// Grunge
             {
-                
-                name: 'Halftone',
-                code: 'halftone',
-                icon: '/images/sidebar/halftone.png',
-
+                name: 'Grunge',
+                code: 'grunge',
+                icon: '/images/sidebar/grunge.png',
+                category: 'jersey',
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'd31145',
                         layer_number: 1,
-                        filename: '1.png'
-                    },
-                    {
-                        default_color: '#ffffff',
-                        layer_number: 2,
-                        filename: '2.png'
+                        filename: '/images/patterns/grunge/1.png',
                     },
                 ],
+            },
+
+           /// Halftone Chest
+            {
+                name: 'Halftone Chest',
+                code: 'halftone_chest',
+                icon: '/images/sidebar/halftone_chest.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/halftone_chest/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/halftone_chest/2.png',
+                    },
+                ],
+            },
+
+           /// Hexastar
+            {
+                name: 'Hexastar',
+                code: 'hexastar',
+                icon: '/images/sidebar/hexastar.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/hexastar/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/hexastar/2.png',
+                    },
+                ],
+            },
+
+            /// Interlock
+            {
+                name: 'Interlock',
+                code: 'interlock',
+                icon: '/images/sidebar/interlock.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/interlock/1.png',
+                    },
+                ],
+            },
+
+            /// Line Fade Body
+            {
+                name: 'Line Fade Body',
+                code: 'line_fade_body',
+                icon: '/images/sidebar/line_fade_body.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/line_fade_body/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/line_fade_body/2.png',
+                    },
+                ],
+            },
+
+            /// Multicam Camo
+            {
+                name: 'Multicam Camo',
+                code: 'multicam_camo',
+                icon: '/images/sidebar/multicam_camo.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/multicam_camo/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/multicam_camo/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/multicam_camo/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/multicam_camo/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/multicam_camo/5.png',
+                    },
+                ]
+            },
+
+            /// NK Stripe
+            {
+                name: 'NK Stripe',
+                code: 'nk_stripe',
+                icon: '/images/sidebar/nk_stripe.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/nk_stripe/1.png',
+                    },
+                ],
+            },
+
+            /// Paw
+            {
+                name: 'Paw',
+                code: 'paw',
+                icon: '/images/sidebar/paw.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/paw/1.png',
+                    },
+                ],
+            },
+
+            /// Pinstripes
+            {
+                name: 'Pinstripes',
+                code: 'pinstripes',
+                icon: '/images/sidebar/pinstripes.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/pinstripes/1.png',
+                    },
+                ],
+            },
+
+            /// Referee Stripes
+            {
+                name: 'Referee Stripes',
+                code: 'referee_stripes',
+                icon: '/images/sidebar/referee_stripes.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/referee_stripes/1.png',
+                    },
+                ],
+            },
+
+            /// Square
+            {
+                name: 'Square',
+                code: 'square',
+                icon: '/images/sidebar/square.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/square/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/square/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/square/3.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 4,
+                        filename: '/images/patterns/square/4.png',
+                    },
+                    {
+                        default_color: '000000',
+                        layer_number: 5,
+                        filename: '/images/patterns/square/5.png',
+                    },
+                ]
+            },
+
+            /// Stairs
+            {
+                name: 'Stairs',
+                code: 'stairs',
+                icon: '/images/sidebar/stairs.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stairs/1.png',
+                    },
+                ],
+            },
+
+            /// Stripes Thin and Thick
+            {
+                name: 'Stripes Thin and Thick',
+                code: 'stripes_thin_and_thick',
+                icon: '/images/sidebar/stripes_thin_and_thick.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stripes_thin_and_thick/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/stripes_thin_and_thick/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/patterns/stripes_thin_and_thick/3.png',
+                    },
+                ]
+            },
+
+            /// Stripes Thinner
+            {
+                name: 'Stripes Thinner',
+                code: 'stripes_thinner',
+                icon: '/images/sidebar/stripes_thinner.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/stripes_thinner/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/stripes_thinner/2.png',
+                    },
+                ]
+            },
+
+            /// Thatch
+            {
+                name: 'Thatch',
+                code: 'thatch',
+                icon: '/images/sidebar/thatch.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/thatch/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/patterns/thatch/2.png',
+                    },
+                ]
             },
 
             /// Tiger
             {
-                
                 name: 'Tiger',
                 code: 'tiger',
                 icon: '/images/sidebar/tiger.png',
-
+                category: 'jersey',
                 layers: [
                     {
-                        default_color: '#ffffff',
+                        default_color: 'd31145',
                         layer_number: 1,
-                        filename: '1.png'
+                        filename: '/images/patterns/tiger/1.png',
                     },
-                ],
-
+                ]
             },
 
+            /// Upper Stripes
+            {
+                name: 'Upper Stripes',
+                code: 'upper_stripes',
+                icon: '/images/sidebar/upper_stripes.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/upper_stripes/1.png',
+                    },
+                ]
+            },
 
-      ],
+            /// Waves
+            {
+                name: 'Wave',
+                code: 'wave',
+                icon: '/images/sidebar/wave.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/wave/1.png',
+                    },
+                ]
+            },
 
+            /// Web
+            {
+                name: 'Web',
+                code: 'web',
+                icon: '/images/sidebar/web.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/web/1.png',
+                    },
+                ]
+            },
+
+            /// Wire
+            {
+                name: 'Wire',
+                code: 'wire',
+                icon: '/images/sidebar/wire.png',
+                category: 'jersey',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/patterns/wire/1.png',
+                    },
+                ]
+            },
+
+        ]
     };
+
+    ////// Patterns End
 
     ub.data.sports = [
         {
@@ -309,12 +938,12 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 1,
+                       id: 2,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -358,27 +987,27 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.3,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 4,
                        value: 0.4,
                        color: '#ffffff',     
                     },
                     {
-                       id: 2,
+                       id: 5,
                        value: 0.8,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 6,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 7,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -402,27 +1031,27 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.3,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 4,
                        value: 0.4,
                        color: '#ffffff',     
                     },
                     {
-                       id: 2,
+                       id: 5,
                        value: 0.8,
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 6,
                        value: 0.9,
                        color: '#5e5e5e',     
                     },
                     {
-                    id: 2,
+                        id: 7,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -446,13 +1075,12 @@ $(document).ready(function(){
                        color: '#5e5e5e',     
                     },
                     {
-                       id: 2,
+                       id: 3,
                        value: 0.6,
                        color: '#5e5e5e',     
                     },
-
                     {
-                       id: 2,
+                       id: 4,
                        value: 1,
                        color: '#ffffff',     
                     },
@@ -483,5 +1111,493 @@ $(document).ready(function(){
     }
 
     /// END GRADIENTS
+
+    /// START PATTERNS
+
+    // ub.data.patterns = {
+
+    // };
+
+    /// END PATTERNS
+
+    ub.data.accents = {
+        items: [
+            {   // Default
+                id: 0,
+                name: 'Default',
+                code: 'default',
+                thumbnail: 'no-accent.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Drop Shadow
+            {   // Outlined
+                id: 1,
+                name: 'Outlined',
+                code: 'outlined',
+                thumbnail: 'outlined.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        type: 'fill',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Outline 1',
+                        default_color: '000000',
+                        layer_no: 2,
+                        increment_x: 0,
+                        increment_y: 0,
+                        outline: 1,
+                        type: 'outer_stroke',
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Outlined
+            {   // Outlined with Shadow
+                id: 2,
+                name: 'Single Outline with Shadow',
+                code: 'single outline shadow',
+                thumbnail: 'single_outline_with_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        type: 'fill',
+                        zIndex: -4,
+                    },
+                    {
+                        name: 'Outline 1',
+                        default_color: 'acacac',
+                        layer_no: 2,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 1,
+                        type: 'outer_stroke',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0.06, 
+                        increment_y: 0.06,
+                        outline: 1,
+                        type: 'shadow',
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Outlined
+            {   // Outlined
+                id: 3,
+                name: 'Double Outline',
+                code: 'double_outline',
+                thumbnail: 'double_outline.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        type: 'fill',
+                        zIndex: -4,
+                    },
+                    {
+                        name: 'Outline 1',
+                        default_color: '#ffffff',
+                        layer_no: 2,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 1,
+                        type: 'middle_stroke',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Outline 2',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 2,
+                        type: 'outer_stroke',
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Outlined with Drop Shadow
+            {   // Drop Shadow
+                id: 4,
+                name: 'Drop Shadow',
+                code: 'drop_shadow',
+                thumbnail: 'drop_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: '000000',
+                        layer_no: 2,
+                        increment_x: 0.06, 
+                        increment_y: 0.06,
+                        outline: 0,
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Drop Shadow
+            {   // Double Shadow
+                id: 5,
+                name: 'Double Shadow',
+                code: 'double_shadow',
+                thumbnail: 'double_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -4, 
+                    },
+                    {
+                        name: 'Shadow 1',
+                        default_color: 'acacac',
+                        layer_no: 2,
+                        increment_x: 0.06, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow 2',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0.12, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Double Shadow
+            {   // Shadow
+                id: 6,
+                name: 'Shadow',
+                code: 'shadow',
+                thumbnail: 'shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -3, 
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: '000000',
+                        layer_no: 2,
+                        increment_x: 0.12, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Double Shadow
+            {   // Double Drop Shadow
+                id: 7,
+                name: 'Double Drop Shadow',
+                code: 'double_drop_shadow',
+                thumbnail: 'double_drop_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -4, 
+                    },
+                    {
+                        name: 'Shadow 1',
+                        default_color: 'acacac',
+                        layer_no: 2,
+                        increment_x: 0.06, 
+                        increment_y: 0.06,
+                        outline: 0,
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow 2',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0.10, 
+                        increment_y: 0.10,
+                        outline: 0,
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Double Drop Shadow
+            {   // Outlined with Drop Shadow
+                id: 8,
+                name: 'Outlined with Drop Shadow',
+                code: 'outlined_with_drop_shadow',
+                thumbnail: 'outlined_with_drop_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        type: 'fill',
+                        zIndex: -5,
+                    },
+                    {
+                        name: 'Outline 1',
+                        default_color: 'ffffff',
+                        layer_no: 2,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 1,
+                        type: 'middle_stroke',
+                        zIndex: -4,
+                    },
+                    {
+                        name: 'Outline 2',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 2,
+                        type: 'outer_stroke',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: '000000',
+                        layer_no: 4,
+                        increment_x: 0.06, 
+                        increment_y: 0.06,
+                        outline: 2,
+                        zIndex: -2,
+                        type: 'outer_stroke',
+                        type: 'shadow',
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Outlined with Drop Shadow
+            {   // Center Shadow
+                id: 9,
+                name: 'Center Shadow',
+                code: 'center_shadow',
+                thumbnail: 'center_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -3, 
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: '000000',
+                        layer_no: 2,
+                        increment_x: -0.03, 
+                        increment_y: -0.03,
+                        outline: 0,
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Center Shadow
+            {   // Outlined with Drop Shadow
+                id: 10,
+                name: 'Collegiate Drop Shadow',
+                code: 'collegiate_drop_shadow',
+                thumbnail: 'collegiate_drop_shadow.png',
+                layers: [
+                    {
+                        name: 'Base Color',
+                        default_color: '98012e',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0,
+                        zIndex: -4, 
+                    },
+                    {
+                        name: 'Shadow',
+                        default_color: 'acacac',
+                        layer_no: 2,
+                        increment_x: 0.12, 
+                        increment_y: 0.06,
+                        outline: 0,
+                        type: 'shadow',
+                        zIndex: -3,
+                    },
+                    {
+                        name: 'Shadow Outline',
+                        default_color: '000000',
+                        layer_no: 3,
+                        increment_x: 0.12, 
+                        increment_y: 0.06,
+                        outline: 1,
+                        type: 'outer_stroke',
+                        zIndex: -2,
+                    },
+                    {
+                        name: 'Mask',
+                        default_color: 'acacac',
+                        layer_no: 1,
+                        increment_x: 0, 
+                        increment_y: 0,
+                        outline: 0, 
+                        zIndex: -1,
+                    },
+                ], 
+            },  // End Outlined with Drop Shadow
+
+        ],
+    }
+
+    ub.funcs.load_fonts = function () {
+
+        var font_builder = '';
+
+        _.each( ub.data.fonts, function (item) {
+
+            font_builder +=  "@font-face {\n" +
+                             "\tfont-family: \"" +  item.name + "\";\n" + 
+                             "\tsrc: url('" + item.font_path + "');\n" + 
+                             "}\n";
+
+        });
+
+        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
+        $("head").prepend(font_builder);
+
+    };
+
+    /// End Fonts 
 
 });
