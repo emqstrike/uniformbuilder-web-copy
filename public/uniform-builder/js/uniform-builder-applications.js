@@ -4,19 +4,27 @@ $(document).ready(function() {
 
         var $logo_container = $('div.logo-container');
         var logos = ub.current_material.settings.files.logos;
+        var logos_transformed = [];
+
+        _.each(logos, function(e) {
+
+            logos_transformed.push(e);
+
+        });
 
         _.each($logo_container, function (el) {
 
             var $element = $(el)
             var logo_list = "";
+            var template = $('#logo-list').html();
 
-            _.each(logos, function(logo) {
-                logo_list += "<div class='col-md-4'>";
-                logo_list += "<a class='thumbnail logo_picker' data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "'>" + "<img  data-application-id='" + $element.data('id') + "' data-id='" + logo.id + "' class = 'logo_picker' src='" + logo.dataUrl + "'>" + "</a>";
-                logo_list += "</div>";
-            });
-
-            $element.html(logo_list);
+            var data = {
+                element_id: $element.data('id'),
+                logo_set: logos_transformed,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
 
             /// Handler for clicking a logo on the list of uploaded logos
             $('a.logo_picker').on('click', function (e) {
@@ -49,16 +57,13 @@ $(document).ready(function() {
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
         var $container = $('div.logo-controls[data-id="' + application_id + '"]');
-        var markup = "";
+      
+        var template = $('#logo-controls').html();
+        var data = {
+            application_id: application_id,
+        }
 
-        markup += "<div class='row'>";
-        markup += "</div><div class='logo_sliders' data-id='" + application_id + "'>";
-        markup += "Rotation: <div class='logo_slider rotation_slider' data-id='" + application_id + "'></div><br />";
-        markup += "Opacity: <span data-target='logo' data-label='opacity' data-id='" + application_id + "'>100</span>% <div class='logo_slider opacity_slider' data-id='" + application_id + "'></div><br />";
-        markup += "Scale: <span data-target='logo' data-label='scale' data-id='" + application_id + "'>100</span>% <div class='logo_slider scale_slider' data-id='" + application_id + "'></div><br />";
-        markup += "X Position: <span></span> <div class='x_slider logo_slider' data-id='" + application_id + "'></div><br />";
-        markup += "Y Position: <span></span> <div data-id='" + application_id + "' class='y_slider logo_slider'></div></div><br />";
-        markup += "<div class='flip-container'><input type='checkbox' id='flip_logo_" + application_id + "' value data-target='logo' data-label='flip' data-id='" + application_id + "'> Flip Logo<br /></div><br />";
+        var markup = Mustache.render(template, data);
         
         $container.html(markup);
 

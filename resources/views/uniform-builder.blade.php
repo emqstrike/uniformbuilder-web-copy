@@ -63,6 +63,8 @@
 @endif
 @include('partials.team-roster-modal')
 
+@include('partials.controls.ui-controls')
+
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
