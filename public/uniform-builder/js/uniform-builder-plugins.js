@@ -200,14 +200,6 @@
 
                         logos.push(logo)
 
-                        var markup = "<tr data-id='" + id + "'>";
-                        markup += "<td>" + "<img class='logo_list' src='" + this.result + "' />" + "</td>";
-                        markup += "<td>" + "<a class='logo_list' data-id='" + id + "' data-action='preview'>" + file.name + "</a>" + "</td>";
-                        markup += "<td>" + "<a class='logo_list' data-action='remove' data-id='" + id + "' class='btn-remove'>" + "<i class='fa fa-times'></i>" + "</td>";
-                        markup += "</tr>";
-
-                        $('table.logos').append(markup);
-
                         var application_id = settings.application.id;
 
                         ub.funcs.update_logo_list();
