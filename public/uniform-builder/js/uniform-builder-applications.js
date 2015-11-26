@@ -460,11 +460,11 @@ $(document).ready(function() {
 
             if (sprite.containsPoint(point)) {
                 sprite.zIndex = -500;
-                // this.tint = 0x555555;
+                // TODO: Put in proper hotspot highlighting code here...
                 ub.updateLayersOrder(view);
             } else {
                 sprite.zIndex = sprite.originalZIndex;
-                // this.tint = 0xffffff;
+                // TODO: Put in proper hotspot highlighting code here...
                 ub.updateLayersOrder(view);
             }
 
