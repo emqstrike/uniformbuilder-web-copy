@@ -24,6 +24,7 @@ Route::post('saveNewPassword', 'AuthenticationController@saveNewPassword');
 Route::post('recoverPassword', 'AuthenticationController@recoverPassword');
 Route::get('changePassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@changePasswordForm']);
 Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@saveChangedPassword']);
+Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
