@@ -10,6 +10,9 @@ $(document).ready(function () {
                 return;
             }
 
+
+            ub.funcs.print_version();
+
             /// Initialize Assets
 
             ub.current_material.id = window.ub.config.material_id;
@@ -1214,6 +1217,7 @@ $(document).ready(function () {
                     $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
 
                 }
+
 
             }
 
