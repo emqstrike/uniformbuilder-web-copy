@@ -267,7 +267,7 @@ $(document).ready(function(){
                 id: 0,
                 name: 'Knights',
                 code: 'knights',
-                icon: '/images/sidebar/knights.png',
+                icon: '/images/sidebar/mascots/knights.png',
                 layers: [
                     {
                         default_color: 'd31145',
@@ -297,7 +297,7 @@ $(document).ready(function(){
                 id: 1,
                 name: 'Lancers',
                 code: 'lancers',
-                icon: '/images/sidebar/lancers.png',
+                icon: '/images/sidebar/mascots/lancers.png',
                 layers: [
                     {
                         default_color: 'd31145',
