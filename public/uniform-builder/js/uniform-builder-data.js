@@ -259,6 +259,66 @@ $(document).ready(function(){
 
     };
 
+    ub.data.mascots = {
+
+        items: [
+            /// Knights 
+            {
+                id: 0,
+                name: 'Knights',
+                code: 'knights',
+                icon: '/images/sidebar/knights.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/knights/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/knights/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/knights/3.png',
+                    },
+                    {
+                        default_color: '3d3d3d',
+                        layer_number: 4,
+                        filename: '/images/mascots/knights/4.png',
+                    },
+
+                ],
+            },
+            /// Lancers
+            {
+                id: 1,
+                name: 'Lancers',
+                code: 'lancers',
+                icon: '/images/sidebar/lancers.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/lancers/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/lancers/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/lancers/3.png',
+                    },
+                ],
+            },
+        ],    
+    }
+
     ub.data.patterns = {
       
         items: [

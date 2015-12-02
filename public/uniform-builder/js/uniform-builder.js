@@ -1010,9 +1010,10 @@ $(document).ready(function () {
                         ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
                         ddowns     +=       '<option value="none">-- Select an Application --</option>';
                         ddowns     +=       '<option value="logo">Logo</option>';
-                        ddowns     +=       '<option value="team_name">Team Name</option>';
+                        ddowns     +=       '<option value="mascot">Mascot</option>';
                         ddowns     +=       '<option value="player_number">Player Number</option>';
                         ddowns     +=       '<option value="player_name">Player Name</option>';
+                        ddowns     +=       '<option value="team_name">Team Name</option>';
                         ddowns     +=       '<option value="image">Image</option>';
                         ddowns     +=   '</select>&nbsp;';
                         ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
@@ -1049,8 +1050,8 @@ $(document).ready(function () {
                                 $container.ubImageDialog({ application: application });
                             }
 
-                            if (application_type === "team_name") {
-                                $container.ubTeamNameDialog({ application: application });
+                            if (application_type === "mascot") {
+                                $container.ubMascotDialog({ application: application });
                             }
 
                             if (application_type === "player_name") {
@@ -1059,6 +1060,10 @@ $(document).ready(function () {
 
                             if (application_type === "player_number") {
                                 $container.ubPlayerNumberDialog({ application: application });
+                            }
+
+                            if (application_type === "team_name") {
+                                $container.ubTeamNameDialog({ application: application });
                             }
 
                             if (application_type === "none") {
@@ -1111,8 +1116,6 @@ $(document).ready(function () {
 
                                 point.position.x = x;
                                 point.position.y = y;
-
-
 
                                 if (typeof view_objects['point'] === "object") {
 
