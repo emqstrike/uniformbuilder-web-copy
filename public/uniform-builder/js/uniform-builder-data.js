@@ -1681,7 +1681,7 @@ $(document).ready(function(){
                 'color: #fff; background: #fff; padding:5px 0;',
         ];
 
-        window.console.log.apply(console, args); //jshint ignore:line
+        window.console.log.apply(console, args);
        
     }
 
