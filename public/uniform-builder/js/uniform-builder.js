@@ -1197,16 +1197,20 @@ $(document).ready(function () {
 
             ub.refresh_thumbnails = function () {
 
-                _.each(ub.views, function (view) {
+                if (ub.VERSION === "Edge") {
 
-                    var view_name = view + '_view';
-                    var id = 'a#' + 'view_' + view + ' > img';
+                    _.each(ub.views, function (view) {
 
-                    $(id).attr('src', ub.getThumbnailImage(view_name));
+                        var view_name = view + '_view';
+                        var id = 'a#' + 'view_' + view + ' > img';
 
-                });
+                        $(id).attr('src', ub.getThumbnailImage(view_name));
 
-                $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
+                    });
+
+                    $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
+
+                }
 
             }
 
@@ -1848,10 +1852,12 @@ $(document).ready(function () {
 
                 $("button#update-pattern-" + target).click('click', function (e) {
 
+                    var uniform_type = ub.current_material.material.type;
+
                     var target_name = target.replace('_', ' ');
                     target_name = util.toTitleCase(target_name);
 
-                    var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
+                    var pattern_settings = ub.current_material.settings[uniform_type][target_name].pattern;
                     pattern_settings.containers = {};
 
                     var views = ub.data.views;
