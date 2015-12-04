@@ -43,13 +43,14 @@
 
     <!-- Mascot Adjustments Panel -->
     <script  type="text/mustache" id="mascot-controls">
-        
-        <div class='row'>
 
+        <div class="mascot_color_picker_container" data-id='@{{application_id}}'>
         </div>
 
+        <br />
+    
         <div class='mascot_sliders' data-id='@{{application_id}}'>
-        
+
             Rotation:
             <div class='mascot_slider rotation_slider' data-id='@{{application_id}}'></div>
             <br />

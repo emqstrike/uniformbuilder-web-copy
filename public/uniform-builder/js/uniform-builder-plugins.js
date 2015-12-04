@@ -112,6 +112,19 @@
 
                 }
 
+                
+                if (settings.type === 'mascot') {
+
+                    var mascot = ub.current_material.settings.applications[settings.application.code].mascot;
+                    var layer_no = $(this).data('index');
+                    var target = $(this).data('panel');
+                    var color = parseInt($(this).data('color-code'), 16);
+
+                    mascot.children[layer_no].tint = color;
+                    ub.refresh_thumbnails();
+
+                }
+
             });
 
             var preamble = 'div.options_panel_section.ubColorPicker';
@@ -313,9 +326,7 @@
             });
 
             drop.open();
-            ub.funcs.update_mascot_list();
-            console.log('Done...');
-            
+
         });
 
     };

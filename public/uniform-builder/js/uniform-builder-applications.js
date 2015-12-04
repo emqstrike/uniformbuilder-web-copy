@@ -40,8 +40,9 @@ $(document).ready(function() {
                     id: application_id
                 });
 
-                ub.funcs.update_application_mascot(application, mascot);
                 ub.funcs.update_mascots_picker(application.id, mascot); 
+                ub.funcs.update_application_mascot(application, mascot);
+
 
             }); /// End $('a.mascot_picker').on('click'...
 
@@ -606,12 +607,13 @@ $(document).ready(function() {
             var col = layer.default_color;
             var filename = layer.filename;
             
-            elements += ub.create_pattern_color_picker(index, val, col, application.id, mascot.code); 
-
+            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
 
         });
 
-        $('input.pattern_' + application.code).ubColorPicker({
+        $('div.mascot_color_picker_container[data-id="' + application.code + '"]').html(elements);
+
+        $('input.mascot_' + application.code).ubColorPicker({
                 target: String(application.code),
                 type: 'mascot',
                 application: application,
@@ -621,6 +623,8 @@ $(document).ready(function() {
         container.scale = new PIXI.Point(0.5, 0.5);
         var sprite = container;
 
+        settings.applications[application.code].mascot = sprite;
+
         var mask = _.find(ub.current_material.material.options, {
             
             perspective: application.perspective,
@@ -628,7 +632,6 @@ $(document).ready(function() {
 
         });
 
-        
         var mask = ub.pixi.new_sprite(mask.material_option_path);
         var temp = {}
 
