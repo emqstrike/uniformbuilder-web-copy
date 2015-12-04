@@ -787,7 +787,7 @@ $(document).ready(function () {
         });
 
     };
-    
+
     window.ub.setup_material_options = function () {
 
         ub.current_material.options_distinct_names = {};
@@ -808,7 +808,11 @@ $(document).ready(function () {
                 var current_object = current_view_objects[name];
 
                 current_object.name = name;
-                current_object.zIndex = (obj.layer_level * 2) * (-1);
+
+                // Multiplied to negative one because
+                // UpdateLayers order puts the least zIndex on the topmost position
+
+                current_object.zIndex = (obj.layer_level * 2) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
 
                 if (obj.setting_type === 'highlights') {
@@ -894,7 +898,8 @@ $(document).ready(function () {
                 modifiers = modifiers + str_builder;
 
             });
-        var color_container = $('#colors_panel').append(modifiers);
+
+            var color_container = $('#colors_panel').append(modifiers);
 
         /// End Setup Modifiers Colors
 
@@ -1001,8 +1006,6 @@ $(document).ready(function () {
 
             });
 
-            //$('div.applications_container').html(markup);
-
             markup = '';
 
             _.each(ub.data.applications.items, function (application) {
@@ -1043,28 +1046,30 @@ $(document).ready(function () {
 
                     $container = $('div.applications_modifier_container[data-id="' + id + '"]');
 
+                    var plugin_parameters = { application: application };
+
                     if (application_type === "logo") {
-                        $container.ubLogoDialog({ application: application });
+                        $container.ubLogoDialog(plugin_parameters);
                     }
 
                     if (application_type === "image") {
-                        $container.ubImageDialog({ application: application });
+                        $container.ubImageDialog(plugin_parameters);
                     }
 
                     if (application_type === "mascot") {
-                        $container.ubMascotDialog({ application: application });
+                        $container.ubMascotDialog(plugin_parameters);
                     }
 
                     if (application_type === "player_name") {
-                        $container.ubPlayerNameDialog({ application: application });
+                        $container.ubPlayerNameDialog(plugin_parameters);
                     }
 
                     if (application_type === "player_number") {
-                        $container.ubPlayerNumberDialog({ application: application });
+                        $container.ubPlayerNumberDialog(plugin_parameters);
                     }
 
                     if (application_type === "team_name") {
-                        $container.ubTeamNameDialog({ application: application });
+                        $container.ubTeamNameDialog(plugin_parameters);
                     }
 
                     if (application_type === "none") {
