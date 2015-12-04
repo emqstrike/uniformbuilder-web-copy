@@ -800,7 +800,7 @@ $(document).ready(function () {
                     _.each(material_options, function (obj, index) {
 
                         var name = obj.name.toLowerCase().replace(' ', '_');
-                        
+
                         // Skip creating object if name already exists
                         if(typeof ub.current_material.options_distinct_names[name] === "object"){ return; }
 
@@ -864,9 +864,6 @@ $(document).ready(function () {
                     var modifiers = '';
                     var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
 
-                    console.log('sorted');
-                    console.log(sorted);
-
                     _.each(sorted, function (obj) {
 
                         // dont create modifiers if setting type is static or the layer will have to be blended with other layers
@@ -885,17 +882,9 @@ $(document).ready(function () {
                         var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container">';
                         var color_elements = '';
 
-                        console.log('Name: ' + name);
-                        console.log(obj);
-                        console.log('Available Colors');
-                        console.log(obj.available_colors)
-
                         _.each(obj.available_colors, function (color_obj) {
 
                             var color = _.find(ub.data.colors, { color_code: color_obj});
-
-                            console.log(' --- code: ' + color_obj + ' color: ' + color.hex_code )
-
                             var element = '<div class="color_element">';
 
                             element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
