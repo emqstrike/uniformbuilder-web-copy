@@ -591,15 +591,9 @@ $(document).ready(function() {
 
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
-        
-        // Artifact 
-        // var sprite = PIXI.Sprite.fromImage(mascot.dataUrl);
-
-        // Create Layers 
-
-        console.log('Mascot Layers');
-
         var container = new PIXI.Container();
+
+        var elements = "";
 
         _.each(mascot.layers, function(layer, index){
 
@@ -608,6 +602,20 @@ $(document).ready(function() {
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
+            var val = layer.default_color;
+            var col = layer.default_color;
+            var filename = layer.filename;
+            
+            elements += ub.create_pattern_color_picker(index, val, col, application.id, mascot.code); 
+
+
+        });
+
+        $('input.pattern_' + application.code).ubColorPicker({
+                target: String(application.code),
+                type: 'mascot',
+                application: application,
+                target_name: application.layer,
         });
         
         container.scale = new PIXI.Point(0.5, 0.5);
@@ -760,15 +768,20 @@ $(document).ready(function() {
                 y: window.data.global.y
             };
 
-            if (sprite.containsPoint(point)) {
-                sprite.zIndex = -500;
-                // TODO: Put in proper hotspot highlighting code here...
-                ub.updateLayersOrder(view);
-            } else {
-                sprite.zIndex = sprite.originalZIndex;
-                // TODO: Put in proper hotspot highlighting code here...
-                ub.updateLayersOrder(view);
+            if (typeof _.last(sprite.children).containsPoint === "function") {
+
+                if ( _.last(sprite.children).containsPoint(point)) {
+                    sprite.zIndex = -500;
+                    // TODO: Put in proper hotspot highlighting code here...
+                    ub.updateLayersOrder(view);
+                } else {
+                    sprite.zIndex = sprite.originalZIndex;
+                    // TODO: Put in proper hotspot highlighting code here...
+                    ub.updateLayersOrder(view);
+                }
+
             }
+                
 
         };
 

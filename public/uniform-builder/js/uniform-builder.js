@@ -2157,6 +2157,15 @@ $(document).ready(function () {
 
         };
 
+        ub.create_mascot_color_picker = function (index, value, color, target, mascot) {
+
+            var element = "";
+            element = "<div class='mascot_color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='mascot_" + target + "' type='text' data-elid='mascot_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-mascot='" + mascot + "'  value='" + color + "'/></div>";
+
+            return element;
+
+        };
+
         ub.create_pattern_color_picker = function (index, value, color, target, pattern) {
 
             var element = "";
