@@ -931,6 +931,16 @@ $(document).ready(function() {
                             sprite.snapped = true;
                             this.dragging = false;
 
+                            console.log('');
+
+                            console.log('Distance: ' + distance);
+
+                            console.log('Application Coordinates: ' + x + ', ' + y);
+                            console.log('Sprite Coordinates: ' + sprite.x + ', ' + sprite.y);
+                            console.log('Sprite Coordinates Anchors: ' + ( (sprite.width / 2) + sprite.x ) + ', ' +  ( (sprite.height / 2) + sprite.y ));
+                            console.log('Anchors: ' + sprite.anchor.x + ', ' + sprite.anchor.y);
+                            console.log('');
+
                             return false; // Exit loop if the logo snapped to an application point
 
                         } else {

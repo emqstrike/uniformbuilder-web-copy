@@ -1094,8 +1094,8 @@ $(document).ready(function () {
                         if($button.hasClass('appactive')){
 
                             $button.html('Identify');
-
                             $button.removeClass('appactive');
+
                             if (typeof view_objects['point'] === "object") {
 
                                 view.removeChild(view_objects['point']);
@@ -1120,8 +1120,7 @@ $(document).ready(function () {
                         var x = ub.dimensions.width * application.position.x;
                         var y = ub.dimensions.height * application.position.y;
 
-                        point.position.x = x;
-                        point.position.y = y;
+                        point.position = new PIXI.Point(x,y);
 
                         if (typeof view_objects['point'] === "object") {
 

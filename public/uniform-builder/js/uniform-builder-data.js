@@ -316,6 +316,35 @@ $(document).ready(function(){
                     },
                 ],
             },
+            /// Kennessaw
+            {
+                id: 2,
+                name: 'Kennesaw',
+                code: 'kennesaw',
+                icon: '/images/sidebar/mascots/kennesaw.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/kennesaw/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/kennesaw/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/kennesaw/3.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 4,
+                        filename: '/images/mascots/kennesaw/4.png',
+                    },
+                ],
+            },
         ],    
     }
 
