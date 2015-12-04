@@ -111,7 +111,6 @@
                     ub.refresh_thumbnails();
 
                 }
-
                 
                 if (settings.type === 'mascot') {
 
