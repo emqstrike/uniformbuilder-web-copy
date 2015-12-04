@@ -1,5 +1,287 @@
 $(document).ready(function() {
 
+    /// Mascot Utilities
+
+    ub.funcs.update_mascot_list = function () {
+
+        var $mascot_container = $('div.mascot-container');
+        var mascots = ub.data.mascots.items;
+
+        _.each($mascot_container, function (el) {
+
+            var $element = $(el);
+            var mascot_list = "";
+            var template = $('#mascot-list').html();
+
+            var data = {
+                element_id: $element.data('id'),
+                mascot_set: mascots,
+            }
+            
+            var markup = Mustache.render(template, data);
+
+            $element.html(markup);
+
+            /// Handler for clicking a mascot on the list of uploaded mascots
+            $('a.mascot_picker').on('click', function (e) {
+
+                $link = $(e.target);
+
+                var application_id = $link.data('application-id');
+                var mascot_id = $link.data('id');
+
+                ub.ui.drops[application_id].close();
+
+                var mascot = _.find(mascots, {
+                    id: mascot_id
+                });
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+
+                ub.funcs.update_application_mascot(application, mascot);
+                ub.funcs.update_mascots_picker(application.id, mascot); 
+
+            }); /// End $('a.mascot_picker').on('click'...
+
+        });
+
+    };
+
+    ub.funcs.update_mascots_picker = function(application_id, mascot) {
+
+        var $container = $('div.mascot-controls[data-id="' + application_id + '"]');
+      
+        var template = $('#mascot-controls').html();
+        var data = {
+            application_id: application_id,
+        }
+
+        var markup = Mustache.render(template, data);
+        
+        $container.html(markup);
+
+        var application = _.find(ub.data.applications.items, {
+            id: application_id
+        });
+
+        var view_str = application.perspective + '_view';
+        $('a#view_' + application.perspective).click();
+
+        $('input#flip_mascot_' + application_id).click( function () {
+
+            var obj = ub.objects[view_str]['objects_' + application_id];
+
+            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+            var value = parseInt($rotation_slider.find('span.edit').html());
+            var rotation = ( value / 620 ) * 360;
+
+            if( $(this).is(':checked') ) {
+
+                obj.flipped = true;
+                obj.scale.x = Math.abs(obj.scale.x) * -1;
+
+                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+                $angle_slider_mascot.find('div.rs-bg-color').css({
+                    '-moz-transform': 'scaleX(-1)',
+                    '-o-transform': 'scaleX(-1)',
+                    'transform': 'scaleX(-1)',
+                    'filter': 'FlipH',
+                    '-ms-filter': "FlipH",
+                    '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                });
+
+            }
+            else {
+            
+                obj.flipped = false;
+                obj.scale.x = Math.abs(obj.scale.x);
+
+                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+                $angle_slider_mascot.find('div.rs-bg-color').css({
+                    '-moz-transform': 'scaleX(1)',
+                    '-o-transform': 'scaleX(1)',
+                    'transform': 'scaleX(1)',
+                    'filter': 'none',
+                    '-ms-filter': "none",
+                    '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                });
+
+            }
+
+        });
+
+        $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [application.position.y  * ub.dimensions.height],
+            min: 0,
+            max: ub.dimensions.height,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects.front_view['objects_' + application_id];
+                object.y = value;
+
+            }
+
+        });
+
+        $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [application.position.x * ub.dimensions.width],
+            min: 0,
+            max: ub.dimensions.width,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object = ub.objects[view_str]['objects_' + application_id];
+                object.x = value;
+
+            }
+
+        });
+
+        var max_scale = 100;
+        $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [100],
+            min: 0,
+            max: max_scale,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, { id: application_id });
+                var value = $(this).limitslider("values")[0];
+                var object =  ub.objects[view_str]['objects_' + application_id];
+                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+                var scale = new PIXI.Point(value / 100, value / 100);
+                
+                if (flipped) {
+                    scale.x = scale.x * -1;
+                }
+                else {
+                    scale.x = scale.x * 1;   
+                }
+
+                object.scale = scale;
+
+                $('span[data-target="mascot"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+
+            }
+
+        });
+
+        var max_opacity = 100;
+        $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+
+            values: [100],
+            min: 0,
+            max: max_opacity,
+            gap: 0,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+                var value = $(this).limitslider("values")[0];
+                var object =  ub.objects[view_str]['objects_' + application_id];
+                object.alpha = value / max_opacity;
+
+                $('span[data-target="mascot"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+
+                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                var opacity =  value / max_opacity;
+                $angle_slider_mascot.find('div.rs-bg-color').css({
+                    "opacity": opacity,
+                });
+
+            }
+
+        });
+
+        var max_rotation = 620;
+        var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        $rotation_slider.roundSlider({
+
+            values: [0],
+            min: 0,
+            max: max_rotation,
+            gap: 0,
+            width: 5,
+            handleSize: "+14",
+            startAngle: 90,
+
+            change: function(event, ui) {
+
+                var application = _.find(ub.data.applications.items, {
+                    id: application_id
+                });
+
+                var value = parseInt($rotation_slider.find('span.edit').html());
+                var object =  ub.objects[view_str]['objects_' + application_id];
+
+                object.rotation = value / 100;
+                var rotation = ( value / max_rotation ) * 360;
+
+                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+
+                if (flipped) {
+
+                    $angle_slider_mascot.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(-1)',
+                        '-o-transform': 'scaleX(-1)', 
+                        'transform': 'scaleX(-1)',
+                        'filter': 'FlipH',
+                        '-ms-filter': "FlipH",
+                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+                    });
+
+                } else {
+
+                    $angle_slider_mascot.find('div.rs-bg-color').css({
+                        '-moz-transform': 'scaleX(1)',
+                        '-o-transform': 'scaleX(1)',
+                        'transform': 'scaleX(1)',
+                        'filter': 'none',
+                        '-ms-filter': "none",
+                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+                    });
+
+                }
+
+            }
+
+        });
+
+        $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+        $rotation_slider.find('div.rs-bg-color').css({
+            'background-image': 'url(' + mascot.dataUrl + ')',
+            'background-size': '80%',
+            'background-position': 'center center',
+            'background-repeat': 'no-repeat',
+        });
+
+    };
+
+    /// End Mascot Utilities
+
     ub.funcs.update_logo_list = function() {
 
         var $logo_container = $('div.logo-container');
@@ -293,6 +575,205 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.update_application_mascot = function(application, mascot) {
+
+        var x = ub.dimensions.width * application.position.x;
+        var y = ub.dimensions.height * application.position.y;
+        var settings = ub.current_material.settings;
+        var application_mascot_code = application.code + '_' + mascot.id;
+
+        settings.applications[application.code] = {
+            application: application,
+            mascot: mascot,
+            type: 'mascot',
+            color_array: {},
+        };
+
+        var view = ub[application.perspective + '_view'];
+        var view_objects = ub.objects[application.perspective + '_view'];
+        
+        // Artifact 
+        // var sprite = PIXI.Sprite.fromImage(mascot.dataUrl);
+
+        // Create Layers 
+
+        console.log('Mascot Layers');
+
+        var container = new PIXI.Container();
+
+        _.each(mascot.layers, function(layer, index){
+
+            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+            mascot_layer.tint = parseInt(layer.default_color,16);
+            mascot_layer.anchor.set(0.5, 0.5);
+            container.addChild(mascot_layer);
+
+        });
+        
+        container.scale = new PIXI.Point(0.5, 0.5);
+        var sprite = container;
+
+        var mask = _.find(ub.current_material.material.options, {
+            
+            perspective: application.perspective,
+            name: application.layer
+
+        });
+
+        
+        var mask = ub.pixi.new_sprite(mask.material_option_path);
+        var temp = {}
+
+        sprite.mask = mask;
+
+        var s = view_objects['objects_' + application.code];
+
+        var position = '';
+        var scale = '';
+        var rotation = '';
+        var alpha = '';
+        
+        if (typeof(s) === 'object') {
+
+            var obj = view_objects['objects_' + application.code];
+
+            position = obj.position;
+            scale = obj.scale;
+            rotation = obj.rotation;
+            alpha = obj.alpha;
+            tint = obj.tint;
+            var color_array = settings.applications[application.code].color_array;
+
+            view.removeChild(view_objects['objects_' + application.code]);
+            delete view_objects['objects_' + application.code];
+
+        }
+
+        view_objects['objects_' + application.code] = sprite;
+        view.addChild(sprite);
+
+        sprite.position = new PIXI.Point(x,y);
+        sprite.rotation = application.rotation;
+
+        if(sprite.width === 1) {
+        
+            sprite.position.x -= (sprite.width / 2);
+            sprite.position.y -= (sprite.height / 2);
+
+        }
+  
+        sprite.originalZIndex = -10;
+        sprite.zIndex = -10;
+        ub.updateLayersOrder(view);
+
+        if(position !== ''){
+
+            sprite.position = position;
+            sprite.scale = scale;
+            sprite.rotation = rotation;
+            sprite.alpha = alpha;
+
+        }
+
+        window.sprite = sprite;
+
+        $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+        $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+
+        sprite.draggable({
+            manager: ub.dragAndDropManager
+        });
+
+        sprite.mouseup = sprite.touchend = function(data) {
+
+            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
+
+                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+                
+            }
+
+            this.data = data;
+            this.dragging = true;
+
+        };
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            this.data = data;
+
+            sprite.oldX = sprite.x;
+            sprite.oldY = sprite.y;
+            sprite.snapped = false;
+            this.dragging = true;
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            this.interactionData = interactionData;
+
+            if (this.dragging) {
+
+                _.each(ub.data.applications.items, function(application) {
+
+                    var x = application.position.x * ub.dimensions.width;
+                    var y = application.position.y * ub.dimensions.height;
+
+                    var p_app = new PIXI.Point(x, y);
+                    var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+
+                    var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                    if ($('#chkSnap').is(":checked")) {
+
+                        var minimum_distance_to_snap = 50;
+
+                        if (distance < minimum_distance_to_snap) {
+
+                            sprite.position = new PIXI.Point(x, y);
+                            sprite.oldX = x;
+                            sprite.oldY = y;
+
+                            sprite.snapped = true;
+                            this.dragging = false;
+
+                            return false; // Exit loop if the mascot snapped to an application point
+
+                        } else {
+
+                            sprite.snapped = false;
+
+                        }
+
+                    }
+
+                });
+
+            }
+
+            window.data = this.interactionData.data;
+            window.this = this;
+            window.sprite = sprite;
+
+            var point = {
+                x: window.data.global.x,
+                y: window.data.global.y
+            };
+
+            if (sprite.containsPoint(point)) {
+                sprite.zIndex = -500;
+                // TODO: Put in proper hotspot highlighting code here...
+                ub.updateLayersOrder(view);
+            } else {
+                sprite.zIndex = sprite.originalZIndex;
+                // TODO: Put in proper hotspot highlighting code here...
+                ub.updateLayersOrder(view);
+            }
+
+        };
+
+    };
+
     ub.funcs.update_application = function(application, logo) {
 
         var x = ub.dimensions.width * application.position.x;
@@ -307,12 +788,11 @@ $(document).ready(function() {
             color_array: {},
         };
 
-        /// insert color array here...
-
-
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
+        
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
+        
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
             name: application.layer

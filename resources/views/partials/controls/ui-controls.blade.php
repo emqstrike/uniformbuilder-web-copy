@@ -2,6 +2,7 @@
 
     <!-- Mascot Dropdown -->
     <script  type="text/mustache" id="mascot-dropdown">
+        
         <hr />
             <div class='mascot_drop btn' data-id='@{{application_id}}'>
                 Choose a Mascot: <i class='fa fa-caret-down'></i>
@@ -10,6 +11,15 @@
             <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
 
         <hr />
+        
+    </script>
+
+    <!-- Mascot Upload Dialog -->
+    <script  type="text/mustache" id="mascot-upload-dialog">
+
+        <div data-id='@{{application_id}}' class='row mascot-container' id='mascot-container-@{{application_id}}'>
+        </div>
+
     </script>
 
     <!-- Mascot Picker -->
@@ -21,7 +31,7 @@
             
                     <a class='thumbnail mascot_picker' data-application-id='@{{element_id}}' data-id='@{{id}}'>
 
-                        <img class='mascot_picker' src='@{{dataUrl}}' data-application-id='@{{element_id}}' data-id='@{{id}}'>
+                        <img class='mascot_picker' src='@{{icon}}' data-application-id='@{{element_id}}' data-id='@{{id}}'>
                     
                     </a>
 

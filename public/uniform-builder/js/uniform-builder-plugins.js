@@ -147,7 +147,7 @@
         var view_str = application.perspective + '_view';
         $('a#view_' + application.perspective).click();
 
-        return this.each(function () {
+        return this.each(function () { 
 
             var $container = $(this);
 
@@ -212,7 +212,7 @@
 
             drop.once('open', function () {
 
-                var $selector = $('#file-src-' + application.id);
+                var $selector = $('#file-src-' + settings.application.id);
                 $selector.on('change', file_change_handler);
 
                 ub.data.panels = {};
@@ -228,12 +228,12 @@
 
     };
 
-    $.fn.ubMascotDialog = function (options) {
+    $.fn.ubMascotDialog = function ( options ) {
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
-
         var view_str = application.perspective + '_view';
+
         $('a#view_' + application.perspective).click();
 
         return this.each(function () {
@@ -241,13 +241,81 @@
             var $container = $(this);
 
             var data = {
-                application_id: settings.application.id,
+                application_id: application.id,
             }
 
             var template = $('#mascot-dropdown').html();
             var markup = Mustache.render(template, data);
+
             $container.html(markup);
-         
+            
+            var selector = 'div.mascot_drop[data-id="' + application.id + '"]';
+            var upload_template = $('#mascot-upload-dialog').html();
+            var content = Mustache.render(upload_template, data);
+
+            var drop = new Drop({
+                target: document.querySelector(selector),
+                content: content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            ub.ui.drops[application.id] = drop;
+
+            var file_change_handler = function () {
+
+                var $file_input = $(this);
+                var data_id = application.id;
+                var files = !!this.files ? this.files : [];
+
+                if (!files.length || !window.FileReader) { return; }
+
+                if (/^image/.test(files[0].type)) { 
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(files[0]);
+
+                    reader.onloadend = function () {
+
+                        var mascots = ub.current_material.settings.files.mascots;
+                        var file = files[0];
+                        var id = new Date().getTime();
+
+                        var mascot = {
+                            id: id,
+                            filename: file.name,
+                            dataUrl: this.result,
+                        };
+
+                        mascots.push(mascot);
+
+                        var application_id = application.id;
+
+                        ub.funcs.update_mascot_list();
+                        $('a.mascot_picker[data-application-id="' + application_id + '"]').click();
+
+                    }
+                }
+
+            };
+
+            drop.once('open', function () {
+
+                var $selector = $('#file-src-' + settings.application.id);
+                $selector.on('change', file_change_handler);
+
+                ub.data.panels = {};
+                ub.data.panels['mascot_panel'] = $selector;
+
+                ub.funcs.update_mascot_list();
+
+            });
+
+            drop.open();
+            ub.funcs.update_mascot_list();
+            console.log('Done...');
+            
         });
 
     };
@@ -1886,5 +1954,6 @@
     }
 
     /// End Get Colors and Hex Codes For Given Material Option
+
 
 }(jQuery));

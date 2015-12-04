@@ -1666,8 +1666,6 @@ $(document).ready(function(){
 
     ub.funcs.print_version = function () {
 
-        console.clear();
-
         var args = [
                 '\n %c %c %c Uniform Builder ' + ub.VERSION + ' - ✰ ' + 'Prolook' + ' ✰  %c ' + ' %c ' + ' http://www.prolook.com/  %c %c ♥%c♥%c♥ \n\n',
                 'background: #3d3d3d; padding:5px 0;',
