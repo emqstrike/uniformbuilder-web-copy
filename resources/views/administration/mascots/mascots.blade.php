@@ -26,8 +26,9 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
-                                <th>Thumbnail</th>
-                                <th>Pattern Name</th>
+                                <th>Icon</th>
+                                <th>Mascot Name</th>
+                                <th>Code</th>
                                 <th>Active Status</th>
                                 <th></th>
                             </tr>
@@ -48,6 +49,9 @@
                             {{ $mascot->name }}
                         </td>
                         <td>
+                            {{ $mascot->code }}
+                        </td>
+                        <td>
                             <a href="#" class="btn btn-default btn-xs disable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? : 'disabled="disabled"' }}>
                                 <i class="glyphicon glyphicon-eye-close"></i>
                                 Disable
@@ -64,7 +68,6 @@
                             </a>
                             <a href="#" class="btn btn-default btn-xs show-mascot" role="button"
                                 data-mascot-name="{{ $mascot->name }}"
-                                data-mascot-layers="{{ $mascot->layers[0]->url }}"
                                 data-mascot-id="{{ $mascot->id }}">
                                 <li class="glyphicon glyphicon-info-sign"></li>
                                 View
@@ -128,6 +131,7 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

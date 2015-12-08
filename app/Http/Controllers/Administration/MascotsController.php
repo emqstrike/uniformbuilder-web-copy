@@ -47,104 +47,61 @@ class MascotsController extends Controller
 
     public function addMascotForm()
     {
-        return view('administration.mascots.mascot-create');
+        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
+        $colors = $colorsAPIClient->getColors();
+
+        // return view('administration.mascots.mascot-create');
+        return view('administration.mascots.mascot-create', [
+            'colors' => $colors
+        ]);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $patternName = $request->input('name');
-    //     $layer_1_color = $request->input('layer_1_color');
-    //     $layer_2_color = $request->input('layer_2_color');
-    //     $layer_3_color = $request->input('layer_3_color');
-    //     $layer_4_color = $request->input('layer_4_color');
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+        $code = $request->input('code');
 
-    //     $data = [
-    //         'name' => $patternName,
-    //         'layer_1_default_color' => $layer_1_color,
-    //         'layer_2_default_color' => $layer_2_color,
-    //         'layer_3_default_color' => $layer_3_color,
-    //         'layer_4_default_color' => $layer_4_color,
-    //     ];
+        $data = [
+            'name' => $name,
+            'code' => $code
+        ];
 
-    //     $patternId = null;
-    //     if (!empty($request->input('base_pattern_id')))
-    //     {
-    //         $patternId = $request->input('base_pattern_id');
-    //         $data['id'] = $patternId;
-    //     }
+        $id = null;
+        if (!empty($request->input('mascot_id')))
+        {
+            $id = $request->input('mascot_id');
+            $data['id'] = $id;
+        }
+        // Is the Mascot Name taken?
+        // if ($this->client->isMascotExist($name, $id))
+        // {
+        //     return Redirect::to('administration/mascots')
+        //                     ->with('message', 'Mascot already exist');
+        // }
+        
+        $response = null;
+        if (!empty($id))
+        {
+            Log::info('Attempts to update Mascot#' . $id);
+            $response = $this->client->updateMascot($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new Mascot ' . json_encode($data));
+            $response = $this->client->createMascot($data);
+        }
 
-    //     // Does the Pattern Name exist
-    //     if ($this->client->isPatternExist($patternName, $patternId))
-    //     {
-    //         return Redirect::to('administration/patterns')
-    //                         ->with('message', 'Pattern name already exist');
-    //     }
-
-    //     try
-    //     {
-    //         for ($i = 1; $i <= 4; $i++)
-    //         {
-    //             $fieldName = "layer_{$i}_path";
-    //             $filename = "layer{$i}.png";
-    //             $patternFile = $request->file($fieldName);
-    //             if (isset($patternFile))
-    //             {
-    //                 if ($patternFile->isValid())
-    //                 {
-    //                     $data[$fieldName] = FileUploader::upload(
-    //                         $patternFile,
-    //                         $patternName,
-    //                         'pattern_layer',    // Type
-    //                         'patterns',         // S3 Folder
-    //                         $filename     // Layer File Name
-    //                     );
-
-    //                 }
-    //             }
-    //         }
-    //         $thumbnailFile = $request->file('thumbnail_path');
-    //         if (isset($thumbnailFile))
-    //         {
-    //             if ($thumbnailFile->isValid())
-    //             {
-    //                 $data['thumbnail_path'] = FileUploader::upload(
-    //                     $thumbnailFile,
-    //                     $patternName,
-    //                     'pattern_thumbnail',
-    //                     'patterns'
-    //                 );
-    //             }
-    //         }
-    //     }
-    //     catch (S3Exception $e)
-    //     {
-    //         $message = $e->getMessage();
-    //         return Redirect::to('/administration/patterns')
-    //                         ->with('message', 'There was a problem uploading your files');
-    //     }
-    //     $response = null;
-    //     if (!empty($patternId))
-    //     {
-    //         Log::info('Attempts to update Pattern#' . $patternId);
-    //         $response = $this->client->updatePattern($data);
-    //     }
-    //     else
-    //     {
-    //         Log::info('Attempts to create a new Pattern ' . json_encode($data));
-    //         $response = $this->client->createPattern($data);
-    //     }
-
-    //     if ($response->success)
-    //     {
-    //         Log::info('Success');
-    //         return Redirect::to('administration/patterns')
-    //                         ->with('message', 'Successfully saved changes');
-    //     }
-    //     else
-    //     {
-    //         Log::info('Failed');
-    //         return Redirect::to('administration/patterns')
-    //                         ->with('message', $response->message);
-    //     }
-    // }
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/mascots')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/mascots')
+                            ->with('message', $response->message);
+        }
+    }
 }

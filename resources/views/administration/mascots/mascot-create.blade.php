@@ -49,9 +49,49 @@ select:hover {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Layers</label>
+                            <label class="col-md-4 control-label">Layers
+                            <div>
+                                <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
+                            </div>
+                            </label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}">
+                                <!-- <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}"> -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Layer</th>
+                                            <th>File</th>
+                                            <th>Default Color</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="layers-row-container">
+                                        <tr class="layers-row">
+                                            <td>
+                                                <select class="ma-layer layer1"  name="ma_layer[]" disabled>
+                                                    <option value = '1' class="layer-number">1</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="file" class="ma-options-src layer1" name="ma_image[]">
+                                            </td>
+                                            <td>
+                                                <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                                @foreach ($colors as $color)
+                                                    @if ($color->active)
+                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                        {{ $color->name }}
+                                                    </option>
+                                                    @endif
+                                                @endforeach
+                                                <option data-color="" value="" id="saved-default-color"></option>
+                                                </select>
+                                            </td>
+                                            <!-- <td>
+                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -59,7 +99,7 @@ select:hover {
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-mascot">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add New mascot
+                                    Add New Mascot
                                 </button>
                                 <a href="/administration/mascots" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
@@ -77,11 +117,13 @@ select:hover {
 @endsection
 
 @section('custom-scripts')
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
 
-    $('.layer-default-color').change(function(){
+    $('.default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
