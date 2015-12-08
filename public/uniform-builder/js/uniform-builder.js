@@ -10,8 +10,7 @@ $(document).ready(function () {
                 return;
             }
 
-
-            ub.funcs.print_version();
+            ub.config.print_version();
 
             /// Initialize Assets
 
