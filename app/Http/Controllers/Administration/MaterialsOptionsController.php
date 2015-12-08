@@ -73,6 +73,7 @@ class MaterialsOptionsController extends Controller
 
         try
         {
+
             $materialOptionFile = $request->file('material_option_path');
             if (!is_null($materialOptionFile))
             {
@@ -89,6 +90,7 @@ class MaterialsOptionsController extends Controller
                 }
             }
         }
+
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
@@ -109,6 +111,107 @@ class MaterialsOptionsController extends Controller
             $response = $this->client->create($data);
         }
 
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/administration/materials')
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem saving your material option');
+        }
+    }
+
+    public function storeMultiple(Request $request)
+    {
+        Log::info('storeMultiple - Administration');
+        $materialId = $request->input('material_id');
+        $materialObjects = null;
+
+        if (!is_null($materialId))
+        {
+            $materialObject = $this->materialClient->getMaterial($materialId);
+        }
+
+        $materialFolder = null;
+        if (!is_null($materialObject))
+        {
+            $materialFolder = $materialObject->slug;
+        }
+
+        $origin = $request->input('origin');
+
+        $materialOptionNames = $request->input('mo_name');
+        $layerLevels = $request->input('mo_layer');
+        $settingTypes = $request->input('setting_type');
+        $perspective = $request->input('perspective');
+        $defaultColors = $request->input('default_color');
+
+        $colors = $request->input('colors');
+        $gradients = $request->input('gradients');
+
+        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
+        $boundary_properties = $request->input('boundary_properties');
+        $applications_properties = $request->input('applications_properties');
+
+        $data = [];
+        $ctr = 0;
+        foreach ($materialOptionNames as $materialOptionName) {
+            $data[$ctr] = [
+                'material_id' => $materialId,
+                'name' => $materialOptionNames[$ctr],
+                'setting_type' => $settingTypes[$ctr],
+                'origin' => $origin,
+                'layer_level' => $layerLevels[$ctr],
+                'default_color' => $defaultColors[$ctr],
+                'perspective' => $perspective,
+                'colors' => $colors,
+                'gradients' => $gradients,
+                'is_blend' => $is_blend,
+                'boundary_properties' => $boundary_properties,
+                'applications_properties' => $applications_properties
+            ];
+            $ctr++;
+        }
+
+        try
+        {
+            $materialOptionFiles = $request->file('mo_image');
+            $ctr = 0;
+            foreach ($materialOptionFiles as $materialOptionFile) {
+                if (!is_null($materialOptionFile))
+                {
+                    if ($materialOptionFile->isValid())
+                    {
+                        $filename = Random::randomize(12);
+                        $data[$ctr]['material_option_path'] = FileUploader::upload(
+                                                                    $materialOptionFile,
+                                                                    $materialOptionNames[$ctr],
+                                                                    'material_option',
+                                                                    "materials",
+                                                                    "{$materialFolder}/options/{$settingTypes[$ctr]}/{$filename}.png"
+                                                                );
+                    }
+                }
+                $ctr++;
+            }
+        }
+
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        $response = null;
+        // dd($data);
+        Log::info('Attempts to create a new Material Option ' . json_encode($data));
+        $response = $this->client->createMultiple($data);
 
         if ($response->success)
         {

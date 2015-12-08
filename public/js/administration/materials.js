@@ -30,13 +30,13 @@ $(document).ready(function() {
 
     $(document).on('click', '.clone-row', function() {
         var length = $('.options-row').length;
-        renumberRows(length);
         $(".options-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
             length = length-1;
         });
-
+        var newLength = $('.options-row').length;
+        renumberRows(newLength);
     });
 
     $("#material-option-name").keyup(function() {
@@ -383,6 +383,13 @@ var material = {};
 
 var app_properties = {};
 var appPropJson = "";
+    $('.add-multiple-material-option').on('click', function(){
+        material = {
+            id: $(this).data('material-id')
+        };
+        $('.material-id').prop("value", material.id);
+        console.log("MATERIAL ID: "+material.id);
+    });
 
     $('.edit-material-option').on('click', function(){
         material = {
@@ -1044,4 +1051,5 @@ var appPropJson = "";
 
     bindColorsSelect2();
     bindGradientsSelect2();
+    $('.select2').hide();
 });

@@ -42,6 +42,7 @@ class MaterialsController extends Controller
      */
     public function index()
     {
+        Log::info('Index');
         $materials = $this->client->getMaterials();
         foreach ($materials as &$material)
         {
