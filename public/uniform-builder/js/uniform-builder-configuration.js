@@ -9,8 +9,8 @@ $(document).ready(function(){
     ub.config.feature_flags = {
 
         ui: {
-                draggable_sprites: false,
-                draggable_type: true,
+                // For ub.funcs.createDraggable @ uniform-builder-applications.js
+                draggable_applications: false, 
             },    
 
     };

@@ -698,6 +698,12 @@ $(document).ready(function() {
 
     ub.funcs.createDraggable = function (sprite, application, view) {
 
+        // Check for Feature Flag
+        if(!ub.config.isFeatureOn('ui','draggable_applications')) 
+        {
+            return;
+        }
+        
         sprite.draggable({
             manager: ub.dragAndDropManager
         });
