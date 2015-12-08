@@ -82,6 +82,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('color/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@editColorForm']);
 
     // Materials
+    Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
+
+    // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
     Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
