@@ -800,9 +800,6 @@ $(document).ready(function () {
 
                 var name = obj.name.toLowerCase().replace(' ', '_');
 
-                // Skip creating object if name already exists
-                if (typeof ub.current_material.options_distinct_names[name] === "object") { return; }
-
                 current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
                 var current_object = current_view_objects[name];
 
@@ -826,7 +823,13 @@ $(document).ready(function () {
                     current_object.tint = parseInt(color.hex_code, 16);
 
                     var modifier_label = name;
-                    ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
+    
+                    // Skip creating distinct name object if name already exists
+                    if (typeof ub.current_material.options_distinct_names[name] !== "object") {
+
+                        ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
+                    
+                    }
                     
                 }
 

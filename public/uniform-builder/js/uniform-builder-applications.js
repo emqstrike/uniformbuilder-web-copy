@@ -691,6 +691,13 @@ $(document).ready(function() {
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
+        ub.funcs.createDraggable(sprite, application, view);
+
+
+    };
+
+    ub.funcs.createDraggable = function (sprite, application, view) {
+
         sprite.draggable({
             manager: ub.dragAndDropManager
         });
@@ -700,7 +707,7 @@ $(document).ready(function() {
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
 
                 sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
-                
+
             }
 
             this.data = data;
@@ -729,10 +736,8 @@ $(document).ready(function() {
 
                     var x = application.position.x * ub.dimensions.width;
                     var y = application.position.y * ub.dimensions.height;
-
                     var p_app = new PIXI.Point(x, y);
                     var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-
                     var distance = ub.funcs.lineDistance(p_app, p_sprite);
 
                     if ($('#chkSnap').is(":checked")) {
@@ -741,14 +746,15 @@ $(document).ready(function() {
 
                         if (distance < minimum_distance_to_snap) {
 
-                            sprite.position = new PIXI.Point(x, y);
+                            sprite.position = new PIXI.Point(x,y);
+
                             sprite.oldX = x;
                             sprite.oldY = y;
 
                             sprite.snapped = true;
                             this.dragging = false;
 
-                            return false; // Exit loop if the mascot snapped to an application point
+                            return false; // Exit loop if the logo snapped to an application point
 
                         } else {
 
@@ -762,33 +768,47 @@ $(document).ready(function() {
 
             }
 
-            window.data = this.interactionData.data;
-            window.this = this;
+            var this_data = this.interactionData.data;
             window.sprite = sprite;
 
             var point = {
-                x: window.data.global.x,
-                y: window.data.global.y
+                x: this_data.global.x,
+                y: this_data.global.y
             };
 
-            if (typeof _.last(sprite.children).containsPoint === "function") {
+            var sprite_obj; 
 
-                if ( _.last(sprite.children).containsPoint(point)) {
-                    sprite.zIndex = -500;
-                    // TODO: Put in proper hotspot highlighting code here...
-                    ub.updateLayersOrder(view);
-                } else {
-                    sprite.zIndex = sprite.originalZIndex;
-                    // TODO: Put in proper hotspot highlighting code here...
-                    ub.updateLayersOrder(view);
-                }
+            if(sprite.children.length === 0) {
+
+                sprite_obj = sprite
+
+            } else {
+
+                sprite_obj = _.last(sprite.children);
 
             }
-                
 
+            if (typeof sprite_obj.containsPoint === "function") {
+
+                if (sprite_obj.containsPoint(point)) {
+
+                    sprite.zIndex = -500;
+                    ub.updateLayersOrder(view);
+
+                } else {
+
+                    sprite.zIndex = sprite.originalZIndex;
+                    ub.updateLayersOrder(view);
+
+                }
+                
+            }
+            
         };
 
-    };
+    }
+
+    /// End Create Draggable
 
     ub.funcs.update_application = function(application, logo) {
 
@@ -856,8 +876,11 @@ $(document).ready(function() {
         }
   
         sprite.anchor.set(0.5, 0.5);
-        sprite.originalZIndex = -10;
-        sprite.zIndex = -10;
+
+        var zIndex = -10 + -(parseInt(application.code));
+
+        sprite.originalZIndex = zIndex;
+        sprite.zIndex = zIndex;
         ub.updateLayersOrder(view);
 
         if(position !== ''){
@@ -869,102 +892,10 @@ $(document).ready(function() {
 
         }
 
-        window.sprite = sprite;
-
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-        sprite.draggable({
-            manager: ub.dragAndDropManager
-        });
-
-        sprite.mouseup = sprite.touchend = function(data) {
-
-            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
-
-                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
-                
-            }
-
-            this.data = data;
-            this.dragging = true;
-
-        };
-
-        sprite.mousedown = sprite.touchstart = function(data) {
-
-            this.data = data;
-
-            sprite.oldX = sprite.x;
-            sprite.oldY = sprite.y;
-            sprite.snapped = false;
-            this.dragging = true;
-
-        };
-
-        sprite.mousemove = sprite.mousemove = function(interactionData) {
-
-            this.interactionData = interactionData;
-
-            if (this.dragging) {
-
-                _.each(ub.data.applications.items, function(application) {
-
-                    var x = application.position.x * ub.dimensions.width;
-                    var y = application.position.y * ub.dimensions.height;
-
-                    var p_app = new PIXI.Point(x, y);
-                    var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-
-                    var distance = ub.funcs.lineDistance(p_app, p_sprite);
-
-                    if ($('#chkSnap').is(":checked")) {
-
-                        var minimum_distance_to_snap = 50;
-
-                        if (distance < minimum_distance_to_snap) {
-
-                            sprite.position = new PIXI.Point(x, y);
-                            sprite.oldX = x;
-                            sprite.oldY = y;
-
-                            sprite.snapped = true;
-                            this.dragging = false;
-
-                            return false; // Exit loop if the logo snapped to an application point
-
-                        } else {
-
-                            sprite.snapped = false;
-
-                        }
-
-                    }
-
-                });
-
-            }
-
-            window.data = this.interactionData.data;
-            window.this = this;
-            window.sprite = sprite;
-
-            var point = {
-                x: window.data.global.x,
-                y: window.data.global.y
-            };
-
-            if (sprite.containsPoint(point)) {
-                sprite.zIndex = -500;
-                // TODO: Put in proper hotspot highlighting code here...
-                ub.updateLayersOrder(view);
-            } else {
-                sprite.zIndex = sprite.originalZIndex;
-                // TODO: Put in proper hotspot highlighting code here...
-                ub.updateLayersOrder(view);
-            }
-
-        };
+        ub.funcs.createDraggable(sprite, application, view);
 
     };
 
