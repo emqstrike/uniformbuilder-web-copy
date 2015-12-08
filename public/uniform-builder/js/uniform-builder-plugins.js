@@ -349,31 +349,12 @@
 
     };
 
-    $.fn.ubTeamNameDialog = function(options) {
-
-        var settings = $.extend({ application: {} }, options);
-
-        return this.each(function () {
-
-            var $container = $(this);
-            var html_builder = '';
-
-            html_builder += "<hr />";
-            html_builder += "Team Name Dialog from Plugin";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
-
-        });
-
-    };
-
-    $.fn.ubPlayerNumberDialog = function(options) {
+    $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
-
         var view_str = application.perspective + '_view';
+
         $('a#view_' + application.perspective).click();
 
         return this.each(function () {
@@ -746,25 +727,6 @@
             });
 
             $textbox.trigger('change');
-
-        });
-
-    };
-
-    $.fn.ubPlayerNameDialog = function(options) {
-
-        var settings = $.extend({ application: {} }, options);
-
-        return this.each(function () {
-
-            var $container = $(this);
-            var html_builder = '';
-
-            html_builder += "<hr />";
-            html_builder += "Player Name Dialog from Plugin";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
 
         });
 
