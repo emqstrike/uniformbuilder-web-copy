@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('administration.main')
 
 @section('styles')
@@ -5,6 +6,9 @@
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
 @endsection
+=======
+@extends('administration.lte-main')
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
  
 @section('content')
 
@@ -52,10 +56,6 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/add" enctype="multipart/form-data" id='create-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name</label>
@@ -211,12 +211,21 @@
                         </div>
 
                         <div class="form-group">
+<<<<<<< HEAD
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-default btn-primary create-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Material
                                 </button>
                                 <a href="/administration/materials" class="btn btn-default btn-danger">
+=======
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary create-user">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    Add New Material
+                                </button>
+                                <a href="/administration/materials" class="btn btn-danger">
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -229,6 +238,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 @endsection
 
 @section('scripts')
@@ -254,4 +264,6 @@ $(document).ready(function(){
     });
 });
 
+=======
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 @endsection

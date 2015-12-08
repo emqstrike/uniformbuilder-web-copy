@@ -120,6 +120,10 @@ class FileUploader
         {
             // Just Retain the filename
         }
+        elseif ($type == 'pattern_thumbnail')
+        {
+            $filename = 'thumbnail.png';
+        }
         elseif ($type == 'font')
         {
             $filename = 'font.ttf';

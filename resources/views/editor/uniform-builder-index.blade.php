@@ -2,6 +2,7 @@
 
 @section('left-pane')
     <div id="left-pane" class="pane">
+
         <div id="left-top" class="pane-top">
 
         </div>
@@ -76,6 +77,9 @@
             <a href="" class="sidebar-buttons gradients" data-filename='gradients'>
             </a>
 
+            <a href="" class="sidebar-buttons applications" data-filename='applications'>
+            </a>
+
             <a href="" class="sidebar-buttons texts" data-filename='texts'>
             </a>
 
@@ -88,139 +92,32 @@
             <a href="" class="sidebar-buttons sizes" data-filename='sizes'>
             </a>
 
+            <a href="" class="sidebar-buttons attachments" data-filename='attachments'>
+            </a>
+
         </div>
 
         <div id="right-main-window" class="pane-main-window">
 
-            <div class="options_panel" id="materials_panel">
+            @include('partials.panels.materials')
 
-                <div class="options_panel_header">
-                    <span class="header_text">MATERIAL OPTIONS</span>
-                </div>
+            @include('partials.panels.colors')
 
-            </div>
+            @include('partials.panels.patterns')
 
-            <div class="options_panel" id="colors_panel">
+            @include('partials.panels.gradients')
 
-                <div class="options_panel_header">
-                    <span class="header_text">COLOR OPTIONS</span>
-                </div>
+            @include('partials.panels.applications')
 
-                 <div class="options_panel_section">
-                    <label>Team Color</label> 
-                </div>
+            @include('partials.panels.texts')
 
-            </div>
+            @include('partials.panels.numbers')
 
-            <div class="options_panel" id="gradients_panel">
+            @include('partials.panels.graphics')
 
-                <div class="options_panel_header">
-                    <span class="header_text">GRADIENTS OPTIONS</span>
-                </div>
+            @include('partials.panels.sizes')
 
-            </div>
-
-
-            <div class="options_panel" id="patterns_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">PATTERNS OPTIONS</span>
-                </div>
-
-                <div class="options_panel_section">
-            
-                    <label>LAYER 1</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_1', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
-
-
-                <div class="options_panel_section">
-            
-                    <label>LAYER 2</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_2', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
-
-                <div class="options_panel_section">
-
-                    <label>LAYER 3</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_3', 'event_class' => 'change-color',])
-                    </div>
-
-                </div>
-
-                <div class="options_panel_section">
-            
-                    <label>LAYER 4</label>
-                    <div class="color_panel_container">
-                        @include('partials.colors', ['data_panel' => 'patterns', 'data_target' =>'layer_4', 'event_class' => 'change-color',])
-                    </div>   
-
-                </div>
-
-                <div class="options_panel_section">
-                    <button id="toggle_pattern_preview">Pattern Preview</button>
-                </div>
-
-            </div>
-
-
-            <div class="options_panel" id="texts_panel">
-
-                <div class="options_panel_header">
-                    <span class="header_text">TEXTS OPTIONS</span>
-                </div>
-            
-                <div class="options_panel_section">
-                    @include('partials.layout.text')
-                </div>
-
-            </div>
-
-
-            <div class="options_panel" id="numbers_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">NUMBER OPTIONS</span>
-                </div>
-            
-                <div class="options_panel_section">
-                    @include('partials.layout.number')
-                </div>
-
-            </div>
-
-
-            <div class="options_panel" id="graphics_panel">
-                
-                <div class="options_panel_header">
-                    <span class="header_text">GRAPHICS OPTIONS</span>
-                </div>
-            
-                <div class="options_panel_section">
-                    @include('partials.layout.graphics')
-                </div>
-
-            </div>
-
-
-            <div class="options_panel" id="sizes_panel">
-
-                <div class="options_panel_header">
-                    <span class="header_text">SIZES OPTIONS</span>
-                </div>
-            
-                <div class="options_panel_section">
-                    @include('partials.layout.size')
-                </div>
-
-            </div>
+            @include('partials.panels.attachments')
 
         </div>
 

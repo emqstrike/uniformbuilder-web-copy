@@ -16,12 +16,14 @@ $(document).ready(function () {
             ub.current_material.code = window.ub.config.code;
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+            ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
+            // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+            // ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
@@ -112,8 +114,8 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns') {
-                ub.data[object_name] = obj
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts') {
+                ub.data[object_name] = obj;
             }
             else {
                 ub.current_material[object_name] = obj;
@@ -122,7 +124,8 @@ $(document).ready(function () {
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
                      typeof(ub.data.colors) !== 'undefined' &&
-                     typeof(ub.data.patterns) !== 'undefined';  
+                     typeof(ub.data.patterns) !== 'undefined' &&
+                     typeof(ub.data.fonts) !== 'undefined';  
 
             if (ok) {
                 ub.load_assets();            
@@ -357,6 +360,7 @@ $(document).ready(function () {
             
             ub.assets.pattern = {};
             ub.assets.pattern.layers = [];
+            ub.objects.pattern_view = {};
             
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_1.png');
             ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_2.png');
@@ -365,11 +369,13 @@ $(document).ready(function () {
 
             /// Begin Rendering after assets are loaded
 
+            ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            ub.setup_pattern_view(); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
+
+
             
         }
 
@@ -382,7 +388,7 @@ $(document).ready(function () {
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
             
-            var frames_to_refresh = 7 * 60; // 60 frames in one sec, average
+            var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
             if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
                 ub.refresh_thumbnails();
@@ -444,334 +450,340 @@ $(document).ready(function () {
         // ToDo: Redraw the canvas ~ Arthur's part here
     };
 
-            // Initialize uniform settings
-            ub.init = function () {
-        
-                var settings = ub.current_material.settings;
+    // Initialize uniform settings
+    ub.init = function () {
 
-                settings.team_colors = [
-                    {
-                        color: '',
+        var settings = ub.current_material.settings;
+
+        settings.team_colors = [
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+            {
+                color: '',
+            },
+        ];
+
+        settings.upper = {};
+
+        settings.lower = {
+            preview: '',
+        };
+
+        settings.upper = {
+            preview: '',
+        };
+
+        settings.files = {};
+
+        settings.files.logos = [];
+        settings.applications = {};
+
+        var current_material = ub.current_material.material;
+        var material_options = ub.current_material.materials_options;
+        var type = current_material.type;
+
+        settings[type].material_id = current_material.id;
+        settings[type].code = current_material.code;
+
+        _.each(material_options, function (material_option) {
+
+            var name = '';
+            var obj  = '';
+
+            name = material_option.name;
+            settings[type][name] = {};
+
+            obj = settings[type][name];
+
+            obj.code = name.replace(' ', '_').toLowerCase();
+            obj.color = '';
+            obj.gradient_is_above_pattern = false;
+            
+            obj.has_gradient = false;
+            obj.has_pattern = false;
+            
+            obj.gradient = {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
                     },
-                    {
-                        color: '',
-                    },
-                    {
-                        color: '',
-                    },
-                    {
-                        color: '',
-                    },
-                ];
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
 
-                settings.upper = {};
-                settings.lower = {
-                    preview: '',
-                };
+            };    
 
-                settings.upper = {
-                    preview: '',
-                };
+            obj.pattern = {
+                pattern_id: '',
+                scale: 0,
+                rotation: 0,
+                opacity: 0,
+                position: {
+                    x: 0,
+                    y:0,
+                },
+            };
 
-                var current_material = ub.current_material.material;
-                var material_options = ub.current_material.materials_options;
-                var type = current_material.type;
+            obj.fabric = {
+                fabric_id: '',
+            }
 
-                settings[type].material_id = current_material.id;
-                settings[type].code = current_material.code;
+            obj.logo = {
+                filename: '',
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                }
+            }
+
+            obj.team_name = {
                 
-                _.each(material_options, function (material_option) {
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
 
-                    var name = '';
-                    var obj  = '';
-
-                    name = material_option.name;
-                    settings[type][name] = {};
-
-                    obj = settings[type][name];
-
-                    obj.code = name.replace(' ', '_').toLowerCase();
-                    obj.color = '';
-                    obj.gradient_is_above_pattern = false;
+                colors: [
                     
-                    obj.has_gradient = false;
-                    obj.has_pattern = false;
-                    
-                    obj.gradient = {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
 
-                    };    
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
 
-                    obj.pattern = {
-                        pattern_id: '',
-                        scale: 0,
-                        rotation: 0,
-                        opacity: 0,
-                        position: {
-                            x: 0,
-                            y:0,
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
                         },
-                    };
-
-                    obj.fabric = {
-                        fabric_id: '',
-                    }
-
-                    obj.logo = {
-                        filename: '',
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
+                        {
+                            value: 1,
+                            color: '',
                         }
-                    }
+                    ],
 
-                    obj.team_name = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
+                },    
 
-                        colors: [
-                            
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.number = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
-
-                        colors: [
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.player_name = {
-                        
-                        text: '',
-                        font: {
-                            name: '',
-                            font_size: '',
-                            font_style: '',
-                        },
-
-                        colors: [
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                            {
-                                color: '',
-                                opacity: '',
-                                width: '',
-                            },
-                        ],
-
-                        rotation: 0,
-                        scale: 0,
-                        position_id: 0,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-
-                        has_texture: false,
-                        has_pattern: false,
-                        texture_is_above_pattern: false,
-
-                        gradient: {
-                            gradient_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            color_stops: [
-                                {
-                                    value: 0,
-                                    color: '',
-                                },
-                                {
-                                    value: 1,
-                                    color: '',
-                                }
-                            ],
-
-                        },    
-
-                        pattern: {
-                            pattern_id: '',
-                            scale: 0,
-                            rotation: 0,
-                            opacity: 0,
-                            position: {
-                                x: 0,
-                                y:0,
-                            },
-                        }
-
-                    };
-
-                    obj.team_roster = [];
-
-                });
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
 
             };
+
+            obj.number = {
+                
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
+
+                colors: [
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
+
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
+
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
+
+                },    
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
+
+            };
+
+            obj.player_name = {
+                
+                text: '',
+                font: {
+                    name: '',
+                    font_size: '',
+                    font_style: '',
+                },
+
+                colors: [
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                    {
+                        color: '',
+                        opacity: '',
+                        width: '',
+                    },
+                ],
+
+                rotation: 0,
+                scale: 0,
+                position_id: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
+
+                has_texture: false,
+                has_pattern: false,
+                texture_is_above_pattern: false,
+
+                gradient: {
+                    gradient_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                    color_stops: [
+                        {
+                            value: 0,
+                            color: '',
+                        },
+                        {
+                            value: 1,
+                            color: '',
+                        }
+                    ],
+
+                },    
+
+                pattern: {
+                    pattern_id: '',
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {
+                        x: 0,
+                        y:0,
+                    },
+                }
+
+            };
+
+            obj.team_roster = [];
+
+        });
+
+    };
 
             window.ub.setup_material_options = function () {
 
@@ -791,7 +803,8 @@ $(document).ready(function () {
 
                         current_object.name = name;
                         current_object.zIndex = (obj.layer_level * 2) * (-1);
-                        
+                        current_object.originalZIndex = (obj.layer_level * 2) * (-1);
+
                         if (obj.setting_type === 'highlights') {
                             current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
                         } else if (obj.setting_type === 'shadows') {
@@ -806,7 +819,6 @@ $(document).ready(function () {
                             var modifier_label = name;
 
                             if (name.search('shape') > 0) {
-                                modifier_label = name.substr(0, name.length - 6);
                             } 
 
                             ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
@@ -883,10 +895,53 @@ $(document).ready(function () {
 
                 var color_container = $('#colors_panel').append(modifiers);
 
-                ub.bind_handlers();
-                ub.bind_left_sidebar_tab_handlers();
-
                 /// End Setup Modifiers Colors
+
+
+                /// Setup Modifiers Patterns
+
+                    var modifiers = '';
+                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+
+                    _.each(sorted, function (obj){
+
+                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+
+                        if (_.contains(no_modifiers, obj.setting_type)) {
+                            return;
+                        }
+
+                        var code = obj.material_option;
+                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        
+                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="pattern_base modifier button_tabs" data-option="' + code + '">Pattern </button> </div>';
+                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="patterns"><div class="pattern_panel_container">';
+                        var pattern_elements = '';
+
+                        _.each(ub.data.patterns.items, function (pattern_obj) {
+
+                            var element = '<div class="pattern_element">';
+                            var filename = pattern_obj.icon;
+
+                            element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
+                            element = element + '</div>';    
+
+                            pattern_elements = pattern_elements + element;
+
+                        });
+
+                        str_builder = str_builder + pattern_elements;
+                        str_builder = str_builder + '</div><div class="layers_container"></div></div>'; 
+                        modifiers = modifiers + str_builder;
+
+                    });
+
+                    var pattern_container = $('#patterns_panel').append(modifiers);
+                    
+                /// End Setup Modifiers Patterns
+
 
                 /// Setup Modifiers Gradients
 
@@ -934,6 +989,149 @@ $(document).ready(function () {
 
                 /// End Setup Modifiers Gradients
 
+                /// Setup Modifiers Applications 
+
+                    var markup = '';
+
+                    _.each(ub.data.applications.items, function (application) {
+
+                        markup += application.id + ". " + application.name + "<br /><br />";
+                        markup += "<div data-id='" + application.id + "' class='logos_picker'></div>";
+
+                    });
+
+                    //$('div.applications_container').html(markup);
+
+                    markup = '';
+
+                    _.each(ub.data.applications.items, function (application) {
+
+                        var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
+                        ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
+                        ddowns     +=       '<option value="none">-- Select an Application --</option>';
+                        ddowns     +=       '<option value="logo">Logo</option>';
+                        ddowns     +=       '<option value="team_name">Team Name</option>';
+                        ddowns     +=       '<option value="player_number">Player Number</option>';
+                        ddowns     +=       '<option value="player_name">Player Name</option>';
+                        ddowns     +=       '<option value="image">Image</option>';
+                        ddowns     +=   '</select>&nbsp;';
+                        ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
+                        ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Identify</button>';
+                        ddowns     += '</div>';
+                        ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
+
+                        markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
+
+                    });
+
+                    markup += '<input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>';
+                    markup += '<div class="application_footer"><button data-action="show_all_locations" data-option="applications" class="btn btn-xs show_all_locations">Show All Locations</button></div>';
+
+                    $('div.applications').html(markup);
+
+                    // Event handler for Application Buttons and Dropdowns
+
+                        $('select.application_type_dropdown').on('change', function (e) {
+
+                            $select = $(this);
+
+                            var id = $select.data('id');
+                            var application_type = $select.val();
+                            var application = _.find(ub.data.applications.items, { id: id });
+
+                            $container = $('div.applications_modifier_container[data-id="' + id + '"]');
+
+                            if (application_type === "logo") {
+                                $container.ubLogoDialog({ application: application });
+                            }
+
+                            if (application_type === "image") {
+                                $container.ubImageDialog({ application: application });
+                            }
+
+                            if (application_type === "team_name") {
+                                $container.ubTeamNameDialog({ application: application });
+                            }
+
+                            if (application_type === "player_name") {
+                                $container.ubPlayerNameDialog({ application: application });
+                            }
+
+                            if (application_type === "player_number") {
+                                $container.ubPlayerNumberDialog({ application: application });
+                            }
+
+                            if (application_type === "none") {
+                                $container.html('');
+                            }
+                            
+                        });
+
+                        $('button[data-option="applications"]').on('click', function(e) {
+
+                            var $button = $(this);
+                            var action = $button.data('action');
+                            
+                            if (action === "identify") {
+
+                                var data_id = $button.data("id");
+                                var application = _.find(ub.data.applications.items, { id: data_id });
+                                var perspective = application.perspective;
+                                var view = ub[perspective + '_view'];
+                                var view_objects = ub.objects[perspective + '_view'];
+
+                                if($button.hasClass('appactive')){
+
+                                    $button.html('Identify');
+
+                                    $button.removeClass('appactive');
+                                    if (typeof view_objects['point'] === "object") {
+
+                                        view.removeChild(view_objects['point']);
+                                        delete view_objects['point'];
+
+                                    }
+
+                                    return;
+                                }
+
+                                $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
+                                $('button[data-option="applications"][data-action="identify"]').html('Identify');
+
+                                $button.addClass('appactive');
+                                $button.html('Hide');
+
+                                var point = ub.pixi.new_sprite('/images/misc/point.png');
+                                point.anchor.set(0.5, 0.5);
+
+                                $('a.change-view[data-view="' + perspective + '"]').click();
+
+                                var x = ub.dimensions.width * application.position.x;
+                                var y = ub.dimensions.height * application.position.y;
+
+                                point.position.x = x;
+                                point.position.y = y;
+
+
+
+                                if (typeof view_objects['point'] === "object") {
+
+                                    view.removeChild(view_objects['point']);
+                                    delete view_objects['point'];
+
+                                }
+
+                                view_objects['point'] = point;
+                                view.addChild(point);
+
+                            }
+
+                        });
+
+                    // End Event handler for Applications Buttons
+
+                /// End Setup Modifiers Applications
+
                 /// Setup Settings obj, for persisting customizer selection
 
                     ub.init();
@@ -941,50 +1139,6 @@ $(document).ready(function () {
                 /// End Setup Settings obj
 
             };
-
-            window.ub.setup_pattern_view = function () {
-
-                var layer_1 = ub.pixi.new_sprite(ub.assets.pattern.layers[0]);
-                var layer_2 = ub.pixi.new_sprite(ub.assets.pattern.layers[1]);
-                var layer_3 = ub.pixi.new_sprite(ub.assets.pattern.layers[2]);
-                var layer_4 = ub.pixi.new_sprite(ub.assets.pattern.layers[3]);
-
-                layer_1.width = ub.dimensions.width;
-                layer_1.height = ub.dimensions.height;
-                layer_2.width = ub.dimensions.width;
-                layer_2.height = ub.dimensions.height;
-                layer_3.width = ub.dimensions.width;
-                layer_3.height = ub.dimensions.height;
-                layer_4.width = ub.dimensions.width;
-                layer_4.height = ub.dimensions.height;
-
-                ub.objects.pattern_view = {};
-
-                ub.objects.pattern_view.layer_1 = layer_1;
-                ub.objects.pattern_view.layer_2 = layer_2;
-                ub.objects.pattern_view.layer_3 = layer_3;
-                ub.objects.pattern_view.layer_4 = layer_4;
-                
-                layer_1.zIndex = 1;
-                layer_2.zIndex = 2;
-                layer_3.zIndex = 3;
-                layer_4.zIndex = 4;
-
-                // default colors
-
-                layer_1.tint = 0xdbd1c5;
-                layer_2.tint = 0x8a8275;
-                layer_3.tint = 0xb6b09f;
-                layer_4.tint = 0x594e50;
-
-                ub.pattern_view.addChild(layer_1);
-                ub.pattern_view.addChild(layer_2);
-                ub.pattern_view.addChild(layer_3);
-                ub.pattern_view.addChild(layer_4);
-
-                ub.updateLayersOrder(ub.pattern_view);
-
-            }
 
         /// End Render Different Views ///
 
@@ -1053,7 +1207,7 @@ $(document).ready(function () {
                 });
 
                 $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
-            
+
             }
 
 
@@ -1429,41 +1583,59 @@ $(document).ready(function () {
 
                     if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
 
-                        ub.objects.front_view['gradient'].visible    = false;
-                        ub.objects.back_view['gradient'].visible     = false;
-                        ub.objects.left_view['gradient'].visible     = false;
-                        ub.objects.right_view['gradient'].visible    = false;
-                         
+                        if (typeof ub.objects.front_view['gradient'] === "object") {
+                            ub.objects.front_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.back_view['gradient'] === "object") {
+                            ub.objects.back_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.left_view['gradient'] === "object") {
+                            ub.objects.left_view['gradient'].visible = false;    
+                        }
+                        
+                        if (typeof ub.objects.right_view['gradient'] === "object") {
+                            ub.objects.right_view['gradient'].visible = false;    
+                        }
+                        
                     }
                     
-                    ub.objects.front_view[obj].tint                 = color_value;
-                    ub.objects.back_view[obj].tint                  = color_value;
-                    ub.objects.left_view[obj].tint                  = color_value;
-                    ub.objects.right_view[obj].tint                 = color_value;
-                   
+                    if (typeof(ub.objects.front_view[obj]) === "object") {
+                        ub.objects.front_view[obj].tint = color_value;
+                    }
+                    
+                    if (typeof(ub.objects.back_view[obj]) === "object") {
+                        ub.objects.back_view[obj].tint = color_value;    
+                    }
+
+                    if (typeof(ub.objects.left_view[obj]) === "object") {
+                        ub.objects.left_view[obj].tint = color_value;    
+                    }
+                    
+                    if (typeof(ub.objects.right_view[obj]) === "object") {
+                        ub.objects.right_view[obj].tint = color_value;    
+                    }
+                    
   
                 } else if (panel == 'patterns') {
 
                     if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-
                         ub.objects.pattern_view.gradient_layer.visible = false;
-
                     }
 
-                    ub.objects.pattern_view[obj].tint   = color_value;
-
+                    ub.objects.pattern_view[obj].tint = color_value;
                     ub.applyMaterial(panel);
-
+                    
                     ub.objects.front_view['pattern'].visible = true;
                     ub.objects.back_view['pattern'].visible = true;
                     ub.objects.left_view['pattern'].visible = true;
                     ub.objects.right_view['pattern'].visible = true;
                   
-
                 } else {
 
                     if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                        ub.objects.front_view[obj].tint = color_value;    
+                        ub.objects.front_view[obj].tint = color_value;
                     }
 
                     if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
@@ -1480,11 +1652,304 @@ $(document).ready(function () {
 
                 }
 
-                ub.refresh_thumbnails();
+                
                 $('[rel="popover"]').popover("hide");
+
+                ub.refresh_thumbnails();
 
             }
 
+            /// Change Pattern ///
+
+            $('.change-pattern').on('click', function (e) {
+
+               var pattern = $(this).data('pattern');
+               var target = $(this).data('target-pattern');
+               var panel = $(this).data('panel');
+               var pattern_element = $(this);
+
+               window.ce = pattern_element;
+
+               var selection = $(window.ce).data('selection');
+
+               pattern_element.parent().data("active_pattern", pattern);
+               ub.change_pattern(target, pattern, panel);
+
+               $("button[data-target-pattern='" + target +"']").html('');
+
+               var path = '/images/sidebar/';
+               var highlighter = '';
+
+               path = path + 'highlighter_1.png';
+               highlighter = "<img src = '" + path + "'>"
+               
+               $(this).html(highlighter);
+                
+            }); 
+
+            ub.change_pattern = function (target, pattern, panel) {
+
+                var el = _.find(ub.data.patterns.items, { code: pattern });
+                var clone = {};
+                var clone = _.clone(el);
+                var cont = $("[data-group=patterns][data-option=" + target + "]").find('div.layers_container');
+
+                cont.html('');
+
+                var elements = "";
+
+                if (el.layers.length > 0) {
+                    elements = "<br />Layers<br /><br />";
+                }
+
+                _.each(el.layers, function (e, index) {
+
+                    var val = e.default_color;
+                    var col = e.default_color;
+                    var filename = e.filename;
+                    
+                    elements += ub.create_pattern_color_picker(index, val, col, target, el.code); 
+
+                });
+
+                elements += "<br />";
+                elements += "Rotation: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='rotation' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='rotation_pattern_slider_" + target + "' class='pattern_slider pattern_rotation_slider'></div>";
+
+                elements += "<br />";
+                elements += "Opacity: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='opacity' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='opacity_pattern_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Scale: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='scale' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='scale_pattern_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Position X: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='position_x' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='position_x_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<br />";
+                elements += "Position Y: <span class='pattern_slider_label' data-target='pattern' data-layer='" + target + "' data-label='position_y' data-id='" + target + "'>100</span>%<br />";
+                elements += "<div id='position_y_slider_" + target + "' class='pattern_slider'></div>";
+
+                elements += "<hr />";
+
+                elements += "<div id='angle_pattern_slider_" + target + "' class='pattern_slider_angle'></div>";
+                elements += "<hr />";
+                
+                elements += "<button style='width: 100%;' id='update-pattern-" + target + "' data-target='" + target + "' data-pattern='" + el.code + "'>Update Pattern</button>";
+
+                cont.html(elements);
+
+                $('input.pattern_' + target).ubColorPicker({
+                    target: target,
+                    type: 'pattern',
+                });
+
+                var layers = _.pluck(clone.color_layers, 'value');
+                var layers_clone = [];
+
+                _.each(layers, function (e) {
+                    layers_clone.push(e * 100);
+                });
+
+                //// Rotation 
+
+                var max_rotation = 620;
+                var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                $rotation_slider.roundSlider({
+
+                    values: [0],
+                    min: 0,
+                    max: max_rotation,
+                    gap: 0,
+                    width: 5,
+                    handleSize: "+14",
+                    startAngle: 90,
+
+                    change: function(event, ui) {
+
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+                        $('span[data-target="pattern"][data-label="rotation"][data-layer="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    }
+
+                });
+
+                //// End Rotation 
+
+                var max_opacity = 100;
+                $('#' + 'opacity_pattern_slider_' + target).limitslider({
+                    
+                    values: [max_opacity],
+                    min: 0,
+                    max: 100,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="opacity"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                });
+
+                var max_scale = 200;
+                $('#' + 'scale_pattern_slider_' + target).limitslider({
+                    
+                    values: [100],
+                    min: 0,
+                    max: max_scale,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="scale"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                });
+
+
+                var max_x = 100;
+                $('#' + 'position_x_slider_' + target).limitslider({
+                    
+                    values: [50],
+                    min: 0,
+                    max: 100,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="slider_x"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                 });
+
+                var max_y = 100;
+                $('#' + 'position_y_slider_' + target).limitslider({
+                    
+                    values: [50],
+                    min: 0,
+                    max: max_y,
+                    gap: 0,
+                    change: function (event, ui) {
+
+                        var value = $(this).limitslider("values")[0];
+                        $('span[data-target="pattern"][data-label="slider_y"][data-id="' + target + '"]').text(value);
+                        $("button#update-pattern-" + target).click();
+
+                    },
+                 });
+
+                //// End Part
+
+                $("button#update-pattern-" + target).click('click', function (e) {
+
+                    var target_name = target.replace('_', ' ');
+                    target_name = util.toTitleCase(target_name);
+
+                    var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
+                    pattern_settings.containers = {};
+
+                    var views = ub.data.views;
+                    
+                    _.each(views, function (v){
+
+                        pattern_settings.containers[v] = {};
+                        
+                        var namespace = pattern_settings.containers[v];
+                        namespace.container = new PIXI.Container();
+                        var container = namespace.container;
+                        container.sprites = {};
+
+                        _.each(clone.layers, function (layer, index) {
+
+                            var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                            container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                            var sprite = container.sprites[index];
+
+                            sprite.zIndex = layer.layer_number * -1;
+                            sprite.tint = parseInt(layer.default_color,16);
+                            sprite.anchor.set(0.5,0.5);
+
+                            var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
+                            var val = $inputbox.val();
+                            
+                            if (val.length === 7) {
+                                val = val.substr(1, 6);
+                            }
+
+                            sprite.tint = parseInt(val, 16);
+                            container.addChild(sprite);
+
+                            var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                            container.alpha = opacity_value / 100;
+
+                            var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                            var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+
+                            var x = ub.dimensions.width * (x_value / 100);
+                            var y = ub.dimensions.height * (y_value / 100);
+
+                            container.position = new PIXI.Point(x,y);
+
+                        });
+
+                        ub.updateLayersOrder(container);
+
+                        var view = v + '_view';
+                        var mask = ub.objects[view][target + "_mask"];
+
+                        if(typeof mask === 'undefined') {
+                            return;
+                        }
+
+                        container.mask = mask;
+
+                        /// Process Rotation
+
+                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+
+                        container.rotation = value / 100
+
+                        /// End Rotation
+
+                        /// Process Scale 
+
+                        var $scale_slider = $('div#scale_pattern_slider_' + target);
+                        var value = $scale_slider.limitslider("values")[0];
+                        var scale = new PIXI.Point(value / 100, value / 100);
+
+                        container.scale = scale
+
+                        /// End Process Scale
+
+                        if (typeof ub.objects[view]['pattern_' + target] === 'object') {
+                            ub[view].removeChild(ub.objects[view]['pattern_' + target]);
+                        }
+
+                        ub.objects[view]['pattern_' + target] = container;
+                        ub[view].addChild(container);
+                        container.zIndex = mask.zIndex + (-1);
+
+                        ub.updateLayersOrder(ub[view]);
+
+                    });
+
+                    ub.refresh_thumbnails();
+
+                });
+
+                $("button#update-pattern-" + target + "").click();
+
+            };
+
+            /// End Change Pattern ///
 
             /// Change Gradient ///
 
@@ -1550,7 +2015,7 @@ $(document).ready(function () {
 
                 var add_color_stop_button = "<div class='color_picker_container add_delete_color_stop'>" + add_button + "&nbsp;" + delete_button + "</div>";
                 elements += "<br />";
-                elements += add_color_stop_button;                
+                elements += add_color_stop_button;
 
             }
 
@@ -1594,6 +2059,8 @@ $(document).ready(function () {
                 min: 0,
                 max: 360,
                 startAngle: 90,
+                width: 5,
+                handleSize: "+14",
                 change: function (event, ui) {
                     
                     $("button#update-gradient-" + target).click();
@@ -1605,9 +2072,13 @@ $(document).ready(function () {
 
                 _.each(clone.color_stops, function (e, index) {
 
-                    var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
-                    e.color = s.val();
+                    var temp_selector = 'gradient_' + target.toLowerCase() + '_' + index;
+                    var $input = $('input[data-elid="' + temp_selector + '"]');
+                    
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background', $input.val());
+                    
+                    e.color = $input.val();
+
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
                     temp = temp / 10;
@@ -1620,7 +2091,6 @@ $(document).ready(function () {
                 ub.generate_gradient(clone, target);
 
             });
-
 
             if (el.code === "custom") {
 
@@ -1671,6 +2141,15 @@ $(document).ready(function () {
             }
 
             $("button#update-gradient-" + target + "").click();
+
+        };
+
+        ub.create_pattern_color_picker = function (index, value, color, target, pattern) {
+
+            var element = "";
+            element = "<div class='pattern_color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='pattern_" + target + "' type='text' data-elid='pattern_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-pattern='" + pattern + "'  value='" + color + "'/></div>";
+
+            return element;
 
         };
 
@@ -1773,6 +2252,42 @@ $(document).ready(function () {
             $("div[data-group='gradients']").hide();
             $("div[data-option='body']").fadeIn('fast');
 
+            $('.pattern_base').click(function (e) {
+
+                var option = $(this).data('option');
+
+                $("[data-group='patterns']").css('display','none');
+                $("div[data-option='" + option + "']").show(100);
+
+                $('.pattern_base').removeClass('tether_button');
+
+                var current_button = $(this);
+                var down_arrow = '<div id="arrow_design_sets" class="down_arrow">';
+
+                $("body").append(down_arrow);
+
+                var arrow_obj = $('#arrow_design_sets');
+
+                var t = new Tether({
+
+                  element: arrow_obj,
+                  target: current_button,
+                  attachment: 'top center',
+                  targetAttachment: 'bottom center'
+
+                });
+
+                current_button.addClass('tether_button');
+                $('.down_arrow:not(.pattern-element)').remove();
+
+                ub.tethers['modifiers'] = t;
+
+            });
+
+            $("div[data-group='patterns']").hide();
+            $("div[data-group='gradients']").hide();
+            $("div[data-option='body']").fadeIn('fast');
+
         }
 
         ub.generate_gradient = function (gradient_obj, target) {
@@ -1825,9 +2340,15 @@ $(document).ready(function () {
                 gradient = ctx.createLinearGradient(0,22,0,410);
 
             }
-            
+
             _.each(gradient_obj.color_stops, function (color_stop) {
+
+                if( color_stop.color.length === 6 ){
+                    color_stop.color = "#" + color_stop.color;
+                }
+
                 gradient.addColorStop(color_stop.value, color_stop.color);
+              
             });
 
             ctx.fillStyle = gradient;
@@ -1846,8 +2367,8 @@ $(document).ready(function () {
 
             var texture = PIXI.Texture.fromCanvas(canvas);
             var temp_pattern = {};
-
             var gradient_layer = new PIXI.Sprite(texture);
+
             gradient_layer.zIndex = 1;
 
             if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
@@ -1866,11 +2387,12 @@ $(document).ready(function () {
 
                 temp_pattern[v] = new PIXI.Sprite(texture);
 
-                if (typeof(ub.objects[view].gradient) !== 'undefined') {
-                    ub[view].removeChild(ub.objects[view].gradient);    
+                if (typeof(ub.objects[view]['gradient_' + target]) !== 'undefined') {
+                    
+                    ub[view].removeChild(ub.objects[view]['gradient_' + target]);
+
                 }
 
-                ub[view].removeChild(ub.objects[view].gradient);
                 temp_pattern[v].zIndex = 1;
 
                 if (target === 'body') {
@@ -1879,14 +2401,19 @@ $(document).ready(function () {
                 else{
 
                     var mask = ub.objects[view][target + "_mask"];
+
+                    if (typeof mask === 'undefined') {
+                        return;
+                    }
+               
                     temp_pattern[v].mask = mask;
                     temp_pattern[v].zIndex = mask.zIndex;
-
+                   
                 }
-
-                ub.objects[view].gradient = temp_pattern[v];
+        
+                ub.objects[view]['gradient_' + target] = temp_pattern[v];
                 ub[view].addChild(temp_pattern[v]);
-
+          
                 ub.updateLayersOrder(ub[view]);
 
             });
@@ -2088,9 +2615,10 @@ $(document).ready(function () {
             data.email = ub.user.email;
         }
         $('#save-design-modal').modal('hide');
-        $('.flash-alert .flash-sub-title').text('Please wait...');
-        $('.flash-alert .flash-message').text('Saving your order');
-        $('.flash-alert').fadeIn();
+
+        // Notification Message
+        $.smkAlert({text: 'Saving your order. Please wait...', type:'info', permanent: true, marginTop: '90px'});
+
         var endpoint = ub.config.api_host + '/api/order';
         if (typeof(ub.order) !== "undefined") {
             endpoint = ub.config.api_host + '/api/order/update';
@@ -2116,10 +2644,8 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
                 if (response.success) {
-                    $('.flash-alert').fadeOut();
-                    $('.flash-alert .flash-sub-title').text('Complete:');
-                    $('.flash-alert .flash-message').text('Finished Saving Uniform Design');
-                    $('.flash-alert').fadeIn();
+                    // Notification Message
+                    $.smkAlert({text: 'Finished Saving Uniform Design', type:'success', permanent: false, 'time': 10, marginTop: '90px'});
                     // Redirect to Order Page
                     location.href = location.protocol + '//' + location.host + '/order/' + response.order.order_id;
                 }
@@ -2215,6 +2741,13 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
+
+        var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
+        if (captcha_response.length == 0) {
+            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return false;
+        }
+
         $.ajax({
             url: ub.config.api_host + '/api/order/share',
             data: JSON.stringify(data),
@@ -2225,14 +2758,12 @@ $(document).ready(function () {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function(response) {
                 $('#share-design-modal').modal('hide');
-                if (response.success) {
-                    $('.flash-alert .flash-sub-title').text('Success: ');
-                } else {
-                    $('.flash-alert .flash-sub-title').text('Error: ');
-                    $('.flash-alert').addClass('alert-warning');
-                }
-                $('.flash-alert .flash-message').text(response.message);
-                $('.flash-alert').show();
+                // Notification Message
+                var messageType = (response.success) ? 'success' : 'warning';
+                $.smkAlert({text: response.message, type:messageType, permanent: false, time: 10, marginTop: '90px'});
+
+                // Reload reCAPTCHA
+                grecaptcha.reset();
             }
         });
     });
@@ -2285,12 +2816,8 @@ $(document).ready(function () {
 
         $('#team-roster-modal').modal('hide');
 
-        $('.flash-alert .flash-sub-title').text('Success: ');
-        $('.flash-alert .flash-message').text('Updated team roster list');
-        $('.flash-alert').fadeIn();
-        setTimeout(function(){
-            $('.flash-alert').fadeOut();
-        }, 3000);
+        // Notification Message
+        $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
     function getUniformSuggestions(categoryId) {

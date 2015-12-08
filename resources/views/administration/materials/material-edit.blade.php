@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
  
 @section('content')
 
@@ -22,10 +22,6 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/update" enctype="multipart/form-data" id='edit-material-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name</label>
@@ -295,11 +291,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary edit-material">
+                                <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Material
                                 </button>
-                                <a href="/administration/materials" class="btn btn-lg btn-danger" style="margin-right: 15px;">
+                                <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -312,22 +308,6 @@
     </div>
 </div>
 @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
-
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-    $('#edit-material-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating Material');
-        $('.flash-alert .flash-sub-title').text('Uploading');
-        $('.flash-alert .flash-message').text('Please wait while we are saving your changes...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
 
 @endsection
 

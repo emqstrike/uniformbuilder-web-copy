@@ -88,6 +88,9 @@ div.navbar-header {
 #right-sidebar .gradients {
     background-image: url(/images/sidebar/gradients.png);
 }
+#right-sidebar .applications {
+    background-image: url(/images/sidebar/applications.png);
+}
 #right-sidebar .texts {
     background-image: url(/images/sidebar/texts.png);
 }
@@ -100,6 +103,10 @@ div.navbar-header {
 #right-sidebar .sizes {
     background-image: url(/images/sidebar/sizes.png);
 }
+#right-sidebar .attachments {
+    background-image: url(/images/sidebar/attachments.png);
+}
+
 
 /* END RIGHT Side Bar Icons */
 
@@ -207,6 +214,8 @@ a.active_button {
 
     #left-main-window {
         overflow: hidden;
+        background-image: url(/images/misc/bg.png);
+        background-size: cover;
     }
 
 }
@@ -383,6 +392,29 @@ div.gradient_element {
 div.gradient_panel_container {
 
     margin-left: 50px;
+    display: table;
+
+}
+
+/* End Gradients */
+
+div.pattern_element {
+
+    width: 70px;
+    height: 70px;
+    float: left;
+    background-repeat: no-repeat;
+    margin: 10px;
+
+    button {
+        border-radius: 0px;
+    }
+
+}
+
+div.pattern_panel_container {
+
+    margin-left: 30px;
     display: table;
 
 }
@@ -770,12 +802,35 @@ img.highlighter {
 .gradient_slider {
 
     margin: 20px;
+    height: 7px;
 
+}
+
+.logo_slider {
+
+    margin: 20px;
+    height: 7px;
+    margin: 0 auto;
+    z-index: 0;
+
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    width: 15px;
+    height: 15px;
 }
 
 .gradient_slider_angle {
     margin: 0 auto;
-    height: 170px;
+    height: 155px;
+}
+
+.rs-handle {
+    width: 15px !important;
+    height: 15px !important;
 }
 
 .gradient_button {
@@ -783,42 +838,154 @@ img.highlighter {
 }
 
 .range_container {
-   
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-
     overflow:hidden;
-
 }
 
 .range {
-
    -ms-transform: rotate(-90deg); /* IE 9 */
     -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
     transform: rotate(-90deg);
     height: 420px;
     background-size: cover;
-
 }
 
 .rs-bg-color {
-
     background-size: cover;
-
 }
+
 
 .rs-seperator {
     border: 0px solid #aaa;
 }
- 
 
-/* END MISC */
+/* Pattern Slider */
+
+    .pattern_slider {
+
+        margin: 20px;
+        height: 7px;
+        margin: 0 auto;
+        z-index: 0;
+
+    }
+
+    .pattern_slider_label {
+
+        font-weight: bold;
+
+    }
+
+    .pattern_rotation_slider {
+        margin: 0 auto;
+        height: 155px;
+    }
+
+
+
+/* End Pattern Slider */
+
+         
+        /* END MISC */
+
 
 /* End Pickers */
 
-.modal-dialog {
+    /* GRAPHICS */
+
+        input[type=file] {
+            margin: 0 auto;
+        }
+
+        div.image_preview {
+            display: block;
+            width: 200px;
+            height: 200px;
+            border: solid 1px #acacac;
+            margin: 0 auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #f2f2f2;
+            background-size: cover;
+        }
+
+        table.logos {
+            
+            margin-top: 10px;
+
+            tr {
+                height: 60px;
+            }
+
+            td, th {
+                vertical-align: middle !important;
+                text-align: center;
+            }
+
+            a {
+                cursor: pointer;
+            }
+
+        }
+
+        img.logo_list {
+            height: 50px;
+        }
+
+        a.btn-remove {
+            color: red;
+        }
+
+        div.applications_container {
+            margin: 10px;
+        }
+
+        img.logo_picker {
+
+            height: 50px;
+
+        }
+
+    /* End GRAPHICS */
+
+    /* APPLICATIONS */
+
+        select.application_type_dropdown {
+
+            width: 50%;
+
+        }
+
+        div.application_footer {
+            width: 100%;
+            text-align: center;
+
+            button.show_all_locations {
+
+                width: 50% !important;
+
+            }
+
+        }
+
+        button.appactive {
+
+            background-color: #3d3d3d;
+            color: white !important;
+
+        }
+
+    /* End APPLICATIONS */
+
+/* TEAM Roster Modal */
+#team-roster-modal .modal-dialog {
+    width: 70%;
+    height: 70%;
+    padding: 0;
+
     select {
         background: maroon;
         color: white;
@@ -847,6 +1014,13 @@ img.highlighter {
 
 .table-roster-list tr td {
     padding: 5px;
+}
+
+
+div.applications_dropdown {
+    
+    margin: 0 auto;
+
 }
 
 .uniform-sizes {
@@ -940,3 +1114,4 @@ img.highlighter {
         font-size: smaller;
     }
 }
+

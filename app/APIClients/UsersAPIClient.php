@@ -139,4 +139,24 @@ class UsersAPIClient extends APIClient
             'message' => $result->message
         ];
     }
+
+    public function activateUser($data)
+    {
+        $response = $this->post('user/activate', [
+            'json' => $data
+        ]);
+
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true,
+                'message' => $result->message
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
+    }
 }
