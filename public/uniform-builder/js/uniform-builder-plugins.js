@@ -405,6 +405,31 @@
             });
 
             /// End Color Container Handlers
+
+            var position = '';
+            var scale = '';
+            var rotation = '';
+            var alpha = '';
+            var tint = '';
+
+            var view_objects = ub.objects[settings.application.perspective + '_view'];
+            var view = ub[settings.application.perspective + '_view'];
+            var s = view_objects['objects_' + settings.application.code];
+
+            if (typeof(s) === 'object') {
+
+                var obj = view_objects['objects_' + settings.application.code];
+
+                position = obj.position;
+                scale = obj.scale;
+                rotation = obj.rotation;
+                alpha = obj.alpha;
+                tint = obj.tint;
+
+                view.removeChild(view_objects['objects_' + application.code]);
+                delete view_objects['objects_' + application.code];
+
+            }
             
             create_font_dropdown(settings);
             create_color_dropdown(settings);
@@ -1103,12 +1128,11 @@
 
                     if (typeof app !== 'undefined') {
 
-                        if (app.type !== 'logo') {
+                        if (app.type === 'player_number' || app.type === 'player_name' || app.type === 'team_name') {
 
                             var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
 
                             sprite.tint = parseInt(color_code, 16);    
-
                             app.color_array[sprite.ubLayerNo] = {};
                             app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
                             app.color_array[sprite.ubLayerNo].layer_no = _.first(app.text_obj.children).ubLayerNo;
