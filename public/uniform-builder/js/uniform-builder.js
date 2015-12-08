@@ -1022,12 +1022,16 @@ $(document).ready(function () {
                 ddowns     +=       '<option value="team_name">Team Name</option>';
                 ddowns     +=       '<option value="image">Image</option>';
                 ddowns     +=   '</select>&nbsp;';
-                ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
-                ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Identify</button>';
+
+                ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-search"></i></button>';
+                ddowns     +=   '<button data-action="interactive" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
+                ddowns     +=   '<button data-action="bring_to_front" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-up"></i></button>';
+                ddowns     +=   '<button data-action="send_to_back" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-down"></i></button>';
+                
                 ddowns     += '</div>';
                 ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
 
-                markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
+                markup += "<div class='application_dropdown_label'>" + application.id + ". " + application.name + "<br /></div>" + ddowns + "<br /><br />";
 
             });
 
@@ -1084,18 +1088,28 @@ $(document).ready(function () {
 
                     var $button = $(this);
                     var action = $button.data('action');
+                    var data_id = $button.data("id");
+                    var application = _.find(ub.data.applications.items, { id: data_id });
+                    var perspective = application.perspective;
+                    var view = ub[perspective + '_view'];
+                    var view_objects = ub.objects[perspective + '_view'];
+
+                    if (action === "interactive") {
+                        console.info('interactive, ' + data_id);
+                    }
+
+                    if (action === "bring_to_front") {
+                        console.info('bring_to_front, ' + data_id);
+                    }
+
+                    if (action === "send_to_back") {
+                        console.info('send_to_back, ' + data_id);
+                    }
                     
                     if (action === "identify") {
 
-                        var data_id = $button.data("id");
-                        var application = _.find(ub.data.applications.items, { id: data_id });
-                        var perspective = application.perspective;
-                        var view = ub[perspective + '_view'];
-                        var view_objects = ub.objects[perspective + '_view'];
-
                         if($button.hasClass('appactive')){
 
-                            $button.html('Identify');
                             $button.removeClass('appactive');
 
                             if (typeof view_objects['point'] === "object") {
@@ -1109,10 +1123,8 @@ $(document).ready(function () {
                         }
 
                         $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
-                        $('button[data-option="applications"][data-action="identify"]').html('Identify');
 
                         $button.addClass('appactive');
-                        $button.html('Hide');
 
                         var point = ub.pixi.new_sprite('/images/misc/point.png');
                         point.anchor.set(0.5, 0.5);
