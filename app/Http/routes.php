@@ -12,23 +12,32 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/index');
 });
 
 Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
+Route::get('forgotPassword', 'AuthenticationController@forgotPasswordForm');
+Route::get('resetPassword/{hash}', 'AuthenticationController@resetPasswordForm');
+Route::post('saveNewPassword', 'AuthenticationController@saveNewPassword');
+Route::post('recoverPassword', 'AuthenticationController@recoverPassword');
+Route::get('changePassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@changePasswordForm']);
+Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@saveChangedPassword']);
+Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 // Display the Order
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
     
-    Route::get('/',  function(){ return view('administration.oops'); });
+    Route::get('/', 'Administration\AdministrationController@dashboard');
 
     // Login
     Route::get('login', 'Administration\AuthenticationController@loginForm');
@@ -36,7 +45,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('logout', 'Administration\AuthenticationController@administrationLogout');
 
     // Admin page
-    Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AuthenticationController@main']);
+    Route::get('main', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
 
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);

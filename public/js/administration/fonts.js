@@ -15,12 +15,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.font-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-font').removeAttr('disabled');
                     $(elem + ' .enable-font').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -40,12 +43,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.font-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .enable-font').removeAttr('disabled');
                     $(elem + ' .disable-font').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -69,11 +75,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal').modal('hide');
                     $('.font-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -81,12 +90,12 @@ $(document).ready(function(){
 
     // Edit Pattern Scripts
     $('#edit-font-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Updating font');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving font...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
+        new PNotify({
+            title: 'Updating font',
+            text: 'Please wait while we are saving font...',
+            type: 'success',
+            hide: true
+        });
         $('.main-content').fadeOut('slow');
     });
 });

@@ -1,4 +1,4 @@
-@extends('administration.main')
+@extends('administration.lte-main')
 
 @section('content')
 
@@ -21,10 +21,6 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/fabric/add" enctype="multipart/form-data" id='create-fabric-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        @if (Session::has('flash_message'))
-                        <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
-                        @endif
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -49,11 +45,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary create-fabric">
+                                <button type="submit" class="btn btn-primary create-fabric">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Fabric
                                 </button>
-                                <a href="/administration/fabrics" class="btn btn-lg btn-danger">
+                                <a href="/administration/fabrics" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -65,22 +61,5 @@
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-
-    $('#create-fabric-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New fabric');
-        $('.flash-alert .flash-sub-title').text('Saving');
-        $('.flash-alert .flash-message').text('Please wait while we are saving fabric...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
 
 @endsection

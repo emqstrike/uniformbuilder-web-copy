@@ -13,12 +13,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.fabric-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-fabric').removeAttr('disabled');
                     $(elem + ' .enable-fabric').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -38,12 +41,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.fabric-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-fabric').attr('disabled', 'disabled');
                     $(elem + ' .enable-fabric').removeAttr('disabled');
                     $('.fabric-' + id).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -67,11 +73,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal').modal('hide');
                     $('.fabric-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });

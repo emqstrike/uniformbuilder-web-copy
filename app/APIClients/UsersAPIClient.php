@@ -32,6 +32,46 @@ class UsersAPIClient extends APIClient
         return null;
     }
 
+    public function recoverPassword($email)
+    {
+        $data = ['email' => $email];
+        $response = $this->post('user/recoverPassword', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
+    }
+
+    public function getUserFromHash($hash)
+    {
+        $data = ['hash' => $hash];
+        $response = $this->post('user/identifyHash', [
+            'json' => $data
+        ]);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true,
+                'user' => $result->user
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Invalid reset password token'
+        ];
+    }
+
     public function isEmailTaken($email, $id = null)
     {
         $data = ['email' => $email];
@@ -79,5 +119,44 @@ class UsersAPIClient extends APIClient
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
+    }
+
+    public function saveNewPassword($data)
+    {
+        $response = $this->post('user/saveNewPassword', [
+            'json' => $data
+        ]);
+
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success) {
+            return [
+                'success' => true,
+                'message' => $result->message
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
+    }
+
+    public function activateUser($data)
+    {
+        $response = $this->post('user/activate', [
+            'json' => $data
+        ]);
+
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return [
+                'success' => true,
+                'message' => $result->message
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => $result->message
+        ];
     }
 }

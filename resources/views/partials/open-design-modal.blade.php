@@ -1,4 +1,4 @@
-<!-- Save Design Modal -->
+<!-- Open Design Modal -->
 <div class="modal bs-modal-sm in" id="open-design-modal" aria-hidden="false">
     <div class="modal-dialog"> 
         <form class="form-horizontal" role="form" id='open-design-form'>
@@ -12,8 +12,7 @@
                     <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
                     @endif
 
-                    <div class="table-responsive">
-                        <table id="orders-list" class="table table-bordered"></table>
+                    <div id="orders-list" class="container-fluid">
                     </div>
                 </div>
 
@@ -24,3 +23,19 @@
         </form>
     </div>
 </div>
+
+<script id='list-saved-designs' type="text/mustache">
+<div class='col-md-6 uniform-design-item'>
+    <label class='label label-info'>@{{created_at}}</label>
+    <br />
+    <img height='70em' src="@{{upper_front_thumbnail_path}}" />
+    <img height='70em' src="@{{upper_back_thumbnail_path}}" />
+    <br />
+    <a href="/order/@{{order_id}}" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="bottom" title="Open"><span class="fa fa-folder-open-o"></span>
+    </a>
+    <a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="@{{order_id}}" data-toggle="tooltip" data-placement="bottom" title="Share"><span class="fa fa-mail-forward"></span>
+    </a>
+    <a href="#" class="btn btn-xs btn-default delete-uniform-design" data-order-id="@{{id}}" data-toggle="tooltip" data-placement="bottom" title="Delete"><span class="fa fa-trash"></span>
+    </a>
+</div>
+</script>

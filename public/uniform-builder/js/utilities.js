@@ -1,38 +1,44 @@
+$( document ).ready(function() {
 
-    $( document ).ready(function() {
+    window.util = {
 
+        collectionToArray: function(collection){
 
-        /// Utilities
+            var tempArray = [];
 
-            window.Utilities = {};
+            _.each(collection, function(element){
+                tempArray.push(element)
+            });
 
-            window.Utilities.debug = true;
-            window.Utilities.p = function(obj, label) {
+            return tempArray;
 
-                if (label === undefined) {
-                    label = 'No Label';
-                }
+        },
+        
+        toTitleCase: function(str){
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        },
 
-                if(window.Utilities.debug){
-                    
-                    console.log('--->');
-                    console.log(label + ": ");
-                    console.log(obj);
-                    console.log('<---')
+        dataSelector: function(preamble, obj){
 
-                }
+            /// helper to compose selector when using multiple data-attributes, will print an error log
+            /// if an invalid selector is detected
 
-            };
+            var selector = preamble;
 
-            window.Utilities.toTitleCase = function(str){
-            
-                return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            _.each(obj, function(value, key){
+                var el = "[data-" + key + "='" + value + "']";
+                selector += el;
+           })
 
-            };
+            if($(selector).length > 0) {
+                return $(selector);
+            }
+            else {
+                console.error('Invalid Selector: ' + selector);
+            }
 
-            window.util = window.Utilities;
+        }
 
-        /// End Utilities
+    };
 
-
-    }); 
+}); 

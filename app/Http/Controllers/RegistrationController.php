@@ -60,4 +60,21 @@ class RegistrationController extends Controller
                             ->with('message', $response->message);
         }
     }
+
+    public function activateUser($activationCode)
+    {
+        Log::info('Attempts to activate a user using activation_code ' . json_encode($activationCode), 'FRONT END');
+        $response = $this->client->activateUser([
+            'activation_code' => $activationCode
+        ]);
+        $message = 'Your user account failed to activate';
+        if ($response['success'])
+        {
+            Log::info('User Activation: Success', 'FRONT END');
+            $message = 'Your user account is now activated';
+        }
+
+        Session::flash('message', $message);
+        return redirect('index');
+    }
 }

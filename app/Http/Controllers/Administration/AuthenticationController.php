@@ -48,7 +48,7 @@ class AuthenticationController extends Controller
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
-                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+                Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 Log::info('Successful User Login');
                 return redirect('administration');
@@ -91,10 +91,5 @@ class AuthenticationController extends Controller
     protected function clearLoginSession()
     {
         Session::flush();
-    }
-
-    public function main()
-    {
-        return view('administration.oops');
     }
 }

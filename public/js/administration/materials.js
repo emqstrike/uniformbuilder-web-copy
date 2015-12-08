@@ -162,12 +162,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.material-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .disable-material').removeAttr('disabled');
                     $(elem + ' .enable-material').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -187,12 +190,15 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     var elem = '.material-' + id;
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $(elem + ' .enable-material').removeAttr('disabled');
                     $(elem + ' .disable-material').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -233,12 +239,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert').hide();
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal').modal('hide');
                     $('.material-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });
@@ -257,12 +265,14 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    $('.flash-alert').hide();
-                    $('.flash-alert .flash-title').text(response.message);
-                    $('.flash-alert').addClass('alert-info').fadeIn();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                     $('#confirmation-modal-material-option').modal('hide');
                     $('.material-option-' + id).fadeOut();
-                    flashAlertFadeOut();
                 }
             }
         });
