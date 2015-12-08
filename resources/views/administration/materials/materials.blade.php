@@ -10,6 +10,7 @@
 @section('content')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @if (Session::has('message'))
 <div class="alert alert-info alert-dismissable flash-alert">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -134,6 +135,8 @@
                                     </a><br>
                                     <a class="btn btn-success btn-xs edit-material-option"
 =======
+=======
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -185,6 +188,9 @@
                                     <div style="margin-top: 3px;" class="material-option-{{ $option->id }}">
                                         <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
                                         <a href="#" class='btn btn-xs btn-info edit-material-option'
+<<<<<<< HEAD
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
+=======
 >>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
@@ -197,6 +203,7 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
+<<<<<<< HEAD
 <<<<<<< HEAD
                                             data-material-id="{{ $material->id }}">{{ $option->name }} 
                                             <i class="glyphicon glyphicon-edit"></i></a>
@@ -383,6 +390,8 @@
 
 </div>
 =======
+=======
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
                                             data-material-id="{{ $material->id }}">
                                             <span class="fa fa-edit"></span>
                                             {{ $option->name }}
@@ -482,6 +491,9 @@
         </div>
     </div>
 </section>
+<<<<<<< HEAD
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
+=======
 >>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 
 @include('administration.materials.material-view-modal')
@@ -502,8 +514,11 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 @if (Session::has('message'))
+=======
+>>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 =======
 >>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 <script type="text/javascript">
