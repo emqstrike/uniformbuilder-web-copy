@@ -576,6 +576,12 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.angleRadians = function(point1, point2) {
+        
+        return Math.atan2(point2.y - point1.y, point2.x - point1.x);
+        
+    };
+
     ub.funcs.update_application_mascot = function(application, mascot) {
 
         var x = ub.dimensions.width * application.position.x;
@@ -925,6 +931,38 @@ $(document).ready(function() {
             manager: ub.dragAndDropManager
         });
 
+        sprite.mouseover = function(data) {
+
+            var icon = '';
+
+            if (type === 'move') {
+                icon = 'url(' + ub.config.host + '/images/sidebar/move.png),move';
+                move_point.tint = 0xff0000;
+            }
+
+            if (type === 'rotate') {
+                icon = 'url(' + ub.config.host + '/images/sidebar/rotate.png),auto';
+                rotation_point.tint = 0xff0000;
+            }
+            
+            $('body').css('cursor', icon);
+
+        }
+
+        sprite.mouseout = function(data) {
+
+            if (type === 'move') {
+                move_point.tint = 0xffffff;
+            }
+
+            if (type === 'rotate') {
+                rotation_point.tint = 0xffffff;
+            }
+
+            $('body').css('cursor','auto');
+
+        } 
+
         sprite.mouseup = sprite.touchend = function(data) {
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
@@ -982,11 +1020,12 @@ $(document).ready(function() {
 
                 if (type === 'rotate') {
 
-                    var angleRadians = Math.atan2(rotation_point.y - move_point.y, rotation_point.x - move_point.x);
+                    //var angleRadians = Math.atan2(rotation_point.y - move_point.y, rotation_point.x - move_point.x);
+
+                    var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
 
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
-
                     percentage = distance / 100;
                     application_obj.scale.set(percentage, percentage);
 

@@ -422,7 +422,7 @@
             
             $('div.font_size_slider[data-id="' + application.id + '"]').limitslider({
 
-                values: [70],
+                values: [100],
                 min: 0,
                 max: max_font_size,
                 gap: 0,

@@ -1133,9 +1133,25 @@ $(document).ready(function () {
 
                         $('a.change-view[data-view="' + perspective + '"]').click();
 
-                        var x = ub.dimensions.width * application.position.x;
-                        var y = ub.dimensions.height * application.position.y;
+                        var x = 0;
+                        var y = 0;
 
+                        var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+
+                        if (typeof application_obj === 'undefined') {
+    
+                            x = ub.dimensions.width * application.position.x;
+                            y = ub.dimensions.height * application.position.y;
+    
+                        }
+                        else {
+
+                            x = application_obj.x;
+                            y = application_obj.y;
+
+                        }
+
+                        
                         var ui_handles = new PIXI.Container();
 
                         point.position = new PIXI.Point(x,y);
