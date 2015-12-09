@@ -1,5 +1,92 @@
 $(document).ready(function() {
 
+    $('.enable-mascot').on('click', function(){
+        var id = $(this).data('mascot-id');
+        var url = "//" + api_host + "/api/mascot/enable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.mascot-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .disable-mascot').removeAttr('disabled');
+                    $(elem + ' .enable-mascot').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }
+            }
+        });
+    });
+
+    $('.disable-mascot').on('click', function(){
+        var id = $(this).data('mascot-id');
+        var url = "//" + api_host + "/api/mascot/disable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.mascot-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .enable-mascot').removeAttr('disabled');
+                    $(elem + ' .disable-mascot').attr('disabled', 'disabled');
+                    $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+
+    $('.delete-mascot').on('click', function(){
+        var id = $(this).data('mascot-id');
+        modalConfirm('Remove mascot', 'Are you sure you want to delete the mascot?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/mascot/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    $('.mascot-' + id).fadeOut();
+                }
+            }
+        });
+    });
+
 	$(document).on('change', function() {
         var length = $('.layers-row').length;
         renumberRows(length);
@@ -29,10 +116,10 @@ $(document).ready(function() {
             var thisLayer = "layer"+length;
             var layer_class = ".ma-layer.layer" + length;
 
-            layers_properties[thisLayer] = {};
-            layers_properties[thisLayer]['default_color'] = {};
-            layers_properties[thisLayer]['layer_number'] = {};
-            layers_properties[thisLayer]['filename'] = {};
+            layers_properties[length] = {};
+            layers_properties[length]['default_color'] = {};
+            layers_properties[length]['layer_number'] = {};
+            layers_properties[length]['filename'] = {};
 
             $(this).find('.ma-layer').removeClass().addClass("ma-layer");
             $(this).find('.ma-layer').addClass(thisLayer);
@@ -48,14 +135,17 @@ $(document).ready(function() {
             var src_class = ".ma-options-src.layer" + length;
             $(this).find(src_class).addClass('ma-options-src');
 
-            layers_properties[thisLayer]['default_color'] = $(this).find(default_color_class).val();
-            layers_properties[thisLayer]['layer_number'] = $(this).find(layer_class).val();
-            layers_properties[thisLayer]['filename'] = $(this).find(src_class).val();
+            var hexString = $(this).find(default_color_class).val()
+            hexString = hexString.replace('#','');
+            layers_properties[length]['default_color'] = hexString;
+            layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
+            layers_properties[length]['filename'] = $(this).find(src_class).val();
 
             length--;
         });
-        var moProperties = JSON.stringify(layers_properties);
-        console.log("[[[MO-AP]]] --- "+moProperties);
+        var layersProperties = JSON.stringify(layers_properties);
+        console.log(layersProperties);
+        $('#layers-properties').val(layersProperties);
     }
 
     $(document).on('click', '.clone-row', function() {

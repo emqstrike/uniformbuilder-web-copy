@@ -26,7 +26,7 @@ select:hover {
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/mascot/add" enctype="multipart/form-data" id='create-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                        <input type="hidden" name="layers_properties" id="layers-properties">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
@@ -78,7 +78,7 @@ select:hover {
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
                                                 @foreach ($colors as $color)
                                                     @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->hex_code }}">
                                                         {{ $color->name }}
                                                     </option>
                                                     @endif

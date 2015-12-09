@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
@@ -34,17 +35,6 @@ class MascotsController extends Controller
         ]);
     }
 
-    // public function editPatternForm($id)
-    // {
-    //     $colors = $this->colorsClient->getColors();
-    //     $pattern = $this->client->getPattern($id);
-
-    //     return view('administration.patterns.pattern-edit', [
-    //         'pattern' => $pattern,
-    //         'color' => $colors
-    //     ]);
-    // }
-
     public function addMascotForm()
     {
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
@@ -58,12 +48,14 @@ class MascotsController extends Controller
 
     public function store(Request $request)
     {
-        $name = $request->input('name');
+        $mascotName = $request->input('name');
         $code = $request->input('code');
+        $layersProperties = $request->input('layers_properties');
 
         $data = [
-            'name' => $name,
-            'code' => $code
+            'name' => $mascotName,
+            'code' => $code,
+            'layers_properties' => $layersProperties
         ];
 
         $id = null;
@@ -72,13 +64,42 @@ class MascotsController extends Controller
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
+
+        $myJson = json_encode($layersProperties);
+
+        $materialFolder = $mascotName;
+        try
+        {
+            $materialOptionFile = $request->file('icon');
+            if (!is_null($materialOptionFile))
+            {
+                if ($materialOptionFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['icon'] = FileUploader::upload(
+                                                            $materialOptionFile,
+                                                            $mascotName,
+                                                            'material_option',
+                                                            "materials",
+                                                            "{$materialFolder}/{$filename}.png"
+                                                        );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
         // Is the Mascot Name taken?
         // if ($this->client->isMascotExist($name, $id))
         // {
         //     return Redirect::to('administration/mascots')
         //                     ->with('message', 'Mascot already exist');
         // }
-        
+
         $response = null;
         if (!empty($id))
         {
