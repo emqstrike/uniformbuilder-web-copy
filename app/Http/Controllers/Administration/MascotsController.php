@@ -64,8 +64,9 @@ class MascotsController extends Controller
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
+        //dd($data);
 
-        $myJson = json_encode($layersProperties);
+        $myJson = json_decode($layersProperties, true);
 
         $materialFolder = $mascotName;
         try
@@ -92,6 +93,38 @@ class MascotsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
+
+        // Upload images from the layers
+        try
+        {
+            $mascotLayerFiles = $request->file('ma_image');
+            $ctr = 1;
+            foreach ($mascotLayerFiles as $mascotLayerFile) {
+                if (!is_null($mascotLayerFile))
+                {
+                    if ($mascotLayerFile->isValid())
+                    {
+                        $filename = Random::randomize(12);
+                        $myJson[(string)$ctr]['filename'] = FileUploader::upload(
+                                                                    $mascotLayerFile,
+                                                                    $mascotName,
+                                                                    'material_option',
+                                                                    "materials",
+                                                                    "{$materialFolder}/{$filename}.png"
+                                                                );
+                    }
+                }
+                $ctr++;
+            }
+        }
+
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+        $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
 
         // Is the Mascot Name taken?
         // if ($this->client->isMascotExist($name, $id))
