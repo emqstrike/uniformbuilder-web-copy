@@ -1111,10 +1111,10 @@ $(document).ready(function () {
 
                             $button.removeClass('appactive');
 
-                            if (typeof view_objects['point'] === "object") {
+                            if (typeof view_objects['ui_handles'] === "object") {
 
-                                view.removeChild(view_objects['point']);
-                                delete view_objects['point'];
+                                view.removeChild(view_objects['ui_handles']);
+                                delete view_objects['ui_handles'];
 
                             }
 
@@ -1128,24 +1128,38 @@ $(document).ready(function () {
                         var point = ub.pixi.new_sprite('/images/misc/point.png');
                         point.anchor.set(0.5, 0.5);
 
+                        var rotation_point = ub.pixi.new_sprite('/images/misc/point.png');
+                        rotation_point.anchor.set(0.5, 0.5);
+
                         $('a.change-view[data-view="' + perspective + '"]').click();
 
                         var x = ub.dimensions.width * application.position.x;
                         var y = ub.dimensions.height * application.position.y;
 
+                        var ui_handles = new PIXI.Container();
+
                         point.position = new PIXI.Point(x,y);
+                        rotation_point.position = new PIXI.Point(x + 100, y);
 
-                        if (typeof view_objects['point'] === "object") {
+                        point.ubName = 'move_point';
+                        rotation_point.ubName = 'rotation_point';
 
-                            view.removeChild(view_objects['point']);
-                            delete view_objects['point'];
+                        ui_handles.addChild(point);
+                        ui_handles.addChild(rotation_point);
+
+                        if (typeof view_objects['ui_handles'] === "object") {
+
+                            view.removeChild(view_objects['ui_handles']);
+                            delete view_objects['ui_handles'];
 
                         }
 
-                        view_objects['point'] = point;
-                        view.addChild(point);
+                        view_objects['ui_handles'] = ui_handles;
+                        view.addChild(ui_handles);
 
-                        ub.funcs.createInteractiveUI(point, application)
+                        ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
+                        ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
+
 
                     }
 

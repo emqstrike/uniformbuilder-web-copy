@@ -916,7 +916,10 @@ $(document).ready(function() {
 
     /// End Create Interactive UI
 
-    ub.funcs.createInteractiveUI = function (sprite, application) {
+    ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
+        
+        var rotation_point = _.find(ui_handles.children, { ubName: 'rotation_point'});
+        var move_point = _.find(ui_handles.children, { ubName: 'move_point'});
         
         sprite.draggable({
             manager: ub.dragAndDropManager
@@ -964,8 +967,30 @@ $(document).ready(function() {
                     return;
                 }
 
-                application_obj.position = new PIXI.Point(sprite.x, sprite.y);
+                if (type === 'move') {
 
+                    application_obj.position = new PIXI.Point(sprite.x, sprite.y);
+
+                    var r_x = rotation_point.x + (sprite.x - sprite.oldX);
+                    var r_y = rotation_point.y + (sprite.y - sprite.oldY);
+                    rotation_point.position = new PIXI.Point(r_x, r_y);
+
+                    sprite.oldX = sprite.x;
+                    sprite.oldY = sprite.y;
+           
+                }
+
+                if (type === 'rotate') {
+
+                    var angleRadians = Math.atan2(rotation_point.y - move_point.y, rotation_point.x - move_point.x);
+                    application_obj.rotation = angleRadians;
+
+                    var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
+
+                    percentage = distance / 100;
+                    application_obj.scale.set(percentage, percentage);
+
+                }
 
                 if ($('#chkSnap').is(":checked")) {
 
@@ -977,6 +1002,7 @@ $(document).ready(function() {
 
                         sprite.oldX = x;
                         sprite.oldY = y;
+
 
                         sprite.snapped = true;
                         this.dragging = false;
