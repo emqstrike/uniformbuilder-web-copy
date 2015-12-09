@@ -153,6 +153,8 @@
     
     $.fn.ubLogoDialog = function (options) {
 
+        ub.funcs.removeUIHandles();
+
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
 
@@ -241,6 +243,8 @@
     };
 
     $.fn.ubMascotDialog = function ( options ) {
+
+        ub.funcs.removeUIHandles();
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
@@ -350,6 +354,8 @@
     };
 
     $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
+
+        ub.funcs.removeUIHandles();
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
@@ -591,6 +597,8 @@
             $textbox.on('change', function () {
 
                 if ($textbox.val().length === 0) { return; }
+
+                ub.funcs.removeUIHandles();
 
                 var x = ub.dimensions.width * application.position.x;
                 var y = ub.dimensions.height * application.position.y;

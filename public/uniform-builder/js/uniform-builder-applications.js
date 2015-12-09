@@ -40,6 +40,8 @@ $(document).ready(function() {
                     id: application_id
                 });
 
+                ub.funcs.removeUIHandles();
+
                 ub.funcs.update_mascots_picker(application.id, mascot); 
                 ub.funcs.update_application_mascot(application, mascot);
 
@@ -304,6 +306,8 @@ $(document).ready(function() {
 
             /// Handler for clicking a logo on the list of uploaded logos
             $('a.logo_picker').on('click', function (e) {
+
+                ub.funcs.removeUIHandles();
 
                 $link = $(e.target);
 
@@ -579,7 +583,32 @@ $(document).ready(function() {
     ub.funcs.angleRadians = function(point1, point2) {
         
         return Math.atan2(point2.y - point1.y, point2.x - point1.x);
-        
+
+    };
+
+    ub.funcs.removeUIHandles = function () {
+
+        _.each(ub.data.views, function (view) {
+
+             var view_objects = ub.objects[view + '_view'];
+             var view = ub[view + '_view'];
+
+            if (typeof view_objects['ui_handles'] === "object") {
+
+                var applicationID = view_objects['ui_handles'].applicationID;
+
+                console.log('applicationID: ' + applicationID);
+
+                $('button[data-action="identify"][data-id=' + applicationID + ']').click();
+
+                view.removeChild(view_objects['ui_handles']);
+                delete view_objects['ui_handles'];
+
+            }
+
+        });
+
+           
     };
 
     ub.funcs.update_application_mascot = function(application, mascot) {

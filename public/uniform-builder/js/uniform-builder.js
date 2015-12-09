@@ -1150,7 +1150,6 @@ $(document).ready(function () {
                             y = application_obj.y;
 
                         }
-
                         
                         var ui_handles = new PIXI.Container();
 
@@ -1170,12 +1169,13 @@ $(document).ready(function () {
 
                         }
 
+                        ui_handles.applicationID = application.code;
+
                         view_objects['ui_handles'] = ui_handles;
                         view.addChild(ui_handles);
 
                         ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
                         ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
-
 
                     }
 
