@@ -367,8 +367,28 @@
 
             var $container = $(this);
             var first_font = ub.data.fonts[0];
-            
+            var sample_text = '';
+            var font_size = '';
+
+            var plugin_type = $('select.application_type_dropdown[data-id=' + application.code + ']').val();
+
+            if (plugin_type === 'player_name') {
+                sample_text = 'Player Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'team_name') {
+                sample_text = 'Team Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'player_number') {
+                sample_text = '23';
+                font_size = 100;
+            }
+
             var data = {
+                sample_text: sample_text,
                 application_id: settings.application.id,
                 first_font_name: first_font.name,
                 first_font_id: first_font.id
@@ -428,7 +448,7 @@
             
             $('div.font_size_slider[data-id="' + application.id + '"]').limitslider({
 
-                values: [100],
+                values: [font_size],
                 min: 0,
                 max: max_font_size,
                 gap: 0,

@@ -193,7 +193,7 @@
         <hr />
 
         <div class='ub_label'>Preview Text</div>
-        <input type='text' class='applications player_number' data-application-id='@{{application_id}}' value='23'>
+        <input type='text' class='applications player_number' data-application-id='@{{application_id}}' value='@{{sample_text}}'>
         <br /><br />
 
         <div class='ub_label'>Font Style</div>

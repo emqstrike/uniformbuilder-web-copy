@@ -596,9 +596,6 @@ $(document).ready(function() {
             if (typeof view_objects['ui_handles'] === "object") {
 
                 var applicationID = view_objects['ui_handles'].applicationID;
-
-                console.log('applicationID: ' + applicationID);
-
                 $('button[data-action="identify"][data-id=' + applicationID + ']').click();
 
                 view.removeChild(view_objects['ui_handles']);
@@ -1056,6 +1053,7 @@ $(document).ready(function() {
 
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
+
                     application_obj.scale.set(percentage, percentage);
 
                 }
