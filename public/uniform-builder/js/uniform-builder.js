@@ -1116,8 +1116,6 @@ $(document).ready(function () {
                                 view.removeChild(view_objects['point']);
                                 delete view_objects['point'];
 
-                                console.log('First Identify - Proc Remove');
-
                             }
 
                             return;
@@ -1138,8 +1136,6 @@ $(document).ready(function () {
                         point.position = new PIXI.Point(x,y);
 
                         if (typeof view_objects['point'] === "object") {
-
-                            console.log('Second Identify - Proc Remove');
 
                             view.removeChild(view_objects['point']);
                             delete view_objects['point'];
