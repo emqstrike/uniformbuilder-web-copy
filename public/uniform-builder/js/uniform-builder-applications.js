@@ -696,126 +696,6 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.createDraggable = function (sprite, application, view) {
-
-        // Check for Feature Flag
-        if(!ub.config.isFeatureOn('ui','draggable_applications')) 
-        {
-            return;
-        }
-        
-        sprite.draggable({
-            manager: ub.dragAndDropManager
-        });
-
-        sprite.mouseup = sprite.touchend = function(data) {
-
-            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
-
-                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
-
-            }
-
-            this.data = data;
-            this.dragging = true;
-
-        };
-
-        sprite.mousedown = sprite.touchstart = function(data) {
-
-            this.data = data;
-
-            sprite.oldX = sprite.x;
-            sprite.oldY = sprite.y;
-            sprite.snapped = false;
-            this.dragging = true;
-
-        };
-
-        sprite.mousemove = sprite.mousemove = function(interactionData) {
-
-            this.interactionData = interactionData;
-
-            if (this.dragging) {
-
-                _.each(ub.data.applications.items, function(application) {
-
-                    var x = application.position.x * ub.dimensions.width;
-                    var y = application.position.y * ub.dimensions.height;
-                    var p_app = new PIXI.Point(x, y);
-                    var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-                    var distance = ub.funcs.lineDistance(p_app, p_sprite);
-
-                    if ($('#chkSnap').is(":checked")) {
-
-                        var minimum_distance_to_snap = 50;
-
-                        if (distance < minimum_distance_to_snap) {
-
-                            sprite.position = new PIXI.Point(x,y);
-
-                            sprite.oldX = x;
-                            sprite.oldY = y;
-
-                            sprite.snapped = true;
-                            this.dragging = false;
-
-                            return false; // Exit loop if the logo snapped to an application point
-
-                        } else {
-
-                            sprite.snapped = false;
-
-                        }
-
-                    }
-
-                });
-
-            }
-
-            var this_data = this.interactionData.data;
-            window.sprite = sprite;
-
-            var point = {
-                x: this_data.global.x,
-                y: this_data.global.y
-            };
-
-            var sprite_obj; 
-
-            if(sprite.children.length === 0) {
-
-                sprite_obj = sprite
-
-            } else {
-
-                sprite_obj = _.last(sprite.children);
-
-            }
-
-            if (typeof sprite_obj.containsPoint === "function") {
-
-                if (sprite_obj.containsPoint(point)) {
-
-                    sprite.zIndex = -500;
-                    ub.updateLayersOrder(view);
-
-                } else {
-
-                    sprite.zIndex = sprite.originalZIndex;
-                    ub.updateLayersOrder(view);
-
-                }
-                
-            }
-            
-        };
-
-    }
-
-    /// End Create Draggable
-
     ub.funcs.update_application = function(application, logo) {
 
         var x = ub.dimensions.width * application.position.x;
@@ -904,5 +784,219 @@ $(document).ready(function() {
         ub.funcs.createDraggable(sprite, application, view);
 
     };
+
+    ub.funcs.createDraggable = function (sprite, application, view) {
+
+        // Check for Feature Flag
+        if(!ub.config.isFeatureOn('ui','draggable_applications')) 
+        {
+            return;
+        }
+        
+        sprite.draggable({
+            manager: ub.dragAndDropManager
+        });
+
+        sprite.mouseup = sprite.touchend = function(data) {
+
+            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
+
+                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+
+            }
+
+            this.data = data;
+            this.dragging = true;
+
+        };
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            this.data = data;
+
+            sprite.oldX = sprite.x;
+            sprite.oldY = sprite.y;
+            sprite.snapped = false;
+            this.dragging = true;
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            this.interactionData = interactionData;
+
+            if (this.dragging) {
+
+                _.each(ub.data.applications.items, function(application) {
+
+                    var x = application.position.x * ub.dimensions.width;
+                    var y = application.position.y * ub.dimensions.height;
+                    var p_app = new PIXI.Point(x, y);
+                    var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+                    var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                    if ($('#chkSnap').is(":checked")) {
+
+                        var minimum_distance_to_snap = 50;
+
+                        if (distance < minimum_distance_to_snap) {
+
+                            sprite.position = new PIXI.Point(x,y);
+
+                            sprite.oldX = x;
+                            sprite.oldY = y;
+
+                            sprite.snapped = true;
+                            this.dragging = false;
+
+                            return false; // Exit loop if the logo snapped to an application point
+
+                        } else {
+
+                            sprite.snapped = false;
+
+                        }
+
+                    }
+
+                });
+
+            }
+
+            var this_data = this.interactionData.data;
+            window.sprite = sprite;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+
+            /// Hotspot
+
+            // Check for Feature Flag
+            if(!ub.config.isFeatureOn('ui','hotspot_applications')) 
+            {
+                return;
+            }
+
+            var sprite_obj; 
+
+            if(sprite.children.length === 0) {
+
+                sprite_obj = sprite
+
+            } else {
+
+                sprite_obj = _.last(sprite.children);
+
+            }
+
+            if (typeof sprite_obj.containsPoint === "function") {
+
+                if (sprite_obj.containsPoint(point)) {
+
+                    sprite.zIndex = -500;
+                    ub.updateLayersOrder(view);
+
+                } else {
+
+                    sprite.zIndex = sprite.originalZIndex;
+                    ub.updateLayersOrder(view);
+
+                }
+                
+            }
+
+            /// End Hot Spot
+            
+        };
+
+    }
+
+    /// End Create Interactive UI
+
+    ub.funcs.createInteractiveUI = function (sprite, application) {
+        
+        sprite.draggable({
+            manager: ub.dragAndDropManager
+        });
+
+        sprite.mouseup = sprite.touchend = function(data) {
+
+            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
+
+                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+
+            }
+
+            this.data = data;
+            this.dragging = true;
+
+        };
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            this.data = data;
+
+            sprite.oldX = sprite.x;
+            sprite.oldY = sprite.y;
+            sprite.snapped = false;
+            this.dragging = true;
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            this.interactionData = interactionData;
+
+            if (this.dragging) {
+
+                var x = application.position.x * ub.dimensions.width;
+                var y = application.position.y * ub.dimensions.height;
+                var p_app = new PIXI.Point(x, y);
+                var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+                var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+
+                if(typeof application_obj === 'undefined') {
+                    return;
+                }
+
+                application_obj.position = new PIXI.Point(sprite.x, sprite.y);
+
+
+                if ($('#chkSnap').is(":checked")) {
+
+                    var minimum_distance_to_snap = 50;
+
+                    if (distance < minimum_distance_to_snap) {
+
+                        sprite.position = new PIXI.Point(x,y);
+
+                        sprite.oldX = x;
+                        sprite.oldY = y;
+
+                        sprite.snapped = true;
+                        this.dragging = false;
+
+                        return false; // Exit loop if the logo snapped to an application point
+
+                    } else {
+
+                        sprite.snapped = false;
+
+                    }
+
+                }
+
+            }
+            
+        };
+
+    }
+
+    /// End Create Create Interactive UI
 
 });

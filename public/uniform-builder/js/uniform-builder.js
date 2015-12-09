@@ -1023,8 +1023,7 @@ $(document).ready(function () {
                 ddowns     +=       '<option value="image">Image</option>';
                 ddowns     +=   '</select>&nbsp;';
 
-                ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-search"></i></button>';
-                ddowns     +=   '<button data-action="interactive" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
+                ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
                 ddowns     +=   '<button data-action="bring_to_front" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-up"></i></button>';
                 ddowns     +=   '<button data-action="send_to_back" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-down"></i></button>';
                 
@@ -1094,21 +1093,21 @@ $(document).ready(function () {
                     var view = ub[perspective + '_view'];
                     var view_objects = ub.objects[perspective + '_view'];
 
-                    if (action === "interactive") {
-                        console.info('interactive, ' + data_id);
-                    }
-
                     if (action === "bring_to_front") {
+
                         console.info('bring_to_front, ' + data_id);
+
                     }
 
                     if (action === "send_to_back") {
+
                         console.info('send_to_back, ' + data_id);
+
                     }
                     
                     if (action === "identify") {
 
-                        if($button.hasClass('appactive')){
+                         if($button.hasClass('appactive')){
 
                             $button.removeClass('appactive');
 
@@ -1116,6 +1115,8 @@ $(document).ready(function () {
 
                                 view.removeChild(view_objects['point']);
                                 delete view_objects['point'];
+
+                                console.log('First Identify - Proc Remove');
 
                             }
 
@@ -1138,6 +1139,8 @@ $(document).ready(function () {
 
                         if (typeof view_objects['point'] === "object") {
 
+                            console.log('Second Identify - Proc Remove');
+
                             view.removeChild(view_objects['point']);
                             delete view_objects['point'];
 
@@ -1145,6 +1148,8 @@ $(document).ready(function () {
 
                         view_objects['point'] = point;
                         view.addChild(point);
+
+                        ub.funcs.createInteractiveUI(point, application)
 
                     }
 

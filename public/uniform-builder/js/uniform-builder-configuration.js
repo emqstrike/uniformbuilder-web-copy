@@ -11,6 +11,7 @@ $(document).ready(function(){
         ui: {
                 // For ub.funcs.createDraggable @ uniform-builder-applications.js
                 draggable_applications: false, 
+                hotspot_applications: false, 
             },    
 
     };
