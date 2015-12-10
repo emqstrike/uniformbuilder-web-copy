@@ -70,6 +70,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Top',
                 code: '1',
+                layer_order: 1,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -86,6 +87,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '2',
+                layer_order: 2,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -102,6 +104,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Right',
                 code: '3',
+                layer_order: 3,
                 rotation: 0,
                 position: {
                     x: 0.35,
@@ -119,6 +122,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Left',
                 code: '4',
+                layer_order: 4,
                 rotation: 0,
                 position: {
                     x: 0.65,
@@ -134,6 +138,7 @@ $(document).ready(function(){
                 perspective: 'back',
                 name: 'Back Top',
                 code: '5',
+                layer_order: 5,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -149,6 +154,7 @@ $(document).ready(function(){
                 perspective: 'back',
                 name: 'Back Center',
                 code: '6',
+                layer_order: 6,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -164,6 +170,7 @@ $(document).ready(function(){
                 perspective: 'left',
                 name: 'Left Shoulder - Top',
                 code: '7',
+                layer_order: 7,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -179,6 +186,7 @@ $(document).ready(function(){
                 perspective: 'left',
                 name: 'Left Shoulder - Bottom',
                 code: '8',
+                layer_order: 8,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -194,6 +202,7 @@ $(document).ready(function(){
                 perspective: 'right',
                 name: 'Right Shoulder - Top',
                 code: '9',
+                layer_order: 9,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -209,6 +218,7 @@ $(document).ready(function(){
                 perspective: 'right',
                 name: 'Right Shoulder - Bottom',
                 code: '10',
+                layer_order: 10,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -224,6 +234,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Right Sleeves',
                 code: '11',
+                layer_order: 11,
                 rotation: 0.96,
                 position: {
                     x: 0.14,
@@ -240,6 +251,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Left Sleeve',
                 code: '12',
+                layer_order: 12,
                 rotation: 5.31,
                 position: {
                     x: 0.86,

@@ -735,6 +735,7 @@
 
                sprite.originalZIndex = -10;
                sprite.zIndex = -10;
+               
                ub.updateLayersOrder(view);
 
                if (position !== '') {

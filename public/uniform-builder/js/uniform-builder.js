@@ -1078,6 +1078,21 @@ $(document).ready(function () {
                     }
 
                     if (application_type === "none") {
+
+                        var view_objects = ub.objects[application.perspective + '_view'];
+                        var s = view_objects['objects_' + application.code];
+                        var view = ub[application.perspective + '_view'];
+
+                        if (typeof(s) === 'object') {
+
+                            var obj = view_objects['objects_' + application.code];
+
+                            view.removeChild(view_objects['objects_' + application.code]);
+                            delete view_objects['objects_' + application.code];
+                            delete ub.current_material.settings.applications[application.code];
+
+                        }
+
                         $container.html('');
                     }
                     
