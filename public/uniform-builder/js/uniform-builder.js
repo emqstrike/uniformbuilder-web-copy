@@ -1017,9 +1017,9 @@ $(document).ready(function () {
                 ddowns     +=       '<option value="none">-- Select an Application --</option>';
                 ddowns     +=       '<option value="logo">Logo</option>';
                 ddowns     +=       '<option value="mascot">Mascot</option>';
-                ddowns     +=       '<option value="player_number">Player Number</option>';
                 ddowns     +=       '<option value="player_name">Player Name</option>';
                 ddowns     +=       '<option value="team_name">Team Name</option>';
+                ddowns     +=       '<option value="player_number">Player Number</option>';
                 ddowns     +=       '<option value="image">Image</option>';
                 ddowns     +=   '</select>&nbsp;';
 

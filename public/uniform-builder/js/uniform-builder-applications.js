@@ -1033,6 +1033,17 @@ $(document).ready(function() {
 
                 if (type === 'move') {
 
+                    original_x = ub.dimensions.width * application.position.x;
+                    original_y = ub.dimensions.height * application.position.y;
+
+                    var original_location = new PIXI.Point(original_x, original_y);
+
+                    var dist = Math.abs( ub.funcs.lineDistance(original_location, sprite.position) );
+                    
+                    if (dist >= 30) {
+                        move_point.position = sprite.position;
+                        return;
+                    }
 
                     application_obj.position = new PIXI.Point(sprite.x, sprite.y);
 
@@ -1042,9 +1053,6 @@ $(document).ready(function() {
 
                     sprite.oldX = sprite.x;
                     sprite.oldY = sprite.y;
-
-                    
-                    
            
                 }
 

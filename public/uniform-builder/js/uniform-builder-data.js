@@ -73,7 +73,7 @@ $(document).ready(function(){
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.35,
+                    y: 0.25,
                 },
 
             },
@@ -89,7 +89,7 @@ $(document).ready(function(){
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.5,
+                    y: 0.36,
                 },
 
             },
