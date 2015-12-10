@@ -51,7 +51,6 @@
                             </div>
                             </label>
                             <div class="col-md-6">
-                                <!-- <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}"> -->
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -63,34 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="layers-row-container">
-                                        <!-- <tr class="layers-row" id="base-row">
-                                            <td>
-                                                <select class="ma-layer layer1"  name="ma_layer[]" disabled>
-                                                    <option value = '1' class="layer-number">1</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="file" class="ma-options-src layer1" name="ma_image[]">
-                                            </td>
-                                            <td>
-                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
-                                            </td>
-                                            <td>
-                                                <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                                @foreach ($colors as $color)
-                                                    @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->hex_code }}">
-                                                        {{ $color->name }}
-                                                    </option>
-                                                    @endif
-                                                @endforeach
-                                                <option data-color="" value="" id="saved-default-color"></option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
-                                            </td>
-                                        </tr> -->
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -134,10 +106,8 @@ $(document).ready(function(){
             console.log("LENGTH: "+length);
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
-            // var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\" value="+myJson[length]['filename']+"></td>";
             var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\"></td>";
             var thumbnail = "<td><img src="+myJson[length]['filename']+" style=\"width: 30px; height: 30px; background-color: #e3e3e3;\"><input type=\"hidden\" name=\"image-existing-source\" value=\""+myJson[length]['filename']+"\"></td>";
-            //var colors = "<td><select class=\"ma-default-layer layer"+length+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[length]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\"><option value="+myJson[length]['default_color']+" style=\"background-color: #"+myJson[length]['filename']+"\" selected>Saved</option></select></td>";
             var colors = "<td><select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[length]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\">@foreach ($colors as $color)@if ($color->active)<option data-color=\"#{{ $color->hex_code }}\" style=\"background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;\" value=\"{{ $color->hex_code }}\">{{ $color->name }}</option>@endif @endforeach<option value="+myJson[length]['default_color']+" style=\"background-color: #"+myJson[length]['filename']+"\" selected>{{ $color->name }}</option></select></td>";
             var remove = "<td><a class=\"btn btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
             var close = "<tr>";
