@@ -137,7 +137,7 @@ $(document).ready(function(){
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.3,
+                    y: 0.2,
                 },
 
             },
@@ -152,7 +152,7 @@ $(document).ready(function(){
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.5,
+                    y: 0.32,
                 },
 
             },

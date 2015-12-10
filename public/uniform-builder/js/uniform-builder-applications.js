@@ -127,8 +127,9 @@ $(document).ready(function() {
                 var application = _.find(ub.data.applications.items, {
                     id: application_id
                 });
+                
                 var value = $(this).limitslider("values")[0];
-                var object = ub.objects.front_view['objects_' + application_id];
+                var object = ub.objects[view_str]['objects_' + application_id];
                 object.y = value;
 
             }
@@ -410,7 +411,7 @@ $(document).ready(function() {
                     id: application_id
                 });
                 var value = $(this).limitslider("values")[0];
-                var object = ub.objects.front_view['objects_' + application_id];
+                var object = ub.objects[view_str]['objects_' + application_id];
                 object.y = value;
 
             }
