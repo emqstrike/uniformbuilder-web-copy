@@ -618,8 +618,6 @@
 
                 if ($textbox.val().length === 0) { return; }
 
-                ub.funcs.removeUIHandles();
-
                 var x = ub.dimensions.width * application.position.x;
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
@@ -761,6 +759,8 @@
     };
 
     function create_text (text_input, font_name, application) {
+
+        ub.funcs.removeUIHandles();
 
         var text_layers = {};
         var container = new PIXI.Container();

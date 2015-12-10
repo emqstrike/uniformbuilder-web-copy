@@ -962,12 +962,12 @@ $(document).ready(function() {
             var icon = '';
 
             if (type === 'move') {
-                icon = 'url(' + ub.config.host + '/images/sidebar/move.png),move';
+                icon = 'url(' + ub.config.host + '/images/sidebar/move.png) 8 8,move';
                 move_point.tint = 0xff0000;
             }
 
             if (type === 'rotate') {
-                icon = 'url(' + ub.config.host + '/images/sidebar/rotate.png),auto';
+                icon = 'url(' + ub.config.host + '/images/sidebar/rotate.png) 8 8,auto';
                 rotation_point.tint = 0xff0000;
             }
             
@@ -1033,6 +1033,7 @@ $(document).ready(function() {
 
                 if (type === 'move') {
 
+
                     application_obj.position = new PIXI.Point(sprite.x, sprite.y);
 
                     var r_x = rotation_point.x + (sprite.x - sprite.oldX);
@@ -1041,6 +1042,9 @@ $(document).ready(function() {
 
                     sprite.oldX = sprite.x;
                     sprite.oldY = sprite.y;
+
+                    
+                    
            
                 }
 
@@ -1054,7 +1058,15 @@ $(document).ready(function() {
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                    application_obj.scale.set(percentage, percentage);
+                    console.log('Applcation Obj: ');
+                    console.log(application_obj);
+
+                    if (typeof ub.current_material.settings.applications[application.code].text === 'undefined') {
+
+                        application_obj.scale.set(percentage, percentage);
+
+                    }
+
 
                 }
 
