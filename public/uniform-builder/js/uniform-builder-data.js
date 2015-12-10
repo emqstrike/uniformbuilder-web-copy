@@ -104,8 +104,8 @@ $(document).ready(function(){
                 code: '3',
                 rotation: 0,
                 position: {
-                    x: 0.30,
-                    y: 0.75,
+                    x: 0.35,
+                    y: 0.7,
                 },
 
             },
@@ -121,7 +121,7 @@ $(document).ready(function(){
                 code: '4',
                 rotation: 0,
                 position: {
-                    x: 0.60,
+                    x: 0.65,
                     y: 0.7,
                 },
 
