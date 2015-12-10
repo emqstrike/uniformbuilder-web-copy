@@ -724,9 +724,7 @@ $(document).ready(function() {
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
         // ub.funcs.createDraggable(sprite, application, view);
-        ub.funcs.createClickable(sprite, application, view);
-
-
+        ub.funcs.createClickable(sprite, application, view, 'application');
 
     };
 
@@ -1103,13 +1101,15 @@ $(document).ready(function() {
 
     /// Create Clickable Applications
 
-    ub.funcs.createClickable = function (sprite, application, view) {
+    ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
         // Check for Feature Flag
         if(!ub.config.isFeatureOn('ui','hotspots'))
         {
             return;
         }
+
+        sprite.spriteType = spriteType;
 
         sprite.draggable({
             manager: ub.dragAndDropManager
@@ -1124,7 +1124,7 @@ $(document).ready(function() {
 
             var btn = $('button[data-action="identify"][data-id=' + application.code + ']');
             
-            if (sprite.ubHover && !btn.hasClass('appactive')) {
+            if (sprite.ubHover) {
 
                 btn.click();
 
@@ -1140,8 +1140,6 @@ $(document).ready(function() {
                 x: this_data.global.x,
                 y: this_data.global.y
             };
-
-
 
         };
 
@@ -1186,7 +1184,6 @@ $(document).ready(function() {
             }
 
             /// End Hot Spot
-
             
         };
 

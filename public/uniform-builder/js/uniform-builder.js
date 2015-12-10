@@ -1160,6 +1160,9 @@ $(document).ready(function () {
                         point.ubName = 'move_point';
                         rotation_point.ubName = 'rotation_point';
 
+                        point.zIndex = -1000;
+                        rotation_point.zIndex = -1000;
+
                         ui_handles.addChild(point);
                         ui_handles.addChild(rotation_point);
 

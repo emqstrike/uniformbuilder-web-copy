@@ -751,9 +751,8 @@
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
                 // ub.funcs.createDraggable(sprite, application, view);
-                ub.funcs.createClickable(sprite, application, view);
-                console.log('initialize');
-
+                ub.funcs.createClickable(sprite, application, view, 'application');
+                
             });
 
             $textbox.trigger('change');
