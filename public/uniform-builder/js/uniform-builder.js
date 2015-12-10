@@ -1110,7 +1110,6 @@ $(document).ready(function () {
 
                     if (action === "bring_to_front") {
 
-                        console.log('Application Code: ' + application.code);
                         ub.funcs.rearrangeApplications(application, 'UP');
 
                     }
