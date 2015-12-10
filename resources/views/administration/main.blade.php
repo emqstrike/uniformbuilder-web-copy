@@ -83,8 +83,6 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="col-md-12">
-<<<<<<< HEAD
-=======
             @if (Session::get('isLoggedIn'))
             <nav class="navbar navbar-default navbar-static-top" role="navigation">
                 <div class="navbar-header">
@@ -129,8 +127,6 @@
                 </div>
             </nav>
             @endif
-
->>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
             <div class="alert alert-dismissable flash-alert" style="display: none;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                     ×
