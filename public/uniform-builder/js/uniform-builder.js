@@ -1110,6 +1110,7 @@ $(document).ready(function () {
                          if($button.hasClass('appactive')){
 
                             $button.removeClass('appactive');
+                            $('body').css('cursor','auto');
 
                             if (typeof view_objects['ui_handles'] === "object") {
 

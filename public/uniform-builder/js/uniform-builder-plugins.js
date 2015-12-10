@@ -171,6 +171,8 @@
 
             var template = $('#logo-dropdown').html();
             var markup = Mustache.render(template, data);
+
+
             $container.html(markup);
             
             var selector = 'div.logo_drop[data-id="' + application.id + '"]';
@@ -748,7 +750,9 @@
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-                ub.funcs.createDraggable(sprite, application, view);
+                // ub.funcs.createDraggable(sprite, application, view);
+                ub.funcs.createClickable(sprite, application, view);
+                console.log('initialize');
 
             });
 

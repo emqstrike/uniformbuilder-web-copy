@@ -723,7 +723,9 @@ $(document).ready(function() {
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-        ub.funcs.createDraggable(sprite, application, view);
+        // ub.funcs.createDraggable(sprite, application, view);
+        ub.funcs.createClickable(sprite, application, view);
+
 
 
     };
@@ -1058,15 +1060,11 @@ $(document).ready(function() {
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                    console.log('Applcation Obj: ');
-                    console.log(application_obj);
-
                     if (typeof ub.current_material.settings.applications[application.code].text === 'undefined') {
 
                         application_obj.scale.set(percentage, percentage);
 
                     }
-
 
                 }
 
@@ -1102,5 +1100,99 @@ $(document).ready(function() {
     }
 
     /// End Create Create Interactive UI
+
+    /// Create Clickable Applications
+
+    ub.funcs.createClickable = function (sprite, application, view) {
+
+        // Check for Feature Flag
+        if(!ub.config.isFeatureOn('ui','hotspots'))
+        {
+            return;
+        }
+
+        sprite.draggable({
+            manager: ub.dragAndDropManager
+        });
+
+        sprite.mouseup = sprite.touchend = function(data) {
+
+
+        };
+
+        $('body').mouseup(function() {
+
+            var btn = $('button[data-action="identify"][data-id=' + application.code + ']');
+            
+            if (sprite.ubHover && !btn.hasClass('appactive')) {
+
+                btn.click();
+
+            }
+
+        });
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            var this_data = this.interactionData.data;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            var this_data = interactionData.data;
+            window.sprite = sprite;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+            /// Hotspot
+
+            var sprite_obj; 
+
+            if(sprite.children.length === 0) {
+
+                sprite_obj = sprite
+
+            } else {
+
+                sprite_obj = _.last(sprite.children);
+
+            }
+
+            if (typeof sprite_obj.containsPoint === "function") {
+
+                if (sprite_obj.containsPoint(point)) {
+
+                    //start
+                    sprite.ubHover = true;
+                    
+                } else {
+
+                    // restore
+                    sprite.ubHover = false;
+                    
+                }
+                
+            }
+
+            /// End Hot Spot
+
+            
+        };
+
+    }
+
+
+    /// End Create Clickable Application
 
 });
