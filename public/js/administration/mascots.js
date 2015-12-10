@@ -185,6 +185,11 @@ $(document).ready(function() {
 
         $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
 
+        $('.ma-default-color').change(function(){
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+        });
+
         var length = $('.layers-row').length;
         $(".layers-row").each(function(i) {
             $(this).find(".layer-number").text(length);
