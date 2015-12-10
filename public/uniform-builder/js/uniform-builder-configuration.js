@@ -4,6 +4,8 @@ $(document).ready(function(){
     // https://blog.travis-ci.com/2014-03-04-use-feature-flags-to-ship-changes-with-confidence/
     // using this now to disable thumbnail generation instead of deleting / commenting code which can still be used in the future
 
+    ub.funcs = {};
+
     ub.VERSION = "1";
 
     ub.config.feature_flags = {

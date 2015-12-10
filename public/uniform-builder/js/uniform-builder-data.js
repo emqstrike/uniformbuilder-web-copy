@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-    ub.funcs = {};
     ub.ui = {};
     ub.ui.drops = {};
     ub.modifiers = {};

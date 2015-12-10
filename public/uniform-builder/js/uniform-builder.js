@@ -1110,13 +1110,14 @@ $(document).ready(function () {
 
                     if (action === "bring_to_front") {
 
-                        console.info('bring_to_front, ' + data_id);
+                        console.log('Application Code: ' + application.code);
+                        ub.funcs.rearrangeApplications(application, 'UP');
 
                     }
 
                     if (action === "send_to_back") {
 
-                        console.info('send_to_back, ' + data_id);
+                        ub.funcs.rearrangeApplications(application, 'DOWN');
 
                     }
                     

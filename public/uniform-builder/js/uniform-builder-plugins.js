@@ -693,13 +693,13 @@
 
                 var colors_obj = get_colors_obj(application.layer);
                 var length = sprite.children.length;
-
                 var children = _.clone(sprite.children);
+
                 children.reverse();
 
                 _.each(children, function (child, index) {
 
-                    child.tint = parseInt(child.ubDefaultColor,16);
+                    child.tint = parseInt(child.ubDefaultColor, 16);
 
                     if(color_array !== ''){
 
@@ -733,12 +733,16 @@
 
                 }
 
-               sprite.originalZIndex = -10;
-               sprite.zIndex = -10;
-               
-               ub.updateLayersOrder(view);
 
-               if (position !== '') {
+                var layer_order = ( 10 + application.layer_order ) 
+
+                sprite.originalZIndex = layer_order * (-1);
+                sprite.zIndex = layer_order * (-1);
+                settings.applications[application.code].layer_order = layer_order;
+
+                ub.updateLayersOrder(view);
+
+                if (position !== '') {
 
                     sprite.position = position;
                     sprite.scale = scale;

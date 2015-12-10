@@ -127,7 +127,7 @@ $(document).ready(function() {
                 var application = _.find(ub.data.applications.items, {
                     id: application_id
                 });
-                
+
                 var value = $(this).limitslider("values")[0];
                 var object = ub.objects[view_str]['objects_' + application_id];
                 object.y = value;
@@ -706,8 +706,12 @@ $(document).ready(function() {
 
         }
   
-        sprite.originalZIndex = -10;
-        sprite.zIndex = -10;
+        var layer_order = ( 10 + application.layer_order );
+
+        sprite.originalZIndex = layer_order * (-1);
+        sprite.zIndex = layer_order * (-1);
+        settings.applications[application.code].layer_order = layer_order;
+    
         ub.updateLayersOrder(view);
 
         if(position !== ''){
@@ -796,10 +800,12 @@ $(document).ready(function() {
   
         sprite.anchor.set(0.5, 0.5);
 
-        var zIndex = -10 + -(parseInt(application.code));
+        var layer_order = ( 10 + application.layer_order ) 
 
-        sprite.originalZIndex = zIndex;
-        sprite.zIndex = zIndex;
+        sprite.originalZIndex = layer_order * (-1);
+        sprite.zIndex = layer_order * (-1);
+        settings.applications[application.code].layer_order = layer_order;
+    
         ub.updateLayersOrder(view);
 
         if(position !== ''){
@@ -1041,7 +1047,7 @@ $(document).ready(function() {
 
                     var dist = Math.abs( ub.funcs.lineDistance(original_location, sprite.position) );
                     
-                    if (dist >= 30) {
+                    if (dist >= 100) {
                         move_point.position = sprite.position;
                         return;
                     }
@@ -1198,7 +1204,55 @@ $(document).ready(function() {
 
     }
 
-
     /// End Create Clickable Application
+
+    /// Rearrange Application Layers 
+
+    ub.funcs.rearrangeApplications = function (application, movement) {
+
+        var code = application.code;
+        var current_layer_order = ub.current_material.settings.applications[application.code].layer_order;
+        var current_element = ub.current_material.settings.applications[application.code];
+        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.code];
+
+        if (movement === 'UP') {
+
+            var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
+            
+            if(typeof next_element !== 'undefined') {
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                next_element.layer_order = (current_layer_order);
+                next_obj.zIndex = (current_layer_order) * -1;
+            }
+
+            current_element.layer_order = (current_layer_order + 1);
+            current_obj.zIndex = (current_layer_order + 1) * -1;
+
+            ub.updateLayersOrder(ub[application.perspective + '_view']);
+
+        }
+
+        if (movement === 'DOWN') {
+
+            var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order - 1});
+            
+            if(typeof next_element !== 'undefined') {
+
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                next_element.layer_order = (current_layer_order);
+                next_obj.zIndex = (current_layer_order) * -1;
+
+            }
+
+            current_element.layer_order = (current_layer_order - 1);
+            current_obj.zIndex = (current_layer_order - 1) * -1;
+
+            ub.updateLayersOrder(ub[application.perspective + '_view']);
+
+        }
+
+    };
+
+    /// End Rearrange Layers 
 
 });
