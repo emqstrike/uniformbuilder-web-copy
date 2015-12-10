@@ -1,11 +1,5 @@
 @extends('administration.lte-main')
 
-@section('custom-styles')
-select:hover {
-  background-color: transparent;
-}
-@endsection
-
 @section('content')
 <div class="container-fluid main-content">
     <div class="row">
@@ -24,26 +18,28 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascot/add" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascot/update" enctype="multipart/form-data" id='edit-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="layers_properties" id="layers-properties">
+                        <input type="hidden" name="mascot_id" value="{{ $mascot->id }}">
+                        <input type="hidden" name="layers_properties" value="{{ $mascot->layers_properties }}" id="existing-layers-properties">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control mascot-name" name="name" value="{{ $mascot->name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Code</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}">
+                                <input type="name" class="form-control mascot-code" name="code" value="{{ $mascot->code }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
                             <div class="col-md-6 front-view">
+                                <img src="{{ $mascot->icon }}">
                                 <input type="file" class="form-control icon" name="icon" accept="image/*">
                             </div>
                         </div>
@@ -60,13 +56,14 @@ select:hover {
                                     <thead>
                                         <tr>
                                             <th>Layer</th>
-                                            <th>File</th>
+                                            <th>New File</th>
+                                            <th>Saved Thumbnail</th>
                                             <th>Default Color</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody id="layers-row-container">
-                                        <tr class="layers-row">
+                                        <!-- <tr class="layers-row" id="base-row">
                                             <td>
                                                 <select class="ma-layer layer1"  name="ma_layer[]" disabled>
                                                     <option value = '1' class="layer-number">1</option>
@@ -74,6 +71,9 @@ select:hover {
                                             </td>
                                             <td>
                                                 <input type="file" class="ma-options-src layer1" name="ma_image[]">
+                                            </td>
+                                            <td>
+                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
                                             </td>
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
@@ -90,10 +90,7 @@ select:hover {
                                             <td>
                                                 <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
                                             </td>
-                                            <!-- <td>
-                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
-                                            </td> -->
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -125,6 +122,29 @@ select:hover {
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    buildLayers();
+    function buildLayers(){
+        existing_layers_properties = $('#existing-layers-properties').val();
+        var myJson = JSON.parse(existing_layers_properties);
+
+        var length = Object.keys(myJson).length;
+
+        while(length > 0) {
+            console.log("LENGTH: "+length);
+            var open = "<tr class=\"layers-row\">";
+            var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
+            var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\" value="+myJson[length]['filename']+"></td>";
+            var thumbnail = "<td><img src="+myJson[length]['filename']+" style=\"width: 30px; height: 30px; background-color: #e3e3e3;\"><input type=\"hidden\" name=\"image-existing-source\" value=\""+myJson[length]['filename']+"\"></td>";
+            //var colors = "<td><select class=\"ma-default-layer layer"+length+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[length]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\"><option value="+myJson[length]['default_color']+" style=\"background-color: #"+myJson[length]['filename']+"\" selected>Saved</option></select></td>";
+            var colors = "<td><select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[length]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\">@foreach ($colors as $color)@if ($color->active)<option data-color=\"#{{ $color->hex_code }}\" style=\"background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;\" value=\"{{ $color->hex_code }}\">{{ $color->name }}</option>@endif @endforeach<option value="+myJson[length]['default_color']+" style=\"background-color: #"+myJson[length]['filename']+"\" selected>{{ $color->name }}</option></select></td>";
+            var remove = "<td><a class=\"btn btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
+            var close = "<tr>";
+            $('#layers-row-container').append(open+layer+file+thumbnail+colors+remove+close);
+            length--;
+        }
+    }
+
     $('select:not(:has(option))').attr('visible', false);
 
     $('.ma-default-color').change(function(){

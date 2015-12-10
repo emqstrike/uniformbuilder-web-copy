@@ -26,7 +26,7 @@ class MascotsAPIClient extends APIClient
         $mascot = $this->getMascotByName($name);
         if (!is_null($mascot) && !is_null($id))
         {
-            $compare = $this->getMaterial($id);
+            $compare = $this->getMascot($id);
             if ($mascot->id == $compare->id)
             {
                 return false;
@@ -53,7 +53,7 @@ class MascotsAPIClient extends APIClient
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
-            return $result->mascot;
+            return $result->mascot->mascot;
         }
         return null;
     }

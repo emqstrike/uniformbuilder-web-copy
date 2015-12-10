@@ -40,9 +40,20 @@ class MascotsController extends Controller
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
 
-        // return view('administration.mascots.mascot-create');
         return view('administration.mascots.mascot-create', [
             'colors' => $colors
+        ]);
+    }
+
+    public function editMascotForm($id)
+    {
+        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
+        $colors = $colorsAPIClient->getColors();
+
+        $mascot = $this->client->getMascot($id);
+        return view('administration.mascots.mascot-edit', [
+            'colors' => $colors,
+            'mascot' => $mascot
         ]);
     }
 
@@ -65,7 +76,6 @@ class MascotsController extends Controller
             $data['id'] = $id;
         }
         //dd($data);
-
         $myJson = json_decode($layersProperties, true);
 
         $materialFolder = $mascotName;

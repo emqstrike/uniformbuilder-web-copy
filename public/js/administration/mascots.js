@@ -87,7 +87,7 @@ $(document).ready(function() {
         });
     });
 
-	$(document).on('change', function() {
+    $(document).on('change', function() {
         var length = $('.layers-row').length;
         renumberRows(length);
     });
@@ -110,8 +110,10 @@ $(document).ready(function() {
     });
 
     var layers_properties = {};
+    var existing_layers_properties = null;
 
     function renumberRows(length){
+        layers_properties = {};
         $(".layers-row").each(function(i) {
             var thisLayer = "layer"+length;
             var layer_class = ".ma-layer.layer" + length;
@@ -136,7 +138,11 @@ $(document).ready(function() {
             $(this).find(src_class).addClass('ma-options-src');
 
             var hexString = $(this).find(default_color_class).val()
-            hexString = hexString.replace('#','');
+            
+            if(hexString.replace('#','')){
+                hexString = hexString.replace('#','');
+            }
+            
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
             layers_properties[length]['filename'] = $(this).find(src_class).val();
@@ -148,9 +154,48 @@ $(document).ready(function() {
         $('#layers-properties').val(layersProperties);
     }
 
+    $(document).on("click", "a.btn-remove-layer", function(){
+        
+        var length = 0;
+        
+        $(".layers-row").each(function(i) {
+            length++;
+        });
+
+        if(length > 1){
+            $(this).closest('tr').remove();
+            length--;
+        }
+        console.log('LENGTH: '+length);
+
+        var ctr = length;
+
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(ctr);
+            $(this).find(".layer-number").val(ctr);
+            console.log("LAYER: "+ctr);
+            ctr--;
+        });
+
+        renumberRows(length);
+    });
+
     $(document).on('click', '.clone-row', function() {
 
-    	$( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+
+        var length = $('.layers-row').length;
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(length);
+            $(this).find(".layer-number").val(length);
+            length = length-1;
+        });
+        var newLength = $('.layers-row').length;
+    });
+
+    $(document).on('click', '.edit-clone-row', function() {
+
+        $( "#base-row" ).clone().appendTo( "#layers-row-container" );
 
         var length = $('.layers-row').length;
         $(".layers-row").each(function(i) {
