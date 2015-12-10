@@ -59,7 +59,7 @@ class MascotsAPIClient extends APIClient
     }
 
     public function createMascot($data)
-    {
+    {//dd($data);
         $response = $this->post('mascot', [
             'json' => $data
         ]);
@@ -67,12 +67,11 @@ class MascotsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    // public function updateMascot($data)
-    // {
-    //     $response = $this->post('pattern/update', [
-    //         'json' => $data
-    //     ]);
-
-    //     return $this->decoder->decode($response->getBody());
-    // }
+    public function updateMascot($data)
+    {//dd($data);
+        $response = $this->post('mascot/update', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }
