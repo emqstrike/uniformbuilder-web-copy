@@ -1154,11 +1154,19 @@ $(document).ready(function() {
                     $('a.sidebar-buttons[data-filename="applications"]').click();
 
                 }
-                
-                $('div#right-main-window').scrollTo($('select.application_type_dropdown[data-id=' + application.code + ']'), 800,{ offset:-50, });
+
+
+                $element = $('select.application_type_dropdown[data-id=' + application.code + ']');
+
+                var difference = $('div#right-main-window').offset().top - $element.offset().top;
+
+                if ( Math.abs(difference) > 100 ) {
+
+                    $('div#right-main-window').scrollTo($element, 800,{ offset:-50, });
+
+                }
 
                 btn.click();
-
 
             }
 
