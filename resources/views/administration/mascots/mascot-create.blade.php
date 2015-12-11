@@ -55,7 +55,6 @@ select:hover {
                             </div>
                             </label>
                             <div class="col-md-6">
-                                <!-- <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}"> -->
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -90,9 +89,6 @@ select:hover {
                                             <td>
                                                 <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
                                             </td>
-                                            <!-- <td>
-                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
-                                            </td> -->
                                         </tr>
                                     </tbody>
                                 </table>

@@ -37,8 +37,7 @@ class MascotsController extends Controller
 
     public function addMascotForm()
     {
-        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
-        $colors = $colorsAPIClient->getColors();
+        $colors = $this->colorsClient->getColors();
 
         return view('administration.mascots.mascot-create', [
             'colors' => $colors
@@ -47,10 +46,9 @@ class MascotsController extends Controller
 
     public function editMascotForm($id)
     {
-        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
-        $colors = $colorsAPIClient->getColors();
-
+        $colors = $this->colorsClient->getColors();
         $mascot = $this->client->getMascot($id);
+
         return view('administration.mascots.mascot-edit', [
             'colors' => $colors,
             'mascot' => $mascot
@@ -62,7 +60,7 @@ class MascotsController extends Controller
         $mascotName = $request->input('name');
         $code = $request->input('code');
         $layersProperties = $request->input('layers_properties');
-    //dd($layersProperties);
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -75,7 +73,7 @@ class MascotsController extends Controller
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
-        //dd($data);
+
         $myJson = json_decode($layersProperties, true);
 
         $materialFolder = $mascotName;
@@ -135,19 +133,19 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+
         // Is the Mascot Name taken?
-        // if ($this->client->isMascotExist($name, $id))
-        // {
-        //     return Redirect::to('administration/mascots')
-        //                     ->with('message', 'Mascot already exist');
-        // }
+        if ($this->client->isMascotExist($name, $id))
+        {
+            return Redirect::to('administration/mascots')
+                            ->with('message', 'Mascot already exist');
+        }
 
         $response = null;
         if (!empty($id))
-        {//dd($data);
+        {
             Log::info('Attempts to update Mascot#' . $id);
             $response = $this->client->updateMascot($data);
-            //passes here
         }
         else
         {

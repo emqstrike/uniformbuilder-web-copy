@@ -150,7 +150,7 @@ $(document).ready(function() {
             length--;
         });
         var layersProperties = JSON.stringify(layers_properties);
-        console.log(layersProperties);
+
         $('#layers-properties').val(layersProperties);
         $('#existing-layers-properties').val(layersProperties);
     }
@@ -167,14 +167,13 @@ $(document).ready(function() {
             $(this).closest('tr').remove();
             length--;
         }
-        console.log('LENGTH: '+length);
+
 
         var ctr = length;
 
         $(".layers-row").each(function(i) {
             $(this).find(".layer-number").text(ctr);
             $(this).find(".layer-number").val(ctr);
-            console.log("LAYER: "+ctr);
             ctr--;
         });
 
@@ -194,7 +193,7 @@ $(document).ready(function() {
         $(".layers-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
-            length = length-1;
+            length--;
         });
         var newLength = $('.layers-row').length;
     });
@@ -207,7 +206,7 @@ $(document).ready(function() {
         $(".layers-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
-            length = length-1;
+            length--;
         });
         var newLength = $('.layers-row').length;
     });

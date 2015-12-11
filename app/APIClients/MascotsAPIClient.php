@@ -35,7 +35,6 @@ class MascotsAPIClient extends APIClient
         return !is_null($mascot);
     }
 
-
     public function getMascotByName($name)
     {
         $response = $this->get('mascot/name/' . $name);
@@ -59,7 +58,7 @@ class MascotsAPIClient extends APIClient
     }
 
     public function createMascot($data)
-    {//dd($data);
+    {
         $response = $this->post('mascot', [
             'json' => $data
         ]);
@@ -68,7 +67,7 @@ class MascotsAPIClient extends APIClient
     }
 
     public function updateMascot($data)
-    {//dd($data);
+    {
         $response = $this->post('mascot/update', [
             'json' => $data
         ]);
