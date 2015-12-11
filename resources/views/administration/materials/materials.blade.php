@@ -4,91 +4,62 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
 @endsection
 
 @section('content')
 
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h1>
+                        <span class="fa fa-cubes"></span>
+                        Materials
+                        <small>
+                            <a href="/administration/material/add" class='btn btn-xs btn-success'>
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                Add New Material
+                            </a>
+                        </small>
+                    </h1>
+                </div>
+                <div class="box-body">
+                    <table data-toggle='table' class='table table-bordered materials'>
+                        <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Material Name</th>
+                                <th>Material Options</th>
+                                <th>Code</th>
+                                <th>Type</th>
+                                <th>Uniform Category</th>
+                                <th>Gender</th>
+                                <th>Active Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
+                        @forelse ($materials as $material)
 
-<div class="col-md-12">
-    <h1>
-        <span class="fa fa-cubes"></span>
-        Materials
-        <small>
-            <a href="/administration/material/add" class='btn btn-xs btn-success'>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                Add New Material
-            </a>
-        </small>
-    </h1>
-</div>
-
-<div class="row-fluid col-md-12">
-    <table data-toggle='table' class='materials'>
-        <thead>
-            <tr>
-                <th>Thumbnail</th>
-                <th>Material Name</th>
-                <th>Material Options</th>
-                <th>Code</th>
-                <th>Type</th>
-                <th>Uniform Category</th>
-                <th>Gender</th>
-                <th>Active Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-        @forelse ($materials as $material)
-
-            <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
-                <td>
-                    @if ($material->thumbnail_path)
-                    <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
-                    @else
-                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
-                    @endif
-                </td>
-                <td>
-                    {{ $material->name }}
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="col-md-3">
-                        <span class="label label-info">FRONT</span>                        
-                        @foreach ($material->options as $option)
-                            @if ( $option->perspective == "front")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
+                            <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
+                                <td>
                                     @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                    <img src="{{ $material->thumbnail_path }}" width="100px" height="100px" alt="{{ $material->slug }}">
                                     @else
-                                        <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
+                                    <img src="http://dummyimage.com/100" width="100px" height="100px" alt="{{ $material->slug }}">
                                     @endif
-                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a><br>
-                                    <a class="btn btn-success btn-xs edit-material-option"
+                                </td>
+                                <td>
+                                    {{ $material->name }}
+                                </td>
+                                <td>
+                                    @forelse ($material->options as $option)
+                                    <div style="margin-top: 3px;" class="material-option-{{ $option->id }}">
+                                        <span class="label label-default">Level: {{ $option->layer_level }} - {{ strtoupper($option->perspective) }}</span>
+                                        <a href="#" class='btn btn-xs btn-info edit-material-option'
                                             data-material-option-name="{{ $option->name }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
@@ -100,137 +71,21 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="col-md-3">
-                        <span class="label label-info">BACK</span>
-                        @foreach ($material->options as $option)
-                            @if ( $option->perspective == "back")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @else
-                                        <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @endif
-                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a><br>
-                                    <a class="btn btn-success btn-xs edit-material-option">
-
-                                    <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="col-md-3">
-                        <span class="label label-info">RIGHT</span>
-                        @foreach ($material->options as $option)
-                            @if ( $option->perspective == "right")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @else
-                                        <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @endif
-                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a><br>
-                                    <a class="btn btn-success btn-xs edit-material-option"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
+                                            data-material-id="{{ $material->id }}">
+                                            <span class="fa fa-edit"></span>
+                                            {{ $option->name }}
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-xs delete-material-option" data-material-option-id="{{ $option->id }}" role="button">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </div>
+                                    @empty
+                                    @endforelse
+                                    <div style="margin-top: 10px;">
+                                        <a href="#" class='btn btn-xs btn-success add-material-option'
                                             data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="col-md-3">
-                        <span class="label label-info">LEFT</span>
-                        @foreach ($material->options as $option)
-                            @if ( $option->perspective == "left")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                class="material-option-{{ $option->id }}  material-option-item" 
-                                data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <img src="{{ $material->thumbnail_path }}" 
-                                        class="pull-right" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @else
-                                        <img src="http://dummyimage.com/100" 
-                                        width="45px" 
-                                        height="45px" 
-                                        alt="{{ $material->slug }}">
-                                    @endif
-                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right" 
-                                    data-material-option-id="{{ $option->id }}" 
-                                    role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a><br>
-                                    <a class="btn btn-success btn-xs edit-material-option"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
-                                            data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}">{{ $option->name }} 
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-primary" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                    </div>
-                    <hr>
-                        <a href=""><span class="fa fa-chevron-down"></span></a>
-                        <a href="#" class='btn btn-xs btn-success add-material-option'
-                            data-material-name="{{ $material->name }}"
-                            data-material-id="{{ $material->id }}">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                            data-material-id="{{ $material->id }}">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
                                             Add Material Option
                                         </a>
                                     </div>
@@ -315,6 +170,7 @@
         </div>
     </div>
 </section>
+
 @include('administration.materials.material-view-modal')
 
 @include('administration.materials.material-option-create-modal')
@@ -332,8 +188,6 @@
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-@if (Session::has('message'))
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
