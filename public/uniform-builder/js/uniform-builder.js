@@ -1306,7 +1306,8 @@ $(document).ready(function () {
 
             $('.options_panel').hide();
             $('div#right-sidebar > a.sidebar-buttons').css('background-color','#acacac');
-            $(panel).fadeIn(100);
+            // $(panel).fadeIn(100);
+            $(panel).show();
 
         }
 

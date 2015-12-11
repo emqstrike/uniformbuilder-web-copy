@@ -821,6 +821,7 @@ $(document).ready(function() {
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
         ub.funcs.createDraggable(sprite, application, view);
+        ub.funcs.createClickable(sprite, application, view, 'application');
 
     };
 
@@ -1047,7 +1048,14 @@ $(document).ready(function() {
 
                     var dist = Math.abs( ub.funcs.lineDistance(original_location, sprite.position) );
                     
-                    if (dist >= 100) {
+                    var limits = 500;
+
+                    if(ub.config.isFeatureOn('ui','drag_limits')) {
+                        limits = 30;
+                    }
+
+
+                    if (dist >= limits) {
                         move_point.position = sprite.position;
                         return;
                     }
@@ -1141,7 +1149,16 @@ $(document).ready(function() {
             
             if (sprite.ubHover) {
 
+                if(!$('a.sidebar-buttons.applications').hasClass('active_button')) {
+
+                    $('a.sidebar-buttons[data-filename="applications"]').click();
+
+                }
+                
+                $('div#right-main-window').scrollTo($('select.application_type_dropdown[data-id=' + application.code + ']'), 800,{ offset:-50, });
+
                 btn.click();
+
 
             }
 
