@@ -1305,7 +1305,11 @@ $(document).ready(function () {
         function switch_panel(panel){
 
             $('.options_panel').hide();
-            $('div#right-sidebar > a.sidebar-buttons').css('background-color','#acacac');
+            var $btns = $('div#right-sidebar > a.sidebar-buttons').css('background-color','#acacac');
+
+            $btns.removeClass('highlighter_on');
+            $btns.addClass('highlighter_off');
+
             // $(panel).fadeIn(100);
             $(panel).show();
 
@@ -1320,18 +1324,21 @@ $(document).ready(function () {
                 if (ub.active !== null) {
 
                     filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
-                    ub.active.css('background-image', 'url(' + filename + ')');
+                    //ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
+
 
                 }
 
                 ub.active = $(this);
                 filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
-                ub.active.css('background-image', 'url(' + filename + ')');
+                //ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
 
                 switch_panel('#' +  ub.active.data('filename') + '_panel');
+
+
 
                 return false;
 
@@ -1347,8 +1354,10 @@ $(document).ready(function () {
                     return;
                 }
                 
-                s.css('background-color','#363636');
-                s.css('background-image', 'url(' + filename + ')');
+                s.removeClass('highlighter_off');
+                s.addClass('highlighter_on');
+                
+                //s.css('background-image', 'url(' + filename + ')');
  
             }, function (e) {
 
@@ -1361,8 +1370,10 @@ $(document).ready(function () {
                 var option = s.data('filename');
                 var filename = ub.config.host + '/images/sidebar/' + option + '.png';
                 
-                s.css('background-color','#acacac');
-                s.css('background-image', 'url(' + filename + ')');                       
+                s.removeClass('highlighter_on');
+                s.addClass('highlighter_off');
+
+               // s.css('background-image', 'url(' + filename + ')');                       
 
             });
 
@@ -1382,10 +1393,12 @@ $(document).ready(function () {
                         return;
                     }
 
-                    $('a.' + s).css('background-color','#363636');
+                    $('a.' + s).removeClass('highlighter_off');
+                    $('a.' + s).addClass('highlighter_on');
+
 
                     var option = $('a.' + s).data('option');
-                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
+                    // var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                     $('a.' + s).css('background-image', 'url(' + filename + ')');
 
@@ -1399,13 +1412,14 @@ $(document).ready(function () {
                 if (_.contains(sidebar_classes, s)) {
 
                     if ($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
-                        
-                        $('a.' + s).css('background-color','#acacac');
+
+                        $('a.' + s).removeClass('highlighter_on');
+                        $('a.' + s).addClass('highlighter_off');
 
                         var option = $('a.' + s).data('option');
                         var filename = ub.config.host + '/images/sidebar/' + option + '.png';
 
-                        $('a.' + s).css('background-image', 'url(' + filename + ')');
+                        // $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -1437,8 +1451,11 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'close.png';
                         
-                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        $('a.btn-new').css('background-color','#363636');
+                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
+                        
+                        $('a.btn-new').removeClass('highlighter_off');
+                        $('a.btn-new').addClass('highlighter_on');
+
                         $('#right-main-window').css('background-color','#f8f8f8');
                         $('a.btn-new').data('status','close');
 
@@ -1459,8 +1476,10 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'new.png';
  
-                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        $('a.btn-new').css('background-color','#acacac');
+                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
+                        
+                        $('a.btn-new').removeClass('highlighter_off');
+                        $('a.btn-new').addClass('highlighter_on');
  
                         $('#right-main-window').css('background-color','#ffffff');
                         $('#left-main-window').css('background-color','#ffffff');

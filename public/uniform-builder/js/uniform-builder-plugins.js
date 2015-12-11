@@ -151,7 +151,7 @@
     };
 
     
-    $.fn.ubLogoDialog = function (options) {
+    $.fn.ubImageDialog = $.fn.ubLogoDialog = function (options) {
 
         ub.funcs.removeUIHandles();
 
@@ -336,24 +336,24 @@
 
     };
 
-    $.fn.ubImageDialog = function(options) {
+    // $.fn.ubImageDialog = function(options) {
 
-        var settings = $.extend({ application: {} }, options);
+    //     var settings = $.extend({ application: {} }, options);
 
-        return this.each(function () {
+    //     return this.each(function () {
 
-            var $container = $(this);
-            var html_builder = '';
+    //         var $container = $(this);
+    //         var html_builder = '';
 
-            html_builder += "<hr />";
-            html_builder += "Image Dialog from Plugin";
-            html_builder += "<hr />";
+    //         html_builder += "<hr />";
+    //         html_builder += "Image Dialog from Plugin";
+    //         html_builder += "<hr />";
 
-            $container.html(html_builder);
+    //         $container.html(html_builder);
 
-        });
+    //     });
 
-    };
+    // };
 
     $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
 
