@@ -37,6 +37,7 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
+
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
