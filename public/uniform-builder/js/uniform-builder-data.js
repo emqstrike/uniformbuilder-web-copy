@@ -50,6 +50,9 @@ $(document).ready(function(){
     ub.current_material = {};
     ub.current_material.settings = {};
 
+    ub.states = {};
+    ub.states.active_application = 'undefined';
+
     ub.data = {};
     ub.data.views = ['front', 'back', 'left', 'right'];
 

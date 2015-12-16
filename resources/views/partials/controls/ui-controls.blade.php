@@ -93,7 +93,7 @@
     <script  type="text/mustache" id="logo-dropdown">
         <hr />
             <div class='logo_drop btn' data-id='@{{application_id}}'>
-                Choose a Logo: <i class='fa fa-caret-down'></i>
+                Choose a Logo / Image: <i class='fa fa-caret-down'></i>
             </div>
             
             <div class='logo-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>

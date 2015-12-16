@@ -1081,11 +1081,11 @@ $(document).ready(function() {
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                    if (typeof ub.current_material.settings.applications[application.code].text === 'undefined') {
+                    //if (typeof ub.current_material.settings.applications[application.code].text === 'undefined') {
 
                         application_obj.scale.set(percentage, percentage);
 
-                    }
+                    //}
 
                 }
 
@@ -1155,14 +1155,15 @@ $(document).ready(function() {
 
                 }
 
-
                 $element = $('select.application_type_dropdown[data-id=' + application.code + ']');
 
                 var difference = $('div#right-main-window').offset().top - $element.offset().top;
 
-                if ( Math.abs(difference) > 100 ) {
+                if ( Math.abs(difference) > 100 || ub.states.active_application !== sprite) {
 
                     $('div#right-main-window').scrollTo($element, 800,{ offset:-50, });
+
+                    ub.states.active_application = sprite;
 
                 }
 
