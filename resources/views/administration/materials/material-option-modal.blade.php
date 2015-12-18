@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="control-label">Setting Type:</label>
-                    <select name='setting_type[]' class='form-control setting-types'>
+                    <select name='setting_type' class='form-control setting-types'>
                         <option value='part'>Part</option>
                         <option value='shape'>Shape</option>
                         <option value='piping'>Piping</option>

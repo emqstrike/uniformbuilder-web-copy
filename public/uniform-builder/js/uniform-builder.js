@@ -10,6 +10,8 @@ $(document).ready(function () {
                 return;
             }
 
+            ub.config.print_version();
+
             /// Initialize Assets
 
             ub.current_material.id = window.ub.config.material_id;
@@ -785,360 +787,430 @@ $(document).ready(function () {
 
     };
 
-            window.ub.setup_material_options = function () {
+    window.ub.setup_material_options = function () {
 
-                ub.current_material.options_distinct_names = {};
+        ub.current_material.options_distinct_names = {};
 
-                _.each(ub.views, function (view) {
+        _.each(ub.views, function (view) {
 
-                    var material_options = _.where(ub.current_material.material.options, {perspective: view});
-                    var current_view_objects = ub.objects[view + '_view']; 
+            var material_options = _.where(ub.current_material.material.options, {perspective: view});
+            var current_view_objects = ub.objects[view + '_view']; 
 
-                    _.each(material_options, function (obj, index) {
+            _.each(material_options, function (obj, index) {
 
-                        var name = obj.name.toLowerCase().replace(' ', '_');
+                var name = obj.name.toLowerCase().replace(' ', '_');
 
-                        current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
-                        var current_object = current_view_objects[name];
+                current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
+                var current_object = current_view_objects[name];
 
-                        current_object.name = name;
-                        current_object.zIndex = (obj.layer_level * 2) * (-1);
-                        current_object.originalZIndex = (obj.layer_level * 2) * (-1);
+                current_object.name = name;
 
-                        if (obj.setting_type === 'highlights') {
-                            current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
-                        } else if (obj.setting_type === 'shadows') {
-                            current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-                        } else {
-                            
-                            var default_color = JSON.parse(obj.colors)[0];
-                            var color = _.find(ub.data.colors, { color_code: default_color });
+                // Multiplied to negative one because
+                // UpdateLayers order puts the least zIndex on the topmost position
 
-                            current_object.tint = parseInt(color.hex_code, 16);
+                current_object.zIndex = (obj.layer_level * 2) * (-1); 
+                current_object.originalZIndex = (obj.layer_level * 2) * (-1);
 
-                            var modifier_label = name;
-
-                            if (name.search('shape') > 0) {
-                            } 
-
-                            ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type ,'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
-                            
-                        }
-
-                        // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
-                        // dummy layer will be used as a mask for patterns and gradients
-
-                        if (obj.setting_type === 'shape') {
-
-                            var mask =  ub.pixi.new_sprite(obj.material_option_path);
-                            mask.name = name + '_mask';
-                            mask.zIndex = current_object.zIndex + (-1);
-                            mask.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-
-                            var mask_distinct = _.clone(ub.current_material.options_distinct_names[name]);
-                            mask_distinct.setting_type = 'static_layer';
-
-                            ub.current_material.options_distinct_names[mask.name] = mask_distinct;
-                            current_view_objects[mask.name] = mask;
-
-                            ub[view + '_view'].addChild(mask);
-
-                        }
-
-                        ub[view + '_view'].addChild(current_object);
-
-                    });
-
-                    ub.updateLayersOrder(ub[view + '_view']);
-
-                });    
-
-                /// Setup Modifiers Colors
-
-                    var modifiers = '';
-                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
-
-                    _.each(sorted, function (obj) {
-
-                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
-
-                        var no_modifiers = ['static_layer', 'highlights', 'shadows'];
-
-                        if (_.contains(no_modifiers, obj.setting_type)) {
-                            return;
-                        }
-
-                        var code = obj.material_option;
-                        var name = obj.material_option.replace('_',' ').toUpperCase();
-                        ub.modifiers[code] = name;
-
-                        var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label>  <button class="color_base modifier button_tabs" data-option="' + code + '">Color </button> </div>';
-                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container">';
-                        var color_elements = '';
-
-                        _.each(obj.available_colors, function (color_obj) {
-
-                            var color = _.find(ub.data.colors, { color_code: color_obj});
-                            var element = '<div class="color_element">';
-
-                            element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
-                            element = element + '</div>';    
-                            color_elements = color_elements + element;
-
-                        });
-
-                        str_builder = str_builder + color_elements;
-                        str_builder = str_builder + '</div></div>';
-                        modifiers = modifiers + str_builder;
-
-                    });
-
-                var color_container = $('#colors_panel').append(modifiers);
-
-                /// End Setup Modifiers Colors
-
-
-                /// Setup Modifiers Patterns
-
-                    var modifiers = '';
-                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
-
-                    _.each(sorted, function (obj){
-
-                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
-
-                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
-
-                        if (_.contains(no_modifiers, obj.setting_type)) {
-                            return;
-                        }
-
-                        var code = obj.material_option;
-                        var name = obj.material_option.replace('_',' ').toUpperCase();
-                        
-                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="pattern_base modifier button_tabs" data-option="' + code + '">Pattern </button> </div>';
-                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="patterns"><div class="pattern_panel_container">';
-                        var pattern_elements = '';
-
-                        _.each(ub.data.patterns.items, function (pattern_obj) {
-
-                            var element = '<div class="pattern_element">';
-                            var filename = pattern_obj.icon;
-
-                            element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
-                            element = element + '</div>';    
-
-                            pattern_elements = pattern_elements + element;
-
-                        });
-
-                        str_builder = str_builder + pattern_elements;
-                        str_builder = str_builder + '</div><div class="layers_container"></div></div>'; 
-                        modifiers = modifiers + str_builder;
-
-                    });
-
-                    var pattern_container = $('#patterns_panel').append(modifiers);
+                if (obj.setting_type === 'highlights') {
+                    current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                } else if (obj.setting_type === 'shadows') {
+                    current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+                } else {
                     
-                /// End Setup Modifiers Patterns
+                    var default_color = JSON.parse(obj.colors)[0];
+                    var color = _.find(ub.data.colors, { color_code: default_color });
+
+                    current_object.tint = parseInt(color.hex_code, 16);
+
+                    var modifier_label = name;
+    
+                    // Skip creating distinct name object if name already exists
+                    if (typeof ub.current_material.options_distinct_names[name] !== "object") {
+
+                        ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
+                    
+                    }
+                    
+                }
+
+                // Add a dummy material option duplicate of the layer if the layer is detected as a "Shape", 
+                // dummy layer will be used as a mask for patterns and gradients
+
+                if (obj.setting_type === 'shape') {
+
+                    var mask =  ub.pixi.new_sprite(obj.material_option_path);
+                    mask.name = name + '_mask';
+                    mask.zIndex = current_object.zIndex + (-1);
+                    mask.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
+                    var mask_distinct = _.clone(ub.current_material.options_distinct_names[name]);
+                    mask_distinct.setting_type = 'static_layer';
+
+                    ub.current_material.options_distinct_names[mask.name] = mask_distinct;
+                    current_view_objects[mask.name] = mask;
+
+                    ub[view + '_view'].addChild(mask);
+
+                }
+
+                ub[view + '_view'].addChild(current_object);
+
+            });
+
+            ub.updateLayersOrder(ub[view + '_view']);
+
+        });    
+
+        /// Setup Modifiers Colors
+
+            var modifiers = '';
+            var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+
+            _.each(sorted, function (obj) {
+
+                // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                var no_modifiers = ['static_layer', 'highlights', 'shadows'];
+
+                if (_.contains(no_modifiers, obj.setting_type)) {
+                    return;
+                }
+
+                var code = obj.material_option;
+                var name = obj.material_option.replace('_',' ').toUpperCase();
+                ub.modifiers[code] = name;
+
+                var header = '<div class="options_panel_section"><label>' + obj.material_option.replace('_',' ').toUpperCase() + '</label>  <button class="color_base modifier button_tabs" data-option="' + code + '">Color </button> </div>';
+                var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="colors"><div class="color_panel_container">';
+                var color_elements = '';
+
+                _.each(obj.available_colors, function (color_obj) {
+
+                    var color = _.find(ub.data.colors, { color_code: color_obj});
+                    var element = '<div class="color_element">';
+
+                    element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                    element = element + '</div>';    
+                    color_elements = color_elements + element;
+
+                });
+
+                str_builder = str_builder + color_elements;
+                str_builder = str_builder + '</div></div>';
+                modifiers = modifiers + str_builder;
+
+            });
+
+            var color_container = $('#colors_panel').append(modifiers);
+
+        /// End Setup Modifiers Colors
 
 
-                /// Setup Modifiers Gradients
+        /// Setup Modifiers Patterns
 
-                    var modifiers = '';
-                    var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+            var modifiers = '';
+            var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
 
-                    _.each(sorted, function (obj){
+            _.each(sorted, function (obj){
 
-                        // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+                // dont create modifiers if setting type is static or the layer will have to be blended with other layers
 
-                        var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+                var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
 
-                        if (_.contains(no_modifiers, obj.setting_type)) {
+                if (_.contains(no_modifiers, obj.setting_type)) {
+                    return;
+                }
+
+                var code = obj.material_option;
+                var name = obj.material_option.replace('_',' ').toUpperCase();
+                
+                var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="pattern_base modifier button_tabs" data-option="' + code + '">Pattern </button> </div>';
+                var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="patterns"><div class="pattern_panel_container">';
+                var pattern_elements = '';
+
+                _.each(ub.data.patterns.items, function (pattern_obj) {
+
+                    var element = '<div class="pattern_element">';
+                    var filename = pattern_obj.icon;
+
+                    element = element + '<button class="btn change-pattern" data-panel="' + obj.material_option.split('_')[0] + '" data-target-pattern="' + code + '" data-pattern="' + pattern_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + pattern_obj.name + '" data-selection="none"></button>';
+                    element = element + '</div>';    
+
+                    pattern_elements = pattern_elements + element;
+
+                });
+
+                str_builder = str_builder + pattern_elements;
+                str_builder = str_builder + '</div><div class="layers_container"></div></div>'; 
+                modifiers = modifiers + str_builder;
+
+            });
+
+            var pattern_container = $('#patterns_panel').append(modifiers);
+            
+        /// End Setup Modifiers Patterns
+
+
+        /// Setup Modifiers Gradients
+
+            var modifiers = '';
+            var sorted = _.sortBy(ub.current_material.options_distinct_names, function (o) { return o.layer_order; })
+
+            _.each(sorted, function (obj){
+
+                // dont create modifiers if setting type is static or the layer will have to be blended with other layers
+
+                var no_modifiers = ['static_layer', 'highlights', 'shadows', 'piping'];
+
+                if (_.contains(no_modifiers, obj.setting_type)) {
+                    return;
+                }
+
+                var code = obj.material_option;
+                var name = obj.material_option.replace('_',' ').toUpperCase();
+                
+                var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="gradient_base modifier button_tabs" data-option="' + code + '">Gradient </button> </div>';
+                var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="gradients"><div class="gradient_panel_container">';
+                var gradient_elements = '';
+
+                _.each(ub.data.gradients.items, function (gradient_obj) {
+
+                    var element = '<div class="gradient_element">';
+                    var filename = '/images/sidebar/' + gradient_obj.code + '.png';
+
+                    element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
+                    element = element + '</div>';    
+
+                    gradient_elements = gradient_elements + element;
+
+                });
+
+                str_builder = str_builder + gradient_elements;
+                str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
+                modifiers = modifiers + str_builder;
+
+            });
+
+            var gradient_container = $('#gradients_panel').append(modifiers);
+            ub.bind_handlers();
+            ub.bind_left_sidebar_tab_handlers();
+
+        /// End Setup Modifiers Gradients
+
+        /// Setup Modifiers Applications 
+
+            var markup = '';
+
+            _.each(ub.data.applications.items, function (application) {
+
+                markup += application.id + ". " + application.name + "<br /><br />";
+                markup += "<div data-id='" + application.id + "' class='logos_picker'></div>";
+
+            });
+
+            markup = '';
+
+            _.each(ub.data.applications.items, function (application) {
+
+                var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
+                ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
+                ddowns     +=       '<option value="none">-- Select an Application --</option>';
+                ddowns     +=       '<option value="logo">Logo</option>';
+                ddowns     +=       '<option value="mascot">Mascot</option>';
+                ddowns     +=       '<option value="player_name">Player Name</option>';
+                ddowns     +=       '<option value="team_name">Team Name</option>';
+                ddowns     +=       '<option value="player_number">Player Number</option>';
+                ddowns     +=       '<option value="image">Image</option>';
+                ddowns     +=   '</select>&nbsp;';
+
+                ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
+                ddowns     +=   '<button data-action="bring_to_front" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-up"></i></button>';
+                ddowns     +=   '<button data-action="send_to_back" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrow-down"></i></button>';
+                
+                ddowns     += '</div>';
+                ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
+
+                markup += "<div class='application_dropdown_label'>" + application.id + ". " + application.name + "<br /></div>" + ddowns + "<br /><br />";
+
+            });
+
+            markup += '<input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>';
+            markup += '<div class="application_footer"><button data-action="show_all_locations" data-option="applications" class="btn btn-xs show_all_locations">Show All Locations</button></div>';
+
+            $('div.applications').html(markup);
+
+            // Event handler for Application Buttons and Dropdowns
+
+                $('select.application_type_dropdown').on('change', function (e) {
+
+                    $select = $(this);
+
+                    var id = $select.data('id');
+                    var application_type = $select.val();
+                    var application = _.find(ub.data.applications.items, { id: id });
+
+                    $container = $('div.applications_modifier_container[data-id="' + id + '"]');
+
+                    var plugin_parameters = { application: application };
+
+                    if (application_type === "logo") {
+                        $container.ubLogoDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "image") {
+                        $container.ubImageDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "mascot") {
+                        $container.ubMascotDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "player_name") {
+                        $container.ubPlayerNameDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "player_number") {
+                        $container.ubPlayerNumberDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "team_name") {
+                        $container.ubTeamNameDialog(plugin_parameters);
+                    }
+
+                    if (application_type === "none") {
+
+                        var view_objects = ub.objects[application.perspective + '_view'];
+                        var s = view_objects['objects_' + application.code];
+                        var view = ub[application.perspective + '_view'];
+
+                        if (typeof(s) === 'object') {
+
+                            var obj = view_objects['objects_' + application.code];
+
+                            view.removeChild(view_objects['objects_' + application.code]);
+                            delete view_objects['objects_' + application.code];
+                            delete ub.current_material.settings.applications[application.code];
+
+                        }
+
+                        $container.html('');
+                    }
+                    
+                });
+
+                $('button[data-option="applications"]').on('click', function(e) {
+
+                    var $button = $(this);
+                    var action = $button.data('action');
+                    var data_id = $button.data("id");
+                    var application = _.find(ub.data.applications.items, { id: data_id });
+                    var perspective = application.perspective;
+                    var view = ub[perspective + '_view'];
+                    var view_objects = ub.objects[perspective + '_view'];
+
+                    if (action === "bring_to_front") {
+
+                        ub.funcs.rearrangeApplications(application, 'UP');
+
+                    }
+
+                    if (action === "send_to_back") {
+
+                        ub.funcs.rearrangeApplications(application, 'DOWN');
+
+                    }
+                    
+                    if (action === "identify") {
+
+                         if($button.hasClass('appactive')){
+
+                            $button.removeClass('appactive');
+                            $('body').css('cursor','auto');
+
+                            if (typeof view_objects['ui_handles'] === "object") {
+
+                                view.removeChild(view_objects['ui_handles']);
+                                delete view_objects['ui_handles'];
+
+                            }
+
                             return;
                         }
 
-                        var code = obj.material_option;
-                        var name = obj.material_option.replace('_',' ').toUpperCase();
+                        $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
+
+                        $button.addClass('appactive');
+
+                        var point = ub.pixi.new_sprite('/images/misc/point.png');
+                        point.anchor.set(0.5, 0.5);
+
+                        var rotation_point = ub.pixi.new_sprite('/images/misc/point.png');
+                        rotation_point.anchor.set(0.5, 0.5);
+
+                        $('a.change-view[data-view="' + perspective + '"]').click();
+
+                        var x = 0;
+                        var y = 0;
+
+                        var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+
+                        if (typeof application_obj === 'undefined') {
+    
+                            x = ub.dimensions.width * application.position.x;
+                            y = ub.dimensions.height * application.position.y;
+    
+                        }
+                        else {
+
+                            x = application_obj.x;
+                            y = application_obj.y;
+
+                        }
                         
-                        var header = '<div class="options_panel_section"><label>' + name + '</label>  <button class="gradient_base modifier button_tabs" data-option="' + code + '">Gradient </button> </div>';
-                        var str_builder = header + '<div class="options_panel_section" data-option="' + code + '" data-group="gradients"><div class="gradient_panel_container">';
-                        var gradient_elements = '';
+                        var ui_handles = new PIXI.Container();
 
-                        _.each(ub.data.gradients.items, function (gradient_obj) {
+                        point.position = new PIXI.Point(x,y);
+                        rotation_point.position = new PIXI.Point(x + 100, y);
 
-                            var element = '<div class="gradient_element">';
-                            var filename = '/images/sidebar/' + gradient_obj.code + '.png';
+                        point.ubName = 'move_point';
+                        rotation_point.ubName = 'rotation_point';
 
-                            element = element + '<button class="btn change-gradient" data-panel="' + obj.material_option.split('_')[0] + '" data-target-gradient="' + code + '" data-gradient="' + gradient_obj.code + '" style="background-image: url(' + filename + '); width: 100%; height: 100%; border: 1px solid #acacac; padding: 0px; background-size: cover;" data-layer="none" data-placement="bottom" title="' + gradient_obj.name + '" data-selection="none"></button>';
-                            element = element + '</div>';    
+                        point.zIndex = -1000;
+                        rotation_point.zIndex = -1000;
 
-                            gradient_elements = gradient_elements + element;
+                        ui_handles.addChild(point);
+                        ui_handles.addChild(rotation_point);
 
-                        });
+                        if (typeof view_objects['ui_handles'] === "object") {
 
-                        str_builder = str_builder + gradient_elements;
-                        str_builder = str_builder + '</div><div class="color_stops_container"></div></div>'; 
-                        modifiers = modifiers + str_builder;
+                            view.removeChild(view_objects['ui_handles']);
+                            delete view_objects['ui_handles'];
 
-                    });
+                        }
 
-                    var gradient_container = $('#gradients_panel').append(modifiers);
-                    ub.bind_handlers();
-                    ub.bind_left_sidebar_tab_handlers();
+                        ui_handles.applicationID = application.code;
 
-                /// End Setup Modifiers Gradients
+                        view_objects['ui_handles'] = ui_handles;
+                        view.addChild(ui_handles);
 
-                /// Setup Modifiers Applications 
+                        ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
+                        ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
 
-                    var markup = '';
+                    }
 
-                    _.each(ub.data.applications.items, function (application) {
+                });
 
-                        markup += application.id + ". " + application.name + "<br /><br />";
-                        markup += "<div data-id='" + application.id + "' class='logos_picker'></div>";
+            // End Event handler for Applications Buttons
 
-                    });
+        /// End Setup Modifiers Applications
 
-                    //$('div.applications_container').html(markup);
+        /// Setup Settings obj, for persisting customizer selection
 
-                    markup = '';
+            ub.init();
 
-                    _.each(ub.data.applications.items, function (application) {
+        /// End Setup Settings obj
 
-                        var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
-                        ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
-                        ddowns     +=       '<option value="none">-- Select an Application --</option>';
-                        ddowns     +=       '<option value="logo">Logo</option>';
-                        ddowns     +=       '<option value="team_name">Team Name</option>';
-                        ddowns     +=       '<option value="player_number">Player Number</option>';
-                        ddowns     +=       '<option value="player_name">Player Name</option>';
-                        ddowns     +=       '<option value="image">Image</option>';
-                        ddowns     +=   '</select>&nbsp;';
-                        ddowns     +=   '<button data-action="edit" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Edit</button>&nbsp;';
-                        ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs">Identify</button>';
-                        ddowns     += '</div>';
-                        ddowns     += '<div class="applications_modifier_container" data-id="' + application.id + '"></div>';
-
-                        markup += application.id + ". " + application.name + ":<br />" + ddowns + "<br /><br />";
-
-                    });
-
-                    markup += '<input type="checkbox" id="chkSnap" name="snap[]" value="snap"> Snap<br>';
-                    markup += '<div class="application_footer"><button data-action="show_all_locations" data-option="applications" class="btn btn-xs show_all_locations">Show All Locations</button></div>';
-
-                    $('div.applications').html(markup);
-
-                    // Event handler for Application Buttons and Dropdowns
-
-                        $('select.application_type_dropdown').on('change', function (e) {
-
-                            $select = $(this);
-
-                            var id = $select.data('id');
-                            var application_type = $select.val();
-                            var application = _.find(ub.data.applications.items, { id: id });
-
-                            $container = $('div.applications_modifier_container[data-id="' + id + '"]');
-
-                            if (application_type === "logo") {
-                                $container.ubLogoDialog({ application: application });
-                            }
-
-                            if (application_type === "image") {
-                                $container.ubImageDialog({ application: application });
-                            }
-
-                            if (application_type === "team_name") {
-                                $container.ubTeamNameDialog({ application: application });
-                            }
-
-                            if (application_type === "player_name") {
-                                $container.ubPlayerNameDialog({ application: application });
-                            }
-
-                            if (application_type === "player_number") {
-                                $container.ubPlayerNumberDialog({ application: application });
-                            }
-
-                            if (application_type === "none") {
-                                $container.html('');
-                            }
-                            
-                        });
-
-                        $('button[data-option="applications"]').on('click', function(e) {
-
-                            var $button = $(this);
-                            var action = $button.data('action');
-                            
-                            if (action === "identify") {
-
-                                var data_id = $button.data("id");
-                                var application = _.find(ub.data.applications.items, { id: data_id });
-                                var perspective = application.perspective;
-                                var view = ub[perspective + '_view'];
-                                var view_objects = ub.objects[perspective + '_view'];
-
-                                if($button.hasClass('appactive')){
-
-                                    $button.html('Identify');
-
-                                    $button.removeClass('appactive');
-                                    if (typeof view_objects['point'] === "object") {
-
-                                        view.removeChild(view_objects['point']);
-                                        delete view_objects['point'];
-
-                                    }
-
-                                    return;
-                                }
-
-                                $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
-                                $('button[data-option="applications"][data-action="identify"]').html('Identify');
-
-                                $button.addClass('appactive');
-                                $button.html('Hide');
-
-                                var point = ub.pixi.new_sprite('/images/misc/point.png');
-                                point.anchor.set(0.5, 0.5);
-
-                                $('a.change-view[data-view="' + perspective + '"]').click();
-
-                                var x = ub.dimensions.width * application.position.x;
-                                var y = ub.dimensions.height * application.position.y;
-
-                                point.position.x = x;
-                                point.position.y = y;
-
-
-
-                                if (typeof view_objects['point'] === "object") {
-
-                                    view.removeChild(view_objects['point']);
-                                    delete view_objects['point'];
-
-                                }
-
-                                view_objects['point'] = point;
-                                view.addChild(point);
-
-                            }
-
-                        });
-
-                    // End Event handler for Applications Buttons
-
-                /// End Setup Modifiers Applications
-
-                /// Setup Settings obj, for persisting customizer selection
-
-                    ub.init();
-
-                /// End Setup Settings obj
-
-            };
+    };
 
         /// End Render Different Views ///
 
@@ -1197,16 +1269,21 @@ $(document).ready(function () {
 
             ub.refresh_thumbnails = function () {
 
-                _.each(ub.views, function (view) {
+                if (ub.VERSION === "Edge") {
 
-                    var view_name = view + '_view';
-                    var id = 'a#' + 'view_' + view + ' > img';
+                    _.each(ub.views, function (view) {
 
-                    $(id).attr('src', ub.getThumbnailImage(view_name));
+                        var view_name = view + '_view';
+                        var id = 'a#' + 'view_' + view + ' > img';
 
-                });
+                        $(id).attr('src', ub.getThumbnailImage(view_name));
 
-                $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
+                    });
+
+                    $('a#view_pattern > img').attr('src', ub.getThumbnailImage('pattern_view'));
+
+                }
+
 
             }
 
@@ -1228,8 +1305,13 @@ $(document).ready(function () {
         function switch_panel(panel){
 
             $('.options_panel').hide();
-            $('div#right-sidebar > a.sidebar-buttons').css('background-color','#acacac');
-            $(panel).fadeIn(100);
+            var $btns = $('div#right-sidebar > a.sidebar-buttons').css('background-color','#acacac');
+
+            $btns.removeClass('highlighter_on');
+            $btns.addClass('highlighter_off');
+
+            // $(panel).fadeIn(100);
+            $(panel).show();
 
         }
 
@@ -1242,18 +1324,21 @@ $(document).ready(function () {
                 if (ub.active !== null) {
 
                     filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
-                    ub.active.css('background-image', 'url(' + filename + ')');
+                    //ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
+
 
                 }
 
                 ub.active = $(this);
                 filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
-                ub.active.css('background-image', 'url(' + filename + ')');
+                //ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
 
                 switch_panel('#' +  ub.active.data('filename') + '_panel');
+
+
 
                 return false;
 
@@ -1269,8 +1354,10 @@ $(document).ready(function () {
                     return;
                 }
                 
-                s.css('background-color','#363636');
-                s.css('background-image', 'url(' + filename + ')');
+                s.removeClass('highlighter_off');
+                s.addClass('highlighter_on');
+                
+                //s.css('background-image', 'url(' + filename + ')');
  
             }, function (e) {
 
@@ -1283,8 +1370,10 @@ $(document).ready(function () {
                 var option = s.data('filename');
                 var filename = ub.config.host + '/images/sidebar/' + option + '.png';
                 
-                s.css('background-color','#acacac');
-                s.css('background-image', 'url(' + filename + ')');                       
+                s.removeClass('highlighter_on');
+                s.addClass('highlighter_off');
+
+               // s.css('background-image', 'url(' + filename + ')');                       
 
             });
 
@@ -1304,10 +1393,12 @@ $(document).ready(function () {
                         return;
                     }
 
-                    $('a.' + s).css('background-color','#363636');
+                    $('a.' + s).removeClass('highlighter_off');
+                    $('a.' + s).addClass('highlighter_on');
+
 
                     var option = $('a.' + s).data('option');
-                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
+                    // var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                     $('a.' + s).css('background-image', 'url(' + filename + ')');
 
@@ -1321,13 +1412,14 @@ $(document).ready(function () {
                 if (_.contains(sidebar_classes, s)) {
 
                     if ($('a.' + s).data('status') === 'new' || s !== 'btn-new') {
-                        
-                        $('a.' + s).css('background-color','#acacac');
+
+                        $('a.' + s).removeClass('highlighter_on');
+                        $('a.' + s).addClass('highlighter_off');
 
                         var option = $('a.' + s).data('option');
                         var filename = ub.config.host + '/images/sidebar/' + option + '.png';
 
-                        $('a.' + s).css('background-image', 'url(' + filename + ')');
+                        // $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -1359,8 +1451,11 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'close.png';
                         
-                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        $('a.btn-new').css('background-color','#363636');
+                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
+                        
+                        $('a.btn-new').removeClass('highlighter_off');
+                        $('a.btn-new').addClass('highlighter_on');
+
                         $('#right-main-window').css('background-color','#f8f8f8');
                         $('a.btn-new').data('status','close');
 
@@ -1381,8 +1476,10 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'new.png';
  
-                        $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        $('a.btn-new').css('background-color','#acacac');
+                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
+                        
+                        $('a.btn-new').removeClass('highlighter_off');
+                        $('a.btn-new').addClass('highlighter_on');
  
                         $('#right-main-window').css('background-color','#ffffff');
                         $('#left-main-window').css('background-color','#ffffff');
@@ -1848,10 +1945,12 @@ $(document).ready(function () {
 
                 $("button#update-pattern-" + target).click('click', function (e) {
 
+                    var uniform_type = ub.current_material.material.type;
+
                     var target_name = target.replace('_', ' ');
                     target_name = util.toTitleCase(target_name);
 
-                    var pattern_settings = ub.current_material.settings['upper'][target_name].pattern;
+                    var pattern_settings = ub.current_material.settings[uniform_type][target_name].pattern;
                     pattern_settings.containers = {};
 
                     var views = ub.data.views;
@@ -2141,6 +2240,15 @@ $(document).ready(function () {
             }
 
             $("button#update-gradient-" + target + "").click();
+
+        };
+
+        ub.create_mascot_color_picker = function (index, value, color, target, mascot) {
+
+            var element = "";
+            element = "<div class='mascot_color_picker_container'><label class='color_stop_label'>" + (index + 1) + ".</label><input readonly='true' class='mascot_" + target + "' type='text' data-elid='mascot_" + target + "_" + index + "' data-index='" + index + "' data-target='" + target +"' data-value='" + value + "' data-mascot='" + mascot + "'  value='" + color + "'/></div>";
+
+            return element;
 
         };
 

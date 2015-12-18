@@ -31,6 +31,9 @@
                 <a href="/administration/colors"><span class="fa fa-th"></span> Colors</a>
             </li>
             <li>
+                <a href="/administration/mascots"><span class="fa fa-cubes"></span> Mascots</a>
+            </li>
+            <li>
                 <a href="/administration/materials"><span class="fa fa-cubes"></span> Materials</a>
             </li>
             <li>

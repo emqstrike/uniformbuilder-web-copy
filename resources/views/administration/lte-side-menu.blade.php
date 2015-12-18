@@ -23,6 +23,11 @@
         </a>
       </li>
       <li>
+        <a href="/administration/mascots">
+          <i class="fa fa-circle"></i> <span>Mascots</span>
+        </a>
+      </li>
+      <li>
         <a href="/administration/materials">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>

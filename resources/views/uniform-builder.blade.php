@@ -77,6 +77,7 @@
 <script src="{{$asset_storage}}/pixi/pixi.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/pixi/pixi.draggable.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/opentype/js/opentype.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/scrollTo/jquery.scrollTo.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js{{$asset_version}}"></script>
@@ -109,6 +110,7 @@ $(document).ready(function () {
 });
 </script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>

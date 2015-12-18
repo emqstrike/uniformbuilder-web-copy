@@ -32,7 +32,6 @@ class MaterialsOptionsController extends Controller
         $materialId = $request->input('material_id');
         $materialOptionId = $request->input('material_option_id');
         $materialObject = null;
-        
         if (!is_null($materialId))
         {
             $materialObject = $this->materialClient->getMaterial($materialId);
@@ -97,7 +96,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+//dd($data);
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -160,8 +159,10 @@ class MaterialsOptionsController extends Controller
 
         $data = [];
         $ctr = 0;
-        foreach ($materialOptionNames as $materialOptionName) {
-            $data[$ctr] = [
+        //foreach ($materialOptionNames as $materialOptionName) {
+            // $idx = (string)$ctr;
+            $idx = strval($ctr);
+            $data['hello'] = [
                 'material_id' => $materialId,
                 'name' => $materialOptionNames[$ctr],
                 'setting_type' => $settingTypes[$ctr],
@@ -176,8 +177,8 @@ class MaterialsOptionsController extends Controller
                 'applications_properties' => $applications_properties
             ];
             $ctr++;
-        }
-
+        //}
+// dd($data);
         try
         {
             $materialOptionFiles = $request->file('mo_image');
@@ -188,7 +189,8 @@ class MaterialsOptionsController extends Controller
                     if ($materialOptionFile->isValid())
                     {
                         $filename = Random::randomize(12);
-                        $data[$ctr]['material_option_path'] = FileUploader::upload(
+                        // $data[$ctr]['material_option_path'] = FileUploader::upload(
+                        $data['hello']['material_option_path'] = FileUploader::upload(
                                                                     $materialOptionFile,
                                                                     $materialOptionNames[$ctr],
                                                                     'material_option',
@@ -209,7 +211,10 @@ class MaterialsOptionsController extends Controller
         }
 
         $response = null;
-        // dd($data);
+
+        // $data = json_encode($data, JSON_UNESCAPED_SLASHES);
+        //dd($data);
+        // Log::info('Attempts to create a new Material Option ' . json_encode($data));
         Log::info('Attempts to create a new Material Option ' . json_encode($data));
         $response = $this->client->createMultiple($data);
 

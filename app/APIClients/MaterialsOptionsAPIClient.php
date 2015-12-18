@@ -23,7 +23,7 @@ class MaterialsOptionsAPIClient extends APIClient
     }
 
     public function create($data)
-    {
+    {//dd($data);
         $response = $this->post('material_option', [
             'json' => $data
         ]);
@@ -31,11 +31,13 @@ class MaterialsOptionsAPIClient extends APIClient
     }
 
     public function createMultiple($data)
-    {
+    {//dd($data); // PASSES HERE
+        //$data = json_decode($data);
         Log::info('createMultiple - API Client');
         $response = $this->post('material_option_multiple', [
             'json' => $data
         ]);
+        // $response = $this->post('material_option_multiple', $data );
         return $this->decoder->decode($response->getBody());
     }
 
