@@ -1210,6 +1210,21 @@ $(document).ready(function () {
 
         /// End Setup Settings obj
 
+
+        /// Load Default Style
+
+            $('select.application_type_dropdown[data-id="2"]').val('mascot');
+            $('select.application_type_dropdown[data-id="2"]').change();
+            $('a.mascot_picker[data-application-id="2"]').click();
+            $('div.mascot_slider.scale_slider[data-id=2]').limitslider('values',[35])
+
+            $('button.change-color[data-panel="body"][data-color="#002e62"]').click();
+            $('button.change-color[data-panel="left_sleeve"][data-color="#d31145"]').click();
+            $('button.change-color[data-panel="right_sleeve"][data-color="#d31145"]').click();
+
+        
+        /// End Default Style 
+
     };
 
         /// End Render Different Views ///

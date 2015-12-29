@@ -1,6 +1,32 @@
 
 (function ($) {
 
+    /// Basic Format for Plugin Definition
+
+
+    // $.fn.ubImageDialog = function(options) {
+    //
+    //     var settings = $.extend({ application: {} }, options);
+    //
+    //     return this.each(function () {
+    //
+    //         var $container = $(this);
+    //         var html_builder = '';
+    //
+    //         html_builder += "<hr />";
+    //         html_builder += "Image Dialog from Plugin";
+    //         html_builder += "<hr />";
+    //
+    //         $container.html(html_builder);
+    //
+    //     });
+    //
+    // };
+
+
+    /// End Basic Format for Plugin Definition
+
+
     $.fn.ubColorPicker = function (options) {
 
         var settings = $.extend({ target: 'target' }, options);
@@ -333,25 +359,6 @@
 
     };
 
-    // $.fn.ubImageDialog = function(options) {
-
-    //     var settings = $.extend({ application: {} }, options);
-
-    //     return this.each(function () {
-
-    //         var $container = $(this);
-    //         var html_builder = '';
-
-    //         html_builder += "<hr />";
-    //         html_builder += "Image Dialog from Plugin";
-    //         html_builder += "<hr />";
-
-    //         $container.html(html_builder);
-
-    //     });
-
-    // };
-
     $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
 
         ub.funcs.removeUIHandles();
@@ -621,7 +628,7 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = _.find(ub.data.fonts, {id: selected_font_id.toString()});
+                var font_obj = _.find(ub.data.fonts, {id: selected_font_id});
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {

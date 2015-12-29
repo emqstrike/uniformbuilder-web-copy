@@ -372,6 +372,51 @@ $(document).ready(function(){
                     },
                 ],
             },
+
+            /// Badger
+            {
+                id: 3,
+                name: 'Badger',
+                code: 'badger',
+                icon: '/images/sidebar/mascots/badger.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/badger/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/badger/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/badger/3.png',
+                    },
+                ],
+            },
+            /// Bobcats
+            {
+                id: 4,
+                name: 'Bobcat',
+                code: 'bobcat',
+                icon: '/images/sidebar/mascots/bobcat.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/bobcat/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/bobcat/2.png',
+                    },
+                   
+                ],
+            },
         ],    
     }
 
