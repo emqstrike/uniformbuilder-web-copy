@@ -190,8 +190,15 @@ class FileUploader
 
         // Local Path (Temporary)
         $slugFolder = self::makeSlug($objectName);
-        $destinationFolder = "/tmp/{$slugFolder}" ;
+        $destinationFolder = "/tmp/{$slugFolder}";
         $targetDestinationPath = "{$destinationFolder}/{$filename}";
+
+        // check if $folder is a directory
+        if( ! \File::isDirectory($destinationFolder) ) {
+
+            \File::makeDirectory($destinationFolder, 493, true);
+            
+        }
 
         // Upload thumbnail to S3
         if ($image->save($targetDestinationPath))
