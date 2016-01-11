@@ -1331,7 +1331,7 @@ $(document).ready(function () {
 
             // $(panel).fadeIn(100);
             $(panel).show();
-
+            
         }
 
         /// RIGHT SIDEBAR
@@ -1343,21 +1343,16 @@ $(document).ready(function () {
                 if (ub.active !== null) {
 
                     filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
-                    //ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
-
 
                 }
 
                 ub.active = $(this);
                 filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
-                //ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
 
                 switch_panel('#' +  ub.active.data('filename') + '_panel');
-
-
 
                 return false;
 
