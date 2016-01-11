@@ -3,7 +3,6 @@
 
     /// Basic Format for Plugin Definition
 
-
     // $.fn.ubImageDialog = function(options) {
     //
     //     var settings = $.extend({ application: {} }, options);
@@ -628,7 +627,15 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = _.find(ub.data.fonts, {id: selected_font_id.toString()});
+                
+                var font_id = selected_font_id;
+
+                if (ub.config.app_env !== "local") {
+                    font_id = font_id.toString();
+                }
+                
+                var font_obj = _.find(ub.data.fonts, {id: font_id });
+
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {
