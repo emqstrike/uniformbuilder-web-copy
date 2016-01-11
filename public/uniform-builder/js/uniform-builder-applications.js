@@ -1081,11 +1081,11 @@ $(document).ready(function() {
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                    //if (typeof ub.current_material.settings.applications[application.code].text === 'undefined') {
+                    if(ub.config.isFeatureOn('ui','scale_text')) {
 
                         application_obj.scale.set(percentage, percentage);
 
-                    //}
+                    }
 
                 }
 
