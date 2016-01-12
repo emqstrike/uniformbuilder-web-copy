@@ -1099,12 +1099,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -1124,7 +1124,7 @@ $(document).ready(function(){
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -1140,17 +1140,17 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -1165,12 +1165,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 1,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -1184,37 +1184,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1228,37 +1228,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1272,22 +1272,22 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.4,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.6,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 4,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
