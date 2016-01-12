@@ -430,7 +430,7 @@
 
             if (typeof(s) === 'object') {
 
-                var obj = view_objects['objects_' + settings.application.code];
+                var obj = view_objects['objects_' + application.code];
 
                 position = obj.position;
                 scale = obj.scale;

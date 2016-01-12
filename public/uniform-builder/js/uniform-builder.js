@@ -1222,9 +1222,29 @@ $(document).ready(function () {
 
             /// End Mascot
 
-            $('button.change-color[data-panel="body"][data-color="#002e62"]').click();
-            $('button.change-color[data-panel="left_sleeve"][data-color="#d31145"]').click();
-            $('button.change-color[data-panel="right_sleeve"][data-color="#d31145"]').click();
+            if (ub.config.material_id == 19 || ub.config.material_id == 44) {
+
+                
+                ub.change_material_option_color('body','ffffff');
+                ub.change_material_option_color('team_name','939498');
+                ub.change_material_option_color('last_name','939498');
+                ub.change_material_option_color('player_number (body - front)','c92124');
+                ub.change_material_option_color('player_number (body - back)','c92124');
+                ub.change_material_option_color('sleeve_number','c92124');
+                ub.change_material_option_color('piping_color 1','c92124');
+                ub.change_material_option_color('piping_color 2','c92124');
+
+            }    
+
+            if (ub.config.material_id == 18 || ub.config.material_id == 43) {
+
+                ub.change_material_option_color('body','000000');
+                ub.change_material_option_color('stripe_one','c92124');
+                ub.change_material_option_color('stripe_two','c92124');
+                ub.change_material_option_color('middle_stripe','c92124');
+                ub.change_material_option_color('tiger_text','000000');
+                
+            }    
 
         
         /// End Default Style 
@@ -1234,6 +1254,22 @@ $(document).ready(function () {
         /// End Render Different Views ///
 
         /// Utilities ///
+
+            ub.change_material_option_color = function (material_option, color) {
+
+                _.each(ub.views, function (v){
+
+                    var objects_in_view = ub.objects[v + '_view']
+
+                    if(_.has(objects_in_view, material_option)){
+
+                        objects_in_view[material_option].tint = parseInt(color,16);
+    
+                    }
+                    
+                });
+
+            }
 
             ub.applyMaterial = function (target) {
 
