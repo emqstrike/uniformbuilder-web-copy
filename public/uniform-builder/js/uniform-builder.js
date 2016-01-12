@@ -1228,11 +1228,11 @@ $(document).ready(function () {
                 ub.change_material_option_color('body','ffffff');
                 ub.change_material_option_color('team_name','939498');
                 ub.change_material_option_color('last_name','939498');
-                ub.change_material_option_color('player_number (body - front)','c92124');
-                ub.change_material_option_color('player_number (body - back)','c92124');
+                ub.change_material_option_color('front_number','c92124');
+                ub.change_material_option_color('back_number','c92124');
                 ub.change_material_option_color('sleeve_number','c92124');
-                ub.change_material_option_color('piping_color 1','c92124');
-                ub.change_material_option_color('piping_color 2','c92124');
+                ub.change_material_option_color('piping_1','c92124');
+                ub.change_material_option_color('piping_2','c92124');
 
             }    
 
