@@ -34,26 +34,6 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                  <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </button>
-<<<<<<< HEAD
-            <a class="navbar-brand" href="/administration/main">
-                <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
-                <span>Dashboard</span>
-            </a>
-        </div>
-        
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style='padding-right: 20px;'>
-            @include('administration.top-menu')
-            <ul class="nav navbar-nav navbar-right">
-                <li class="divider-vertical"></li>
-                <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Welcome
-                        @if (Session::get('fullname'))
-                        <strong>{{ Session::get('fullname') }}</strong> <span class="glyphicon glyphicon-user"></span>
-                        @endif
-                        <strong class="caret"></strong>
-=======
-        </form>
         <ul class="nav navbar-nav navbar-right">
             <li class="divider-vertical"></li>
             <li class="dropdown">
@@ -96,7 +76,6 @@
                     <a class="navbar-brand" href="/administration/main">
                         <img src="{{ env('LOGO_URL') }}" alt="QuickStrike" style="width: 3em; padding-right: 10px;" align="left">
                         <span>Dashboard</span>
->>>>>>> f8135d500e2107ee70017d8c7f12f683fa0c64ae
                     </a>
                     <ul class="dropdown-menu">
                         <li>
@@ -112,17 +91,9 @@
                             <a href="/administration/logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
                         </li>
                     </ul>
-<<<<<<< HEAD
-                </li>
-            </ul>
-        </div>
-    </nav>
-    @endif
-=======
                 </div>
             </nav>
             @endif
->>>>>>> f8135d500e2107ee70017d8c7f12f683fa0c64ae
             <div class="alert alert-dismissable flash-alert" style="display: none;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                     ×

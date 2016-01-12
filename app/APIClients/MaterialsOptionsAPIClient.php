@@ -23,7 +23,7 @@ class MaterialsOptionsAPIClient extends APIClient
     }
 
     public function create($data)
-    {//dd($data);
+    { // dd($data);
         $response = $this->post('material_option', [
             'json' => $data
         ]);

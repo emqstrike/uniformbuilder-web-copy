@@ -48,8 +48,10 @@ class MaterialsOptionsController extends Controller
         $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
         $defaultColor = $request->input('default_color');
+        $sublimatedDefaultColor = $request->input('sublimated_default_color');
         $perspective = $request->input('perspective');
         $colors = $request->input('colors');
+        $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
@@ -62,8 +64,10 @@ class MaterialsOptionsController extends Controller
             'origin' => $origin,
             'layer_level' => $layerLevel,
             'default_color' => $defaultColor,
+            'sublimated_default_color' => $sublimatedDefaultColor,
             'perspective' => $perspective,
             'colors' => $colors,
+            'sublimated_colors' => $sublimated_colors,
             'gradients' => $gradients,
             'is_blend' => $is_blend,
             'boundary_properties' => $boundary_properties,
@@ -96,7 +100,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-//dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -105,7 +109,7 @@ class MaterialsOptionsController extends Controller
             $response = $this->client->update($data);
         }
         else
-        {
+        {// dd($data);
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->client->create($data);
         }

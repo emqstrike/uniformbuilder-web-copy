@@ -1,5 +1,8 @@
 $(document).ready(function() {
+    // var mtx = 'HEY THERE';
+// $('#boundary-properties').attr('value',mtx);
 
+// console.log('MTX: '+mtx);
     var materialOptions = {};
     materialOptions['front'] = {};
     materialOptions['back'] = {};
@@ -220,10 +223,23 @@ var applicationProperties = {};
         top: canvas.height / 5
     });
 
+    var midLine = new fabric.Line([0, 20, 350, 20], {
+        strokeDashArray: [5, 5],
+        stroke: 'red',
+        originX: 'center',
+        originY: 'center',
+        angle: 90,
+        left: canvas.width / 2,
+        top: canvas.height / 2
+    });
+
+    //midLine.lockUniScaling = true;
+    midLine.hasControls = false;
+
     window.shapes.bounding_box = bounding_box;
 
     bounding_box.transparentCorners = false;
-    canvas.add(bounding_box);
+    canvas.add(bounding_box, midLine);
     updateCoordinates();
 
     canvas.on({
@@ -470,7 +486,7 @@ var appPropJson = "";
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
         $('#boundary-properties').prop("value", material.option.boundary_properties);
-        $('#application-properties').prop("value", material.option.applications_properties);
+        $('.a-prop').prop("value", material.option.applications_properties);
 
         var perspective = material.option.perspective;
         var material_option_shape;
@@ -506,7 +522,6 @@ var appPropJson = "";
         bounding_box.centerPoint = myData.pivot;
         bounding_box.setAngle(myData.rotation);
 
-        
         bounding_box.width = myData.boxWidth;
         bounding_box.height = myData.boxHeight;
         box.width = myData.boxWidth;
@@ -517,11 +532,14 @@ var appPropJson = "";
         canvas.renderAll();
         canvasFront.clear();
 
-        var appPropJson = $('#application-properties').val().replace(/\\/g, '');
-        var appProp = appPropJson.substring(1, appPropJson.length-1);
+        //!!! var appPropJson = $('#application-properties').val().replace(/\\/g, '');
+        //!!! var appProp = appPropJson.substring(1, appPropJson.length-1);
 
-
-        app_properties = JSON.parse(appProp);
+        var aval = $('#application-properties').val();
+        console.log("AVAL1: "+aval);
+        //!!! app_properties = JSON.parse(appPropJson);
+        // var xapp_properties = JSON.parse(aval);
+        // console.log("AVAL: "+xapp_properties);
         // $(".front-applications").remove(".apOpt");
         clearAppPropOptions();
 
@@ -720,9 +738,10 @@ var appPropJson = "";
 
     $('.delete-material-option').on('click', function(){
         var id = $(this).data('material-option-id');
+        var name = $(this).data('material-option-name');
         modalConfirm(
             'Remove Material Option',
-            'Are you sure you want to delete the Material Option?',
+            'Are you sure you want to delete the Material Option: '+ name +'?',
             id,
             'confirm-yes',
             'confirmation-modal-material-option'
@@ -940,11 +959,13 @@ var appPropJson = "";
 
         var boundaryProperties = JSON.stringify(data);
         console.log("[[[BP]]] --- "+boundaryProperties);
+        // console.log('update value');
+        $('.b-prop').prop('value', boundaryProperties);
 
-        $( '#boundary-properties' ).prop('value',boundaryProperties);
+        // $( '#boundary-properties' ).attr('value',boundaryProperties);
+        // document.getElementById("boundary-properties").value = boundaryProperties;
         
         $(".update-application").each(function(i) {
-
             // BUILD APPLICATION PROPERTIES JSON
 
             itemIdx = "layer"+$(this).data('id');
@@ -968,6 +989,7 @@ var appPropJson = "";
             applicationProperties[itemIdx] = {};
             applicationProperties[itemIdx]['type'] = {};
             applicationProperties[itemIdx]['id'] = {};
+            applicationProperties[itemIdx]['layerOrder'] = {};
             applicationProperties[itemIdx]['topLeft'] = {};
             applicationProperties[itemIdx]['topLeft']['x'] = {};
             applicationProperties[itemIdx]['topLeft']['y'] = {};
@@ -983,6 +1005,7 @@ var appPropJson = "";
 
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].id = applicationId;
+            applicationProperties[itemIdx].layerOrder = applicationId;
             applicationProperties[itemIdx].topLeft.x = topLeftX;
             applicationProperties[itemIdx].topLeft.y = topLeftY;
             applicationProperties[itemIdx].topRight.x = topRightX;
@@ -1012,7 +1035,8 @@ var appPropJson = "";
         });
         var appProperties = JSON.stringify(applicationProperties);
         console.log("[[[AP]]] --- "+appProperties);
-        $( '#application-properties' ).prop('value', appProperties);
+        $('.a-prop').prop('value', appProperties);
+        // $( '#application-properties' ).prop('value', appProperties);
         window.ap = appProperties;
     }
 
