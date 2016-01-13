@@ -109,7 +109,7 @@ class MaterialsOptionsController extends Controller
             $response = $this->client->update($data);
         }
         else
-        {// dd($data);
+        {
             Log::info('Attempts to create a new Material Option ' . json_encode($data));
             $response = $this->client->create($data);
         }
