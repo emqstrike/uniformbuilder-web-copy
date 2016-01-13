@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
     ub.renderer.backgroundColor = 0xffffff;
 
     ub.stage.addChild(ub.left_view);
@@ -447,6 +447,31 @@ $(document).ready(function(){
                         default_color: 'ffffff',
                         layer_number: 2,
                         filename: '/images/mascots/bobcat/2.png',
+                    },
+                   
+                ],
+            },
+            /// Tiger
+            {
+                id: 5,
+                name: 'Tiger E',
+                code: 'tiger_e',
+                icon: '/images/sidebar/mascots/tiger_e.png',
+                layers: [
+                    {
+                        default_color: '492f91',
+                        layer_number: 1,
+                        filename: '/images/mascots/tiger_e/1.png',
+                    },
+                    {
+                        default_color: 'fdba31',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/2.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/3.png',
                     },
                    
                 ],
