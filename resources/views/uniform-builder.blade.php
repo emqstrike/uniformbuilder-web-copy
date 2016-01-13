@@ -90,7 +90,7 @@
 <!-- Uniform Builder Scripts -->
 <script type="text/javascript">
 $(document).ready(function () {
-    window.ub = {}; window.ub.objects = {}; window.ub.config = {api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }}, host: 'http://{{ Request::server ("HTTP_HOST") }}', thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' };
+    window.ub = {}; window.ub.objects = {}; window.ub.config = { app_env: "{{ env('APP_ENV') }}", api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }}, host: 'http://{{ Request::server ("HTTP_HOST") }}', thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' };
 @if (Session::get('isLoggedIn'))
     window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
 @else

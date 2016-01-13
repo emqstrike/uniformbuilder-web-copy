@@ -20,6 +20,8 @@ body, h1, h2, h3, h4, h5, h6, button, a, p {
     font-family: 'Roboto', sans-serif;
 }
 
+/* TODO: This should be Tested */
+
 html, body {
     height: 100%;
     width: 100%;
@@ -59,8 +61,6 @@ div.navbar-header {
 
     box-shadow: none;
     background-color: #ffffff;
-
-    /* background-image: url(/images/header/bottom_bars.jpg); */
     height: @navbar-height;
     border-bottom: 1px solid @main_highlight !important;
 
@@ -233,8 +233,9 @@ a.active_button {
 
     #left-main-window {
         overflow: hidden;
-        background-image: url(/images/misc/bg.png);
+        /* background-image: url(/images/misc/bg.png); */
         background-size: cover;
+        background-color: #ffffff;
     }
 
 }
@@ -1423,4 +1424,8 @@ div.colors_container.colors, div.colors_container.patterns {
     padding: 20px;
     
 }
+
+div.drop {
+    z-index: 100;
+} 
 

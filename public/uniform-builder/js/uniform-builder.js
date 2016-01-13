@@ -235,10 +235,10 @@ $(document).ready(function () {
             var category_back_element = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
             var category_header = '<div class="picker_header">' + category_element + category_back_element + '</div>';
 
-            var group_element_1 = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
-            var group_element_2 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
-            var group_element_3 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
-            var group_header = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + group_element_3 + '</div>';
+            var group_element_0 = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
+            var group_element_1 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
+            var group_element_2 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
+            var group_header = '<div class="picker_header picker_header_tabs" style="text-align: center;">' + group_element_1 + group_element_2 + '</div>';
 
             elements = header + category_header + group_header;
 
@@ -247,7 +247,7 @@ $(document).ready(function () {
             if (type === 'All') {
                 design_sets = _.where(ub.design_sets, { category: category, gender: gender.toLowerCase() });
             } else {
-                design_sets = _.where(ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type });
+                design_sets = _.where(ub.materials, { uniform_category: category, gender: gender.toLowerCase(), type: type.toLowerCase() });
             }
 
             _.each(design_sets, function (obj) {
@@ -1210,11 +1210,66 @@ $(document).ready(function () {
 
         /// End Setup Settings obj
 
+
+        /// Load Default Style
+
+            /// Mascot
+
+                // $('select.application_type_dropdown[data-id="2"]').val('mascot');
+                // $('select.application_type_dropdown[data-id="2"]').change();
+                // $('a.mascot_picker[data-application-id="2"]').click();
+                // $('div.mascot_slider.scale_slider[data-id=2]').limitslider('values',[35])
+
+            /// End Mascot
+
+            if (ub.config.material_id == 19 || ub.config.material_id == 44) {
+
+                
+                ub.change_material_option_color('body','ffffff');
+                ub.change_material_option_color('team_name','939498');
+                ub.change_material_option_color('last_name','939498');
+                ub.change_material_option_color('front_number','c92124');
+                ub.change_material_option_color('back_number','c92124');
+                ub.change_material_option_color('sleeve_number','c92124');
+                ub.change_material_option_color('piping_1','c92124');
+                ub.change_material_option_color('piping_2','c92124');
+
+            }    
+
+            if (ub.config.material_id == 18 || ub.config.material_id == 43) {
+
+                ub.change_material_option_color('body','000000');
+                ub.change_material_option_color('stripe_one','c92124');
+                ub.change_material_option_color('stripe_two','c92124');
+                ub.change_material_option_color('middle_stripe','c92124');
+                ub.change_material_option_color('tiger_text','000000');
+                
+            }    
+
+        
+        /// End Default Style 
+
     };
 
         /// End Render Different Views ///
 
         /// Utilities ///
+
+            ub.change_material_option_color = function (material_option, color) {
+
+                _.each(ub.views, function (v){
+
+                    var objects_in_view = ub.objects[v + '_view']
+
+                    if(_.has(objects_in_view, material_option)){
+
+                        objects_in_view[material_option].tint = parseInt(color,16);
+    
+                    }
+                    
+                });
+
+            }
 
             ub.applyMaterial = function (target) {
 
@@ -1312,7 +1367,7 @@ $(document).ready(function () {
 
             // $(panel).fadeIn(100);
             $(panel).show();
-
+            
         }
 
         /// RIGHT SIDEBAR
@@ -1324,21 +1379,16 @@ $(document).ready(function () {
                 if (ub.active !== null) {
 
                     filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '.png';
-                    //ub.active.css('background-image', 'url(' + filename + ')');
                     ub.active.removeClass('active_button');
-
 
                 }
 
                 ub.active = $(this);
                 filename = ub.config.host + '/images/sidebar/' + ub.active.data('filename') + '-on' + '.png';
 
-                //ub.active.css('background-image', 'url(' + filename + ')');
                 ub.active.addClass('active_button');
 
                 switch_panel('#' +  ub.active.data('filename') + '_panel');
-
-
 
                 return false;
 
@@ -1346,7 +1396,7 @@ $(document).ready(function () {
 
             $('div#right-sidebar > a.sidebar-buttons').hover(function (e) {
 
-                var s = $(e.currentTarget)
+                var s = $(e.currentTarget);
                 var option = s.data('filename');
                 var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
@@ -1398,7 +1448,7 @@ $(document).ready(function () {
 
 
                     var option = $('a.' + s).data('option');
-                    // var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
+                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                     $('a.' + s).css('background-image', 'url(' + filename + ')');
 
@@ -1419,7 +1469,7 @@ $(document).ready(function () {
                         var option = $('a.' + s).data('option');
                         var filename = ub.config.host + '/images/sidebar/' + option + '.png';
 
-                        // $('a.' + s).css('background-image', 'url(' + filename + ')');
+                        $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -1441,7 +1491,7 @@ $(document).ready(function () {
 
                         $('#main_view > canvas').hide();
                         $('#right-main-window > .options_panel').hide();
-                        $('#camera-views').hide();
+                        $('div#change-views').hide();
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
@@ -1466,7 +1516,7 @@ $(document).ready(function () {
 
                         $('#main_view > canvas').fadeIn();
                         $('#right-main-window > .options_panel').fadeIn();
-                        $('#camera-views').fadeIn();
+                        $('div#change-views').fadeIn();
                         $('#right-sidebar > a').fadeIn();
 
                         $('#main_view > div.picker_container').remove();
@@ -1476,8 +1526,6 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'new.png';
  
-                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        
                         $('a.btn-new').removeClass('highlighter_off');
                         $('a.btn-new').addClass('highlighter_on');
  
@@ -1528,7 +1576,7 @@ $(document).ready(function () {
                 var category = ub.ui.active_element.data('category');
                 var gender = ub.ui.active_element.data('gender');
 
-                ub.display_design_sets(category, gender, 'All');
+                ub.display_design_sets(category, gender, 'Upper');
 
             });
 

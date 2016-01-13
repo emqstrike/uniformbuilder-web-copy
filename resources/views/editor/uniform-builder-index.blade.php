@@ -15,7 +15,8 @@
                 data-option='new'>
             </a>
 
-@if (Session::get('isLoggedIn'))
+        @if (Session::get('isLoggedIn'))
+        
             <a class="btn-load sidebar-buttons load open-design"
                 data-filename='load'
                 data-option='load'>
@@ -30,7 +31,8 @@
                 data-filename='save'
                 data-option='save'>
             </a>
-@endif
+        
+        @endif
 
         </div>
 

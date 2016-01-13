@@ -57,10 +57,22 @@ class UniformBuilderController extends Controller
                 $material = $this->materialsClient->getMaterial($materialId);
             }
 
-            if (is_null($material))
-            {
-                $material = $this->materialsClient->getMaterials()[0];
-                $materialId = $material->id;
+                if (is_null($material))
+                {
+                    $material = $this->materialsClient->getMaterials()[0];
+                    $materialId = $material->id;
+
+                    if(env('APP_ENV') === 'local') {
+
+                        $materialId = 19;
+
+                    }
+                    else {
+
+                        $materialId = 44;                
+
+                    }
+
             }
             $categoryId = $material->uniform_category_id;
         }

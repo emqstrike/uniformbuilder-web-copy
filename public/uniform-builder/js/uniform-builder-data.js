@@ -60,6 +60,10 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
+
+    // Layer Assignment for Applications 
+    // 30 - 50
+
     ub.data.applications = {
 
         items: [
@@ -72,7 +76,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Top',
                 code: '1',
-                layer_order: 1,
+                layer_order: 30,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -89,7 +93,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '2',
-                layer_order: 2,
+                layer_order: 31,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -106,7 +110,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Center (2nd)',
                 code: '3',
-                layer_order: 3,
+                layer_order: 32,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -123,7 +127,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Right',
                 code: '4',
-                layer_order: 4,
+                layer_order: 33,
                 rotation: 0,
                 position: {
                     x: 0.35,
@@ -141,7 +145,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Bottom Left',
                 code: '5',
-                layer_order: 5,
+                layer_order: 34,
                 rotation: 0,
                 position: {
                     x: 0.65,
@@ -158,7 +162,7 @@ $(document).ready(function(){
                 perspective: 'back',
                 name: 'Back Top',
                 code: '6',
-                layer_order: 6,
+                layer_order: 35,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -174,7 +178,7 @@ $(document).ready(function(){
                 perspective: 'back',
                 name: 'Back Center',
                 code: '7',
-                layer_order: 7,
+                layer_order: 36,
                 rotation: 0,
                 position: {
                     x: 0.5,
@@ -190,7 +194,7 @@ $(document).ready(function(){
                 perspective: 'left',
                 name: 'Left Shoulder - Top',
                 code: '8',
-                layer_order: 8,
+                layer_order: 37,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -206,7 +210,7 @@ $(document).ready(function(){
                 perspective: 'left',
                 name: 'Left Shoulder - Bottom',
                 code: '9',
-                layer_order: 9,
+                layer_order: 38,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -222,7 +226,7 @@ $(document).ready(function(){
                 perspective: 'right',
                 name: 'Right Shoulder - Top',
                 code: '10',
-                layer_order: 10,
+                layer_order: 39,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -239,7 +243,7 @@ $(document).ready(function(){
                 perspective: 'right',
                 name: 'Right Shoulder - Bottom',
                 code: '11',
-                layer_order: 11,
+                layer_order: 40,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -255,7 +259,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Right Sleeves',
                 code: '12',
-                layer_order: 12,
+                layer_order: 41,
                 rotation: 0.96,
                 position: {
                     x: 0.14,
@@ -272,7 +276,7 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Left Sleeve',
                 code: '13',
-                layer_order: 13,
+                layer_order: 42,
                 rotation: 5.31,
                 position: {
                     x: 0.86,
@@ -280,6 +284,36 @@ $(document).ready(function(){
                 },
 
             },
+            {
+
+                id: 14,
+                layer: 'Body',
+                perspective: 'left',
+                name: 'Left Center',
+                code: '14',
+                layer_order: 43,
+                rotation: 0,
+                position: {
+                    x: 0.384,
+                    y: 0.46,
+                },
+
+            },
+            {
+
+                id: 15,
+                layer: 'Body',
+                perspective: 'right',
+                name: 'Right Center',
+                code: '15',
+                layer_order: 43,
+                rotation: 0,
+                position: {
+                    x: 0.63,
+                    y: 0.45,
+                },
+
+            }
 
 
         ]
@@ -370,6 +404,51 @@ $(document).ready(function(){
                         layer_number: 4,
                         filename: '/images/mascots/kennesaw/4.png',
                     },
+                ],
+            },
+
+            /// Badger
+            {
+                id: 3,
+                name: 'Badger',
+                code: 'badger',
+                icon: '/images/sidebar/mascots/badger.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/badger/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/badger/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/badger/3.png',
+                    },
+                ],
+            },
+            /// Bobcats
+            {
+                id: 4,
+                name: 'Bobcat',
+                code: 'bobcat',
+                icon: '/images/sidebar/mascots/bobcat.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/bobcat/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/bobcat/2.png',
+                    },
+                   
                 ],
             },
         ],    
@@ -934,6 +1013,10 @@ $(document).ready(function(){
                     name: 'Soccer',
                     active: "1",
                 }, 
+                {
+                    name: 'Wrestling',
+                    active: "1",
+                }, 
             ],
         },
         {
@@ -1016,12 +1099,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -1041,7 +1124,7 @@ $(document).ready(function(){
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -1057,17 +1140,17 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -1082,12 +1165,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 1,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -1101,37 +1184,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1145,37 +1228,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1189,22 +1272,22 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.4,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.6,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 4,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],

@@ -15,6 +15,7 @@ $(document).ready(function(){
                 draggable_applications: false, 
                 hotspots: true, 
                 drag_limits: false, 
+                scale_text: false, 
             },    
 
     };
