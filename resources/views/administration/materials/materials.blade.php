@@ -201,7 +201,7 @@
                         <div class="col-md-3">
                         <span class="label label-default">BACK</span>  
                         <center>
-                            <img src="{{ $material->front_view_shape }}"
+                            <img src="{{ $material->back_view_shape }}"
                                  width="100px"
                                  height="100px"
                                  alt="{{ $material->slug }}"
@@ -262,7 +262,7 @@
                         <div class="col-md-3">
                         <span class="label label-default">LEFT</span>  
                         <center>
-                            <img src="{{ $material->front_view_shape }}"
+                            <img src="{{ $material->left_side_view_shape }}"
                                  width="100px"
                                  height="100px"
                                  alt="{{ $material->slug }}"
@@ -323,7 +323,7 @@
                         <div class="col-md-3">
                         <span class="label label-default">RIGHT</span>  
                         <center>
-                            <img src="{{ $material->front_view_shape }}"
+                            <img src="{{ $material->right_side_view_shape }}"
                                  width="100px"
                                  height="100px"
                                  alt="{{ $material->slug }}"
