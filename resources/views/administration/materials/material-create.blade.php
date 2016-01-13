@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-@extends('administration.main')
-
-@section('styles')
-
-<link rel="stylesheet" type="text/css" href="/css/custom.css">
-
-@endsection
-=======
 @extends('administration.lte-main')
->>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
  
 @section('content')
 
@@ -30,17 +20,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <div class="shape-views" style="border: 1px solid black">
-                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
-                    </div>
-                </div> -->
-                <!-- <div class="panel-body col-md-2 text-center">
-                    <div class="shape-views" style="border: 1px solid black">
-                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
-                    </div>
-                    <div class="shape-views" style="border: 1px solid black">
-                        <img src="http://www.icejerseys.com/images/products/33/Boston-Red-Sox-Replica-Home-MLB-Baseball-Jersey-N3127_XL.jpg" style="height: 250px; width: 250px;">
-                    </div> -->
                 </div>
                 <div class="panel-body col-md-4">
                     @if (count($errors) > 0)
@@ -146,12 +125,6 @@
                             </div>
                         </div>
 @elseif (env('BUILDER_APPROACH') == '2D')
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Front View File</label>
-                            <div class="col-md-6 front-view">
-                                <input type="file" class="form-control front-view-file" name="front_view_path" accept="image/*">
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Front View Shape</label>
@@ -160,13 +133,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Back View File</label>
-                            <div class="col-md-6 back-view">
-                                <input type="file" class="form-control back-view-file" name="back_view_path" accept="image/*">
-                            </div>
-                        </div> -->
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Back View Shape</label>
                             <div class="col-md-8 back-view">
@@ -174,26 +140,12 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Right Side View File</label>
-                            <div class="col-md-6 right-side-view">
-                                <input type="file" class="form-control right-side-view-file" name="right_side_view_path" accept="image/*">
-                            </div>
-                        </div> -->
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View Shape</label>
                             <div class="col-md-8 right-side-view">
                                 <input type="file" class="form-control right-side-shape-file" name="right_side_view_shape" accept="image/*">
                             </div>
                         </div>
-
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Left Side View File</label>
-                            <div class="col-md-6 left-side-view">
-                                <input type="file" class="form-control left-side-view-file" name="left_side_view_shape" accept="image/*">
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View Shape</label>
@@ -211,21 +163,12 @@
                         </div>
 
                         <div class="form-group">
-<<<<<<< HEAD
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-default btn-primary create-user">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add New Material
-                                </button>
-                                <a href="/administration/materials" class="btn btn-default btn-danger">
-=======
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Material
                                 </button>
                                 <a href="/administration/materials" class="btn btn-danger">
->>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -238,32 +181,4 @@
     </div>
 </div>
 
-<<<<<<< HEAD
-@endsection
-
-@section('scripts')
-
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/materials.js"></script>
-<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-
-@endsection
-
-@section('custom-scripts')
-
-$(document).ready(function(){
-    $('#create-material-form').submit(function(){
-        $('.flash-alert .flash-progress').show();
-        $('.flash-alert .flash-title').text('Creating New Material');
-        $('.flash-alert .flash-sub-title').text('Uploading');
-        $('.flash-alert .flash-message').text('Please wait while we are uploading the images...');
-        $('.flash-alert').addClass('alert-info');
-        $('.flash-alert').show();
-        $('.main-content').fadeOut('slow');
-    });
-});
-
-=======
->>>>>>> 5ac143c4219523f2739418d67c3ffa908b4bd04e
 @endsection
