@@ -434,7 +434,7 @@ var material = {};
 
     });
 
-var app_properties = {};
+// var app_properties = {};
 var appPropJson = "";
     $('.add-multiple-material-option').on('click', function(){
         material = {
@@ -532,18 +532,18 @@ var appPropJson = "";
         canvas.renderAll();
         canvasFront.clear();
 
-        //!!! var appPropJson = $('#application-properties').val().replace(/\\/g, '');
-        //!!! var appProp = appPropJson.substring(1, appPropJson.length-1);
+        // var appPropJson = $('#application-properties').val().replace(/\\/g, '');
+        var appPropJson = $('.a-prop').val().replace(/\\/g, '');
+        var appProp = appPropJson.substring(1, appPropJson.length-1);
+        var app_properties = JSON.parse(appProp);
 
-        var aval = $('#application-properties').val();
-        console.log("AVAL1: "+aval);
-        //!!! app_properties = JSON.parse(appPropJson);
-        // var xapp_properties = JSON.parse(aval);
-        // console.log("AVAL: "+xapp_properties);
-        // $(".front-applications").remove(".apOpt");
+
+        console.log("LOG: "+appPropJson);
+        $(".front-applications").remove(".apOpt");
         clearAppPropOptions();
 
         // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
