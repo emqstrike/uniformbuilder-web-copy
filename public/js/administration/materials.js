@@ -1,8 +1,5 @@
 $(document).ready(function() {
-    // var mtx = 'HEY THERE';
-// $('#boundary-properties').attr('value',mtx);
 
-// console.log('MTX: '+mtx);
     var materialOptions = {};
     materialOptions['front'] = {};
     materialOptions['back'] = {};
@@ -151,7 +148,6 @@ var applicationProperties = {};
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
 
         canvasFront.renderAll();
-        // refreshApplicationsCoords();
         updateCoordinates();
         
     });
@@ -305,10 +301,8 @@ var applicationProperties = {};
                 elem.data('img',this.result);
                 elem2.attr('src',this.result);
                 elem2.data('img',this.result);
-                console.log("GETS IN");
             }
         }
-        console.log("IMG: " + elem.data('img'));
 
         $('a[data-toggle=popover],img[data-toggle=popover]').popover({
             html: true,
@@ -417,9 +411,6 @@ var material = {};
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
         var material_shape;
-                console.log("CHANGED");
-                console.log("PERSPECTIVE: "+perspective);
-                console.log("MATERIAL: "+material.front_shape);
         if(perspective == 'front') {
             material_shape = material.front_shape;
         } else if(perspective == 'back') {
@@ -434,14 +425,12 @@ var material = {};
 
     });
 
-// var app_properties = {};
 var appPropJson = "";
     $('.add-multiple-material-option').on('click', function(){
         material = {
             id: $(this).data('material-id')
         };
         $('.material-id').prop("value", material.id);
-        console.log("MATERIAL ID: "+material.id);
     });
 
     $('.edit-material-option').on('click', function(){
@@ -532,18 +521,14 @@ var appPropJson = "";
         canvas.renderAll();
         canvasFront.clear();
 
-        // var appPropJson = $('#application-properties').val().replace(/\\/g, '');
         var appPropJson = $('.a-prop').val().replace(/\\/g, '');
         var appProp = appPropJson.substring(1, appPropJson.length-1);
         var app_properties = JSON.parse(appProp);
 
-
-        console.log("LOG: "+appPropJson);
         $(".front-applications").remove(".apOpt");
         clearAppPropOptions();
 
         // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
@@ -657,11 +642,6 @@ var appPropJson = "";
         } else {
             $('#is-blend').attr('checked', 'unchecked');
         }
-
-        // function capitalize(c)
-        // {
-        //     return c[0].toUpperCase() + c.slice(1);
-        // }
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -897,8 +877,6 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['name'] = {};
             materialOptions.front[thisLayer]['setting-type'] = {};
 
-            // console.log("LAYER VAL: " + $(this).find('.mo-layer').val());
-
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
             $(this).find(layer_class).addClass('mo-layer');
@@ -926,7 +904,6 @@ var appPropJson = "";
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
-        console.log("[[[MO-AP]]] --- "+moProperties);
     }
 
     function updateCoordinates() {
@@ -958,13 +935,8 @@ var appPropJson = "";
         data.rotation = bounding_box.getAngle();
 
         var boundaryProperties = JSON.stringify(data);
-        console.log("[[[BP]]] --- "+boundaryProperties);
-        // console.log('update value');
         $('.b-prop').prop('value', boundaryProperties);
 
-        // $( '#boundary-properties' ).attr('value',boundaryProperties);
-        // document.getElementById("boundary-properties").value = boundaryProperties;
-        
         $(".update-application").each(function(i) {
             // BUILD APPLICATION PROPERTIES JSON
 
@@ -1034,9 +1006,7 @@ var appPropJson = "";
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
         });
         var appProperties = JSON.stringify(applicationProperties);
-        console.log("[[[AP]]] --- "+appProperties);
         $('.a-prop').prop('value', appProperties);
-        // $( '#application-properties' ).prop('value', appProperties);
         window.ap = appProperties;
     }
 
@@ -1099,13 +1069,10 @@ var appPropJson = "";
                 elem.data('img',this.result);
                 elem2.attr('src',this.result);
                 elem2.data('img',this.result);
-                console.log("GETS IN");
             }
         }
-        console.log("IMG: " + elem.data('img'));
     }); 
 
     bindColorsSelect2();
     bindGradientsSelect2();
-    // $('.select2').hide();
 });
