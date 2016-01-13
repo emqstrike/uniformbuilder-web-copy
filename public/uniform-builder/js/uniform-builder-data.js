@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
     ub.renderer.backgroundColor = 0xffffff;
 
     ub.stage.addChild(ub.left_view);

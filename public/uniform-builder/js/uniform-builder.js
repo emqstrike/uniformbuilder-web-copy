@@ -1222,29 +1222,9 @@ $(document).ready(function () {
 
             /// End Mascot
 
-            if (ub.config.material_id == 19 || ub.config.material_id == 44) {
-                
-                ub.change_material_option_color('body','ffffff');
-                ub.change_material_option_color('team_name','939498');
-                ub.change_material_option_color('last_name','939498');
-                ub.change_material_option_color('front_number','c92124');
-                ub.change_material_option_color('back_number','c92124');
-                ub.change_material_option_color('sleeve_number','c92124');
-                ub.change_material_option_color('piping_1','c92124');
-                ub.change_material_option_color('piping_2','c92124');
-                ub.change_material_option_color('neck_trim','c92124');
+            ub.init_style();
 
-            }    
-
-            if (ub.config.material_id == 18 || ub.config.material_id == 43) {
-
-                ub.change_material_option_color('body','000000');
-                ub.change_material_option_color('stripe_one','c92124');
-                ub.change_material_option_color('stripe_two','c92124');
-                ub.change_material_option_color('middle_stripe','c92124');
-                ub.change_material_option_color('tiger_text','000000');
-                
-            }    
+              
 
         
         /// End Default Style 
@@ -1254,6 +1234,40 @@ $(document).ready(function () {
         /// End Render Different Views ///
 
         /// Utilities ///
+
+            ub.init_style = function () {
+
+                if (ub.config.material_id == 19 || ub.config.material_id == 44) {
+                    
+                    ub.change_material_option_color('body','ffffff');
+                    ub.change_material_option_color('team_name','939498');
+                    ub.change_material_option_color('last_name','939498');
+                    ub.change_material_option_color('front_number','c92124');
+                    ub.change_material_option_color('back_number','c92124');
+                    ub.change_material_option_color('sleeve_number','c92124');
+                    ub.change_material_option_color('piping_1','c92124');
+                    ub.change_material_option_color('piping_2','c92124');
+                    ub.change_material_option_color('neck_trim','c92124');
+
+                }    
+
+                if (ub.config.material_id == 18 || ub.config.material_id == 43) {
+
+                    ub.change_material_option_color('body','000000');
+                    ub.change_material_option_color('stripe_one','c92124');
+                    ub.change_material_option_color('stripe_two','c92124');
+                    ub.change_material_option_color('middle_stripe','c92124');
+                    ub.change_material_option_color('tiger_text','000000');
+                    
+                }  
+
+            }
+
+
+            /// Move Utils
+
+
+            /// End Move Utils
 
             ub.change_material_option_color = function (material_option, color) {
 
