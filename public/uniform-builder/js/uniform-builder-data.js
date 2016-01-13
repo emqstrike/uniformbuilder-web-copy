@@ -451,6 +451,31 @@ $(document).ready(function(){
                    
                 ],
             },
+            /// Tiger
+            {
+                id: 5,
+                name: 'Tiger E',
+                code: 'tiger_e',
+                icon: '/images/sidebar/mascots/tiger_e.png',
+                layers: [
+                    {
+                        default_color: '492f91',
+                        layer_number: 1,
+                        filename: '/images/mascots/tiger_e/1.png',
+                    },
+                    {
+                        default_color: 'fdba31',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/2.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/3.png',
+                    },
+                   
+                ],
+            },
         ],    
     }
 

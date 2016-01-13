@@ -1223,7 +1223,6 @@ $(document).ready(function () {
             /// End Mascot
 
             if (ub.config.material_id == 19 || ub.config.material_id == 44) {
-
                 
                 ub.change_material_option_color('body','ffffff');
                 ub.change_material_option_color('team_name','939498');
@@ -1233,6 +1232,7 @@ $(document).ready(function () {
                 ub.change_material_option_color('sleeve_number','c92124');
                 ub.change_material_option_color('piping_1','c92124');
                 ub.change_material_option_color('piping_2','c92124');
+                ub.change_material_option_color('neck_trim','c92124');
 
             }    
 
