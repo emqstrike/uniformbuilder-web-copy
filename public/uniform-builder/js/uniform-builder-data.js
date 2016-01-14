@@ -24,7 +24,7 @@ $(document).ready(function(){
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
     ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
-    ub.renderer.backgroundColor = 0x4e4e4e;
+    ub.renderer.backgroundColor = 0xeeeeee;
 
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
