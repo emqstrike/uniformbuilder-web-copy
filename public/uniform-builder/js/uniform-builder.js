@@ -861,6 +861,42 @@ $(document).ready(function () {
 
         });    
 
+
+        /// Manual Color Test 
+
+
+            $('#manual_change_color').on('click', function(e){
+
+               ub.change_material_option_color($('select#parts_dropdown').val(), $('#hex_color').val().substring(1,7));
+
+            });
+
+            $('#hex_color').colorpicker({
+                format: 'hex',
+            }).on('changeColor.colorpicker', function(event){
+                $('#manual_change_color').click();                
+            });
+
+
+            $('select#parts_dropdown').html('');
+            var prev = '';
+
+            _.each(ub.current_material.options_distinct_names, function (part){
+
+                if(prev === part.material_option){
+                    return;
+                }
+                
+                $('select#parts_dropdown').append('<option value="' + part.material_option + '">' + part.material_option.replace('_', ' ').toUpperCase() + '</option>')
+                prev = part.material_option;
+
+            });
+
+            $('select#parts_dropdown').val('body')
+
+
+        /// End Manual Color Test    
+
         /// Setup Modifiers Colors
 
             var modifiers = '';
@@ -2611,6 +2647,8 @@ $(document).ready(function () {
             $('button#toggle_pattern_preview').on('click', function (e) {
                 $('#view_pattern').toggle();
             });
+
+
 
         /// End Utilities ///
 
