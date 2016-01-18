@@ -377,8 +377,6 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
-
-            
         }
 
         /// Main Render Loop
@@ -869,6 +867,7 @@ $(document).ready(function () {
 
                ub.change_material_option_color($('select#parts_dropdown').val(), $('#hex_color').val().substring(1,7));
 
+
             });
 
             $('#hex_color').colorpicker({
@@ -1303,13 +1302,17 @@ $(document).ready(function () {
 
             ub.change_material_option_color = function (material_option, color) {
 
-                _.each(ub.views, function (v){
+                var parsed_color = parseInt(color,16)
+
+                ub.save_color(material_option, parsed_color);
+
+                _.each(ub.views, function (v) {
 
                     var objects_in_view = ub.objects[v + '_view']
 
                     if(_.has(objects_in_view, material_option)){
 
-                        objects_in_view[material_option].tint = parseInt(color,16);
+                        objects_in_view[material_option].tint = parsed_color;
     
                     }
                     
@@ -1763,6 +1766,9 @@ $(document).ready(function () {
 
                 if (panel === 'body') {
 
+                    ub.change_material_option_color('body', color_param.substring(1));
+
+
                     if (typeof(ub.objects.left_view['pattern']) !== 'undefined') {
 
                         ub.objects.front_view['pattern'].visible = false;
@@ -1792,21 +1798,21 @@ $(document).ready(function () {
                         
                     }
                     
-                    if (typeof(ub.objects.front_view[obj]) === "object") {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) === "object") {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
                     
-                    if (typeof(ub.objects.back_view[obj]) === "object") {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) === "object") {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) === "object") {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) === "object") {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
                     
-                    if (typeof(ub.objects.right_view[obj]) === "object") {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) === "object") {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
                     
   
                 } else if (panel == 'patterns') {
@@ -1825,21 +1831,23 @@ $(document).ready(function () {
                   
                 } else {
 
-                    if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
 
-                    if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
+
+                    ub.change_material_option_color(obj, color_param.substring(1));
 
                 }
 
@@ -2648,6 +2656,29 @@ $(document).ready(function () {
                 $('#view_pattern').toggle();
             });
 
+            // Here Now...
+            // Save Color in Configuration Object
+
+            // Process
+            // 
+            // New -> Blank UDID, Create UDID, Save Config File 
+            // (this is when a design is created from a material code)
+            // When loaded from UDID, the material / uniform code is loaded from the settings object
+            // 
+            // Load -> From UDID, doesn't need to create a new one
+            // Save as Another design, Create another UDID
+
+            ub.save_color = function (material_option, color) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+
+                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                object.color = color;
+
+                return object;
+
+            };
 
 
         /// End Utilities ///
