@@ -93,14 +93,14 @@ class MaterialsOptionsController extends Controller
                 }
             }
         }
-
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+// dd(json_encode($data));
+// dd($data);
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -163,10 +163,13 @@ class MaterialsOptionsController extends Controller
 
         $data = [];
         $ctr = 0;
-        //foreach ($materialOptionNames as $materialOptionName) {
+        $idx = '';
+        foreach ($materialOptionNames as $materialOptionName) {
             // $idx = (string)$ctr;
-            $idx = strval($ctr);
-            $data['hello'] = [
+            // $idx = strval($ctr);
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['input'][$item] = [
                 'material_id' => $materialId,
                 'name' => $materialOptionNames[$ctr],
                 'setting_type' => $settingTypes[$ctr],
@@ -178,23 +181,25 @@ class MaterialsOptionsController extends Controller
                 'gradients' => $gradients,
                 'is_blend' => $is_blend,
                 'boundary_properties' => $boundary_properties,
-                'applications_properties' => $applications_properties
+                'applications_properties' => $applications_properties,
+                'material_option_path' => ''
             ];
+            // $data['front'][$item] = json_encode($data['front'][$item]);
             $ctr++;
-        //}
-// dd($data);
+        }
         try
         {
             $materialOptionFiles = $request->file('mo_image');
             $ctr = 0;
             foreach ($materialOptionFiles as $materialOptionFile) {
+                $item = 'item'.$ctr;
                 if (!is_null($materialOptionFile))
                 {
                     if ($materialOptionFile->isValid())
                     {
                         $filename = Random::randomize(12);
                         // $data[$ctr]['material_option_path'] = FileUploader::upload(
-                        $data['hello']['material_option_path'] = FileUploader::upload(
+                        $data['input'][$item]['material_option_path'] = FileUploader::upload(
                                                                     $materialOptionFile,
                                                                     $materialOptionNames[$ctr],
                                                                     'material_option',
@@ -203,10 +208,11 @@ class MaterialsOptionsController extends Controller
                                                                 );
                     }
                 }
+                // $data['front'][$item] = json_encode(array_map('utf8_encode', $data));//json_encode($data['front'][$item]);
                 $ctr++;
             }
+            // $data['front'][$item] = json_encode($data['front'][$item]);
         }
-
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
@@ -214,10 +220,22 @@ class MaterialsOptionsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
+$data['front'] = json_encode($data['input']);
+// $data['back'] = json_encode($data['input']);
+$data['input'] = "items";
+
+$layerA = json_decode($data['front']);
+// $layerB = $layerA['item0']->$material_id;
+$layerB = $layerA->item0->material_id;
+// $layerC = json_decode($layerB['name']);
+dd($layerB);
+
         $response = null;
 
         // $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-        //dd($data);
+        //** $data = json_encode($data['front']);
+
+        //** dd($data);
         // Log::info('Attempts to create a new Material Option ' . json_encode($data));
         Log::info('Attempts to create a new Material Option ' . json_encode($data));
         $response = $this->client->createMultiple($data);

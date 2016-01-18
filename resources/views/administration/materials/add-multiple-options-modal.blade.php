@@ -79,7 +79,7 @@
                 </select>
             </div>
             <div class="modal-footer">
-                <input type="submit" class="btn btn-primary save-changes" value="Upload">
+                <input type="submit" class="btn btn-primary save-multiple" value="Upload">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
             </div>
             <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
