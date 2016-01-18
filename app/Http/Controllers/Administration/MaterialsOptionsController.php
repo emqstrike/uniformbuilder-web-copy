@@ -150,8 +150,10 @@ class MaterialsOptionsController extends Controller
 
         $materialOptionNames = $request->input('mo_name');
         $layerLevels = $request->input('mo_layer');
+        // dd($layerLevels);
         $settingTypes = $request->input('setting_type');
-        $perspective = $request->input('perspective');
+        // $perspective = $request->input('perspective');
+        $perspective = "front";
         $defaultColors = $request->input('default_color');
 
         $colors = $request->input('colors');
@@ -225,7 +227,7 @@ class MaterialsOptionsController extends Controller
 $data['front'] = json_encode($data['input']);
 // $data['back'] = json_encode($data['input']);
 $data['input'] = "items";
-
+dd($data);
 $layerA = json_decode($data['front']);
 // $layerB = $layerA['item0']->$material_id;
 $layerB = $layerA->item0;

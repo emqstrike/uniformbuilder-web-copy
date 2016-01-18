@@ -30,10 +30,10 @@
                     <tbody id="options-row-container">
                         <tr class="options-row">
                             <td><input type="text" class="mo-name layer1" name="mo_name[]"></td>
-                            <td>
-                                <select name="mo_layer" class="mo-layer layer1"  name="mo_layer[]" disabled>
+                            <td><input type="text" class="mo-layer layer1" name="mo_layer[]" value="1"></td>
+                                <!-- <select class="mo-layer layer1"  name="mo_layer[]">
                                     <option value = '1' class="layer-number">1</option>
-                                </select>
+                                </select> -->
                             </td>
                             <td>
                                 <select name="setting-type" class="mo-setting-type layer1" name="mo_setting_type[]">
