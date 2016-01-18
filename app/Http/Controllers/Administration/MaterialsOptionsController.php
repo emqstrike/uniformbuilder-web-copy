@@ -176,8 +176,10 @@ class MaterialsOptionsController extends Controller
                 'origin' => $origin,
                 'layer_level' => $layerLevels[$ctr],
                 'default_color' => $defaultColors[$ctr],
+                'sublimated_default_color' => $defaultColors[$ctr],
                 'perspective' => $perspective,
                 'colors' => $colors,
+                'sublimated_colors' => $colors,
                 'gradients' => $gradients,
                 'is_blend' => $is_blend,
                 'boundary_properties' => $boundary_properties,
@@ -226,9 +228,9 @@ $data['input'] = "items";
 
 $layerA = json_decode($data['front']);
 // $layerB = $layerA['item0']->$material_id;
-$layerB = $layerA->item0->material_id;
+$layerB = $layerA->item0;
 // $layerC = json_decode($layerB['name']);
-dd($layerB);
+// dd($layerB);
 
         $response = null;
 
