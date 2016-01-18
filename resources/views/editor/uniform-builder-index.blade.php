@@ -130,7 +130,6 @@
 
             @include('partials.panels.mod_main')
 
-
         </div>
 
     </div>

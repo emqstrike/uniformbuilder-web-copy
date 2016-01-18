@@ -112,7 +112,21 @@ $(document).ready(function () {
 @if (Session::has('message'))
     $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 @endif
+
+var s = "{{ $builder_customizations }}";
+
+if(s.length > 0){
+    window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+}
+else {
+    window.ub.temp = undefined;
+}    
+
+
 });
+
+
+
 </script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js{{$asset_version}}"></script>
