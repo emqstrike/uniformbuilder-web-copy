@@ -99,8 +99,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-// dd(json_encode($data));
-// dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -150,13 +149,13 @@ class MaterialsOptionsController extends Controller
         $materialOptionNames = $request->input('mo_name');
         $layerLevels = $request->input('mo_layer');
         $settingTypes = $request->input('mo_setting_type');
-        // dd($settingTypes);
+        $defaultColor = $request->input('mo_default_color');
+        $sublimatedDefaultColor = $request->input('mo_sublimated_default_color');
         $perspective = $request->input('perspective');
-        $defaultColors = $request->input('default_color');
 
         $colors = $request->input('colors');
+        $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
-
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
@@ -165,8 +164,6 @@ class MaterialsOptionsController extends Controller
         $ctr = 0;
         $idx = '';
         foreach ($materialOptionNames as $materialOptionName) {
-            // $idx = (string)$ctr;
-            // $idx = strval($ctr);
             $idx = $ctr;
             $item = 'item'.$ctr;
             $data['input'][$item] = [
@@ -175,18 +172,17 @@ class MaterialsOptionsController extends Controller
                 'setting_type' => $settingTypes[$ctr],
                 'origin' => $origin,
                 'layer_level' => $layerLevels[$ctr],
-                'default_color' => $defaultColors[$ctr],
-                'sublimated_default_color' => $defaultColors[$ctr],
+                'default_color' => $defaultColor[$ctr],
+                'sublimated_default_color' => $sublimatedDefaultColor[$ctr],
                 'perspective' => $perspective,
-                'colors' => $colors,
-                'sublimated_colors' => $colors,
-                'gradients' => $gradients,
+                'colors' => json_encode($colors),
+                'sublimated_colors' => json_encode($sublimated_colors),
+                'gradients' => json_encode($gradients),
                 'is_blend' => $is_blend,
                 'boundary_properties' => $boundary_properties,
                 'applications_properties' => $applications_properties,
                 'material_option_path' => ''
             ];
-            // $data['front'][$item] = json_encode($data['front'][$item]);
             $ctr++;
         }
         try
@@ -200,7 +196,6 @@ class MaterialsOptionsController extends Controller
                     if ($materialOptionFile->isValid())
                     {
                         $filename = Random::randomize(12);
-                        // $data[$ctr]['material_option_path'] = FileUploader::upload(
                         $data['input'][$item]['material_option_path'] = FileUploader::upload(
                                                                     $materialOptionFile,
                                                                     $materialOptionNames[$ctr],
@@ -210,10 +205,8 @@ class MaterialsOptionsController extends Controller
                                                                 );
                     }
                 }
-                // $data['front'][$item] = json_encode(array_map('utf8_encode', $data));//json_encode($data['front'][$item]);
                 $ctr++;
             }
-            // $data['front'][$item] = json_encode($data['front'][$item]);
         }
         catch (S3Exception $e)
         {
@@ -223,22 +216,9 @@ class MaterialsOptionsController extends Controller
         }
 
 $data['front'] = json_encode($data['input']);
-// $data['back'] = json_encode($data['input']);
 $data['input'] = "items";
-// dd($data);
-$layerA = json_decode($data['front']);
-// $layerB = $layerA['item0']->$material_id;
-$layerB = $layerA->item0;
-// $layerC = json_decode($layerB['name']);
-// dd($layerB);
 
         $response = null;
-
-        // $data = json_encode($data, JSON_UNESCAPED_SLASHES);
-        //** $data = json_encode($data['front']);
-
-        //** dd($data);
-        // Log::info('Attempts to create a new Material Option ' . json_encode($data));
         Log::info('Attempts to create a new Material Option ' . json_encode($data));
         $response = $this->client->createMultiple($data);
 

@@ -152,7 +152,7 @@ var applicationProperties = {};
         
     });
 
-    $('.default-color').change(function(){
+    $('.mo-default-color, .mo-sublimated-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
@@ -280,7 +280,7 @@ var applicationProperties = {};
     $('.clone-row').on('click', function(){
         $( ".options-row:first" ).clone().appendTo( "#options-row-container" );
 
-        $('.default-color').change(function(){
+        $('.mo-default-color, .mo-sublimated-default-color').change(function(){
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });
@@ -840,6 +840,12 @@ var appPropJson = "";
             multiple: true,
             allowClear: true
         });
+
+        // $(".colors-multi-select").each(function(i) {
+        //     var color = $(this).data('color');
+        //     $('.select2-choice').css("background-color",color);
+        //     // $('.select2-results .select2-highlighted').css("background-color",color);
+        // });
     }
 
     function bindGradientsSelect2()
@@ -876,6 +882,8 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['layer'] = {};
             materialOptions.front[thisLayer]['name'] = {};
             materialOptions.front[thisLayer]['setting-type'] = {};
+            materialOptions.front[thisLayer]['default_color'] = {};
+            materialOptions.front[thisLayer]['sublimated_default_color'] = {};
 
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
@@ -896,10 +904,24 @@ var appPropJson = "";
             var type_class = ".mo-setting-type.layer" + length;
             $(this).find(type_class).addClass('mo-setting-type');
 
+            $(this).find('.mo-default-color').removeClass().addClass("mo-default-color");
+            $(this).find('.mo-default-color').addClass(thisLayer);
+            var def_color_class = ".mo-default-color.layer" + length;
+            $(this).find(def_color_class).addClass('mo-default-color');
+
+            $(this).find('.mo-sublimated-default-color').removeClass().addClass("mo-sublimated-default-color");
+            $(this).find('.mo-sublimated-default-color').addClass(thisLayer);
+            var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
+            $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
+
             materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
             materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
             materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
             materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
+            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['default_color'] = $(this).find(src_class).val();
+            materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(type_class).val();
 
             length--;
         });
