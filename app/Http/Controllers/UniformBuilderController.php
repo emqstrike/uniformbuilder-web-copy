@@ -92,7 +92,11 @@ class UniformBuilderController extends Controller
             'material' => $material,
             'material_id' => $materialId,
             'category_id' => $categoryId,
+
         ];
+
+         $params['builder_customizations'] = null;
+
         $params['order'] = null;
         if (Session::has('order'))
         {
@@ -101,7 +105,9 @@ class UniformBuilderController extends Controller
             {
                 if ($order['order_id'] == $config['order_id'])
                 {
+
                     $params['order'] = $order;
+                    $params['builder_customizations'] = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
                 }
                 else
                 {
@@ -109,6 +115,8 @@ class UniformBuilderController extends Controller
                 }
             }
         }
+
+
 
         return view('editor.uniform-builder-index', $params);
     }
@@ -168,6 +176,7 @@ class UniformBuilderController extends Controller
 
     public function saveOrder(Request $request)
     {
+        
         $time_start = microtime(true);
         $perspectives = [
             'upper' => [

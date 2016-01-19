@@ -377,8 +377,6 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
-
-            
         }
 
         /// Main Render Loop
@@ -448,8 +446,24 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
     ub.loadSettings = function (settings) {
+
         ub.current_material.settings = settings;
         // ToDo: Redraw the canvas ~ Arthur's part here
+
+        //ub.objects.front_view.body.tint = ub.current_material.settings.upper.Body.color;
+
+        _.each(ub.current_material.settings.upper, function(e){
+
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
+
+                return;
+
+            }
+
+            ub.change_material_option_color16(e.code, e.color);
+
+        });
+
     };
 
     // Initialize uniform settings
@@ -503,6 +517,8 @@ $(document).ready(function () {
             settings[type][name] = {};
 
             obj = settings[type][name];
+
+            obj.setting_type = material_option.setting_type;
 
             obj.code = name.replace(' ', '_').toLowerCase();
             obj.color = '';
@@ -864,7 +880,6 @@ $(document).ready(function () {
 
         /// Manual Color Test 
 
-
             $('#manual_change_color').on('click', function(e){
 
                ub.change_material_option_color($('select#parts_dropdown').val(), $('#hex_color').val().substring(1,7));
@@ -876,7 +891,6 @@ $(document).ready(function () {
             }).on('changeColor.colorpicker', function(event){
                 $('#manual_change_color').click();                
             });
-
 
             $('select#parts_dropdown').html('');
             var prev = '';
@@ -1294,6 +1308,12 @@ $(document).ready(function () {
                     
                 }  
 
+                if (typeof window.ub.temp !== 'undefined') {
+                    
+                    ub.loadSettings(window.ub.temp);
+                    
+                }
+
             }
 
             /// Move Utils
@@ -1303,13 +1323,37 @@ $(document).ready(function () {
 
             ub.change_material_option_color = function (material_option, color) {
 
-                _.each(ub.views, function (v){
+                var parsed_color = parseInt(color,16)
+
+                ub.save_color(material_option, parsed_color);
+
+                _.each(ub.views, function (v) {
 
                     var objects_in_view = ub.objects[v + '_view']
 
                     if(_.has(objects_in_view, material_option)){
 
-                        objects_in_view[material_option].tint = parseInt(color,16);
+                        objects_in_view[material_option].tint = parsed_color;
+    
+                    }
+                    
+                });
+
+            }
+
+            ub.change_material_option_color16 = function (material_option, color) {
+
+                var parsed_color = color;
+
+                //ub.save_color(material_option, parsed_color);
+
+                _.each(ub.views, function (v) {
+
+                    var objects_in_view = ub.objects[v + '_view']
+
+                    if(_.has(objects_in_view, material_option)){
+
+                        objects_in_view[material_option].tint = parsed_color;
     
                     }
                     
@@ -1763,6 +1807,9 @@ $(document).ready(function () {
 
                 if (panel === 'body') {
 
+                    ub.change_material_option_color('body', color_param.substring(1));
+
+
                     if (typeof(ub.objects.left_view['pattern']) !== 'undefined') {
 
                         ub.objects.front_view['pattern'].visible = false;
@@ -1792,21 +1839,21 @@ $(document).ready(function () {
                         
                     }
                     
-                    if (typeof(ub.objects.front_view[obj]) === "object") {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) === "object") {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
                     
-                    if (typeof(ub.objects.back_view[obj]) === "object") {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) === "object") {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) === "object") {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) === "object") {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
                     
-                    if (typeof(ub.objects.right_view[obj]) === "object") {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) === "object") {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
                     
   
                 } else if (panel == 'patterns') {
@@ -1825,21 +1872,23 @@ $(document).ready(function () {
                   
                 } else {
 
-                    if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
 
-                    if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
+
+                    ub.change_material_option_color(obj, color_param.substring(1));
 
                 }
 
@@ -2648,6 +2697,29 @@ $(document).ready(function () {
                 $('#view_pattern').toggle();
             });
 
+            // Here Now...
+            // Save Color in Configuration Object
+
+            // Process
+            // 
+            // New -> Blank UDID, Create UDID, Save Config File 
+            // (this is when a design is created from a material code)
+            // When loaded from UDID, the material / uniform code is loaded from the settings object
+            // 
+            // Load -> From UDID, doesn't need to create a new one
+            // Save as Another design, Create another UDID
+
+            ub.save_color = function (material_option, color) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+
+                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                object.color = color;
+
+                return object;
+
+            };
 
 
         /// End Utilities ///
@@ -2704,10 +2776,18 @@ $(document).ready(function () {
     // Save Design Modal
     $('.open-save-design-modal').on('click', function () {
         if (ub.user === false) {
+            
             showSignUpModal();
             return;
+
         } else {
+
+            var obj_settings = ub.exportSettings();
+            obj_settings['upper']['preview'] = '';
+
+            $('#builder_customizations').val(JSON.stringify(obj_settings));
             $('#save-design-modal').modal('show');
+
         }
     });
 
@@ -2945,7 +3025,6 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
-
         var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
         if (captcha_response.length == 0) {
             $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
@@ -3009,7 +3088,6 @@ $(document).ready(function () {
                 }
             }
         });
-        ub.current_material.team_roster = roster;
 
         $('.roster-list').html(''); // Clear current roster list
         $.each(roster, function(i, template_data){
