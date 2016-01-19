@@ -454,15 +454,13 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.upper, function(e){
 
-            if(e.code === 'highlights' || e.code === 'shadows') {
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
 
                 return;
 
             }
 
             ub.change_material_option_color16(e.code, e.color);
-
-            
 
         });
 
@@ -519,6 +517,8 @@ $(document).ready(function () {
             settings[type][name] = {};
 
             obj = settings[type][name];
+
+            obj.setting_type = material_option.setting_type;
 
             obj.code = name.replace(' ', '_').toLowerCase();
             obj.color = '';
