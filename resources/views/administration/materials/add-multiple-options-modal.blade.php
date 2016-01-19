@@ -6,7 +6,6 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" class="material-id" name="material_id">
-            <input type="hidden" name="perspective" value="front">
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties">
             <input type="hidden" name="applications_properties" id="application-properties">
@@ -15,7 +14,14 @@
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
             </div>
             <div class="modal-body front-options">
-                <h4>FRONT</h4>
+                <h4>PERSPECTIVE :&nbsp;
+                <select name="perspective">
+                        <option value='front'>FRONT</option>
+                        <option value='back'>BACK</option>
+                        <option value='left'>LEFT</option>
+                        <option value='right'>RIGHT</option>
+                    </select>
+                </h4>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -30,13 +36,14 @@
                     <tbody id="options-row-container">
                         <tr class="options-row">
                             <td><input type="text" class="mo-name layer1" name="mo_name[]"></td>
-                            <td><input type="text" class="mo-layer layer1" name="mo_layer[]" value="1"></td>
-                                <!-- <select class="mo-layer layer1"  name="mo_layer[]">
+                            <td>
+                            <!-- <input type="text" class="mo-layer layer1" name="mo_layer[]" value="1"></td> -->
+                                <select class="mo-layer layer1"  name="mo_layer[]">
                                     <option value = '1' class="layer-number">1</option>
-                                </select> -->
+                                </select>
                             </td>
                             <td>
-                                <select name="setting-type" class="mo-setting-type layer1" name="mo_setting_type[]">
+                                <select class="mo-setting-type layer1" name="mo_setting_type[]">
                                     <option value='part'>Part</option>
                                     <option value='shape'>Shape</option>
                                     <option value='piping'>Piping</option>
