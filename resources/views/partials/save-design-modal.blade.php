@@ -3,6 +3,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/saveUniformDesign" method="POST" id='save-uniform-design-form'>
+                
+                <input type='hidden' name="builder_customizations" id="builder_customizations">
                 <input type='hidden' name='upper_body_uniform' class='upper_body_uniform' />
                 <input type='hidden' name='lower_body_uniform' class='lower_body_uniform' />
                 <input type='hidden' name='total_upper_uniforms' class='total_upper_uniforms' />

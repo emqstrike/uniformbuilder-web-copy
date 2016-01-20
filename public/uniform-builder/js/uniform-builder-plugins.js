@@ -1,6 +1,31 @@
 
 (function ($) {
 
+    /// Basic Format for Plugin Definition
+
+    // $.fn.ubImageDialog = function(options) {
+    //
+    //     var settings = $.extend({ application: {} }, options);
+    //
+    //     return this.each(function () {
+    //
+    //         var $container = $(this);
+    //         var html_builder = '';
+    //
+    //         html_builder += "<hr />";
+    //         html_builder += "Image Dialog from Plugin";
+    //         html_builder += "<hr />";
+    //
+    //         $container.html(html_builder);
+    //
+    //     });
+    //
+    // };
+
+
+    /// End Basic Format for Plugin Definition
+
+
     $.fn.ubColorPicker = function (options) {
 
         var settings = $.extend({ target: 'target' }, options);
@@ -12,7 +37,7 @@
 
             if (typeof settings.target_name === 'string') {
 
-                target_name  = settings.target_name
+                target_name  = settings.target_name;
 
             }
             else {
@@ -85,15 +110,12 @@
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
-
                     var uniform_type = 'upper'; // TODO: Parameterized this.
-
                     var views = ['front', 'back', 'left', 'right'];
                     var c = ub.current_material.settings[uniform_type][target].pattern.containers;
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
-
                     });
 
                     ub.refresh_thumbnails();
@@ -108,6 +130,18 @@
                     var color = parseInt($(this).data('color-code'), 16);
 
                     pattern.children[layer_no].tint = color;
+                    ub.refresh_thumbnails();
+
+                }
+                
+                if (settings.type === 'mascot') {
+
+                    var mascot = ub.current_material.settings.applications[settings.application.code].mascot;
+                    var layer_no = $(this).data('index');
+                    var target = $(this).data('panel');
+                    var color = parseInt($(this).data('color-code'), 16);
+
+                    mascot.children[layer_no].tint = color;
                     ub.refresh_thumbnails();
 
                 }
@@ -139,7 +173,9 @@
     };
 
     
-    $.fn.ubLogoDialog = function (options) {
+    $.fn.ubImageDialog = $.fn.ubLogoDialog = function (options) {
+
+        ub.funcs.removeUIHandles();
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
@@ -147,19 +183,21 @@
         var view_str = application.perspective + '_view';
         $('a#view_' + application.perspective).click();
 
-        return this.each(function () {
+        return this.each(function () { 
 
             var $container = $(this);
 
             var data = {
-                application_id: settings.application.id,
+                application_id: application.id,
             }
 
             var template = $('#logo-dropdown').html();
             var markup = Mustache.render(template, data);
+
+
             $container.html(markup);
             
-            var selector = 'div.logo_drop[data-id="' + settings.application.id + '"]';
+            var selector = 'div.logo_drop[data-id="' + application.id + '"]';
             var upload_template = $('#logo-upload-dialog').html();
             var content = Mustache.render(upload_template, data);
 
@@ -171,12 +209,12 @@
                 openOn: 'click'
             });
 
-            ub.ui.drops[settings.application.id] = drop;
+            ub.ui.drops[application.id] = drop;
 
             var file_change_handler = function () {
 
                 var $file_input = $(this);
-                var data_id = settings.application.id;
+                var data_id = application.id;
                 var files = !!this.files ? this.files : [];
 
                 if (!files.length || !window.FileReader) { return; }
@@ -200,7 +238,7 @@
 
                         logos.push(logo)
 
-                        var application_id = settings.application.id;
+                        var application_id = application.id;
 
                         ub.funcs.update_logo_list();
                         $('a.logo_picker[data-application-id="' + application_id + '"]').click();
@@ -228,58 +266,134 @@
 
     };
 
-    $.fn.ubImageDialog = function(options) {
+    $.fn.ubMascotDialog = function ( options ) {
 
-        var settings = $.extend({ application: {} }, options);
-
-        return this.each(function () {
-
-            var $container = $(this);
-            var html_builder = '';
-
-            html_builder += "<hr />";
-            html_builder += "Image Dialog from Plugin";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
-
-        });
-
-    };
-
-    $.fn.ubTeamNameDialog = function(options) {
-
-        var settings = $.extend({ application: {} }, options);
-
-        return this.each(function () {
-
-            var $container = $(this);
-            var html_builder = '';
-
-            html_builder += "<hr />";
-            html_builder += "Team Name Dialog from Plugin";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
-
-        });
-
-    };
-
-    $.fn.ubPlayerNumberDialog = function(options) {
+        ub.funcs.removeUIHandles();
 
         var settings = $.extend({ application: {} }, options);
         var application = settings.application;
-
         var view_str = application.perspective + '_view';
+
+        $('a#view_' + application.perspective).click();
+
+        return this.each(function () {
+
+            var $container = $(this);
+
+            var data = {
+                application_id: application.id,
+            }
+
+            var template = $('#mascot-dropdown').html();
+            var markup = Mustache.render(template, data);
+
+            $container.html(markup);
+            
+            var selector = 'div.mascot_drop[data-id="' + application.id + '"]';
+            var upload_template = $('#mascot-upload-dialog').html();
+            var content = Mustache.render(upload_template, data);
+
+            var drop = new Drop({
+                target: document.querySelector(selector),
+                content: content,
+                classes: 'drop-theme-arrows',
+                position: 'bottom left',
+                openOn: 'click'
+            });
+
+            ub.ui.drops[application.id] = drop;
+
+            var file_change_handler = function () {
+
+                var $file_input = $(this);
+                var data_id = application.id;
+                var files = !!this.files ? this.files : [];
+
+                if (!files.length || !window.FileReader) { return; }
+
+                if (/^image/.test(files[0].type)) { 
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(files[0]);
+
+                    reader.onloadend = function () {
+
+                        var mascots = ub.current_material.settings.files.mascots;
+                        var file = files[0];
+                        var id = new Date().getTime();
+
+                        var mascot = {
+                            id: id,
+                            filename: file.name,
+                            dataUrl: this.result,
+                        };
+
+                        mascots.push(mascot);
+
+                        var application_id = application.id;
+
+                        ub.funcs.update_mascot_list();
+                        $('a.mascot_picker[data-application-id="' + application_id + '"]').click();
+
+                    }
+                }
+
+            };
+
+            drop.once('open', function () {
+
+                var $selector = $('#file-src-' + settings.application.id);
+                $selector.on('change', file_change_handler);
+
+                ub.data.panels = {};
+                ub.data.panels['mascot_panel'] = $selector;
+
+                ub.funcs.update_mascot_list();
+
+            });
+
+            drop.open();
+
+        });
+
+    };
+
+    $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
+
+        ub.funcs.removeUIHandles();
+
+        var settings = $.extend({ application: {} }, options);
+        var application = settings.application;
+        var view_str = application.perspective + '_view';
+
         $('a#view_' + application.perspective).click();
 
         return this.each(function () {
 
             var $container = $(this);
             var first_font = ub.data.fonts[0];
-            
+            var sample_text = '';
+            var font_size = '';
+
+            var plugin_type = $('select.application_type_dropdown[data-id=' + application.code + ']').val();
+
+            if (plugin_type === 'player_name') {
+                sample_text = 'Player Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'team_name') {
+                sample_text = 'Team Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'player_number') {
+                sample_text = '23';
+                font_size = 100;
+            }
+
             var data = {
+                sample_text: sample_text,
                 application_id: settings.application.id,
                 first_font_name: first_font.name,
                 first_font_id: first_font.id
@@ -303,6 +417,31 @@
             });
 
             /// End Color Container Handlers
+
+            var position = '';
+            var scale = '';
+            var rotation = '';
+            var alpha = '';
+            var tint = '';
+
+            var view_objects = ub.objects[settings.application.perspective + '_view'];
+            var view = ub[settings.application.perspective + '_view'];
+            var s = view_objects['objects_' + settings.application.code];
+
+            if (typeof(s) === 'object') {
+
+                var obj = view_objects['objects_' + application.code];
+
+                position = obj.position;
+                scale = obj.scale;
+                rotation = obj.rotation;
+                alpha = obj.alpha;
+                tint = obj.tint;
+
+                view.removeChild(view_objects['objects_' + application.code]);
+                delete view_objects['objects_' + application.code];
+
+            }
             
             create_font_dropdown(settings);
             create_color_dropdown(settings);
@@ -314,7 +453,7 @@
             
             $('div.font_size_slider[data-id="' + application.id + '"]').limitslider({
 
-                values: [70],
+                values: [font_size],
                 min: 0,
                 max: max_font_size,
                 gap: 0,
@@ -488,7 +627,15 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = _.find(ub.data.fonts, {id: selected_font_id.toString()});
+                
+                var font_id = selected_font_id;
+
+                if (ub.config.app_env !== "local") {
+                    font_id = font_id.toString();
+                }
+                
+                var font_obj = _.find(ub.data.fonts, {id: font_id });
+
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {
@@ -557,13 +704,13 @@
 
                 var colors_obj = get_colors_obj(application.layer);
                 var length = sprite.children.length;
-
                 var children = _.clone(sprite.children);
+
                 children.reverse();
 
                 _.each(children, function (child, index) {
 
-                    child.tint = parseInt(child.ubDefaultColor,16);
+                    child.tint = parseInt(child.ubDefaultColor, 16);
 
                     if(color_array !== ''){
 
@@ -597,11 +744,16 @@
 
                 }
 
-               sprite.originalZIndex = -10;
-               sprite.zIndex = -10;
-               ub.updateLayersOrder(view);
 
-               if (position !== '') {
+                var layer_order = ( 10 + application.layer_order ) 
+
+                sprite.originalZIndex = layer_order * (-1);
+                sprite.zIndex = layer_order * (-1);
+                settings.applications[application.code].layer_order = layer_order;
+
+                ub.updateLayersOrder(view);
+
+                if (position !== '') {
 
                     sprite.position = position;
                     sprite.scale = scale;
@@ -614,102 +766,9 @@
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-                sprite.draggable({
-                    manager: ub.dragAndDropManager
-                });
-
-                sprite.mouseup = sprite.touchend = function(data) {
-
-                    if (!sprite.snapped && $('#chkSnap').is(":checked")) {
-
-                        sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
-
-                    }
-
-                    this.data = data;
-                    this.dragging = true;
-
-                };
-
-                sprite.mousedown = sprite.touchstart = function(data) {
-
-                    this.data = data;
-
-                    sprite.oldX = sprite.x;
-                    sprite.oldY = sprite.y;
-                    sprite.snapped = false;
-                    this.dragging = true;
-
-                };
-
-                sprite.mousemove = sprite.mousemove = function(interactionData) {
-
-                    this.interactionData = interactionData;
-
-                    if (this.dragging) {
-
-                        _.each(ub.data.applications.items, function(application) {
-
-                            var x = application.position.x * ub.dimensions.width;
-                            var y = application.position.y * ub.dimensions.height;
-                            var p_app = new PIXI.Point(x, y);
-                            var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-                            var distance = ub.funcs.lineDistance(p_app, p_sprite);
-
-                            if ($('#chkSnap').is(":checked")) {
-
-                                var minimum_distance_to_snap = 50;
-
-                                if (distance < minimum_distance_to_snap) {
-
-                                    sprite.position = new PIXI.Point(x,y);
-
-                                    sprite.oldX = x;
-                                    sprite.oldY = y;
-
-                                    sprite.snapped = true;
-                                    this.dragging = false;
-
-                                    return false; // Exit loop if the logo snapped to an application point
-
-                                } else {
-
-                                    sprite.snapped = false;
-
-                                }
-
-                            }
-
-                        });
-
-                    }
-
-                    window.data = this.interactionData.data;
-                    window.sprite = sprite;
-
-                    var point = {
-                        x: window.data.global.x,
-                        y: window.data.global.y
-                    };
-
-                    if (typeof _.last(sprite.children).containsPoint === "function") {
-
-                        if (_.last(sprite.children).containsPoint(point)) {
-
-                            sprite.zIndex = -500;
-                            ub.updateLayersOrder(view);
-
-                        } else {
-
-                            sprite.zIndex = sprite.originalZIndex;
-                            ub.updateLayersOrder(view);
-
-                        }
-                        
-                    }
-                    
-                };
-
+                // ub.funcs.createDraggable(sprite, application, view);
+                ub.funcs.createClickable(sprite, application, view, 'application');
+                
             });
 
             $textbox.trigger('change');
@@ -718,26 +777,9 @@
 
     };
 
-    $.fn.ubPlayerNameDialog = function(options) {
-
-        var settings = $.extend({ application: {} }, options);
-
-        return this.each(function () {
-
-            var $container = $(this);
-            var html_builder = '';
-
-            html_builder += "<hr />";
-            html_builder += "Player Name Dialog from Plugin";
-            html_builder += "<hr />";
-
-            $container.html(html_builder);
-
-        });
-
-    };
-
     function create_text (text_input, font_name, application) {
+
+        ub.funcs.removeUIHandles();
 
         var text_layers = {};
         var container = new PIXI.Container();
@@ -1095,12 +1137,11 @@
 
                     if (typeof app !== 'undefined') {
 
-                        if (app.type !== 'logo') {
+                        if (app.type === 'player_number' || app.type === 'player_name' || app.type === 'team_name') {
 
                             var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
 
                             sprite.tint = parseInt(color_code, 16);    
-
                             app.color_array[sprite.ubLayerNo] = {};
                             app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
                             app.color_array[sprite.ubLayerNo].layer_no = _.first(app.text_obj.children).ubLayerNo;

@@ -15,7 +15,8 @@
                 data-option='new'>
             </a>
 
-@if (Session::get('isLoggedIn'))
+        @if (Session::get('isLoggedIn'))
+        
             <a class="btn-load sidebar-buttons load open-design"
                 data-filename='load'
                 data-option='load'>
@@ -30,7 +31,8 @@
                 data-filename='save'
                 data-option='save'>
             </a>
-@endif
+        
+        @endif
 
         </div>
 
@@ -42,15 +44,15 @@
     
         </div>
 
-        <div id="camera-views" class="">
-    
-            <a class="btn change-view" data-view="right" id="view_right"><img src=""></a>
-            <a class="btn change-view" data-view="front" id="view_front"><img src=""></a>
-            <a class="btn change-view" data-view="back"  id="view_back"><img src=""></a>
-            <a class="btn change-view" data-view="left"  id="view_left"><img src=""></a>
-            <a class="btn change-view" data-view="pattern" id="view_pattern"><img src=""></a>
+        <div id="change-views">
+            
+            <a class="btn change-view" data-view="front" id="view_front">F</a>
+            <a class="btn change-view" data-view="back" id="view_back">B</a>
+            <a class="btn change-view" data-view="left"  id="view_left">L</a>
+            <a class="btn change-view" data-view="right"  id="view_right">R</a>
 
         </div>
+
 
     </div>
 
@@ -98,6 +100,10 @@
             <a href="" class="sidebar-buttons attachments" data-filename='attachments'>
             </a>
 
+            <a href="" class="sidebar-buttons mod_main" data-filename='mod_main'>
+            </a>
+
+
         </div>
 
         <div id="right-main-window" class="pane-main-window">
@@ -121,6 +127,8 @@
             @include('partials.panels.sizes')
 
             @include('partials.panels.attachments')
+
+            @include('partials.panels.mod_main')
 
         </div>
 

@@ -1,15 +1,26 @@
 
-@navbar-height: 95px; 
+@navbar-height: 75px; 
 @main-container-margin: ( @navbar-height + 30px );
 @micro_spacer: 2px;
 
-@main_window_pane_height: 565px;
+/* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
+*/
+@forecolor: #3d3d3d;
+@border_color: @forecolor;
 
-@text_color: #3d3d3d;
+@main_highlight: @forecolor;
+@main_highlight_off: #acacac;
+@main_forecolor: @forecolor;
+
+@main_window_pane_height: 550px;
+
+@text_color: @main_forecolor;
 
 body, h1, h2, h3, h4, h5, h6, button, a, p {
     font-family: 'Roboto', sans-serif;
 }
+
+/* TODO: This should be Tested */
 
 html, body {
     height: 100%;
@@ -34,17 +45,24 @@ div.navbar-header {
 
 }
 
+.highlighter_on {
+    background-color: @main_highlight !important;
+}
+
+.highlighter_off {
+    background-color: @main_highlight_off !important;
+}
+
 #header_text {
-    color: #363636;
+    color: @main_highlight;
 }
 
 .navbar-default {
 
     box-shadow: none;
     background-color: #ffffff;
-
-    background-image: url(/images/header/bottom_bars.jpg);
     height: @navbar-height;
+    border-bottom: 1px solid @main_highlight !important;
 
 }
 
@@ -135,7 +153,8 @@ div.navbar-header {
     .you-might-like {
         margin-top: 30px;
         padding: 5px;
-        background-color: #eee;
+        background-color: @main_highlight;
+        color: white;
     }
 }
 
@@ -163,7 +182,7 @@ div.pane {
 
         a.sidebar-buttons {
 
-            background-color: #acacac;
+            background-color: @main_highlight_off;
             width: 41px;
             height: 41px;
             display: block;
@@ -191,7 +210,7 @@ div.pane {
         width: 90%;
         height: @main_window_pane_height;
 
-        border: 1px solid #b3b3b3;
+        border: 1px solid @border_color;
 
     }
 
@@ -203,7 +222,7 @@ div.pane {
 /* UI Generic */
 
 a.active_button {
-    background-color: #3d3d3d !important;
+    background-color: @main_forecolor !important;
 }
 
 /* End UI Generic */
@@ -214,8 +233,9 @@ a.active_button {
 
     #left-main-window {
         overflow: hidden;
-        background-image: url(/images/misc/bg.png);
+        /* background-image: url(/images/misc/bg.png); */
         background-size: cover;
+        background-color: #eeeeee;
     }
 
 }
@@ -231,6 +251,27 @@ a.active_button {
 /* End Left Pane - Main Canvas */
 
 /* Camera Views */
+
+#change-views {
+    
+    float: right;
+    text-align: center;
+    width: 10%;
+    padding: 3px;
+    position: absolute;
+    margin-top: 395px;
+    margin-left: 55px;
+
+    a {
+        color: white;
+        background-color: @main_forecolor;
+        margin-bottom: 2px;
+        width: 35px; 
+        border-radius: 50%;
+    }
+    
+
+}
 
 #camera-views {
 
@@ -283,7 +324,7 @@ div.options_panel  {
         width: 100%;
         display: table;
         height: 40px;
-        border-bottom: 1px solid #b3b3b3;
+        border-bottom: 1px solid @border_color;
         padding: 10px;
 
         span.header_text {
@@ -293,7 +334,7 @@ div.options_panel  {
             color: @text_color;
             height: 100%;
 
-            border-right: 1px solid #b3b3b3;
+            border-right: 1px solid @border_color;
             padding: 10px;
             padding-right: 23px;
 
@@ -307,7 +348,7 @@ div.options_panel  {
         width: 100%;
         display: table;
         height: 40px;
-        border-bottom: 1px solid #b3b3b3;
+        border-bottom: 1px solid @border_color;
         padding: 10px;
 
         -moz-transition: all .2s;
@@ -337,8 +378,10 @@ div.options_panel  {
 
         button {
 
-            width: 20%;
+            width: 13%;
             font-size: 75%;
+            margin-left: 3px;
+            margin-right: 3px;
 
         }
 
@@ -478,7 +521,7 @@ a.popper_button {
 
 a.popper_button:focus {
 
-    background-color: #acacac;
+    background-color: @main_highlight_off;
 
 }
 
@@ -522,7 +565,7 @@ div.sports_categories {
     padding: 10px;
     text-align: center;
 
-    border: solid 1px #b3b3b3;
+    border: solid 1px @border_color;
 
     span.categories_label {
 
@@ -545,7 +588,7 @@ div.sports_categories {
 
 div.sports_categories_highlighted {
 
-    border: solid 1px #acacac;
+    border: solid 1px @main_highlight_off;
     background-size: 130% 130%;
 
     filter:grayscale(0%);
@@ -555,14 +598,14 @@ div.sports_categories_highlighted {
 
 div.sports_categories_activated {
 
-    border: solid 1px #acacac;
+    border: solid 1px @main_highlight_off;
 
     span.categories_label {
 
         display: block;
         margin-top: 80px;
         padding: 3px;
-        background-color: #acacac;
+        background-color: @main_highlight_off;
 
         color: white;
 
@@ -583,7 +626,7 @@ div.picker_container {
     strong#active_sports_category {
 
         font-weight: bold;
-        color: #3d3d3d;
+        color: @main_forecolor;
         height: 100%;
         padding: 10px;
         padding-right: 23px;
@@ -591,7 +634,7 @@ div.picker_container {
         width: 100%;
         display: table;
         height: 40px;
-        border-bottom: 1px solid #b3b3b3;
+        border-bottom: 1px solid @border_color;
         padding: 10px;
 
     }
@@ -611,7 +654,7 @@ div.style_entry {
     padding: 10px;
     text-align: center;
 
-    border: solid 1px #b3b3b3;
+    border: solid 1px @border_color;
 
     span.style_label {
 
@@ -633,7 +676,7 @@ div.style_entry {
 
 div.style_entry_highlighted {
 
-    border: solid 1px #acacac;
+    border: solid 1px @main_highlight_off;
     background-size: 130% 130%;
     filter:grayscale(0%);
     webkit-filter:grayscale(0%);
@@ -653,15 +696,15 @@ div.gender_picker {
     padding: 10px;
     text-align: center;
 
-    border: solid 1px #b3b3b3;
+    border: solid 1px @border_color;
 
     span.style_label {
 
         display: block;
         margin-top: 80px;
         padding: 3px;
-        background-color: #3d3d3d;
-        color: #b3b3b3;
+        background-color: @main_forecolor;
+        color: @border_color;
 
         opacity: 0.9;
 
@@ -684,14 +727,14 @@ div.gender_picker {
 
 div.gender_picker_highlighted {
 
-    border: solid 1px #acacac;
+    border: solid 1px @main_highlight_off;
 
     span.style_label {
 
         display: block;
         margin-top: 80px;
         padding: 3px;
-        background-color: #acacac;
+        background-color: @main_highlight_off;
 
         color: white;
 
@@ -716,7 +759,7 @@ div.gender_picker {
 }
 
 div.gender_picker_header {
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid @border_color;
     width: 100%;
     padding-bottom: 3px;
     margin-bottom: 10px;
@@ -726,7 +769,7 @@ div.picker_header {
     width: 100%;
     display: block;
     height: 33px;
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid @border_color;
     padding-bottom: 3px;
     margin-bottom: 10px;
 
@@ -766,7 +809,7 @@ div.picker_header_tabs {
 
 div.no_designs {
     margin-top: 30px;
-    border-top : 1px solid #b3b3b3;
+    border-top : 1px solid @border_color;
     padding-top: 10px;
 }
 
@@ -904,7 +947,7 @@ img.highlighter {
             display: block;
             width: 200px;
             height: 200px;
-            border: solid 1px #acacac;
+            border: solid 1px @main_highlight_off;
             margin: 0 auto;
             margin-top: 10px;
             margin-bottom: 10px;
@@ -953,9 +996,19 @@ img.highlighter {
 
     /* APPLICATIONS */
 
+        div.applications_modifier_container {
+
+        }
+
+        div.application_dropdown_label {
+
+            font-weight: bold;
+
+        }
+
         select.application_type_dropdown {
 
-            width: 50%;
+            width: 40%;
 
         }
 
@@ -973,7 +1026,7 @@ img.highlighter {
 
         button.appactive {
 
-            background-color: #3d3d3d;
+            background-color: @main_forecolor;
             color: white !important;
 
         }
@@ -1113,5 +1166,276 @@ div.applications_dropdown {
         font-weight: normal;
         font-size: smaller;
     }
+}
+
+
+/* Plugins */
+
+div.ubColorPicker {
+
+    margin-top: 10px;
+
+    .options_panel_section > .color_panel_container_ub_picker {
+    
+        margin-top: 10px !important;
+
+        .color_element {
+            background-position: 4px -2px;
+        }
+
+    }
+
+    .btn {
+
+        margin-left: 4px;
+        margin-top: -2px;
+        width: 26px;
+        height: 26px;
+        border: solid 1px #acacac;
+        padding: 0px;
+        border-radius: 0;
+        padding: 2px;
+
+
+        span {
+
+            background-color: black;
+            width: 20px;
+            height: 20px;
+            display: block;
+            border: solid 1px #acacac;
+
+        }
+
+    }
+
+}
+
+div.add_delete_color_stop {
+    text-align: center;
+}
+
+div.arrow {
+    display: none;
+}
+
+div.options_panel_section.ubColorPicker {
+
+  border-top: 1px solid @border_color;
+  border-bottom: 1px solid @border_color;
+
+}
+
+.color_stop_label {
+
+    width: 10% !important;
+    padding-left: 0px !important;
+    margin-left: -10px;
+
+}
+
+.pattern_color_picker_container {
+
+    text-align: center;
+
+}
+
+.color_stop_label {
+
+    width: 10% !important;
+    padding-left: 0px !important;
+    margin-left: -10px;
+
+}
+
+.color_stops_container {
+
+    text-align: center;
+
+}
+
+div.mascot_drop, div.logo_drop, div.font_style_drop, div.color_drop, div.accent_drop, div.other_color_dropdown, {
+
+    background-color: @main_highlight;
+    color: white;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 0px;
+    width: 100%;
+    text-align: center;
+    
+    i.fa {
+
+        float: right;
+        padding-top: 3px;
+
+    }
+
+}
+
+div.logo_drop.btn.focus, div.logo_drop.btn:focus, div.logo_drop.btn:hover {
+
+    color: white;
+
+}
+
+div.mascot_drop.btn.focus, div.mascot_drop.btn:focus, div.mascot_drop.btn:hover {
+
+    color: white;
+
+}
+
+div.mascot_color_picker_container {
+    text-align: center;
+}
+
+.rotation_slider {
+        margin: 0 auto;
+        height: 155px;
+}
+
+img.logo-preview {
+
+    border: 1px solid white;
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    background-size: cover;
+
+}
+
+div.logo-container {
+
+    padding-top: 10px;
+
+}
+
+div.logo-controls {
+
+    display: block;
+    width: 100%;
+    padding: 30px;
+    border: solid 1px #acacac;
+
+}
+
+
+div.drop-content {
+
+    background-color: @main_highlight;
+    color: white;
+    padding: 7px;
+    width: 477px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 300px;
+
+    div.row div {
+        text-align: center;
+    }
+
+}
+
+a.font-selector {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+a.font-selector:hover {
+
+    font-weight: bold;
+    border-bottom: solid 3px #ffffff;
+    padding-bottom: 7px;
+
+}
+
+input.applications.player_number {
+    width: 100%;
+}
+
+div.ub_label {
+    
+    font-weight: bold;
+
+}
+
+a.color-selector, a.other-color-selector {
+    
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    padding-bottom: 10px;
+
+}
+
+a.color-selector:hover {
+
+    font-weight: bold;
+    border-bottom: solid 3px #ffffff;
+    padding-bottom: 7px;
+    
+}
+
+div.flip-container {
+    float: right;
+}
+
+img.accent_element {
+
+    width: 70px;
+
+}
+
+.btn.ub {
+    
+    border: solid 1px #acacac;
+    color: @main_highlight;
+    margin-right: 7px;
+    border-radius: 0px;
+
+}
+
+.btn.ub.active {
+    
+    border: solid 1px #acacac;
+    background-color: @main_highlight;
+    color: #ffffff;
+    margin-right: 7px;
+    border-radius: 0px;
+
+}
+
+div.colors_container {
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: solid 1px #acacac;
+    margin-top: -1px;
+    margin-bottom: 10px;
+
+}
+
+div.colors_container.colors, div.colors_container.patterns {
+    
+    padding: 20px;
+    
+}
+
+div.drop {
+    z-index: 100;
+} 
+
+a.thumbnail {
+    height: 104px !important;
+}
+
+button#manual_change_color {
+
+    width: 100px;
+
 }
 

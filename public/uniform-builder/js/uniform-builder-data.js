@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-    ub.funcs = {};
     ub.ui = {};
     ub.ui.drops = {};
     ub.modifiers = {};
@@ -24,8 +23,8 @@ $(document).ready(function(){
 
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: true}, false);
-    ub.renderer.backgroundColor = 0xffffff;
+    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
+    ub.renderer.backgroundColor = 0xeeeeee;
 
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
@@ -51,6 +50,9 @@ $(document).ready(function(){
     ub.current_material = {};
     ub.current_material.settings = {};
 
+    ub.states = {};
+    ub.states.active_application = 'undefined';
+
     ub.data = {};
     ub.data.views = ['front', 'back', 'left', 'right'];
 
@@ -58,6 +60,10 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
+
+    // Layer Assignment for Applications 
+    // 30 - 50
+
     ub.data.applications = {
 
         items: [
@@ -70,10 +76,11 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Top',
                 code: '1',
+                layer_order: 30,
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.35,
+                    y: 0.25,
                 },
 
             },
@@ -86,10 +93,11 @@ $(document).ready(function(){
                 perspective: 'front',
                 name: 'Front / Center',
                 code: '2',
+                layer_order: 31,
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.5,
+                    y: 0.36,
                 },
 
             },
@@ -100,16 +108,16 @@ $(document).ready(function(){
                 id: 3,
                 layer: 'Body',
                 perspective: 'front',
-                name: 'Front / Bottom Right',
+                name: 'Front / Center (2nd)',
                 code: '3',
+                layer_order: 32,
                 rotation: 0,
                 position: {
-                    x: 0.30,
-                    y: 0.75,
+                    x: 0.5,
+                    y: 0.36,
                 },
 
             },
-
 
             /// Four
             {
@@ -117,42 +125,48 @@ $(document).ready(function(){
                 id: 4,
                 layer: 'Body',
                 perspective: 'front',
-                name: 'Front / Bottom Left',
+                name: 'Front / Bottom Right',
                 code: '4',
+                layer_order: 33,
                 rotation: 0,
                 position: {
-                    x: 0.60,
+                    x: 0.35,
                     y: 0.7,
                 },
 
             },
+
+
             /// Five
             {
 
                 id: 5,
                 layer: 'Body',
-                perspective: 'back',
-                name: 'Back Top',
+                perspective: 'front',
+                name: 'Front / Bottom Left',
                 code: '5',
+                layer_order: 34,
                 rotation: 0,
                 position: {
-                    x: 0.5,
-                    y: 0.3,
+                    x: 0.65,
+                    y: 0.7,
                 },
 
             },
+
             /// Six
             {
 
                 id: 6,
                 layer: 'Body',
                 perspective: 'back',
-                name: 'Back Center',
+                name: 'Back Top',
                 code: '6',
+                layer_order: 35,
                 rotation: 0,
                 position: {
                     x: 0.5,
-                    y: 0.5,
+                    y: 0.2,
                 },
 
             },
@@ -160,14 +174,15 @@ $(document).ready(function(){
             {
 
                 id: 7,
-                layer: 'Left Sleeve',
-                perspective: 'left',
-                name: 'Left Shoulder - Top',
+                layer: 'Body',
+                perspective: 'back',
+                name: 'Back Center',
                 code: '7',
+                layer_order: 36,
                 rotation: 0,
                 position: {
-                    x: 0.47,
-                    y: 0.15,
+                    x: 0.5,
+                    y: 0.32,
                 },
 
             },
@@ -177,23 +192,9 @@ $(document).ready(function(){
                 id: 8,
                 layer: 'Left Sleeve',
                 perspective: 'left',
-                name: 'Left Shoulder - Bottom',
+                name: 'Left Shoulder - Top',
                 code: '8',
-                rotation: 0,
-                position: {
-                    x: 0.47,
-                    y: 0.23,
-                },
-
-            },
-            /// Nine
-            {
-
-                id: 9,
-                layer: 'Right Sleeve',
-                perspective: 'right',
-                name: 'Right Shoulder - Top',
-                code: '9',
+                layer_order: 37,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -201,14 +202,48 @@ $(document).ready(function(){
                 },
 
             },
-            /// 10
+            /// Nine
+            {
+
+                id: 9,
+                layer: 'Left Sleeve',
+                perspective: 'left',
+                name: 'Left Shoulder - Bottom',
+                code: '9',
+                layer_order: 38,
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.23,
+                },
+
+            },
+            /// Ten
             {
 
                 id: 10,
                 layer: 'Right Sleeve',
                 perspective: 'right',
-                name: 'Right Shoulder - Bottom',
+                name: 'Right Shoulder - Top',
                 code: '10',
+                layer_order: 39,
+                rotation: 0,
+                position: {
+                    x: 0.47,
+                    y: 0.15,
+                },
+
+            },
+
+            /// Eleven
+            {
+
+                id: 11,
+                layer: 'Right Sleeve',
+                perspective: 'right',
+                name: 'Right Shoulder - Bottom',
+                code: '11',
+                layer_order: 40,
                 rotation: 0,
                 position: {
                     x: 0.47,
@@ -216,14 +251,15 @@ $(document).ready(function(){
                 },
 
             },
-            /// Eleven
+            /// Tweleve
             {
 
-                id: 11,
+                id: 12,
                 layer: 'Right Sleeve',
                 perspective: 'front',
                 name: 'Right Sleeves',
-                code: '11',
+                code: '12',
+                layer_order: 41,
                 rotation: 0.96,
                 position: {
                     x: 0.14,
@@ -232,14 +268,15 @@ $(document).ready(function(){
 
             },
 
-            /// Twelve
+            /// Thirteen
             {
 
-                id: 12,
+                id: 13,
                 layer: 'Left Sleeve',
                 perspective: 'front',
                 name: 'Left Sleeve',
-                code: '12',
+                code: '13',
+                layer_order: 42,
                 rotation: 5.31,
                 position: {
                     x: 0.86,
@@ -247,11 +284,200 @@ $(document).ready(function(){
                 },
 
             },
+            {
+
+                id: 14,
+                layer: 'Body',
+                perspective: 'left',
+                name: 'Left Center',
+                code: '14',
+                layer_order: 43,
+                rotation: 0,
+                position: {
+                    x: 0.384,
+                    y: 0.46,
+                },
+
+            },
+            {
+
+                id: 15,
+                layer: 'Body',
+                perspective: 'right',
+                name: 'Right Center',
+                code: '15',
+                layer_order: 43,
+                rotation: 0,
+                position: {
+                    x: 0.63,
+                    y: 0.45,
+                },
+
+            }
 
 
         ]
 
     };
+
+    ub.data.mascots = {
+
+        items: [
+            /// Knights 
+            {
+                id: 0,
+                name: 'Knights',
+                code: 'knights',
+                icon: '/images/sidebar/mascots/knights.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/knights/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/knights/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/knights/3.png',
+                    },
+                    {
+                        default_color: '3d3d3d',
+                        layer_number: 4,
+                        filename: '/images/mascots/knights/4.png',
+                    },
+
+                ],
+            },
+            /// Lancers
+            {
+                id: 1,
+                name: 'Lancers',
+                code: 'lancers',
+                icon: '/images/sidebar/mascots/lancers.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/lancers/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/lancers/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/lancers/3.png',
+                    },
+                ],
+            },
+            /// Kennessaw
+            {
+                id: 2,
+                name: 'Kennesaw',
+                code: 'kennesaw',
+                icon: '/images/sidebar/mascots/kennesaw.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/kennesaw/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/kennesaw/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/kennesaw/3.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 4,
+                        filename: '/images/mascots/kennesaw/4.png',
+                    },
+                ],
+            },
+
+            /// Badger
+            {
+                id: 3,
+                name: 'Badger',
+                code: 'badger',
+                icon: '/images/sidebar/mascots/badger.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/badger/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/badger/2.png',
+                    },
+                    {
+                        default_color: '543018',
+                        layer_number: 3,
+                        filename: '/images/mascots/badger/3.png',
+                    },
+                ],
+            },
+            /// Bobcats
+            {
+                id: 4,
+                name: 'Bobcat',
+                code: 'bobcat',
+                icon: '/images/sidebar/mascots/bobcat.png',
+                layers: [
+                    {
+                        default_color: 'd31145',
+                        layer_number: 1,
+                        filename: '/images/mascots/bobcat/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/bobcat/2.png',
+                    },
+                   
+                ],
+            },
+            /// Tiger
+            {
+                id: 5,
+                name: 'Tiger E',
+                code: 'tiger_e',
+                icon: '/images/sidebar/mascots/tiger_e.png',
+                layers: [
+                    {
+                        default_color: '492f91',
+                        layer_number: 1,
+                        filename: '/images/mascots/tiger_e/1.png',
+                    },
+                    {
+                        default_color: 'fdba31',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/2.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_e/3.png',
+                    },
+                   
+                ],
+            },
+        ],    
+    }
 
     ub.data.patterns = {
       
@@ -812,6 +1038,10 @@ $(document).ready(function(){
                     name: 'Soccer',
                     active: "1",
                 }, 
+                {
+                    name: 'Wrestling',
+                    active: "1",
+                }, 
             ],
         },
         {
@@ -894,12 +1124,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -919,7 +1149,7 @@ $(document).ready(function(){
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -935,17 +1165,17 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 2,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -960,12 +1190,12 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 1,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
 
                 ],
@@ -979,37 +1209,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1023,37 +1253,37 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.2,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.3,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 4,
                        value: 0.4,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 5,
                        value: 0.8,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 6,
                        value: 0.9,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                         id: 7,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                   
                 ],
@@ -1067,22 +1297,22 @@ $(document).ready(function(){
                     {
                        id: 1,
                        value: 0,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
                     {
                        id: 2,
                        value: 0.4,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 3,
                        value: 0.6,
-                       color: '#5e5e5e',     
+                       color: '#1a1a1a',     
                     },
                     {
                        id: 4,
                        value: 1,
-                       color: '#ffffff',     
+                       color: '#005dab',     
                     },
 
                 ],
@@ -1599,5 +1829,6 @@ $(document).ready(function(){
     };
 
     /// End Fonts 
+
 
 });

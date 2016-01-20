@@ -81,6 +81,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@addColorForm']);
     Route::get('color/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@editColorForm']);
 
+    // Mascots
+    Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
+    Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
+    Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
+    Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addMascotForm']);
+    Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@editMascotForm']);
+
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
