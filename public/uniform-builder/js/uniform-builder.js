@@ -460,7 +460,6 @@ $(document).ready(function () {
 
             ub.change_material_option_color16(e.code, e.color);
 
-
             if(typeof e.gradient !== 'undefined'){
 
                 if (typeof e.gradient.gradient_obj !== 'undefined') {
