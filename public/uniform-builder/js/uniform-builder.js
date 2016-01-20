@@ -141,7 +141,7 @@ $(document).ready(function () {
             $.ajax({
             
                 url: url,
-                type: "GET",
+                type: "GET", 
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
@@ -230,11 +230,9 @@ $(document).ready(function () {
             var gender_element = '<span>' + gender + '</span>';
             var back_element = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
             var header = '<div class="picker_header">' + gender_element + back_element + '</div>';
-
             var category_element = '<span>' + category + '</span>';
             var category_back_element = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
             var category_header = '<div class="picker_header">' + category_element + category_back_element + '</div>';
-
             var group_element_0 = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
             var group_element_1 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
             var group_element_2 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
@@ -462,6 +460,16 @@ $(document).ready(function () {
 
             ub.change_material_option_color16(e.code, e.color);
 
+
+            if(typeof e.gradient !== 'undefined'){
+
+                if (typeof e.gradient.gradient_obj !== 'undefined') {
+
+                    ub.generate_gradient(e.gradient.gradient_obj, e.code);    
+
+                }    
+            }
+            
         });
 
     };
@@ -528,6 +536,7 @@ $(document).ready(function () {
             obj.has_pattern = false;
             
             obj.gradient = {
+                    gradient_obj: undefined,
                     gradient_id: '',
                     scale: 0,
                     rotation: 0,
@@ -2193,7 +2202,7 @@ $(document).ready(function () {
 
             /// End Change Pattern ///
 
-            /// Change Gradient ///
+            /// Change Gradient - UI ///
 
                 $('.change-gradient').on('click', function (e) {
 
@@ -2221,9 +2230,12 @@ $(document).ready(function () {
                     
                 }); 
 
-            /// End Change Gradient ///
+            /// End Change Gradient - UI ///
 
         };
+
+
+        /// Change Gradient - Methods ///
 
         ub.change_gradient = function (target, gradient, panel) {
 
@@ -2248,7 +2260,6 @@ $(document).ready(function () {
                 elements += ub.create_color_picker(index, val, col, target, el.code); 
 
             });
-
             
             if (el.code === "custom" ) {
 
@@ -2294,6 +2305,7 @@ $(document).ready(function () {
                     $("button#update-gradient-" + target).click();
 
                 },
+
              });
 
             $('#' + 'angle_gradient_slider_' + target).roundSlider({
@@ -2385,6 +2397,10 @@ $(document).ready(function () {
             $("button#update-gradient-" + target + "").click();
 
         };
+
+        /// End Change Gradient - Methods /// 
+
+
 
         ub.create_mascot_color_picker = function (index, value, color, target, mascot) {
 
@@ -2685,6 +2701,8 @@ $(document).ready(function () {
                 "-webkit-transform": "rotate(" + rotation + "deg)",
             });
 
+            ub.save_gradient(target, gradient_obj, gradient_obj.angle);
+
         };
 
         /// End Process Changes /// 
@@ -2720,6 +2738,20 @@ $(document).ready(function () {
                 return object;
 
             };
+
+            ub.save_gradient = function (material_option, gradient_obj, rotation) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+
+                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                object.gradient['gradient_obj'] = gradient_obj;
+                object.gradient['rotation'] = rotation;
+
+                return object;
+
+            }
+
 
 
         /// End Utilities ///
