@@ -9,6 +9,7 @@
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties">
             <input type="hidden" name="applications_properties" id="application-properties">
+            <input type="hidden" name="is_blend_array" id="is-blend-array">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -30,6 +31,7 @@
                             <th>Setting Type</th>
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
+                            <th>Blend</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
                         </tr>
@@ -76,6 +78,9 @@
                                 @endforeach
                                 <option data-color="" value="" id="saved-default-color"></option>
                                 </select>
+                            </td>
+                            <td>
+                                <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
                                 <input type="file" class="mo-options-src layer1" name="mo_image[]">

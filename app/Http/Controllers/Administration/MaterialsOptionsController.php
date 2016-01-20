@@ -145,20 +145,19 @@ class MaterialsOptionsController extends Controller
         }
 
         $origin = $request->input('origin');
-
         $materialOptionNames = $request->input('mo_name');
         $layerLevels = $request->input('mo_layer');
         $settingTypes = $request->input('mo_setting_type');
         $defaultColor = $request->input('mo_default_color');
         $sublimatedDefaultColor = $request->input('mo_sublimated_default_color');
         $perspective = $request->input('perspective');
-
         $colors = $request->input('colors');
         $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
-        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
+        $is_blend = $request->input('is_blend_array');
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
+        $is_blend_array = explode(",", $is_blend);
 
         $data = [];
         $ctr = 0;
@@ -178,7 +177,7 @@ class MaterialsOptionsController extends Controller
                 'colors' => json_encode($colors),
                 'sublimated_colors' => json_encode($sublimated_colors),
                 'gradients' => json_encode($gradients),
-                'is_blend' => $is_blend,
+                'is_blend' => $is_blend_array[$ctr],
                 'boundary_properties' => $boundary_properties,
                 'applications_properties' => $applications_properties,
                 'material_option_path' => ''
@@ -215,8 +214,8 @@ class MaterialsOptionsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-$data['front'] = json_encode($data['input']);
-$data['input'] = "items";
+        $data['front'] = json_encode($data['input']);
+        $data['input'] = "items";
 
         $response = null;
         Log::info('Attempts to create a new Material Option ' . json_encode($data));

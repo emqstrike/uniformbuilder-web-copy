@@ -110,7 +110,9 @@
                             <i class="glyphicon glyphicon-trash"></i>
                             Remove
                         </a>
+                        </div>
                     </div>
+                    <br />
                     <div>
                         <a href="#" class='btn btn-xs btn-success add-material-option'
                             data-material-name="{{ $material->name }}"
@@ -131,6 +133,13 @@
                             data-material-right-shape="{{ $material->right_side_view_shape }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Add Multiple Material Option
+                        </a>
+                    </div>
+                    <br />
+                    <div>
+                        <a href="#" class='btn btn-xs btn-danger delete-multiple-material-option'>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Remove Multiple Material Option
                         </a>
                     </div>
                     </div>
@@ -169,6 +178,7 @@
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
+                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                                     <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -230,6 +240,7 @@
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
+                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                                     <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -291,6 +302,7 @@
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
+                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                                     <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -352,6 +364,7 @@
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
+                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                                     <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"

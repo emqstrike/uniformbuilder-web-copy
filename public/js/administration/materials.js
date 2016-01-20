@@ -285,6 +285,36 @@ var applicationProperties = {};
             $(this).css('background-color', color);
         });
 
+        $(".mo-setting-type").change(function() {
+            var elem = $(this).parent().siblings().find('.mo-name');
+            var type = $(this).val();
+            var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
+
+            if(type == "highlights" || type == "shadows"){
+                type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                    return letter.toUpperCase();
+                });
+                type = type.slice(0,-1)
+                elem.val(type);
+            }
+            else{
+                elem.val("");
+            }
+        });
+
+        $(".mo-name").keyup(function() {
+            var elem = $(this).parent().siblings().find('.mo-layer');
+            var name = $(this).val().toLowerCase();
+            if(name == "body"){
+                console.log('MATCH');
+                $(this).val("Body");
+                $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+            }
+            else{
+                $(".body-layer-number").remove();
+            }
+        });
+
         $(".mo-options-src").change(function() {
 
         var elem = $(this).parent().siblings().find('.thumbnail-link');
@@ -496,152 +526,157 @@ var appPropJson = "";
         $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
         checkNameLength();
 
-        var jason = $('#boundary-properties').val().replace(/\\/g, '');
-        var output = jason.substring(1, jason.length-1);
-        var myData = JSON.parse(output);
+        // **************
+        if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
+            var jason = $('#boundary-properties').val().replace(/\\/g, '');
+            var output = jason.substring(1, jason.length-1);
+            var myData = JSON.parse(output);
 
-        bounding_box.oCoords.tl.x = myData.topLeft.x;
-        bounding_box.oCoords.tl.y = myData.topLeft.y;
-        bounding_box.oCoords.tr.x = myData.topRight.x;
-        bounding_box.oCoords.tr.y = myData.topRight.y;
-        bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-        bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-        bounding_box.oCoords.br.x = myData.bottomRight.x;
-        bounding_box.oCoords.br.y = myData.bottomRight.y;
-        bounding_box.centerPoint = myData.pivot;
-        bounding_box.setAngle(myData.rotation);
+            bounding_box.oCoords.tl.x = myData.topLeft.x;
+            bounding_box.oCoords.tl.y = myData.topLeft.y;
+            bounding_box.oCoords.tr.x = myData.topRight.x;
+            bounding_box.oCoords.tr.y = myData.topRight.y;
+            bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+            bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+            bounding_box.oCoords.br.x = myData.bottomRight.x;
+            bounding_box.oCoords.br.y = myData.bottomRight.y;
+            bounding_box.centerPoint = myData.pivot;
+            bounding_box.setAngle(myData.rotation);
 
-        bounding_box.width = myData.boxWidth;
-        bounding_box.height = myData.boxHeight;
-        box.width = myData.boxWidth;
-        box.height = myData.boxHeight;
-        bounding_box.left = myData.topLeft.x;
-        bounding_box.top = myData.topLeft.y;
+            bounding_box.width = myData.boxWidth;
+            bounding_box.height = myData.boxHeight;
+            box.width = myData.boxWidth;
+            box.height = myData.boxHeight;
+            bounding_box.left = myData.topLeft.x;
+            bounding_box.top = myData.topLeft.y;
 
-        canvas.renderAll();
-        canvasFront.clear();
+            canvas.renderAll();
+            canvasFront.clear();
 
-        var appPropJson = $('.a-prop').val().replace(/\\/g, '');
-        var appProp = appPropJson.substring(1, appPropJson.length-1);
-        var app_properties = JSON.parse(appProp);
+            var appPropJson = $('.a-prop').val().replace(/\\/g, '');
+            var appProp = appPropJson.substring(1, appPropJson.length-1);
+            var app_properties = JSON.parse(appProp);
 
-        $(".front-applications").remove(".apOpt");
-        clearAppPropOptions();
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
 
-        // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
 
-        for(c = 0; c < Object.keys(app_properties).length; c++){
+            for(c = 0; c < Object.keys(app_properties).length; c++){
 
-            var l = "layer"+c;
-            var default_item = app_properties[l].type;
-            var iid = app_properties[l].id;
+                var l = "layer"+c;
+                var default_item = app_properties[l].type;
+                var iid = app_properties[l].id;
 
-            if(!app_properties[l].id){
-                break;
-            }
-
-            var area = new fabric.Rect({
-                id: c,
-                fill: '#e3e3e3',
-                height: app_properties[l].height,
-                width: app_properties[l].width,
-                strokeWidth: 1,
-                stroke: 'red',
-                opacity: 0.6,
-                originX: 'center',
-                originY: 'center'
-            });
-
-            var appID = new fabric.IText(iid.toString(),{
-                fontFamily: 'arial black',
-                originX: 'center',
-                originY: 'center',
-                opacity: 0.6,
-                fontSize: 11
-            });
-
-            var text = app_properties[l].type;
-            var itemText = new fabric.IText(text.toString(),{
-                fontFamily: 'arial black',
-                originX: 'center',
-                originY: 'top',
-                opacity: 0.6,
-                fontSize: 8
-            });
-
-            var group = new fabric.Group([ area, appID, itemText ], {
-                id: c,
-                left: app_properties[l].topLeft.x,
-                top: app_properties[l].topLeft.y,
-                default_item: default_item
-            });
-
-            if(app_properties[l].id != null){
-
-                var itemsArr = ["logo", "number", "team_name", "player_name"];
-                var selectAppend = "<select class=\"app-def-item\">";
-                var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
-
-                selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
-
-                for(var i = 0; i<itemsArr.length; i++) {
-
-                    if(group.default_item != itemsArr[i]) {
-                        selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
-                    }
-
+                if(!app_properties[l].id){
+                    break;
                 }
 
-                selectAppend += "</select>";
+                var area = new fabric.Rect({
+                    id: c,
+                    fill: '#e3e3e3',
+                    height: app_properties[l].height,
+                    width: app_properties[l].width,
+                    strokeWidth: 1,
+                    stroke: 'red',
+                    opacity: 0.6,
+                    originX: 'center',
+                    originY: 'center'
+                });
 
-                $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
-                canvasFront.add(group);
-                var canvasItem = "application"+group.id;
-                var thisGroup = group;
+                var appID = new fabric.IText(iid.toString(),{
+                    fontFamily: 'arial black',
+                    originX: 'center',
+                    originY: 'center',
+                    opacity: 0.6,
+                    fontSize: 11
+                });
 
-                thisGroup.oCoords.tl.x = app_properties[l].topLeft.x;
-                thisGroup.oCoords.tl.y = app_properties[l].topLeft.y;
-                thisGroup.oCoords.tr.x = app_properties[l].topRight.x;
-                thisGroup.oCoords.tr.y = app_properties[l].topRight.y;
-                thisGroup.oCoords.bl.x = app_properties[l].bottomLeft.x;
-                thisGroup.oCoords.bl.y = app_properties[l].bottomLeft.y;
-                thisGroup.oCoords.br.x = app_properties[l].bottomRight.x;
-                thisGroup.oCoords.br.y = app_properties[l].bottomRight.y;
-                thisGroup.centerPoint = app_properties[l].pivot;
-                thisGroup.setAngle(app_properties[l].rotation);
+                var text = app_properties[l].type;
+                var itemText = new fabric.IText(text.toString(),{
+                    fontFamily: 'arial black',
+                    originX: 'center',
+                    originY: 'top',
+                    opacity: 0.6,
+                    fontSize: 8
+                });
 
-                
-                thisGroup.width = app_properties[l].width;
-                thisGroup.height = app_properties[l].height;
-                thisGroup.left = app_properties[l].topLeft.x;
-                thisGroup.top = app_properties[l].topLeft.y;
-                thisGroup.pivot = thisGroup.centerPoint;
+                var group = new fabric.Group([ area, appID, itemText ], {
+                    id: c,
+                    left: app_properties[l].topLeft.x,
+                    top: app_properties[l].topLeft.y,
+                    default_item: default_item
+                });
 
-                window.g = {};
-                window.g = group;
-                
-                canvasFront.renderAll();
+                if(app_properties[l].id != null){
 
+                    var itemsArr = ["logo", "number", "team_name", "player_name"];
+                    var selectAppend = "<select class=\"app-def-item\">";
+                    var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
+
+                    selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
+
+                    for(var i = 0; i<itemsArr.length; i++) {
+
+                        if(group.default_item != itemsArr[i]) {
+                            selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+                        }
+
+                    }
+
+                    selectAppend += "</select>";
+
+                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+                    canvasFront.add(group);
+                    var canvasItem = "application"+group.id;
+                    var thisGroup = group;
+
+                    thisGroup.oCoords.tl.x = app_properties[l].topLeft.x;
+                    thisGroup.oCoords.tl.y = app_properties[l].topLeft.y;
+                    thisGroup.oCoords.tr.x = app_properties[l].topRight.x;
+                    thisGroup.oCoords.tr.y = app_properties[l].topRight.y;
+                    thisGroup.oCoords.bl.x = app_properties[l].bottomLeft.x;
+                    thisGroup.oCoords.bl.y = app_properties[l].bottomLeft.y;
+                    thisGroup.oCoords.br.x = app_properties[l].bottomRight.x;
+                    thisGroup.oCoords.br.y = app_properties[l].bottomRight.y;
+                    thisGroup.centerPoint = app_properties[l].pivot;
+                    thisGroup.setAngle(app_properties[l].rotation);
+
+                    
+                    thisGroup.width = app_properties[l].width;
+                    thisGroup.height = app_properties[l].height;
+                    thisGroup.left = app_properties[l].topLeft.x;
+                    thisGroup.top = app_properties[l].topLeft.y;
+                    thisGroup.pivot = thisGroup.centerPoint;
+
+                    window.g = {};
+                    window.g = group;
+                    
+                    canvasFront.renderAll();
+
+                }
+                else{
+                    break;
+                }
             }
-            else{
-                break;
+
+
+            var boundaryProperties = JSON.stringify(data);
+
+            $('#boundary-properties').prop('value', boundaryProperties);
+
+
+            $("#file-src").prop("src", material.option.path);
+            $("#layer-level").prop("value", material.option.layer_level);
+
+            if (material.option.blend) {
+                $('#is-blend').attr('checked', 'checked');
+            } else {
+                $('#is-blend').attr('checked', 'unchecked');
             }
+
         }
-
-
-        var boundaryProperties = JSON.stringify(data);
-
-        $('#boundary-properties').prop('value', boundaryProperties);
-
-
-        $("#file-src").prop("src", material.option.path);
-        $("#layer-level").prop("value", material.option.layer_level);
-
-        if (material.option.blend) {
-            $('#is-blend').attr('checked', 'checked');
-        } else {
-            $('#is-blend').attr('checked', 'unchecked');
-        }
+        // **************
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -728,13 +763,33 @@ var appPropJson = "";
         );
     });
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/delete/";
+    $('.delete-multiple-material-option').on('click', function(){
+        var checkedMaterialOptionsIDs = [];
+        $('input[type=checkbox]:checked').each(function () {
+            if($(this).hasClass("delete-multiple-material-options")){
+                console.log("CHECKED: "+$(this).val());
+                checkedMaterialOptionsIDs.push($(this).val());
+            }
+            
+        });
+console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
+        modalConfirm(
+            'Remove Multiple Material Options',
+            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
+            'confirm-yes',
+            'confirmation-modal-multiple-material-option'
+        );
+    });
+
+    $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
+        var id = $(this).data('checkedMaterialOptionsIDs');
+        console.log("GETS HERE! MULTIPLE DELETE");
+        var url = "//" + api_host + "/api/material_option/deleteMultiple/";
         $.ajax({
             url: url,
             type: "POST",
             data: JSON.stringify({id: id}),
+            // data: {data : checkedMaterialOptionsIDs},
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -747,8 +802,8 @@ var appPropJson = "";
                         type: 'success',
                         hide: true
                     });
-                    $('#confirmation-modal').modal('hide');
-                    $('.material-' + id).fadeOut();
+                    $('#confirmation-modal-multiple-material-option').modal('hide');
+                    $('.material-option-' + id).fadeOut();
                 }
             }
         });
@@ -775,6 +830,32 @@ var appPropJson = "";
                     });
                     $('#confirmation-modal-material-option').modal('hide');
                     $('.material-option-' + id).fadeOut();
+                }
+            }
+        });
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    $('.material-' + id).fadeOut();
                 }
             }
         });
@@ -873,6 +954,7 @@ var appPropJson = "";
     }
 
     function renumberRows(length){
+        var is_blend_arr = [];
         $(".options-row").each(function(i) {
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
@@ -884,6 +966,7 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['setting-type'] = {};
             materialOptions.front[thisLayer]['default_color'] = {};
             materialOptions.front[thisLayer]['sublimated_default_color'] = {};
+            materialOptions.front[thisLayer]['is_blend'] = {};
 
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
@@ -914,6 +997,11 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
+            $(this).find('.mo-blend').removeClass().addClass("mo-blend");
+            $(this).find('.mo-blend').addClass(thisLayer);
+            var mo_blend_class = ".mo-blend.layer" + length;
+            $(this).find(mo_blend_class).addClass('mo-blend');
+
             materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
             materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
             materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
@@ -923,6 +1011,15 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['default_color'] = $(this).find(src_class).val();
             materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(type_class).val();
 
+            if($(mo_blend_class).is(':checked')){
+                materialOptions.front[thisLayer]['is_blend'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['is_blend'] = "0";
+            }
+
+            is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
+            $('#is-blend-array').val(is_blend_arr);
+            console.log("Blend Array: "+is_blend_arr);
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
@@ -1031,6 +1128,38 @@ var appPropJson = "";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
     }
+
+    // UPDATES - DETECTOR
+
+    $(".mo-setting-type").change(function() {
+        var elem = $(this).parent().siblings().find('.mo-name');
+        var type = $(this).val();
+        var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
+
+        if(type == "highlights" || type == "shadows"){
+            type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                return letter.toUpperCase();
+            });
+            type = type.slice(0,-1)
+            elem.val(type);
+        }
+        else{
+            elem.val("");
+        }
+    });
+
+    $(".mo-name").keyup(function() {
+        var elem = $(this).parent().siblings().find('.mo-layer');
+        var name = $(this).val().toLowerCase();
+        if(name == "body"){
+            console.log('MATCH');
+            $(this).val("Body");
+            $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+        }
+        else{
+            $(".body-layer-number").remove();
+        }
+    });
 
     // CHANGES BACKGROUNDS OF CANVASES
 
