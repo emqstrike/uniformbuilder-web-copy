@@ -141,7 +141,7 @@ $(document).ready(function () {
             $.ajax({
             
                 url: url,
-                type: "GET",
+                type: "GET", 
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
@@ -230,11 +230,9 @@ $(document).ready(function () {
             var gender_element = '<span>' + gender + '</span>';
             var back_element = '<button onclick="ub.display_gender_picker()"><i class="fa fa-chevron-circle-left"></i></button>'
             var header = '<div class="picker_header">' + gender_element + back_element + '</div>';
-
             var category_element = '<span>' + category + '</span>';
             var category_back_element = '<button onclick=ub.display_categories("' + gender + '")><i class="fa fa-chevron-circle-left"></i></button>'
             var category_header = '<div class="picker_header">' + category_element + category_back_element + '</div>';
-
             var group_element_0 = '<button class="button_tabs all" data-type="All" data-gender="' + gender + '" data-category="' + category + '">Jersey and Pant</button>';
             var group_element_1 = '<button class="button_tabs upper" data-type="upper" data-gender="' + gender + '" data-category="' + category + '">Jersey</button>';
             var group_element_2 = '<button class="button_tabs lower" data-type="lower" data-gender="' + gender + '" data-category="' + category + '">Pant</button>';
@@ -377,8 +375,6 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
-
-            
         }
 
         /// Main Render Loop
@@ -448,8 +444,34 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
     ub.loadSettings = function (settings) {
+
         ub.current_material.settings = settings;
         // ToDo: Redraw the canvas ~ Arthur's part here
+
+        //ub.objects.front_view.body.tint = ub.current_material.settings.upper.Body.color;
+
+        _.each(ub.current_material.settings.upper, function(e){
+
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
+
+                return;
+
+            }
+
+            ub.change_material_option_color16(e.code, e.color);
+
+
+            if(typeof e.gradient !== 'undefined'){
+
+                if (typeof e.gradient.gradient_obj !== 'undefined') {
+
+                    ub.generate_gradient(e.gradient.gradient_obj, e.code);    
+
+                }    
+            }
+            
+        });
+
     };
 
     // Initialize uniform settings
@@ -504,6 +526,8 @@ $(document).ready(function () {
 
             obj = settings[type][name];
 
+            obj.setting_type = material_option.setting_type;
+
             obj.code = name.replace(' ', '_').toLowerCase();
             obj.color = '';
             obj.gradient_is_above_pattern = false;
@@ -512,6 +536,7 @@ $(document).ready(function () {
             obj.has_pattern = false;
             
             obj.gradient = {
+                    gradient_obj: undefined,
                     gradient_id: '',
                     scale: 0,
                     rotation: 0,
@@ -860,6 +885,40 @@ $(document).ready(function () {
             ub.updateLayersOrder(ub[view + '_view']);
 
         });    
+
+
+        /// Manual Color Test 
+
+            $('#manual_change_color').on('click', function(e){
+
+               ub.change_material_option_color($('select#parts_dropdown').val(), $('#hex_color').val().substring(1,7));
+
+            });
+
+            $('#hex_color').colorpicker({
+                format: 'hex',
+            }).on('changeColor.colorpicker', function(event){
+                $('#manual_change_color').click();                
+            });
+
+            $('select#parts_dropdown').html('');
+            var prev = '';
+
+            _.each(ub.current_material.options_distinct_names, function (part){
+
+                if(prev === part.material_option){
+                    return;
+                }
+                
+                $('select#parts_dropdown').append('<option value="' + part.material_option + '">' + part.material_option.replace('_', ' ').toUpperCase() + '</option>')
+                prev = part.material_option;
+
+            });
+
+            $('select#parts_dropdown').val('body')
+
+
+        /// End Manual Color Test    
 
         /// Setup Modifiers Colors
 
@@ -1222,30 +1281,7 @@ $(document).ready(function () {
 
             /// End Mascot
 
-            if (ub.config.material_id == 19 || ub.config.material_id == 44) {
-
-                
-                ub.change_material_option_color('body','ffffff');
-                ub.change_material_option_color('team_name','939498');
-                ub.change_material_option_color('last_name','939498');
-                ub.change_material_option_color('front_number','c92124');
-                ub.change_material_option_color('back_number','c92124');
-                ub.change_material_option_color('sleeve_number','c92124');
-                ub.change_material_option_color('piping_1','c92124');
-                ub.change_material_option_color('piping_2','c92124');
-
-            }    
-
-            if (ub.config.material_id == 18 || ub.config.material_id == 43) {
-
-                ub.change_material_option_color('body','000000');
-                ub.change_material_option_color('stripe_one','c92124');
-                ub.change_material_option_color('stripe_two','c92124');
-                ub.change_material_option_color('middle_stripe','c92124');
-                ub.change_material_option_color('tiger_text','000000');
-                
-            }    
-
+            ub.init_style();
         
         /// End Default Style 
 
@@ -1255,15 +1291,78 @@ $(document).ready(function () {
 
         /// Utilities ///
 
+            ub.init_style = function () {
+
+                if (ub.config.material_id == 19 || ub.config.material_id == 44) {
+                    
+                    ub.change_material_option_color('body','ffffff');
+                    ub.change_material_option_color('team_name','939498');
+                    ub.change_material_option_color('last_name','939498');
+                    ub.change_material_option_color('front_number','c92124');
+                    ub.change_material_option_color('back_number','c92124');
+                    ub.change_material_option_color('sleeve_number','c92124');
+                    ub.change_material_option_color('piping_1','c92124');
+                    ub.change_material_option_color('piping_2','c92124');
+                    ub.change_material_option_color('neck_trim','c92124');
+
+                }    
+
+                if (ub.config.material_id == 18 || ub.config.material_id == 43) {
+
+                    ub.change_material_option_color('body','000000');
+                    ub.change_material_option_color('stripe_one','c92124');
+                    ub.change_material_option_color('stripe_two','c92124');
+                    ub.change_material_option_color('middle_stripe','c92124');
+                    ub.change_material_option_color('tiger_text','000000');
+                    
+                }  
+
+                if (typeof window.ub.temp !== 'undefined') {
+                    
+                    ub.loadSettings(window.ub.temp);
+                    
+                }
+
+            }
+
+            /// Move Utils
+
+
+            /// End Move Utils
+
             ub.change_material_option_color = function (material_option, color) {
 
-                _.each(ub.views, function (v){
+                var parsed_color = parseInt(color,16)
+
+                ub.save_color(material_option, parsed_color);
+
+                _.each(ub.views, function (v) {
 
                     var objects_in_view = ub.objects[v + '_view']
 
                     if(_.has(objects_in_view, material_option)){
 
-                        objects_in_view[material_option].tint = parseInt(color,16);
+                        objects_in_view[material_option].tint = parsed_color;
+    
+                    }
+                    
+                });
+
+            }
+
+            ub.change_material_option_color16 = function (material_option, color) {
+
+                var parsed_color = color;
+
+                //ub.save_color(material_option, parsed_color);
+
+                _.each(ub.views, function (v) {
+
+                    var objects_in_view = ub.objects[v + '_view']
+
+                    if(_.has(objects_in_view, material_option)){
+
+                        objects_in_view[material_option].tint = parsed_color;
     
                     }
                     
@@ -1710,12 +1809,15 @@ $(document).ready(function () {
                 var color_param = color;
 
                 if (color_param === '#ffffff') {
-                    color_param = "#eeeded";
+                    color_param = "#ffffff";
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
 
                 if (panel === 'body') {
+
+                    ub.change_material_option_color('body', color_param.substring(1));
+
 
                     if (typeof(ub.objects.left_view['pattern']) !== 'undefined') {
 
@@ -1746,21 +1848,21 @@ $(document).ready(function () {
                         
                     }
                     
-                    if (typeof(ub.objects.front_view[obj]) === "object") {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) === "object") {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
                     
-                    if (typeof(ub.objects.back_view[obj]) === "object") {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) === "object") {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) === "object") {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) === "object") {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
                     
-                    if (typeof(ub.objects.right_view[obj]) === "object") {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) === "object") {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
                     
   
                 } else if (panel == 'patterns') {
@@ -1779,21 +1881,23 @@ $(document).ready(function () {
                   
                 } else {
 
-                    if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                        ub.objects.front_view[obj].tint = color_value;
-                    }
+                    // if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
+                    //     ub.objects.front_view[obj].tint = color_value;
+                    // }
 
-                    if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
-                        ub.objects.back_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
+                    //     ub.objects.back_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
-                        ub.objects.left_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
+                    //     ub.objects.left_view[obj].tint = color_value;    
+                    // }
 
-                    if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
-                        ub.objects.right_view[obj].tint = color_value;    
-                    }
+                    // if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
+                    //     ub.objects.right_view[obj].tint = color_value;    
+                    // }
+
+                    ub.change_material_option_color(obj, color_param.substring(1));
 
                 }
 
@@ -2098,7 +2202,7 @@ $(document).ready(function () {
 
             /// End Change Pattern ///
 
-            /// Change Gradient ///
+            /// Change Gradient - UI ///
 
                 $('.change-gradient').on('click', function (e) {
 
@@ -2126,9 +2230,12 @@ $(document).ready(function () {
                     
                 }); 
 
-            /// End Change Gradient ///
+            /// End Change Gradient - UI ///
 
         };
+
+
+        /// Change Gradient - Methods ///
 
         ub.change_gradient = function (target, gradient, panel) {
 
@@ -2153,7 +2260,6 @@ $(document).ready(function () {
                 elements += ub.create_color_picker(index, val, col, target, el.code); 
 
             });
-
             
             if (el.code === "custom" ) {
 
@@ -2199,6 +2305,7 @@ $(document).ready(function () {
                     $("button#update-gradient-" + target).click();
 
                 },
+
              });
 
             $('#' + 'angle_gradient_slider_' + target).roundSlider({
@@ -2290,6 +2397,10 @@ $(document).ready(function () {
             $("button#update-gradient-" + target + "").click();
 
         };
+
+        /// End Change Gradient - Methods /// 
+
+
 
         ub.create_mascot_color_picker = function (index, value, color, target, mascot) {
 
@@ -2590,6 +2701,8 @@ $(document).ready(function () {
                 "-webkit-transform": "rotate(" + rotation + "deg)",
             });
 
+            ub.save_gradient(target, gradient_obj, gradient_obj.angle);
+
         };
 
         /// End Process Changes /// 
@@ -2601,6 +2714,45 @@ $(document).ready(function () {
             $('button#toggle_pattern_preview').on('click', function (e) {
                 $('#view_pattern').toggle();
             });
+
+            // Here Now...
+            // Save Color in Configuration Object
+
+            // Process
+            // 
+            // New -> Blank UDID, Create UDID, Save Config File 
+            // (this is when a design is created from a material code)
+            // When loaded from UDID, the material / uniform code is loaded from the settings object
+            // 
+            // Load -> From UDID, doesn't need to create a new one
+            // Save as Another design, Create another UDID
+
+            ub.save_color = function (material_option, color) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+
+                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                object.color = color;
+
+                return object;
+
+            };
+
+            ub.save_gradient = function (material_option, gradient_obj, rotation) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+
+                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                object.gradient['gradient_obj'] = gradient_obj;
+                object.gradient['rotation'] = rotation;
+
+                return object;
+
+            }
+
+
 
         /// End Utilities ///
 
@@ -2656,10 +2808,18 @@ $(document).ready(function () {
     // Save Design Modal
     $('.open-save-design-modal').on('click', function () {
         if (ub.user === false) {
+            
             showSignUpModal();
             return;
+
         } else {
+
+            var obj_settings = ub.exportSettings();
+            obj_settings['upper']['preview'] = '';
+
+            $('#builder_customizations').val(JSON.stringify(obj_settings));
             $('#save-design-modal').modal('show');
+
         }
     });
 
@@ -2897,7 +3057,6 @@ $(document).ready(function () {
             sharer_name: ub.user.fullname
         };
 
-
         var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
         if (captcha_response.length == 0) {
             $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
@@ -2961,7 +3120,6 @@ $(document).ready(function () {
                 }
             }
         });
-        ub.current_material.team_roster = roster;
 
         $('.roster-list').html(''); // Clear current roster list
         $.each(roster, function(i, template_data){

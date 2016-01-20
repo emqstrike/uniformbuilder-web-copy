@@ -21,6 +21,9 @@
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
+
+
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -84,6 +87,9 @@
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
+
 <!-- End Third Party Scripts -->
 
 
@@ -107,7 +113,21 @@ $(document).ready(function () {
 @if (Session::has('message'))
     $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 @endif
+
+var s = "{{ $builder_customizations }}";
+
+if(s.length > 0){
+    window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+}
+else {
+    window.ub.temp = undefined;
+}    
+
+
 });
+
+
+
 </script>
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js{{$asset_version}}"></script>

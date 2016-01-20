@@ -97,6 +97,10 @@
             <a href="" class="sidebar-buttons attachments" data-filename='attachments'>
             </a>
 
+            <a href="" class="sidebar-buttons mod_main" data-filename='mod_main'>
+            </a>
+
+
         </div>
 
         <div id="right-main-window" class="pane-main-window">
@@ -120,6 +124,8 @@
             @include('partials.panels.sizes')
 
             @include('partials.panels.attachments')
+
+            @include('partials.panels.mod_main')
 
         </div>
 
