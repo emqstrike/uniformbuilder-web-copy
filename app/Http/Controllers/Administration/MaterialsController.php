@@ -149,11 +149,24 @@ class MaterialsController extends Controller
             {
                 if ($thumbnailFile->isValid())
                 {
-                    // Highlight
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $thumbnailFile,
                                                     $materialName,
                                                     'thumbnail'
+                                                );
+                }
+            }
+
+            // Design Sheet File
+            $designSheetFile = $request->file('design_sheet_path');
+            if (isset($designSheetFile))
+            {
+                if ($designSheetFile->isValid())
+                {
+                    $data['design_sheet_path'] = FileUploader::upload(
+                                                    $designSheetFile,
+                                                    $materialName,
+                                                    'design_sheet'
                                                 );
                 }
             }

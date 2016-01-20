@@ -116,6 +116,13 @@
 @elseif (env('BUILDER_APPROACH') == '2D')
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Design Sheet</label>
+                            <div class="col-md-8">
+                                <input type="file" class="form-control design-sheet-file" name="design_sheet_path"  accept="application/pdf"">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Front View Shape</label>
                             <div class="col-md-8 front-view">
                                 <input type="file" class="form-control front-shape-file shape-view" data-perspective="front" name="front_view_shape" accept="image/*">
