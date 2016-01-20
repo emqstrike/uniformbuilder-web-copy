@@ -15,6 +15,9 @@ use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
 use App\Utilities\S3Uploader;
 
+use TCPDF;
+use File;
+
 class UniformBuilderController extends Controller
 {
     protected $materialsClient;
@@ -174,9 +177,64 @@ class UniformBuilderController extends Controller
         return $s3path;
     }
 
+    function getGUID(){
+
+        if (function_exists('com_create_guid')){
+            return com_create_guid();
+        }else{
+            mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+            $charid = strtoupper(md5(uniqid(rand(), true)));
+            $hyphen = chr(45);
+            $uuid = substr($charid, 0, 8).$hyphen
+                .substr($charid, 8, 4).$hyphen
+                .substr($charid,12, 4).$hyphen
+                .substr($charid,16, 4).$hyphen
+                .substr($charid,20,12); 
+            return $uuid;
+        }
+
+    }
+
+    function createPDF ($builder_customizations) {
+
+        $pdf = new TCPDF(); 
+
+        $filename = $this->getGUID(); 
+        $path = storage_path('app/design_sheets/' . $filename . '.pdf');
+        $svg_file = storage_path('originals/spartansxs_2.svg');
+
+        $bc = json_decode($builder_customizations);
+        $body_color = $bc->upper->Body->color;
+        $body_color_hex = dechex($body_color);
+
+        $style_append = '.cls-1 { fill: #' . $body_color_hex . '}';
+
+        $contents = File::get($svg_file);
+        $replaced_contents = str_replace("@@@", $style_append, $contents);
+
+        error_log($replaced_contents);
+
+        $pdf->SetTitle('Prolook Design Sheet');
+        $pdf->AddPage("L");
+        $pdf->Write(0, 'Prolook Design Sheet');
+
+        $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
+//      $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
+
+        $pdf->Output($path, 'F');
+
+        $body_front = '';
+        $body_back = '';
+
+        return $path;
+
+    }
+
     public function saveOrder(Request $request)
     {
-        
+
+        $fname = $this->createPDF($request->input('builder_customizations'));
+
         $time_start = microtime(true);
         $perspectives = [
             'upper' => [
