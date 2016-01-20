@@ -212,16 +212,13 @@ class UniformBuilderController extends Controller
         $contents = File::get($svg_file);
         $replaced_contents = str_replace("@@@", $style_append, $contents);
 
-        error_log($replaced_contents);
-
         $pdf->SetTitle('Prolook Design Sheet');
         $pdf->AddPage("L");
         $pdf->Write(0, 'Prolook Design Sheet');
 
-        // $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
-        // $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
-
-        // $pdf->Output($path, 'F');
+        $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
+        $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
+        $pdf->Output($path, 'F');
 
         $body_front = '';
         $body_back = '';
