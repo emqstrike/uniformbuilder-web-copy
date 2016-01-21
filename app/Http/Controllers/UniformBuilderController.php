@@ -67,7 +67,7 @@ class UniformBuilderController extends Controller
 
                     if(env('APP_ENV') === 'local') {
 
-                        $materialId = 19;
+                        $materialId = 11;
 
                     }
                     else {
@@ -216,9 +216,9 @@ class UniformBuilderController extends Controller
         $pdf->AddPage("L");
         $pdf->Write(0, 'Prolook Design Sheet');
 
-//      $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
-//      $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
-//      $pdf->Output($path, 'F');
+        $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
+        $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
+        $pdf->Output($path, 'F');
 
         $body_front = '';
         $body_back = '';

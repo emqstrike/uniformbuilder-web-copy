@@ -4,10 +4,13 @@
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
-                <div class="panel-body">
+                <div class="panel-body col-md-8 text-center">
+                    
+                </div>
+                <div class="panel-body col-md-4">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -24,21 +27,21 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Name</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input type="text" class="form-control material-name" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Code</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input type="text" class="form-control material-code" name="code" value="{{ old('code') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name='uniform_category_id' class="form-control uniform-category">
                                 @foreach ($uniform_categories as $category)
                                     @if ($category->active)
@@ -51,7 +54,7 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name='type' class="form-control type">
                                     <option value='upper'>Upper Body Uniform</option>
                                     <option value='lower'>Lower Body Uniform</option>
@@ -61,7 +64,7 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Gender</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name='gender' class="form-control gender">
                                     <option value='men'>Men</option>
                                     <option value='women'>Women</option>
@@ -71,7 +74,7 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Factory</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name='factory_code' class="form-control factory-code">
                                     @foreach ($factories as $factory)
                                         @if ($color->active)
@@ -85,84 +88,64 @@
 @if (env('BUILDER_APPROACH') == '3D')
                         <div class="form-group">
                             <label class="col-md-4 control-label">Base Material File</label>
-                            <div class="col-md-6 material">
+                            <div class="col-md-8 material">
                                 <input type="file" class="form-control material-file" name="material_path" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Bump Map File</label>
-                            <div class="col-md-6 bump">
+                            <div class="col-md-8 bump">
                                 <input type="file" class="form-control bump-map-file" name="bump_map_path" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Shadow File</label>
-                            <div class="col-md-6 shadow">
+                            <div class="col-md-8 shadow">
                                 <input type="file" class="form-control shadow-file" name="shadow_path" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Highlight File</label>
-                            <div class="col-md-6 highlight">
+                            <div class="col-md-8 highlight">
                                 <input type="file" class="form-control highlight-file" name="highlight_path" accept="image/*">
                             </div>
                         </div>
 @elseif (env('BUILDER_APPROACH') == '2D')
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Front View File</label>
-                            <div class="col-md-6 front-view">
-                                <input type="file" class="form-control front-view-file" name="front_view_path" accept="image/*">
+                            <label class="col-md-4 control-label">Design Sheet</label>
+                            <div class="col-md-8">
+                                <input type="file" class="form-control design-sheet-file" name="design_sheet_path"  accept="application/pdf"">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Front View Shape</label>
-                            <div class="col-md-6 front-view">
-                                <input type="file" class="form-control front-shape-file" name="front_view_shape" accept="image/*">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Back View File</label>
-                            <div class="col-md-6 back-view">
-                                <input type="file" class="form-control back-view-file" name="back_view_path" accept="image/*">
+                            <div class="col-md-8 front-view">
+                                <input type="file" class="form-control front-shape-file shape-view" data-perspective="front" name="front_view_shape" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Back View Shape</label>
-                            <div class="col-md-6 back-view">
+                            <div class="col-md-8 back-view">
                                 <input type="file" class="form-control back-shape-file" name="back_view_shape" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Right Side View File</label>
-                            <div class="col-md-6 right-side-view">
-                                <input type="file" class="form-control right-side-view-file" name="right_side_view_path" accept="image/*">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Right Side View Shape</label>
-                            <div class="col-md-6 right-side-view">
+                            <div class="col-md-8 right-side-view">
                                 <input type="file" class="form-control right-side-shape-file" name="right_side_view_shape" accept="image/*">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Left Side View File</label>
-                            <div class="col-md-6 left-side-view">
-                                <input type="file" class="form-control left-side-view-file" name="left_side_view_shape" accept="image/*">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Left Side View Shape</label>
-                            <div class="col-md-6 left-side-view">
+                            <div class="col-md-8 left-side-view">
                                 <input type="file" class="form-control left-side-shape-file" name="left_side_view_shape" accept="image/*">
                             </div>
                         </div>
@@ -170,7 +153,7 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail File</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
                             </div>
                         </div>

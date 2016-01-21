@@ -2,6 +2,7 @@
   "private": true,
   "devDependencies": {
     "gulp": "^3.8.8",
+    "gulp-watch": "^4.3.5",
     "less": "^2.5.1"
   },
   "dependencies": {
