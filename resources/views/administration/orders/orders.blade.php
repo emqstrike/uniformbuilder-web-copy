@@ -123,6 +123,8 @@
 
 @include('administration.orders.order-view-modal')
 
+@include('administration.orders.order-view-json-modal')
+
 @include('partials.confirmation-modal')
 
 @endsection
