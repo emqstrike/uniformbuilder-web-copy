@@ -30,7 +30,7 @@ class OrdersController extends Controller
         {
             $orders = $this->client->getOrders($status);
         }
-dd($orders);
+// dd($orders);
         return view('administration.orders.orders', [
             'orders' => $orders,
             'order_statuses' => [

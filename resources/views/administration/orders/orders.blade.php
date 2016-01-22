@@ -98,7 +98,7 @@
                             </td>
                             <td>
                                 <button class='btn btn-warning btn-xs view-builder-customization'
-                                    data-builder-customization="{{ $order->builder_customization }}">
+                                    data-builder-customization="{{ $order->builder_customizations }}">
                                     View JSON
                                 </button>
                             </td>
