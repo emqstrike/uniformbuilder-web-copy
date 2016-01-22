@@ -42,6 +42,7 @@ class MaterialsController extends Controller
      */
     public function index()
     {
+        Log::info('Index');
         $materials = $this->client->getMaterials();
         foreach ($materials as &$material)
         {
@@ -49,7 +50,7 @@ class MaterialsController extends Controller
             $material->options = $options;
         }
 
-
+dd($materials);
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
 
@@ -101,6 +102,7 @@ class MaterialsController extends Controller
     public function store(Request $request)
     {
         $materialName = $request->input('name');
+        $materialId = $request->input('material_id');
         $materialCode = $request->input('code');
         $factoryCode = $request->input('factory_code');
         $type = $request->input('type');
@@ -109,7 +111,6 @@ class MaterialsController extends Controller
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
-
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -148,11 +149,24 @@ class MaterialsController extends Controller
             {
                 if ($thumbnailFile->isValid())
                 {
-                    // Highlight
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $thumbnailFile,
                                                     $materialName,
                                                     'thumbnail'
+                                                );
+                }
+            }
+
+            // Design Sheet File
+            $designSheetFile = $request->file('design_sheet_path');
+            if (isset($designSheetFile))
+            {
+                if ($designSheetFile->isValid())
+                {
+                    $data['design_sheet_path'] = FileUploader::upload(
+                                                    $designSheetFile,
+                                                    $materialName,
+                                                    'design_sheet'
                                                 );
                 }
             }

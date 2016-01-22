@@ -37,11 +37,8 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
-
             <div class="canvas-views" id="main_view" width="496" height="550">
-              
             </div>
-    
         </div>
 
         <div id="change-views">

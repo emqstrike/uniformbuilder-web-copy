@@ -1,5 +1,6 @@
 <?php
 namespace App\APIClients;
+use App\Utilities\Log;
 
 class MaterialsOptionsAPIClient extends APIClient
 {
@@ -24,6 +25,15 @@ class MaterialsOptionsAPIClient extends APIClient
     public function create($data)
     {
         $response = $this->post('material_option', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function createMultiple($data)
+    {
+        Log::info('createMultiple - API Client');
+        $response = $this->post('material_option_multiple', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());

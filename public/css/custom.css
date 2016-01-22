@@ -1,46 +1,100 @@
 .navbar-fixed-top{
-background-color: white;
-min-height: 80px;
-border-style: solid;
-border-color: #E8E8E8;
-border-radius: 2px;
+    background-color: white;
+    min-height: 80px;
+    border-style: solid;
+    border-color: #E8E8E8;
+    border-radius: 2px;
 }
 
 .navtext{
-color: white;
-font-weight: bold; 
-font-size: 24px;
-font-family: 'Open Sans', sans-serif;
-line-height: 3;
-margin-left:20px;
+    color: white;
+    font-weight: bold; 
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 3;
+    margin-left:20px;
 }
 
 .searchbox{ 
-line-height: 2;
-font-size: 16px;
+    line-height: 2;
+    font-size: 16px;
 }
 
 a:hover{ 
-  color: red;
+    color: red;
 }
 
 .tablist-left{
-	width: 25%;
-	display: inline-block;
-	font-size: 10px;
+    width: 25%;
+    display: inline-block;
+    font-size: 10px;
 }
 
 .tablist-content{
-	width: 60%;
-	display: inline-block;
-	vertical-align: top;
-	margin-left: 5%;
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5%;
 }
 
 .material-option-item:hover{
-        background-color: #fff !important;
+    background-color: #fff !important;
 }
 
-table > thead > tr > th{
+tr.center-table-heads > th{
     text-align: center;
 }
+
+.modal.modal-wide .modal-dialog {
+    width: 90%;
+}
+
+.modal-wide .modal-body {
+    overflow-y: auto;
+}
+
+#material-option-bounding-box, #material-option-bounding-box-top, .divImg {
+    width: 496px;
+    height: 550px;
+    background-position: center center;
+    background-color: #e3e3e3;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+}
+
+#material-option-bounding-box-top{
+    background-color: transparent;
+    -webkit-filter: drop-shadow(0px 1px 1px #222);
+    filter:         drop-shadow(0px 1px 1px #222); 
+}
+
+#front-shape-view, #back-shape-view, #left-shape-view, #right-shape-view, #shape-view, #shape-view-top, .shape-views {
+    width: 496px;
+    height: 550px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #e3e3e3;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+.thumb-container {
+    width: 30;
+    height: 30;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #e3e3e3;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+#shape-view-top {
+    background-color: transparent;
+    -webkit-filter: drop-shadow(0px 1px 1px #222);
+    filter:         drop-shadow(0px 1px 1px #222); 
+}
+
+/*body.modal-open {
+    overflow: visible !important;
+}*/ 

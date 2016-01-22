@@ -133,14 +133,7 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
-        // Is the Mascot Name taken?
-        if ($this->client->isMascotExist($name, $id))
-        {
-            return Redirect::to('administration/mascots')
-                            ->with('message', 'Mascot already exist');
-        }
-
+//dd($data);
         $response = null;
         if (!empty($id))
         {
