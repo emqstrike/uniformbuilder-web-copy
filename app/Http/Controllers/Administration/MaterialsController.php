@@ -50,7 +50,7 @@ class MaterialsController extends Controller
             $material->options = $options;
         }
 
-
+dd($materials);
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
 
