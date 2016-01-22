@@ -47,7 +47,6 @@ class MaterialsController extends Controller
         foreach ($materials as &$material)
         {
             $options = $this->optionsClient->getByMaterialId($material->id);
-            dd($options);
             $material->options = $options;
         }
 
