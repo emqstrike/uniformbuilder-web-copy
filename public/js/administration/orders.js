@@ -106,7 +106,8 @@ $(document).ready(function(){
     });
 
 $('.view-builder-customization').on('click', function(){
-        var builder_customization = $(this).data('builder-customization');
+        // var builder_customization = $(this).data('builder-customization');
+        var builder_customization = JSON.stringify($(this).data('builder-customization'));
         console.log("show json click");
 console.log(builder_customization);
         // $('#view-order-builder-customization-modal .order-builder-customization p').html(builder_customization);
