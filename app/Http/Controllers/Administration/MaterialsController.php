@@ -44,7 +44,6 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
-        dd($materials);
         foreach ($materials as &$material)
         {
             $options = $this->optionsClient->getByMaterialId($material->id);
