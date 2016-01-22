@@ -23,6 +23,7 @@
                             <th>Lower Uniform</th>
                             <th>Status</th>
                             <th>Actions</th>
+                            <th>JSON</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +95,12 @@
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
+                            </td>
+                            <td>
+                                <button class='btn btn-warning btn-xs view-builder-customization'
+                                    data-builder-customization="{{ $order->builder_customization }}">
+                                    View JSON
+                                </button>
                             </td>
                         </tr>
 
