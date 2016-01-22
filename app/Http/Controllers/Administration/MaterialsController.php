@@ -47,10 +47,10 @@ class MaterialsController extends Controller
 
         // dd($materials);
         foreach ($materials as $material)
-        {echo "test";
+        {// echo "test";
             $options = $this->optionsClient->getByMaterialId($material->id);
             $material->options = $options;
-            dd($material);
+            // dd($material);
         }
 
         $colors = $this->colorsClient->getColors();
