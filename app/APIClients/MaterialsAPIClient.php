@@ -12,12 +12,12 @@ class MaterialsAPIClient extends APIClient
     {
         $response = $this->get('materials/' . $filter);
         $result = $this->decoder->decode($response->getBody());
-
+dd($result);
         $materials = [];
         if ($result->success)
         {
             $materials = $result->materials;
-        }dd($materials);
+        }// dd($materials);
         return $materials;
     }
 
