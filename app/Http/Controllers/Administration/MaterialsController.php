@@ -52,7 +52,7 @@ class MaterialsController extends Controller
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
-
+dd($materials);
         return view('administration.materials.materials', [
             'materials' => $materials,
             'colors' => $colors,
