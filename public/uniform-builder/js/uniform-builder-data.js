@@ -331,7 +331,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/knights.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/knights/1.png',
                     },
@@ -341,7 +341,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/knights/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/knights/3.png',
                     },
@@ -361,7 +361,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/lancers.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/lancers/1.png',
                     },
@@ -371,7 +371,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/lancers/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/lancers/3.png',
                     },
@@ -385,7 +385,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/kennesaw.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/kennesaw/1.png',
                     },
@@ -395,7 +395,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/kennesaw/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/kennesaw/3.png',
                     },
@@ -415,7 +415,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/badger.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/badger/1.png',
                     },
@@ -425,7 +425,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/badger/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/badger/3.png',
                     },
@@ -439,12 +439,12 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/bobcat.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/bobcat/1.png',
                     },
                     {
-                        default_color: 'ffffff',
+                        default_color: 'c92124',
                         layer_number: 2,
                         filename: '/images/mascots/bobcat/2.png',
                     },
@@ -459,17 +459,17 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/tiger_e.png',
                 layers: [
                     {
-                        default_color: '492f91',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/tiger_e/1.png',
                     },
                     {
-                        default_color: 'fdba31',
+                        default_color: 'ffffff',
                         layer_number: 2,
                         filename: '/images/mascots/tiger_e/2.png',
                     },
                     {
-                        default_color: 'ffffff',
+                        default_color: 'c92124',
                         layer_number: 2,
                         filename: '/images/mascots/tiger_e/3.png',
                     },
