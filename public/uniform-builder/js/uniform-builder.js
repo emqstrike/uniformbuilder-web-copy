@@ -454,7 +454,7 @@ $(document).ready(function () {
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
 
-                return;
+                return; 
 
             }
 
@@ -467,14 +467,27 @@ $(document).ready(function () {
                     ub.generate_gradient(e.gradient.gradient_obj, e.code);    
 
                 }    
+
             }
-            
+
+            if(typeof e.pattern !== 'undefined'){
+
+                if (typeof e.pattern.pattern_obj !== 'undefined') {
+
+                    ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+         
+                }    
+
+            }
+
         });
 
     };
 
     // Initialize uniform settings
     ub.init = function () {
+
+        ub.current_material.containers = {};
 
         var settings = ub.current_material.settings;
 
@@ -515,6 +528,8 @@ $(document).ready(function () {
         settings[type].material_id = current_material.id;
         settings[type].code = current_material.code;
 
+        ub.current_material.containers[type] = {};
+
         _.each(material_options, function (material_option) {
 
             var name = '';
@@ -522,6 +537,9 @@ $(document).ready(function () {
 
             name = material_option.name;
             settings[type][name] = {};
+
+            ub.current_material.containers[type][name] = {};
+            ub.current_material.containers[type][name].pattern_containers = {};
 
             obj = settings[type][name];
 
@@ -533,6 +551,7 @@ $(document).ready(function () {
             
             obj.has_gradient = false;
             obj.has_pattern = false;
+            obj.pattern_containers = {};
             
             obj.gradient = {
                     gradient_obj: undefined,
@@ -559,6 +578,7 @@ $(document).ready(function () {
 
             obj.pattern = {
                 pattern_id: '',
+                pattern_obj: undefined,
                 scale: 0,
                 rotation: 0,
                 opacity: 0,
@@ -2097,20 +2117,20 @@ $(document).ready(function () {
                 $("button#update-pattern-" + target).click('click', function (e) {
 
                     var uniform_type = ub.current_material.material.type;
-
                     var target_name = target.replace('_', ' ');
                     target_name = util.toTitleCase(target_name);
 
-                    var pattern_settings = ub.current_material.settings[uniform_type][target_name].pattern;
-                    pattern_settings.containers = {};
+                    var pattern_settings = ub.current_material.containers[uniform_type][target_name];
+                    pattern_settings.pattern_containers = {};
 
                     var views = ub.data.views;
-                    
+                    var _container = undefined;
+
                     _.each(views, function (v){
 
-                        pattern_settings.containers[v] = {};
+                        pattern_settings.pattern_containers[v] = {};
                         
-                        var namespace = pattern_settings.containers[v];
+                        var namespace = pattern_settings.pattern_containers[v];
                         namespace.container = new PIXI.Container();
                         var container = namespace.container;
                         container.sprites = {};
@@ -2188,10 +2208,12 @@ $(document).ready(function () {
                         container.zIndex = mask.zIndex + (-1);
 
                         ub.updateLayersOrder(ub[view]);
+                        _container = container;
 
                     });
 
                     ub.refresh_thumbnails();
+                    ub.save_pattern (target, clone, pattern, el, _container.alpha, _container.rotation, _container.position, _container.scale);
 
                 });
 
@@ -2751,7 +2773,30 @@ $(document).ready(function () {
 
             }
 
+            ub.save_pattern = function (material_option, pattern_obj, pattern_id, clone, layer_colors_obj, opacity, rotation, position, scale) {
 
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
+                
+                object.pattern.pattern_id = pattern_id;
+                object.pattern.pattern_obj = pattern_obj;
+                object.pattern.position = position;
+                object.pattern.rotation = rotation;
+                object.pattern.scale = scale;
+                object.pattern.opacity = opacity;
+
+            };
+
+            ub.save_pattern_color = function (material_option, layer, color) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
+                
+                object.pattern.pattern_obj.layers[layer].color = color;
+
+            }
 
         /// End Utilities ///
 
@@ -2788,6 +2833,77 @@ $(document).ready(function () {
         });
 
     /// End Reposition All Tethers
+
+    /// Generate Pattern 
+
+    ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
+
+        var uniform_type = ub.current_material.material.type;
+        var target_name = target.replace('_', ' ');
+        var pattern_settings = '';
+        var views = ub.data.views;
+
+        target_name = util.toTitleCase(target_name);
+
+        pattern_settings = ub.current_material.containers[uniform_type][target_name];
+        pattern_settings.containers = {};
+
+        _.each(views, function (v){
+
+            pattern_settings.containers[v] = {};
+            
+            var namespace = pattern_settings.containers[v];
+            namespace.container = new PIXI.Container();
+            var container = namespace.container;
+            container.sprites = {};
+
+            _.each(clone.layers, function (layer, index) {
+
+                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                var sprite = container.sprites[index];
+
+                sprite.zIndex = layer.layer_number * -1;
+                sprite.tint = parseInt(layer.default_color,16);
+                sprite.anchor.set(0.5,0.5);
+
+                sprite.tint = clone.layers[index].color
+                container.addChild(sprite);
+
+                container.alpha = opacity;
+                container.position = new PIXI.Point(position.x, position.y);
+
+            });
+
+            ub.updateLayersOrder(container);
+
+            var view = v + '_view';
+            var mask = ub.objects[view][target + "_mask"];
+
+            if(typeof mask === 'undefined') {
+                return;
+            }
+
+            container.mask = mask;
+            container.rotation = rotation
+
+            if (typeof ub.objects[view]['pattern_' + target] === 'object') {
+                ub[view].removeChild(ub.objects[view]['pattern_' + target]);
+            }
+
+            ub.objects[view]['pattern_' + target] = container;
+            ub[view].addChild(container);
+            container.zIndex = mask.zIndex + (-1);
+
+            ub.updateLayersOrder(ub[view]);
+
+        });
+
+    }
+
+    /// End Generate Pattern
+
 
     // New Design
     $('.new-design').on('click', function () {

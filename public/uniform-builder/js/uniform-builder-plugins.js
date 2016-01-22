@@ -51,14 +51,11 @@
 
             var el = $(this);
             var el_parent = el.parent();
-
             var color = el_parent.find('input').val();
             var color_stop_index = el_parent.find('input').data('index');
             var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
-
             var code = target_name;
             var name = target_name.replace('_',' ').toUpperCase();
-
             var header = '';
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
@@ -112,13 +109,18 @@
                     var color = parseInt($(this).data('color-code'), 16);
                     var uniform_type = 'upper'; // TODO: Parameterized this.
                     var views = ['front', 'back', 'left', 'right'];
-                    var c = ub.current_material.settings[uniform_type][target].pattern.containers;
+                    
+                    var c = ub.current_material.containers[uniform_type][target].pattern_containers;
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
                     });
 
                     ub.refresh_thumbnails();
+
+                    var _material_option = target.toLowerCase().replace(' ', '_');
+
+                    ub.save_pattern_color(_material_option, layer_no, color);
 
                 }
 
