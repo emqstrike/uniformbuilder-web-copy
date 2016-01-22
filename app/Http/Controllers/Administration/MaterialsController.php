@@ -44,6 +44,7 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
+        dd($materials);
         foreach ($materials as &$material)
         {
             $options = $this->optionsClient->getByMaterialId($material->id);
@@ -52,7 +53,7 @@ class MaterialsController extends Controller
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
-dd($materials);
+
         return view('administration.materials.materials', [
             'materials' => $materials,
             'colors' => $colors,
