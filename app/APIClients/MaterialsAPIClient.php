@@ -17,7 +17,7 @@ class MaterialsAPIClient extends APIClient
         if ($result->success)
         {
             $materials = $result->materials;
-        }
+        }dd($materials);
         return $materials;
     }
 
