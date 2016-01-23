@@ -2135,6 +2135,27 @@ $(document).ready(function () {
                         var container = namespace.container;
                         container.sprites = {};
 
+                        /// Process Rotation
+
+                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+
+                        container.rotation = value / 100;
+                        container_rotation = container.rotation;
+
+                        /// End Rotation
+
+                        /// Process Scale 
+
+                        var $scale_slider = $('div#scale_pattern_slider_' + target);
+                        var value = $scale_slider.limitslider("values")[0];
+                        var scale = new PIXI.Point(value / 100, value / 100);
+
+                        container.scale = scale
+                        container_scale = container.scale;
+
+                        /// End Process Scale
+
                         _.each(clone.layers, function (layer, index) {
 
                             var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
@@ -2165,9 +2186,17 @@ $(document).ready(function () {
                             var x = ub.dimensions.width * (x_value / 100);
                             var y = ub.dimensions.height * (y_value / 100);
 
-                            layer.container_position = new PIXI.Point(x, y);
-
                             container.position = new PIXI.Point(x,y);
+
+                            // Properties for use when loading pattern from saved designs
+
+                            layer.color = sprite.tint;
+                            layer.container_position = container.position;
+                            layer.container_opacity =container.alpha;
+                            layer.container_rotation = container_rotation;
+                            layer.container_scale = container_scale;
+
+                            // End Properties for use when loading pattern from saved designs
 
                         });
 
@@ -2181,25 +2210,6 @@ $(document).ready(function () {
                         }
 
                         container.mask = mask;
-
-                        /// Process Rotation
-
-                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
-                        var value = parseInt($rotation_slider.find('span.edit').html());
-
-                        container.rotation = value / 100
-
-                        /// End Rotation
-
-                        /// Process Scale 
-
-                        var $scale_slider = $('div#scale_pattern_slider_' + target);
-                        var value = $scale_slider.limitslider("values")[0];
-                        var scale = new PIXI.Point(value / 100, value / 100);
-
-                        container.scale = scale
-
-                        /// End Process Scale
 
                         if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                             ub[view].removeChild(ub.objects[view]['pattern_' + target]);
@@ -2871,13 +2881,14 @@ $(document).ready(function () {
                 sprite.anchor.set(0.5,0.5);
 
                 sprite.tint = clone.layers[index].color
+
                 container.addChild(sprite);
 
-                // container.alpha = opacity;
-                container.alpha = 1;
-
                 container.position = layer.container_position;
-
+                container.alpha = layer.container_opacity;
+                container.rotation = layer.container_rotation;
+                container.scale = layer.container_scale;
+                
             });
 
             ub.updateLayersOrder(container);
@@ -2890,8 +2901,7 @@ $(document).ready(function () {
             }
 
             container.mask = mask;
-            container.rotation = rotation
-
+            
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                 ub[view].removeChild(ub.objects[view]['pattern_' + target]);
             }
