@@ -2165,6 +2165,8 @@ $(document).ready(function () {
                             var x = ub.dimensions.width * (x_value / 100);
                             var y = ub.dimensions.height * (y_value / 100);
 
+                            layer.container_position = new PIXI.Point(x, y);
+
                             container.position = new PIXI.Point(x,y);
 
                         });
@@ -2871,8 +2873,10 @@ $(document).ready(function () {
                 sprite.tint = clone.layers[index].color
                 container.addChild(sprite);
 
-                container.alpha = opacity;
-                container.position = new PIXI.Point(position.x, position.y);
+                // container.alpha = opacity;
+                container.alpha = 1;
+
+                container.position = layer.container_position;
 
             });
 
