@@ -2765,7 +2765,7 @@ $(document).ready(function () {
                 var uniform_type = ub.current_material.material.type; // upper or lower
                 var uniform = ub.current_material.settings[uniform_type];
 
-                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
                 object.color = color;
 
                 return object;
@@ -2777,7 +2777,7 @@ $(document).ready(function () {
                 var uniform_type = ub.current_material.material.type; // upper or lower
                 var uniform = ub.current_material.settings[uniform_type];
 
-                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
                 object.gradient['gradient_obj'] = gradient_obj;
                 object.gradient['rotation'] = rotation;
 
