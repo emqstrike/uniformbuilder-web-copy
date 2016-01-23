@@ -458,6 +458,7 @@ $(document).ready(function () {
 
             }
 
+
             ub.change_material_option_color16(e.code, e.color);
 
             if(typeof e.gradient !== 'undefined'){
@@ -480,6 +481,14 @@ $(document).ready(function () {
 
             }
 
+        });
+
+        /// Load Applications, Text Type
+
+        _.each(ub.current_material.settings.applications, function (application_obj) {
+
+            ub.create_application (application_obj);
+                
         });
 
     };
@@ -529,6 +538,7 @@ $(document).ready(function () {
         settings[type].code = current_material.code;
 
         ub.current_material.containers[type] = {};
+        ub.current_material.containers[type].application_containers = {};
 
         _.each(material_options, function (material_option) {
 
@@ -2748,7 +2758,6 @@ $(document).ready(function () {
                 $('#view_pattern').toggle();
             });
 
-            // Here Now...
             // Save Color in Configuration Object
 
             // Process
@@ -2804,7 +2813,267 @@ $(document).ready(function () {
                 
                 object.pattern.pattern_obj.layers[layer].color = color;
 
+            };
+
+            ub.create_application = function (application_obj) {
+                
+                // console.log('Application Code: ' + application_obj.application.code);
+                // console.dir(application_obj);
+
+                if (application_obj.text.length === 0) { return; }
+
+                var application = application_obj.application;
+
+                var x = ub.dimensions.width * application.position.x;
+                var y = ub.dimensions.height * application.position.y;
+
+                var settings = ub.current_material.settings;
+                var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+                var font_obj = application_obj.font_obj;
+                var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
+                var color_array = application_obj.color_array;
+
+                var text_input = application_obj.text;
+                var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
+
+                // settings.applications[application.code] = {
+                //     application: application,
+                //     text: text_input,
+                //     type: 'player_number',
+                //     color_array: {},
+                //     object_type: 'text object',
+                //     appliation_type: plugin_type,
+                //     code: application.code,
+                //     font_obj: font_obj,
+                // };
+
+                // var uniform_type = ub.current_material.material.type;
+                // var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                // app_containers[application.code] = {};
+                // app_containers[application.code].object = {
+
+                //     sprite: sprite, 
+
+                // };
+
+                // if (color_array !== ''){
+                //     settings.applications[application.code].color_array = color_array;
+                // }
+
+
+                var view = ub[application.perspective + '_view'];
+                var view_objects = ub.objects[application.perspective + '_view'];
+                var mask = _.find(ub.current_material.material.options, {
+                    perspective: application.perspective,
+                    name: application.layer
+                });
+
+                var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+                sprite.mask = mask;
+
+                var position = '';
+                var scale = '';
+                var rotation = '';
+                var alpha = '';
+                var tint = '';
+
+                var s = view_objects['objects_' + application.code];
+
+                // /// Set First Three Colors
+
+                var colors_obj = ub.get_colors_obj(application.layer);
+                var length = sprite.children.length;
+                var children = _.clone(sprite.children);
+
+                children.reverse();
+
+                _.each(children, function (child, index) {
+
+                    child.tint = parseInt(child.ubDefaultColor, 16);
+
+                    if(color_array !== ''){
+
+                        var array = ub.current_material.settings.applications[application.code].color_array;
+                        var color_array_size = _.size(array);
+                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
+
+                        if (typeof code !== 'undefined') {
+                            
+                            child.tint = parseInt(code.color_code, 16);
+
+                        }
+
+                    }
+
+                });
+         
+                // /// End Set First Three Colors 
+
+                view_objects['objects_' + application.code] = sprite;
+                view.addChild(sprite);
+
+                sprite.position.x = x;
+                sprite.position.y = y;
+                sprite.rotation = application.rotation;
+
+                if(sprite.width === 1) {
+
+                    sprite.position.x -= (sprite.width / 2);
+                    sprite.position.y -= (sprite.height / 2);
+
+                }
+
+
+                var layer_order = ( 10 + application.layer_order ) 
+
+                sprite.originalZIndex = layer_order * (-1);
+                sprite.zIndex = layer_order * (-1);
+                settings.applications[application.code].layer_order = layer_order;
+
+                ub.updateLayersOrder(view);
+
+                if (position !== '') {
+
+                    sprite.position = position;
+                    sprite.scale = scale;
+                    sprite.rotation = rotation;
+                    sprite.alpha = alpha;
+                    sprite.tint = tint;
+
+                }
+
+                // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+                // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+
+                ub.funcs.createClickable(sprite, application, view, 'application');
+
+            };
+
+            ub.create_text = function (text_input, font_name, application, accent_obj, font_size) {
+
+                ub.funcs.removeUIHandles();
+
+                var text_layers = {};
+                var container = new PIXI.Container();
+
+                var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+
+                var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
+
+                $other_color_container.html('');
+
+                _.each(accent_obj.layers, function (layer) {
+
+                    var text_layer = '';
+
+                    text_layers[layer.layer_no] = {};
+                    text_layer = text_layers[layer.layer_no];
+
+                    text_layer.no = layer.layer_no;
+                    text_layer.accent_obj = layer;
+
+                    var style = {font: font_size + "px " + font_name, fill: "white", padding: 10};
+
+                    if (layer.outline === 1) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+
+                    }
+
+                    if (layer.outline === 2) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 12;
+
+                        if (typeof layer.type === 'string') {
+                            style.stroke = '#ffffff';
+                        }
+
+                    }
+
+                    if (layer.type === 'middle_stroke' && layer.outline === 1) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+
+                    }
+
+                    if (layer.type === 'outer_stroke' && layer.outline === 2) {
+
+                        style.stroke = '#ffffff';0
+                        style.strokeThickness = 12;
+
+                    }
+
+                    if (layer.type === 'outer_stroke' && layer.outline === 1) {
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+                    }
+
+                    if (layer.type === 'shadow' && layer.outline > 0) {
+                        style.fill = '#ffffff';
+                        style.stroke = '#ffffff';
+                    }
+
+                    text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+                    
+                    /// Custom Properties
+
+                    text_layer.text_sprite.ubName = layer.name;
+                    text_layer.text_sprite.ubDefaultColor = layer.default_color;
+                    text_layer.text_sprite.ubLayerNo = layer.layer_no;
+
+                    var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
+
+                    text_layer.text_sprite.zIndex = layer.zIndex;
+                    text_layer.text_sprite.x += dummy.width * layer.increment_x;
+                    text_layer.text_sprite.y += dummy.height * layer.increment_y;
+                    text_layer.text_sprite.anchor.set(0.5, 0.5);
+
+                    container.addChild(text_layer.text_sprite);
+
+                    if (layer.name !== 'Base Color' && layer.name !== 'Mask') {
+                        
+                        $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
+
+                        var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
+                        create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+
+                    }
+
+                    if (layer.name === 'Mask') {
+                        text_layer.text_sprite.alpha = 0                
+                    }
+
+                });
+
+                ub.updateLayersOrder(container);
+
+                return container;
+                
             }
+
+            ub.get_colors_obj = function (layer) {
+
+                var colors_obj = '';
+
+                var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(layer)});
+                var material_colors = JSON.parse(material_option_obj.colors);
+
+                var colors_obj = _.filter(ub.data.colors, function(color){
+                    
+                    var s = _.indexOf(material_colors, color.color_code);
+                    return s !== -1;
+
+                });
+
+                return colors_obj;
+
+            }
+
 
         /// End Utilities ///
 
