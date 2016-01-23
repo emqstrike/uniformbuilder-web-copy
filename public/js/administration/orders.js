@@ -106,7 +106,9 @@ $(document).ready(function(){
     });
 
 $('.view-builder-customization').on('click', function(){
-        var builder_customization = JSON.stringify($(this).data('builder-customization').replace(/\\/g, ''));
-    console.dir(builder_customization);
+    var data = $(this).data('builder-customization');
+    var builder_customization = data.replace(/\\/g, '');
+    var json = JSON.parse(builder_customization);
+    console.dir(json);
     });
 });
