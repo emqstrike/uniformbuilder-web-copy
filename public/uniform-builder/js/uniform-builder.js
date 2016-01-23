@@ -2225,7 +2225,7 @@ $(document).ready(function () {
                     });
 
                     ub.refresh_thumbnails();
-                    ub.save_pattern (target, clone, pattern, el, _container.alpha, _container.rotation, _container.position, _container.scale);
+                    ub.save_pattern (target, clone, pattern);
 
                 });
 
@@ -2785,7 +2785,7 @@ $(document).ready(function () {
 
             }
 
-            ub.save_pattern = function (material_option, pattern_obj, pattern_id, clone, layer_colors_obj, opacity, rotation, position, scale) {
+            ub.save_pattern = function (material_option, pattern_obj, pattern_id) {
 
                 var uniform_type = ub.current_material.material.type; // upper or lower
                 var uniform = ub.current_material.settings[uniform_type];
@@ -2793,11 +2793,7 @@ $(document).ready(function () {
                 
                 object.pattern.pattern_id = pattern_id;
                 object.pattern.pattern_obj = pattern_obj;
-                object.pattern.position = position;
-                object.pattern.rotation = rotation;
-                object.pattern.scale = scale;
-                object.pattern.opacity = opacity;
-
+                
             };
 
             ub.save_pattern_color = function (material_option, layer, color) {
