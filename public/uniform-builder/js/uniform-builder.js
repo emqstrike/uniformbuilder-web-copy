@@ -2926,6 +2926,13 @@ $(document).ready(function () {
                 if (typeof gradient_obj !== 'undefined') {
                     ub.generate_gradient_for_text(gradient_obj, application.code, sprite, application);    
                 }
+
+                pattern_obj = ub.current_material.settings.applications[application.code].pattern_obj;
+
+                if (typeof pattern_obj !== 'undefined') {
+                    pattern_settings = ub.current_material.settings.applications[application.code].pattern_settings;
+                    ub.generate_pattern_for_text(application.code, pattern_obj, application, sprite, pattern_settings);
+                }
                 
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
@@ -2963,6 +2970,102 @@ $(document).ready(function () {
                 // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
                 ub.funcs.createClickable(sprite, application, view, 'application');
+
+            };
+
+            ub.save_text_pattern_color = function (application, layer, color) {
+
+                ub.current_material.settings.applications[application.code].pattern_obj.layers[layer].default_color = color;
+
+            };
+
+            ub.generate_pattern_for_text = function (target, pattern_obj, application, text_sprite, pattern_settings){
+
+                var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
+                main_text_obj.alpha = 1;
+                var uniform_type = ub.current_material.material.type;
+                var clone = pattern_obj;
+
+
+                var val_rotation = pattern_settings.rotation;
+                var val_opacity = 1;
+                var val_scale = pattern_settings.scale;
+                var val_x_position = pattern_settings.position.x;
+                var val_y_position = pattern_settings.position.y;
+
+                var target_name = target.replace('_', ' ');
+                target_name = util.toTitleCase(target_name);
+
+                ub.current_material.containers[application.code] = {};
+                var application_settings = ub.current_material.containers[application.code]
+                
+                if(typeof application_settings.pattern === 'undefined') {
+
+                    application_settings.pattern = new PIXI.Container();
+
+                }
+
+                var container = application_settings.pattern;
+                var v = application.perspective;
+                container.sprites = {};
+
+                _.each(clone.layers, function (layer, index) {
+
+                    // var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                    container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                    var sprite = container.sprites[index];
+
+                    sprite.zIndex = layer.layer_number * -1;
+                    sprite.tint = parseInt(layer.default_color,16);
+                    sprite.anchor.set(0.5, 0.5);
+
+                    // var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
+                    // var val = $inputbox.val();
+                    
+                    // if (val.length === 7) {
+                    //     val = val.substr(1, 6);
+                    // }
+
+                    // sprite.tint = parseInt(val, 16);
+
+                    container.addChild(sprite);
+
+                    container.alpha = val_opacity;
+
+                    var x = val_x_position;
+                    var y = val_y_position;
+
+                    container.position = new PIXI.Point(x,y);
+
+                });
+
+                ub.updateLayersOrder(container);
+
+                var view = v + '_view';
+                var mask = main_text_obj;
+
+                if(typeof mask === 'undefined') {
+                    return;
+                }
+
+                // container.rotation = val_rotation;
+                // container.scale = new PIXI.Point(val_scale , val_scale);
+                // container.position = new PIXI.Point(val_x_position, val_y_position);
+
+                var mask = main_text_obj;
+
+                text_sprite.pattern_layer = container;
+                container.mask = mask;
+                container.zIndex = -11;
+
+                ub.pl = container;
+
+                text_sprite.addChild(text_sprite.pattern_layer);
+
+                ub.updateLayersOrder(text_sprite);
+                ub.refresh_thumbnails();
+
 
             };
 

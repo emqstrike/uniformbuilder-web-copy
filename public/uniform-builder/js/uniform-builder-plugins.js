@@ -126,13 +126,15 @@
 
                 if (settings.type === 'text_pattern') {
 
-                    var pattern = ub.current_material.settings.applications[settings.application.code].pattern;
+                    var pattern = ub.current_material.containers[settings.application.code].pattern;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
                     pattern.children[layer_no].tint = color;
                     ub.refresh_thumbnails();
+
+                    ub.save_text_pattern_color(settings.application, layer_no, color);
 
                 }
                 
@@ -672,6 +674,9 @@
                     code: application.code,
                     font_obj: font_obj,
                     gradient_obj: undefined,
+                    gradient_settings: undefined,
+                    pattern_obj: undefined,
+                    pattern_settings: undefined,
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -1505,7 +1510,9 @@
             var target_name = target.replace('_', ' ');
             target_name = util.toTitleCase(target_name);
 
-            var application_settings = ub.current_material.settings.applications[application.code]
+            ub.current_material.containers[application.code] = {};
+
+            var application_settings = ub.current_material.containers[application.code];
             
             if(typeof application_settings.pattern === 'undefined') {
 
@@ -1581,7 +1588,21 @@
             text_sprite.addChild(text_sprite.pattern_layer);
 
             ub.updateLayersOrder(text_sprite);
+
+            ub.current_material.settings.applications[application.code].pattern_obj = clone;
+            ub.current_material.settings.applications[application.code].pattern_settings = {
+
+                rotation: container.rotation,
+                scale: container.scale,
+                position: container.position,
+                opcity: container.opacity, 
+
+            }
+
+
             ub.refresh_thumbnails();
+
+
 
         });
 
