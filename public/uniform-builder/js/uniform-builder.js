@@ -509,9 +509,6 @@ $(document).ready(function () {
                 
         });
 
-        console.log("Font Families");
-        console.log(font_families);
-
     };
 
     // Initialize uniform settings
