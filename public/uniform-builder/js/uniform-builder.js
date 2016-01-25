@@ -446,9 +446,6 @@ $(document).ready(function () {
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings = settings;
-        // ToDo: Redraw the canvas ~ Arthur's part here
-
-        //ub.objects.front_view.body.tint = ub.current_material.settings.upper.Body.color;
 
         _.each(ub.current_material.settings.upper, function(e){
 
@@ -492,8 +489,6 @@ $(document).ready(function () {
 
             if (application_obj.type === "player_name" || application_obj.type === "player_number" || application_obj.type === "team_name") {
 
-                // font_families.push(application_obj.font_obj.name);
-
                 WebFont.load({
                 
                     custom: {
@@ -508,9 +503,6 @@ $(document).ready(function () {
             }
                 
         });
-
-        console.log("Font Families");
-        console.log(font_families);
 
     };
 
@@ -2928,6 +2920,13 @@ $(document).ready(function () {
          
                 // /// End Set First Three Colors 
 
+
+                gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
+                
+                if (typeof gradient_obj !== 'undefined') {
+                    ub.generate_gradient_for_text(gradient_obj, application.code, sprite, application);    
+                }
+                
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
@@ -2966,6 +2965,132 @@ $(document).ready(function () {
                 ub.funcs.createClickable(sprite, application, view, 'application');
 
             };
+
+            ub.generate_gradient_for_text = function (gradient_obj, target, text_sprite, application) {
+
+            var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
+            main_text_obj.alpha = 1;  
+            var uniform_type = ub.current_material.material.type;
+            var bounds;
+            var guides;
+
+            if (uniform_type === "upper") {
+
+                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
+
+            }
+            else {
+
+                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
+
+            }
+
+            var gradient_width  = 496;
+            var gradient_height = 550;
+            var canvas = document.createElement('canvas');
+
+            canvas.width = ub.dimensions.width;
+            canvas.height = ub.dimensions.height;
+
+            var ctx = canvas.getContext('2d');
+
+            var gradient;
+
+            if (gradient_obj.code === "radial" ) {
+
+                var center_x = 250;
+                var center_y = 250;
+
+                var radius_inner_circle = 20;
+                var radius_outer_circle = 100;
+
+                var canvas_width = 496;
+                var canvas_height = 550;
+
+                var origin_x = canvas_width / 2;
+                var origin_y = canvas_height / 2;
+
+                gradient = ctx.createRadialGradient(center_x, center_y, radius_inner_circle, center_x, center_y, radius_outer_circle);
+
+            }
+            else {
+
+                gradient = ctx.createLinearGradient(0,22,0,410);
+
+            }
+            
+            _.each(gradient_obj.color_stops, function (color_stop) {
+                gradient.addColorStop(color_stop.value, color_stop.color);
+            });
+
+            ctx.fillStyle = gradient;
+
+            var rotation = gradient_obj.angle;
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            var dURL = canvas.toDataURL();
+
+            ctx.clearRect(0,0, ub.dimensions.height, ub.dimensions.height);
+            ctx.translate(canvas.width/2, canvas.height/2);
+            ctx.rotate(rotation * Math.PI/180);
+            ctx.translate(-canvas.width/2, -canvas.height/2);
+            ctx.fillRect(0,0, ub.dimensions.height, ub.dimensions.height);
+
+            var texture = PIXI.Texture.fromCanvas(canvas);
+            var temp_pattern = {};
+
+            var gradient_layer = new PIXI.Sprite(texture);
+            gradient_layer.zIndex = 1;
+
+            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            }
+
+            ub.objects.pattern_view.gradient_layer = gradient_layer;
+            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            ub.updateLayersOrder(ub.pattern_view);
+            
+            var v = application.perspective;
+            var view = v + '_view';
+
+            temp_pattern[v] = new PIXI.Sprite(texture);
+
+            if(typeof text_sprite.gradient_layer === "object" ){
+
+                text_sprite.removeChild(text_sprite.gradient_layer);
+
+            }
+            
+            temp_pattern[v].zIndex = 1;
+  
+            var mask = main_text_obj;
+
+            text_sprite.gradient_layer = temp_pattern[v];
+            temp_pattern[v].anchor.set(0.5, 0.5);
+            temp_pattern[v].mask = mask;
+            temp_pattern[v].zIndex = -10;
+
+            temp_pattern[v].height = main_text_obj.height;
+            text_sprite.addChild(temp_pattern[v]);
+      
+            ub.updateLayersOrder(text_sprite);
+            ub.refresh_thumbnails();
+
+            var data_url = 'url(' + dURL + ')';
+            var $slider = $('#' + 'gradient_slider_' + target);
+            var $angle_slider = $('#' + 'angle_gradient_slider_' + target);
+           
+            $slider.find('.range_container').remove();
+            $slider.prepend('<div class="range_container"><div class="range"></div></div>').find('div.range').css('background-image', data_url);
+
+            var rad = (90 + parseInt($angle_slider.find('span.edit').html()));
+            
+            $angle_slider.find('div.rs-bg-color').css({
+                'background-image': data_url,
+                "-webkit-transform": "rotate(" + rotation + "deg)",
+            });
+
+
+        };
 
             ub.create_text = function (text_input, font_name, application, accent_obj, font_size) {
 
