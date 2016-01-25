@@ -74,6 +74,7 @@ class MaterialsOptionsAPIClient extends APIClient
     {
         $response = $this->get('materials_options/' . $materialId);
         $result = $this->decoder->decode($response->getBody());
+
         if ($result->success)
         {
             return $result->materials_options;

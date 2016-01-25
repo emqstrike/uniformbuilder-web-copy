@@ -16,7 +16,7 @@
         ×
     </button>
 
-    <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
 

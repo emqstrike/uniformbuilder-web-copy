@@ -104,4 +104,12 @@ $(document).ready(function(){
             }
         });
     });
+
+$('.view-builder-customization').on('click', function(){
+    var data = $(this).data('builder-customization');
+    var builder_customization = data.replace(/\\/g, '');
+    var trimmed_str = builder_customization.substring(1, builder_customization.length-1);
+    var json = JSON.parse(trimmed_str);
+    console.dir(json);
+    });
 });
