@@ -1824,6 +1824,7 @@ $(document).ready(function(){
         });
 
         font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
+        console.log(font_builder);
         $("head").prepend(font_builder);
 
     };
