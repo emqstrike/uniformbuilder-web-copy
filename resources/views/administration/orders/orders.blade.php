@@ -23,6 +23,7 @@
                             <th>Lower Uniform</th>
                             <th>Status</th>
                             <th>Actions</th>
+                            <th>JSON</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,6 +96,12 @@
                                     Remove
                                 </a>
                             </td>
+                            <td>
+                                <button class='btn btn-warning btn-xs view-builder-customization'
+                                    data-builder-customization="{{ $order->builder_customizations }}">
+                                    View JSON
+                                </button>
+                            </td>
                         </tr>
 
                     @empty
@@ -115,6 +122,8 @@
 </section>
 
 @include('administration.orders.order-view-modal')
+
+@include('administration.orders.order-view-json-modal')
 
 @include('partials.confirmation-modal')
 

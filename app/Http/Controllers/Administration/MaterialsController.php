@@ -44,13 +44,13 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
-        foreach ($materials as &$material)
+
+        foreach ($materials as $material)
         {
             $options = $this->optionsClient->getByMaterialId($material->id);
             $material->options = $options;
         }
 
-dd($materials);
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
 
