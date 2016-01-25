@@ -51,14 +51,11 @@
 
             var el = $(this);
             var el_parent = el.parent();
-
             var color = el_parent.find('input').val();
             var color_stop_index = el_parent.find('input').data('index');
             var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
-
             var code = target_name;
             var name = target_name.replace('_',' ').toUpperCase();
-
             var header = '';
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
@@ -112,13 +109,18 @@
                     var color = parseInt($(this).data('color-code'), 16);
                     var uniform_type = 'upper'; // TODO: Parameterized this.
                     var views = ['front', 'back', 'left', 'right'];
-                    var c = ub.current_material.settings[uniform_type][target].pattern.containers;
+                    
+                    var c = ub.current_material.containers[uniform_type][target].pattern_containers;
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
                     });
 
                     ub.refresh_thumbnails();
+
+                    var _material_option = target.toLowerCase().replace(' ', '_');
+
+                    ub.save_pattern_color(_material_option, layer_no, color);
 
                 }
 
@@ -653,12 +655,32 @@
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
 
+                var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+                var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+                var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
+
+
                 settings.applications[application.code] = {
                     application: application,
+                    accent_obj: accent_obj,
+                    font_size: font_size, 
                     text: text_input,
-                    text_obj: sprite,
                     type: 'player_number',
                     color_array: {},
+                    object_type: 'text object',
+                    appliation_type: plugin_type,
+                    code: application.code,
+                    font_obj: font_obj,
+                };
+
+                var uniform_type = ub.current_material.material.type;
+                var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                app_containers[application.code] = {};
+                app_containers[application.code].object = {
+
+                    sprite: sprite, 
+
                 };
 
                 if (color_array !== ''){
@@ -753,6 +775,9 @@
 
                 ub.updateLayersOrder(view);
 
+
+                app = settings.applications[application.code];
+
                 if (position !== '') {
 
                     sprite.position = position;
@@ -761,6 +786,15 @@
                     sprite.alpha = alpha;
                     sprite.tint = tint;
 
+                    app.position = position;
+                    app.scale = scale;
+                    app.rotation = rotation;
+                    app.alpha = alpha;
+
+                }
+                else
+                {
+                    app.position = '';
                 }
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
@@ -1139,12 +1173,23 @@
 
                         if (app.type === 'player_number' || app.type === 'player_name' || app.type === 'team_name') {
 
-                            var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
+                            /// var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
+
+                            ////
+
+                            var uniform_type = ub.current_material.material.type;
+                            var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                            s = app_containers[settings.application.code].object.sprite;
+                            var sprite = _.find(s.children, {ubName: 'Base Color'});
+                            app.color_array[0] = parseInt(color_code, 16);
+                
+                            ////    
 
                             sprite.tint = parseInt(color_code, 16);    
                             app.color_array[sprite.ubLayerNo] = {};
                             app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
-                            app.color_array[sprite.ubLayerNo].layer_no = _.first(app.text_obj.children).ubLayerNo;
+                            app.color_array[sprite.ubLayerNo].layer_no = _.first(s.children).ubLayerNo;
                             app.color_array[sprite.ubLayerNo].color_code = color_code;
                             sprite.tint = parseInt(color_code, 16); 
                             color_drop.nonce = false;

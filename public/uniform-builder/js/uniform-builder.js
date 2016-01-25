@@ -454,9 +454,10 @@ $(document).ready(function () {
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
 
-                return;
+                return; 
 
             }
+
 
             ub.change_material_option_color16(e.code, e.color);
 
@@ -467,14 +468,35 @@ $(document).ready(function () {
                     ub.generate_gradient(e.gradient.gradient_obj, e.code);    
 
                 }    
+
             }
-            
+
+            if(typeof e.pattern !== 'undefined'){
+
+                if (typeof e.pattern.pattern_obj !== 'undefined') {
+
+                    ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+         
+                }    
+
+            }
+
+        });
+
+        /// Load Applications, Text Type
+
+        _.each(ub.current_material.settings.applications, function (application_obj) {
+
+            ub.create_application (application_obj);
+                
         });
 
     };
 
     // Initialize uniform settings
     ub.init = function () {
+
+        ub.current_material.containers = {};
 
         var settings = ub.current_material.settings;
 
@@ -515,6 +537,9 @@ $(document).ready(function () {
         settings[type].material_id = current_material.id;
         settings[type].code = current_material.code;
 
+        ub.current_material.containers[type] = {};
+        ub.current_material.containers[type].application_containers = {};
+
         _.each(material_options, function (material_option) {
 
             var name = '';
@@ -522,6 +547,9 @@ $(document).ready(function () {
 
             name = material_option.name;
             settings[type][name] = {};
+
+            ub.current_material.containers[type][name] = {};
+            ub.current_material.containers[type][name].pattern_containers = {};
 
             obj = settings[type][name];
 
@@ -533,6 +561,7 @@ $(document).ready(function () {
             
             obj.has_gradient = false;
             obj.has_pattern = false;
+            obj.pattern_containers = {};
             
             obj.gradient = {
                     gradient_obj: undefined,
@@ -559,6 +588,7 @@ $(document).ready(function () {
 
             obj.pattern = {
                 pattern_id: '',
+                pattern_obj: undefined,
                 scale: 0,
                 rotation: 0,
                 opacity: 0,
@@ -2097,23 +2127,44 @@ $(document).ready(function () {
                 $("button#update-pattern-" + target).click('click', function (e) {
 
                     var uniform_type = ub.current_material.material.type;
-
                     var target_name = target.replace('_', ' ');
                     target_name = util.toTitleCase(target_name);
 
-                    var pattern_settings = ub.current_material.settings[uniform_type][target_name].pattern;
-                    pattern_settings.containers = {};
+                    var pattern_settings = ub.current_material.containers[uniform_type][target_name];
+                    pattern_settings.pattern_containers = {};
 
                     var views = ub.data.views;
-                    
+                    var _container = undefined;
+
                     _.each(views, function (v){
 
-                        pattern_settings.containers[v] = {};
+                        pattern_settings.pattern_containers[v] = {};
                         
-                        var namespace = pattern_settings.containers[v];
+                        var namespace = pattern_settings.pattern_containers[v];
                         namespace.container = new PIXI.Container();
                         var container = namespace.container;
                         container.sprites = {};
+
+                        /// Process Rotation
+
+                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+                        var value = parseInt($rotation_slider.find('span.edit').html());
+
+                        container.rotation = value / 100;
+                        container_rotation = container.rotation;
+
+                        /// End Rotation
+
+                        /// Process Scale 
+
+                        var $scale_slider = $('div#scale_pattern_slider_' + target);
+                        var value = $scale_slider.limitslider("values")[0];
+                        var scale = new PIXI.Point(value / 100, value / 100);
+
+                        container.scale = scale
+                        container_scale = container.scale;
+
+                        /// End Process Scale
 
                         _.each(clone.layers, function (layer, index) {
 
@@ -2147,6 +2198,16 @@ $(document).ready(function () {
 
                             container.position = new PIXI.Point(x,y);
 
+                            // Properties for use when loading pattern from saved designs
+
+                            layer.color = sprite.tint;
+                            layer.container_position = container.position;
+                            layer.container_opacity =container.alpha;
+                            layer.container_rotation = container_rotation;
+                            layer.container_scale = container_scale;
+
+                            // End Properties for use when loading pattern from saved designs
+
                         });
 
                         ub.updateLayersOrder(container);
@@ -2160,25 +2221,6 @@ $(document).ready(function () {
 
                         container.mask = mask;
 
-                        /// Process Rotation
-
-                        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
-                        var value = parseInt($rotation_slider.find('span.edit').html());
-
-                        container.rotation = value / 100
-
-                        /// End Rotation
-
-                        /// Process Scale 
-
-                        var $scale_slider = $('div#scale_pattern_slider_' + target);
-                        var value = $scale_slider.limitslider("values")[0];
-                        var scale = new PIXI.Point(value / 100, value / 100);
-
-                        container.scale = scale
-
-                        /// End Process Scale
-
                         if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                             ub[view].removeChild(ub.objects[view]['pattern_' + target]);
                         }
@@ -2188,10 +2230,12 @@ $(document).ready(function () {
                         container.zIndex = mask.zIndex + (-1);
 
                         ub.updateLayersOrder(ub[view]);
+                        _container = container;
 
                     });
 
                     ub.refresh_thumbnails();
+                    ub.save_pattern (target, clone, pattern);
 
                 });
 
@@ -2714,7 +2758,6 @@ $(document).ready(function () {
                 $('#view_pattern').toggle();
             });
 
-            // Here Now...
             // Save Color in Configuration Object
 
             // Process
@@ -2731,7 +2774,7 @@ $(document).ready(function () {
                 var uniform_type = ub.current_material.material.type; // upper or lower
                 var uniform = ub.current_material.settings[uniform_type];
 
-                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
                 object.color = color;
 
                 return object;
@@ -2743,7 +2786,7 @@ $(document).ready(function () {
                 var uniform_type = ub.current_material.material.type; // upper or lower
                 var uniform = ub.current_material.settings[uniform_type];
 
-                var object = _.find(ub.current_material.settings['upper'], {code: material_option});
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
                 object.gradient['gradient_obj'] = gradient_obj;
                 object.gradient['rotation'] = rotation;
 
@@ -2751,6 +2794,271 @@ $(document).ready(function () {
 
             }
 
+            ub.save_pattern = function (material_option, pattern_obj, pattern_id) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
+                
+                object.pattern.pattern_id = pattern_id;
+                object.pattern.pattern_obj = pattern_obj;
+                
+            };
+
+            ub.save_pattern_color = function (material_option, layer, color) {
+
+                var uniform_type = ub.current_material.material.type; // upper or lower
+                var uniform = ub.current_material.settings[uniform_type];
+                var object = _.find(ub.current_material.settings[uniform_type], {code: material_option});
+                
+                object.pattern.pattern_obj.layers[layer].color = color;
+
+            };
+
+            ub.create_application = function (application_obj) {
+                
+                // console.log('Application Code: ' + application_obj.application.code);
+                // console.dir(application_obj);
+
+                if (application_obj.text.length === 0) { return; }
+
+                var application = application_obj.application;
+
+                var x = ub.dimensions.width * application.position.x;
+                var y = ub.dimensions.height * application.position.y;
+
+                var settings = ub.current_material.settings;
+                var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+                var font_obj = application_obj.font_obj;
+                var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
+                var color_array = application_obj.color_array;
+
+                var text_input = application_obj.text;
+                var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
+
+                // settings.applications[application.code] = {
+                //     application: application,
+                //     text: text_input,
+                //     type: 'player_number',
+                //     color_array: {},
+                //     object_type: 'text object',
+                //     appliation_type: plugin_type,
+                //     code: application.code,
+                //     font_obj: font_obj,
+                // };
+
+                // var uniform_type = ub.current_material.material.type;
+                // var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                // app_containers[application.code] = {};
+                // app_containers[application.code].object = {
+
+                //     sprite: sprite, 
+
+                // };
+
+                // if (color_array !== ''){
+                //     settings.applications[application.code].color_array = color_array;
+                // }
+
+
+                var view = ub[application.perspective + '_view'];
+                var view_objects = ub.objects[application.perspective + '_view'];
+                var mask = _.find(ub.current_material.material.options, {
+                    perspective: application.perspective,
+                    name: application.layer
+                });
+
+                var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+                sprite.mask = mask;
+
+                var position = '';
+                var scale = '';
+                var rotation = '';
+                var alpha = '';
+                var tint = '';
+
+                var s = view_objects['objects_' + application.code];
+
+                // /// Set First Three Colors
+
+                var colors_obj = ub.get_colors_obj(application.layer);
+                var length = sprite.children.length;
+                var children = _.clone(sprite.children);
+
+                children.reverse();
+
+                _.each(children, function (child, index) {
+
+                    child.tint = parseInt(child.ubDefaultColor, 16);
+
+                    if(color_array !== ''){
+
+                        var array = ub.current_material.settings.applications[application.code].color_array;
+                        var color_array_size = _.size(array);
+                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
+
+                        if (typeof code !== 'undefined') {
+                            
+                            child.tint = parseInt(code.color_code, 16);
+
+                        }
+
+                    }
+
+                });
+         
+                // /// End Set First Three Colors 
+
+                view_objects['objects_' + application.code] = sprite;
+                view.addChild(sprite);
+
+                sprite.position.x = x;
+                sprite.position.y = y;
+                sprite.rotation = application.rotation;
+
+                if(sprite.width === 1) {
+
+                    sprite.position.x -= (sprite.width / 2);
+                    sprite.position.y -= (sprite.height / 2);
+
+                }
+
+
+                var layer_order = ( 10 + application.layer_order ) 
+
+                sprite.originalZIndex = layer_order * (-1);
+                sprite.zIndex = layer_order * (-1);
+                settings.applications[application.code].layer_order = layer_order;
+
+                ub.updateLayersOrder(view);
+
+                if (position !== '') {
+
+                    sprite.position = position;
+                    sprite.scale = scale;
+                    sprite.rotation = rotation;
+                    sprite.alpha = alpha;
+                    sprite.tint = tint;
+
+                }
+
+                // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+                // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+
+                ub.funcs.createClickable(sprite, application, view, 'application');
+
+            };
+
+            ub.create_text = function (text_input, font_name, application, accent_obj, font_size) {
+
+                ub.funcs.removeUIHandles();
+
+                var text_layers = {};
+                var container = new PIXI.Container();
+                var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+                
+                _.each(accent_obj.layers, function (layer) {
+
+                    var text_layer = '';
+
+                    text_layers[layer.layer_no] = {};
+                    text_layer = text_layers[layer.layer_no];
+
+                    text_layer.no = layer.layer_no;
+                    text_layer.accent_obj = layer;
+
+                    var style = {font: font_size + "px " + font_name, fill: "white", padding: 10};
+
+                    if (layer.outline === 1) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+
+                    }
+
+                    if (layer.outline === 2) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 12;
+
+                        if (typeof layer.type === 'string') {
+                            style.stroke = '#ffffff';
+                        }
+
+                    }
+
+                    if (layer.type === 'middle_stroke' && layer.outline === 1) {
+
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+
+                    }
+
+                    if (layer.type === 'outer_stroke' && layer.outline === 2) {
+
+                        style.stroke = '#ffffff';0
+                        style.strokeThickness = 12;
+
+                    }
+
+                    if (layer.type === 'outer_stroke' && layer.outline === 1) {
+                        style.stroke = '#ffffff';
+                        style.strokeThickness = 6;
+                    }
+
+                    if (layer.type === 'shadow' && layer.outline > 0) {
+                        style.fill = '#ffffff';
+                        style.stroke = '#ffffff';
+                    }
+
+                    text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+                    
+                    /// Custom Properties
+
+                    text_layer.text_sprite.ubName = layer.name;
+                    text_layer.text_sprite.ubDefaultColor = layer.default_color;
+                    text_layer.text_sprite.ubLayerNo = layer.layer_no;
+
+                    var dummy = new PIXI.Text("A", style) // To get the glyph width and height 
+
+                    text_layer.text_sprite.zIndex = layer.zIndex;
+                    text_layer.text_sprite.x += dummy.width * layer.increment_x;
+                    text_layer.text_sprite.y += dummy.height * layer.increment_y;
+                    text_layer.text_sprite.anchor.set(0.5, 0.5);
+
+                    container.addChild(text_layer.text_sprite);
+
+                    if (layer.name === 'Mask') {
+                        text_layer.text_sprite.alpha = 0                
+                    }
+
+                });
+
+                ub.updateLayersOrder(container);
+
+                return container;
+                
+            }
+
+            ub.get_colors_obj = function (layer) {
+
+                var colors_obj = '';
+
+                var material_option_obj = _.find(ub.current_material.materials_options, {name: window.util.toTitleCase(layer)});
+                var material_colors = JSON.parse(material_option_obj.colors);
+
+                var colors_obj = _.filter(ub.data.colors, function(color){
+                    
+                    var s = _.indexOf(material_colors, color.color_code);
+                    return s !== -1;
+
+                });
+
+                return colors_obj;
+
+            }
 
 
         /// End Utilities ///
@@ -2788,6 +3096,79 @@ $(document).ready(function () {
         });
 
     /// End Reposition All Tethers
+
+    /// Generate Pattern 
+
+    ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
+
+        var uniform_type = ub.current_material.material.type;
+        var target_name = target.replace('_', ' ');
+        var pattern_settings = '';
+        var views = ub.data.views;
+
+        target_name = util.toTitleCase(target_name);
+
+        pattern_settings = ub.current_material.containers[uniform_type][target_name];
+        pattern_settings.containers = {};
+
+        _.each(views, function (v){
+
+            pattern_settings.containers[v] = {};
+            
+            var namespace = pattern_settings.containers[v];
+            namespace.container = new PIXI.Container();
+            var container = namespace.container;
+            container.sprites = {};
+
+            _.each(clone.layers, function (layer, index) {
+
+                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                var sprite = container.sprites[index];
+
+                sprite.zIndex = layer.layer_number * -1;
+                sprite.tint = parseInt(layer.default_color,16);
+                sprite.anchor.set(0.5,0.5);
+
+                sprite.tint = clone.layers[index].color
+
+                container.addChild(sprite);
+
+                container.position = layer.container_position;
+                container.alpha = layer.container_opacity;
+                container.rotation = layer.container_rotation;
+                container.scale = layer.container_scale;
+                
+            });
+
+            ub.updateLayersOrder(container);
+
+            var view = v + '_view';
+            var mask = ub.objects[view][target + "_mask"];
+
+            if(typeof mask === 'undefined') {
+                return;
+            }
+
+            container.mask = mask;
+            
+            if (typeof ub.objects[view]['pattern_' + target] === 'object') {
+                ub[view].removeChild(ub.objects[view]['pattern_' + target]);
+            }
+
+            ub.objects[view]['pattern_' + target] = container;
+            ub[view].addChild(container);
+            container.zIndex = mask.zIndex + (-1);
+
+            ub.updateLayersOrder(ub[view]);
+
+        });
+
+    }
+
+    /// End Generate Pattern
+
 
     // New Design
     $('.new-design').on('click', function () {
