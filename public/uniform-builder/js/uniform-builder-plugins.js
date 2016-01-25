@@ -671,6 +671,7 @@
                     appliation_type: plugin_type,
                     code: application.code,
                     font_obj: font_obj,
+                    gradient_obj: undefined,
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -1732,7 +1733,7 @@
                 });
 
                 clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                generate_gradient(clone, target, text_sprite, application.perspective);
+                generate_gradient(clone, target, text_sprite, application);
 
             });
 
@@ -1798,7 +1799,9 @@
 
         };
 
-        var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
+        var generate_gradient = function (gradient_obj, target, text_sprite, application) {
+
+            ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;  
@@ -1881,7 +1884,7 @@
             ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
             ub.updateLayersOrder(ub.pattern_view);
             
-            var v = perspective;
+            var v = application.perspective;
             var view = v + '_view';
 
             temp_pattern[v] = new PIXI.Sprite(texture);
@@ -1920,6 +1923,7 @@
                 'background-image': data_url,
                 "-webkit-transform": "rotate(" + rotation + "deg)",
             });
+
 
         };
 
