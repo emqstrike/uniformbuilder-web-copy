@@ -67,7 +67,7 @@ class UniformBuilderController extends Controller
 
                     if(env('APP_ENV') === 'local') {
 
-                        $materialId = 11;
+                        $materialId = 20;
 
                     }
                     else {

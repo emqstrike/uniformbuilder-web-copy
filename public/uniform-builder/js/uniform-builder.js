@@ -485,11 +485,32 @@ $(document).ready(function () {
 
         /// Load Applications, Text Type
 
+
+        var font_families = [];
+
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            ub.create_application (application_obj);
+            if (application_obj.type === "player_name" || application_obj.type === "player_number" || application_obj.type === "team_name") {
+
+                // font_families.push(application_obj.font_obj.name);
+
+                WebFont.load({
+                
+                    custom: {
+                      families: [application_obj.font_obj.name]
+                    },
+                    active: function() {
+                        ub.create_application (application_obj);
+                    },
+
+                });
+
+            }
                 
         });
+
+        console.log("Font Families");
+        console.log(font_families);
 
     };
 
@@ -2816,16 +2837,13 @@ $(document).ready(function () {
             };
 
             ub.create_application = function (application_obj) {
-                
-                // console.log('Application Code: ' + application_obj.application.code);
-                // console.dir(application_obj);
 
                 if (application_obj.text.length === 0) { return; }
 
                 var application = application_obj.application;
 
-                var x = ub.dimensions.width * application.position.x;
-                var y = ub.dimensions.height * application.position.y;
+                var x = application_obj.position.x;
+                var y = application_obj.position.y;
 
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
@@ -2860,7 +2878,6 @@ $(document).ready(function () {
                 // if (color_array !== ''){
                 //     settings.applications[application.code].color_array = color_array;
                 // }
-
 
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
@@ -2924,7 +2941,6 @@ $(document).ready(function () {
                     sprite.position.y -= (sprite.height / 2);
 
                 }
-
 
                 var layer_order = ( 10 + application.layer_order ) 
 
