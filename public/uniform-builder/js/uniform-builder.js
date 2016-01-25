@@ -2957,13 +2957,8 @@ $(document).ready(function () {
 
                 var text_layers = {};
                 var container = new PIXI.Container();
-
                 var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
-
-                var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
-
-                $other_color_container.html('');
-
+                
                 _.each(accent_obj.layers, function (layer) {
 
                     var text_layer = '';
@@ -3034,15 +3029,6 @@ $(document).ready(function () {
                     text_layer.text_sprite.anchor.set(0.5, 0.5);
 
                     container.addChild(text_layer.text_sprite);
-
-                    if (layer.name !== 'Base Color' && layer.name !== 'Mask') {
-                        
-                        $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
-
-                        var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
-                        create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
-
-                    }
 
                     if (layer.name === 'Mask') {
                         text_layer.text_sprite.alpha = 0                
