@@ -230,7 +230,8 @@ class UniformBuilderController extends Controller
     public function saveOrder(Request $request)
     {
 
-        $fname = $this->createPDF($request->input('builder_customizations'));
+        // Disable PDF Creation for now
+        // $fname = $this->createPDF($request->input('builder_customizations'));
 
         $time_start = microtime(true);
         $perspectives = [
