@@ -481,7 +481,6 @@ $(document).ready(function () {
 
         /// Load Applications, Text Type
 
-
         var font_families = [];
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
@@ -491,7 +490,7 @@ $(document).ready(function () {
                 WebFont.load({
                 
                     custom: {
-                      families: [application_obj.font_obj.name]
+                      families: [application_obj.font_obj.name],
                     },
                     active: function() {
                         ub.create_application (application_obj);

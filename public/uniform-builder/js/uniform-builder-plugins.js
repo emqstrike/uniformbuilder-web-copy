@@ -631,7 +631,7 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                
+
                 var font_id = selected_font_id;
 
                 if (ub.config.app_env !== "local") {
@@ -639,7 +639,6 @@
                 }
                 
                 var font_obj = _.find(ub.data.fonts, {id: font_id });
-
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {
@@ -942,7 +941,7 @@
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
 
-            var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
+            var els = '';
 
             _.each(ub.data.fonts, function (item) {
                 els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';

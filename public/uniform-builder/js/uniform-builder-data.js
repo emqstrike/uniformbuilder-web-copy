@@ -1826,6 +1826,20 @@ $(document).ready(function(){
         font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
         $("head").prepend(font_builder);
 
+
+        // Preload first font
+        if ( ub.data.fonts.length > 0 ) {
+
+            WebFont.load({
+                
+                custom: {
+                  families: [ub.data.fonts[0].name],
+                },
+
+            });
+
+        }
+        
     };
 
     /// End Fonts 
