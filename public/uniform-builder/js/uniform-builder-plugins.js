@@ -140,7 +140,7 @@
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.settings.applications[settings.application.code].mascot;
+                    var mascot = ub.current_material.containers.applications[settings.application.code].mascot;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
@@ -941,7 +941,7 @@
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
 
-            var els = '';
+            var els = ''; 
 
             _.each(ub.data.fonts, function (item) {
                 els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';

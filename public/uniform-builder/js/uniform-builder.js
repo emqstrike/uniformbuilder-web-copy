@@ -499,8 +499,16 @@ $(document).ready(function () {
                 });
 
             }
+
+            if (application_obj.type === "mascot"){
+
+                ub.update_application_mascot(application_obj);
+
+            }
                 
         });
+            
+            
 
     };
 
@@ -2840,32 +2848,6 @@ $(document).ready(function () {
                 var color_array = application_obj.color_array;
                 var text_input = application_obj.text;
                 var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
-
-                // settings.applications[application.code] = {
-                //     application: application,
-                //     text: text_input,
-                //     type: 'player_number',
-                //     color_array: {},
-                //     object_type: 'text object',
-                //     appliation_type: plugin_type,
-                //     code: application.code,
-                //     font_obj: font_obj,
-                // };
-
-                // var uniform_type = ub.current_material.material.type;
-                // var app_containers = ub.current_material.containers[uniform_type].application_containers;
-                
-                // app_containers[application.code] = {};
-                // app_containers[application.code].object = {
-
-                //     sprite: sprite, 
-
-                // };
-
-                // if (color_array !== ''){
-                //     settings.applications[application.code].color_array = color_array;
-                // }
-
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
                 var mask = _.find(ub.current_material.material.options, {
@@ -3337,6 +3319,78 @@ $(document).ready(function () {
                 /// End Recreate 
 
             }
+
+
+        ub.update_application_mascot = function(application_obj) {
+
+            var application = application_obj.application;
+            var mascot = application_obj.mascot;
+
+            var x = ub.dimensions.width * application.position.x;
+            var y = ub.dimensions.height * application.position.y;
+            var settings = ub.current_material.settings;
+            var application_mascot_code = application.code + '_' + mascot.id;
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            var container = new PIXI.Container();
+
+            var elements = "";
+
+            _.each(mascot.layers, function(layer, index){
+
+                var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+                mascot_layer.tint = parseInt(layer.default_color,16);
+                mascot_layer.anchor.set(0.5, 0.5);
+                container.addChild(mascot_layer);
+
+                var val = layer.default_color;
+                var col = layer.default_color;
+                var filename = layer.filename;
+                
+                elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+
+            });
+
+
+            container.scale = new PIXI.Point(0.5, 0.5);
+            var sprite = container;
+
+            var mask = _.find(ub.current_material.material.options, {
+                
+                perspective: application.perspective,
+                name: application.layer
+
+            });
+
+            var mask = ub.pixi.new_sprite(mask.material_option_path);
+            var temp = {}
+
+            sprite.mask = mask;
+
+            var s = view_objects['objects_' + application.code];
+
+            var position = '';
+            var scale = '';
+            var rotation = '';
+            var alpha = '';
+
+            view_objects['objects_' + application.code] = sprite;
+            view.addChild(sprite);
+
+            sprite.position = new PIXI.Point(application_obj.position.x,application_obj.position.x);
+            sprite.rotation = application_obj.rotation;
+
+            var layer_order = ( 10 + application.layer_order );
+
+            sprite.originalZIndex = layer_order * (-1);
+            sprite.zIndex = layer_order * (-1);
+            settings.applications[application.code].layer_order = layer_order;
+        
+            ub.updateLayersOrder(view);
+
+            ub.funcs.createClickable(sprite, application, view, 'application');
+
+        };
 
 
         /// End Utilities ///

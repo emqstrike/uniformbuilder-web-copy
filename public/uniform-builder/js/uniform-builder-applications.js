@@ -656,7 +656,9 @@ $(document).ready(function() {
         container.scale = new PIXI.Point(0.5, 0.5);
         var sprite = container;
 
-        settings.applications[application.code].mascot = sprite;
+        ub.current_material.containers[application.code] = {};
+
+        ub.current_material.containers[application.code].mascot = sprite;
 
         var mask = _.find(ub.current_material.material.options, {
             
@@ -1076,6 +1078,9 @@ $(document).ready(function() {
 
                     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
+
+                    ub.current_material.settings.applications[application.code].rotation = application_obj.rotation;
+
 
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
