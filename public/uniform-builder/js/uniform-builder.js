@@ -455,7 +455,6 @@ $(document).ready(function () {
 
             }
 
-
             ub.change_material_option_color16(e.code, e.color);
 
             if(typeof e.gradient !== 'undefined'){
@@ -2833,16 +2832,13 @@ $(document).ready(function () {
                 if (application_obj.text.length === 0) { return; }
 
                 var application = application_obj.application;
-
                 var x = application_obj.position.x;
                 var y = application_obj.position.y;
-
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
                 var font_obj = application_obj.font_obj;
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
                 var color_array = application_obj.color_array;
-
                 var text_input = application_obj.text;
                 var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
 
@@ -2918,13 +2914,14 @@ $(document).ready(function () {
 
                 });
          
-                // /// End Set First Three Colors 
+                ///// End Set First Three Colors 
 
-
-                gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
+                text_gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
                 
-                if (typeof gradient_obj !== 'undefined') {
-                    ub.generate_gradient_for_text(gradient_obj, application.code, sprite, application);    
+                if (typeof text_gradient_obj !== 'undefined') {
+
+                    ub.generate_gradient_for_text(text_gradient_obj, application.code, sprite, application);    
+
                 }
 
                 pattern_obj = ub.current_material.settings.applications[application.code].pattern_obj;
@@ -3067,30 +3064,39 @@ $(document).ready(function () {
                 ub.refresh_thumbnails();
 
 
-            };
+        };
 
-            ub.generate_gradient_for_text = function (gradient_obj, target, text_sprite, application) {
+        ub.generate_gradient_for_text = function (gradient_obj, target, text_sprite, application) {
+
+            var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
+            if (gradient_obj.code === "none") {
+                base_color_obj.alpha = 1;                  
+            }
+            else {
+                base_color_obj.alpha = 0;                     
+            }
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
-            main_text_obj.alpha = 1;  
+            main_text_obj.alpha = 1;
             var uniform_type = ub.current_material.material.type;
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") {
+            if (uniform_type === "upper") { 
 
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
+                guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
 
             }
             else {
 
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
+                guides = { x1: 148, y1: 58, x2: 347, y2: 488 }; 
 
-            }
+            } 
 
             var gradient_width  = 496;
             var gradient_height = 550;
-            var canvas = document.createElement('canvas');
+            // var canvas = document.createElement('canvas');
+            var canvas = document.getElementById("for-text-pattern");
 
             canvas.width = ub.dimensions.width;
             canvas.height = ub.dimensions.height;
@@ -3144,24 +3150,24 @@ $(document).ready(function () {
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-            }
+            // if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+            //     ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            // }
 
-            ub.objects.pattern_view.gradient_layer = gradient_layer;
-            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-            ub.updateLayersOrder(ub.pattern_view);
+            // ub.objects.pattern_view.gradient_layer = gradient_layer;
+            // ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            // ub.updateLayersOrder(ub.pattern_view);
             
             var v = application.perspective;
             var view = v + '_view';
 
             temp_pattern[v] = new PIXI.Sprite(texture);
 
-            if(typeof text_sprite.gradient_layer === "object" ){
+            // if(typeof text_sprite.gradient_layer === "object" ){
 
-                text_sprite.removeChild(text_sprite.gradient_layer);
+            //     text_sprite.removeChild(text_sprite.gradient_layer);
 
-            }
+            // }
             
             temp_pattern[v].zIndex = 1;
   
@@ -3301,6 +3307,35 @@ $(document).ready(function () {
                 });
 
                 return colors_obj;
+
+            }
+
+            ub.recreate_gradient_obj = function (gradient_obj) {
+
+                /// Recreate Gradient Object into new structure
+            
+                var gradient_output = {};
+
+                gradient_output.angle = gradient_obj.angle;
+                gradient_output.code = gradient_obj.code;
+                gradient_output.name = gradient_obj.name;
+                gradient_output.color_stops = [];
+
+                _.each (gradient_obj.color_stops, function (color_stop, index) {
+
+                    var new_cs = {
+                        index: color_stop.index,
+                        color: color_stop.color,
+                        value: color_stop.value,
+                    }
+
+                    gradient_output.color_stops.push(new_cs);
+
+                })
+
+                return gradient_output;
+
+                /// End Recreate 
 
             }
 

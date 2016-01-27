@@ -913,10 +913,17 @@
             }
 
             if (layer.name === 'Mask') {
-                text_layer.text_sprite.alpha = 0                
+                text_layer.text_sprite.alpha = 1;                
             }
 
         });
+
+
+        // Mask the main text to remove outline showing bug
+        var text_mask = _.find(container.children, {ubName: 'Mask'});
+        var main_text = _.find(container.children, {ubName: 'Base Color'});
+
+        main_text.mask = text_mask;
 
         ub.updateLayersOrder(container);
 
@@ -1740,10 +1747,13 @@
 
             $("button#update-gradient-" + target).click('click', function (e) {
 
-                _.each(clone.color_stops, function (e, index) {
+                var gradient_output = ub.recreate_gradient_obj(clone);
+                generate_gradient(gradient_output, target, text_sprite, application);
+
+                _.each(gradient_output.color_stops, function (e, index) {
 
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background', s.val());
                     e.color = s.val();
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
@@ -1753,8 +1763,11 @@
 
                 });
 
-                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                generate_gradient(clone, target, text_sprite, application);
+                gradient_output.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
+
+                /// Recreate Gradient Object into new structure
+            
+                generate_gradient(gradient_output, target, text_sprite, application);
 
             });
 
@@ -1763,7 +1776,7 @@
 
                 $('#add_gradient_color_stop').on('click', function () {
 
-                    var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
+                    var obj_colors = _.find(ub.current_material.material.options, { name: window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
 
                     color_obj = _.find(ub.data.colors, { color_code: color_code })
@@ -1823,6 +1836,14 @@
         var generate_gradient = function (gradient_obj, target, text_sprite, application) {
 
             ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
+
+            var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
+            if (gradient_obj.code === "none") {
+                base_color_obj.alpha = 1;                  
+            }
+            else {
+                base_color_obj.alpha = 0;                     
+            }
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;  
@@ -1897,13 +1918,13 @@
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-            }
+            // if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+            //     ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            // }
 
-            ub.objects.pattern_view.gradient_layer = gradient_layer;
-            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-            ub.updateLayersOrder(ub.pattern_view);
+            // ub.objects.pattern_view.gradient_layer = gradient_layer;
+            // ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            // ub.updateLayersOrder(ub.pattern_view);
             
             var v = application.perspective;
             var view = v + '_view';

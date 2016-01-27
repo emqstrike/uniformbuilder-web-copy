@@ -23,7 +23,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
 
-
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -137,6 +136,8 @@ else {
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 <!-- End Uniform Builder Scripts -->
+
+<canvas id="for-text-pattern" style="display:none;"></canvas>
 
 </body>
 </html>
