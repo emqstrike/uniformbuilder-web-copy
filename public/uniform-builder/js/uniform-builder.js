@@ -3339,7 +3339,8 @@ $(document).ready(function () {
             _.each(mascot.layers, function(layer, index){
 
                 var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
-                mascot_layer.tint = parseInt(layer.default_color,16);
+                mascot_layer.tint = layer.color;
+
                 mascot_layer.anchor.set(0.5, 0.5);
                 container.addChild(mascot_layer);
 
@@ -3353,8 +3354,8 @@ $(document).ready(function () {
 
 
             container.scale = new PIXI.Point(0.5, 0.5);
-            var sprite = container;
 
+            var sprite = container;
             var mask = _.find(ub.current_material.material.options, {
                 
                 perspective: application.perspective,
@@ -3377,8 +3378,9 @@ $(document).ready(function () {
             view_objects['objects_' + application.code] = sprite;
             view.addChild(sprite);
 
-            sprite.position = new PIXI.Point(application_obj.position.x,application_obj.position.x);
+            sprite.position = application_obj.position;
             sprite.rotation = application_obj.rotation;
+            sprite.scale    = application_obj.scale;
 
             var layer_order = ( 10 + application.layer_order );
 
@@ -3391,7 +3393,6 @@ $(document).ready(function () {
             ub.funcs.createClickable(sprite, application, view, 'application');
 
         };
-
 
         /// End Utilities ///
 

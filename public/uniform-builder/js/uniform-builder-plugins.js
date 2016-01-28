@@ -140,12 +140,14 @@
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.containers.applications[settings.application.code].mascot;
+                    var mascot = ub.current_material.containers[settings.application.code].mascot;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
                     mascot.children[layer_no].tint = color;
+
+                    ub.current_material.settings.applications[settings.application.code].mascot.layers[layer_no].color = color; 
                     ub.refresh_thumbnails();
 
                 }

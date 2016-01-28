@@ -606,7 +606,6 @@ $(document).ready(function() {
 
         });
 
-           
     };
 
     ub.funcs.update_application_mascot = function(application, mascot) {
@@ -623,6 +622,7 @@ $(document).ready(function() {
             color_array: {},
         };
 
+        var mascot_obj = settings.applications[application.code].mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var container = new PIXI.Container();
@@ -632,7 +632,9 @@ $(document).ready(function() {
         _.each(mascot.layers, function(layer, index){
 
             var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+            
             mascot_layer.tint = parseInt(layer.default_color,16);
+            mascot_obj.layers[index].color = mascot_layer.tint; 
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
@@ -725,6 +727,10 @@ $(document).ready(function() {
 
         }
 
+        settings.applications[application.code].position = sprite.position;
+        settings.applications[application.code].scale = sprite.scale;
+        settings.applications[application.code].rotation = sprite.rotation;
+
         window.sprite = sprite;
 
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
@@ -757,7 +763,6 @@ $(document).ready(function() {
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
             name: application.layer
-
         });
 
         var mask = ub.pixi.new_sprite(mask.material_option_path);
@@ -1034,12 +1039,13 @@ $(document).ready(function() {
                 var p_app = new PIXI.Point(x, y);
                 var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
-
                 var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
 
                 if(typeof application_obj === 'undefined') {
                     return;
                 }
+
+                var settings_obj = ub.current_material.settings.applications[application.code];
 
                 if (type === 'move') {
 
@@ -1054,14 +1060,13 @@ $(document).ready(function() {
                         limits = 30;
                     }
 
-
                     if (dist >= limits) {
                         move_point.position = sprite.position;
                         return;
                     }
 
-                    application_obj.position = new PIXI.Point(sprite.x, sprite.y);
-                    ub.current_material.settings.applications[application.code].position = sprite.position;
+                    application_obj.position = sprite.position;
+                    settings_obj.position = sprite.position;
 
                     var r_x = rotation_point.x + (sprite.x - sprite.oldX);
                     var r_y = rotation_point.y + (sprite.y - sprite.oldY);
@@ -1079,19 +1084,22 @@ $(document).ready(function() {
                     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
 
-                    ub.current_material.settings.applications[application.code].rotation = application_obj.rotation;
-
+                    settings_obj.rotation = application_obj.rotation;
 
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                        var application_type = ub.current_material.settings.applications[application.code].type;
+                    var application_type = settings_obj.type;
 
-                        if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
+                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
 
-                            application_obj.scale.set(percentage, percentage);
+                       settings_obj.scale = sprite.scale;
 
-                        }
+                    }
+
+                    application_obj.scale.set(percentage, percentage);
+                    settings_obj.scale = application_obj.scale;
+
 
                 }
 
