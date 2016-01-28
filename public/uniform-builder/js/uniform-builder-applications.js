@@ -632,7 +632,7 @@ $(document).ready(function() {
         _.each(mascot.layers, function(layer, index){
 
             var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
-            
+
             mascot_layer.tint = parseInt(layer.default_color,16);
             mascot_obj.layers[index].color = mascot_layer.tint; 
             mascot_layer.anchor.set(0.5, 0.5);
@@ -1093,12 +1093,12 @@ $(document).ready(function() {
 
                     if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
 
-                       settings_obj.scale = sprite.scale;
+                        application_obj.scale.set(percentage, percentage);
+                        settings_obj.scale = application_obj.scale;
 
                     }
 
-                    application_obj.scale.set(percentage, percentage);
-                    settings_obj.scale = application_obj.scale;
+
 
 
                 }
