@@ -137,7 +137,5 @@ else {
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 <!-- End Uniform Builder Scripts -->
 
-<canvas id="for-text-pattern" style="display:none;"></canvas>
-
 </body>
 </html>

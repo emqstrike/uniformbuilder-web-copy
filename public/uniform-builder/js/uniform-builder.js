@@ -3063,9 +3063,8 @@ $(document).ready(function () {
 
             var gradient_width  = 496;
             var gradient_height = 550;
-            // var canvas = document.createElement('canvas');
-            var canvas = document.getElementById("for-text-pattern");
-
+            var canvas = document.createElement('canvas');
+            
             canvas.width = ub.dimensions.width;
             canvas.height = ub.dimensions.height;
 
@@ -3388,7 +3387,7 @@ $(document).ready(function () {
 
                 console.warning ('Incomplete Input');
                 return;
-                
+
             }
 
             ub.current_material.settings.applications[obj.application_id][obj.property] = obj.value;
