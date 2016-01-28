@@ -2915,16 +2915,8 @@ $(document).ready(function () {
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
-                sprite.position.x = x;
-                sprite.position.y = y;
-                sprite.rotation = application.rotation;
-
-                if(sprite.width === 1) {
-
-                    sprite.position.x -= (sprite.width / 2);
-                    sprite.position.y -= (sprite.height / 2);
-
-                }
+                sprite.position = application_obj.position;
+                sprite.rotation = application_obj.rotation;
 
                 var layer_order = ( 10 + application.layer_order ) 
 
@@ -2943,9 +2935,6 @@ $(document).ready(function () {
                     sprite.tint = tint;
 
                 }
-
-                // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-                // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
                 ub.funcs.createClickable(sprite, application, view, 'application');
 

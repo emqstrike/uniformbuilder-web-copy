@@ -1098,9 +1098,6 @@ $(document).ready(function() {
 
                     }
 
-
-
-
                 }
 
                 if ($('#chkSnap').is(":checked")) {

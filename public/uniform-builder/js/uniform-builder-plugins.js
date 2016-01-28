@@ -678,6 +678,9 @@
                     gradient_settings: undefined,
                     pattern_obj: undefined,
                     pattern_settings: undefined,
+                    position: undefined,
+                    rotation: undefined,
+                    scale: undefined,
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -803,6 +806,10 @@
                 {
                     app.position = '';
                 }
+
+                settings.applications[application.code].position = sprite.position;
+                settings.applications[application.code].rotation = sprite.rotation;
+                settings.applications[application.code].scale = sprite.scale;
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
