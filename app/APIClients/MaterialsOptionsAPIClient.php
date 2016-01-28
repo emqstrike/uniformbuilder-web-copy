@@ -97,13 +97,8 @@ class MaterialsOptionsAPIClient extends APIClient
     }
 
     public function purge($data)
-    {// dd($data);
+    {
         $response = $this->get('material_options/purge/' . $data['color_code']);
         $result = $this->decoder->decode($response->getBody());
-        // if ($result->success)
-        // {
-        //     return $result->color;
-        // }
-        // return null;
     }
 }
