@@ -213,6 +213,14 @@ $(document).ready(function() {
                     "opacity": opacity,
                 });
 
+                ub.current_material.settings.applications[application_id].alpha = object.alpha;
+
+                ub.save_property({
+                    application_id: application_id,
+                    property: 'alpha',
+                    value: object.alpha,
+                })
+
             }
 
         });
@@ -730,6 +738,7 @@ $(document).ready(function() {
         settings.applications[application.code].position = sprite.position;
         settings.applications[application.code].scale = sprite.scale;
         settings.applications[application.code].rotation = sprite.rotation;
+        settings.applications[application.code].alpha = sprite.alpha;
 
         window.sprite = sprite;
 
@@ -1249,7 +1258,7 @@ $(document).ready(function() {
 
         var code = application.code;
         var current_layer_order = ub.current_material.settings.applications[application.code].layer_order;
-        var current_element = ub.current_material.settings.applications[application.code];
+        var settings_obj = ub.current_material.settings.applications[application.code];
         var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.code];
 
         if (movement === 'UP') {
@@ -1262,7 +1271,7 @@ $(document).ready(function() {
                 next_obj.zIndex = (current_layer_order) * -1;
             }
 
-            current_element.layer_order = (current_layer_order + 1);
+            settings_obj.layer_order = (current_layer_order + 1);
             current_obj.zIndex = (current_layer_order + 1) * -1;
 
             ub.updateLayersOrder(ub[application.perspective + '_view']);
@@ -1281,7 +1290,7 @@ $(document).ready(function() {
 
             }
 
-            current_element.layer_order = (current_layer_order - 1);
+            settings_obj.layer_order = (current_layer_order - 1);
             current_obj.zIndex = (current_layer_order - 1) * -1;
 
             ub.updateLayersOrder(ub[application.perspective + '_view']);

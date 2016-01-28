@@ -2917,8 +2917,9 @@ $(document).ready(function () {
 
                 sprite.position = application_obj.position;
                 sprite.rotation = application_obj.rotation;
+                sprite.alpha    = application_obj.alpha;
 
-                var layer_order = ( 10 + application.layer_order ) 
+                var layer_order = ( 10 + application_obj.layer_order ) 
 
                 sprite.originalZIndex = layer_order * (-1);
                 sprite.zIndex = layer_order * (-1);
@@ -2952,8 +2953,6 @@ $(document).ready(function () {
                 main_text_obj.alpha = 1;
                 var uniform_type = ub.current_material.material.type;
                 var clone = pattern_obj;
-
-
                 var val_rotation = pattern_settings.rotation;
                 var val_opacity = 1;
                 var val_scale = pattern_settings.scale;
@@ -3032,7 +3031,6 @@ $(document).ready(function () {
 
                 ub.updateLayersOrder(text_sprite);
                 ub.refresh_thumbnails();
-
 
         };
 
@@ -3370,8 +3368,9 @@ $(document).ready(function () {
             sprite.position = application_obj.position;
             sprite.rotation = application_obj.rotation;
             sprite.scale    = application_obj.scale;
+            sprite.alpha    = application_obj.alpha;
 
-            var layer_order = ( 10 + application.layer_order );
+            var layer_order = ( 10 + application_obj.layer_order );
 
             sprite.originalZIndex = layer_order * (-1);
             sprite.zIndex = layer_order * (-1);
@@ -3382,6 +3381,19 @@ $(document).ready(function () {
             ub.funcs.createClickable(sprite, application, view, 'application');
 
         };
+
+        ub.save_property = function (obj) {
+
+            if (typeof obj.application_id === 'undefined' || typeof obj.property === 'undefined' || typeof obj.value === 'undefined') {
+
+                console.warning ('Incomplete Input');
+                return;
+                
+            }
+
+            ub.current_material.settings.applications[obj.application_id][obj.property] = obj.value;
+
+        }
 
         /// End Utilities ///
 

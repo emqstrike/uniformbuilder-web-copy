@@ -662,7 +662,6 @@
                 var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
                 var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
 
-
                 settings.applications[application.code] = {
                     application: application,
                     accent_obj: accent_obj,
@@ -810,6 +809,7 @@
                 settings.applications[application.code].position = sprite.position;
                 settings.applications[application.code].rotation = sprite.rotation;
                 settings.applications[application.code].scale = sprite.scale;
+                settings.applications[application.code].alpha = sprite.alpha;
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
