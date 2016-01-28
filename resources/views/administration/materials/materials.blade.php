@@ -30,6 +30,12 @@
                 Add New Material
             </a>
         </small>
+        <small>
+            <a href="#" class='btn btn-xs btn-warning remove-color'>
+                <span class="glyphicon glyphicon-trash"></span>
+                Remove color
+            </a>
+        </small>
     </h1>
 </div>
 
@@ -414,6 +420,8 @@
 @include('administration.materials.material-view-modal')
 
 @include('administration.materials.material-option-modal')
+
+@include('administration.materials.remove-color-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 

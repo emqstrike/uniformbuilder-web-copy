@@ -234,4 +234,18 @@ class MaterialsOptionsController extends Controller
                             ->with('message', 'There was a problem saving your material option');
         }
     }
+
+    public function purgeColor(Request $request)
+    {
+        $colorCode = $request->input('color_code');
+
+        $data = [
+            'color_code' => $colorCode
+        ];
+
+        Log::info('Attempts to purge color ' . json_encode($data));
+        $response = $this->client->purge($data);
+
+        return Redirect::to('/administration/materials');
+    }
 }
