@@ -407,6 +407,10 @@ var material = {};
         $('#add-multiple-options-modal').modal('show');
     });
 
+    $('.remove-color').on('click', function(){
+        $('#remove-color-modal').modal('show');
+    });
+
     $('.add-material-option').on('click', function(){
         material = {
             id: $(this).data('material-id'),
