@@ -23,7 +23,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
 
-
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
