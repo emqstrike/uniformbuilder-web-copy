@@ -331,7 +331,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/knights.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/knights/1.png',
                     },
@@ -341,7 +341,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/knights/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/knights/3.png',
                     },
@@ -361,7 +361,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/lancers.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/lancers/1.png',
                     },
@@ -371,7 +371,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/lancers/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/lancers/3.png',
                     },
@@ -385,7 +385,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/kennesaw.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/kennesaw/1.png',
                     },
@@ -395,7 +395,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/kennesaw/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/kennesaw/3.png',
                     },
@@ -415,7 +415,7 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/badger.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/badger/1.png',
                     },
@@ -425,7 +425,7 @@ $(document).ready(function(){
                         filename: '/images/mascots/badger/2.png',
                     },
                     {
-                        default_color: '543018',
+                        default_color: 'c92124',
                         layer_number: 3,
                         filename: '/images/mascots/badger/3.png',
                     },
@@ -439,12 +439,12 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/bobcat.png',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/bobcat/1.png',
                     },
                     {
-                        default_color: 'ffffff',
+                        default_color: 'c92124',
                         layer_number: 2,
                         filename: '/images/mascots/bobcat/2.png',
                     },
@@ -459,17 +459,17 @@ $(document).ready(function(){
                 icon: '/images/sidebar/mascots/tiger_e.png',
                 layers: [
                     {
-                        default_color: '492f91',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/mascots/tiger_e/1.png',
                     },
                     {
-                        default_color: 'fdba31',
+                        default_color: 'ffffff',
                         layer_number: 2,
                         filename: '/images/mascots/tiger_e/2.png',
                     },
                     {
-                        default_color: 'ffffff',
+                        default_color: 'c92124',
                         layer_number: 2,
                         filename: '/images/mascots/tiger_e/3.png',
                     },
@@ -530,7 +530,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/arrow/1.png',
                     },
@@ -546,7 +546,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/camouflage/1.png',
                     },
@@ -576,7 +576,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/carbon_fiber/1.png',
                     },
@@ -591,7 +591,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/checkered/1.png',
                     },
@@ -638,7 +638,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/grunge/1.png',
                     },
@@ -653,7 +653,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/halftone_chest/1.png',
                     },
@@ -673,7 +673,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/hexastar/1.png',
                     },
@@ -693,7 +693,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/interlock/1.png',
                     },
@@ -708,12 +708,12 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: '362f2d',
                         layer_number: 1,
                         filename: '/images/patterns/line_fade_body/1.png',
                     },
                     {
-                        default_color: 'ffffff',
+                        default_color: 'c92124',
                         layer_number: 2,
                         filename: '/images/patterns/line_fade_body/2.png',
                     },
@@ -763,7 +763,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/nk_stripe/1.png',
                     },
@@ -778,7 +778,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/paw/1.png',
                     },
@@ -793,7 +793,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/pinstripes/1.png',
                     },
@@ -808,7 +808,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/referee_stripes/1.png',
                     },
@@ -823,7 +823,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/square/1.png',
                     },
@@ -858,7 +858,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/stairs/1.png',
                     },
@@ -873,7 +873,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/stripes_thin_and_thick/1.png',
                     },
@@ -898,7 +898,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/stripes_thinner/1.png',
                     },
@@ -918,7 +918,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/thatch/1.png',
                     },
@@ -938,7 +938,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/tiger/1.png',
                     },
@@ -953,7 +953,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/upper_stripes/1.png',
                     },
@@ -968,7 +968,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/wave/1.png',
                     },
@@ -983,7 +983,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/web/1.png',
                     },
@@ -998,7 +998,7 @@ $(document).ready(function(){
                 category: 'jersey',
                 layers: [
                     {
-                        default_color: 'd31145',
+                        default_color: 'c92124',
                         layer_number: 1,
                         filename: '/images/patterns/wire/1.png',
                     },

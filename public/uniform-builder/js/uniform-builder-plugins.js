@@ -51,14 +51,11 @@
 
             var el = $(this);
             var el_parent = el.parent();
-
             var color = el_parent.find('input').val();
             var color_stop_index = el_parent.find('input').data('index');
             var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
-
             var code = target_name;
             var name = target_name.replace('_',' ').toUpperCase();
-
             var header = '';
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
@@ -112,7 +109,8 @@
                     var color = parseInt($(this).data('color-code'), 16);
                     var uniform_type = 'upper'; // TODO: Parameterized this.
                     var views = ['front', 'back', 'left', 'right'];
-                    var c = ub.current_material.settings[uniform_type][target].pattern.containers;
+                    
+                    var c = ub.current_material.containers[uniform_type][target].pattern_containers;
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
@@ -120,17 +118,23 @@
 
                     ub.refresh_thumbnails();
 
+                    var _material_option = target.toLowerCase().replace(' ', '_');
+
+                    ub.save_pattern_color(_material_option, layer_no, color);
+
                 }
 
                 if (settings.type === 'text_pattern') {
 
-                    var pattern = ub.current_material.settings.applications[settings.application.code].pattern;
+                    var pattern = ub.current_material.containers[settings.application.code].pattern;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
                     pattern.children[layer_no].tint = color;
                     ub.refresh_thumbnails();
+
+                    ub.save_text_pattern_color(settings.application, layer_no, color);
 
                 }
                 
@@ -653,12 +657,36 @@
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
 
+                var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+                var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+                var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
+
+
                 settings.applications[application.code] = {
                     application: application,
+                    accent_obj: accent_obj,
+                    font_size: font_size, 
                     text: text_input,
-                    text_obj: sprite,
                     type: 'player_number',
                     color_array: {},
+                    object_type: 'text object',
+                    appliation_type: plugin_type,
+                    code: application.code,
+                    font_obj: font_obj,
+                    gradient_obj: undefined,
+                    gradient_settings: undefined,
+                    pattern_obj: undefined,
+                    pattern_settings: undefined,
+                };
+
+                var uniform_type = ub.current_material.material.type;
+                var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                app_containers[application.code] = {};
+                app_containers[application.code].object = {
+
+                    sprite: sprite, 
+
                 };
 
                 if (color_array !== ''){
@@ -753,6 +781,9 @@
 
                 ub.updateLayersOrder(view);
 
+
+                app = settings.applications[application.code];
+
                 if (position !== '') {
 
                     sprite.position = position;
@@ -761,6 +792,15 @@
                     sprite.alpha = alpha;
                     sprite.tint = tint;
 
+                    app.position = position;
+                    app.scale = scale;
+                    app.rotation = rotation;
+                    app.alpha = alpha;
+
+                }
+                else
+                {
+                    app.position = '';
                 }
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
@@ -1139,12 +1179,23 @@
 
                         if (app.type === 'player_number' || app.type === 'player_name' || app.type === 'team_name') {
 
-                            var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
+                            /// var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
+
+                            ////
+
+                            var uniform_type = ub.current_material.material.type;
+                            var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                            s = app_containers[settings.application.code].object.sprite;
+                            var sprite = _.find(s.children, {ubName: 'Base Color'});
+                            app.color_array[0] = parseInt(color_code, 16);
+                
+                            ////    
 
                             sprite.tint = parseInt(color_code, 16);    
                             app.color_array[sprite.ubLayerNo] = {};
                             app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
-                            app.color_array[sprite.ubLayerNo].layer_no = _.first(app.text_obj.children).ubLayerNo;
+                            app.color_array[sprite.ubLayerNo].layer_no = _.first(s.children).ubLayerNo;
                             app.color_array[sprite.ubLayerNo].color_code = color_code;
                             sprite.tint = parseInt(color_code, 16); 
                             color_drop.nonce = false;
@@ -1459,7 +1510,9 @@
             var target_name = target.replace('_', ' ');
             target_name = util.toTitleCase(target_name);
 
-            var application_settings = ub.current_material.settings.applications[application.code]
+            ub.current_material.containers[application.code] = {};
+
+            var application_settings = ub.current_material.containers[application.code];
             
             if(typeof application_settings.pattern === 'undefined') {
 
@@ -1535,7 +1588,21 @@
             text_sprite.addChild(text_sprite.pattern_layer);
 
             ub.updateLayersOrder(text_sprite);
+
+            ub.current_material.settings.applications[application.code].pattern_obj = clone;
+            ub.current_material.settings.applications[application.code].pattern_settings = {
+
+                rotation: container.rotation,
+                scale: container.scale,
+                position: container.position,
+                opcity: container.opacity, 
+
+            }
+
+
             ub.refresh_thumbnails();
+
+
 
         });
 
@@ -1687,7 +1754,7 @@
                 });
 
                 clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                generate_gradient(clone, target, text_sprite, application.perspective);
+                generate_gradient(clone, target, text_sprite, application);
 
             });
 
@@ -1753,7 +1820,9 @@
 
         };
 
-        var generate_gradient = function (gradient_obj, target, text_sprite, perspective) {
+        var generate_gradient = function (gradient_obj, target, text_sprite, application) {
+
+            ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;  
@@ -1836,7 +1905,7 @@
             ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
             ub.updateLayersOrder(ub.pattern_view);
             
-            var v = perspective;
+            var v = application.perspective;
             var view = v + '_view';
 
             temp_pattern[v] = new PIXI.Sprite(texture);
@@ -1875,6 +1944,7 @@
                 'background-image': data_url,
                 "-webkit-transform": "rotate(" + rotation + "deg)",
             });
+
 
         };
 

@@ -87,6 +87,7 @@
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
 
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 

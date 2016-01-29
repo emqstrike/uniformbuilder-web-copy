@@ -1045,9 +1045,7 @@ $(document).ready(function() {
                     original_y = ub.dimensions.height * application.position.y;
 
                     var original_location = new PIXI.Point(original_x, original_y);
-
                     var dist = Math.abs( ub.funcs.lineDistance(original_location, sprite.position) );
-                    
                     var limits = 500;
 
                     if(ub.config.isFeatureOn('ui','drag_limits')) {
@@ -1061,6 +1059,7 @@ $(document).ready(function() {
                     }
 
                     application_obj.position = new PIXI.Point(sprite.x, sprite.y);
+                    ub.current_material.settings.applications[application.code].position = sprite.position;
 
                     var r_x = rotation_point.x + (sprite.x - sprite.oldX);
                     var r_y = rotation_point.y + (sprite.y - sprite.oldY);
