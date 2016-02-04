@@ -768,6 +768,8 @@ $(document).ready(function() {
         var view_objects = ub.objects[application.perspective + '_view'];
         
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
+
+        ub.saveLogo(logo.dataUrl, application.code);
         
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,

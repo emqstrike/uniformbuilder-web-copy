@@ -170,6 +170,16 @@ class UniformBuilderController extends Controller
         return $this->showBuilder($config);
     }
 
+    public function saveLogo(Request $request){
+
+        $r = $request->all();
+        $dataUrl = $r['dataUrl'];
+
+        $fname = $this->getS3PathDecodedImage($dataUrl);
+        return response()->json([ 'success' => true, 'filename' => $fname ]);
+
+    }
+
     private function getS3PathDecodedImage($base64string)
     {
         $path = FileUtility::saveBase64Image($base64string);

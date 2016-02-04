@@ -154,6 +154,38 @@ $(document).ready(function () {
 
         };
 
+        ub.saveLogo = function (dataUrl, applicationCode) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify({ dataUrl: dataUrl }),
+                url: ub.config.host + "/saveLogo",
+                dataType: "json",
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if(response.success) {
+                        ub.current_material.settings.applications[applicationCode].filename = response.filename;
+                    }
+                    else{
+                        util.error('Logo upload not successful.');
+                    }
+
+                }
+            
+            });
+
+        }
+
          ub.display_gender_picker = function () {
 
             $('#arrow_design_sets').remove();
@@ -503,6 +535,12 @@ $(document).ready(function () {
             if (application_obj.type === "mascot"){
 
                 ub.update_application_mascot(application_obj);
+
+            }
+
+            if (application_obj.type === "logo"){
+
+                ub.update_application_logo(application_obj);
 
             }
                 
@@ -3065,7 +3103,7 @@ $(document).ready(function () {
             var gradient_height = 550;
             var canvas = document.createElement('canvas');
             
-            canvas.width = ub.dimensions.width;
+            canvas.width  = ub.dimensions.width;
             canvas.height = ub.dimensions.height;
 
             var ctx = canvas.getContext('2d');
@@ -3306,6 +3344,63 @@ $(document).ready(function () {
 
             }
 
+        // load logo
+
+            ub.update_application_logo = function(application_obj) {
+
+            var application = application_obj.application;
+            var x = ub.dimensions.width * application.position.x;
+            var y = ub.dimensions.height * application.position.y;
+            var settings = ub.current_material.settings;
+
+            var filename = application_obj.filename;
+
+
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            
+            var sprite = PIXI.Sprite.fromImage(filename);
+
+            var mask = _.find(ub.current_material.material.options, {
+                perspective: application.perspective,
+                name: application.layer
+            });
+
+            var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+            sprite.mask = mask;
+
+            var s = view_objects['objects_' + application.code];
+
+            view_objects['objects_' + application.code] = sprite;
+            view.addChild(sprite);
+
+            sprite.position = new PIXI.Point(x,y);
+            sprite.rotation = application.rotation;
+
+            if(sprite.width === 1) {
+            
+                sprite.position.x -= (sprite.width / 2);
+                sprite.position.y -= (sprite.height / 2);
+
+            }
+      
+            sprite.anchor.set(0.5, 0.5);
+
+            var layer_order = ( 10 + application.layer_order ) 
+
+            sprite.originalZIndex = layer_order * (-1);
+            sprite.zIndex = layer_order * (-1);
+            settings.applications[application.code].layer_order = layer_order;
+        
+            ub.updateLayersOrder(view);
+
+            ub.funcs.createDraggable(sprite, application, view);
+            ub.funcs.createClickable(sprite, application, view, 'application');
+
+        };
+
+        // end load logo
 
         ub.update_application_mascot = function(application_obj) {
 
