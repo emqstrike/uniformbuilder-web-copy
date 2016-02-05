@@ -72,7 +72,7 @@ class UniformBuilderController extends Controller
                     }
                     else {
 
-                        $materialId = 44;                
+                        $materialId = 52;                
 
                     }
 
