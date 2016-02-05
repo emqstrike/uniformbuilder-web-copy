@@ -297,7 +297,7 @@ $(document).ready(function() {
     ub.funcs.update_logo_list = function() {
 
         var $logo_container = $('div.logo-container');
-        var logos = ub.current_material.settings.files.logos;
+        var logos = ub.current_material.containers.files.logos;
 
         _.each($logo_container, function (el) {
 
@@ -630,7 +630,8 @@ $(document).ready(function() {
             color_array: {},
         };
 
-        var mascot_obj = settings.applications[application.code].mascot;
+        var settings_obj = settings.applications[application.code];
+        var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var container = new PIXI.Container();
@@ -698,7 +699,7 @@ $(document).ready(function() {
             rotation = obj.rotation;
             alpha = obj.alpha;
             tint = obj.tint;
-            var color_array = settings.applications[application.code].color_array;
+            var color_array = settings_obj.color_array;
 
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
@@ -722,7 +723,7 @@ $(document).ready(function() {
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
-        settings.applications[application.code].layer_order = layer_order;
+        settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
 
@@ -735,10 +736,10 @@ $(document).ready(function() {
 
         }
 
-        settings.applications[application.code].position = sprite.position;
-        settings.applications[application.code].scale = sprite.scale;
-        settings.applications[application.code].rotation = sprite.rotation;
-        settings.applications[application.code].alpha = sprite.alpha;
+        settings_obj.position = sprite.position;
+        settings_obj.scale = sprite.scale;
+        settings_obj.rotation = sprite.rotation;
+        settings_obj.alpha = sprite.alpha;
 
         window.sprite = sprite;
 
@@ -759,14 +760,13 @@ $(document).ready(function() {
 
         settings.applications[application.code] = {
             application: application,
-            logo: logo,
             type: 'logo',
             color_array: {},
         };
 
+        var settings_obj = settings.applications[application.code];
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
-        
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
 
         ub.saveLogo(logo.dataUrl, application.code);
@@ -796,7 +796,7 @@ $(document).ready(function() {
             rotation = obj.rotation;
             alpha = obj.alpha;
             tint = obj.tint;
-            var color_array = settings.applications[application.code].color_array;
+            var color_array = settings_obj.color_array;
 
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
@@ -822,7 +822,7 @@ $(document).ready(function() {
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
-        settings.applications[application.code].layer_order = layer_order;
+        settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
 
@@ -834,6 +834,11 @@ $(document).ready(function() {
             sprite.alpha = alpha;
 
         }
+
+        settings_obj.position = sprite.position;
+        settings_obj.scale = sprite.scale;
+        settings_obj.rotation = sprite.rotation;
+        settings_obj.alpha = sprite.alpha;
 
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);

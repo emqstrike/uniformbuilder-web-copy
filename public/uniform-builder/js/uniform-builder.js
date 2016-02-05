@@ -582,9 +582,9 @@ $(document).ready(function () {
             preview: '',
         };
 
-        settings.files = {};
+        ub.current_material.containers.files = {};
+        ub.current_material.containers.files.logos = [];
 
-        settings.files.logos = [];
         settings.applications = {};
 
         var current_material = ub.current_material.material;
@@ -3386,6 +3386,11 @@ $(document).ready(function () {
             }
       
             sprite.anchor.set(0.5, 0.5);
+
+            sprite.position = application_obj.position;
+            sprite.rotation = application_obj.rotation;
+            sprite.scale    = application_obj.scale;
+            sprite.alpha    = application_obj.alpha;
 
             var layer_order = ( 10 + application.layer_order ) 
 

@@ -232,7 +232,7 @@
 
                     reader.onloadend = function () {
 
-                        var logos = ub.current_material.settings.files.logos;
+                        var logos = ub.current_material.containers.files.logos;
                         var file = files[0];
                         var id = new Date().getTime();
 
