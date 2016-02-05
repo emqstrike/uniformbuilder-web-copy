@@ -1168,12 +1168,11 @@ $(document).ready(function () {
                 var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
                 ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
                 ddowns     +=       '<option value="none">-- Select an Application --</option>';
-                ddowns     +=       '<option value="logo">Logo</option>';
+                ddowns     +=       '<option value="logo">Logo / Image</option>';
                 ddowns     +=       '<option value="mascot">Mascot</option>';
                 ddowns     +=       '<option value="player_name">Player Name</option>';
                 ddowns     +=       '<option value="team_name">Team Name</option>';
                 ddowns     +=       '<option value="player_number">Player Number</option>';
-                ddowns     +=       '<option value="image">Image</option>';
                 ddowns     +=   '</select>&nbsp;';
 
                 ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
@@ -1208,10 +1207,6 @@ $(document).ready(function () {
 
                     if (application_type === "logo") {
                         $container.ubLogoDialog(plugin_parameters);
-                    }
-
-                    if (application_type === "image") {
-                        $container.ubImageDialog(plugin_parameters);
                     }
 
                     if (application_type === "mascot") {

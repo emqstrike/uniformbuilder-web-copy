@@ -186,8 +186,7 @@
 
     };
 
-    
-    $.fn.ubImageDialog = $.fn.ubLogoDialog = function (options) {
+    $.fn.ubLogoDialog = function (options) {
 
         ub.funcs.removeUIHandles();
 
