@@ -470,8 +470,33 @@ $(document).ready(function(){
                     },
                     {
                         default_color: 'c92124',
-                        layer_number: 2,
+                        layer_number: 3,
                         filename: '/images/mascots/tiger_e/3.png',
+                    },
+                   
+                ],
+            },
+            /// Tiger
+            {
+                id: 6,
+                name: 'Tiger F',
+                code: 'tiger_f',
+                icon: '/images/sidebar/mascots/tiger_f.png',
+                layers: [
+                    {
+                        default_color: '362f2d',
+                        layer_number: 1,
+                        filename: '/images/mascots/tiger_f/1.png',
+                    },
+                    {
+                        default_color: 'ffffff',
+                        layer_number: 2,
+                        filename: '/images/mascots/tiger_f/2.png',
+                    },
+                    {
+                        default_color: 'c92124',
+                        layer_number: 3,
+                        filename: '/images/mascots/tiger_f/3.png',
                     },
                    
                 ],
@@ -1826,6 +1851,20 @@ $(document).ready(function(){
         font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
         $("head").prepend(font_builder);
 
+
+        // Preload first font
+        if ( ub.data.fonts.length > 0 ) {
+
+            WebFont.load({
+                
+                custom: {
+                  families: [ub.data.fonts[0].name],
+                },
+
+            });
+
+        }
+        
     };
 
     /// End Fonts 
