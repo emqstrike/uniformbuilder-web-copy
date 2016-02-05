@@ -1032,6 +1032,14 @@ $(document).ready(function () {
                 _.each(obj.available_colors, function (color_obj) {
 
                     var color = _.find(ub.data.colors, { color_code: color_obj});
+
+                    if (typeof color === 'undefined') {
+
+                        util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
+                        return;
+
+                    }
+
                     var element = '<div class="color_element">';
 
                     element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
