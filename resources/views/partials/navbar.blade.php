@@ -28,8 +28,8 @@
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                             <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
                                         </div>
-                                        <div class="form-group col-md-12">
-                                            <button type="submit" class="btn btn-primary btn-block">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-block">
                                                 <i class="fa fa-sign-in"></i>
                                                 Sign in
                                             </button>
@@ -49,11 +49,11 @@
             </ul>
             @else
             <div class = "btn-group">
-               <button type = "button" class = "btn btn-default">
-                    <strong>Welcome back {{ Session::get('first_name') }}!</strong>
+               <button type = "button" class = "btn">
+                    <strong>Hello There {{ Session::get('first_name') }}!</strong>
                </button>
 
-               <button type = "button" class = "btn btn-default dropdown-toggle" data-toggle = "dropdown">
+               <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
                   <span class = "caret"></span>
                   <span class = "sr-only">Toggle Dropdown</span>
                </button>

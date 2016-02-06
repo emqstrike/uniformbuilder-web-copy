@@ -77,13 +77,17 @@ class UniformBuilderController extends Controller
                     }
 
             }
+
             $categoryId = $material->uniform_category_id;
+
         }
         else
         {
+
             $design_set = $this->designSetClient->getDesignSet($designSetId);
             $material = $this->materialsClient->getMaterialByCode($design_set->upper_body_uniform);
             $materialId = $material->id;
+
         }
 
         $params = [
