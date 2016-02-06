@@ -782,7 +782,6 @@
 
                 }
 
-
                 var layer_order = ( 10 + application.layer_order ) 
 
                 sprite.originalZIndex = layer_order * (-1);
@@ -823,7 +822,8 @@
 
                 // ub.funcs.createDraggable(sprite, application, view);
                 ub.funcs.createClickable(sprite, application, view, 'application');
-                
+                ub.funcs.identify(application.code);
+
             });
 
             $textbox.trigger('change');

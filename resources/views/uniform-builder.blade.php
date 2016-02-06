@@ -50,12 +50,14 @@
     </div>
 </div>
 
+<!--
 <div class="container-fluid uniform-suggestions">
     <div class="col-md-12 you-might-like">
         You might also like:
     </div>
     <div class="suggestions"></div>
 </div>
+-->
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')

@@ -605,6 +605,7 @@ $(document).ready(function() {
             if (typeof view_objects['ui_handles'] === "object") {
 
                 var applicationID = view_objects['ui_handles'].applicationID;
+                
                 $('button[data-action="identify"][data-id=' + applicationID + ']').click();
 
                 view.removeChild(view_objects['ui_handles']);
@@ -748,6 +749,7 @@ $(document).ready(function() {
 
         // ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
+        ub.funcs.identify(application.code);
 
     };
 
@@ -845,6 +847,7 @@ $(document).ready(function() {
 
         ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
+        ub.funcs.identify(application.code);
 
     };
 
@@ -1171,8 +1174,6 @@ $(document).ready(function() {
         };
 
         $('body').mouseup(function() {
-
-            var btn = $('button[data-action="identify"][data-id=' + application.code + ']');
             
             if (sprite.ubHover) {
 
@@ -1188,13 +1189,9 @@ $(document).ready(function() {
 
                 if ( Math.abs(difference) > 100 || ub.states.active_application !== sprite) {
 
-                    $('div#right-main-window').scrollTo($element, 800,{ offset:-50, });
-
                     ub.states.active_application = sprite;
 
                 }
-
-                btn.click();
 
             }
 

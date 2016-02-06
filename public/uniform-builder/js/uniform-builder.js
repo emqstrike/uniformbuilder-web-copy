@@ -1585,8 +1585,6 @@ $(document).ready(function () {
             $('div#right-sidebar > a.sidebar-buttons').hover(function (e) {
 
                 var s = $(e.currentTarget);
-                var option = s.data('filename');
-                var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                 if (s.is($('#right-sidebar > a.active_button')[0])) {
                     return;
@@ -1595,7 +1593,6 @@ $(document).ready(function () {
                 s.removeClass('highlighter_off');
                 s.addClass('highlighter_on');
                 
-                //s.css('background-image', 'url(' + filename + ')');
  
             }, function (e) {
 
@@ -1605,13 +1602,8 @@ $(document).ready(function () {
                     return;
                 }
 
-                var option = s.data('filename');
-                var filename = ub.config.host + '/images/sidebar/' + option + '.png';
-                
                 s.removeClass('highlighter_on');
                 s.addClass('highlighter_off');
-
-               // s.css('background-image', 'url(' + filename + ')');                       
 
             });
 
@@ -1634,12 +1626,6 @@ $(document).ready(function () {
                     $('a.' + s).removeClass('highlighter_off');
                     $('a.' + s).addClass('highlighter_on');
 
-
-                    var option = $('a.' + s).data('option');
-                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
-
-                    $('a.' + s).css('background-image', 'url(' + filename + ')');
-
                 }                           
 
             }, function (e){
@@ -1653,11 +1639,6 @@ $(document).ready(function () {
 
                         $('a.' + s).removeClass('highlighter_on');
                         $('a.' + s).addClass('highlighter_off');
-
-                        var option = $('a.' + s).data('option');
-                        var filename = ub.config.host + '/images/sidebar/' + option + '.png';
-
-                        $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -3605,6 +3586,15 @@ $(document).ready(function () {
 
     /// End Generate Pattern
 
+    ub.funcs.identify = function (applicationCode) {
+
+        $('button[data-action="identify"][data-id=' + applicationCode + ']').click();
+
+    }
+
+
+    /// Saving, Loading and Sharing /// 
+
 
     // New Design
     $('.new-design').on('click', function () {
@@ -3950,22 +3940,21 @@ $(document).ready(function () {
         $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
-    function getUniformSuggestions(categoryId) {
-        $.ajax({
-            url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-            success: function (response) {
-                if (response.success) {
-                    $.each(response.materials, function (i, material){
-                        if (material.id != ub.config.material_id) {
-                            $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    getUniformSuggestions(ub.config.category_id);
+    // function getUniformSuggestions(categoryId) {
+    //     $.ajax({
+    //         url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 $.each(response.materials, function (i, material){
+    //                     if (material.id != ub.config.material_id) {
+    //                         $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     });
+    // }
+    // getUniformSuggestions(ub.config.category_id);
 
     // Uniform Sizes - Size Clicked Behavior
     $('.uniform-sizes .uniform-size').on('click', onSizeSelect);
