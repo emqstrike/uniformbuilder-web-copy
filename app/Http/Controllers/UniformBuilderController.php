@@ -72,18 +72,22 @@ class UniformBuilderController extends Controller
                     }
                     else {
 
-                        $materialId = 44;                
+                        $materialId = 52;                
 
                     }
 
             }
+
             $categoryId = $material->uniform_category_id;
+
         }
         else
         {
+
             $design_set = $this->designSetClient->getDesignSet($designSetId);
             $material = $this->materialsClient->getMaterialByCode($design_set->upper_body_uniform);
             $materialId = $material->id;
+
         }
 
         $params = [
@@ -168,6 +172,16 @@ class UniformBuilderController extends Controller
             'material_id' => $materialId
         ];
         return $this->showBuilder($config);
+    }
+
+    public function saveLogo(Request $request){
+
+        $r = $request->all();
+        $dataUrl = $r['dataUrl'];
+
+        $fname = $this->getS3PathDecodedImage($dataUrl);
+        return response()->json([ 'success' => true, 'filename' => $fname ]);
+
     }
 
     private function getS3PathDecodedImage($base64string)

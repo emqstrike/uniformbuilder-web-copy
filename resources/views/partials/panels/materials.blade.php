@@ -14,7 +14,7 @@
         <br /><br />
 
         Hexadecimal Color: <br />
-        <input type="text" name="hex_color" id="hex_color" value="#000000" maxlength="6" />
+        <input type="text" name="hex_color" id="hex_color" value="#000000" maxlength="7" />
         <br /><br />
         <button id="manual_change_color" class="btn btn">Change</button>
     </div>

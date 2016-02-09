@@ -213,6 +213,14 @@ $(document).ready(function() {
                     "opacity": opacity,
                 });
 
+                ub.current_material.settings.applications[application_id].alpha = object.alpha;
+
+                ub.save_property({
+                    application_id: application_id,
+                    property: 'alpha',
+                    value: object.alpha,
+                })
+
             }
 
         });
@@ -289,7 +297,7 @@ $(document).ready(function() {
     ub.funcs.update_logo_list = function() {
 
         var $logo_container = $('div.logo-container');
-        var logos = ub.current_material.settings.files.logos;
+        var logos = ub.current_material.containers.files.logos;
 
         _.each($logo_container, function (el) {
 
@@ -597,6 +605,7 @@ $(document).ready(function() {
             if (typeof view_objects['ui_handles'] === "object") {
 
                 var applicationID = view_objects['ui_handles'].applicationID;
+                
                 $('button[data-action="identify"][data-id=' + applicationID + ']').click();
 
                 view.removeChild(view_objects['ui_handles']);
@@ -606,7 +615,6 @@ $(document).ready(function() {
 
         });
 
-           
     };
 
     ub.funcs.update_application_mascot = function(application, mascot) {
@@ -623,6 +631,8 @@ $(document).ready(function() {
             color_array: {},
         };
 
+        var settings_obj = settings.applications[application.code];
+        var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var container = new PIXI.Container();
@@ -632,7 +642,9 @@ $(document).ready(function() {
         _.each(mascot.layers, function(layer, index){
 
             var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+
             mascot_layer.tint = parseInt(layer.default_color,16);
+            mascot_obj.layers[index].color = mascot_layer.tint; 
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
@@ -656,7 +668,9 @@ $(document).ready(function() {
         container.scale = new PIXI.Point(0.5, 0.5);
         var sprite = container;
 
-        settings.applications[application.code].mascot = sprite;
+        ub.current_material.containers[application.code] = {};
+
+        ub.current_material.containers[application.code].mascot = sprite;
 
         var mask = _.find(ub.current_material.material.options, {
             
@@ -686,7 +700,7 @@ $(document).ready(function() {
             rotation = obj.rotation;
             alpha = obj.alpha;
             tint = obj.tint;
-            var color_array = settings.applications[application.code].color_array;
+            var color_array = settings_obj.color_array;
 
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
@@ -710,7 +724,7 @@ $(document).ready(function() {
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
-        settings.applications[application.code].layer_order = layer_order;
+        settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
 
@@ -723,6 +737,11 @@ $(document).ready(function() {
 
         }
 
+        settings_obj.position = sprite.position;
+        settings_obj.scale = sprite.scale;
+        settings_obj.rotation = sprite.rotation;
+        settings_obj.alpha = sprite.alpha;
+
         window.sprite = sprite;
 
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
@@ -730,6 +749,7 @@ $(document).ready(function() {
 
         // ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
+        ub.funcs.identify(application.code);
 
     };
 
@@ -742,20 +762,20 @@ $(document).ready(function() {
 
         settings.applications[application.code] = {
             application: application,
-            logo: logo,
             type: 'logo',
             color_array: {},
         };
 
+        var settings_obj = settings.applications[application.code];
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
-        
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
+
+        ub.saveLogo(logo.dataUrl, application.code);
         
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
             name: application.layer
-
         });
 
         var mask = ub.pixi.new_sprite(mask.material_option_path);
@@ -778,7 +798,7 @@ $(document).ready(function() {
             rotation = obj.rotation;
             alpha = obj.alpha;
             tint = obj.tint;
-            var color_array = settings.applications[application.code].color_array;
+            var color_array = settings_obj.color_array;
 
             view.removeChild(view_objects['objects_' + application.code]);
             delete view_objects['objects_' + application.code];
@@ -804,7 +824,7 @@ $(document).ready(function() {
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
-        settings.applications[application.code].layer_order = layer_order;
+        settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
 
@@ -817,11 +837,17 @@ $(document).ready(function() {
 
         }
 
+        settings_obj.position = sprite.position;
+        settings_obj.scale = sprite.scale;
+        settings_obj.rotation = sprite.rotation;
+        settings_obj.alpha = sprite.alpha;
+
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
         ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
+        ub.funcs.identify(application.code);
 
     };
 
@@ -1032,12 +1058,13 @@ $(document).ready(function() {
                 var p_app = new PIXI.Point(x, y);
                 var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
-
                 var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
 
                 if(typeof application_obj === 'undefined') {
                     return;
                 }
+
+                var settings_obj = ub.current_material.settings.applications[application.code];
 
                 if (type === 'move') {
 
@@ -1052,14 +1079,13 @@ $(document).ready(function() {
                         limits = 30;
                     }
 
-
                     if (dist >= limits) {
                         move_point.position = sprite.position;
                         return;
                     }
 
-                    application_obj.position = new PIXI.Point(sprite.x, sprite.y);
-                    ub.current_material.settings.applications[application.code].position = sprite.position;
+                    application_obj.position = sprite.position;
+                    settings_obj.position = sprite.position;
 
                     var r_x = rotation_point.x + (sprite.x - sprite.oldX);
                     var r_y = rotation_point.y + (sprite.y - sprite.oldY);
@@ -1077,16 +1103,19 @@ $(document).ready(function() {
                     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
 
+                    settings_obj.rotation = application_obj.rotation;
+
                     var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
                     percentage = distance / 100;
 
-                        var application_type = ub.current_material.settings.applications[application.code].type;
+                    var application_type = settings_obj.type;
 
-                        if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
+                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
 
-                            application_obj.scale.set(percentage, percentage);
+                        application_obj.scale.set(percentage, percentage);
+                        settings_obj.scale = application_obj.scale;
 
-                        }
+                    }
 
                 }
 
@@ -1145,8 +1174,6 @@ $(document).ready(function() {
         };
 
         $('body').mouseup(function() {
-
-            var btn = $('button[data-action="identify"][data-id=' + application.code + ']');
             
             if (sprite.ubHover) {
 
@@ -1162,13 +1189,9 @@ $(document).ready(function() {
 
                 if ( Math.abs(difference) > 100 || ub.states.active_application !== sprite) {
 
-                    $('div#right-main-window').scrollTo($element, 800,{ offset:-50, });
-
                     ub.states.active_application = sprite;
 
                 }
-
-                btn.click();
 
             }
 
@@ -1239,7 +1262,7 @@ $(document).ready(function() {
 
         var code = application.code;
         var current_layer_order = ub.current_material.settings.applications[application.code].layer_order;
-        var current_element = ub.current_material.settings.applications[application.code];
+        var settings_obj = ub.current_material.settings.applications[application.code];
         var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.code];
 
         if (movement === 'UP') {
@@ -1252,7 +1275,7 @@ $(document).ready(function() {
                 next_obj.zIndex = (current_layer_order) * -1;
             }
 
-            current_element.layer_order = (current_layer_order + 1);
+            settings_obj.layer_order = (current_layer_order + 1);
             current_obj.zIndex = (current_layer_order + 1) * -1;
 
             ub.updateLayersOrder(ub[application.perspective + '_view']);
@@ -1271,7 +1294,7 @@ $(document).ready(function() {
 
             }
 
-            current_element.layer_order = (current_layer_order - 1);
+            settings_obj.layer_order = (current_layer_order - 1);
             current_obj.zIndex = (current_layer_order - 1) * -1;
 
             ub.updateLayersOrder(ub[application.perspective + '_view']);

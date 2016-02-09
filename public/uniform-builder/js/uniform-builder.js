@@ -154,6 +154,38 @@ $(document).ready(function () {
 
         };
 
+        ub.saveLogo = function (dataUrl, applicationCode) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify({ dataUrl: dataUrl }),
+                url: ub.config.host + "/saveLogo",
+                dataType: "json",
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if(response.success) {
+                        ub.current_material.settings.applications[applicationCode].filename = response.filename;
+                    }
+                    else{
+                        util.error('Logo upload not successful.');
+                    }
+
+                }
+            
+            });
+
+        }
+
          ub.display_gender_picker = function () {
 
             $('#arrow_design_sets').remove();
@@ -455,7 +487,6 @@ $(document).ready(function () {
 
             }
 
-
             ub.change_material_option_color16(e.code, e.color);
 
             if(typeof e.gradient !== 'undefined'){
@@ -482,7 +513,6 @@ $(document).ready(function () {
 
         /// Load Applications, Text Type
 
-
         var font_families = [];
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
@@ -492,7 +522,7 @@ $(document).ready(function () {
                 WebFont.load({
                 
                     custom: {
-                      families: [application_obj.font_obj.name]
+                      families: [application_obj.font_obj.name],
                     },
                     active: function() {
                         ub.create_application (application_obj);
@@ -501,8 +531,22 @@ $(document).ready(function () {
                 });
 
             }
+
+            if (application_obj.type === "mascot"){
+
+                ub.update_application_mascot(application_obj);
+
+            }
+
+            if (application_obj.type === "logo"){
+
+                ub.update_application_logo(application_obj);
+
+            }
                 
         });
+            
+            
 
     };
 
@@ -538,9 +582,9 @@ $(document).ready(function () {
             preview: '',
         };
 
-        settings.files = {};
+        ub.current_material.containers.files = {};
+        ub.current_material.containers.files.logos = [];
 
-        settings.files.logos = [];
         settings.applications = {};
 
         var current_material = ub.current_material.material;
@@ -988,6 +1032,14 @@ $(document).ready(function () {
                 _.each(obj.available_colors, function (color_obj) {
 
                     var color = _.find(ub.data.colors, { color_code: color_obj});
+
+                    if (typeof color === 'undefined') {
+
+                        util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
+                        return;
+
+                    }
+
                     var element = '<div class="color_element">';
 
                     element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
@@ -1116,12 +1168,11 @@ $(document).ready(function () {
                 var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
                 ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
                 ddowns     +=       '<option value="none">-- Select an Application --</option>';
-                ddowns     +=       '<option value="logo">Logo</option>';
+                ddowns     +=       '<option value="logo">Logo / Image</option>';
                 ddowns     +=       '<option value="mascot">Mascot</option>';
                 ddowns     +=       '<option value="player_name">Player Name</option>';
                 ddowns     +=       '<option value="team_name">Team Name</option>';
                 ddowns     +=       '<option value="player_number">Player Number</option>';
-                ddowns     +=       '<option value="image">Image</option>';
                 ddowns     +=   '</select>&nbsp;';
 
                 ddowns     +=   '<button data-action="identify" data-option="applications" data-id="' + application.id + '" class="btn btn-xs"><i class="fa fa-arrows"></i></button>';
@@ -1156,10 +1207,6 @@ $(document).ready(function () {
 
                     if (application_type === "logo") {
                         $container.ubLogoDialog(plugin_parameters);
-                    }
-
-                    if (application_type === "image") {
-                        $container.ubImageDialog(plugin_parameters);
                     }
 
                     if (application_type === "mascot") {
@@ -1538,8 +1585,6 @@ $(document).ready(function () {
             $('div#right-sidebar > a.sidebar-buttons').hover(function (e) {
 
                 var s = $(e.currentTarget);
-                var option = s.data('filename');
-                var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
 
                 if (s.is($('#right-sidebar > a.active_button')[0])) {
                     return;
@@ -1548,7 +1593,6 @@ $(document).ready(function () {
                 s.removeClass('highlighter_off');
                 s.addClass('highlighter_on');
                 
-                //s.css('background-image', 'url(' + filename + ')');
  
             }, function (e) {
 
@@ -1558,13 +1602,8 @@ $(document).ready(function () {
                     return;
                 }
 
-                var option = s.data('filename');
-                var filename = ub.config.host + '/images/sidebar/' + option + '.png';
-                
                 s.removeClass('highlighter_on');
                 s.addClass('highlighter_off');
-
-               // s.css('background-image', 'url(' + filename + ')');                       
 
             });
 
@@ -1587,12 +1626,6 @@ $(document).ready(function () {
                     $('a.' + s).removeClass('highlighter_off');
                     $('a.' + s).addClass('highlighter_on');
 
-
-                    var option = $('a.' + s).data('option');
-                    var filename = ub.config.host + '/images/sidebar/' + option + '-on.png';
-
-                    $('a.' + s).css('background-image', 'url(' + filename + ')');
-
                 }                           
 
             }, function (e){
@@ -1606,11 +1639,6 @@ $(document).ready(function () {
 
                         $('a.' + s).removeClass('highlighter_on');
                         $('a.' + s).addClass('highlighter_off');
-
-                        var option = $('a.' + s).data('option');
-                        var filename = ub.config.host + '/images/sidebar/' + option + '.png';
-
-                        $('a.' + s).css('background-image', 'url(' + filename + ')');
 
                     }    
 
@@ -2833,44 +2861,15 @@ $(document).ready(function () {
                 if (application_obj.text.length === 0) { return; }
 
                 var application = application_obj.application;
-
                 var x = application_obj.position.x;
                 var y = application_obj.position.y;
-
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
                 var font_obj = application_obj.font_obj;
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
                 var color_array = application_obj.color_array;
-
                 var text_input = application_obj.text;
                 var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
-
-                // settings.applications[application.code] = {
-                //     application: application,
-                //     text: text_input,
-                //     type: 'player_number',
-                //     color_array: {},
-                //     object_type: 'text object',
-                //     appliation_type: plugin_type,
-                //     code: application.code,
-                //     font_obj: font_obj,
-                // };
-
-                // var uniform_type = ub.current_material.material.type;
-                // var app_containers = ub.current_material.containers[uniform_type].application_containers;
-                
-                // app_containers[application.code] = {};
-                // app_containers[application.code].object = {
-
-                //     sprite: sprite, 
-
-                // };
-
-                // if (color_array !== ''){
-                //     settings.applications[application.code].color_array = color_array;
-                // }
-
                 var view = ub[application.perspective + '_view'];
                 var view_objects = ub.objects[application.perspective + '_view'];
                 var mask = _.find(ub.current_material.material.options, {
@@ -2918,13 +2917,14 @@ $(document).ready(function () {
 
                 });
          
-                // /// End Set First Three Colors 
+                ///// End Set First Three Colors 
 
-
-                gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
+                text_gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
                 
-                if (typeof gradient_obj !== 'undefined') {
-                    ub.generate_gradient_for_text(gradient_obj, application.code, sprite, application);    
+                if (typeof text_gradient_obj !== 'undefined') {
+
+                    ub.generate_gradient_for_text(text_gradient_obj, application.code, sprite, application);    
+
                 }
 
                 pattern_obj = ub.current_material.settings.applications[application.code].pattern_obj;
@@ -2937,18 +2937,11 @@ $(document).ready(function () {
                 view_objects['objects_' + application.code] = sprite;
                 view.addChild(sprite);
 
-                sprite.position.x = x;
-                sprite.position.y = y;
-                sprite.rotation = application.rotation;
+                sprite.position = application_obj.position;
+                sprite.rotation = application_obj.rotation;
+                sprite.alpha    = application_obj.alpha;
 
-                if(sprite.width === 1) {
-
-                    sprite.position.x -= (sprite.width / 2);
-                    sprite.position.y -= (sprite.height / 2);
-
-                }
-
-                var layer_order = ( 10 + application.layer_order ) 
+                var layer_order = ( 10 + application_obj.layer_order ) 
 
                 sprite.originalZIndex = layer_order * (-1);
                 sprite.zIndex = layer_order * (-1);
@@ -2966,9 +2959,6 @@ $(document).ready(function () {
 
                 }
 
-                // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-                // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
-
                 ub.funcs.createClickable(sprite, application, view, 'application');
 
             };
@@ -2985,8 +2975,6 @@ $(document).ready(function () {
                 main_text_obj.alpha = 1;
                 var uniform_type = ub.current_material.material.type;
                 var clone = pattern_obj;
-
-
                 var val_rotation = pattern_settings.rotation;
                 var val_opacity = 1;
                 var val_scale = pattern_settings.scale;
@@ -3066,33 +3054,40 @@ $(document).ready(function () {
                 ub.updateLayersOrder(text_sprite);
                 ub.refresh_thumbnails();
 
+        };
 
-            };
+        ub.generate_gradient_for_text = function (gradient_obj, target, text_sprite, application) {
 
-            ub.generate_gradient_for_text = function (gradient_obj, target, text_sprite, application) {
+            var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
+            if (gradient_obj.code === "none") {
+                base_color_obj.alpha = 1;                  
+            }
+            else {
+                base_color_obj.alpha = 0;                     
+            }
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
-            main_text_obj.alpha = 1;  
+            main_text_obj.alpha = 1;
             var uniform_type = ub.current_material.material.type;
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") {
+            if (uniform_type === "upper") { 
 
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
+                guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
 
             }
             else {
 
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
+                guides = { x1: 148, y1: 58, x2: 347, y2: 488 }; 
 
-            }
+            } 
 
             var gradient_width  = 496;
             var gradient_height = 550;
             var canvas = document.createElement('canvas');
-
-            canvas.width = ub.dimensions.width;
+            
+            canvas.width  = ub.dimensions.width;
             canvas.height = ub.dimensions.height;
 
             var ctx = canvas.getContext('2d');
@@ -3144,24 +3139,24 @@ $(document).ready(function () {
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-            }
+            // if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+            //     ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            // }
 
-            ub.objects.pattern_view.gradient_layer = gradient_layer;
-            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-            ub.updateLayersOrder(ub.pattern_view);
+            // ub.objects.pattern_view.gradient_layer = gradient_layer;
+            // ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            // ub.updateLayersOrder(ub.pattern_view);
             
             var v = application.perspective;
             var view = v + '_view';
 
             temp_pattern[v] = new PIXI.Sprite(texture);
 
-            if(typeof text_sprite.gradient_layer === "object" ){
+            // if(typeof text_sprite.gradient_layer === "object" ){
 
-                text_sprite.removeChild(text_sprite.gradient_layer);
+            //     text_sprite.removeChild(text_sprite.gradient_layer);
 
-            }
+            // }
             
             temp_pattern[v].zIndex = 1;
   
@@ -3304,6 +3299,184 @@ $(document).ready(function () {
 
             }
 
+            ub.recreate_gradient_obj = function (gradient_obj) {
+
+                /// Recreate Gradient Object into new structure
+            
+                var gradient_output = {};
+
+                gradient_output.angle = gradient_obj.angle;
+                gradient_output.code = gradient_obj.code;
+                gradient_output.name = gradient_obj.name;
+                gradient_output.color_stops = [];
+
+                _.each (gradient_obj.color_stops, function (color_stop, index) {
+
+                    var new_cs = {
+                        index: color_stop.index,
+                        color: color_stop.color,
+                        value: color_stop.value,
+                    }
+
+                    gradient_output.color_stops.push(new_cs);
+
+                })
+
+                return gradient_output;
+
+                /// End Recreate 
+
+            }
+
+        // load logo
+
+            ub.update_application_logo = function(application_obj) {
+
+            var application = application_obj.application;
+            var x = ub.dimensions.width * application.position.x;
+            var y = ub.dimensions.height * application.position.y;
+            var settings = ub.current_material.settings;
+
+            var filename = application_obj.filename;
+
+
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            
+            var sprite = PIXI.Sprite.fromImage(filename);
+
+            var mask = _.find(ub.current_material.material.options, {
+                perspective: application.perspective,
+                name: application.layer
+            });
+
+            var mask = ub.pixi.new_sprite(mask.material_option_path);
+
+            sprite.mask = mask;
+
+            var s = view_objects['objects_' + application.code];
+
+            view_objects['objects_' + application.code] = sprite;
+            view.addChild(sprite);
+
+            sprite.position = new PIXI.Point(x,y);
+            sprite.rotation = application.rotation;
+
+            if(sprite.width === 1) {
+            
+                sprite.position.x -= (sprite.width / 2);
+                sprite.position.y -= (sprite.height / 2);
+
+            }
+      
+            sprite.anchor.set(0.5, 0.5);
+
+            sprite.position = application_obj.position;
+            sprite.rotation = application_obj.rotation;
+            sprite.scale    = application_obj.scale;
+            sprite.alpha    = application_obj.alpha;
+
+            var layer_order = ( 10 + application.layer_order ) 
+
+            sprite.originalZIndex = layer_order * (-1);
+            sprite.zIndex = layer_order * (-1);
+            settings.applications[application.code].layer_order = layer_order;
+        
+            ub.updateLayersOrder(view);
+
+            ub.funcs.createDraggable(sprite, application, view);
+            ub.funcs.createClickable(sprite, application, view, 'application');
+
+        };
+
+        // end load logo
+
+        ub.update_application_mascot = function(application_obj) {
+
+            var application = application_obj.application;
+            var mascot = application_obj.mascot;
+
+            var x = ub.dimensions.width * application.position.x;
+            var y = ub.dimensions.height * application.position.y;
+            var settings = ub.current_material.settings;
+            var application_mascot_code = application.code + '_' + mascot.id;
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            var container = new PIXI.Container();
+
+            var elements = "";
+
+            _.each(mascot.layers, function(layer, index){
+
+                var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+                mascot_layer.tint = layer.color;
+
+                mascot_layer.anchor.set(0.5, 0.5);
+                container.addChild(mascot_layer);
+
+                var val = layer.default_color;
+                var col = layer.default_color;
+                var filename = layer.filename;
+                
+                elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+
+            });
+
+
+            container.scale = new PIXI.Point(0.5, 0.5);
+
+            var sprite = container;
+            var mask = _.find(ub.current_material.material.options, {
+                
+                perspective: application.perspective,
+                name: application.layer
+
+            });
+
+            var mask = ub.pixi.new_sprite(mask.material_option_path);
+            var temp = {}
+
+            sprite.mask = mask;
+
+            var s = view_objects['objects_' + application.code];
+
+            var position = '';
+            var scale = '';
+            var rotation = '';
+            var alpha = '';
+
+            view_objects['objects_' + application.code] = sprite;
+            view.addChild(sprite);
+
+            sprite.position = application_obj.position;
+            sprite.rotation = application_obj.rotation;
+            sprite.scale    = application_obj.scale;
+            sprite.alpha    = application_obj.alpha;
+
+            var layer_order = ( 10 + application_obj.layer_order );
+
+            sprite.originalZIndex = layer_order * (-1);
+            sprite.zIndex = layer_order * (-1);
+            settings.applications[application.code].layer_order = layer_order;
+        
+            ub.updateLayersOrder(view);
+
+            ub.funcs.createClickable(sprite, application, view, 'application');
+
+        };
+
+        ub.save_property = function (obj) {
+
+            if (typeof obj.application_id === 'undefined' || typeof obj.property === 'undefined' || typeof obj.value === 'undefined') {
+
+                console.warning ('Incomplete Input');
+                return;
+
+            }
+
+            ub.current_material.settings.applications[obj.application_id][obj.property] = obj.value;
+
+        }
 
         /// End Utilities ///
 
@@ -3412,6 +3585,15 @@ $(document).ready(function () {
     }
 
     /// End Generate Pattern
+
+    ub.funcs.identify = function (applicationCode) {
+
+        $('button[data-action="identify"][data-id=' + applicationCode + ']').click();
+
+    }
+
+
+    /// Saving, Loading and Sharing /// 
 
 
     // New Design
@@ -3758,22 +3940,21 @@ $(document).ready(function () {
         $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
-    function getUniformSuggestions(categoryId) {
-        $.ajax({
-            url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-            success: function (response) {
-                if (response.success) {
-                    $.each(response.materials, function (i, material){
-                        if (material.id != ub.config.material_id) {
-                            $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    getUniformSuggestions(ub.config.category_id);
+    // function getUniformSuggestions(categoryId) {
+    //     $.ajax({
+    //         url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 $.each(response.materials, function (i, material){
+    //                     if (material.id != ub.config.material_id) {
+    //                         $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     });
+    // }
+    // getUniformSuggestions(ub.config.category_id);
 
     // Uniform Sizes - Size Clicked Behavior
     $('.uniform-sizes .uniform-size').on('click', onSizeSelect);

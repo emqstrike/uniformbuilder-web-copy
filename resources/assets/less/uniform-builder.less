@@ -5,16 +5,15 @@
 
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
 */
-@forecolor: #3d3d3d;
+@forecolor: #acacac;
 @border_color: @forecolor;
+@text_color: #3d3d3d;
 
-@main_highlight: @forecolor;
-@main_highlight_off: #acacac;
-@main_forecolor: @forecolor;
+@main_highlight: #acacac;
+@main_highlight_off: #e7e7e7;
+@main_forecolor: @text_color;
 
 @main_window_pane_height: 550px;
-
-@text_color: @main_forecolor;
 
 body, h1, h2, h3, h4, h5, h6, button, a, p {
     font-family: 'Roboto', sans-serif;
@@ -39,7 +38,7 @@ div.navbar-header {
 
         img {
             padding: 3px;
-            margin: 3px;
+            margin: 5px;
         }  
     }
 
@@ -54,7 +53,7 @@ div.navbar-header {
 }
 
 #header_text {
-    color: @main_highlight;
+    color: @text_color;
 }
 
 .navbar-default {
@@ -222,7 +221,7 @@ div.pane {
 /* UI Generic */
 
 a.active_button {
-    background-color: @main_forecolor !important;
+    background-color: @main_highlight !important;
 }
 
 /* End UI Generic */
@@ -840,7 +839,7 @@ img.highlighter {
 
 }
 
-.user-profile { margin-top: -40px;}
+.user-profile { margin-top: -47px;}
 
 .gradient_slider {
 
@@ -1439,3 +1438,12 @@ button#manual_change_color {
 
 }
 
+/* Sign In, Sign Up Area */
+
+.user-profile.pull-right > div > button.btn {
+    background-color: @main_highlight_off !important;
+}
+
+div.help-block > a  {
+    color: @main_highlight_off !important;
+}

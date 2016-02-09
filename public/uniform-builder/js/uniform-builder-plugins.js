@@ -63,6 +63,14 @@
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
+
+                if (typeof color === 'undefined') {
+
+                    util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
+                    return;
+
+                }
+
                 var element = '<div class="color_element">';
 
                 element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
@@ -140,12 +148,14 @@
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.settings.applications[settings.application.code].mascot;
+                    var mascot = ub.current_material.containers[settings.application.code].mascot;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
                     mascot.children[layer_no].tint = color;
+
+                    ub.current_material.settings.applications[settings.application.code].mascot.layers[layer_no].color = color; 
                     ub.refresh_thumbnails();
 
                 }
@@ -176,8 +186,7 @@
 
     };
 
-    
-    $.fn.ubImageDialog = $.fn.ubLogoDialog = function (options) {
+    $.fn.ubLogoDialog = function (options) {
 
         ub.funcs.removeUIHandles();
 
@@ -230,7 +239,7 @@
 
                     reader.onloadend = function () {
 
-                        var logos = ub.current_material.settings.files.logos;
+                        var logos = ub.current_material.containers.files.logos;
                         var file = files[0];
                         var id = new Date().getTime();
 
@@ -631,7 +640,7 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                
+
                 var font_id = selected_font_id;
 
                 if (ub.config.app_env !== "local") {
@@ -639,7 +648,6 @@
                 }
                 
                 var font_obj = _.find(ub.data.fonts, {id: font_id });
-
                 var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
 
                 if (typeof font_obj === 'undefined') {
@@ -661,7 +669,6 @@
                 var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
                 var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
 
-
                 settings.applications[application.code] = {
                     application: application,
                     accent_obj: accent_obj,
@@ -677,6 +684,9 @@
                     gradient_settings: undefined,
                     pattern_obj: undefined,
                     pattern_settings: undefined,
+                    position: undefined,
+                    rotation: undefined,
+                    scale: undefined,
                 };
 
                 var uniform_type = ub.current_material.material.type;
@@ -772,7 +782,6 @@
 
                 }
 
-
                 var layer_order = ( 10 + application.layer_order ) 
 
                 sprite.originalZIndex = layer_order * (-1);
@@ -803,12 +812,18 @@
                     app.position = '';
                 }
 
+                settings.applications[application.code].position = sprite.position;
+                settings.applications[application.code].rotation = sprite.rotation;
+                settings.applications[application.code].scale = sprite.scale;
+                settings.applications[application.code].alpha = sprite.alpha;
+
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
                 // ub.funcs.createDraggable(sprite, application, view);
                 ub.funcs.createClickable(sprite, application, view, 'application');
-                
+                ub.funcs.identify(application.code);
+
             });
 
             $textbox.trigger('change');
@@ -913,10 +928,17 @@
             }
 
             if (layer.name === 'Mask') {
-                text_layer.text_sprite.alpha = 0                
+                text_layer.text_sprite.alpha = 1;                
             }
 
         });
+
+
+        // Mask the main text to remove outline showing bug
+        var text_mask = _.find(container.children, {ubName: 'Mask'});
+        var main_text = _.find(container.children, {ubName: 'Base Color'});
+
+        main_text.mask = text_mask;
 
         ub.updateLayersOrder(container);
 
@@ -935,7 +957,7 @@
             content += "<div class='row'>";
             content +=      "<div col-md-12>";
 
-            var els = '<a class="font-selector" data-font-id="-1" data-font-name="None" data-target="font_style_drop_element" data-id="' + settings.application.id + '">None</a><br />';
+            var els = ''; 
 
             _.each(ub.data.fonts, function (item) {
                 els += '<a class="font-selector" style="font-family: ' + item.name + '" data-font-id="' + item.id + '" data-font-name="' + item.name + '" data-target="font_style_drop_element" data-id="' + settings.application.id + '">' + item.name + '</a><br />';
@@ -1740,10 +1762,13 @@
 
             $("button#update-gradient-" + target).click('click', function (e) {
 
-                _.each(clone.color_stops, function (e, index) {
+                var gradient_output = ub.recreate_gradient_obj(clone);
+                generate_gradient(gradient_output, target, text_sprite, application);
+
+                _.each(gradient_output.color_stops, function (e, index) {
 
                     var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background',s.val());
+                    $("#gradient_slider_" + target).find('span:eq(' + index + ')').css('background', s.val());
                     e.color = s.val();
                     var temp = ($('#' + 'gradient_slider_' + target).limitslider("values")[index]);
                     temp = Math.floor(temp / 10);
@@ -1753,8 +1778,11 @@
 
                 });
 
-                clone.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
-                generate_gradient(clone, target, text_sprite, application);
+                gradient_output.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
+
+                /// Recreate Gradient Object into new structure
+            
+                generate_gradient(gradient_output, target, text_sprite, application);
 
             });
 
@@ -1763,7 +1791,7 @@
 
                 $('#add_gradient_color_stop').on('click', function () {
 
-                    var obj_colors = _.find(ub.current_material.material.options, { name:  window.util.toTitleCase(target) });
+                    var obj_colors = _.find(ub.current_material.material.options, { name: window.util.toTitleCase(target) });
                     var color_code = JSON.parse(obj_colors.colors)[clone.color_stops.length + 1];
 
                     color_obj = _.find(ub.data.colors, { color_code: color_code })
@@ -1823,6 +1851,14 @@
         var generate_gradient = function (gradient_obj, target, text_sprite, application) {
 
             ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
+
+            var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
+            if (gradient_obj.code === "none") {
+                base_color_obj.alpha = 1;                  
+            }
+            else {
+                base_color_obj.alpha = 0;                     
+            }
 
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;  
@@ -1897,13 +1933,13 @@
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-                ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-            }
+            // if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
+            //     ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
+            // }
 
-            ub.objects.pattern_view.gradient_layer = gradient_layer;
-            ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-            ub.updateLayersOrder(ub.pattern_view);
+            // ub.objects.pattern_view.gradient_layer = gradient_layer;
+            // ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
+            // ub.updateLayersOrder(ub.pattern_view);
             
             var v = application.perspective;
             var view = v + '_view';

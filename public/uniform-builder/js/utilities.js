@@ -2,6 +2,12 @@ $( document ).ready(function() {
 
     window.util = {
 
+        //// TODO: Add Error Logging here...
+        
+        error: function (error){
+            console.error(error);
+        },
+
         collectionToArray: function(collection){
 
             var tempArray = [];

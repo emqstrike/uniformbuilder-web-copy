@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Uniform Builder">
 <meta name="author" content="Engineering">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <title>{{ $page_title }}</title>
 
@@ -22,7 +23,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
-
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
@@ -50,12 +50,14 @@
     </div>
 </div>
 
+<!--
 <div class="container-fluid uniform-suggestions">
     <div class="col-md-12 you-might-like">
         You might also like:
     </div>
     <div class="suggestions"></div>
 </div>
+-->
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
