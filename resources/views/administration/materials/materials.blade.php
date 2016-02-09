@@ -32,8 +32,8 @@
         </small>
         <small>
             <a href="#" class='btn btn-xs btn-warning remove-color'>
-                <span class="glyphicon glyphicon-trash"></span>
-                Remove color
+                <span class="glyphicon glyphicon-refresh"></span>
+                Cleanup
             </a>
         </small>
     </h1>

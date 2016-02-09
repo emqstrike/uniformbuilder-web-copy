@@ -41,6 +41,7 @@ class MaterialsOptionsAPIClient extends APIClient
 
     public function update($data)
     {
+        // 
         $response = $this->post('material_option/update', [
             'json' => $data
         ]);
@@ -96,9 +97,14 @@ class MaterialsOptionsAPIClient extends APIClient
         return !is_null($material_option);
     }
 
+    // public function purge($data)
     public function purge($data)
     {
-        $response = $this->get('material_options/purge/' . $data['color_code']);
-        $result = $this->decoder->decode($response->getBody());
+        // $response = $this->get('material_options/purge/' . $data['color_code']);
+        $response = $this->post('material_options/purge', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 }
