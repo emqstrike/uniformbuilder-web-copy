@@ -776,7 +776,7 @@ var appPropJson = "";
             }
             
         });
-console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
+// console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
