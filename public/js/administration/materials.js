@@ -491,8 +491,11 @@ var appPropJson = "";
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
+                highlights: ($(this).data('material-highlights-path'))
             }
         };
+
+        console.log("HIGHLIGHTS PATH: "+material.option.highlights);
 
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
@@ -539,12 +542,16 @@ var appPropJson = "";
         } else if(perspective == 'right') {
             material_option_shape = material.right_shape;
         }
+
+        if(material.option.highlights != null){
+            material_option_shape = material.option.highlights;
+        }
         
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
-        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-        $("#shape-view-top").css("background-image", "url(" + material.option.path + ")");
+        $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
+        $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
         // **************
