@@ -774,6 +774,35 @@ var appPropJson = "";
         });
     });
 
+    $('.toggle-material').on('click', function(){
+        var id = $(this).data('material-id');
+        console.log("TOG ID:"+id);
+        var url = "//" + api_host + "/api/material/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    // $(elem + ' .enable-material').removeAttr('disabled');
+                    // $(elem + ' .disable-material').attr('disabled', 'disabled');
+                    // $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
         modalConfirm(
