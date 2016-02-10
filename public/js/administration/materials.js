@@ -548,9 +548,7 @@ var appPropJson = "";
         // **************
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            // if($('.a-prop').val == "\"{}\""){
-            //     return false;
-            // }
+            console.log("bprop");
             var jason = $('.b-prop').val().replace(/\\/g, '');
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
@@ -578,6 +576,9 @@ var appPropJson = "";
 
             // var appPropJson = $('.a-prop').val().replace(/\\/g, '');
             // var appProp = appPropJson.substring(1, appPropJson.length-1);
+            if($('.a-prop').val() != "\"{}\""){
+            //     return false;
+            // } ***********************************************
             var app_properties = JSON.parse(va_prop_val);
 
             $(".front-applications").remove(".apOpt");
@@ -682,6 +683,8 @@ var appPropJson = "";
                     break;
                 }
             }
+
+            } // ************************ APP PROP IF END
 
 
             var boundaryProperties = JSON.stringify(data);
