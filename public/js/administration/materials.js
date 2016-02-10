@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     $("#material-option-name").keyup(function() {
-        checkNameLength();
+        checkNameLength();d
     });
 
     $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
@@ -481,6 +481,7 @@ var appPropJson = "";
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
+                sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
@@ -502,14 +503,28 @@ var appPropJson = "";
         $('#saved-origin').val(material.option.origin);
         $('#saved-origin').text(material.option.origin);
         $('#saved-origin').attr('selected','selected');
-        $('#saved-default-color').val(material.option.default_color);
-        $('#saved-default-color').text(material.option.default_color);
-        $('#saved-default-color').attr('selected','selected');
+
+        $('.saved-default-color').val(material.option.default_color);
+        $('.saved-default-color').text(material.option.default_color);
+        $('.saved-default-color').attr('selected','selected');
+
+        $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
+        $('#saved-sublimated-default-color').text(material.option.sublimated_default_color);
+        $('#saved-sublimated-default-color').attr('selected','selected');
+
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
-        $('#boundary-properties').prop("value", material.option.boundary_properties);
+        // $('#boundary-properties').prop("value", material.option.boundary_properties);
+        $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
+        var va_prop_val;
+        if($('.a-prop').val() != "\"{}\""){
+            console.log("INSIDE IF");
+            var trim_backslash = $('.a-prop').val().replace(/\\/g, '');
+            va_prop_val = trim_backslash.substring(1, trim_backslash.length-1);
+            $('.a-prop').prop("value", va_prop_val);
+        }
 
         var perspective = material.option.perspective;
         var material_option_shape;
@@ -531,8 +546,12 @@ var appPropJson = "";
         checkNameLength();
 
         // **************
-        if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
-            var jason = $('#boundary-properties').val().replace(/\\/g, '');
+        // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
+        if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+            // if($('.a-prop').val == "\"{}\""){
+            //     return false;
+            // }
+            var jason = $('.b-prop').val().replace(/\\/g, '');
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
 
@@ -557,9 +576,9 @@ var appPropJson = "";
             canvas.renderAll();
             canvasFront.clear();
 
-            var appPropJson = $('.a-prop').val().replace(/\\/g, '');
-            var appProp = appPropJson.substring(1, appPropJson.length-1);
-            var app_properties = JSON.parse(appProp);
+            // var appPropJson = $('.a-prop').val().replace(/\\/g, '');
+            // var appProp = appPropJson.substring(1, appPropJson.length-1);
+            var app_properties = JSON.parse(va_prop_val);
 
             $(".front-applications").remove(".apOpt");
             clearAppPropOptions();
@@ -667,7 +686,8 @@ var appPropJson = "";
 
             var boundaryProperties = JSON.stringify(data);
 
-            $('#boundary-properties').prop('value', boundaryProperties);
+            // $('#boundary-properties').prop('value', boundaryProperties);
+            $('.b-prop').prop('value', boundaryProperties);
 
 
             $("#file-src").prop("src", material.option.path);
@@ -776,7 +796,7 @@ var appPropJson = "";
             }
             
         });
-console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
+// console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',

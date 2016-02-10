@@ -99,7 +99,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+// dd($data);
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -237,13 +237,15 @@ class MaterialsOptionsController extends Controller
 
     public function purgeColor(Request $request)
     {
-        $colorCode = $request->input('color_code');
-
+        // $colorCode = $request->input('color_code');
+        $colorCode = "X";
         $data = [
             'color_code' => $colorCode
         ];
 
-        Log::info('Attempts to purge color ' . json_encode($data));
+        // Log::info('Attempts to purge color ' . json_encode($data));
+        // $response = $this->client->purge($data);
+        Log::info('Attempts to cleanup bad colors ' . json_encode($data));
         $response = $this->client->purge($data);
 
         return Redirect::to('/administration/materials');

@@ -7,8 +7,8 @@
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop">
-            <input type="hidden" name="applications_properties" id="application-properties" class="a-prop">
+            <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
+            <input type="hidden" name="applications_properties" id="application-properties" class="a-prop" value="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -76,11 +76,11 @@
                         @foreach ($colors as $color)
                             @if ($color->active)
                             <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                                    {{ $color->name }}
-                                </option>
+                                {{ $color->name }}
+                            </option>
                             @endif
                         @endforeach
-                        <option data-color="" value="" id="saved-default-color"></option>
+                        <option data-color="" value="" id="saved-default-color" class="saved-default-color"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sublimated Default Color:</label>
-                        <select class="form-control default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
+                        <select class="form-control sublimated-default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
                         @foreach ($colors as $color)
                             @if ($color->active)
                             <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">

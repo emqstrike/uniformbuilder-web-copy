@@ -12,9 +12,10 @@
             <div class="modal-body add-color-code">
                 <h4>Color Code :&nbsp;
                 <input type="text" class="color-code" name="color_code">
+                Confirm cleanup.
             </div>
             <div class="modal-footer">
-                <input type="submit" class="btn btn-primary save-multiple" value="Remove">
+                <input type="submit" class="btn btn-primary save-multiple" value="PROCEED">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
             </div>
             </form>
