@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div style="float: left; text-align: center; margin-top: 75px;" class="front-applications text-center">
+                    <div style="float: left; text-align: center; margin-top: 75px; z-index: 50; position: relative;" class="front-applications text-center">
                         <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">
                             <option value="logo">Logo</option>
