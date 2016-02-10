@@ -518,6 +518,13 @@ var appPropJson = "";
         // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
+        var va_prop_val;
+        if($('.a-prop').val() != "\"{}\""){
+            console.log("INSIDE IF");
+            var trim_backslash = $('.a-prop').val().replace(/\\/g, '');
+            va_prop_val = trim_backslash.substring(1, trim_backslash.length-1);
+            $('.a-prop').prop("value", va_prop_val);
+        }
 
         var perspective = material.option.perspective;
         var material_option_shape;
@@ -541,9 +548,9 @@ var appPropJson = "";
         // **************
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            if($('.a-prop').val == "\"{}\""){
-                return false;
-            }
+            // if($('.a-prop').val == "\"{}\""){
+            //     return false;
+            // }
             var jason = $('.b-prop').val().replace(/\\/g, '');
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
@@ -569,9 +576,9 @@ var appPropJson = "";
             canvas.renderAll();
             canvasFront.clear();
 
-            var appPropJson = $('.a-prop').val().replace(/\\/g, '');
-            var appProp = appPropJson.substring(1, appPropJson.length-1);
-            var app_properties = JSON.parse(appProp);
+            // var appPropJson = $('.a-prop').val().replace(/\\/g, '');
+            // var appProp = appPropJson.substring(1, appPropJson.length-1);
+            var app_properties = JSON.parse(va_prop_val);
 
             $(".front-applications").remove(".apOpt");
             clearAppPropOptions();
