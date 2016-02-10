@@ -133,7 +133,7 @@
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px;">
                         <canvas id="applications-front-canvas"></canvas>
-                        <div style="float: left; text-align: center;" class="front-applications text-center">
+                        <!-- <div style="float: left; text-align: center;" class="front-applications text-center">
                             <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
                             <select name="default_item" id="front-default-item">
                                 <option value="logo">Logo</option>
@@ -141,7 +141,18 @@
                                 <option value="team_name">Team Name</option>
                                 <option value="player_name">Player Name</option>
                             </select>
-                        </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="float: left; text-align: center; margin-top: 75px;" class="front-applications text-center">
+                        <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
+                        <select name="default_item" id="front-default-item">
+                            <option value="logo">Logo</option>
+                            <option value="number">Number</option>
+                            <option value="team_name">Team Name</option>
+                            <option value="player_name">Player Name</option>
+                        </select>
                     </div>
                 </div>
             </div>
