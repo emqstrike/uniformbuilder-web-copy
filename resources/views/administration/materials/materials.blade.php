@@ -30,6 +30,12 @@
                 Add New Material
             </a>
         </small>
+        <small>
+            <a href="#" class='btn btn-xs btn-warning remove-color'>
+                <span class="glyphicon glyphicon-refresh"></span>
+                Cleanup
+            </a>
+        </small>
     </h1>
 </div>
 
@@ -187,6 +193,7 @@
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-default-color="{{ $option->default_color }}"
+                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -249,6 +256,7 @@
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-default-color="{{ $option->default_color }}"
+                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -311,6 +319,7 @@
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-default-color="{{ $option->default_color }}"
+                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -373,6 +382,7 @@
                                             data-material-option-origin="{{ $option->origin }}"
                                             data-material-option-layer-level="{{ $option->layer_level }}"
                                             data-material-option-default-color="{{ $option->default_color }}"
+                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
@@ -414,6 +424,8 @@
 @include('administration.materials.material-view-modal')
 
 @include('administration.materials.material-option-modal')
+
+@include('administration.materials.remove-color-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 

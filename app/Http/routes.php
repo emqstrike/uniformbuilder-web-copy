@@ -102,6 +102,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
     Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@storeMultiple']);
+    Route::post('material_option/purgeColor', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@purgeColor']);
 
     // Base Models
     Route::get('models', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@index']);
@@ -165,7 +166,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
 
-    // Linings
+    // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
