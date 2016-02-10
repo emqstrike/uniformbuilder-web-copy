@@ -6,7 +6,7 @@
 
     <div class="options_panel_section">
     
-        Mod Main
+        <button class="btn app_btns" id="init_applications">Init Applications</button>
 
     </div>
 
