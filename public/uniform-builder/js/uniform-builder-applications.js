@@ -1305,4 +1305,47 @@ $(document).ready(function() {
 
     /// End Rearrange Layers 
 
+
+    /// Transformed Applications
+
+    ub.data.applications_transformed = {};
+
+    ub.data.applications_distinct_names = {};
+    ub.data.temp_arr = [];
+
+    ub.funcs.transformedApplications = function () {
+
+        var material_options = ub.current_material.materials_options;
+        var shapes = _.filter(material_options, {setting_type: 'shape'});
+        var apps_transformed = ub.data.applications_transformed;
+
+        _.each(shapes, function(shape){
+
+            var app_properties = JSON.parse(shape.applications_properties);
+            app_properties = JSON.parse(app_properties);
+
+            if(app_properties !== null){
+                
+                apps_transformed[shape.name] = {};
+
+                _.each(app_properties, function(obj){
+
+                    if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
+                        
+                        apps_transformed[shape.name][obj.id] = {};
+
+                    }
+                    
+                    apps_transformed[shape.name][obj.id][shape.perspective] = obj;
+
+                });
+
+            }
+
+        });
+
+    }
+
+    /// End Transformed Applications
+
 });

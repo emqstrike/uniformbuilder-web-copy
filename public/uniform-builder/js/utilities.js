@@ -2,10 +2,12 @@ $( document ).ready(function() {
 
     window.util = {
 
-        //// TODO: Add Error Logging here...
-        
         error: function (error){
+            
+            /// TODO: Add Error Logging here instead of just a plain console error log ...
+
             console.error(error);
+
         },
 
         collectionToArray: function(collection){
@@ -46,9 +48,22 @@ $( document ).ready(function() {
         }
 
     };
+    
+    /// Call:   "arm trim".toTitleCase();
+    /// Output: "Arm Trim"
 
     String.prototype.toTitleCase = function(){
             return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     };
+
+    /// Call:   "Arm Trim".toCodeCase();
+    /// Output: "arm_trim"
+
+    String.prototype.toCodeCase = function(){
+
+        return this.toLowerCase().replace(" ", "_");
+
+    };
+
 
 }); 

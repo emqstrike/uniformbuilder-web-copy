@@ -36,7 +36,7 @@ $(document).ready(function(){
     ub.config.print_version = function () {
 
         var args = [
-            '\n %c %c %c Uniform Builder ' + ub.VERSION + ' - ✰ ' + 'Prolook' + ' ✰  %c ' + ' %c ' + ' http://www.prolook.com/  %c %c ♥%c♥%c♥ \n\n',
+            '\n %c %c %c Uniform Builder ' + ub.VERSION + ' - ✰ ' + 'Prolook' + ' ✰  %c ' + ' %c ' + ' ENV: ' + ub.config.app_env + ' | Host: ' +  ub.config.host + ' | API: ' + ub.config.api_host + ' %c %c ♥%c♥%c♥ \n\n',
             'background: #3d3d3d; padding:5px 0;',
             'background: #3d3d3d; padding:5px 0;',
             'color: #ffffff; background: #030307; padding:5px 0;',

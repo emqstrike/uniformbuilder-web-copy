@@ -61,6 +61,62 @@ $(document).ready(function(){
     ub.data.colors = {};
     ub.data.fonts = {};
 
+    // api/applications/{material_id}
+    // 1 : {
+    //     name: 'body_1',
+    //     applications: [
+    //             {
+    //                 perspective: 'front',
+    //                 pivot / position: {x: 0, y:0 },
+    //                 rotation: {x:0, y:0, z:0}
+    //                 size: { width: 100, height: 100}
+    //                 font_size: 10
+    //             },
+    //             {
+    //                 perspective: 'back',
+    //                 pivot / position: {x: 0, y: 0},
+    //                 rotation: {x:0, y:0, z:0},
+    //                 size: { width: 100, height: 100}
+    //                 font_size: 10
+    //             },
+    //             ...
+    //             ...
+    //         ]
+    //     }
+    // }
+    
+    ub.data.applications_transformed = {};
+    ub.data.applications_transformed_temp = {
+        
+        body: {
+
+            applications: [
+                {
+                    id: 1,
+                    application_views: [
+
+                        {
+                            perspective: 'front',
+                        },
+                        {
+                            perspective: 'back',
+                        },
+                        {
+                            perspective: 'left',
+                        },
+                        {
+                            perspective: 'right',
+                        },
+                    ] 
+                },       
+            ]
+
+        } 
+
+
+    };
+
+
     // Layer Assignment for Applications 
     // 30 - 50
 

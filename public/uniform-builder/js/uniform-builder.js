@@ -1879,7 +1879,7 @@ $(document).ready(function () {
                 var color_param = color;
 
                 if (color_param === '#ffffff') {
-                    color_param = "#ffffff";
+                    color_param = "#ebebeb";
                 }
 
                 var color_value = parseInt(color_param.substring(1), 16);
