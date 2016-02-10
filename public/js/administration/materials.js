@@ -518,11 +518,13 @@ var appPropJson = "";
         // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
-        var va_prop_val;
+        var va_prop_val = $('.a-prop').val();
+        console.log($('.b-prop').val());
         if($('.a-prop').val() != "\"{}\""){
             console.log("INSIDE IF");
-            var trim_backslash = $('.a-prop').val().replace(/\\/g, '');
-            va_prop_val = trim_backslash.substring(1, trim_backslash.length-1);
+            // var trim_backslash = $('.a-prop').val().replace(/\\/g, ''); ************
+            // va_prop_val = trim_backslash.substring(1, trim_backslash.length-1); ************
+            va_prop_val = $('.a-prop').val();
             $('.a-prop').prop("value", va_prop_val);
         }
 
@@ -549,9 +551,11 @@ var appPropJson = "";
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
             console.log("bprop");
-            var jason = $('.b-prop').val().replace(/\\/g, '');
+            // var jason = $('.b-prop').val().replace(/\\/g, '');
+            var jason = $('.b-prop').val();
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
+            // var myData = output;
 
             bounding_box.oCoords.tl.x = myData.topLeft.x;
             bounding_box.oCoords.tl.y = myData.topLeft.y;
@@ -579,7 +583,8 @@ var appPropJson = "";
             if($('.a-prop').val() != "\"{}\""){
             //     return false;
             // } ***********************************************
-            var app_properties = JSON.parse(va_prop_val);
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
 
             $(".front-applications").remove(".apOpt");
             clearAppPropOptions();
@@ -1081,6 +1086,7 @@ var appPropJson = "";
         data.rotation = bounding_box.getAngle();
 
         var boundaryProperties = JSON.stringify(data);
+        boundaryProperties = "\""+boundaryProperties+"\"";
         $('.b-prop').prop('value', boundaryProperties);
 
         $(".update-application").each(function(i) {
@@ -1152,6 +1158,7 @@ var appPropJson = "";
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
         });
         var appProperties = JSON.stringify(applicationProperties);
+        appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
     }
