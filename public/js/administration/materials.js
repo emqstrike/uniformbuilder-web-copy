@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     $("#material-option-name").keyup(function() {
-        checkNameLength();
+        checkNameLength();d
     });
 
     $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
@@ -508,7 +508,8 @@ var appPropJson = "";
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
-        $('#boundary-properties').prop("value", material.option.boundary_properties);
+        // $('#boundary-properties').prop("value", material.option.boundary_properties);
+        $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
 
         var perspective = material.option.perspective;
@@ -531,8 +532,9 @@ var appPropJson = "";
         checkNameLength();
 
         // **************
-        if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
-            var jason = $('#boundary-properties').val().replace(/\\/g, '');
+        // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
+        if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+            var jason = $('.b-prop').val().replace(/\\/g, '');
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
 
@@ -667,7 +669,8 @@ var appPropJson = "";
 
             var boundaryProperties = JSON.stringify(data);
 
-            $('#boundary-properties').prop('value', boundaryProperties);
+            // $('#boundary-properties').prop('value', boundaryProperties);
+            $('.b-prop').prop('value', boundaryProperties);
 
 
             $("#file-src").prop("src", material.option.path);

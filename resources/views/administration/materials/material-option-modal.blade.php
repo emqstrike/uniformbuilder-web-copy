@@ -7,8 +7,8 @@
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop">
-            <input type="hidden" name="applications_properties" id="application-properties" class="a-prop">
+            <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
+            <input type="hidden" name="applications_properties" id="application-properties" class="a-prop" value="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
