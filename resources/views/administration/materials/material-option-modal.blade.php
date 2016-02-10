@@ -76,11 +76,11 @@
                         @foreach ($colors as $color)
                             @if ($color->active)
                             <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                                    {{ $color->name }}
-                                </option>
+                                {{ $color->name }}
+                            </option>
                             @endif
                         @endforeach
-                        <option data-color="" value="" id="saved-default-color"></option>
+                        <option data-color="" value="" id="saved-default-color" class="saved-default-color"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sublimated Default Color:</label>
-                        <select class="form-control default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
+                        <select class="form-control sublimated-default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
                         @foreach ($colors as $color)
                             @if ($color->active)
                             <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">

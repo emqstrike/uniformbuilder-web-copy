@@ -481,6 +481,7 @@ var appPropJson = "";
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
+                sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
@@ -502,9 +503,15 @@ var appPropJson = "";
         $('#saved-origin').val(material.option.origin);
         $('#saved-origin').text(material.option.origin);
         $('#saved-origin').attr('selected','selected');
-        $('#saved-default-color').val(material.option.default_color);
-        $('#saved-default-color').text(material.option.default_color);
-        $('#saved-default-color').attr('selected','selected');
+
+        $('.saved-default-color').val(material.option.default_color);
+        $('.saved-default-color').text(material.option.default_color);
+        $('.saved-default-color').attr('selected','selected');
+
+        $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
+        $('#saved-sublimated-default-color').text(material.option.sublimated_default_color);
+        $('#saved-sublimated-default-color').attr('selected','selected');
+
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
@@ -534,6 +541,9 @@ var appPropJson = "";
         // **************
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+            if($('.a-prop').val == "\"{}\""){
+                return false;
+            }
             var jason = $('.b-prop').val().replace(/\\/g, '');
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
