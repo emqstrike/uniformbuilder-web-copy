@@ -276,9 +276,8 @@
                                             data-material-back-shape="{{ $material->back_view_shape }}"
                                             data-material-left-shape="{{ $material->left_side_view_shape }}"
                                             data-material-right-shape="{{ $material->right_side_view_shape }}"
-                                            @if($option->setting_type == "highlights")
-                                            data-material-highlights-path="{{ $option->material_option_path }}"
-                                            @endif
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
@@ -342,7 +341,10 @@
                                             data-material-front-shape="{{ $material->front_view_shape }}"
                                             data-material-back-shape="{{ $material->back_view_shape }}"
                                             data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }}
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
+                                            >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
@@ -405,7 +407,10 @@
                                             data-material-front-shape="{{ $material->front_view_shape }}"
                                             data-material-back-shape="{{ $material->back_view_shape }}"
                                             data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}">{{ $option->name }}
+                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
+                                            >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
                                 </div>
