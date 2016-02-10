@@ -73,6 +73,8 @@
                             </center>
                         </div><hr>
                         <div>
+                            <div class="col-md-6">ID: </div>
+                            <div class="col-md-6"><span class="label label-primary" style="font-size: 14px">{{ $material->id }}</span></div>
                             <div class="col-md-6">Name: </div>
                             <div class="col-md-6"><b>{{ $material->name }}</b></div>
                             <div class="col-md-6">Code: </div>
