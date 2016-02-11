@@ -17,6 +17,7 @@
 >
 </center>
 </div>
+<?php $highlight_path; ?>f
 <div class="container-fluid main-content">
     <!-- <div class="row">
         <div class="col-md-12"> -->
@@ -75,6 +76,8 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
@@ -115,6 +118,8 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
@@ -155,6 +160,8 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
@@ -195,6 +202,8 @@
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
+                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
                                     <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
