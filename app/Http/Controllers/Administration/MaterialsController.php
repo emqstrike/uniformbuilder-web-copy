@@ -77,9 +77,13 @@ class MaterialsController extends Controller
             foreach($colors as $color){
                 if($color->color_code == $default_color) {
                     $option->default_hex_code = $color->hex_code;
+                } else {
+                    $option->default_hex_code = "000";
                 }
                 if($color->color_code == $sublimated_default_color) {
                     $option->sublimated_default_hex_code = $color->hex_code;
+                } else {
+                    $option->sublimated_default_hex_code = "000";
                 }
             }
             // $option->default_hex_code = $default_color_prop->hex_code;
