@@ -17,7 +17,7 @@
 >
 </center>
 </div>
-<?php $highlight_path; ?>f
+<?php $highlight_path; ?>
 <div class="container-fluid main-content">
     <!-- <div class="row">
         <div class="col-md-12"> -->

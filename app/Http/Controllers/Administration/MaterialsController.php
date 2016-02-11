@@ -66,20 +66,28 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
+        $colors = $this->colorsClient->getColors();
+// dd($colors);
         foreach($options as $option){
             $default_color = $option->default_color;
             $sublimated_default_color = $option->sublimated_default_color;
-
-            $default_color_prop = $this->colorsClient->getColorByCode($default_color);
-            $sublimated_default_color_prop = $this->colorsClient->getColorByCode($sublimated_default_color);
-
-            $option->default_hex_code = $default_color_prop->hex_code;
-            $option->sublimated_default_hex_code = $sublimated_default_color_prop->hex_code;
+            echo $default_color;
+            // $default_color_prop = $this->colorsClient->getColorByCode($default_color);
+            // $sublimated_default_color_prop = $this->colorsClient->getColorByCode($sublimated_default_color);
+            foreach($colors as $color){
+                if($color->color_code == $default_color) {
+                    $option->default_hex_code = $color->hex_code;
+                }
+                if($color->color_code == $sublimated_default_color) {
+                    $option->sublimated_default_hex_code = $color->hex_code;
+                }
+            }
+            // $option->default_hex_code = $default_color_prop->hex_code;
+            // $option->sublimated_default_hex_code = $sublimated_default_color_prop->hex_code;
         }
-
+// dd($options);
         $material = $this->client->getMaterial($id);
 
-        $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
 
         return view('administration.materials.material-options', [
