@@ -115,7 +115,7 @@
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
-                    var uniform_type = 'upper'; // TODO: Parameterized this.
+                    var uniform_type = ub.current_material.material.type;
                     var views = ['front', 'back', 'left', 'right'];
                     
                     var c = ub.current_material.containers[uniform_type][target].pattern_containers;
