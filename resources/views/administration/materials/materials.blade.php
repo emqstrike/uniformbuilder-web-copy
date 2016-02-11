@@ -87,7 +87,7 @@
 </div>
 <div class="container-fluid main-content">
         @forelse ($materials as $material)
-            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-2'
+            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-3'
                  style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;">
                 <div style="float:left; position: relative; margin-top: 5px; margin-left: -10px;">
                     <span class="label label-default" style="font-size: 14px;">{{ $material->id }}</span>
