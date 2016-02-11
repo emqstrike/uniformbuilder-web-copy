@@ -53,12 +53,42 @@ class MaterialsController extends Controller
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
-// dd($options);
+
         return view('administration.materials.materials', [
             'materials' => $materials,
             'colors' => $colors,
             'gradients' => $gradients
         ]);
+    }
+
+    public function getMaterialOptions($id)
+    {
+        Log::info('Get Material Options');
+
+        $options = $this->optionsClient->getByMaterialId($id);
+        foreach($options as $option){
+            $default_color = $option->default_color;
+            $sublimated_default_color = $option->sublimated_default_color;
+
+            $default_color_prop = $this->colorsClient->getColorByCode($default_color);
+            $sublimated_default_color_prop = $this->colorsClient->getColorByCode($sublimated_default_color);
+
+            $option->default_hex_code = $default_color_prop->hex_code;
+            $option->sublimated_default_hex_code = $sublimated_default_color_prop->hex_code;
+        }
+
+        $material = $this->client->getMaterial($id);
+
+        $colors = $this->colorsClient->getColors();
+        $gradients = $this->gradientClient->getGradients();
+
+        return view('administration.materials.material-options', [
+            'material' => $material,
+            'options' => $options,
+            'colors' => $colors,
+            'gradients' => $gradients
+        ]);
+        // return View::make('administration.materials.material-options', $options);
     }
 
     public function delete($id)

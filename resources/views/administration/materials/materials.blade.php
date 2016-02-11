@@ -85,11 +85,10 @@
         </small>
     </h1>
 </div>
-
-<div class="row-fluid col-md-12">
+<div class="container-fluid main-content">
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-2'
-                 style="border: 1px solid #000; margin-right: 10px; height: 250px; border-radius: 3px;">
+                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;">
                 <div style="float:left; position: relative; margin-top: 5px; margin-left: -10px;">
                     <span class="label label-default" style="font-size: 14px;">{{ $material->id }}</span>
                 </div>
@@ -118,25 +117,22 @@
                         <img src="{{ $material->thumbnail_path }}"
                              width="100px"
                              height="100px"
-                             alt="{{ $material->slug }}">
+                             alt="{{ $material->slug }}" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;">
                     </center>
                 </div><hr>
-                <div class="col-md-12" style="height: 50px;"><b>{{ $material->name }}</b></div>
+                <div class="col-md-12" style="height: 50px; background-color: #fff; margin-bottom: 7px; border-radius: 5px;"><h4>{{ $material->name }}</h4></div>
                 <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->code }}</span></div>
                 <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->uniform_category }}</span></div>
                 <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ ucfirst($material->type) }}</span></div>
-                <div class="col-md-12" style="margin-top: 10px; padding-bottom: 20px;">
-                    <a href="#" class='btn btn-xs btn-primary add-multiple-material-option'
+                <div class="col-md-12" style="margin-top: 7px; padding-bottom: 20px;">
+                    <a href="/administration/material/view_material_options/{{ $material->id }}" class='btn btn-xs btn-primary'
                         data-material-name="{{ $material->name }}"
                         data-material-id="{{ $material->id }}"
-                        data-material-front-shape="{{ $material->front_view_shape }}"
-                        data-material-back-shape="{{ $material->back_view_shape }}"
-                        data-material-left-shape="{{ $material->left_side_view_shape }}"
-                        data-material-right-shape="{{ $material->right_side_view_shape }}">
+                        data-material-thumbnail="{{ $material->thumbnail_path }}"
                         <span class="glyphicon glyphicon-eye-open"></span>
                         View Material Options
                     </a>
-                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
+                    <a href="/administration/material/edit/{{ $material->id }}" style="margin-left: 10px;" class="btn btn-primary btn-xs edit-material" role="button">
                         <i class="glyphicon glyphicon-edit"></i>
                     </a>
                     <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">

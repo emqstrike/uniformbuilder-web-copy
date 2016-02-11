@@ -16,12 +16,13 @@
             </div>
             <div class="modal-body front-options">
                 <h4>PERSPECTIVE :&nbsp;
-                <select name="perspective">
-                        <option value='front'>FRONT</option>
-                        <option value='back'>BACK</option>
-                        <option value='left'>LEFT</option>
-                        <option value='right'>RIGHT</option>
-                    </select>
+                <!-- <select name="perspective">
+                    <option value='front'>FRONT</option>
+                    <option value='back'>BACK</option>
+                    <option value='left'>LEFT</option>
+                    <option value='right'>RIGHT</option>
+                </select> -->
+                <input type="text" name="perspective" class="perspective-multiple-upload">
                 </h4>
                 <table class="table table-bordered">
                     <thead>
@@ -36,7 +37,7 @@
                             <th>Thumbnail</th>
                         </tr>
                     </thead>
-                    <tbody id="options-row-container">
+                    <tbody id="options-row-container" class="upload-sortable-rows">
                         <tr class="options-row">
                             <td><input type="text" class="mo-name layer1" name="mo_name[]"></td>
                             <td>
