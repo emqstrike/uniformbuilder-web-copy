@@ -102,16 +102,6 @@
                         </label>
                     </div>
                 </div>
-                <!-- <div style="float:right;">
-                    <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                        <i class="glyphicon glyphicon-eye-close"></i>
-                        Disable
-                    </a>
-                    <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                        <i class="glyphicon glyphicon-eye-open"></i>
-                        Enable
-                    </a>
-                </div> -->
                 <div class="col-md-12">
                     <center>
                         <img src="{{ $material->thumbnail_path }}"

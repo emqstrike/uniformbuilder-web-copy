@@ -498,6 +498,8 @@ var appPropJson = "";
             }
         };
 
+        console.log("HIGHLIGHTS PATH: "+material.option.highlights);
+
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
