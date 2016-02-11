@@ -13,6 +13,7 @@ $(document).ready(function() {
 
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
+    // $( ".upload-sortable-rows" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
@@ -192,7 +193,7 @@ var applicationProperties = {};
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
         fill: 'transparent',
-        stroke: '#222',
+        stroke: '#fff',
         originX: 'center',
         originY: 'center'
     });
@@ -464,7 +465,9 @@ var appPropJson = "";
         material = {
             id: $(this).data('material-id')
         };
+        var perspective = $(this).data('add-to-perspective');
         $('.material-id').prop("value", material.id);
+        $('.perspective-multiple-upload').val(perspective);
     });
 
     $('.edit-material-option').on('click', function(){
@@ -781,6 +784,31 @@ var appPropJson = "";
         });
     });
 
+    $('.toggle-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var url = "//" + api_host + "/api/material/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
         modalConfirm(
@@ -811,7 +839,6 @@ var appPropJson = "";
             }
             
         });
-// console.log("ARRAY: "+JSON.stringify(checkedMaterialOptionsIDs));
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
@@ -822,7 +849,6 @@ var appPropJson = "";
 
     $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
         var id = $(this).data('checkedMaterialOptionsIDs');
-        console.log("GETS HERE! MULTIPLE DELETE");
         var url = "//" + api_host + "/api/material_option/deleteMultiple/";
         $.ajax({
             url: url,
@@ -1058,7 +1084,7 @@ var appPropJson = "";
 
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
-            console.log("Blend Array: "+is_blend_arr);
+            // console.log("Blend Array: "+is_blend_arr);
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
