@@ -59,11 +59,13 @@ class MascotsController extends Controller
     {
         $mascotName = $request->input('name');
         $code = $request->input('code');
+        $category = $request->input('category');
         $layersProperties = $request->input('layers_properties');
 
         $data = [
             'name' => $mascotName,
             'code' => $code,
+            'category' => $category,
             'layers_properties' => $layersProperties
         ];
 

@@ -49,6 +49,13 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Category</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-category" name="category" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layers
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
