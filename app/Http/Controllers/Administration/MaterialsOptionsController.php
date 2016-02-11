@@ -116,7 +116,7 @@ class MaterialsOptionsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
                             ->with('message', $response->message);
         }
         else
@@ -224,13 +224,13 @@ class MaterialsOptionsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$materialId)
                             ->with('message', $response->message);
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/material/view_material_options/'.$materialId)
                             ->with('message', 'There was a problem saving your material option');
         }
     }

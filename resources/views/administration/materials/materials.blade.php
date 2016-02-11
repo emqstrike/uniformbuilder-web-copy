@@ -5,6 +5,53 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
+<style type="text/css">
+.onoffswitch {
+    position: relative; width: 61px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 9px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
+    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 5px;
+    background-color: #02C723; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 5px;
+    background-color: #BF5050; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 1px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 37px;
+    border: 2px solid #999999; border-radius: 9px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>
 
 @endsection
 
@@ -31,405 +78,62 @@
             </a>
         </small>
         <small>
-            <a href="#" class='btn btn-xs btn-warning remove-color'>
+            <a href="#" class='btn btn-xs btn-danger remove-color'>
                 <span class="glyphicon glyphicon-refresh"></span>
                 Cleanup
             </a>
         </small>
     </h1>
 </div>
-<?php $highlight_path; ?>
-<div class="row-fluid col-md-12">
-    <table data-toggle='table' class='data-table table table-bordered materials'>
-        <thead>
-            <tr class="center-table-heads">
-                <th class="col-md-2">Material</th>
-                <th>Material Options</th>
-            </tr>
-        </thead>
-        <tbody>
-
+<div class="container-fluid main-content">
         @forelse ($materials as $material)
-
-            <tr class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }}'>
-                <td>
-                    <div>
-                        <div style="float:right;">
-                            <a href="#" class="btn btn-default btn-xs disable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                                <i class="glyphicon glyphicon-eye-close"></i>
-                                Disable
-                            </a>
-                            <a href="#" class="btn btn-info btn-xs enable-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? 'disabled="disabled"' : '' }}>
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                                Enable
-                            </a>
-                        </div>
-                        <div>
-                            <center>
-                                <img src="{{ $material->thumbnail_path }}"
-                                     width="100px"
-                                     height="100px"
-                                     alt="{{ $material->slug }}">
-                            </center>
-                        </div><hr>
-                        <div>
-                            <div class="col-md-6">ID: </div>
-                            <div class="col-md-6"><span class="label label-primary" style="font-size: 14px">{{ $material->id }}</span></div>
-                            <div class="col-md-6">Name: </div>
-                            <div class="col-md-6"><b>{{ $material->name }}</b></div>
-                            <div class="col-md-6">Code: </div>
-                            <div class="col-md-6"><span class="label label-default">{{ $material->code }}</span></div>
-                            <div class="col-md-6">Category: </div>
-                            <div class="col-md-6"><span class="label label-default">{{ $material->uniform_category }}</span></div>
-                            <div class="col-md-6">Type: </div>
-                            <div class="col-md-6"><span class="label label-default">{{ $material->type }}</span></div>
-                        </div>
-                        <div>
-                        <a href="#" class="btn btn-default btn-xs show-material" role="button"
-                            data-material-name="{{ $material->name }}"
-                            data-material-code="{{ $material->code }}"
-                            data-material-type="{{ $material->type }}"
-                            data-material-uniform-category="{{ $material->uniform_category }}"
-                            data-material-gender="{{ $material->gender }}"
-@if (env('BUILDER_APPROACH') == '3D')
-                            data-material-path="{{ $material->material_path }}"
-                            data-bump-map-path="{{ $material->bump_map_path }}"
-                            data-shadow-path="{{ $material->shadow_path }}"
-                            data-highlight-path="{{ $material->highlight_path }}"
-@elseif (env('BUILDER_APPROACH') == '2D')
-                            data-front-view-path="{{ $material->front_view_path }}"
-                            data-front-view-shape="{{ $material->front_view_shape }}"
-                            data-back-view-path="{{ $material->back_view_path }}"
-                            data-back-view-shape="{{ $material->back_view_shape }}"
-                            data-right-side-view-path="{{ $material->right_side_view_path }}"
-                            data-right-side-view-shape="{{ $material->right_side_view_shape }}"
-                            data-left-side-view-path="{{ $material->left_side_view_path }}"
-                            data-left-side-view-shape="{{ $material->left_side_view_shape }}"
-@endif
-                            data-material-id="{{ $material->id }}">
-                            <li class="glyphicon glyphicon-info-sign"></li>
-                            View
-                        </a>
-                        <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-primary btn-xs edit-material" role="button">
-                            <i class="glyphicon glyphicon-edit"></i>
-                            Edit
-                        </a>
-                        <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
-                            <i class="glyphicon glyphicon-trash"></i>
-                            Remove
-                        </a>
-                        </div>
+            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-3'
+                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;">
+                <div style="float:left; position: relative; margin-top: 5px; margin-left: -10px;">
+                    <span class="label label-default" style="font-size: 14px;">{{ $material->id }}</span>
+                </div>
+                <div style="float:right; position: relative; margin-top: 5px; margin-right: -10px;">
+                    <div class="onoffswitch">
+                        <!-- <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked> -->
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
+                        <label class="onoffswitch-label" for="switch-{{ $material->id }}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
                     </div>
-                    <br />
-                    <div>
-                        <a href="#" class='btn btn-xs btn-success add-material-option'
-                            data-material-name="{{ $material->name }}"
-                            data-material-id="{{ $material->id }}"
-                            data-material-front-shape="{{ $material->front_view_shape }}"
-                            data-material-back-shape="{{ $material->back_view_shape }}"
-                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                            data-material-right-shape="{{ $material->right_side_view_shape }}">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            Add Material Option
-                        </a>
-                        <a href="#" class='btn btn-xs btn-success add-multiple-material-option'
-                            data-material-name="{{ $material->name }}"
-                            data-material-id="{{ $material->id }}"
-                            data-material-front-shape="{{ $material->front_view_shape }}"
-                            data-material-back-shape="{{ $material->back_view_shape }}"
-                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                            data-material-right-shape="{{ $material->right_side_view_shape }}">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            Add Multiple Material Option
-                        </a>
-                    </div>
-                    <br />
-                    <div>
-                        <a href="#" class='btn btn-xs btn-danger delete-multiple-material-option'>
-                            <span class="glyphicon glyphicon-trash"></span>
-                            Remove Multiple Material Option
-                        </a>
-                    </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="col-md-3">
-                        <span class="label label-default">FRONT</span>  
-                        <center>
-                            <img src="{{ $material->front_view_shape }}"
-                                 width="100px"
-                                 height="100px"
-                                 alt="{{ $material->slug }}"
-                                 style="background-color: #e3e3e3;">
-                        </center>                      
-                        @foreach ($material->options as $option)
-                            @if ($option->perspective == "front")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
-                                     data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <!-- <img src="{{ $option->material_option_path }}" 
-                                             class="pull-right" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @else
-                                        <!-- <img src="" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @endif
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
-                                                data-material-option-id="{{ $option->id }}"
-                                                data-material-option-name="{{ $option->name }}"
-                                                role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a>
-                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
-                                     data-placement="right"
-                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-origin="{{ $option->origin }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-default-color="{{ $option->default_color }}"
-                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
-                                            data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}"
-                                            data-material-front-shape="{{ $material->front_view_shape }}"
-                                            data-material-back-shape="{{ $material->back_view_shape }}"
-                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                            >{{ $option->name }}
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="row">
-                        <div class="col-md-3">
-                        <span class="label label-default">BACK</span>  
-                        <center>
-                            <img src="{{ $material->back_view_shape }}"
-                                 width="100px"
-                                 height="100px"
-                                 alt="{{ $material->slug }}"
-                                 style="background-color: #e3e3e3;">
-                        </center>                      
-                        @foreach ($material->options as $option)
-                            @if ($option->perspective == "back")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
-                                     data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <!-- <img src="{{ $option->material_option_path }}" 
-                                             class="pull-right" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @else
-                                        <!-- <img src="" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @endif
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
-                                                data-material-option-id="{{ $option->id }}"
-                                                data-material-option-name="{{ $option->name }}"
-                                                role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a>
-                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
-                                     data-placement="right"
-                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-origin="{{ $option->origin }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-default-color="{{ $option->default_color }}"
-                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
-                                            data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}"
-                                            data-material-front-shape="{{ $material->front_view_shape }}"
-                                            data-material-back-shape="{{ $material->back_view_shape }}"
-                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                            >{{ $option->name }}
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="row">
-                        <div class="col-md-3">
-                        <span class="label label-default">LEFT</span>  
-                        <center>
-                            <img src="{{ $material->left_side_view_shape }}"
-                                 width="100px"
-                                 height="100px"
-                                 alt="{{ $material->slug }}"
-                                 style="background-color: #e3e3e3;">
-                        </center>                      
-                        @foreach ($material->options as $option)
-                            @if ($option->perspective == "left")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
-                                     data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <!-- <img src="{{ $option->material_option_path }}" 
-                                             class="pull-right" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @else
-                                        <!-- <img src="" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @endif
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
-                                                data-material-option-id="{{ $option->id }}"
-                                                data-material-option-name="{{ $option->name }}"
-                                                role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a>
-                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
-                                     data-placement="right"
-                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-origin="{{ $option->origin }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-default-color="{{ $option->default_color }}"
-                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
-                                            data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}"
-                                            data-material-front-shape="{{ $material->front_view_shape }}"
-                                            data-material-back-shape="{{ $material->back_view_shape }}"
-                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                            >{{ $option->name }}
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                        <div class="row">
-                        <div class="col-md-3">
-                        <span class="label label-default">RIGHT</span>  
-                        <center>
-                            <img src="{{ $material->right_side_view_shape }}"
-                                 width="100px"
-                                 height="100px"
-                                 alt="{{ $material->slug }}"
-                                 style="background-color: #e3e3e3;">
-                        </center>                      
-                        @foreach ($material->options as $option)
-                            @if ($option->perspective == "right")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
-                                     data-material-option-name="{{ $option->name }}">
-                                    @if ($material->thumbnail_path)
-                                        <!-- <img src="{{ $option->material_option_path }}" 
-                                             class="pull-right" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @else
-                                        <!-- <img src="" 
-                                             width="45px" 
-                                             height="45px" 
-                                             alt="{{ $material->slug }}"> -->
-                                    @endif
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
-                                                data-material-option-id="{{ $option->id }}"
-                                                data-material-option-name="{{ $option->name }}"
-                                                role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                    </a>
-                                    <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
-                                     data-placement="right"
-                                            data-material-option-boundary-properties="{{ $option->boundary_properties }}"
-                                            data-material-option-applications-properties="{{ $option->applications_properties }}"
-                                            data-material-option-name="{{ $option->name }}"
-                                            data-material-option-origin="{{ $option->origin }}"
-                                            data-material-option-layer-level="{{ $option->layer_level }}"
-                                            data-material-option-default-color="{{ $option->default_color }}"
-                                            data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                            data-material-option-setting-type="{{ $option->setting_type }}"
-                                            data-material-option-setting-code="{{ $option->setting_code }}"
-                                            data-material-option-path="{{ $option->material_option_path }}"
-                                            data-material-option-perspective="{{ $option->perspective }}"
-                                            data-material-option-id="{{ $option->id }}"
-                                            data-material-option-colors='{{ $option->colors }}'
-                                            data-material-option-gradients='{{ $option->gradients }}'
-                                            data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
-                                            data-material-name="{{ $material->name }}"
-                                            data-material-id="{{ $material->id }}"
-                                            data-material-front-shape="{{ $material->front_view_shape }}"
-                                            data-material-back-shape="{{ $material->back_view_shape }}"
-                                            data-material-left-shape="{{ $material->left_side_view_shape }}"
-                                            data-material-right-shape="{{ $material->right_side_view_shape }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
-                                            data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                            >{{ $option->name }}
-                                            <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
-                                </div>
-                            @endif
-                        @endforeach
-                        </div>
-                </td>
-            </tr>
+                </div>
+                <div class="col-md-12">
+                    <center>
+                        <img src="{{ $material->thumbnail_path }}"
+                             width="100px"
+                             height="100px"
+                             alt="{{ $material->slug }}" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;">
+                    </center>
+                </div><hr>
+                <div class="col-md-12" style="height: 50px; background-color: #fff; margin-bottom: 7px; border-radius: 5px;"><h4>{{ $material->name }}</h4></div>
+                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->code }}</span></div>
+                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->uniform_category }}</span></div>
+                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ ucfirst($material->type) }}</span></div>
+                <div class="col-md-12" style="margin-top: 7px; padding-bottom: 20px;">
+                    <a href="/administration/material/view_material_options/{{ $material->id }}" class='btn btn-xs btn-primary'
+                        data-material-name="{{ $material->name }}"
+                        data-material-id="{{ $material->id }}"
+                        data-material-thumbnail="{{ $material->thumbnail_path }}"
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                        View Material Options
+                    </a>
+                    <a href="/administration/material/edit/{{ $material->id }}" style="margin-left: 10px;" class="btn btn-primary btn-xs edit-material" role="button">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </div>
+            </div>
         @empty
-            <tr>
-                <td colspan='9' align='center'>
-                    No Materials
-                </td>
-            </tr>
+            <p>No Materials</p>
         @break
         @endforelse
-
-        </tbody>
-    </table>
 
 </div>
 
