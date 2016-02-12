@@ -730,62 +730,6 @@ var appPropJson = "";
         $('#save-material-option-modal').modal('show');
     });
 
-    $('.enable-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/enable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .disable-material').removeAttr('disabled');
-                    $(elem + ' .enable-material').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
-    });
-
-    $('.disable-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/disable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-material').removeAttr('disabled');
-                    $(elem + ' .disable-material').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
-                }
-            }
-        });
-    });
-
     $('.toggle-material').on('click', function(){
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/toggle/";

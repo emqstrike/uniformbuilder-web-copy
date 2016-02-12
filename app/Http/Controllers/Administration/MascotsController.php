@@ -11,6 +11,7 @@ use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
+use App\APIClients\MascotsCategoriesAPIClient;
 use App\APIClients\MascotsAPIClient as APIClient;
 
 class MascotsController extends Controller
@@ -20,16 +21,19 @@ class MascotsController extends Controller
 
     public function __construct(
         APIClient $apiClient,
-        ColorsAPIClient $colorsAPIClient
+        ColorsAPIClient $colorsAPIClient,
+        MascotsCategoriesAPIClient $mascotsCategoryAPIClient
     )
     {
         $this->client = $apiClient;
         $this->colorsClient = $colorsAPIClient;
+        $this->mascotsCategoryClient = $mascotsCategoryAPIClient;
     }
 
     public function index()
     {
         $mascots = $this->client->getMascots();
+
         return view('administration.mascots.mascots', [
             'mascots' => $mascots
         ]);
@@ -38,9 +42,22 @@ class MascotsController extends Controller
     public function addMascotForm()
     {
         $colors = $this->colorsClient->getColors();
+        $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
+        $mascots_categories = array();
+
+        foreach($raw_mascots_categories as $mascot_category){
+            if($mascot_category->active == 1){
+                $mascots_categories[] = $mascot_category->name;
+            }
+        }
+
+        $mascots_categories = array_sort($mascots_categories, function($value) {
+            return sprintf('%s,%s', $value[0], $value[1]);
+        });
 
         return view('administration.mascots.mascot-create', [
-            'colors' => $colors
+            'colors' => $colors,
+            'mascots_categories' => $mascots_categories
         ]);
     }
 
@@ -49,9 +66,23 @@ class MascotsController extends Controller
         $colors = $this->colorsClient->getColors();
         $mascot = $this->client->getMascot($id);
 
+        $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
+        $mascots_categories = array();
+
+        foreach($raw_mascots_categories as $mascot_category){
+            if($mascot_category->active == 1){
+                $mascots_categories[] = $mascot_category->name;
+            }
+        }
+
+        $mascots_categories = array_sort($mascots_categories, function($value) {
+            return sprintf('%s,%s', $value[0], $value[1]);
+        });
+
         return view('administration.mascots.mascot-edit', [
             'colors' => $colors,
-            'mascot' => $mascot
+            'mascot' => $mascot,
+            'mascots_categories' => $mascots_categories
         ]);
     }
 
