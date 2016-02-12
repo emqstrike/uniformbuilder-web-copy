@@ -1386,15 +1386,6 @@ $(document).ready(function () {
 
         /// Load Default Style
 
-            /// Mascot
-
-                // $('select.application_type_dropdown[data-id="2"]').val('mascot');
-                // $('select.application_type_dropdown[data-id="2"]').change();
-                // $('a.mascot_picker[data-application-id="2"]').click();
-                // $('div.mascot_slider.scale_slider[data-id=2]').limitslider('values',[35])
-
-            /// End Mascot 
-
             ub.init_style();
         
         /// End Default Style 
@@ -1941,24 +1932,7 @@ $(document).ready(function () {
                         }
                         
                     }
-                    
-                    // if (typeof(ub.objects.front_view[obj]) === "object") {
-                    //     ub.objects.front_view[obj].tint = color_value;
-                    // }
-                    
-                    // if (typeof(ub.objects.back_view[obj]) === "object") {
-                    //     ub.objects.back_view[obj].tint = color_value;    
-                    // }
-
-                    // if (typeof(ub.objects.left_view[obj]) === "object") {
-                    //     ub.objects.left_view[obj].tint = color_value;    
-                    // }
-                    
-                    // if (typeof(ub.objects.right_view[obj]) === "object") {
-                    //     ub.objects.right_view[obj].tint = color_value;    
-                    // }
-                    
-  
+              
                 } else if (panel == 'patterns') {
 
                     if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
@@ -1974,22 +1948,6 @@ $(document).ready(function () {
                     ub.objects.right_view['pattern'].visible = true;
                   
                 } else {
-
-                    // if (typeof(ub.objects.front_view[obj]) !== 'undefined') {
-                    //     ub.objects.front_view[obj].tint = color_value;
-                    // }
-
-                    // if (typeof(ub.objects.back_view[obj]) !== 'undefined') {
-                    //     ub.objects.back_view[obj].tint = color_value;    
-                    // }
-
-                    // if (typeof(ub.objects.left_view[obj]) !== 'undefined') {
-                    //     ub.objects.left_view[obj].tint = color_value;    
-                    // }
-
-                    // if (typeof(ub.objects.right_view[obj]) !== 'undefined') {
-                    //     ub.objects.right_view[obj].tint = color_value;    
-                    // }
 
                     ub.change_material_option_color(obj, color_param.substring(1));
 
@@ -3020,7 +2978,6 @@ $(document).ready(function () {
 
                 _.each(clone.layers, function (layer, index) {
 
-                    // var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                     container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
                     var sprite = container.sprites[index];
@@ -3028,15 +2985,6 @@ $(document).ready(function () {
                     sprite.zIndex = layer.layer_number * -1;
                     sprite.tint = parseInt(layer.default_color,16);
                     sprite.anchor.set(0.5, 0.5);
-
-                    // var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
-                    // var val = $inputbox.val();
-                    
-                    // if (val.length === 7) {
-                    //     val = val.substr(1, 6);
-                    // }
-
-                    // sprite.tint = parseInt(val, 16);
 
                     container.addChild(sprite);
 
@@ -3057,10 +3005,6 @@ $(document).ready(function () {
                 if(typeof mask === 'undefined') {
                     return;
                 }
-
-                // container.rotation = val_rotation;
-                // container.scale = new PIXI.Point(val_scale , val_scale);
-                // container.position = new PIXI.Point(val_x_position, val_y_position);
 
                 var mask = main_text_obj;
 
@@ -3160,25 +3104,10 @@ $(document).ready(function () {
             var gradient_layer = new PIXI.Sprite(texture);
             gradient_layer.zIndex = 1;
 
-            // if (typeof(ub.objects.pattern_view.gradient_layer) === "object") {
-            //     ub.pattern_view.removeChild(ub.objects.pattern_view.gradient_layer);
-            // }
-
-            // ub.objects.pattern_view.gradient_layer = gradient_layer;
-            // ub.pattern_view.addChild(ub.objects.pattern_view.gradient_layer);
-            // ub.updateLayersOrder(ub.pattern_view);
-            
             var v = application.perspective;
             var view = v + '_view';
 
             temp_pattern[v] = new PIXI.Sprite(texture);
-
-            // if(typeof text_sprite.gradient_layer === "object" ){
-
-            //     text_sprite.removeChild(text_sprite.gradient_layer);
-
-            // }
-            
             temp_pattern[v].zIndex = 1;
   
             var mask = main_text_obj;
