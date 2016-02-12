@@ -92,6 +92,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addMascotForm']);
     Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@editMascotForm']);
 
+    Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@index']);
+    Route::get('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@addMascotsCategoryForm']);
+
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
