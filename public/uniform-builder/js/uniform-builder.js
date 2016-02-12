@@ -186,7 +186,7 @@ $(document).ready(function () {
 
         }
 
-         ub.display_gender_picker = function () {
+        ub.display_gender_picker = function () {
 
             $('#arrow_design_sets').remove();
 
@@ -914,7 +914,7 @@ $(document).ready(function () {
 
             _.each(material_options, function (obj, index) {
 
-                var name = obj.name.toLowerCase().replace(' ', '_');
+                var name = obj.name.toCodeCase();
 
                 current_view_objects[name] = ub.pixi.new_sprite(obj.material_option_path);
                 var current_object = current_view_objects[name];
@@ -956,15 +956,14 @@ $(document).ready(function () {
                     }
 
                     var color = _.find(ub.data.colors, { color_code: default_color });
-
-                    current_object.tint = parseInt(color.hex_code, 16);
-
+                    var tint = parseInt(color.hex_code, 16);
                     var modifier_label = name;
     
                     // Skip creating distinct name object if name already exists
                     if (typeof ub.current_material.options_distinct_names[name] !== "object") {
 
                         ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
+                        ub.data.defaultUniformStyle[name] = { name: name, default_color: tint};
                     
                     }
                     
@@ -1407,11 +1406,43 @@ $(document).ready(function () {
 
             ub.init_style = function () {
 
+                // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
                 if (typeof window.ub.temp !== 'undefined') {
                     
                     ub.loadSettings(window.ub.temp);
-                    
+
                 }
+                else {
+
+                    ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
+
+                }
+
+            }
+
+            ub.loadDefaulUniformStyle = function (defaultUniformStyle) {
+
+                // Colors ok, TODO: Patterns and Gradients
+
+                var views = ub.views;
+
+                _.each(defaultUniformStyle, function (style) {
+
+                    _.each(views, function (view) {
+
+                        var object_name = style.name;
+                        var view_name = view + '_view'
+                        var object = ub.objects[view_name][object_name];
+
+                        if (typeof object !== 'undefined') {
+
+                            object.tint = style.default_color;
+
+                        }
+
+                    });
+
+                })
 
             }
 

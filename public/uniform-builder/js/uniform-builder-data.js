@@ -60,31 +60,12 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
-
-    // api/applications/{material_id}
-    // 1 : {
-    //     name: 'body_1',
-    //     applications: [
-    //             {
-    //                 perspective: 'front',
-    //                 pivot / position: {x: 0, y:0 },
-    //                 rotation: {x:0, y:0, z:0}
-    //                 size: { width: 100, height: 100}
-    //                 font_size: 10
-    //             },
-    //             {
-    //                 perspective: 'back',
-    //                 pivot / position: {x: 0, y: 0},
-    //                 rotation: {x:0, y:0, z:0},
-    //                 size: { width: 100, height: 100}
-    //                 font_size: 10
-    //             },
-    //             ...
-    //             ...
-    //         ]
-    //     }
-    // }
     
+    
+    // This will contain default uniform settings when loading a uniform style, 
+    // when loading a uniform that is not from a customized order
+    ub.data.defaultUniformStyle = {};
+
     ub.data.applications_transformed = {};
     ub.data.applications_transformed_temp = {
         
