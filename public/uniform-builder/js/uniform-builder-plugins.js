@@ -42,8 +42,7 @@
             }
             else {
 
-                var temp = settings.target.replace('_', ' ');
-                target_name = window.util.toTitleCase(temp);
+                target_name = settings.target.toTitleCase();
 
             }
 
@@ -55,7 +54,7 @@
             var color_stop_index = el_parent.find('input').data('index');
             var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
             var code = target_name;
-            var name = target_name.replace('_',' ').toUpperCase();
+            var name = target_name.toTitleCase();
             var header = '';
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
@@ -1529,8 +1528,7 @@
             var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
             var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
 
-            var target_name = target.replace('_', ' ');
-            target_name = util.toTitleCase(target_name);
+            var target_name = target.toTitleCase();
 
             ub.current_material.containers[application.code] = {};
 
