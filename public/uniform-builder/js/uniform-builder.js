@@ -2200,8 +2200,7 @@ $(document).ready(function () {
                 $("button#update-pattern-" + target).click('click', function (e) {
 
                     var uniform_type = ub.current_material.material.type;
-                    var target_name = target.replace('_', ' ');
-                    target_name = util.toTitleCase(target_name);
+                    var target_name = target.toTitleCase();
 
                     var pattern_settings = ub.current_material.containers[uniform_type][target_name];
                     pattern_settings.pattern_containers = {};
@@ -3003,10 +3002,8 @@ $(document).ready(function () {
                 var val_scale = pattern_settings.scale;
                 var val_x_position = pattern_settings.position.x;
                 var val_y_position = pattern_settings.position.y;
-
-                var target_name = target.replace('_', ' ');
-                target_name = util.toTitleCase(target_name);
-
+                var target_name = target.toTitleCase();
+                
                 ub.current_material.containers[application.code] = {};
                 var application_settings = ub.current_material.containers[application.code]
                 
