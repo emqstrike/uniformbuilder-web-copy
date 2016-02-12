@@ -37,6 +37,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Category</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control mascot-category" name="category" value="{{ $mascot->category }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
                             <div class="col-md-6 front-view">
                                 <img src="{{ $mascot->icon }}">

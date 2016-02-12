@@ -30,6 +30,7 @@
                                 <th>Mascot Name</th>
                                 <th>Code</th>
                                 <th>Active Status</th>
+                                <th>Category</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -60,6 +61,9 @@
                                 <i class="glyphicon glyphicon-eye-open"></i>
                                 Enable
                             </a>
+                        </td>
+                        <td>
+                            {{ $mascot->category }}
                         </td>
                         <td>
                             <a href="/administration/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs edit-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
