@@ -485,6 +485,8 @@ var appPropJson = "";
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
                 sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
+                default_color_name: $(this).data('material-option-default-color-name'),
+                sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
                 type: $(this).data('material-option-setting-type'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
@@ -511,11 +513,11 @@ var appPropJson = "";
         $('#saved-origin').attr('selected','selected');
 
         $('.saved-default-color').val(material.option.default_color);
-        $('.saved-default-color').text(material.option.default_color);
+        $('.saved-default-color').text(material.option.default_color_name);
         $('.saved-default-color').attr('selected','selected');
 
         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
-        $('#saved-sublimated-default-color').text(material.option.sublimated_default_color);
+        $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
         $('#saved-sublimated-default-color').attr('selected','selected');
 
         $('#saved-perspective').val(material.option.perspective);
