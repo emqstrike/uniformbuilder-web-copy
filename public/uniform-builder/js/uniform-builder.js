@@ -475,6 +475,7 @@ $(document).ready(function () {
 
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
+
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings = settings;
@@ -555,7 +556,7 @@ $(document).ready(function () {
     };
 
     // Initialize uniform settings
-    ub.init = function () {
+    ub.init_settings_object = function () {
 
         ub.current_material.containers = {};
 
@@ -927,12 +928,33 @@ $(document).ready(function () {
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
 
                 if (obj.setting_type === 'highlights') {
+
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+
                 } else if (obj.setting_type === 'shadows') {
+
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
                 } else {
                     
-                    var default_color = JSON.parse(obj.colors)[0];
+                    var default_color = '';
+
+                    if (obj.default_color === null) {
+
+                        default_color = "B";
+
+                    }
+                    else {
+
+                        default_color = obj.default_color;
+
+                        /// Trap for blank default color
+                        if (default_color === '') {
+                            default_color = 'B';
+                        }
+
+                    }
+
                     var color = _.find(ub.data.colors, { color_code: default_color });
 
                     current_object.tint = parseInt(color.hex_code, 16);
@@ -1358,10 +1380,9 @@ $(document).ready(function () {
 
         /// Setup Settings obj, for persisting customizer selection
 
-            ub.init();
+            ub.init_settings_object();
 
         /// End Setup Settings obj
-
 
         /// Load Default Style
 
@@ -1372,7 +1393,7 @@ $(document).ready(function () {
                 // $('a.mascot_picker[data-application-id="2"]').click();
                 // $('div.mascot_slider.scale_slider[data-id=2]').limitslider('values',[35])
 
-            /// End Mascot
+            /// End Mascot 
 
             ub.init_style();
         
@@ -1385,30 +1406,6 @@ $(document).ready(function () {
         /// Utilities ///
 
             ub.init_style = function () {
-
-                if (ub.config.material_id == 19 || ub.config.material_id == 44) {
-                    
-                    ub.change_material_option_color('body','ffffff');
-                    ub.change_material_option_color('team_name','939498');
-                    ub.change_material_option_color('last_name','939498');
-                    ub.change_material_option_color('front_number','c92124');
-                    ub.change_material_option_color('back_number','c92124');
-                    ub.change_material_option_color('sleeve_number','c92124');
-                    ub.change_material_option_color('piping_1','c92124');
-                    ub.change_material_option_color('piping_2','c92124');
-                    ub.change_material_option_color('neck_trim','c92124');
-
-                }    
-
-                if (ub.config.material_id == 18 || ub.config.material_id == 43) {
-
-                    ub.change_material_option_color('body','000000');
-                    ub.change_material_option_color('stripe_one','c92124');
-                    ub.change_material_option_color('stripe_two','c92124');
-                    ub.change_material_option_color('middle_stripe','c92124');
-                    ub.change_material_option_color('tiger_text','000000');
-                    
-                }  
 
                 if (typeof window.ub.temp !== 'undefined') {
                     
