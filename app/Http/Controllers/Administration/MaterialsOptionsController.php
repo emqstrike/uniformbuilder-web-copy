@@ -73,7 +73,7 @@ class MaterialsOptionsController extends Controller
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties
         ];
-
+// dd($data);
         try
         {
 
