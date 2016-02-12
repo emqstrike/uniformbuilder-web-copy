@@ -2679,16 +2679,7 @@ $(document).ready(function () {
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") {
-
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
-
-            }
-            else {
-
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
-
-            }
+            guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
             var gradient_width  = 496;
             var gradient_height = 550;
@@ -3104,16 +3095,7 @@ $(document).ready(function () {
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") { 
-
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
-
-            }
-            else {
-
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 }; 
-
-            } 
+            guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
 
             var gradient_width  = 496;
             var gradient_height = 550;
