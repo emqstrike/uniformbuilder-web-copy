@@ -117,6 +117,8 @@ $(document).ready(function () {
     $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 @endif
 
+
+// #load_order
 var s = "{{ $builder_customizations }}";
 
 if(s.length > 0){

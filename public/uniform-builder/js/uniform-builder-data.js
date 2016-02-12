@@ -60,6 +60,43 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
+    
+    
+    // This will contain default uniform settings when loading a uniform style, 
+    // when loading a uniform that is not from a customized order
+    ub.data.defaultUniformStyle = {};
+
+    ub.data.applications_transformed = {};
+    ub.data.applications_transformed_temp = {
+        
+        body: {
+
+            applications: [
+                {
+                    id: 1,
+                    application_views: [
+
+                        {
+                            perspective: 'front',
+                        },
+                        {
+                            perspective: 'back',
+                        },
+                        {
+                            perspective: 'left',
+                        },
+                        {
+                            perspective: 'right',
+                        },
+                    ] 
+                },       
+            ]
+
+        } 
+
+
+    };
+
 
     // Layer Assignment for Applications 
     // 30 - 50

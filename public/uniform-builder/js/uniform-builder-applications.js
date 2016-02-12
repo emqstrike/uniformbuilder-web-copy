@@ -1305,4 +1305,138 @@ $(document).ready(function() {
 
     /// End Rearrange Layers 
 
+
+    /// Transformed Applications
+
+        // Render Actual Application
+
+        ub.funcs.create_sprite = function (config) {
+
+            return ub.pixi.new_sprite('/images/misc/swoosh.png');
+
+        }
+
+        ub.funcs.renderApplication = function (sprite_function, application_views, app_id) {
+
+            var mat_option = "Body";
+            var marker_name = "app_ident_" + app_id;
+            var views = ub.data.applications_transformed[mat_option][app_id].views;
+
+            _.each(ub.views, function(_view){
+
+                var _view_name = _view + '_view';
+
+                if(typeof ub.objects[_view_name][marker_name] !== "undefined"){
+                    ub[_view_name].removeChild(ub.objects[_view_name][marker_name]);
+                }
+
+            }); 
+
+            _.each(views, function(view){
+
+                var point = sprite_function();
+                point.anchor.set(0.5, 0.5);
+                point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
+                point.rotation = (view.application.rotation * Math.PI) / 180;
+                point.zIndex = -30;
+
+                var view_name = view.perspective + '_view';
+                ub.objects[view_name][marker_name] = point;
+                ub[view_name].addChild(point);
+
+                ub.updateLayersOrder(ub[view_name]);
+
+            });
+
+        };
+
+        // End Render Application
+
+
+        // Init Click
+
+        $('#init_applications').on("click", function(e){
+            
+            ub.funcs.transformedApplications();
+
+        });
+
+        // End Init Click
+
+
+        // Application Transformer
+
+        ub.data.applications_transformed = {};
+
+        ub.funcs.transformedApplications = function () {
+
+            var material_options = ub.current_material.materials_options;
+            var shapes = _.filter(material_options, {setting_type: 'shape'});
+            var apps_transformed = ub.data.applications_transformed;
+
+            _.each(shapes, function(shape){
+
+                var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
+                
+                if(app_properties !== null){
+                    
+                    _.each(app_properties, function(obj){
+
+                        if (typeof apps_transformed[shape.name] === "undefined") {
+                    
+                            apps_transformed[shape.name] = {};    
+                    
+                        }
+
+                        if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
+                            
+                            apps_transformed[shape.name][obj.id] = { id: obj.id, views: [] };
+
+                        }
+                        
+                        apps_transformed[shape.name][obj.id].views.push({ 
+                            perspective: shape.perspective, 
+                            application: obj
+                        });
+
+                    });
+
+                }
+
+            });
+
+            /// Draw App ID's 
+
+            var $mod_main_container = $('#mod_main_panel > .options_panel_section');
+            var body_applications = ub.data.applications_transformed["Body"];
+
+            var str_builder = "";
+
+            _.each(ub.data.applications_transformed["Body"], function(app){
+
+                str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+
+            });
+
+            $mod_main_container.html('');
+            $mod_main_container.html(str_builder);
+
+            $('.app_btn').on('click', function(e) {
+
+                var mat_option = "Body";
+                var marker_name = 'app_ident';
+                var app_id = $(this).data('id');
+                var sprite = ub.pixi.new_sprite('/images/misc/swoosh.png');
+                var views = ub.data.applications_transformed[mat_option][app_id].views;
+
+                ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
+
+            });
+
+            /// End Draw App ID's
+
+    }
+
+    /// End Transformed Applications
+
 });
