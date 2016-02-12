@@ -2,6 +2,53 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<style type="text/css">
+.onoffswitch {
+    position: relative; width: 61px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 9px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
+    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 5px;
+    background-color: #02C723; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 5px;
+    background-color: #BF5050; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 1px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 37px;
+    border: 2px solid #999999; border-radius: 9px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>
 @endsection
 
 @section('content')
@@ -53,14 +100,13 @@
                             {{ $mascot->code }}
                         </td>
                         <td>
-                            <a href="#" class="btn btn-default btn-xs disable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? : 'disabled="disabled"' }}>
-                                <i class="glyphicon glyphicon-eye-close"></i>
-                                Disable
-                            </a>
-                            <a href="#" class="btn btn-info btn-xs enable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? 'disabled="disabled"' : '' }}>
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                                Enable
-                            </a>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-mascot" id="switch-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->active) ? 'checked' : '' }}>
+                                <label class="onoffswitch-label" for="switch-{{ $mascot->id }}">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
                         </td>
                         <td>
                             {{ $mascot->category }}

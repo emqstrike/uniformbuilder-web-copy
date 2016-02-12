@@ -21,18 +21,19 @@ class MascotsCategoriesController extends Controller
 
     public function index()
     {
-        // $factories = $this->client->getFactories();
+        $mascots_categories = $this->client->getMascotCategories();
 
         return view('administration.mascots.mascots-categories', [
-            // 'factories' => $factories
+            'mascots_categories' => $mascots_categories
         ]);
     }
 
     public function editMascotsCategoriesForm($id)
     {
-        $factory = $this->client->getFactory($id);
-        return view('administration.factories.factory-edit', [
-            'factory' => $factory
+        $mascot_category = $this->client->getMascotCategory($id);
+
+        return view('administration.mascots.mascots-categories-edit', [
+            'mascot_category' => $mascot_category->mascot_category
         ]);
     }
 
@@ -46,23 +47,23 @@ class MascotsCategoriesController extends Controller
         $name = $request->input('name');
         
         $id = null;
-        
-        if (!empty($request->input('mascots_category_id')))
+
+        if (!is_null($request->input('mascots_category_id')))
         {
             $id = $request->input('mascots_category_id');
         }
-        // Is the Factory Name taken?
-        // if ($this->client->isFactoryTaken($code, $id))
-        // {
-        //     return Redirect::to('administration/factories')
-        //                     ->with('message', 'Factory already exist');
-        // }
+        // Is the Category Name taken?
+        if ($this->client->isMascotCategoryTaken($name, $id))
+        {
+            return Redirect::to('administration/mascots_categories')
+                            ->with('message', 'Mascot Category already exist')
+                            ->with('alert-class', 'danger');
+        }
 
         $data = [
-            'name' => $name
+            'name' => $name,
+            'id' => $id
         ];
-
-
 
         $response = null;
         if (!empty($id))
@@ -81,13 +82,14 @@ class MascotsCategoriesController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/mascots')
-                            ->with('message', 'Successfully saved changes');
+            return Redirect::to('administration/mascots_categories')
+                            ->with('message', 'Successfully saved changes')
+                            ->with('alert-class', 'success');
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/mascots')
+            return Redirect::to('administration/mascots_categories')
                             ->with('message', $response->message);
         }
     }

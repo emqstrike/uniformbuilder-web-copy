@@ -97,10 +97,8 @@ class MaterialsOptionsAPIClient extends APIClient
         return !is_null($material_option);
     }
 
-    // public function purge($data)
     public function purge($data)
     {
-        // $response = $this->get('material_options/purge/' . $data['color_code']);
         $response = $this->post('material_options/purge', [
             'json' => $data
         ]);

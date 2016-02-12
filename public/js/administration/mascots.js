@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
-    $('.enable-mascot').on('click', function(){
+    $('.toggle-mascot').on('click', function(){
         var id = $(this).data('mascot-id');
-        var url = "//" + api_host + "/api/mascot/enable/";
+        var url = "//" + api_host + "/api/mascot/toggle/";
         $.ajax({
             url: url,
             type: "POST",
@@ -13,44 +13,13 @@ $(document).ready(function() {
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.mascot-' + id;
+                    var elem = '.material-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,
                         type: 'success',
                         hide: true
                     });
-                    $(elem + ' .disable-mascot').removeAttr('disabled');
-                    $(elem + ' .enable-mascot').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
-    });
-
-    $('.disable-mascot').on('click', function(){
-        var id = $(this).data('mascot-id');
-        var url = "//" + api_host + "/api/mascot/disable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.mascot-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-mascot').removeAttr('disabled');
-                    $(elem + ' .disable-mascot').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
                 }
             }
         });
@@ -59,6 +28,34 @@ $(document).ready(function() {
     $('.delete-mascot').on('click', function(){
         var id = $(this).data('mascot-id');
         modalConfirm('Remove mascot', 'Are you sure you want to delete the mascot?', id);
+    });
+
+    $('#confirmation-modal-mascot-category .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+
+        console.log("DELETE NOW");
+        var url = "//" + api_host + "/api/mascot_category/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal-mascot-category').modal('hide');
+                    $('.mascot-category-' + id).fadeOut();
+                }
+            }
+        });
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
