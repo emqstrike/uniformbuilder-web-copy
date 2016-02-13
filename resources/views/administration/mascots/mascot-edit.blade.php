@@ -39,7 +39,11 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-category" name="category" value="{{ $mascot->category }}">
+                                <select name='category' class="form-control mascot-category">
+                                    @foreach ($mascots_categories as $mascot_category)
+                                        <option value='{{ $mascot_category }}' <?php if($mascot_category == $mascot->category){ echo "selected"; } ?>>{{ $mascot_category }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 

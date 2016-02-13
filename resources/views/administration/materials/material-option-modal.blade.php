@@ -148,11 +148,12 @@
                     <div style="float: left; text-align: center; margin-top: 75px; z-index: 50; position: relative;" class="front-applications text-center">
                         <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">
-                            <option value="logo">Logo</option>
-                            <option value="number">Number</option>
-                            <option value="team_name">Team Name</option>
-                            <option value="player_name">Player Name</option>
+                            <option value="logo" data-def-name="logo">Logo</option>
+                            <option value="number" data-def-name="number">Number</option>
+                            <option value="team_name" data-def-name="team_name">Team Name</option>
+                            <option value="player_name" data-def-name="player_name">Player Name</option>
                         </select>
+                        <input type="text" name="application_name" id="application_name" value="Logo">
                     </div>
                 </div>
             </div>

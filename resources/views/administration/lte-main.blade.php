@@ -146,6 +146,9 @@
 <script src="/dist/js/app.min.js"></script>
 
 @yield('scripts')
+<script type="text/javascript">
+    $("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
+</script>
 @yield('custom-scripts')
 
   </body>
