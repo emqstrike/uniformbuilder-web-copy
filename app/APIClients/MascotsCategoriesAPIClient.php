@@ -8,56 +8,71 @@ class MascotsCategoriesAPIClient extends APIClient
         parent::__construct();
     }
 
-    public function getMascots()
+    public function getMascotCategories()
     {
-        $response = $this->get('mascots');
+        $response = $this->get('mascot_categories');
         $result = $this->decoder->decode($response->getBody());
 
-        $mascots = [];
+        $mascots_categories = [];
         if ($result->success)
         {
-            $mascots = $result->mascots;
+            $mascots_categories = $result->mascots_categories;
         }
-        return $mascots;
+        return $mascots_categories;
     }
 
-    public function isMascotExist($name, $id = null)
+    public function isMascotCategoryTaken($name, $id)
     {
-        $mascot = $this->getMascotByName($name);
-        if (!is_null($mascot) && !is_null($id))
+        $response = $this->get('mascot_category/name/' . $name);
+        $result = $this->decoder->decode($response->getBody());
+
+        $mascot_category = null;
+        if ($result->success)
         {
-            $compare = $this->getMascot($id);
-            if ($mascot->id == $compare->id)
+            $mascot_category = $result->mascot_category;
+        }
+
+        if (!is_null($mascot_category) && !is_null($id))
+        {
+            $compare = $this->getMascotCategory($id);//dd($compare);
+            try
             {
-                return false;
+                if ($mascot_category->id == $compare->mascot_category->id)
+                {
+                    return false;
+                }
+            } catch (QueryException $e) {
+                $error = $e->getMessage();
+            } catch (Exception $e) {
+                $error = $e->getMessage();
             }
         }
-        return !is_null($mascot);
+        return !is_null($mascot_category);
     }
 
-    public function getMascotByName($name)
+    public function getMascotCategoryByName($name)
     {
-        $response = $this->get('mascot/name/' . $name);
+        $response = $this->get('mascot_category/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
-            return $result->mascot;
+            return $result->mascot_category;
         }
         return null;
     }
 
-    public function getMascot($id)
+    public function getMascotCategory($id)
     {
-        $response = $this->get('mascot/' . $id);
+        $response = $this->get('mascot_category/' . $id);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
-            return $result->mascot->mascot;
+            return $result->mascot_category;
         }
         return null;
     }
 
-    public function createMascot($data)
+    public function createMascotCategory($data)
     {
         $response = $this->post('mascot_category', [
             'json' => $data
@@ -66,9 +81,9 @@ class MascotsCategoriesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function updateMascot($data)
+    public function updateMascotCategory($data)
     {
-        $response = $this->post('mascot/update', [
+        $response = $this->post('mascot_category/update', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());

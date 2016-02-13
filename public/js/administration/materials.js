@@ -68,6 +68,7 @@ $(document).ready(function() {
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
+        var default_name = $('#application_name').val();
 
         var area = new fabric.Rect({
             id: application_number,
@@ -83,7 +84,7 @@ $(document).ready(function() {
 
         var appID = new fabric.IText(application_number.toString(),{
             fontFamily: 'arial black',
-            originX: 'center',
+            originX: 'right',
             originY: 'center',
             opacity: 0.6,
             fontSize: 11
@@ -111,6 +112,7 @@ $(document).ready(function() {
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
+        var def_name = "<input type=\"text\" class=\"app-def-name\" value="+default_name+">";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -124,7 +126,7 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
 
         var canvasItem = "application"+group.id;
 
@@ -277,6 +279,13 @@ var applicationProperties = {};
     $('.materials').bootstrapTable();
 
     $(".options-row-source").hide();
+
+    
+    $('#front-default-item').change(function(){
+        // var def_name = $(this).data('def-name');
+        var def_name = $(this).val();
+        $('#application_name').val(def_name);
+    });
 
     $('.clone-row').on('click', function(){
         $( ".options-row:first" ).clone().appendTo( "#options-row-container" );
@@ -667,7 +676,9 @@ var appPropJson = "";
 
                     selectAppend += "</select>";
 
-                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + updateApplication + "</div>");
+                    var def_name = "<input type=\"text\" class=\"app-def-name\" value=" + app_properties[l].name + ">";
+
+                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
                     var thisGroup = group;
@@ -728,62 +739,6 @@ var appPropJson = "";
         $('#save-material-option-modal .material-id').val(material.id);
         $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
         $('#save-material-option-modal').modal('show');
-    });
-
-    $('.enable-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/enable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .disable-material').removeAttr('disabled');
-                    $(elem + ' .enable-material').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
-    });
-
-    $('.disable-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/disable/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-material').removeAttr('disabled');
-                    $(elem + ' .disable-material').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
-                }
-            }
-        });
     });
 
     $('.toggle-material').on('click', function(){
@@ -1130,6 +1085,7 @@ var appPropJson = "";
             itemIdx = "layer"+$(this).data('id');
             layer = $(this).data('id');
             applicationType = $(this).siblings("select[class=app-def-item]").val();
+            applicationName = $(this).siblings("input[class=app-def-name]").val();
             applicationId = $(this).siblings("input[name=application_id]").val();
 
             thisGroup = canvasFront.item(layer);
@@ -1147,6 +1103,7 @@ var appPropJson = "";
 
             applicationProperties[itemIdx] = {};
             applicationProperties[itemIdx]['type'] = {};
+            applicationProperties[itemIdx]['name'] = {};
             applicationProperties[itemIdx]['id'] = {};
             applicationProperties[itemIdx]['layerOrder'] = {};
             applicationProperties[itemIdx]['topLeft'] = {};
@@ -1163,6 +1120,7 @@ var appPropJson = "";
             applicationProperties[itemIdx]['bottomRight']['y'] = {};
 
             applicationProperties[itemIdx].type = applicationType;
+            applicationProperties[itemIdx].name = applicationName;
             applicationProperties[itemIdx].id = applicationId;
             applicationProperties[itemIdx].layerOrder = applicationId;
             applicationProperties[itemIdx].topLeft.x = topLeftX;

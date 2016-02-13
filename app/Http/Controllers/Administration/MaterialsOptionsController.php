@@ -237,14 +237,11 @@ class MaterialsOptionsController extends Controller
 
     public function purgeColor(Request $request)
     {
-        // $colorCode = $request->input('color_code');
         $colorCode = "X";
         $data = [
             'color_code' => $colorCode
         ];
 
-        // Log::info('Attempts to purge color ' . json_encode($data));
-        // $response = $this->client->purge($data);
         Log::info('Attempts to cleanup bad colors ' . json_encode($data));
         $response = $this->client->purge($data);
 

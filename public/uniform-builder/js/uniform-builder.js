@@ -479,8 +479,9 @@ $(document).ready(function () {
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings = settings;
+        var uniform_type = ub.current_material.material.type;
 
-        _.each(ub.current_material.settings.upper, function(e){
+        _.each(ub.current_material.settings[uniform_type], function(e){
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
 
@@ -617,7 +618,7 @@ $(document).ready(function () {
 
             obj.setting_type = material_option.setting_type;
 
-            obj.code = name.replace(' ', '_').toLowerCase();
+            obj.code = name.toCodeCase();
             obj.color = '';
             obj.gradient_is_above_pattern = false;
             
@@ -1424,25 +1425,16 @@ $(document).ready(function () {
 
                 // Colors ok, TODO: Patterns and Gradients
 
-                var views = ub.views;
-
                 _.each(defaultUniformStyle, function (style) {
 
-                    _.each(views, function (view) {
+                    var uniform_type = ub.current_material.material.type;
+                    var mo_setting = _.find(ub.current_material.settings[uniform_type], {code: style.name});
 
-                        var object_name = style.name;
-                        var view_name = view + '_view'
-                        var object = ub.objects[view_name][object_name];
+                    mo_setting.color = style.default_color;
 
-                        if (typeof object !== 'undefined') {
+                });
 
-                            object.tint = style.default_color;
-
-                        }
-
-                    });
-
-                })
+                ub.loadSettings(ub.current_material.settings);
 
             }
 
