@@ -747,7 +747,6 @@ $(document).ready(function() {
         $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-        // ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
         ub.funcs.identify(application.code);
 
@@ -1098,8 +1097,6 @@ $(document).ready(function() {
 
                 if (type === 'rotate') {
 
-                    //var angleRadians = Math.atan2(rotation_point.y - move_point.y, rotation_point.x - move_point.x);
-
                     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
 
@@ -1110,8 +1107,9 @@ $(document).ready(function() {
 
                     var application_type = settings_obj.type;
 
-                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
+                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.
 
+                        config.isFeatureOn('ui','scale_text')) {
                         application_obj.scale.set(percentage, percentage);
                         settings_obj.scale = application_obj.scale;
 
@@ -1409,7 +1407,6 @@ $(document).ready(function() {
 
             var $mod_main_container = $('#mod_main_panel > .options_panel_section');
             var body_applications = ub.data.applications_transformed["Body"];
-
             var str_builder = "";
 
             _.each(ub.data.applications_transformed["Body"], function(app){
@@ -1426,7 +1423,6 @@ $(document).ready(function() {
                 var mat_option = "Body";
                 var marker_name = 'app_ident';
                 var app_id = $(this).data('id');
-                var sprite = ub.pixi.new_sprite('/images/misc/swoosh.png');
                 var views = ub.data.applications_transformed[mat_option][app_id].views;
 
                 ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);

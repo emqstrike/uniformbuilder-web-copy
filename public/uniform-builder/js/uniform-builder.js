@@ -548,11 +548,10 @@ $(document).ready(function () {
                 
         });
 
-
         // Initialize Transformed Applications
 
-        ub.funcs.transformedApplications();
-        $('.app_btn').click();
+        // ub.funcs.transformedApplications();
+        // $('.app_btn').click();
 
     };
 
@@ -1178,20 +1177,15 @@ $(document).ready(function () {
 
         /// Setup Modifiers Applications 
 
+
+            ub.funcs.transformedApplications();
+
             var markup = '';
 
             _.each(ub.data.applications.items, function (application) {
 
-                markup += application.id + ". " + application.name + "<br /><br />";
-                markup += "<div data-id='" + application.id + "' class='logos_picker'></div>";
-
-            });
-
-            markup = '';
-
-            _.each(ub.data.applications.items, function (application) {
-
                 var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
+        
                 ddowns     +=   '<select class="application_type_dropdown" data-label="applications" data-id="' + application.id + '">';
                 ddowns     +=       '<option value="none">-- Select an Application --</option>';
                 ddowns     +=       '<option value="logo">Logo / Image</option>';
