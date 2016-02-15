@@ -1177,12 +1177,14 @@ $(document).ready(function () {
 
         /// Setup Modifiers Applications 
 
-
             ub.funcs.transformedApplications();
 
             var markup = '';
 
-            _.each(ub.data.applications.items, function (application) {
+            // var apps = ub.data.applications.items;
+            var apps = ub.data.applications_transformed["Body"];
+
+            _.each(apps, function (application) {
 
                 var ddowns =  '<div class="applications_dropdown" data-option="applications" data-id="' + application.id + '">';
         
@@ -1219,7 +1221,7 @@ $(document).ready(function () {
 
                     var id = $select.data('id');
                     var application_type = $select.val();
-                    var application = _.find(ub.data.applications.items, { id: id });
+                    var application = _.find(apps, { id: id.toString() });
 
                     $container = $('div.applications_modifier_container[data-id="' + id + '"]');
 
@@ -1238,7 +1240,8 @@ $(document).ready(function () {
                     }
 
                     if (application_type === "player_number") {
-                        $container.ubPlayerNumberDialog(plugin_parameters);
+                        // $container.ubPlayerNumberDialog(plugin_parameters);
+                        $container.ubPlayerNumberDialog2(plugin_parameters);
                     }
 
                     if (application_type === "team_name") {
@@ -1247,17 +1250,17 @@ $(document).ready(function () {
 
                     if (application_type === "none") {
 
-                        var view_objects = ub.objects[application.perspective + '_view'];
-                        var s = view_objects['objects_' + application.code];
-                        var view = ub[application.perspective + '_view'];
+                        var view_objects = ub.objects[application.perspective + '_view']; 
+                        var s = view_objects['objects_' + application.id]; 
+                        var view = ub[application.perspective + '_view']; 
 
                         if (typeof(s) === 'object') {
 
-                            var obj = view_objects['objects_' + application.code];
+                            var obj = view_objects['objects_' + application.id];
 
-                            view.removeChild(view_objects['objects_' + application.code]);
-                            delete view_objects['objects_' + application.code];
-                            delete ub.current_material.settings.applications[application.code];
+                            view.removeChild(view_objects['objects_' + application.id]);
+                            delete view_objects['objects_' + application.id];
+                            delete ub.current_material.settings.applications[application.id];
 
                         }
 
@@ -1320,7 +1323,7 @@ $(document).ready(function () {
                         var x = 0;
                         var y = 0;
 
-                        var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+                        var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
                         if (typeof application_obj === 'undefined') {
     
@@ -1356,7 +1359,7 @@ $(document).ready(function () {
 
                         }
 
-                        ui_handles.applicationID = application.code;
+                        ui_handles.applicationID = application.id;
 
                         view_objects['ui_handles'] = ui_handles;
                         view.addChild(ui_handles);
@@ -2862,7 +2865,7 @@ $(document).ready(function () {
                 var alpha = '';
                 var tint = '';
 
-                var s = view_objects['objects_' + application.code];
+                var s = view_objects['objects_' + application.id];
 
                 // /// Set First Three Colors
 
@@ -2878,9 +2881,9 @@ $(document).ready(function () {
 
                     if(color_array !== ''){
 
-                        var array = ub.current_material.settings.applications[application.code].color_array;
+                        var array = ub.current_material.settings.applications[application.id].color_array;
                         var color_array_size = _.size(array);
-                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
+                        var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
 
                         if (typeof code !== 'undefined') {
                             
@@ -2894,22 +2897,22 @@ $(document).ready(function () {
          
                 ///// End Set First Three Colors 
 
-                text_gradient_obj = ub.current_material.settings.applications[application.code].gradient_obj;
+                text_gradient_obj = ub.current_material.settings.applications[application.id].gradient_obj;
                 
                 if (typeof text_gradient_obj !== 'undefined') {
 
-                    ub.generate_gradient_for_text(text_gradient_obj, application.code, sprite, application);    
+                    ub.generate_gradient_for_text(text_gradient_obj, application.id, sprite, application);    
 
                 }
 
-                pattern_obj = ub.current_material.settings.applications[application.code].pattern_obj;
+                pattern_obj = ub.current_material.settings.applications[application.id].pattern_obj;
 
                 if (typeof pattern_obj !== 'undefined') {
-                    pattern_settings = ub.current_material.settings.applications[application.code].pattern_settings;
-                    ub.generate_pattern_for_text(application.code, pattern_obj, application, sprite, pattern_settings);
+                    pattern_settings = ub.current_material.settings.applications[application.id].pattern_settings;
+                    ub.generate_pattern_for_text(application.id, pattern_obj, application, sprite, pattern_settings);
                 }
                 
-                view_objects['objects_' + application.code] = sprite;
+                view_objects['objects_' + application.id] = sprite;
                 view.addChild(sprite);
 
                 sprite.position = application_obj.position;
@@ -2920,7 +2923,7 @@ $(document).ready(function () {
 
                 sprite.originalZIndex = layer_order * (-1);
                 sprite.zIndex = layer_order * (-1);
-                settings.applications[application.code].layer_order = layer_order;
+                settings.applications[application.id].layer_order = layer_order;
 
                 ub.updateLayersOrder(view);
 
@@ -2940,7 +2943,7 @@ $(document).ready(function () {
 
             ub.save_text_pattern_color = function (application, layer, color) {
 
-                ub.current_material.settings.applications[application.code].pattern_obj.layers[layer].default_color = color;
+                ub.current_material.settings.applications[application.id].pattern_obj.layers[layer].default_color = color;
 
             };
 
@@ -2957,8 +2960,8 @@ $(document).ready(function () {
                 var val_y_position = pattern_settings.position.y;
                 var target_name = target.toTitleCase();
                 
-                ub.current_material.containers[application.code] = {};
-                var application_settings = ub.current_material.containers[application.code]
+                ub.current_material.containers[application.id] = {};
+                var application_settings = ub.current_material.containers[application.id]
                 
                 if(typeof application_settings.pattern === 'undefined') {
 
@@ -3298,9 +3301,9 @@ $(document).ready(function () {
 
             sprite.mask = mask;
 
-            var s = view_objects['objects_' + application.code];
+            var s = view_objects['objects_' + application.id];
 
-            view_objects['objects_' + application.code] = sprite;
+            view_objects['objects_' + application.id] = sprite;
             view.addChild(sprite);
 
             sprite.position = new PIXI.Point(x,y);
@@ -3324,7 +3327,7 @@ $(document).ready(function () {
 
             sprite.originalZIndex = layer_order * (-1);
             sprite.zIndex = layer_order * (-1);
-            settings.applications[application.code].layer_order = layer_order;
+            settings.applications[application.id].layer_order = layer_order;
         
             ub.updateLayersOrder(view);
 
@@ -3343,7 +3346,7 @@ $(document).ready(function () {
             var x = ub.dimensions.width * application.position.x;
             var y = ub.dimensions.height * application.position.y;
             var settings = ub.current_material.settings;
-            var application_mascot_code = application.code + '_' + mascot.id;
+            var application_mascot_code = application.id + '_' + mascot.id;
             var view = ub[application.perspective + '_view'];
             var view_objects = ub.objects[application.perspective + '_view'];
             var container = new PIXI.Container();
@@ -3366,7 +3369,6 @@ $(document).ready(function () {
 
             });
 
-
             container.scale = new PIXI.Point(0.5, 0.5);
 
             var sprite = container;
@@ -3382,14 +3384,14 @@ $(document).ready(function () {
 
             sprite.mask = mask;
 
-            var s = view_objects['objects_' + application.code];
+            var s = view_objects['objects_' + application.id];
 
             var position = '';
             var scale = '';
             var rotation = '';
             var alpha = '';
 
-            view_objects['objects_' + application.code] = sprite;
+            view_objects['objects_' + application.id] = sprite;
             view.addChild(sprite);
 
             sprite.position = application_obj.position;
@@ -3401,7 +3403,7 @@ $(document).ready(function () {
 
             sprite.originalZIndex = layer_order * (-1);
             sprite.zIndex = layer_order * (-1);
-            settings.applications[application.code].layer_order = layer_order;
+            settings.applications[application.id].layer_order = layer_order;
         
             ub.updateLayersOrder(view);
 

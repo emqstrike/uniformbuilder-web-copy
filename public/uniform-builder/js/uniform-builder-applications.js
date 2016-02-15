@@ -622,16 +622,16 @@ $(document).ready(function() {
         var x = ub.dimensions.width * application.position.x;
         var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
-        var application_mascot_code = application.code + '_' + mascot.id;
+        var application_mascot_code = application.id + '_' + mascot.id;
 
-        settings.applications[application.code] = {
+        settings.applications[application.id] = {
             application: application,
             mascot: mascot,
             type: 'mascot',
             color_array: {},
         };
 
-        var settings_obj = settings.applications[application.code];
+        var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
@@ -656,10 +656,10 @@ $(document).ready(function() {
 
         });
 
-        $('div.mascot_color_picker_container[data-id="' + application.code + '"]').html(elements);
+        $('div.mascot_color_picker_container[data-id="' + application.id + '"]').html(elements);
 
-        $('input.mascot_' + application.code).ubColorPicker({
-                target: String(application.code),
+        $('input.mascot_' + application.id).ubColorPicker({
+                target: String(application.id),
                 type: 'mascot',
                 application: application,
                 target_name: application.layer,
@@ -668,9 +668,9 @@ $(document).ready(function() {
         container.scale = new PIXI.Point(0.5, 0.5);
         var sprite = container;
 
-        ub.current_material.containers[application.code] = {};
+        ub.current_material.containers[application.id] = {};
 
-        ub.current_material.containers[application.code].mascot = sprite;
+        ub.current_material.containers[application.id].mascot = sprite;
 
         var mask = _.find(ub.current_material.material.options, {
             
@@ -684,7 +684,7 @@ $(document).ready(function() {
 
         sprite.mask = mask;
 
-        var s = view_objects['objects_' + application.code];
+        var s = view_objects['objects_' + application.id];
 
         var position = '';
         var scale = '';
@@ -693,7 +693,7 @@ $(document).ready(function() {
         
         if (typeof(s) === 'object') {
 
-            var obj = view_objects['objects_' + application.code];
+            var obj = view_objects['objects_' + application.id];
 
             position = obj.position;
             scale = obj.scale;
@@ -702,12 +702,12 @@ $(document).ready(function() {
             tint = obj.tint;
             var color_array = settings_obj.color_array;
 
-            view.removeChild(view_objects['objects_' + application.code]);
-            delete view_objects['objects_' + application.code];
+            view.removeChild(view_objects['objects_' + application.id]);
+            delete view_objects['objects_' + application.id];
 
         }
 
-        view_objects['objects_' + application.code] = sprite;
+        view_objects['objects_' + application.id] = sprite;
         view.addChild(sprite);
 
         sprite.position = new PIXI.Point(x,y);
@@ -748,7 +748,7 @@ $(document).ready(function() {
         $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
         ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.code);
+        ub.funcs.identify(application.id);
 
     };
 
@@ -757,20 +757,20 @@ $(document).ready(function() {
         var x = ub.dimensions.width * application.position.x;
         var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
-        var application_logo_code = application.code + '_' + logo.id;
+        var application_logo_code = application.id + '_' + logo.id;
 
-        settings.applications[application.code] = {
+        settings.applications[application.id] = {
             application: application,
             type: 'logo',
             color_array: {},
         };
 
-        var settings_obj = settings.applications[application.code];
+        var settings_obj = settings.applications[application.id];
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
 
-        ub.saveLogo(logo.dataUrl, application.code);
+        ub.saveLogo(logo.dataUrl, application.id);
         
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
@@ -781,7 +781,7 @@ $(document).ready(function() {
 
         sprite.mask = mask;
 
-        var s = view_objects['objects_' + application.code];
+        var s = view_objects['objects_' + application.id];
 
         var position = '';
         var scale = '';
@@ -790,7 +790,7 @@ $(document).ready(function() {
         
         if (typeof(s) === 'object') {
 
-            var obj = view_objects['objects_' + application.code];
+            var obj = view_objects['objects_' + application.id];
 
             position = obj.position;
             scale = obj.scale;
@@ -799,12 +799,12 @@ $(document).ready(function() {
             tint = obj.tint;
             var color_array = settings_obj.color_array;
 
-            view.removeChild(view_objects['objects_' + application.code]);
-            delete view_objects['objects_' + application.code];
+            view.removeChild(view_objects['objects_' + application.id]);
+            delete view_objects['objects_' + application.id];
 
         }
 
-        view_objects['objects_' + application.code] = sprite;
+        view_objects['objects_' + application.id] = sprite;
         view.addChild(sprite);
 
         sprite.position = new PIXI.Point(x,y);
@@ -846,7 +846,7 @@ $(document).ready(function() {
 
         ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.code);
+        ub.funcs.identify(application.id);
 
     };
 
@@ -1057,13 +1057,13 @@ $(document).ready(function() {
                 var p_app = new PIXI.Point(x, y);
                 var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
-                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
                 if(typeof application_obj === 'undefined') {
                     return;
                 }
 
-                var settings_obj = ub.current_material.settings.applications[application.code];
+                var settings_obj = ub.current_material.settings.applications[application.id];
 
                 if (type === 'move') {
 
@@ -1181,7 +1181,7 @@ $(document).ready(function() {
 
                 }
 
-                $element = $('select.application_type_dropdown[data-id=' + application.code + ']');
+                $element = $('select.application_type_dropdown[data-id=' + application.id + ']');
 
                 var difference = $('div#right-main-window').offset().top - $element.offset().top;
 
@@ -1258,17 +1258,17 @@ $(document).ready(function() {
 
     ub.funcs.rearrangeApplications = function (application, movement) {
 
-        var code = application.code;
-        var current_layer_order = ub.current_material.settings.applications[application.code].layer_order;
-        var settings_obj = ub.current_material.settings.applications[application.code];
-        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.code];
+        var code = application.id;
+        var current_layer_order = ub.current_material.settings.applications[application.id].layer_order;
+        var settings_obj = ub.current_material.settings.applications[application.id];
+        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.id];
 
         if (movement === 'UP') {
 
             var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
             
             if(typeof next_element !== 'undefined') {
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
                 next_element.layer_order = (current_layer_order);
                 next_obj.zIndex = (current_layer_order) * -1;
             }
@@ -1286,7 +1286,7 @@ $(document).ready(function() {
             
             if(typeof next_element !== 'undefined') {
 
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
                 next_element.layer_order = (current_layer_order);
                 next_obj.zIndex = (current_layer_order) * -1;
 
@@ -1314,7 +1314,7 @@ $(document).ready(function() {
 
         }
 
-        ub.funcs.renderApplication = function (sprite_function, application_views, app_id) {
+        ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var mat_option = "Body";
             var marker_name = "app_ident_" + app_id;
@@ -1332,15 +1332,25 @@ $(document).ready(function() {
 
             _.each(views, function(view){
 
-                var point = sprite_function();
-                point.anchor.set(0.5, 0.5);
+                var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
                 point.rotation = (view.application.rotation * Math.PI) / 180;
                 point.zIndex = -30;
 
+                var mask = _.find(ub.current_material.material.options, {
+                    perspective: view.perspective,
+                    name: mat_option,
+                });
+
+                var mask = ub.pixi.new_sprite(mask.material_option_path);
+                point.mask = mask;
+
                 var view_name = view.perspective + '_view';
                 ub.objects[view_name][marker_name] = point;
                 ub[view_name].addChild(point);
+
+                ub.funcs.createClickable(point, view.application, view, 'application');
+                ub.funcs.identify(app_id.id);
 
                 ub.updateLayersOrder(ub[view_name]);
 
@@ -1364,9 +1374,9 @@ $(document).ready(function() {
 
         // Application Transformer
 
-        ub.data.applications_transformed = {};
-
         ub.funcs.transformedApplications = function () {
+
+            ub.data.applications_transformed = {};
 
             var material_options = ub.current_material.materials_options;
             var shapes = _.filter(material_options, {setting_type: 'shape'});
@@ -1388,7 +1398,7 @@ $(document).ready(function() {
 
                         if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
                             
-                            apps_transformed[shape.name][obj.id] = { id: obj.id, views: [] };
+                            apps_transformed[shape.name][obj.id] = { id: obj.id, name: obj.name, views: [], layer: 'Body'};
 
                         }
                         
@@ -1434,5 +1444,38 @@ $(document).ready(function() {
     }
 
     /// End Transformed Applications
+
+    /// Get Primary View of Application, TODO: Set this on the backend primary_view, boolean
+
+    ub.funcs.getPrimaryView = function (application) {
+
+        var view = undefined;
+
+        view = _.find(application.views, {perspective: "front"});
+        
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "back"});
+        }
+
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "left"});
+        }
+
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "right"});
+        }
+
+        return view;
+
+    }
+
+
+
+
+
+    /// End Get Primary View
+
+
+
 
 });

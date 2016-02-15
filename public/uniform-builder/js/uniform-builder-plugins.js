@@ -133,7 +133,7 @@
 
                 if (settings.type === 'text_pattern') {
 
-                    var pattern = ub.current_material.containers[settings.application.code].pattern;
+                    var pattern = ub.current_material.containers[settings.application.id].pattern;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
@@ -147,14 +147,14 @@
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.containers[settings.application.code].mascot;
+                    var mascot = ub.current_material.containers[settings.application.id].mascot;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
                     mascot.children[layer_no].tint = color;
 
-                    ub.current_material.settings.applications[settings.application.code].mascot.layers[layer_no].color = color; 
+                    ub.current_material.settings.applications[settings.application.id].mascot.layers[layer_no].color = color; 
                     ub.refresh_thumbnails();
 
                 }
@@ -205,7 +205,6 @@
 
             var template = $('#logo-dropdown').html();
             var markup = Mustache.render(template, data);
-
 
             $container.html(markup);
             
@@ -370,6 +369,483 @@
 
     };
 
+    $.fn.ubPlayerNumberDialog2 = function(options) {
+
+        ub.funcs.removeUIHandles();
+
+        var settings = $.extend({ application: {} }, options);
+        var application = settings.application;
+        var view_str = application.perspective + '_view';
+
+        $('a#view_' + application.perspective).click();
+
+        return this.each(function () {
+
+            var $container = $(this);
+            var first_font = ub.data.fonts[0];
+            var sample_text = '';
+            var font_size = '';
+            var plugin_type = $('select.application_type_dropdown[data-id=' + application.id + ']').val();
+
+            if (plugin_type === 'player_name') {
+                sample_text = 'Player Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'team_name') {
+                sample_text = 'Team Name';
+                font_size = 25;
+            }
+
+            if (plugin_type === 'player_number') {
+                sample_text = '23';
+                font_size = 100;
+            }
+
+            var data = {
+                sample_text: sample_text,
+                application_id: settings.application.id,
+                first_font_name: first_font.name,
+                first_font_id: first_font.id
+            }
+
+            var text_ui_template = $('#text-ui').html();
+            var markup = Mustache.render(text_ui_template, data);
+
+            $container.html(markup);
+
+            /// Color Container Handlers
+
+            $('div.colors_container[data-id="' + application.id + '"]').not('[data-option="colors"]').hide();
+            $('div.btn.ub[data-id="' + application.id + '"]').on('click', function (e) {
+
+                $('div.btn.ub[data-id="' + application.id + '"]').removeClass('active');
+                $(this).addClass('active');
+                $('div.colors_container').hide();
+                $('div.colors_container[data-option="' + $(this).data('option') + '"]').fadeIn();
+
+            });
+
+            /// End Color Container Handlers
+
+            var position = '';
+            var scale = '';
+            var rotation = '';
+            var alpha = '';
+            var tint = '';
+            var view_objects = ub.objects[settings.application.perspective + '_view'];
+            var view = ub[settings.application.perspective + '_view'];
+    
+            // var s = view_objects['objects_' + settings.application.id];
+
+            // if (typeof(s) === 'object') {
+
+            //     var obj = view_objects['objects_' + application.id];
+
+            //     position = obj.position;
+            //     scale = obj.scale;
+            //     rotation = obj.rotation;
+            //     alpha = obj.alpha;
+            //     tint = obj.tint;
+
+            //     view.removeChild(view_objects['objects_' + application.id]);
+            //     delete view_objects['objects_' + application.id];
+
+            // }
+            
+            create_font_dropdown(settings);
+            create_color_dropdown(settings);
+            create_accent_dropdown(settings);
+            create_gradient_dropdown(settings);
+            create_pattern_dropdown(settings);
+
+            var max_font_size = 300;
+            
+            $('div.font_size_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [font_size],
+                min: 0,
+                max: max_font_size,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
+                    
+                    $textbox.trigger('change');
+                    $('span[data-target="logo"][data-label="font_size"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+            
+            var max_rotation = 620;
+            var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
+
+            $rotation_slider.roundSlider({
+
+                values: [0],
+                min: 0,
+                max: max_rotation,
+                gap: 0,
+                width: 5,
+                handleSize: "+14",
+                startAngle: 90,
+
+                change: function(event, ui) {
+
+                    var value = parseInt($rotation_slider.find('span.edit').html());
+                    var object = ub.objects[view_str]['objects_' + application.id];
+
+                    object.rotation = value / 100;
+                    var rotation = ( value / max_rotation ) * 360;
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application.id + '"]');
+
+                }
+
+            });
+
+            var max_scale = 200;
+            
+            $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_scale,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects[view_str]['objects_' + application.id];
+
+                    var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
+                    var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
+
+                    var scale = new PIXI.Point(value_x / 100, value_y / 100);
+                    
+                    object.scale = scale;
+
+                    $('span[data-target="logo"][data-label="scale_x"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+
+            var max_scale = 200;
+            
+            $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_scale,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects[view_str]['objects_' + application.id];
+
+                    var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
+                    var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
+
+                    var scale = new PIXI.Point(value_x / 100, value_y / 100);
+                    
+                    object.scale = scale;
+
+                    $('span[data-target="logo"][data-label="scale_y"][data-id="' + application.id + '"]').text(value);
+
+                }
+
+            });
+
+            var max_opacity = 100;
+
+            $('div.opacity_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [100],
+                min: 0,
+                max: max_opacity,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects[view_str]['objects_' + application.id];
+                    object.alpha = value / max_opacity;
+
+                    $('span[data-target="logo"][data-label="opacity"][data-id="' + application.id + '"]').text(value);
+
+                    $angle_slider_logo = $('div.rotation_slider[data-id="' + application.id + '"]');
+
+                    var opacity =  value / max_opacity;
+                    $angle_slider_logo.find('div.rs-bg-color').css({
+                        "opacity": opacity
+                    });
+
+                }
+
+            });
+
+            /// Get Primary View
+
+            var view = "";
+            view = ub.funcs.getPrimaryView(application);
+            var _position = view.application.pivot;
+
+            $('div.y_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [_position.y  * ub.dimensions.height],
+                min: 0,
+                max: ub.dimensions.height,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects[view_str]['objects_' + application.id];
+                    object.y = value;
+
+                }
+
+            });
+
+            $('div.x_slider[data-id="' + application.id + '"]').limitslider({
+
+                values: [_position.x * ub.dimensions.width],
+                min: 0,
+                max: ub.dimensions.width,
+                gap: 0,
+
+                change: function(event, ui) {
+
+                    var value = $(this).limitslider("values")[0];
+                    var object = ub.objects[view_str]['objects_' + application.id];
+
+                    object.x = value;
+
+                }
+
+            });
+
+            var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
+
+            $textbox.on('keyup', function() {
+
+                _.debounce(500, $textbox.trigger('change'));
+
+            });
+
+            $textbox.on('change', function () {
+
+                if ($textbox.val().length === 0) { return; }
+
+                var x = ub.dimensions.width * _position.x;
+                var y = ub.dimensions.height * _position.y;
+                var settings = ub.current_material.settings;
+                var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+                var font_id = selected_font_id;
+
+                if (ub.config.app_env !== "local") {
+                    font_id = font_id.toString();
+                }
+                
+                var font_obj = _.find(ub.data.fonts, {id: font_id });
+                var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
+
+                if (typeof font_obj === 'undefined') {
+                    return;
+                }
+
+                var color_array = '';
+
+                if(typeof settings.applications[application.id] !== 'undefined') {
+                    
+                    color_array = settings.applications[application.id].color_array;
+
+                }    
+
+                var text_input = $textbox.val();
+                var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+                var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+                var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
+
+                settings.applications[application.id] = {
+                    application: application,
+                    accent_obj: accent_obj,
+                    font_size: font_size, 
+                    text: text_input,
+                    type: 'player_number',
+                    color_array: {},
+                    object_type: 'text object',
+                    appliation_type: plugin_type,
+                    code: application.id,
+                    font_obj: font_obj,
+                    gradient_obj: undefined,
+                    gradient_settings: undefined,
+                    pattern_obj: undefined,
+                    pattern_settings: undefined,
+                    position: undefined,
+                    rotation: undefined,
+                    scale: undefined,
+                };
+
+                var input_object = {
+                    text_input: text_input,
+                    font_name: font_obj.name,
+                    application: application,
+                    settingsObject: settings,
+                };
+
+                ub.funcs.renderApplication(create_text, input_object, application.id);
+
+                var uniform_type = ub.current_material.material.type;
+                var app_containers = ub.current_material.containers[uniform_type].application_containers;
+                
+                app_containers[application.id] = {};
+                app_containers[application.id].object = {
+
+                    sprite: sprite, 
+
+                };
+
+                if (color_array !== ''){
+                    settings.applications[application.id].color_array = color_array;
+                }
+
+                // var view = ub[application.perspective + '_view'];
+                // var view_objects = ub.objects[application.perspective + '_view'];
+                
+                // var mask = _.find(ub.current_material.material.options, {
+                //     perspective: application.perspective,
+                //     name: application.layer
+                // });
+
+                // var mask = ub.pixi.new_sprite(mask.material_option_path);
+                // sprite.mask = mask;
+
+                // var position = '';
+                // var scale = '';
+                // var rotation = '';
+                // var alpha = '';
+                // var tint = '';
+
+                // var s = view_objects['objects_' + application.id];
+
+                // if (typeof(s) === 'object') {
+
+                //     var obj = view_objects['objects_' + application.id];
+                //     var color_array = settings.applications[application.id].color_array;
+
+                //     position = obj.position;
+                //     scale = obj.scale;
+                //     rotation = obj.rotation;
+                //     alpha = obj.alpha;
+                //     tint = obj.tint;
+
+                //     view.removeChild(view_objects['objects_' + application.id]);
+                //     delete view_objects['objects_' + application.id];
+
+                // }
+
+                /// Set First Three Colors
+
+                // var colors_obj = get_colors_obj(application.layer);
+                // var length = sprite.children.length;
+                // var children = _.clone(sprite.children);
+
+                // children.reverse();
+
+                // _.each(children, function (child, index) {
+
+                //     child.tint = parseInt(child.ubDefaultColor, 16);
+
+                //     if(color_array !== ''){
+
+                //         var array = ub.current_material.settings.applications[application.id].color_array;
+                //         var color_array_size = _.size(array);
+                //         var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+
+                //         if (typeof code !== 'undefined') {
+                            
+                //             child.tint = parseInt(code.color_code, 16);
+
+                //         }
+
+                //     }
+
+                // });
+         
+                // /// End Set First Three Colors 
+
+                // view_objects['objects_' + application.id] = sprite;
+                // view.addChild(sprite);
+
+                // sprite.position.x = x;
+                // sprite.position.y = y;
+                // sprite.rotation = application.rotation;
+
+                // if(sprite.width === 1) {
+
+                //     sprite.position.x -= (sprite.width / 2);
+                //     sprite.position.y -= (sprite.height / 2);
+
+                // }
+
+                // var layer_order = ( 10 + application.layer_order ) 
+
+                // sprite.originalZIndex = layer_order * (-1);
+                // sprite.zIndex = layer_order * (-1);
+                // settings.applications[application.id].layer_order = layer_order;
+
+                // ub.updateLayersOrder(view);
+
+
+                // app = settings.applications[application.id];
+
+                // if (position !== '') {
+
+                //     sprite.position = position;
+                //     sprite.scale = scale;
+                //     sprite.rotation = rotation;
+                //     sprite.alpha = alpha;
+                //     sprite.tint = tint;
+
+                //     app.position = position;
+                //     app.scale = scale;
+                //     app.rotation = rotation;
+                //     app.alpha = alpha;
+
+                // }
+                // else
+                // {
+                //     app.position = '';
+                // }
+
+                // settings.applications[application.id].position = sprite.position;
+                // settings.applications[application.id].rotation = sprite.rotation;
+                // settings.applications[application.id].scale = sprite.scale;
+                // settings.applications[application.id].alpha = sprite.alpha;
+
+                // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+                // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+
+                // ub.funcs.createDraggable(sprite, application, view);
+                // ub.funcs.createClickable(sprite, application, view, 'application');
+                // ub.funcs.identify(application.id);
+
+            });
+
+            $textbox.trigger('change');
+
+        });
+
+    };
+
+    /// End Player Number Dialog 2
+
     $.fn.ubPlayerNameDialog = $.fn.ubTeamNameDialog = $.fn.ubPlayerNumberDialog = function(options) {
 
         ub.funcs.removeUIHandles();
@@ -387,7 +863,7 @@
             var sample_text = '';
             var font_size = '';
 
-            var plugin_type = $('select.application_type_dropdown[data-id=' + application.code + ']').val();
+            var plugin_type = $('select.application_type_dropdown[data-id=' + application.id + ']').val();
 
             if (plugin_type === 'player_name') {
                 sample_text = 'Player Name';
@@ -438,11 +914,11 @@
 
             var view_objects = ub.objects[settings.application.perspective + '_view'];
             var view = ub[settings.application.perspective + '_view'];
-            var s = view_objects['objects_' + settings.application.code];
+            var s = view_objects['objects_' + settings.application.id];
 
             if (typeof(s) === 'object') {
 
-                var obj = view_objects['objects_' + application.code];
+                var obj = view_objects['objects_' + application.id];
 
                 position = obj.position;
                 scale = obj.scale;
@@ -450,8 +926,8 @@
                 alpha = obj.alpha;
                 tint = obj.tint;
 
-                view.removeChild(view_objects['objects_' + application.code]);
-                delete view_objects['objects_' + application.code];
+                view.removeChild(view_objects['objects_' + application.id]);
+                delete view_objects['objects_' + application.id];
 
             }
             
@@ -619,6 +1095,7 @@
 
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects[view_str]['objects_' + application.id];
+
                     object.x = value;
 
                 }
@@ -628,7 +1105,9 @@
             var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
 
             $textbox.on('keyup', function() {
+
                 _.debounce(500, $textbox.trigger('change'));
+
             });
 
             $textbox.on('change', function () {
@@ -639,7 +1118,6 @@
                 var y = ub.dimensions.height * application.position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-
                 var font_id = selected_font_id;
 
                 if (ub.config.app_env !== "local") {
@@ -655,20 +1133,19 @@
 
                 var color_array = '';
 
-                if(typeof settings.applications[application.code] !== 'undefined') {
+                if(typeof settings.applications[application.id] !== 'undefined') {
                     
-                    color_array = settings.applications[application.code].color_array;
+                    color_array = settings.applications[application.id].color_array;
 
                 }    
 
                 var text_input = $textbox.val();
                 var sprite = create_text(" " + text_input + " ", font_obj.name, application);
-
                 var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
                 var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
                 var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
 
-                settings.applications[application.code] = {
+                settings.applications[application.id] = {
                     application: application,
                     accent_obj: accent_obj,
                     font_size: font_size, 
@@ -677,7 +1154,7 @@
                     color_array: {},
                     object_type: 'text object',
                     appliation_type: plugin_type,
-                    code: application.code,
+                    code: application.id,
                     font_obj: font_obj,
                     gradient_obj: undefined,
                     gradient_settings: undefined,
@@ -691,15 +1168,15 @@
                 var uniform_type = ub.current_material.material.type;
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
                 
-                app_containers[application.code] = {};
-                app_containers[application.code].object = {
+                app_containers[application.id] = {};
+                app_containers[application.id].object = {
 
                     sprite: sprite, 
 
                 };
 
                 if (color_array !== ''){
-                    settings.applications[application.code].color_array = color_array;
+                    settings.applications[application.id].color_array = color_array;
                 }
 
                 var view = ub[application.perspective + '_view'];
@@ -719,12 +1196,12 @@
                 var alpha = '';
                 var tint = '';
 
-                var s = view_objects['objects_' + application.code];
+                var s = view_objects['objects_' + application.id];
 
                 if (typeof(s) === 'object') {
 
-                    var obj = view_objects['objects_' + application.code];
-                    var color_array = settings.applications[application.code].color_array;
+                    var obj = view_objects['objects_' + application.id];
+                    var color_array = settings.applications[application.id].color_array;
 
                     position = obj.position;
                     scale = obj.scale;
@@ -732,8 +1209,8 @@
                     alpha = obj.alpha;
                     tint = obj.tint;
 
-                    view.removeChild(view_objects['objects_' + application.code]);
-                    delete view_objects['objects_' + application.code];
+                    view.removeChild(view_objects['objects_' + application.id]);
+                    delete view_objects['objects_' + application.id];
 
                 }
 
@@ -751,9 +1228,9 @@
 
                     if(color_array !== ''){
 
-                        var array = ub.current_material.settings.applications[application.code].color_array;
+                        var array = ub.current_material.settings.applications[application.id].color_array;
                         var color_array_size = _.size(array);
-                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
+                        var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
 
                         if (typeof code !== 'undefined') {
                             
@@ -767,7 +1244,7 @@
          
                 /// End Set First Three Colors 
 
-                view_objects['objects_' + application.code] = sprite;
+                view_objects['objects_' + application.id] = sprite;
                 view.addChild(sprite);
 
                 sprite.position.x = x;
@@ -785,12 +1262,12 @@
 
                 sprite.originalZIndex = layer_order * (-1);
                 sprite.zIndex = layer_order * (-1);
-                settings.applications[application.code].layer_order = layer_order;
+                settings.applications[application.id].layer_order = layer_order;
 
                 ub.updateLayersOrder(view);
 
 
-                app = settings.applications[application.code];
+                app = settings.applications[application.id];
 
                 if (position !== '') {
 
@@ -811,17 +1288,17 @@
                     app.position = '';
                 }
 
-                settings.applications[application.code].position = sprite.position;
-                settings.applications[application.code].rotation = sprite.rotation;
-                settings.applications[application.code].scale = sprite.scale;
-                settings.applications[application.code].alpha = sprite.alpha;
+                settings.applications[application.id].position = sprite.position;
+                settings.applications[application.id].rotation = sprite.rotation;
+                settings.applications[application.id].scale = sprite.scale;
+                settings.applications[application.id].alpha = sprite.alpha;
 
                 $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
                 $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
                 // ub.funcs.createDraggable(sprite, application, view);
                 ub.funcs.createClickable(sprite, application, view, 'application');
-                ub.funcs.identify(application.code);
+                ub.funcs.identify(application.id);
 
             });
 
@@ -831,20 +1308,24 @@
 
     };
 
-    function create_text (text_input, font_name, application) {
+
+    function create_text (input_object) {
 
         ub.funcs.removeUIHandles();
+    
+        var text_input = input_object.text_input;
+        var font_name = input_object.font_name;
+        var application = input_object.application;
+        var settings = input_object.settingsObject;
 
         var text_layers = {};
         var container = new PIXI.Container();
-
         var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
         var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
-
         var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
-
         $other_color_container.html('');
 
+        /// Create Text Accents
         _.each(accent_obj.layers, function (layer) {
 
             var text_layer = '';
@@ -930,16 +1411,52 @@
                 text_layer.text_sprite.alpha = 1;                
             }
 
-        });
-
+        }); /// End Text Accents
 
         // Mask the main text to remove outline showing bug
         var text_mask = _.find(container.children, {ubName: 'Mask'});
         var main_text = _.find(container.children, {ubName: 'Base Color'});
 
         main_text.mask = text_mask;
-
         ub.updateLayersOrder(container);
+
+
+        // Set Initial Colors 
+
+        var length = container.children.length;
+        var children = _.clone(container.children);
+        var colors_obj = get_colors_obj(application.layer);
+        var color_array = [];
+
+        if(typeof settings.applications[application.id] !== 'undefined') {
+                    
+            color_array = settings.applications[application.id].color_array;
+
+        }    
+
+        children.reverse();
+
+        _.each(children, function (child, index) {
+
+            child.tint = parseInt(child.ubDefaultColor, 16);
+
+            if(color_array !== ''){
+
+                var array = ub.current_material.settings.applications[application.id].color_array;
+                var color_array_size = _.size(array);
+                var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+
+                if (typeof code !== 'undefined') {
+                    
+                    child.tint = parseInt(code.color_code, 16);
+
+                }
+
+            }
+
+        });
+ 
+        /// End Set First Three Colors 
 
         return container;
         
@@ -1082,7 +1599,7 @@
 
                     color_code = $(this).data('color');
 
-                    var app = ub.current_material.settings.applications[application.code];
+                    var app = ub.current_material.settings.applications[application.id];
                     
                     if ( typeof app !== 'undefined') {
 
@@ -1194,7 +1711,7 @@
 
                     color_code = $(this).data('color');
 
-                    var app = ub.current_material.settings.applications[settings.application.code];
+                    var app = ub.current_material.settings.applications[settings.application.id];
 
                     if (typeof app !== 'undefined') {
 
@@ -1207,7 +1724,7 @@
                             var uniform_type = ub.current_material.material.type;
                             var app_containers = ub.current_material.containers[uniform_type].application_containers;
                 
-                            s = app_containers[settings.application.code].object.sprite;
+                            s = app_containers[settings.application.id].object.sprite;
                             var sprite = _.find(s.children, {ubName: 'Base Color'});
                             app.color_array[0] = parseInt(color_code, 16);
                 
@@ -1351,7 +1868,7 @@
         target = String(target);
         var application_id = application.id;
 
-        var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+        var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
         var el = pattern_obj;
         var clone = {};
@@ -1515,7 +2032,7 @@
 
         $("button#update-pattern-" + target).click('click', function (e) {
 
-            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.id];
             var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;  
             var uniform_type = ub.current_material.material.type;
@@ -1530,9 +2047,9 @@
 
             var target_name = target.toTitleCase();
 
-            ub.current_material.containers[application.code] = {};
+            ub.current_material.containers[application.id] = {};
 
-            var application_settings = ub.current_material.containers[application.code];
+            var application_settings = ub.current_material.containers[application.id];
             
             if(typeof application_settings.pattern === 'undefined') {
 
@@ -1609,8 +2126,8 @@
 
             ub.updateLayersOrder(text_sprite);
 
-            ub.current_material.settings.applications[application.code].pattern_obj = clone;
-            ub.current_material.settings.applications[application.code].pattern_settings = {
+            ub.current_material.settings.applications[application.id].pattern_obj = clone;
+            ub.current_material.settings.applications[application.id].pattern_settings = {
 
                 rotation: container.rotation,
                 scale: container.scale,
@@ -1669,7 +2186,7 @@
 
         var change_gradient = function (target, gradient, panel, application) {
 
-            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
             var el = gradient;
             var clone = {};
@@ -1848,7 +2365,7 @@
 
         var generate_gradient = function (gradient_obj, target, text_sprite, application) {
 
-            ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
+            ub.current_material.settings.applications[application.id].gradient_obj = gradient_obj;
 
             var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
             if (gradient_obj.code === "none") {
