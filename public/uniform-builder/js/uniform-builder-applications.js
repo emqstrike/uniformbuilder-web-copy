@@ -1316,6 +1316,8 @@ $(document).ready(function() {
 
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
+            var sprite_collection = [];
+
             var mat_option = "Body";
             var marker_name = "app_ident_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
@@ -1347,7 +1349,9 @@ $(document).ready(function() {
 
                 var view_name = view.perspective + '_view';
                 ub.objects[view_name][marker_name] = point;
+                
                 ub[view_name].addChild(point);
+                sprite_collection.push(point);
 
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.funcs.identify(app_id.id);
@@ -1355,6 +1359,8 @@ $(document).ready(function() {
                 ub.updateLayersOrder(ub[view_name]);
 
             });
+
+            return sprite_collection;
 
         };
 
@@ -1387,14 +1393,14 @@ $(document).ready(function() {
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
                 if(app_properties !== null){
-                    
+
                     _.each(app_properties, function(obj){
 
                         if (typeof apps_transformed[shape.name] === "undefined") {
-                    
-                            apps_transformed[shape.name] = {};    
-                    
-                        }
+                
+                        apps_transformed[shape.name] = {};    
+                
+                        }  
 
                         if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
                             
@@ -1441,7 +1447,10 @@ $(document).ready(function() {
 
             /// End Draw App ID's
 
+            console.log('Finished Transforming Application');
+
     }
+
 
     /// End Transformed Applications
 

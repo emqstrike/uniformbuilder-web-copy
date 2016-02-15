@@ -1177,11 +1177,10 @@ $(document).ready(function () {
 
         /// Setup Modifiers Applications 
 
-            ub.funcs.transformedApplications();
-
             var markup = '';
 
             // var apps = ub.data.applications.items;
+            ub.funcs.transformedApplications();
             var apps = ub.data.applications_transformed["Body"];
 
             _.each(apps, function (application) {
@@ -1240,8 +1239,7 @@ $(document).ready(function () {
                     }
 
                     if (application_type === "player_number") {
-                        // $container.ubPlayerNumberDialog(plugin_parameters);
-                        $container.ubPlayerNumberDialog2(plugin_parameters);
+                        $container.ubPlayerNumberDialog(plugin_parameters);
                     }
 
                     if (application_type === "team_name") {
@@ -2838,106 +2836,124 @@ $(document).ready(function () {
 
                 if (application_obj.text.length === 0) { return; }
 
-                var application = application_obj.application;
-                var x = application_obj.position.x;
-                var y = application_obj.position.y;
-                var settings = ub.current_material.settings;
-                var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-                var font_obj = application_obj.font_obj;
-                var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
-                var color_array = application_obj.color_array;
-                var text_input = application_obj.text;
-                var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
-                var view = ub[application.perspective + '_view'];
-                var view_objects = ub.objects[application.perspective + '_view'];
-                var mask = _.find(ub.current_material.material.options, {
-                    perspective: application.perspective,
-                    name: application.layer
-                });
+                console.log('Application Object');
+                console.log(application_obj);
+                console.log('Transformed Data Application: ');
+                console.log(ub.data.applications_transformed);
 
-                var mask = ub.pixi.new_sprite(mask.material_option_path);
+                window.at = application_obj;
 
-                sprite.mask = mask;
+                 var input_object = {
+                    text_input: application_obj.text,
+                    font_name: application_obj.font_obj.name,
+                    application: application_obj.application,
+                    settingsObject: ub.current_material.settings,
+                    applicationObj: application_obj,
+                    fontSize: application_obj.font_size,
+                };
 
-                var position = '';
-                var scale = '';
-                var rotation = '';
-                var alpha = '';
-                var tint = '';
+                var sprite_collection = ub.funcs.renderApplication($.ub.create_text, input_object, application_obj.application.id.toString());
 
-                var s = view_objects['objects_' + application.id];
+                // var application = application_obj.application;
+                // var x = application_obj.position.x;
+                // var y = application_obj.position.y;
+                // var settings = ub.current_material.settings;
+                // var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+                // var font_obj = application_obj.font_obj;
+                // var selected_color = $('div.color_drop[data-id="' + application.id + '"]').data('color');
+                // var color_array = application_obj.color_array;
+                // var text_input = application_obj.text;
+                // var sprite = ub.create_text(" " + text_input + " ", font_obj.name, application, application_obj.accent_obj, application_obj.font_size);
+                // var view = ub[application.perspective + '_view'];
+                // var view_objects = ub.objects[application.perspective + '_view'];
+                // var mask = _.find(ub.current_material.material.options, {
+                //     perspective: application.perspective,
+                //     name: application.layer
+                // });
 
-                // /// Set First Three Colors
+                // var mask = ub.pixi.new_sprite(mask.material_option_path);
 
-                var colors_obj = ub.get_colors_obj(application.layer);
-                var length = sprite.children.length;
-                var children = _.clone(sprite.children);
+                // sprite.mask = mask;
 
-                children.reverse();
+                // var position = '';
+                // var scale = '';
+                // var rotation = '';
+                // var alpha = '';
+                // var tint = '';
 
-                _.each(children, function (child, index) {
+                // var s = view_objects['objects_' + application.id];
 
-                    child.tint = parseInt(child.ubDefaultColor, 16);
+                // // /// Set First Three Colors
 
-                    if(color_array !== ''){
+                // var colors_obj = ub.get_colors_obj(application.layer);
+                // var length = sprite.children.length;
+                // var children = _.clone(sprite.children);
 
-                        var array = ub.current_material.settings.applications[application.id].color_array;
-                        var color_array_size = _.size(array);
-                        var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+                // children.reverse();
 
-                        if (typeof code !== 'undefined') {
+                // _.each(children, function (child, index) {
+
+                //     child.tint = parseInt(child.ubDefaultColor, 16);
+
+                //     if(color_array !== ''){
+
+                //         var array = ub.current_material.settings.applications[application.id].color_array;
+                //         var color_array_size = _.size(array);
+                //         var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+
+                //         if (typeof code !== 'undefined') {
                             
-                            child.tint = parseInt(code.color_code, 16);
+                //             child.tint = parseInt(code.color_code, 16);
 
-                        }
+                //         }
 
-                    }
+                //     }
 
-                });
+                // });
          
-                ///// End Set First Three Colors 
+                // ///// End Set First Three Colors 
 
-                text_gradient_obj = ub.current_material.settings.applications[application.id].gradient_obj;
+                // text_gradient_obj = ub.current_material.settings.applications[application.id].gradient_obj;
                 
-                if (typeof text_gradient_obj !== 'undefined') {
+                // if (typeof text_gradient_obj !== 'undefined') {
 
-                    ub.generate_gradient_for_text(text_gradient_obj, application.id, sprite, application);    
+                //     ub.generate_gradient_for_text(text_gradient_obj, application.id, sprite, application);    
 
-                }
+                // }
 
-                pattern_obj = ub.current_material.settings.applications[application.id].pattern_obj;
+                // pattern_obj = ub.current_material.settings.applications[application.id].pattern_obj;
 
-                if (typeof pattern_obj !== 'undefined') {
-                    pattern_settings = ub.current_material.settings.applications[application.id].pattern_settings;
-                    ub.generate_pattern_for_text(application.id, pattern_obj, application, sprite, pattern_settings);
-                }
+                // if (typeof pattern_obj !== 'undefined') {
+                //     pattern_settings = ub.current_material.settings.applications[application.id].pattern_settings;
+                //     ub.generate_pattern_for_text(application.id, pattern_obj, application, sprite, pattern_settings);
+                // }
                 
-                view_objects['objects_' + application.id] = sprite;
-                view.addChild(sprite);
+                // view_objects['objects_' + application.id] = sprite;
+                // view.addChild(sprite);
 
-                sprite.position = application_obj.position;
-                sprite.rotation = application_obj.rotation;
-                sprite.alpha    = application_obj.alpha;
+                // sprite.position = application_obj.position;
+                // sprite.rotation = application_obj.rotation;
+                // sprite.alpha    = application_obj.alpha;
 
-                var layer_order = ( 10 + application_obj.layer_order ) 
+                // var layer_order = ( 10 + application_obj.layer_order ) 
 
-                sprite.originalZIndex = layer_order * (-1);
-                sprite.zIndex = layer_order * (-1);
-                settings.applications[application.id].layer_order = layer_order;
+                // sprite.originalZIndex = layer_order * (-1);
+                // sprite.zIndex = layer_order * (-1);
+                // settings.applications[application.id].layer_order = layer_order;
 
-                ub.updateLayersOrder(view);
+                // ub.updateLayersOrder(view);
 
-                if (position !== '') {
+                // if (position !== '') {
 
-                    sprite.position = position;
-                    sprite.scale = scale;
-                    sprite.rotation = rotation;
-                    sprite.alpha = alpha;
-                    sprite.tint = tint;
+                //     sprite.position = position;
+                //     sprite.scale = scale;
+                //     sprite.rotation = rotation;
+                //     sprite.alpha = alpha;
+                //     sprite.tint = tint;
 
-                }
+                // }
 
-                ub.funcs.createClickable(sprite, application, view, 'application');
+                // ub.funcs.createClickable(sprite, application, view, 'application');
 
             };
 
