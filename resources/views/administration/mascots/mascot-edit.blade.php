@@ -73,7 +73,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="layers-row-container">
-                                        </tr>
+                                        <!-- </tr> -->
                                     </tbody>
                                 </table>
                             </div>

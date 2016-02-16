@@ -149,7 +149,7 @@ $(document).ready(function() {
         var layersProperties = JSON.stringify(layers_properties);
 
         $('#layers-properties').val(layersProperties);
-        $('#existing-layers-properties').val(layersProperties);
+        $('#existing-colors-properties').val(layersProperties);
     }
 
     $(document).on("click", "a.btn-remove-layer", function(){
