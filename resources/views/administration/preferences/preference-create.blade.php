@@ -24,7 +24,7 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/preferences/add" enctype="multipart/form-data" id='create-preference-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/preference/add" enctype="multipart/form-data" id='create-preference-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="colors_properties" id="colors_properties">
 

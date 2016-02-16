@@ -130,8 +130,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@addPreferenceForm']);
     Route::post('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
     Route::get('preference/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@editPreferenceForm']);
-    // Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@store']);
-    
+    Route::post('preference/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
+
 
     // Fonts
     Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@index']);

@@ -79,12 +79,12 @@ class PreferencesController extends Controller
             $id = $request->input('preference_id');
         }
         // Is the Category Name taken?
-        // if ($this->client->isPreferenceTaken($name, $id))
-        // {
-        //     return Redirect::to('administration/preferences')
-        //                     ->with('message', 'Preference already exist')
-        //                     ->with('alert-class', 'danger');
-        // }
+        if ($this->client->isPreferenceTaken($name, $id))
+        {
+            return Redirect::to('administration/preferences')
+                            ->with('message', 'Preference already exist')
+                            ->with('alert-class', 'danger');
+        }
 
         $data = [
             'name' => $name,
@@ -119,7 +119,7 @@ class PreferencesController extends Controller
         }
 
         $data['colors_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
+// dd($data);
         $response = null;
         if (!empty($id))
         {

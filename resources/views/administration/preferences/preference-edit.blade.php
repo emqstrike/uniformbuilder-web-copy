@@ -24,10 +24,11 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/preferences/add" enctype="multipart/form-data" id='create-preference-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/preference/update" enctype="multipart/form-data" id='create-preference-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="preference_id" value="{{ $preference->id }}">
-                        <input type="hidden" name="colors_properties" value="{{ $preference->colors_properties }}" id="existing-colors-properties">
+                        <input type="hidden" name="existing_colors_properties" value="{{ $preference->colors_properties }}" id="existing-colors-properties">
+                        <input type="hidden" name="colors_properties" id="existing-layers-properties">
                         
 
                         <div class="form-group">
@@ -82,7 +83,7 @@ select:hover {
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-preference">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add Preference
+                                    Save Preference
                                 </button>
                                 <a href="/administration/preferences" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
@@ -129,17 +130,19 @@ $(document).ready(function(){
             var layer = "<td><select class=\"ma-layer layer"+ctr+"\"  name=\"ma_layer[]\" disabled><option value = '"+ctr+"' class=\"layer-number\">"+ctr+"</option></select></td>";
 
             var colors_select="";
+            var select_hex_code_bg = "";
             $.each(test, function(entryIndex, entry) {
                 var color = myJson[ctr]['default_color'];
                 // console.log("HEX_CODE: "+entry['hex_code']);
                 if(color == entry['color_code']){
-                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['hex_code']+" selected>"+entry['name']+"</option>"
+                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+" selected>"+entry['name']+"</option>"
+                    select_hex_code_bg = entry['hex_code'];
                 } else {
-                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['hex_code']+">"+entry['name']+"</option>"
+                    colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+">"+entry['name']+"</option>"
                 }
             });
             var colors = "<td>"
-            +"<select class=\"ma-default-color layer"+ctr+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[ctr]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\">"
+            +"<select class=\"ma-default-color layer"+ctr+"\" name=\"default_color[]\" style=\"background-color: #"+select_hex_code_bg+"; color: #fff;text-shadow: 1px 1px #000;\">"
             +colors_select
             +"</select></td>";
             var remove = "<td><a class=\"btn btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
@@ -155,7 +158,56 @@ $(document).ready(function(){
     $('.ma-default-color').change(function(){
         var color = "#"+$('option:selected', this).data('color');
         $(this).css('background-color', color);
+
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
+        var length = $('.layers-row').length;
+        renumberRows(length);
     });
+
+    function renumberRows(length){
+        layers_properties = {};
+        var ctr = 1;
+        $(".layers-row").each(function(i) {
+            if(ctr <= length){
+                var thisLayer = "layer"+ctr;
+                var layer_class = ".ma-layer.layer" + ctr;
+
+                layers_properties[ctr] = {};
+                layers_properties[ctr]['default_color'] = {};
+                layers_properties[ctr]['filename'] = {};
+
+                $(this).find('.ma-layer').removeClass().addClass("ma-layer");
+                $(this).find('.ma-layer').addClass(thisLayer);
+                $(this).find(layer_class).addClass('ma-layer');
+
+                $(this).find('.ma-default-color').removeClass().addClass("ma-default-color");
+                $(this).find('.ma-default-color').addClass(thisLayer);
+                var default_color_class = ".ma-default-color.layer" + ctr;
+                $(this).find(default_color_class).addClass('ma-default-color');
+
+                $(this).find('.ma-options-src').removeClass().addClass("ma-options-src");
+                $(this).find('.ma-options-src').addClass(thisLayer);
+                var src_class = ".ma-options-src.layer" + ctr;
+                $(this).find(src_class).addClass('ma-options-src');
+
+                var hexString = $(this).find(default_color_class).val()
+                
+                if(hexString.replace('#','')){
+                    hexString = hexString.replace('#','');
+                }
+                
+                layers_properties[ctr]['default_color'] = hexString;
+                layers_properties[ctr]['filename'] = $(this).find(src_class).val();
+            }
+            ctr++;
+        });
+        var layersProperties = JSON.stringify(layers_properties);
+
+        $('#colors_properties').val(layersProperties);
+        $('#existing-layers-properties').val(layersProperties);
+        
+    }
 });
 </script>
 @endsection

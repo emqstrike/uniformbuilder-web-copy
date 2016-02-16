@@ -21,34 +21,34 @@ class PreferencesAPIClient extends APIClient
         return $preferences;
     }
 
-    // public function isMascotCategoryTaken($name, $id)
-    // {
-    //     $response = $this->get('mascot_category/name/' . $name);
-    //     $result = $this->decoder->decode($response->getBody());
+    public function isPreferenceTaken($name, $id)
+    {
+        $response = $this->get('preference/name/' . $name);
+        $result = $this->decoder->decode($response->getBody());
 
-    //     $mascot_category = null;
-    //     if ($result->success)
-    //     {
-    //         $mascot_category = $result->mascot_category;
-    //     }
+        $preference = null;
+        if ($result->success)
+        {
+            $preference = $result->preference->preference;
+        }
 
-    //     if (!is_null($mascot_category) && !is_null($id))
-    //     {
-    //         $compare = $this->getMascotCategory($id);//dd($compare);
-    //         try
-    //         {
-    //             if ($mascot_category->id == $compare->mascot_category->id)
-    //             {
-    //                 return false;
-    //             }
-    //         } catch (QueryException $e) {
-    //             $error = $e->getMessage();
-    //         } catch (Exception $e) {
-    //             $error = $e->getMessage();
-    //         }
-    //     }
-    //     return !is_null($mascot_category);
-    // }
+        if (!is_null($preference) && !is_null($id))
+        {
+            $compare = $this->getPreference($id);
+            try
+            {
+                if ($preference->id == $compare->id)
+                {
+                    return false;
+                }
+            } catch (QueryException $e) {
+                $error = $e->getMessage();
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+            }
+        }
+        return !is_null($preference);
+    }
 
     // public function getMascotCategoryByName($name)
     // {
@@ -81,11 +81,11 @@ class PreferencesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    // public function updateMascotCategory($data)
-    // {
-    //     $response = $this->post('mascot_category/update', [
-    //         'json' => $data
-    //     ]);
-    //     return $this->decoder->decode($response->getBody());
-    // }
+    public function updatePreference($data)
+    {
+        $response = $this->post('preference/update', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }

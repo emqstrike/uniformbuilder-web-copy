@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    var layers_properties = {};
     var length = $('.layers-row').length;
     renumberRows(length);
 
@@ -104,6 +105,7 @@ $(document).ready(function() {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
         stop: function( ) {
+            console.log("STOP");
             var length = $('.layers-row').length;
             var ctr = 1;
             $(".layers-row").each(function(i) {
@@ -139,7 +141,6 @@ $(document).ready(function() {
         console.log("CLONE!");
     });
 
-    var layers_properties = {};
     var existing_layers_properties = null;
 
     function renumberRows(length){
@@ -183,6 +184,7 @@ $(document).ready(function() {
 
         $('#colors_properties').val(layersProperties);
         $('#existing-layers-properties').val(layersProperties);
+        
     }
 
     $(document).on('click', '.edit-clone-row', function() {
