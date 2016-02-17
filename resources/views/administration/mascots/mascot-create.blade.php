@@ -101,7 +101,7 @@ select:hover {
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
                                                 @foreach ($colors as $color)
                                                     @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->hex_code }}">
+                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
                                                         {{ $color->name }}
                                                     </option>
                                                     @endif

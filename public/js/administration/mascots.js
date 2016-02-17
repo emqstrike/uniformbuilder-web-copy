@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    var layers_properties = {};
+    var length = $('.layers-row').length;
+    renumberRows(length);
+
+    $('#colors_textarea').hide();
+
     $('.toggle-mascot').on('click', function(){
         var id = $(this).data('mascot-id');
         var url = "//" + api_host + "/api/mascot/toggle/";
@@ -106,7 +112,7 @@ $(document).ready(function() {
         }
     });
 
-    var layers_properties = {};
+    // var layers_properties = {};
     var existing_layers_properties = null;
 
     function renumberRows(length){
