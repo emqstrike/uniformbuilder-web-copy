@@ -617,6 +617,7 @@ $(document).ready(function() {
 
     };
 
+
     ub.funcs.update_application_mascot = function(application, mascot) {
 
         var x = ub.dimensions.width * application.position.x;
@@ -635,121 +636,35 @@ $(document).ready(function() {
         var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
-        var container = new PIXI.Container();
+        var input_object = {
 
-        var elements = "";
+            application: application,
+            mascot: mascot,
 
-        _.each(mascot.layers, function(layer, index){
+        };
 
-            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+        var sprite_collection = ub.funcs.renderApplication($.ub.create_mascot, input_object, application.id);
+        var uniform_type = ub.current_material.material.type;
+        var app_containers = ub.current_material.containers[uniform_type].application_containers;
+        var sprite = sprite_collection;                
+        app_containers[application.id] = {};
+        app_containers[application.id].object = {
 
-            mascot_layer.tint = parseInt(layer.default_color,16);
-            mascot_obj.layers[index].color = mascot_layer.tint; 
-            mascot_layer.anchor.set(0.5, 0.5);
-            container.addChild(mascot_layer);
+            sprite: sprite_collection, 
 
-            var val = layer.default_color;
-            var col = layer.default_color;
-            var filename = layer.filename;
-            
-            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+        };
 
-        });
-
-        $('div.mascot_color_picker_container[data-id="' + application.id + '"]').html(elements);
-
-        $('input.mascot_' + application.id).ubColorPicker({
-                target: String(application.id),
-                type: 'mascot',
-                application: application,
-                target_name: application.layer,
-        });
-        
-        container.scale = new PIXI.Point(0.5, 0.5);
-        var sprite = container;
-
-        ub.current_material.containers[application.id] = {};
-
-        ub.current_material.containers[application.id].mascot = sprite;
-
-        var mask = _.find(ub.current_material.material.options, {
-            
-            perspective: application.perspective,
-            name: application.layer
-
-        });
-
-        var mask = ub.pixi.new_sprite(mask.material_option_path);
-        var temp = {}
-
-        sprite.mask = mask;
-
-        var s = view_objects['objects_' + application.id];
-
-        var position = '';
-        var scale = '';
-        var rotation = '';
-        var alpha = '';
-        
-        if (typeof(s) === 'object') {
-
-            var obj = view_objects['objects_' + application.id];
-
-            position = obj.position;
-            scale = obj.scale;
-            rotation = obj.rotation;
-            alpha = obj.alpha;
-            tint = obj.tint;
-            var color_array = settings_obj.color_array;
-
-            view.removeChild(view_objects['objects_' + application.id]);
-            delete view_objects['objects_' + application.id];
-
-        }
-
-        view_objects['objects_' + application.id] = sprite;
-        view.addChild(sprite);
-
-        sprite.position = new PIXI.Point(x,y);
-        sprite.rotation = application.rotation;
-
-        if(sprite.width === 1) {
-        
-            sprite.position.x -= (sprite.width / 2);
-            sprite.position.y -= (sprite.height / 2);
-
-        }
-  
-        var layer_order = ( 10 + application.layer_order );
-
-        sprite.originalZIndex = layer_order * (-1);
-        sprite.zIndex = layer_order * (-1);
-        settings_obj.layer_order = layer_order;
-    
-        ub.updateLayersOrder(view);
-
-        if(position !== ''){
-
-            sprite.position = position;
-            sprite.scale = scale;
-            sprite.rotation = rotation;
-            sprite.alpha = alpha;
-
-        }
-
-        settings_obj.position = sprite.position;
-        settings_obj.scale = sprite.scale;
-        settings_obj.rotation = sprite.rotation;
-        settings_obj.alpha = sprite.alpha;
+        // settings_obj.position = sprite.position;
+        // settings_obj.scale = sprite.scale;
+        // settings_obj.rotation = sprite.rotation;
+        // settings_obj.alpha = sprite.alpha;
 
         window.sprite = sprite;
-
-        $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-        $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
-
-        ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.id);
-
+        
+        //ub.funcs.createClickable(sprite, application, view, 'application');
+        // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+        // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+      
     };
 
     ub.funcs.update_application = function(application, logo) {
@@ -979,6 +894,42 @@ $(document).ready(function() {
 
     }
 
+
+    /// MV Functions 
+
+        ub.funcs.getViewsOfID = function (app_id) {
+
+            var views = ub.data.applications_transformed["Body"][app_id].views;
+            return views;
+
+        };
+
+        ub.funcs.getSpritesOfID = function (app_id) {
+
+            var views = ub.funcs.getViewsOfID(app_id);
+
+            _.each (views, function (view) {
+
+                var _view_name = view.perspective + '_view';
+
+                if (typeof ub.objects[_view_name]['objects_' + app_id] !== 'undefined'){
+
+                       /// Here Now...
+
+                }
+                else{
+
+                    console.log('Not Found');
+
+                }
+
+            });
+
+        };
+
+    /// End MV Functions
+
+
     /// End Create Interactive UI
 
     ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
@@ -1059,6 +1010,9 @@ $(document).ready(function() {
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
                 var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
+                console.log('Application: ');
+                console.log(application);
+
                 if(typeof application_obj === 'undefined') {
                     return;
                 }
@@ -1127,7 +1081,6 @@ $(document).ready(function() {
 
                         sprite.oldX = x;
                         sprite.oldY = y;
-
 
                         sprite.snapped = true;
                         this.dragging = false;
@@ -1319,7 +1272,7 @@ $(document).ready(function() {
             var sprite_collection = [];
 
             var mat_option = "Body";
-            var marker_name = "app_ident_" + app_id;
+            var marker_name = "objects_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
             _.each(ub.views, function(_view){
@@ -1339,6 +1292,8 @@ $(document).ready(function() {
                 point.rotation = (view.application.rotation * Math.PI) / 180;
                 point.zIndex = -30;
 
+                /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
+
                 var mask = _.find(ub.current_material.material.options, {
                     perspective: view.perspective,
                     name: mat_option,
@@ -1353,12 +1308,14 @@ $(document).ready(function() {
                 ub[view_name].addChild(point);
                 sprite_collection.push(point);
 
-                ub.funcs.createClickable(point, view.application, view, 'application');
-                ub.funcs.identify(app_id.id);
+                //ub.funcs.createClickable(point, view.application, view, 'application');
 
                 ub.updateLayersOrder(ub[view_name]);
 
             });
+
+            ub.funcs.identify(app_id);
+
 
             return sprite_collection;
 
@@ -1446,8 +1403,6 @@ $(document).ready(function() {
             });
 
             /// End Draw App ID's
-
-            console.log('Finished Transforming Application');
 
     }
 

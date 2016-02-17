@@ -88,10 +88,8 @@
 
             el.data('target');
             el.data('target', settings.target);
-
             el.data('type');
             el.data('type', settings.type);
-
             el_parent.append(btn_el);
             el_parent.append(popup_picker);
 
@@ -151,14 +149,20 @@
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.containers[settings.application.id].mascot;
+                    var uniform_type = ub.current_material.material.type;
+                    var mascot_collection = ub.current_material.containers[uniform_type].application_containers[settings.application.id].object.sprite;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
-                    mascot.children[layer_no].tint = color;
+                    _.each(mascot_collection, function(mascot){
+
+                        mascot.children[layer_no].tint = color;
+
+                    })
 
                     ub.current_material.settings.applications[settings.application.id].mascot.layers[layer_no].color = color; 
+                    ub.current_material.settings.applications[settings.application.id].mascot.layers[layer_no].default_color = color.toString(16);; 
                     ub.refresh_thumbnails();
 
                 }
@@ -439,24 +443,7 @@
             var tint = '';
             var view_objects = ub.objects[settings.application.perspective + '_view'];
             var view = ub[settings.application.perspective + '_view'];
-    
-            // var s = view_objects['objects_' + settings.application.id];
 
-            // if (typeof(s) === 'object') {
-
-            //     var obj = view_objects['objects_' + application.id];
-
-            //     position = obj.position;
-            //     scale = obj.scale;
-            //     rotation = obj.rotation;
-            //     alpha = obj.alpha;
-            //     tint = obj.tint;
-
-            //     view.removeChild(view_objects['objects_' + application.id]);
-            //     delete view_objects['objects_' + application.id];
-
-            // }
-            
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
@@ -728,6 +715,129 @@
 
     $.ub = {};
 
+    $.ub.create_mascot = function (input_object) {
+
+        var application = input_object.application;
+        var mascot = input_object.mascot;
+        var x = ub.dimensions.width * application.position.x;
+        var y = ub.dimensions.height * application.position.y;
+        var settings = ub.current_material.settings;
+        var application_mascot_code = application.id + '_' + mascot.id;
+
+        settings.applications[application.id] = {
+            application: application,
+            mascot: mascot,
+            type: 'mascot',
+            color_array: {},
+        };
+
+        var settings_obj = settings.applications[application.id];
+        var mascot_obj = settings_obj.mascot;
+        var view = ub[application.perspective + '_view'];
+        var view_objects = ub.objects[application.perspective + '_view'];
+        var container = new PIXI.Container();
+        var elements = "";
+
+        _.each(mascot.layers, function(layer, index){
+
+            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+
+            mascot_layer.tint = parseInt(layer.default_color,16);
+            mascot_obj.layers[index].color = mascot_layer.tint; 
+            mascot_layer.anchor.set(0.5, 0.5);
+            container.addChild(mascot_layer);
+
+            var val = layer.default_color;
+            var col = layer.default_color;
+            var filename = layer.filename;
+            
+            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+
+        });
+
+        $('div.mascot_color_picker_container[data-id="' + application.id + '"]').html(elements);
+
+        $('input.mascot_' + application.id).ubColorPicker({
+                target: String(application.id),
+                type: 'mascot',
+                application: application,
+                target_name: application.layer,
+        });
+        
+        container.scale = new PIXI.Point(0.5, 0.5);
+        var sprite = container;
+
+        ub.current_material.containers[application.id] = {};
+        ub.current_material.containers[application.id].mascot = sprite;
+
+        var mask = _.find(ub.current_material.material.options, {
+            
+            perspective: application.perspective,
+            name: application.layer
+
+        });
+
+        var mask = ub.pixi.new_sprite(mask.material_option_path);
+        var temp = {}
+
+        sprite.mask = mask;
+
+        var s = view_objects['objects_' + application.id];
+        var position = '';
+        var scale = '';
+        var rotation = '';
+        var alpha = '';
+        
+        if (typeof(s) === 'object') {
+
+            var obj = view_objects['objects_' + application.id];
+            var color_array = settings_obj.color_array;
+
+            position = obj.position;
+            scale = obj.scale;
+            rotation = obj.rotation;
+            alpha = obj.alpha;
+            tint = obj.tint;
+
+            view.removeChild(view_objects['objects_' + application.id]);
+            delete view_objects['objects_' + application.id];
+
+        }
+
+        view_objects['objects_' + application.id] = sprite;
+        view.addChild(sprite);
+
+        sprite.position = new PIXI.Point(x,y);
+        sprite.rotation = application.rotation;
+
+        if(sprite.width === 1) {
+        
+            sprite.position.x -= (sprite.width / 2);
+            sprite.position.y -= (sprite.height / 2);
+
+        }
+  
+        var layer_order = ( 10 + application.layer_order );
+
+        sprite.originalZIndex = layer_order * (-1);
+        sprite.zIndex = layer_order * (-1);
+        settings_obj.layer_order = layer_order;
+    
+        ub.updateLayersOrder(view);
+
+        if(position !== ''){
+
+            sprite.position = position;
+            sprite.scale = scale;
+            sprite.rotation = rotation;
+            sprite.alpha = alpha;
+
+        }
+
+        return sprite;
+
+    };
+
     $.ub.create_text = function (input_object) {
 
         ub.funcs.removeUIHandles();
@@ -893,17 +1003,7 @@
         });
  
         /// End Set First Three Colors 
-
-        if(typeof input_object.applicationObj === 'object'){
-
-            if(typeof input_object.applicationObj.gradient_obj === 'object') {
-
-                mvChangeGradient(application, input_object.applicationObj.gradient_obj);
-
-            }
-
-        }
-        
+ 
         return container;
         
     }
@@ -1466,7 +1566,7 @@
 
         $("button#update-pattern-" + target).click('click', function (e) {
 
-            mvChangePattern(application, target, clone);
+            $.ub.mvChangePattern(application, target, clone);
 
         });
 
@@ -1624,7 +1724,11 @@
 
                 /// Recreate Gradient Object into new structure
 
-                mvChangeGradient(application, gradient_output, target);
+                var applicationObj = ub.current_material.settings.applications[target];
+                var sprite_collection = ub.current_material.containers.upper.application_containers[1].object.sprite;
+
+                $.ub.mvChangeGradient(applicationObj, gradient_output, sprite_collection);
+
             
                 //generate_gradient(gradient_output, target, text_sprite, application);
 
@@ -1891,15 +1995,20 @@
 
     };
 
-    function mvChangePattern(application, target, clone){
+    $.ub.mvChangePattern = function(application, target, clone, sprite_collection){
 
         var uniform_type = ub.current_material.material.type;
         var app = ub.current_material.settings.applications[application.id];
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
-        s = app_containers[application.id].object.sprite;
+        if(typeof sprite_collection === 'object'){
+            s = sprite_collection;
+        }
+        else{
+            s = app_containers[application.id].object.sprite;    
+        }
+        
         ub.current_material.containers[application.id] = {};
-
 
         _.each(s, function(text, index) {
 
@@ -1918,7 +2027,6 @@
             var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
             var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
             var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
-            var target_name = target.toTitleCase();
             var application_settings = ub.current_material.containers[application.id];
 
             if(typeof application_settings.pattern === 'undefined') {
@@ -1953,10 +2061,22 @@
                 sprite.anchor.set(0.5, 0.5);
 
                 var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
-                var val = $inputbox.val();
+                var val = '';
+
+                /// if loading from existing savedd design, else from text box TODO: save value to custom object and read from that, instead from text boxes
+                if (typeof sprite_collection === 'object') {
                 
-                if (val.length === 7) {
-                    val = val.substr(1, 6);
+                    val = ub.current_material.settings.applications[1].pattern_obj.layers[0].default_color;
+                
+                }
+                else {
+
+                    val = $inputbox.val();
+                
+                    if (val.length === 7) {
+                        val = val.substr(1, 6);
+                    }
+
                 }
 
                 sprite.tint = parseInt(val, 16);
@@ -1987,11 +2107,14 @@
             container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
             container.position = new PIXI.Point(val_x_position, val_y_position);
 
+            container.alpha = 1;
+            container.scale = new PIXI.Point(1, 1);
+            
             var mask = main_text_obj;
 
             text_sprite.pattern_layer = container;
             container.mask = mask;
-            container.zIndex = -11;
+            container.zIndex = -12;
 
             ub.pl = container;
 
@@ -2013,19 +2136,20 @@
 
         });
 
+
     };
 
-    function mvChangeGradient(application, gradient_output) {
+    $.ub.mvChangeGradient = function (applicationObj, gradient_output, spriteCollection) {
 
         var uniform_type = ub.current_material.material.type;
-        var app = ub.current_material.settings.applications[application.id];
+        var app = ub.current_material.settings.applications[applicationObj.id];
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
-        s = app_containers[application.id].object.sprite;
+        s = spriteCollection;
 
         _.each(s, function(text) {
 
-            generate_gradient(gradient_output, application.id, text, application);
+            generate_gradient(gradient_output, applicationObj.id, text, applicationObj.application);
 
         });
 

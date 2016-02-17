@@ -536,7 +536,8 @@ $(document).ready(function () {
 
             if (application_obj.type === "mascot"){
 
-                ub.update_application_mascot(application_obj);
+                // ub.update_application_mascot(application_obj);
+                ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
             }
 
@@ -549,7 +550,6 @@ $(document).ready(function () {
         });
 
         // Initialize Transformed Applications
-
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
 
@@ -1248,21 +1248,44 @@ $(document).ready(function () {
 
                     if (application_type === "none") {
 
-                        var view_objects = ub.objects[application.perspective + '_view']; 
-                        var s = view_objects['objects_' + application.id]; 
-                        var view = ub[application.perspective + '_view']; 
+                        // var view_objects = ub.objects[application.perspective + '_view']; 
+                        // var s = view_objects['objects_' + application.id]; 
+                        // var view = ub[application.perspective + '_view']; 
 
-                        if (typeof(s) === 'object') {
+                        // if (typeof(s) === 'object') {
 
-                            var obj = view_objects['objects_' + application.id];
+                        //     var obj = view_objects['objects_' + application.id];
 
-                            view.removeChild(view_objects['objects_' + application.id]);
-                            delete view_objects['objects_' + application.id];
-                            delete ub.current_material.settings.applications[application.id];
+                        //     view.removeChild(view_objects['objects_' + application.id]);
+                        //     delete view_objects['objects_' + application.id];
+                        //     delete ub.current_material.settings.applications[application.id];
 
-                        }
+                        // }
 
-                        $container.html('');
+                        // $container.html('');
+
+                        _.each (ub.views, function (view){
+
+                            var view_objects = ub.objects[view + '_view']; 
+                            var s = view_objects['objects_' + application.id]; 
+                            var view = ub[view + '_view']; 
+
+                            if (typeof(s) === 'object') {
+
+                                var obj = view_objects['objects_' + application.id];
+
+                                view.removeChild(view_objects['objects_' + application.id]);
+                                delete view_objects['objects_' + application.id];
+                                delete ub.current_material.settings.applications[application.id];
+
+                            }
+
+                            $container.html('');
+
+                        });
+
+                        ub.funcs.identify(application.id);
+
                     }
                     
                 });
@@ -1291,7 +1314,7 @@ $(document).ready(function () {
                     
                     if (action === "identify") {
 
-                         if($button.hasClass('appactive')){
+                        if($button.hasClass('appactive')){
 
                             $button.removeClass('appactive');
                             $('body').css('cursor','auto');
@@ -1304,6 +1327,7 @@ $(document).ready(function () {
                             }
 
                             return;
+
                         }
 
                         $('button[data-option="applications"][data-action="identify"]').removeClass('appactive');
@@ -2832,18 +2856,14 @@ $(document).ready(function () {
 
             };
 
+            /// Create Text Type Applications on load ( Player Name, Number and Team Name )
             ub.create_application = function (application_obj) {
 
                 if (application_obj.text.length === 0) { return; }
 
-                console.log('Application Object');
-                console.log(application_obj);
-                console.log('Transformed Data Application: ');
-                console.log(ub.data.applications_transformed);
-
                 window.at = application_obj;
 
-                 var input_object = {
+                var input_object = {
                     text_input: application_obj.text,
                     font_name: application_obj.font_obj.name,
                     application: application_obj.application,
@@ -2852,7 +2872,29 @@ $(document).ready(function () {
                     fontSize: application_obj.font_size,
                 };
 
+                var uniform_type = ub.current_material.material.type;
                 var sprite_collection = ub.funcs.renderApplication($.ub.create_text, input_object, application_obj.application.id.toString());
+                var app = ub.current_material.settings.applications[application_obj.application.id];
+                var app_containers = ub.current_material.containers[uniform_type].application_containers;
+
+                
+                if(typeof input_object.applicationObj === 'object'){
+
+                    if(typeof input_object.applicationObj.gradient_obj === 'object') {
+
+                        $.ub.mvChangeGradient(input_object.applicationObj, input_object.applicationObj.gradient_obj, sprite_collection);
+
+                    }
+
+                    if(typeof input_object.applicationObj.pattern_obj === 'object') {
+
+                        $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, input_object.applicationObj.pattern_obj, sprite_collection);
+
+                    }
+
+                }
+
+                ub.funcs.identify(applicationObjs.id);
 
                 // var application = application_obj.application;
                 // var x = application_obj.position.x;
@@ -3553,7 +3595,6 @@ $(document).ready(function () {
         $('button[data-action="identify"][data-id=' + applicationCode + ']').click();
 
     }
-
 
     /// Saving, Loading and Sharing /// 
 
