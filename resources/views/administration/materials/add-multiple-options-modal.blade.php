@@ -10,6 +10,9 @@
             <input type="hidden" name="boundary_properties" id="boundary-properties">
             <input type="hidden" name="applications_properties" id="application-properties">
             <input type="hidden" name="is_blend_array" id="is-blend-array">
+            <input type="hidden" name="allow_pattern_array" id="allow-pattern-array">
+            <input type="hidden" name="allow_gradient_array" id="allow-gradient-array">
+            <input type="hidden" name="allow_color_array" id="allow-color-array">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -27,6 +30,9 @@
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
                             <th>Blend</th>
+                            <th>Allow Pattern</th>
+                            <th>Allow Gradient</th>
+                            <th>Allow Color</th>
                             <th>Team Color ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
@@ -77,6 +83,15 @@
                             </td>
                             <td>
                                 <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
+                            </td>
+                            <td>
+                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}">
+                            </td>
+                            <td>
+                                <input class="check mo-allow-gradient layer1" name="mo_allow_gradient[]" type="checkbox" value="{{ $color->hex_code }}">
+                            </td>
+                            <td>
+                                <input class="check mo-allow-color layer1" name="mo_allow_color[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
                                 <select class="mo-team-color-id layer1" name="mo_team_color_id[]">

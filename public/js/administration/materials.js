@@ -1002,6 +1002,9 @@ var appPropJson = "";
 
     function renumberRows(length){
         var is_blend_arr = [];
+        var allow_pattern_arr = [];
+        var allow_gradient_arr = [];
+        var allow_color_arr = [];
         $(".options-row").each(function(i) {
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
@@ -1015,6 +1018,9 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['default_color'] = {};
             materialOptions.front[thisLayer]['sublimated_default_color'] = {};
             materialOptions.front[thisLayer]['is_blend'] = {};
+            materialOptions.front[thisLayer]['allow_pattern'] = {};
+            materialOptions.front[thisLayer]['allow_gradient'] = {};
+            materialOptions.front[thisLayer]['allow_color'] = {};
 
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
@@ -1045,10 +1051,27 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
+            // ARRAYS ******************************
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
             $(this).find('.mo-blend').addClass(thisLayer);
             var mo_blend_class = ".mo-blend.layer" + length;
             $(this).find(mo_blend_class).addClass('mo-blend');
+
+            $(this).find('.mo-allow-pattern').removeClass().addClass("mo-allow-pattern");
+            $(this).find('.mo-allow-pattern').addClass(thisLayer);
+            var mo_allow_pattern_class = ".mo-allow-pattern.layer" + length;
+            $(this).find(mo_allow_pattern_class).addClass('mo-allow-pattern');
+
+            $(this).find('.mo-allow-gradient').removeClass().addClass("mo-allow-gradient");
+            $(this).find('.mo-allow-gradient').addClass(thisLayer);
+            var mo_allow_gradient_class = ".mo-allow-gradient.layer" + length;
+            $(this).find(mo_allow_gradient_class).addClass('mo-allow-gradient');
+
+            $(this).find('.mo-allow-color').removeClass().addClass("mo-allow-color");
+            $(this).find('.mo-allow-color').addClass(thisLayer);
+            var mo_allow_color_class = ".mo-allow-color.layer" + length;
+            $(this).find(mo_allow_color_class).addClass('mo-allow-color');
+            // END ARRAYS ******************************
 
             $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
             $(this).find('.mo-team-color-id').addClass(thisLayer);
@@ -1071,8 +1094,40 @@ var appPropJson = "";
                 materialOptions.front[thisLayer]['is_blend'] = "0";
             }
 
+            if($(mo_allow_pattern_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_pattern'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_pattern'] = "0";
+            }
+
+
+            if($(mo_allow_gradient_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_gradient'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_gradient'] = "0";
+            }
+
+
+            if($(mo_allow_color_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_color'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_color'] = "0";
+            }
+
+
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
+
+            allow_pattern_arr.push(materialOptions.front[thisLayer]['allow_pattern']);
+            $('#allow-pattern-array').val(allow_pattern_arr);
+
+            allow_gradient_arr.push(materialOptions.front[thisLayer]['allow_gradient']);
+            $('#allow-gradient-array').val(allow_gradient_arr);
+
+            allow_color_arr.push(materialOptions.front[thisLayer]['allow_color']);
+            $('#allow-color-array').val(allow_color_arr);
+
+
             // console.log("Blend Array: "+is_blend_arr);
             length--;
         });

@@ -158,9 +158,17 @@ class MaterialsOptionsController extends Controller
         $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
         $is_blend = $request->input('is_blend_array');
+
+        $allow_pattern = $request->input('allow_pattern_array');
+        $allow_gradient = $request->input('allow_gradient_array');
+        $allow_color = $request->input('allow_color_array');
+
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
         $is_blend_array = explode(",", $is_blend);
+        $allow_pattern_array = explode(",", $allow_pattern);
+        $allow_gradient_array = explode(",", $allow_gradient);
+        $allow_color_array = explode(",", $allow_color);
 
         $data = [];
         $ctr = 0;
@@ -182,6 +190,9 @@ class MaterialsOptionsController extends Controller
                 'sublimated_colors' => json_encode($sublimated_colors),
                 'gradients' => json_encode($gradients),
                 'is_blend' => $is_blend_array[$ctr],
+                'allow_pattern' => $allow_pattern_array[$ctr],
+                'allow_gradient' => $allow_gradient_array[$ctr],
+                'allow_color' => $allow_color_array[$ctr],
                 'boundary_properties' => $boundary_properties,
                 'applications_properties' => $applications_properties,
                 'material_option_path' => ''
