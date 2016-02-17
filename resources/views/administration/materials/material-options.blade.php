@@ -11,6 +11,13 @@
 @section('content')
 <div class="col-md-12" style="margin-top: -40px;">
 <center><h3>Material Options of: <b>{{ ucfirst($material->name) }}</b></h3>
+<input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
+<small>
+    <a href="#" class='btn btn-xs btn-danger cleanup-material' data-id="{{ $material->id }}">
+        <span class="glyphicon glyphicon-refresh"></span>
+        Cleanup
+    </a>
+</small>
 <img src="{{ $material->thumbnail_path }}"
      width="100px"
      height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;"
@@ -235,7 +242,7 @@
 
 @include('administration.materials.material-option-modal')
 
-@include('administration.materials.remove-color-modal')
+@include('administration.materials.cleanup-material-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 

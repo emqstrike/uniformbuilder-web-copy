@@ -417,8 +417,10 @@ var material = {};
         $('#add-multiple-options-modal').modal('show');
     });
 
-    $('.remove-color').on('click', function(){
-        $('#remove-color-modal').modal('show');
+    $('.cleanup-material').on('click', function(){
+        $('#cleanup-material-modal').modal('show');
+        var id = $(this).data('id');
+        $('#cleanup_material_id').val(id);
     });
 
     $('.add-material-option').on('click', function(){

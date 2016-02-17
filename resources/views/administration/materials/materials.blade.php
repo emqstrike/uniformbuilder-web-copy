@@ -77,12 +77,6 @@
                 Add New Material
             </a>
         </small>
-        <small>
-            <a href="#" class='btn btn-xs btn-danger remove-color'>
-                <span class="glyphicon glyphicon-refresh"></span>
-                Cleanup
-            </a>
-        </small>
     </h1>
 </div>
 <div class="container-fluid main-content">
@@ -142,8 +136,6 @@
 @include('administration.materials.material-view-modal')
 
 @include('administration.materials.material-option-modal')
-
-@include('administration.materials.remove-color-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
