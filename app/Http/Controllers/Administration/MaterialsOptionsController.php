@@ -47,6 +47,7 @@ class MaterialsOptionsController extends Controller
         $settingType = $request->input('setting_type');
         $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
+        $teamColorId = $request->input('team_color_id');
         $defaultColor = $request->input('default_color');
         $sublimatedDefaultColor = $request->input('sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -63,6 +64,7 @@ class MaterialsOptionsController extends Controller
             'setting_type' => $settingType,
             'origin' => $origin,
             'layer_level' => $layerLevel,
+            'team_color_id' => $teamColorId,
             'default_color' => $defaultColor,
             'sublimated_default_color' => $sublimatedDefaultColor,
             'perspective' => $perspective,
@@ -73,7 +75,7 @@ class MaterialsOptionsController extends Controller
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties
         ];
-// dd($data);
+
         try
         {
 
@@ -99,7 +101,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-// dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -148,6 +150,7 @@ class MaterialsOptionsController extends Controller
         $materialOptionNames = $request->input('mo_name');
         $layerLevels = $request->input('mo_layer');
         $settingTypes = $request->input('mo_setting_type');
+        $teamColorId = $request->input('mo_team_color_id');
         $defaultColor = $request->input('mo_default_color');
         $sublimatedDefaultColor = $request->input('mo_sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -171,6 +174,7 @@ class MaterialsOptionsController extends Controller
                 'setting_type' => $settingTypes[$ctr],
                 'origin' => $origin,
                 'layer_level' => $layerLevels[$ctr],
+                'team_color_id' => $teamColorId[$ctr],
                 'default_color' => $defaultColor[$ctr],
                 'sublimated_default_color' => $sublimatedDefaultColor[$ctr],
                 'perspective' => $perspective,

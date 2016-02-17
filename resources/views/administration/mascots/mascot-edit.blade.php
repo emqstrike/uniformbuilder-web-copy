@@ -48,6 +48,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Team Color ID</label>
+                            <div class="col-md-6">
+                                <select name='team_color_id' class="form-control mascot-team-color-id">
+                                    <option value="1" <?php if($mascot->team_color_id == 1){ echo "selected"; } ?>>1</option>
+                                    <option value="2" <?php if($mascot->team_color_id == 2){ echo "selected"; } ?>>2</option>
+                                    <option value="3" <?php if($mascot->team_color_id == 3){ echo "selected"; } ?>>3</option>
+                                    <option value="4" <?php if($mascot->team_color_id == 4){ echo "selected"; } ?>>4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
                             <div class="col-md-6 front-view">
                                 <img src="{{ $mascot->icon }}">

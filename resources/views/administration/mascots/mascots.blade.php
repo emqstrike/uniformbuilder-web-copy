@@ -78,6 +78,7 @@
                                 <th>Code</th>
                                 <th>Active Status</th>
                                 <th>Category</th>
+                                <th>Team Color ID</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -110,6 +111,9 @@
                         </td>
                         <td>
                             {{ $mascot->category }}
+                        </td>
+                        <td>
+                            {{ $mascot->team_color_id }}
                         </td>
                         <td>
                             <a href="/administration/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs edit-mascot" data-mascot-id="{{ $mascot->id }}" role="button">

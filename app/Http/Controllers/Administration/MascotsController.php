@@ -91,12 +91,14 @@ class MascotsController extends Controller
         $mascotName = $request->input('name');
         $code = $request->input('code');
         $category = $request->input('category');
+        $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
 
         $data = [
             'name' => $mascotName,
             'code' => $code,
             'category' => $category,
+            'team_color_id' => $team_color_id,
             'layers_properties' => $layersProperties
         ];
 
@@ -166,7 +168,7 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-// dd($data);
+
         $response = null;
         if (!empty($id))
         {

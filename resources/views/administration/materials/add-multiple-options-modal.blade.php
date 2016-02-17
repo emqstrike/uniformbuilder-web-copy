@@ -16,12 +16,6 @@
             </div>
             <div class="modal-body front-options">
                 <h4>PERSPECTIVE :&nbsp;
-                <!-- <select name="perspective">
-                    <option value='front'>FRONT</option>
-                    <option value='back'>BACK</option>
-                    <option value='left'>LEFT</option>
-                    <option value='right'>RIGHT</option>
-                </select> -->
                 <input type="text" name="perspective" class="perspective-multiple-upload">
                 </h4>
                 <table class="table table-bordered">
@@ -33,6 +27,7 @@
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
                             <th>Blend</th>
+                            <th>Team Color ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
                         </tr>
@@ -82,6 +77,14 @@
                             </td>
                             <td>
                                 <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
+                            </td>
+                            <td>
+                                <select class="mo-team-color-id layer1" name="mo_team_color_id[]">
+                                    <option value='1'>1</option>
+                                    <option value='2'>2</option>
+                                    <option value='3'>3</option>
+                                    <option value='4'>4</option>
+                                </select>
                             </td>
                             <td>
                                 <input type="file" class="mo-options-src layer1" name="mo_image[]">

@@ -28,6 +28,7 @@
                             <tr>
                                 <th>Thumbnail</th>
                                 <th>Pattern Name</th>
+                                <th>Team Color ID</th>
                                 <th>Active Status</th>
                                 <th></th>
                             </tr>
@@ -46,6 +47,9 @@
                         </td>
                         <td>
                             {{ $pattern->name }}
+                        </td>
+                        <td>
+                            {{ $pattern->team_color_id }}
                         </td>
                         <td>
                             <a href="#" class="btn btn-default btn-xs disable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? : 'disabled="disabled"' }}>

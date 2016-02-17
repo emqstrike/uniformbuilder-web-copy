@@ -18,7 +18,7 @@
                     <label class="control-label">Name:</label>
                     <input type="text" name="name" class="form-control" id="material-option-name">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="control-label">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
                         <option value='part'>Part</option>
@@ -48,6 +48,15 @@
                 <div class="col-md-2">
                     <label class="control-label">Layer Level:</label>
                     <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label">Team Color ID:</label>
+                    <select name='team_color_id' class='form-control team-color-id' id="team_color_id">
+                        <!-- <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option> -->
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label class="control-label">Gradients:</label>
