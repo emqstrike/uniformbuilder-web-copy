@@ -6,30 +6,73 @@ $(document).ready(function() {
 
     $('#colors_textarea').hide();
 
-    $('.toggle-mascot').on('click', function(){
-        var id = $(this).data('mascot-id');
-        var url = "//" + api_host + "/api/mascot/toggle/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
+    var x_csrf_token = $('#x-csrf-token').val();
+    console.log("x-csrf-token"+x_csrf_token);
+
+    rebind();
+    toggler();
+
+    function rebind(){
+        $('.btn-mascot-category').on('click', function(){
+            $('.mascot-row').fadeOut();
+            var category = $(this).data('category');
+            console.log("CATEGORY: "+category);
+            var url = "/administration/mascots_filter";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({category: category}),
+                dataType: 'json',
+                crossDomain: true,
+                contentType: 'application/json',
+                // headers: {"accessToken": atob(headerValue), "X-CSRF-TOKEN": x_csrf_token},
+                headers: {"accessToken": atob(headerValue), "X-CSRF-TOKEN": x_csrf_token},
+                success: function(response){
+                    console.log(response);                    
+                    if (response.success) {
+                        $('#mascots_container_box').html('');
+                        $('#mascots_container_box').html(response.html).fadeIn("slow");
+                        new PNotify({
+                            title: 'Category',
+                            text: category,
+                            type: 'success',
+                            hide: true
+                        });
+                        // $('#mascots_container_box').fadeIn("slow");
+                        rebind();
+                        toggler();
+                    }
                 }
-            }
+            });
         });
-    });
+    }
+
+    function toggler(){
+        $('.toggle-mascot').on('click', function(){
+            var id = $(this).data('mascot-id');
+            var url = "//" + api_host + "/api/mascot/toggle/";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
+        }); 
+    }
 
     $('.delete-mascot').on('click', function(){
         var id = $(this).data('mascot-id');
