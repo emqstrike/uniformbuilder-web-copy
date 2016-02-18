@@ -914,12 +914,12 @@ $(document).ready(function() {
 
                 if (typeof ub.objects[_view_name]['objects_' + app_id] !== 'undefined'){
 
-                       /// Here Now...
+                    /// Here Now...
 
                 }
                 else{
 
-                    console.log('Not Found');
+                    /// Not Found
 
                 }
 
@@ -1009,9 +1009,6 @@ $(document).ready(function() {
                 var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
                 var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
-
-                console.log('Application: ');
-                console.log(application);
 
                 if(typeof application_obj === 'undefined') {
                     return;
