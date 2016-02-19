@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div style="float: left; text-align: center; margin-top: 75px; z-index: 50; position: relative; border: 1px solid black;" class="front-applications text-center">
+                    <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="front-applications text-center">
                         <h3>Applications</h3><hr>
                         <a class="btn btn-xs btn-success" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">

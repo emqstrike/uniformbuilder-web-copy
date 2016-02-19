@@ -110,9 +110,9 @@ $(document).ready(function() {
 
         var text = $(this).val();
         var itemsArr = ["logo", "number", "team_name", "player_name"];
-        var selectAppend = "<select class=\"app-def-item\">";
+        var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var def_name = "<input type=\"text\" class=\"app-def-name\" value="+default_name+">";
+        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value="+default_name+">";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -126,7 +126,7 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
 
         var canvasItem = "application"+group.id;
 

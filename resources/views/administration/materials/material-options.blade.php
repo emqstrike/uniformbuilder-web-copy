@@ -31,23 +31,51 @@
                 <table class="col-md-12">
                     <thead style="background-color: #fff;">
                         <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "front")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                             FRONT</h3></center>
                         </th>
                         <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "back")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                             BACK</h3></center>
                         </th>
                         <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "left")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                             LEFT</h3></center>
                         </th>
                         <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "right")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                             RIGHT</h3></center>
                         </th>
                     </thead>
@@ -55,8 +83,8 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "front")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
+                                <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                                     class="material-option-{{ $option->id }}  material-option-item"
                                      data-material-option-name="{{ $option->name }}">
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
@@ -100,7 +128,7 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "back")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
@@ -145,7 +173,7 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "left")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
@@ -190,7 +218,7 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "right")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
