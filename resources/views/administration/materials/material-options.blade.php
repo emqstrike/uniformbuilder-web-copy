@@ -13,7 +13,7 @@
 <center><h3>Material Options of: <b>{{ ucfirst($material->name) }}</b></h3>
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
 <small>
-    <a href="#" class='btn btn-xs btn-danger cleanup-material' data-id="{{ $material->id }}">
+    <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}">
         <span class="glyphicon glyphicon-refresh"></span>
         Cleanup
     </a>
@@ -30,42 +30,70 @@
         <div class="col-md-12"> -->
                 <table class="col-md-12">
                     <thead style="background-color: #fff;">
-                        <th style="border: 1px solid #000;">
+                        <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "front")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-success add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                             FRONT</h3></center>
                         </th>
-                        <th style="border: 1px solid #000;">
+                        <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "back")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-success add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                             BACK</h3></center>
                         </th>
-                        <th style="border: 1px solid #000;">
+                        <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "left")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-success add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                             LEFT</h3></center>
                         </th>
-                        <th style="border: 1px solid #000;">
+                        <th style="border: 1px solid #000; padding-bottom: 10px;">
+                        @foreach ($options as $option)
+                            @if ($option->perspective == "right")
+                                @if ($option->setting_type == "highlights")
+                                <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                                @endif
+                            @endif
+                        @endforeach
                             <center><h3>
-                            <a href="#" class='btn btn-xs btn-success add-multiple-material-option' data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                             RIGHT</h3></center>
                         </th>
                     </thead>
-                    <tbody style="padding-top: 30px;">
+                    <tbody style="padding-top: 30px;" id="mo-list">
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "front")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
-                                     class="material-option-{{ $option->id }}  material-option-item" 
+                                <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                                     class="material-option-{{ $option->id }}  material-option-item"
                                      data-material-option-name="{{ $option->name }}">
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
+                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -90,7 +118,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
+                                    <span class="label label-default" style="margin-top: 0;">{{ $option->layer_level }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -100,17 +128,17 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "back")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
+                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -135,7 +163,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
+                                    <span class="label label-default" style="margin-top: 0;">{{ $option->layer_level }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -145,17 +173,17 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "left")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
+                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -180,7 +208,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
+                                    <span class="label label-default" style="margin-top: 0;">{{ $option->layer_level }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -190,17 +218,17 @@
                         <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
                         @foreach ($options as $option)
                             @if ($option->perspective == "right")
-                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px;" 
+                                <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
-                                    <a href="#" class="btn btn-danger btn-xs delete-material-option pull-right"
+                                    <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
                                                 role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-primary btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -225,7 +253,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >{{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label label-default" style="margin-top: 0;">L-{{ $option->layer_level }}</span>
+                                    <span class="label label-default" style="margin-top: 0;">{{ $option->layer_level }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>

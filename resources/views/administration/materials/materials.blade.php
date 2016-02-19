@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
 .onoffswitch {
-    position: relative; width: 61px;
+    position: relative; width: 63px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -15,34 +15,34 @@
 }
 .onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 9px;
+    border: 2px solid #999999; border-radius: 7px;
 }
 .onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
-    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block; float: left; width: 50%; height: 21px; padding: 0; line-height: 21px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
 }
 .onoffswitch-inner:before {
     content: "ON";
-    padding-left: 5px;
-    background-color: #02C723; color: #FFFFFF;
+    padding-left: 10px;
+    background-color: #FFFFFF; color: #000000;
 }
 .onoffswitch-inner:after {
     content: "OFF";
-    padding-right: 5px;
-    background-color: #BF5050; color: #FFFFFF;
+    padding-right: 10px;
+    background-color: #6B6B6B; color: #FFFFFF;
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 18px; margin: 1px;
+    display: block; width: 15px; margin: 3px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 37px;
-    border: 2px solid #999999; border-radius: 9px;
+    right: 38px;
+    border: 2px solid #999999; border-radius: 7px;
     transition: all 0.3s ease-in 0s; 
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
@@ -72,7 +72,7 @@
         <span class="fa fa-cubes"></span>
         Materials
         <small>
-            <a href="/administration/material/add" class='btn btn-xs btn-success'>
+            <a href="/administration/material/add" class='btn btn-md btn-default'>
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 Add New Material
             </a>
@@ -83,12 +83,11 @@
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-3'
                  style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;">
-                <div style="float:left; position: relative; margin-top: 5px; margin-left: -10px;">
-                    <span class="label label-default" style="font-size: 14px;">{{ $material->id }}</span>
+                <div style="float:left; position: relative; margin-top: 7px; margin-left: -10px;">
+                    <span class="label" style="font-size: 14px; background-color: #808080;">{{ $material->id }}</span>
                 </div>
                 <div style="float:right; position: relative; margin-top: 5px; margin-right: -10px;">
                     <div class="onoffswitch">
-                        <!-- <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked> -->
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
                         <label class="onoffswitch-label" for="switch-{{ $material->id }}">
                             <span class="onoffswitch-inner"></span>
@@ -104,22 +103,32 @@
                              alt="{{ $material->slug }}" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;">
                     </center>
                 </div><hr>
-                <div class="col-md-12" style="height: 50px; background-color: #fff; margin-bottom: 7px; border-radius: 5px;"><h4>{{ $material->name }}</h4></div>
-                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->code }}</span></div>
-                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ $material->uniform_category }}</span></div>
-                <div class="col-md-4"><span class="label label-default" style="font-size: 11px;">{{ ucfirst($material->type) }}</span></div>
-                <div class="col-md-12" style="margin-top: 7px; padding-bottom: 20px;">
-                    <a href="/administration/material/view_material_options/{{ $material->id }}" class='btn btn-xs btn-primary'
+                <div style="display: inline;"><span class="label label-default" style="font-size: 11px;">{{ $material->code }}</span></div>
+                <div style="display: inline;"><span class="label label-default" style="font-size: 11px;">{{ $material->uniform_category }}</span></div>
+                <div style="display: inline;"><span class="label label-default" style="font-size: 11px;">{{ ucfirst($material->type) }}</span></div>
+                <div class="col-md-12" style="  margin-top: 7px;
+                                                height: 50px;
+                                                background-color: #fff;
+                                                border-radius: 5px;
+                                                margin-bottom: 7px;"><center><h4 style="transform : scale(1,1.3);
+                                                                                        -webkit-transform:scale(1,1.3); /* Safari and Chrome */
+                                                                                        -moz-transform:scale(1,1.3); /* Firefox */
+                                                                                        -ms-transform:scale(1,1.3); /* IE 9+ */
+                                                                                        -o-transform:scale(1,1.3); /* Opera */"
+                                                
+                                                                                >{{ $material->name }}</h4></center></div>
+                <div style="margin-top: 7px; padding-bottom: 20px;">
+                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080;">
+                        Edit Material
+                    </a>
+                    <a href="/administration/material/view_material_options/{{ $material->id }}" class='btn btn-xs btn-default'
                         data-material-name="{{ $material->name }}"
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                        View Material Options
+                        style="border: 1px solid #808080;">
+                        View / Edit Material Options
                     </a>
-                    <a href="/administration/material/edit/{{ $material->id }}" style="margin-left: 10px;" class="btn btn-primary btn-xs edit-material" role="button">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </a>
-                    <a href="#" class="btn btn-danger pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                 </div>
