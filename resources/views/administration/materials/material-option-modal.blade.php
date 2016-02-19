@@ -14,12 +14,18 @@
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
             </div>
             <div class="modal-body">
+                <div class="col-md-4">
+                    <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
+                    <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px;">
+                        <canvas id="bounding-box-canvas"></canvas>
+                    </div>
+                </div>
                 <div class="col-md-2">
-                    <label class="control-label">Name:</label>
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Name:</label>
                     <input type="text" name="name" class="form-control" id="material-option-name">
                 </div>
-                <div class="col-md-1">
-                    <label class="control-label">Setting Type:</label>
+                <div class="col-md-2">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Setting Type:</label>
                     <select name='setting_type' class='form-control setting-types'>
                         <option value='part'>Part</option>
                         <option value='shape'>Shape</option>
@@ -32,7 +38,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <label class="control-label">Perspective:</label>
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Prespective:</label>
                     <select name='perspective' class='form-control perspective' id="select-perspective">
                         <option value='front'>Front View</option>
                         <option value='back'>Back View</option>
@@ -42,24 +48,28 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <label class="control-label">Material Option File:</label>
-                    <input type="file" name="material_option_path" id="file-src">
-                </div>
-                <div class="col-md-2">
-                    <label class="control-label">Layer Level:</label>
-                    <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
-                </div>
-                <div class="col-md-1">
-                    <label class="control-label">Team Color ID:</label>
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Team Color ID:</label>
                     <select name='team_color_id' class='form-control team-color-id' id="team_color_id">
-                        <!-- <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option> -->
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label class="control-label">Gradients:</label>
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Material Option File:</label>
+                    <input type="file" name="material_option_path" id="file-src">
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Origin:</label>
+                    <select name="origin" class="form-control origin">
+                        <option value="web">Web</option>
+                        <option value="ipad">ipad</option>
+                        <option id='saved-origin'></option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Layer-Level:</label>
+                    <input type="number" name="layer_level" id="layer-level" class="form-control" value='1' />
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Gradients:</label>
                     <select name="gradients[]" class="form-control gradients" style="width: 100%" multiple="multiple">
                         @foreach ($gradients as $gradient)
                             @if ($gradient->active)
@@ -70,71 +80,55 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Origin:</label>
-                        <select name="origin" class="form-control origin">
-                            <option value="web">Web</option>
-                            <option value="ipad">ipad</option>
-                            <option id='saved-origin'></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Default Color:</label>
-                        <select class="form-control default-color" name="default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
-                        @foreach ($colors as $color)
-                            @if ($color->active)
-                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                                {{ $color->name }}
-                            </option>
-                            @endif
-                        @endforeach
-                        <option data-color="" value="" id="saved-default-color" class="saved-default-color"></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Colors:</label>
-                        <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
-                            @foreach ($colors as $color)
-                                @if ($color->active)
-                                <option value='{{ $color->color_code }}' selected="selected">
-                                    {{ $color->name }}
-                                </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Sublimated Default Color:</label>
-                        <select class="form-control sublimated-default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
-                        @foreach ($colors as $color)
-                            @if ($color->active)
-                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
-                                {{ $color->name }}
-                            </option>
-                            @endif
-                        @endforeach
-                        <option data-color="" value="" id="saved-sublimated-default-color"></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Sublimated Colors:</label>
-                        <select name="sublimated_colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
-                            @foreach ($colors as $color)
-                                @if ($color->active)
-                                <option value='{{ $color->color_code }}' selected="selected">
-                                    {{ $color->name }}
-                                </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="col-md-8">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Default Color:</label>
+                    <select class="form-control default-color" name="default_color" style="color: #000;text-shadow: 1px 1px #000;" id="def-color">
+                    @foreach ($colors as $color)
+                        @if ($color->active)
+                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
+                            {{ $color->name }}
+                        </option>
+                        @endif
+                    @endforeach
+                    <option data-color="" value="" id="saved-default-color" class="saved-default-color"></option>
+                    </select>
                 </div>
-                <div class="col-md-4">
-                    <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
-                    <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px;">
-                        <canvas id="bounding-box-canvas"></canvas>
-                    </div>
+                <div class="col-md-8">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Colors:</label>
+                    <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                        @foreach ($colors as $color)
+                            @if ($color->active)
+                            <option value='{{ $color->color_code }}' selected="selected">
+                                {{ $color->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Sublimated Default Color:</label>
+                    <select class="form-control sublimated-default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
+                    @foreach ($colors as $color)
+                        @if ($color->active)
+                        <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
+                            {{ $color->name }}
+                        </option>
+                        @endif
+                    @endforeach
+                    <option data-color="" value="" id="saved-sublimated-default-color"></option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Sublimated Colors:</label>
+                    <select name="sublimated_colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                        @foreach ($colors as $color)
+                            @if ($color->active)
+                            <option value='{{ $color->color_code }}' selected="selected">
+                                {{ $color->name }}
+                            </option>
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-md-4">
@@ -142,27 +136,19 @@
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px;">
                         <canvas id="applications-front-canvas"></canvas>
-                        <!-- <div style="float: left; text-align: center;" class="front-applications text-center">
-                            <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
-                            <select name="default_item" id="front-default-item">
-                                <option value="logo">Logo</option>
-                                <option value="number">Number</option>
-                                <option value="team_name">Team Name</option>
-                                <option value="player_name">Player Name</option>
-                            </select>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div style="float: left; text-align: center; margin-top: 75px; z-index: 50; position: relative;" class="front-applications text-center">
-                        <a class="btn btn-xs btn-primary" id="add_front_application"><i class="fa fa-plus"></i></a>
+                    <div style="float: left; text-align: center; margin-top: 75px; z-index: 50; position: relative; border: 1px solid black;" class="front-applications text-center">
+                        <h3>Applications</h3><hr>
+                        <a class="btn btn-xs btn-success" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">
                             <option value="logo" data-def-name="logo">Logo</option>
                             <option value="number" data-def-name="number">Number</option>
                             <option value="team_name" data-def-name="team_name">Team Name</option>
                             <option value="player_name" data-def-name="player_name">Player Name</option>
                         </select>
-                        <input type="text" name="application_name" id="application_name" value="Logo">
+                        <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
                     </div>
                 </div>
             </div>
