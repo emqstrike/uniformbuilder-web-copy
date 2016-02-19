@@ -11,6 +11,13 @@
 @section('content')
 <div class="col-md-12" style="margin-top: -40px;">
 <center><h3>Material Options of: <b>{{ ucfirst($material->name) }}</b></h3>
+<input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
+<small>
+    <a href="#" class='btn btn-xs btn-danger cleanup-material' data-id="{{ $material->id }}">
+        <span class="glyphicon glyphicon-refresh"></span>
+        Cleanup
+    </a>
+</small>
 <img src="{{ $material->thumbnail_path }}"
      width="100px"
      height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;"
@@ -70,6 +77,7 @@
                                             data-material-option-default-color-name="{{ $option->default_color_name }}"
                                             data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
+                                            data-material-option-team-color-id="{{ $option->team_color_id }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
                                             data-material-option-perspective="{{ $option->perspective }}"
@@ -114,6 +122,7 @@
                                             data-material-option-default-color-name="{{ $option->default_color_name }}"
                                             data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
+                                            data-material-option-team-color-id="{{ $option->team_color_id }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
                                             data-material-option-perspective="{{ $option->perspective }}"
@@ -158,6 +167,7 @@
                                             data-material-option-default-color-name="{{ $option->default_color_name }}"
                                             data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
+                                            data-material-option-team-color-id="{{ $option->team_color_id }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
                                             data-material-option-perspective="{{ $option->perspective }}"
@@ -202,6 +212,7 @@
                                             data-material-option-default-color-name="{{ $option->default_color_name }}"
                                             data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
                                             data-material-option-setting-type="{{ $option->setting_type }}"
+                                            data-material-option-team-color-id="{{ $option->team_color_id }}"
                                             data-material-option-setting-code="{{ $option->setting_code }}"
                                             data-material-option-path="{{ $option->material_option_path }}"
                                             data-material-option-perspective="{{ $option->perspective }}"
@@ -231,7 +242,7 @@
 
 @include('administration.materials.material-option-modal')
 
-@include('administration.materials.remove-color-modal')
+@include('administration.materials.cleanup-material-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 

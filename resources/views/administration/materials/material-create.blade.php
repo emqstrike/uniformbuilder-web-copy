@@ -77,7 +77,7 @@
                             <div class="col-md-8">
                                 <select name='factory_code' class="form-control factory-code">
                                     @foreach ($factories as $factory)
-                                        @if ($color->active)
+                                        @if ($factory->active)
                                         <option value='{{ $factory->code }}'>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
@@ -118,7 +118,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Design Sheet</label>
                             <div class="col-md-8">
-                                <input type="file" class="form-control design-sheet-file" name="design_sheet_path"  accept="application/pdf"">
+                                <input type="file" class="form-control design-sheet-file" name="design_sheet_path"  accept="application/pdf">
                             </div>
                         </div>
 

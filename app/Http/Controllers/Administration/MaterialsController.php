@@ -25,7 +25,7 @@ class MaterialsController extends Controller
     public function __construct(
         APIClient $apiClient,
         MaterialsOptionsAPIClient $optionsClient,
-        ColorsAPIClient $colorsClient,
+        ColorsAPIClient $colorsAPIClient,
         FactoriesAPIClient $factoriesClient,
         GradientsAPIClient $gradientClient
     )
@@ -33,7 +33,7 @@ class MaterialsController extends Controller
         $this->client = $apiClient;
         $this->optionsClient = $optionsClient;
         $this->factoriesClient = $factoriesClient;
-        $this->colorsClient = $colorsClient;
+        $this->colorsClient = $colorsAPIClient;
         $this->gradientClient = $gradientClient;
     }
 
@@ -93,7 +93,7 @@ class MaterialsController extends Controller
                 }
             }
         }
-// dd($options);
+
         $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
@@ -135,12 +135,9 @@ class MaterialsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
-        $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
-            'colors' => $colors,
             'factories' => $factories
         ]);
     }
@@ -202,7 +199,6 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
-
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
             if (isset($designSheetFile))

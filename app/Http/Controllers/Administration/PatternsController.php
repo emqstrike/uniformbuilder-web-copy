@@ -57,6 +57,7 @@ class PatternsController extends Controller
     public function store(Request $request)
     {
         $patternName = $request->input('name');
+        $team_color_id = $request->input('team_color_id');
         $layer_1_color = $request->input('layer_1_color');
         $layer_2_color = $request->input('layer_2_color');
         $layer_3_color = $request->input('layer_3_color');
@@ -68,6 +69,7 @@ class PatternsController extends Controller
             'layer_2_default_color' => $layer_2_color,
             'layer_3_default_color' => $layer_3_color,
             'layer_4_default_color' => $layer_4_color,
+            'team_color_id' => $team_color_id
         ];
 
         $patternId = null;
@@ -78,11 +80,11 @@ class PatternsController extends Controller
         }
 
         // Does the Pattern Name exist
-        if ($this->client->isPatternExist($patternName, $patternId))
-        {
-            return Redirect::to('administration/patterns')
-                            ->with('message', 'Pattern name already exist');
-        }
+        // if ($this->client->isPatternExist($patternName, $patternId))
+        // {
+        //     return Redirect::to('administration/patterns')
+        //                     ->with('message', 'Pattern name already exist');
+        // }
 
         try
         {
@@ -126,6 +128,7 @@ class PatternsController extends Controller
             return Redirect::to('/administration/patterns')
                             ->with('message', 'There was a problem uploading your files');
         }
+
         $response = null;
         if (!empty($patternId))
         {

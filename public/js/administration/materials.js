@@ -417,8 +417,10 @@ var material = {};
         $('#add-multiple-options-modal').modal('show');
     });
 
-    $('.remove-color').on('click', function(){
-        $('#remove-color-modal').modal('show');
+    $('.cleanup-material').on('click', function(){
+        $('#cleanup-material-modal').modal('show');
+        var id = $(this).data('id');
+        $('#cleanup_material_id').val(id);
     });
 
     $('.add-material-option').on('click', function(){
@@ -497,6 +499,7 @@ var appPropJson = "";
                 default_color_name: $(this).data('material-option-default-color-name'),
                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
                 type: $(this).data('material-option-setting-type'),
+                team_color_id: $(this).data('material-option-team-color-id'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
@@ -532,6 +535,30 @@ var appPropJson = "";
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
+
+        var id_nums = ['1', '2', '3', '4'];
+        var team_color_id_options = "";
+
+        id_nums.forEach(function(entry) {
+            id = entry;
+            if(id == material.option.team_color_id){
+                team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+            } else {
+                team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+            }
+        });
+
+        // foreach(id_nums as id){
+        //     if(id == material.option.team_color_id){
+        //         team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+        //     } else {
+        //         team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+        //     }
+            
+        // }
+
+        $('#team_color_id').append(team_color_id_options);
+
         // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
@@ -977,6 +1004,9 @@ var appPropJson = "";
 
     function renumberRows(length){
         var is_blend_arr = [];
+        var allow_pattern_arr = [];
+        var allow_gradient_arr = [];
+        var allow_color_arr = [];
         $(".options-row").each(function(i) {
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
@@ -986,9 +1016,13 @@ var appPropJson = "";
             materialOptions.front[thisLayer]['layer'] = {};
             materialOptions.front[thisLayer]['name'] = {};
             materialOptions.front[thisLayer]['setting-type'] = {};
+            materialOptions.front[thisLayer]['team-color-id'] = {};
             materialOptions.front[thisLayer]['default_color'] = {};
             materialOptions.front[thisLayer]['sublimated_default_color'] = {};
             materialOptions.front[thisLayer]['is_blend'] = {};
+            materialOptions.front[thisLayer]['allow_pattern'] = {};
+            materialOptions.front[thisLayer]['allow_gradient'] = {};
+            materialOptions.front[thisLayer]['allow_color'] = {};
 
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
@@ -1019,19 +1053,42 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
+            // ARRAYS ******************************
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
             $(this).find('.mo-blend').addClass(thisLayer);
             var mo_blend_class = ".mo-blend.layer" + length;
             $(this).find(mo_blend_class).addClass('mo-blend');
 
+            $(this).find('.mo-allow-pattern').removeClass().addClass("mo-allow-pattern");
+            $(this).find('.mo-allow-pattern').addClass(thisLayer);
+            var mo_allow_pattern_class = ".mo-allow-pattern.layer" + length;
+            $(this).find(mo_allow_pattern_class).addClass('mo-allow-pattern');
+
+            $(this).find('.mo-allow-gradient').removeClass().addClass("mo-allow-gradient");
+            $(this).find('.mo-allow-gradient').addClass(thisLayer);
+            var mo_allow_gradient_class = ".mo-allow-gradient.layer" + length;
+            $(this).find(mo_allow_gradient_class).addClass('mo-allow-gradient');
+
+            $(this).find('.mo-allow-color').removeClass().addClass("mo-allow-color");
+            $(this).find('.mo-allow-color').addClass(thisLayer);
+            var mo_allow_color_class = ".mo-allow-color.layer" + length;
+            $(this).find(mo_allow_color_class).addClass('mo-allow-color');
+            // END ARRAYS ******************************
+
+            $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
+            $(this).find('.mo-team-color-id').addClass(thisLayer);
+            var team_color_id_class = ".mo-team-color-id.layer" + length;
+            $(this).find(team_color_id_class).addClass('mo-team-color-id');
+
             materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
             materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
             materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
+            // materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
+            // materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
             materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            materialOptions.front[thisLayer]['default_color'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['team-color-id'] = $(this).find(team_color_id_class).val();
+            materialOptions.front[thisLayer]['default_color'] = $(this).find(def_color_class).val();
+            materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(sub_def_color_class).val();
 
             if($(mo_blend_class).is(':checked')){
                 materialOptions.front[thisLayer]['is_blend'] = "1";
@@ -1039,12 +1096,45 @@ var appPropJson = "";
                 materialOptions.front[thisLayer]['is_blend'] = "0";
             }
 
+            if($(mo_allow_pattern_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_pattern'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_pattern'] = "0";
+            }
+
+
+            if($(mo_allow_gradient_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_gradient'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_gradient'] = "0";
+            }
+
+
+            if($(mo_allow_color_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_color'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_color'] = "0";
+            }
+
+
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
+
+            allow_pattern_arr.push(materialOptions.front[thisLayer]['allow_pattern']);
+            $('#allow-pattern-array').val(allow_pattern_arr);
+
+            allow_gradient_arr.push(materialOptions.front[thisLayer]['allow_gradient']);
+            $('#allow-gradient-array').val(allow_gradient_arr);
+
+            allow_color_arr.push(materialOptions.front[thisLayer]['allow_color']);
+            $('#allow-color-array').val(allow_color_arr);
+
+
             // console.log("Blend Array: "+is_blend_arr);
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
+        console.log("MOS: "+moProperties);
     }
 
     function updateCoordinates() {

@@ -46,6 +46,17 @@ class MascotsAPIClient extends APIClient
         return null;
     }
 
+    public function getMascotByCategory($category)
+    {
+        $response = $this->get('mascot/category/' . $category);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->mascots;
+        }
+        return null;
+    }
+
     public function getMascot($id)
     {
         $response = $this->get('mascot/' . $id);

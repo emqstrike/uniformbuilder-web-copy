@@ -42,6 +42,19 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Team Color ID</label>
+                            <div class="col-md-6">
+                                <select name='team_color_id' class="form-control pattern-team-color-id">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
                             <div class="col-md-6 material">
                                 <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
