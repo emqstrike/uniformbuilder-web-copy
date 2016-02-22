@@ -68,7 +68,10 @@ $(document).ready(function() {
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
-        var default_name = $('#application_name').val();
+        // var default_name = $('#application_name').val(); // MOD
+        var default_name_raw = $('#application_name').val(); // MOD
+        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,""); // MOD
+        // console.log("FORMATTED NAME: "+default_name_raw); // MOD
 
         var area = new fabric.Rect({
             id: application_number,
@@ -112,7 +115,7 @@ $(document).ready(function() {
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value="+default_name+">";
+        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\""+default_name+"\">";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -132,7 +135,7 @@ $(document).ready(function() {
 
     });
 
-var applicationProperties = {};        
+var applicationProperties = {};    
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
@@ -152,7 +155,7 @@ var applicationProperties = {};
 
         canvasFront.renderAll();
         updateCoordinates();
-        
+
     });
 
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
@@ -190,7 +193,6 @@ var applicationProperties = {};
         pivot: 0,
         rotation: 0,
         };
-
 
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
@@ -280,7 +282,6 @@ var applicationProperties = {};
 
     $(".options-row-source").hide();
 
-    
     $('#front-default-item').change(function(){
         // var def_name = $(this).data('def-name');
         var def_name = $(this).val();
@@ -304,7 +305,7 @@ var applicationProperties = {};
                 type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
                 });
-                type = type.slice(0,-1)
+                type = type.slice(0,-1);
                 elem.val(type);
             }
             else{
@@ -352,7 +353,7 @@ var applicationProperties = {};
                 return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
             }
         });
-    }); 
+    });
 
     });
 
@@ -512,7 +513,7 @@ var appPropJson = "";
             }
         };
 
-        console.log("HIGHLIGHTS PATH: "+material.option.highlights);
+        // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
 
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
@@ -563,9 +564,9 @@ var appPropJson = "";
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
         var va_prop_val = $('.a-prop').val();
-        console.log($('.b-prop').val());
+        // console.log($('.b-prop').val());
         if($('.a-prop').val() != "\"{}\""){
-            console.log("INSIDE IF");
+            // console.log("INSIDE IF");
             // var trim_backslash = $('.a-prop').val().replace(/\\/g, ''); ************
             // va_prop_val = trim_backslash.substring(1, trim_backslash.length-1); ************
             va_prop_val = $('.a-prop').val();
@@ -587,7 +588,7 @@ var appPropJson = "";
         if(material.option.highlights != null){
             material_option_shape = material.option.highlights;
         }
-        
+
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
@@ -598,7 +599,7 @@ var appPropJson = "";
         // **************
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            console.log("bprop");
+            // console.log("bprop");
             // var jason = $('.b-prop').val().replace(/\\/g, '');
             var jason = $('.b-prop').val();
             var output = jason.substring(1, jason.length-1);
@@ -644,7 +645,7 @@ var appPropJson = "";
                 var l = "layer"+c;
                 var default_item = app_properties[l].type;
                 var iid = app_properties[l].id;
-
+// console.log("APP PROP NAME: "+app_properties[l].name);
                 if(!app_properties[l].id){
                     break;
                 }
@@ -703,8 +704,8 @@ var appPropJson = "";
 
                     selectAppend += "</select>";
 
-                    var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=" + app_properties[l].name + ">";
-
+                    var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\"" + app_properties[l].name + "\">";
+// console.log("DEF NAME STRING: "+def_name);
                     $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
@@ -743,9 +744,12 @@ var appPropJson = "";
 
 
             var boundaryProperties = JSON.stringify(data);
-
-            // $('#boundary-properties').prop('value', boundaryProperties);
             $('.b-prop').prop('value', boundaryProperties);
+
+            // var applicationsProperties = JSON.stringify(data);
+            // $('.a-prop').prop('value', applicationsProperties);
+
+            // console.log("CONSOLE LOG: " + applicationsProperties);
 
 
             $("#file-src").prop("src", material.option.path);
@@ -818,7 +822,7 @@ var appPropJson = "";
         var checkedMaterialOptionsIDs = [];
         $('input[type=checkbox]:checked').each(function () {
             if($(this).hasClass("delete-multiple-material-options")){
-                console.log("CHECKED: "+$(this).val());
+                // console.log("CHECKED: "+$(this).val());
                 checkedMaterialOptionsIDs.push($(this).val());
             }
             
@@ -1134,7 +1138,7 @@ var appPropJson = "";
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
-        console.log("MOS: "+moProperties);
+        // console.log("MOS: "+moProperties);
     }
 
     function updateCoordinates() {
@@ -1244,6 +1248,8 @@ var appPropJson = "";
         appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
+
+        // console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR
