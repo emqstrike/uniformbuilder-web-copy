@@ -69,14 +69,12 @@
 
 <div class="col-md-12"> 
     <h1>
-        <span class="fa fa-cubes"></span>
-        Materials
         <small>
-            <a href="/administration/material/add" class='btn btn-md btn-default'>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                Add New Material
+            <a href="/administration/material/add" class='btn btn-md btn-default' style="border: 2px solid #808080; margin-top: -10px;">
+                <span class="glyphicon glyphicon-plus"></span>
             </a>
         </small>
+        <p style="display: inline; margin-left: 10px;">Materials</p>
     </h1>
 </div>
 <div class="container-fluid main-content">
@@ -118,17 +116,19 @@
                                                 
                                                                                 >{{ $material->name }}</h4></center></div>
                 <div style="margin-top: 7px; padding-bottom: 20px;">
-                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080;">
+                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080;"
+                    {{ ($material->active) ? '' : 'disabled' }}>
                         Edit Material
                     </a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class='btn btn-xs btn-default'
                         data-material-name="{{ $material->name }}"
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
-                        style="border: 1px solid #808080;">
+                        style="border: 1px solid #808080;"
+                        {{ ($material->active) ? '' : 'disabled' }}>
                         View / Edit Material Options
                     </a>
-                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button">
+                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                 </div>

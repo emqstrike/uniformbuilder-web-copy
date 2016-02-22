@@ -33,12 +33,12 @@
                                 <th>Mascot Name</th>
                                 <th>Code</th>
                                 <th>Active Status</th>
-                                <th>Category
+                                <th>Category <p style="color: red; display: inline;">
                                 <?php $ctr = 0; ?>
                                 @foreach ($mascots as $mascot)
                                     <?php $ctr++; ?>
                                 @endforeach
-                                <?php echo "[ ".$ctr." ]"; ?>
+                                <?php echo "[ ".$ctr." ]"; ?></p>
                                 </th>
                                 <th>Team Color ID</th>
                                 <th></th>
