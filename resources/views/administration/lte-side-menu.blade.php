@@ -63,6 +63,11 @@
         </a>
       </li>
       <li>
+        <a href="/administration/preferences">
+          <i class="glyphicon glyphicon-star"></i> <span>Preferences</span>
+        </a>
+      </li>
+      <li>
         <a href="/administration/fonts">
           <i class="fa fa-cubes"></i> <span>Fonts</span>
         </a>

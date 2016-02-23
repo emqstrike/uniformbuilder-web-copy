@@ -47,6 +47,7 @@ class MaterialsOptionsController extends Controller
         $settingType = $request->input('setting_type');
         $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
+        $teamColorId = $request->input('team_color_id');
         $defaultColor = $request->input('default_color');
         $sublimatedDefaultColor = $request->input('sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -63,6 +64,7 @@ class MaterialsOptionsController extends Controller
             'setting_type' => $settingType,
             'origin' => $origin,
             'layer_level' => $layerLevel,
+            'team_color_id' => $teamColorId,
             'default_color' => $defaultColor,
             'sublimated_default_color' => $sublimatedDefaultColor,
             'perspective' => $perspective,
@@ -73,7 +75,7 @@ class MaterialsOptionsController extends Controller
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties
         ];
-// dd($data);
+
         try
         {
 
@@ -99,7 +101,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-// dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -148,6 +150,7 @@ class MaterialsOptionsController extends Controller
         $materialOptionNames = $request->input('mo_name');
         $layerLevels = $request->input('mo_layer');
         $settingTypes = $request->input('mo_setting_type');
+        $teamColorId = $request->input('mo_team_color_id');
         $defaultColor = $request->input('mo_default_color');
         $sublimatedDefaultColor = $request->input('mo_sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -155,9 +158,17 @@ class MaterialsOptionsController extends Controller
         $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
         $is_blend = $request->input('is_blend_array');
+
+        $allow_pattern = $request->input('allow_pattern_array');
+        $allow_gradient = $request->input('allow_gradient_array');
+        $allow_color = $request->input('allow_color_array');
+
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
         $is_blend_array = explode(",", $is_blend);
+        $allow_pattern_array = explode(",", $allow_pattern);
+        $allow_gradient_array = explode(",", $allow_gradient);
+        $allow_color_array = explode(",", $allow_color);
 
         $data = [];
         $ctr = 0;
@@ -171,6 +182,7 @@ class MaterialsOptionsController extends Controller
                 'setting_type' => $settingTypes[$ctr],
                 'origin' => $origin,
                 'layer_level' => $layerLevels[$ctr],
+                'team_color_id' => $teamColorId[$ctr],
                 'default_color' => $defaultColor[$ctr],
                 'sublimated_default_color' => $sublimatedDefaultColor[$ctr],
                 'perspective' => $perspective,
@@ -178,6 +190,9 @@ class MaterialsOptionsController extends Controller
                 'sublimated_colors' => json_encode($sublimated_colors),
                 'gradients' => json_encode($gradients),
                 'is_blend' => $is_blend_array[$ctr],
+                'allow_pattern' => $allow_pattern_array[$ctr],
+                'allow_gradient' => $allow_gradient_array[$ctr],
+                'allow_color' => $allow_color_array[$ctr],
                 'boundary_properties' => $boundary_properties,
                 'applications_properties' => $applications_properties,
                 'material_option_path' => ''
@@ -237,14 +252,14 @@ class MaterialsOptionsController extends Controller
 
     public function purgeColor(Request $request)
     {
-        $colorCode = "X";
+        $mo_material_id = $request->input('cleanup_material_id');
         $data = [
-            'color_code' => $colorCode
+            'id' => $mo_material_id
         ];
 
-        Log::info('Attempts to cleanup bad colors ' . json_encode($data));
+        Log::info('Attempts to cleanup properties' . json_encode($data));
         $response = $this->client->purge($data);
 
-        return Redirect::to('/administration/materials');
+        return Redirect::to('/administration/material/view_material_options/'.$mo_material_id);
     }
 }
