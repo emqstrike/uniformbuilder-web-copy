@@ -22,6 +22,9 @@
                                 {{ $mascot_category->name }}
                             </a>
                         @endforeach
+                        <a href="#" class='btn btn-md btn-default btn-mascot-category' data-category="*">
+                            ALL
+                        </a>
                     </div>
                 </div>
                 
