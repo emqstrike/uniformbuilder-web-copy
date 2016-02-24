@@ -30,6 +30,19 @@ class ColorsController extends Controller
         ]);
     }
 
+    public function updateColors(Request $request)
+    {
+        $data = [
+            'content' => "TEST"
+        ];
+
+        Log::info('Attempts to update all colors' . json_encode($data));
+        $response = $this->client->updateAllColors($data);
+
+        return Redirect::to('administration/colors')
+                        ->with('message', 'Colors have been updated');
+    }
+
     public function addColorForm()
     {
         return view('administration.colors.color-create');
