@@ -80,6 +80,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Colors
     Route::get('colors', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@index']);
+    Route::get('colors/updateAll', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@updateColors']);
     Route::post('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@store']);
     Route::post('color/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@store']);
     Route::get('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@addColorForm']);
