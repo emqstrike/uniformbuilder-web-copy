@@ -4,6 +4,7 @@
     <script  type="text/mustache" id="mascot-dropdown">
         
         <hr />
+
             <div class='mascot_drop btn' data-id='@{{application_id}}'>
                 Choose a Mascot: <i class='fa fa-caret-down'></i>
             </div>
@@ -73,6 +74,36 @@
             Y Position:
             <span></span>
             <div data-id='@{{application_id}}' class='y_slider mascot_slider'></div>
+            <br />
+
+            Size:
+
+            <div class='radio_sizes'>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="mascot_sizes" id="optionsRadios1" value="1" data-id='@{{application_id}}' checked>
+                    1
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="mascot_sizes" id="optionsRadios2" value="2" data-id='@{{application_id}}'>
+                    2
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="mascot_sizes" id="optionsRadios3" value="3" data-id='@{{application_id}}'>
+                    3
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="mascot_sizes" id="optionsRadios3" value="4" data-id='@{{application_id}}'>
+                    4
+                  </label>
+                </div>
+            </div>
 
         </div>
         <br />
@@ -249,6 +280,27 @@
             <span data-target='logo' data-label='font_size' data-id='@{{application_id}}'>100</span>px
             <div class='logo_slider font_size_slider' data-id='@{{application_id}}'></div>
             <br />
+
+            Size:
+
+            <div class='radio_sizes'>
+
+                @{{#sizes}}
+                
+                    <div class="radio">
+                
+                      <label>
+                
+                        <input type="radio" name="text_sizes" id="optionsRadios@{{size}}" value="@{{size}}" data-id='@{{application_id}}' checked>
+                        @{{size}}
+                
+                      </label>
+                
+                    </div>
+                
+                @{{/sizes}}
+
+            </div>
 
             Rotation:
             <div class='logo_slider rotation_slider' data-id='@{{application_id}}'></div>

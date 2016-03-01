@@ -94,9 +94,201 @@ $(document).ready(function(){
 
         } 
 
-
     };
 
+    ub.data.applicationSizes = {
+
+        items: [
+                {
+                    name: 'team_name',
+                    sizes:  [
+                                {
+                                    type: 'embroidery',
+                                    size: 1,
+                                },
+                                {
+                                    type: 'tackle twill',
+                                    size: 2,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'team_name',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sizes:  [
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'front_number',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                            ],
+                    type: 'youth',
+                },
+                {
+                    name: 'back_number',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                { 
+                                    size: 10,
+                                },
+                            ],
+                    type: 'youth',
+                },
+                {
+                    name: 'shoulder_number',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'sleeve_number',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'logo',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                }
+                            ],
+                },
+            ],
+    }
+
+    /// Todo: Read This from API for a complete font listing
+
+    ub.data.fontSizes = {
+
+        items: [
+            {
+                fontID: 1,
+                fontName: 'Aachen Bold',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+            {
+                fontID: 2,
+                fontName: 'Algerian',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+            {
+                fontID: 3,
+                fontName: 'Angels',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 130, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 142, }, 
+                ],
+            },
+            {
+                fontID: 4,
+                fontName: 'Arabian Nights',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+            {
+                fontID: 5,
+                fontName: 'Athletic',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+            {
+                fontID: 6,
+                fontName: 'Baccus Expanded',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+            {
+                fontID: 7,
+                fontName: 'Bean Town',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                ],
+            },
+
+        ],
+    };
 
     // Layer Assignment for Applications 
     // 30 - 50

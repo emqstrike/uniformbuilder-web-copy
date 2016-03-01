@@ -22,7 +22,6 @@
     //
     // };
 
-
     /// End Basic Format for Plugin Definition
 
 
@@ -410,11 +409,15 @@
                 font_size = 100;
             }
 
+            var applicationType = application.type;
+            var sizes = $.ub.getApplicationSizes(applicationType);
+
             var data = {
                 sample_text: sample_text,
                 application_id: settings.application.id,
                 first_font_name: first_font.name,
-                first_font_id: first_font.id
+                first_font_id: first_font.id,
+                sizes: sizes,
             }
 
             var text_ui_template = $('#text-ui').html();
@@ -468,6 +471,29 @@
                     $('span[data-target="logo"][data-label="font_size"][data-id="' + application.id + '"]').text(value);
 
                 }
+
+            });
+
+            $('input[type=radio][name=text_sizes][data-id=' + application.id + ']').change(function() {
+            
+                var value = 0;
+                var fontID = $('div.font_style_drop[data-id="' + 1 + '"]').data('font-id');
+
+                if (typeof fontID !== 'number') {
+                    
+                    fontID = 1;
+
+                }
+
+                value = $.ub.getFontSize({
+                    size: this.value,
+                    type: 'Adult',
+                    factory: 'BLB',
+                    applicationType: applicationType,
+                    fontID: fontID,
+                });
+
+                $('.font_size_slider[data-id=' + application.id + ']').limitslider('values', [value]);
 
             });
             
@@ -538,10 +564,8 @@
 
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects[view_str]['objects_' + application.id];
-
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
-
                     var scale = new PIXI.Point(value_x / 100, value_y / 100);
                     
                     object.scale = scale;
@@ -693,7 +717,7 @@
                 var sprite_collection = ub.funcs.renderApplication($.ub.create_text, input_object, application.id);
                 var uniform_type = ub.current_material.material.type;
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
-                
+
                 app_containers[application.id] = {};
                 app_containers[application.id].object = {
 
@@ -846,20 +870,30 @@
         var font_name = input_object.font_name;
         var application = input_object.application;
         var settings = input_object.settingsObject;
+        var accent_obj = input_object.accentObj;
+
+        // TODO: Create text values must all come from the settings object no values must be read from the controls 
 
         var text_layers = {};
         var container = new PIXI.Container();
+        var accent_id;
+        var accent_obj;
 
-        var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
-        var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
-       
-        if(typeof input_object.applicationObj === 'object') {
-            accent_id = input_object.applicationObj.accent_obj.id;
-            accent_obj = input_object.applicationObj.accent_obj;
+        if(input_object.typeofWindowTemp === 'object') {
+
+            accent_id = input_object.accentObj.id;
+            accent_obj = input_object.accentObj;
+
+        } 
+        else {
+
+            accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+            accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+
         }
         
         var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
-        $other_color_container.html('');
+        $other_color_container.html('');    
 
         /// Create Text Accents
         _.each(accent_obj.layers, function (layer) {
@@ -873,8 +907,10 @@
             text_layer.accent_obj = layer;
 
             if(typeof input_object.fontObj === 'object') {
+
                 accent_id = input_object.applicationObj.accent_obj.id;
                 accent_obj = input_object.applicationObj.accent_obj;
+
             }
 
             var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
@@ -945,11 +981,14 @@
             container.addChild(text_layer.text_sprite);
 
             if (layer.name !== 'Base Color' && layer.name !== 'Mask') {
-                
-                $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
 
-                var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
-                create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+                if(input_object.typeofWindowTemp !== 'object') {
+
+                    $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
+                    var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
+                    create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+                
+                }
 
             }
 
@@ -965,7 +1004,6 @@
 
         main_text.mask = text_mask;
         ub.updateLayersOrder(container);
-
 
         // Set Initial Colors 
 
@@ -1077,7 +1115,6 @@
             color_content = "";
 
             var colors_obj = get_colors_obj(application.layer);
-
             var color_drop_content = "";
             
             color_drop_content += "<div data-id='" + application.id + "' class='row color-container' id='color-container-" + application.id + "'>";
@@ -1157,8 +1194,6 @@
                         color_drop.nonce = false;
                         
                     }
-
-
                     
                     color_drop.close();
 
@@ -1175,7 +1210,7 @@
 
             /// End Color Drop
 
-    } 
+    }
 
 
     function create_color_dropdown (settings) {
@@ -2063,7 +2098,7 @@
                 var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
                 var val = '';
 
-                /// if loading from existing savedd design, else from text box TODO: save value to custom object and read from that, instead from text boxes
+                /// if loading from existing saved design, else from text box TODO: save value to custom object and read from that, instead from text boxes
                 if (typeof sprite_collection === 'object') {
                 
                     val = ub.current_material.settings.applications[1].pattern_obj.layers[0].default_color;
@@ -2156,5 +2191,72 @@
     }
 
     /// End Multiview Functions
+
+    /// Utility Functions
+
+    $.ub.getApplicationSizes = function (applicationType) {
+
+        console.log('Application Type');
+        console.log(applicationType);
+
+        var sizes = [100,200];
+        var factory_code = ub.current_material.material.factory_code;
+        var _applicationSize = _.find(ub.data.applicationSizes.items, {name: applicationType});
+
+        if(typeof _applicationSize === 'undefined') {
+
+            sizes = [100, 200];
+
+        }
+        else {
+
+            sizes = _applicationSize.sizes;
+
+        }
+
+        return sizes;
+
+    };
+
+    $.ub.getFontSize = function (inputObject) {
+
+        // Input Object should contain:
+        // 
+        // applicationType
+        // factory
+        // type
+        // inputSize
+
+        var inputSize               = inputObject.size;
+        var inputType               = inputObject.type;
+        var inputFactory            = inputObject.factory;
+        var inputApplicationType    = inputObject.applicationType; 
+        var inputFontID             = inputObject.fontID;
+
+        /// Todo: Fetch this from API
+        
+        var outputFontObj           = _.find(ub.data.fontSizes.items, { fontID: inputFontID });
+        var outputSizeObject        = _.find(outputFontObj.fontSizeTable, { inputSize: inputSize });
+        var returnSize              = 0;
+
+        if (typeof outputSizeObject === 'undefined') {
+
+            util.error('Font Size not found');
+            returnSize = 100;
+
+        }
+        else {
+
+            returnSize = outputSizeObject.outputSize;
+
+        }
+
+        return returnSize;
+
+    }
+
+
+    /// End Utility Functions 
+
 
 }(jQuery));

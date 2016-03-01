@@ -45,7 +45,6 @@ $(document).ready(function() {
                 ub.funcs.update_mascots_picker(application.id, mascot); 
                 ub.funcs.update_application_mascot(application, mascot);
 
-
             }); /// End $('a.mascot_picker').on('click'...
 
         });
@@ -281,6 +280,12 @@ $(document).ready(function() {
 
         });
 
+        $('input[type=radio][name=mascot_sizes][data-id="' + application_id + '"]').change(function() {
+            
+            // Todo: Scale Mascot based on value of this.value
+
+        });
+
         $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
 
         $rotation_slider.find('div.rs-bg-color').css({
@@ -294,7 +299,7 @@ $(document).ready(function() {
 
     /// End Mascot Utilities
 
-    ub.funcs.update_logo_list = function() {
+    ub.funcs.update_logo_list = function () {
 
         var $logo_container = $('div.logo-container');
         var logos = ub.current_material.containers.files.logos;
@@ -346,7 +351,6 @@ $(document).ready(function() {
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
         var $container = $('div.logo-controls[data-id="' + application_id + '"]');
-      
         var template = $('#logo-controls').html();
         var data = {
             application_id: application_id,
@@ -366,7 +370,6 @@ $(document).ready(function() {
         $('input#flip_logo_' + application_id).click( function () {
 
             var obj = ub.objects[view_str]['objects_' + application_id];
-
             var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
             var value = parseInt($rotation_slider.find('span.edit').html());
             var rotation = ( value / 620 ) * 360;
@@ -796,6 +799,7 @@ $(document).ready(function() {
 
             sprite.oldX = sprite.x;
             sprite.oldY = sprite.y;
+
             sprite.snapped = false;
             this.dragging = true;
 
@@ -851,7 +855,6 @@ $(document).ready(function() {
                 y: this_data.global.y
             };
 
-
             /// Hotspot
 
             // Check for Feature Flag
@@ -889,7 +892,7 @@ $(document).ready(function() {
             }
 
             /// End Hot Spot
-            
+
         };
 
     }
@@ -907,6 +910,7 @@ $(document).ready(function() {
         ub.funcs.getSpritesOfID = function (app_id) {
 
             var views = ub.funcs.getViewsOfID(app_id);
+            var sprites = [];
 
             _.each (views, function (view) {
 
@@ -914,7 +918,7 @@ $(document).ready(function() {
 
                 if (typeof ub.objects[_view_name]['objects_' + app_id] !== 'undefined'){
 
-                    /// Here Now...
+                    sprites.push(ub.objects[_view_name]['objects_' + app_id]);
 
                 }
                 else{
@@ -924,6 +928,8 @@ $(document).ready(function() {
                 }
 
             });
+
+            return sprites;
 
         };
 
@@ -992,6 +998,7 @@ $(document).ready(function() {
 
             sprite.oldX = sprite.x;
             sprite.oldY = sprite.y;
+
             sprite.snapped = false;
             this.dragging = true;
 
@@ -1034,6 +1041,14 @@ $(document).ready(function() {
                         return;
                     }
 
+                    /// Get Sprites and Update
+                    
+                    var _sprites = ub.funcs.getSpritesOfID(application.id);
+
+                    _.each(_sprites, function (_sprite) {
+
+                    });
+
                     application_obj.position = sprite.position;
                     settings_obj.position = sprite.position;
 
@@ -1043,7 +1058,7 @@ $(document).ready(function() {
 
                     sprite.oldX = sprite.x;
                     sprite.oldY = sprite.y;
-           
+
                 }
 
                 if (type === 'rotate') {
@@ -1264,11 +1279,41 @@ $(document).ready(function() {
 
         }
 
+
+        /// TODO: This should be memoize this function
+        ub.funcs.getApplicationMatOption = function (app_id) {
+
+            var material_option = undefined;
+
+            _.each (ub.data.applications_transformed, function ( shape ) {
+
+                _.each(shape, function (application) {
+
+                    if (app_id === application.id) {
+
+                        material_option = shape.name;
+
+                    }
+
+                });
+
+            });    
+
+            if (typeof material_option === 'undefined') {
+
+                util.error('Material Option for Application ID ' + app_id + ' Not Found!');    
+
+            }
+            
+            return material_option;
+
+        };
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection = [];
 
-            var mat_option = "Body";
+            var mat_option = ub.funcs.getApplicationMatOption(app_id);
             var marker_name = "objects_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
@@ -1348,17 +1393,19 @@ $(document).ready(function() {
                 
                 if(app_properties !== null){
 
-                    _.each(app_properties, function(obj){
+                    _.each(app_properties, function (obj) {
 
                         if (typeof apps_transformed[shape.name] === "undefined") {
                 
-                        apps_transformed[shape.name] = {};    
+                            apps_transformed[shape.name] = {
+                                name: shape.name,
+                            };    
                 
                         }  
 
                         if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
-                            
-                            apps_transformed[shape.name][obj.id] = { id: obj.id, name: obj.name, views: [], layer: 'Body'};
+
+                            apps_transformed[shape.name][obj.id] = { id: obj.id, name: obj.name, views: [], layer: shape.name, type: obj.name.toCodeCase()};
 
                         }
                         
@@ -1375,29 +1422,50 @@ $(document).ready(function() {
 
             /// Draw App ID's 
 
-            var $mod_main_container = $('#mod_main_panel > .options_panel_section');
-            var body_applications = ub.data.applications_transformed["Body"];
             var str_builder = "";
-
-            _.each(ub.data.applications_transformed["Body"], function(app){
-
-                str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
-
-            });
-
+            var $mod_main_container = $('#mod_main_panel > .options_panel_section');
             $mod_main_container.html('');
-            $mod_main_container.html(str_builder);
 
-            $('.app_btn').on('click', function(e) {
+            console.log('Transformed Applications: ');
+            console.log(ub.data.applications_transformed);
 
-                var mat_option = "Body";
-                var marker_name = 'app_ident';
-                var app_id = $(this).data('id');
-                var views = ub.data.applications_transformed[mat_option][app_id].views;
+            _.each (ub.data.applications_transformed, function ( shape ) {
 
-                ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
+                var body_applications = ub.data.applications_transformed[shape.name];
+                
+                _.each(shape, function (app) {
+
+                    str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+                    $mod_main_container.append(str_builder);
+
+                    $('.app_btn[data-id=' + app.id + ']').on('click', function(e) {
+
+                        var mat_option = app.name;
+                        var marker_name = 'app_ident';
+                        var app_id = $(this).data('id');
+                        var views = ub.data.applications_transformed[mat_option][app_id].views;
+
+                        ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
+
+                    });
+
+                })
+
 
             });
+
+            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
+            // var body_applications = ub.data.applications_transformed["Body"];
+            // var str_builder = "";
+
+            // _.each(ub.data.applications_transformed["Body"], function(app){
+
+            //     str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+
+            // });
+
+            
+
 
             /// End Draw App ID's
 
