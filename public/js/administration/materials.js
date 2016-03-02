@@ -11,6 +11,10 @@ $(document).ready(function() {
         renumberRows(length);
     });
 
+    $('.confirm-no').on('click', function(){
+        location.reload();
+    });
+
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
     // $( ".upload-sortable-rows" ).sortable({
