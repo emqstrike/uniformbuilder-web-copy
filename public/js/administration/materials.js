@@ -115,6 +115,7 @@ $(document).ready(function() {
         var itemsArr = ["logo", "number", "team_name", "player_name"];
         var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
+        var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Delete</a>";
         var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\""+default_name+"\">";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
@@ -129,7 +130,7 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
 
         var canvasItem = "application"+group.id;
 
@@ -152,6 +153,26 @@ var applicationProperties = {};
         thisGroup.item(2).text = applicationType;
 
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
+
+        canvasFront.renderAll();
+        updateCoordinates();
+
+    });
+
+    $(document).on('click', '.delete-application', function() {
+        var itemIdx = $(this).data('id');
+        // var applicationId = $(this).siblings("input[name=application_id]").val();
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+
+        // item.id = applicationId;
+
+        var thisGroup = canvasFront.item(itemIdx);
+
+        canvasFront.setActiveObject(canvasFront.item(itemIdx));
+        activeObject = canvasFront.getActiveObject();
+        canvasFront.remove(activeObject);
+        $(this).parent().remove();
 
         canvasFront.renderAll();
         updateCoordinates();
@@ -691,6 +712,7 @@ var appPropJson = "";
                     var itemsArr = ["logo", "number", "team_name", "player_name"];
                     var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
                     var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
+                    var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + c + ">Delete</a>";
 
                     selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
 
@@ -706,7 +728,7 @@ var appPropJson = "";
 
                     var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\"" + app_properties[l].name + "\">";
 // console.log("DEF NAME STRING: "+def_name);
-                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
+                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
                     var thisGroup = group;
@@ -1142,6 +1164,8 @@ var appPropJson = "";
     }
 
     function updateCoordinates() {
+
+        applicationProperties = {}
 
         circle.radius = box.height / 2;
 

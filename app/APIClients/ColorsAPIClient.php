@@ -53,6 +53,15 @@ class ColorsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updateAllColors($data)
+    {
+        $response = $this->post('colors/updateAll', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
     public function getColors()
     {
         $response = $this->get('colors');
