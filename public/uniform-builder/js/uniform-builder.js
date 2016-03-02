@@ -536,7 +536,6 @@ $(document).ready(function () {
 
             if (application_obj.type === "mascot"){
 
-                // ub.update_application_mascot(application_obj);
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
             }
@@ -1345,7 +1344,6 @@ $(document).ready(function () {
                     var action = $button.data('action');
                     var data_id = $button.data("id");
                     var application = _.find(ub.data.applications_transformed_one_dimensional, {id: data_id.toString()});
-
                     var perspective = application.perspective;
                     var view = ub[perspective + '_view'];
                     var view_objects = ub.objects[perspective + '_view'];
@@ -1363,6 +1361,9 @@ $(document).ready(function () {
                     }
                     
                     if (action === "identify") {
+
+                        /// Identify Turned off for now...
+                        return;
 
                         if($button.hasClass('appactive')){
 
@@ -1395,22 +1396,10 @@ $(document).ready(function () {
                         var x = 0;
                         var y = 0;
 
-                        console.log('Application OBJ Here...');
-                        console.log(application);
-                        console.log('Views: ');
-
-
                         _.each(application.views, function (view) {
 
                             var view_objects = ub.objects[view.perspective + '_view'];
-
-                            console.log(view.perspective);
-
                             var application_obj_here = ub.objects[view.perspective + '_view']['objects_' + application.id];
-
-                            console.log('Application Object Here...');
-                            console.log(application_obj_here)
-
                             var application_obj = application_obj_here;// ub.objects[application.perspective + '_view']['objects_' + application.id];
 
                             if (typeof application_obj === 'undefined') {

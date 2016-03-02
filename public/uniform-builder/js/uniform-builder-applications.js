@@ -22,7 +22,6 @@ $(document).ready(function() {
 
             $element.html(markup);
 
-            /// Handler for clicking a mascot on the list of uploaded mascots
             $('a.mascot_picker').on('click', function (e) {
 
                 $link = $(e.target);
@@ -36,12 +35,11 @@ $(document).ready(function() {
                     id: mascot_id
                 });
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
+                var application = _.find(ub.data.applications_transformed_one_dimensional, {
+                    id: application_id.toString(),
                 });
 
                 ub.funcs.removeUIHandles();
-
                 ub.funcs.update_mascots_picker(application.id, mascot); 
                 ub.funcs.update_application_mascot(application, mascot);
 
@@ -64,236 +62,246 @@ $(document).ready(function() {
         
         $container.html(markup);
 
-        var application = _.find(ub.data.applications.items, {
+        var application = _.find(ub.data.applications_transformed_one_dimensional, {
             id: application_id
         });
 
-        var view_str = application.perspective + '_view';
-        $('a#view_' + application.perspective).click();
+        // var view_str = application.perspective + '_view';
+        // $('a#view_' + application.perspective).click();
 
-        $('input#flip_mascot_' + application_id).click( function () {
+        // $('input#flip_mascot_' + application_id).click( function () {
 
-            var obj = ub.objects[view_str]['objects_' + application_id];
+        //     var obj = ub.objects[view_str]['objects_' + application_id];
 
-            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-            var value = parseInt($rotation_slider.find('span.edit').html());
-            var rotation = ( value / 620 ) * 360;
+        //     var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //     var value = parseInt($rotation_slider.find('span.edit').html());
+        //     var rotation = ( value / 620 ) * 360;
 
-            if( $(this).is(':checked') ) {
+        //     if( $(this).is(':checked') ) {
 
-                obj.flipped = true;
-                obj.scale.x = Math.abs(obj.scale.x) * -1;
+        //         obj.flipped = true;
+        //         obj.scale.x = Math.abs(obj.scale.x) * -1;
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(-1)',
-                    '-o-transform': 'scaleX(-1)',
-                    'transform': 'scaleX(-1)',
-                    'filter': 'FlipH',
-                    '-ms-filter': "FlipH",
-                    '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                });
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             '-moz-transform': 'scaleX(-1)',
+        //             '-o-transform': 'scaleX(-1)',
+        //             'transform': 'scaleX(-1)',
+        //             'filter': 'FlipH',
+        //             '-ms-filter': "FlipH",
+        //             '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+        //         });
 
-            }
-            else {
+        //     }
+        //     else {
             
-                obj.flipped = false;
-                obj.scale.x = Math.abs(obj.scale.x);
+        //         obj.flipped = false;
+        //         obj.scale.x = Math.abs(obj.scale.x);
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(1)',
-                    '-o-transform': 'scaleX(1)',
-                    'transform': 'scaleX(1)',
-                    'filter': 'none',
-                    '-ms-filter': "none",
-                    '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                });
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             '-moz-transform': 'scaleX(1)',
+        //             '-o-transform': 'scaleX(1)',
+        //             'transform': 'scaleX(1)',
+        //             'filter': 'none',
+        //             '-ms-filter': "none",
+        //             '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+        //         });
 
-            }
+        //     }
 
-        });
+        // });
 
-        $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+        // $('div.y_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.y  * ub.dimensions.height],
-            min: 0,
-            max: ub.dimensions.height,
-            gap: 0,
+        //     values: [application.position.y  * ub.dimensions.height],
+        //     min: 0,
+        //     max: ub.dimensions.height,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
 
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.y = value;
+        //         var value = $(this).limitslider("values")[0];
+        //         var object = ub.objects[view_str]['objects_' + application_id];
+        //         object.y = value;
 
-            }
+        //     }
 
-        });
+        // });
 
-        $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+        // $('div.x_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.x * ub.dimensions.width],
-            min: 0,
-            max: ub.dimensions.width,
-            gap: 0,
+        //     values: [application.position.x * ub.dimensions.width],
+        //     min: 0,
+        //     max: ub.dimensions.width,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.x = value;
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object = ub.objects[view_str]['objects_' + application_id];
+        //         object.x = value;
 
-            }
+        //     }
 
-        });
+        // });
 
-        var max_scale = 100;
-        $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+        // var max_scale = 100;
+        // $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [100],
-            min: 0,
-            max: max_scale,
-            gap: 0,
+        //     values: [100],
+        //     min: 0,
+        //     max: max_scale,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, { id: application_id });
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
-                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
-                var scale = new PIXI.Point(value / 100, value / 100);
+        //         var application = _.find(ub.data.applications.items, { id: application_id });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
+        //         var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+        //         var scale = new PIXI.Point(value / 100, value / 100);
                 
-                if (flipped) {
-                    scale.x = scale.x * -1;
-                }
-                else {
-                    scale.x = scale.x * 1;   
-                }
+        //         if (flipped) {
+        //             scale.x = scale.x * -1;
+        //         }
+        //         else {
+        //             scale.x = scale.x * 1;   
+        //         }
 
-                object.scale = scale;
+        //         object.scale = scale;
 
-                $('span[data-target="mascot"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+        //         $('span[data-target="mascot"][data-label="scale"][data-id="' + application_id + '"]').text(value);
 
-            }
+        //     }
 
-        });
+        // });
 
-        var max_opacity = 100;
-        $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+        // var max_opacity = 100;
+        // $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [100],
-            min: 0,
-            max: max_opacity,
-            gap: 0,
+        //     values: [100],
+        //     min: 0,
+        //     max: max_opacity,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
-                object.alpha = value / max_opacity;
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
+        //         object.alpha = value / max_opacity;
 
-                $('span[data-target="mascot"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+        //         $('span[data-target="mascot"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                var opacity =  value / max_opacity;
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    "opacity": opacity,
-                });
+        //         var opacity =  value / max_opacity;
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             "opacity": opacity,
+        //         });
 
-                ub.current_material.settings.applications[application_id].alpha = object.alpha;
+        //         ub.current_material.settings.applications[application_id].alpha = object.alpha;
 
-                ub.save_property({
-                    application_id: application_id,
-                    property: 'alpha',
-                    value: object.alpha,
-                })
+        //         ub.save_property({
+        //             application_id: application_id,
+        //             property: 'alpha',
+        //             value: object.alpha,
+        //         })
 
-            }
+        //     }
 
-        });
+        // });
 
-        var max_rotation = 620;
-        var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-        $rotation_slider.roundSlider({
+        // var max_rotation = 620;
+        // var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        // $rotation_slider.roundSlider({
 
-            values: [0],
-            min: 0,
-            max: max_rotation,
-            gap: 0,
-            width: 5,
-            handleSize: "+14",
-            startAngle: 90,
+        //     values: [0],
+        //     min: 0,
+        //     max: max_rotation,
+        //     gap: 0,
+        //     width: 5,
+        //     handleSize: "+14",
+        //     startAngle: 90,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
 
-                var value = parseInt($rotation_slider.find('span.edit').html());
-                var object =  ub.objects[view_str]['objects_' + application_id];
+        //         var value = parseInt($rotation_slider.find('span.edit').html());
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
 
-                object.rotation = value / 100;
-                var rotation = ( value / max_rotation ) * 360;
+        //         object.rotation = value / 100;
+        //         var rotation = ( value / max_rotation ) * 360;
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+        //         var flipped = $('input#flip_mascot_' + application_id).is(':checked');
 
-                if (flipped) {
+        //         if (flipped) {
 
-                    $angle_slider_mascot.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(-1)',
-                        '-o-transform': 'scaleX(-1)', 
-                        'transform': 'scaleX(-1)',
-                        'filter': 'FlipH',
-                        '-ms-filter': "FlipH",
-                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                    });
+        //             $angle_slider_mascot.find('div.rs-bg-color').css({
+        //                 '-moz-transform': 'scaleX(-1)',
+        //                 '-o-transform': 'scaleX(-1)', 
+        //                 'transform': 'scaleX(-1)',
+        //                 'filter': 'FlipH',
+        //                 '-ms-filter': "FlipH",
+        //                 '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+        //             });
 
-                } else {
+        //         } else {
 
-                    $angle_slider_mascot.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(1)',
-                        '-o-transform': 'scaleX(1)',
-                        'transform': 'scaleX(1)',
-                        'filter': 'none',
-                        '-ms-filter': "none",
-                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                    });
+        //             $angle_slider_mascot.find('div.rs-bg-color').css({
+        //                 '-moz-transform': 'scaleX(1)',
+        //                 '-o-transform': 'scaleX(1)',
+        //                 'transform': 'scaleX(1)',
+        //                 'filter': 'none',
+        //                 '-ms-filter': "none",
+        //                 '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+        //             });
 
-                }
+        //         }
 
-            }
+        //     }
 
-        });
+        // });
 
         $('input[type=radio][name=mascot_sizes][data-id="' + application_id + '"]').change(function() {
             
             // Todo: Scale Mascot based on value of this.value
 
+            var scale_obj = _.find(ub.data.mascotSizes.items, {size: this.value});
+  
+            _.each (application.views, function (view) {
+
+                var obj = ub.objects[view.perspective + '_view']['objects_' + application_id];
+                obj.scale = {x: scale_obj.scale, y: scale_obj.scale};
+                ub.current_material.settings.applications[application_id].scale = obj.scale;
+
+            });
+
         });
 
-        $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        // $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-        $rotation_slider.find('div.rs-bg-color').css({
-            'background-image': 'url(' + mascot.dataUrl + ')',
-            'background-size': '80%',
-            'background-position': 'center center',
-            'background-repeat': 'no-repeat',
-        });
+        // $rotation_slider.find('div.rs-bg-color').css({
+        //     'background-image': 'url(' + mascot.dataUrl + ')',
+        //     'background-size': '80%',
+        //     'background-position': 'center center',
+        //     'background-repeat': 'no-repeat',
+        // });
 
     };
 
@@ -623,15 +631,18 @@ $(document).ready(function() {
 
     ub.funcs.update_application_mascot = function(application, mascot) {
 
-        var x = ub.dimensions.width * application.position.x;
-        var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
+
+        if(typeof settings.applications[application.id] !== 'undefined'){
+            var scale_settings = settings.applications[application.id].scale;            
+        }
 
         settings.applications[application.id] = {
             application: application,
             mascot: mascot,
             type: 'mascot',
+            scale: scale_settings,
             color_array: {},
         };
 
@@ -1425,34 +1436,34 @@ $(document).ready(function() {
 
             /// Draw App ID's 
 
-            var str_builder = "";
-            var $mod_main_container = $('#mod_main_panel > .options_panel_section');
-            $mod_main_container.html('');
+            // var str_builder = "";
+            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
+            // $mod_main_container.html('');
 
-            _.each (ub.data.applications_transformed, function ( shape ) {
+            // _.each (ub.data.applications_transformed, function ( shape ) {
 
-                var body_applications = ub.data.applications_transformed[shape.name];
+            //     var body_applications = ub.data.applications_transformed[shape.name];
                 
-                _.each(shape, function (app) {
+            //     _.each(shape, function (app) {
 
-                    str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
-                    $mod_main_container.append(str_builder);
+            //         str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+            //         $mod_main_container.append(str_builder);
 
-                    $('.app_btn[data-id=' + app.id + ']').on('click', function(e) {
+            //         $('.app_btn[data-id=' + app.id + ']').on('click', function(e) {
 
-                        var mat_option = app.name;
-                        var marker_name = 'app_ident';
-                        var app_id = $(this).data('id');
-                        var views = ub.data.applications_transformed[mat_option][app_id].views;
+            //             var mat_option = app.name;
+            //             var marker_name = 'app_ident';
+            //             var app_id = $(this).data('id');
+            //             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
-                        ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
+            //             ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
 
-                    });
+            //         });
 
-                })
+            //     })
 
 
-            });
+            // });
 
             // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
             // var body_applications = ub.data.applications_transformed["Body"];

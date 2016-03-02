@@ -97,6 +97,29 @@ $(document).ready(function(){
 
     };
 
+    ub.data.mascotSizes = {
+        
+        items: [
+            {
+                size: '1',
+                scale: 0.15,
+            },
+            {
+                size: '2',
+                scale: 0.3,
+            },
+            {
+                size: '3',
+                scale: 0.4,
+            },
+            {
+                size: '4',
+                scale: 0.5,
+            },
+        ],
+
+    };
+
     ub.data.applicationSizes = {
 
         items: [

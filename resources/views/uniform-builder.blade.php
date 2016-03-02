@@ -4,7 +4,6 @@
 <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Uniform Builder">
 <meta name="author" content="Engineering">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -91,6 +90,13 @@
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
 
+<script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/jspdf.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/addImage.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
@@ -122,7 +128,35 @@ $(document).ready(function () {
 var s = "{{ $builder_customizations }}";
 
 if(s.length > 0){
+    
     window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+
+    $('#genPDF').on('click', function(){
+     
+        var doc = new jsPDF();
+
+        var image = $('div.ub_qrcode > canvas').get(0).toDataURL("image/png", 1.0);
+        var front_view = ub.getThumbnailImage('front_view');
+
+        doc.setFontSize(40);
+        doc.addImage(image, 'png', 20, 40, 40, 40);
+        //doc.addImage(front_view, 'png', 20, 100, 90, 100);
+        doc.text(20, 20, "Prolook UB");
+
+        doc.save('qrcode.pdf');
+
+    });
+    
+    $('div.ub_qrcode').qrcode({
+        "size": 100,
+        "color": "#3a3",
+        "text": window.location.href,
+    });
+    
+   
+
+    // 
+
 }
 else {
     window.ub.temp = undefined;

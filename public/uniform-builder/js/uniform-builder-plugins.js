@@ -747,16 +747,26 @@
 
         var application = input_object.application;
         var mascot = input_object.mascot;
-        var x = ub.dimensions.width * application.position.x;
-        var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
+        var scale_settings = undefined;
+
+        if(typeof settings.applications[application.id].scale === 'object') {
+            var scale_settings = settings.applications[application.id].scale ;
+        }
+        else {
+            var scale_settings = {x: 0.15, y: 0.15};
+        }
+
+        console.log('Scale Settings Inside Create Mascot: ');
+        console.log(scale_settings);
 
         settings.applications[application.id] = {
             application: application,
             mascot: mascot,
             type: 'mascot',
             color_array: {},
+            scale: scale_settings,
         };
 
         var settings_obj = settings.applications[application.id];
@@ -792,75 +802,20 @@
                 target_name: application.layer,
         });
         
-        container.scale = new PIXI.Point(0.5, 0.5);
+        container.scale = new PIXI.Point(0.15, 0.15);
+        
         var sprite = container;
 
         ub.current_material.containers[application.id] = {};
         ub.current_material.containers[application.id].mascot = sprite;
 
-        var mask = _.find(ub.current_material.material.options, {
-            
-            perspective: application.perspective,
-            name: application.layer
-
-        });
-
-        var mask = ub.pixi.new_sprite(mask.material_option_path);
         var temp = {}
-
-        sprite.mask = mask;
-
-        var s = view_objects['objects_' + application.id];
-        var position = '';
-        var scale = '';
-        var rotation = '';
-        var alpha = '';
-        
-        if (typeof(s) === 'object') {
-
-            var obj = view_objects['objects_' + application.id];
-            var color_array = settings_obj.color_array;
-
-            position = obj.position;
-            scale = obj.scale;
-            rotation = obj.rotation;
-            alpha = obj.alpha;
-            tint = obj.tint;
-
-            view.removeChild(view_objects['objects_' + application.id]);
-            delete view_objects['objects_' + application.id];
-
-        }
-
-        view_objects['objects_' + application.id] = sprite;
-        view.addChild(sprite);
-
-        sprite.position = new PIXI.Point(x,y);
-        sprite.rotation = application.rotation;
-
-        if(sprite.width === 1) {
-        
-            sprite.position.x -= (sprite.width / 2);
-            sprite.position.y -= (sprite.height / 2);
-
-        }
-  
         var layer_order = ( 10 + application.layer_order );
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
         settings_obj.layer_order = layer_order;
-    
-        ub.updateLayersOrder(view);
-
-        if(position !== ''){
-
-            sprite.position = position;
-            sprite.scale = scale;
-            sprite.rotation = rotation;
-            sprite.alpha = alpha;
-
-        }
+        sprite.scale = scale_settings;
 
         return sprite;
 
@@ -2199,9 +2154,6 @@
     /// Utility Functions
 
     $.ub.getApplicationSizes = function (applicationType) {
-
-        console.log('Application Type');
-        console.log(applicationType);
 
         var sizes = [100,200];
         var factory_code = ub.current_material.material.factory_code;

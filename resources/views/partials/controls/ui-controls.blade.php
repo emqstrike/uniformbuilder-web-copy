@@ -52,30 +52,6 @@
     
         <div class='mascot_sliders' data-id='@{{application_id}}'>
 
-            Rotation:
-            <div class='mascot_slider rotation_slider' data-id='@{{application_id}}'></div>
-            <br />
-            
-            Opacity:
-            <span data-target='mascot' data-label='opacity' data-id='@{{application_id}}'>100</span>% 
-            <div class='mascot_slider opacity_slider' data-id='@{{application_id}}'></div>
-            <br />
-
-            Scale:
-            <span data-target='mascot' data-label='scale' data-id='@{{application_id}}'>100</span>%
-            <div class='mascot_slider scale_slider' data-id='@{{application_id}}'></div>
-            <br />
-            
-            X Position:
-            <span></span>
-            <div class='x_slider mascot_slider' data-id='@{{application_id}}'></div>
-            <br />
-
-            Y Position:
-            <span></span>
-            <div data-id='@{{application_id}}' class='y_slider mascot_slider'></div>
-            <br />
-
             Size:
 
             <div class='radio_sizes'>
@@ -105,6 +81,34 @@
                 </div>
             </div>
 
+
+
+            <!--  
+
+            Rotation:
+            <div class='mascot_slider rotation_slider' data-id='@{{application_id}}'></div>
+            <br />
+            
+            Opacity:
+            <span data-target='mascot' data-label='opacity' data-id='@{{application_id}}'>100</span>% 
+            <div class='mascot_slider opacity_slider' data-id='@{{application_id}}'></div>
+            <br />
+
+            Scale:
+            <span data-target='mascot' data-label='scale' data-id='@{{application_id}}'>100</span>%
+            <div class='mascot_slider scale_slider' data-id='@{{application_id}}'></div>
+            <br />
+            
+            X Position:
+            <span></span>
+            <div class='x_slider mascot_slider' data-id='@{{application_id}}'></div>
+            <br />
+
+            Y Position:
+            <span></span>
+            <div data-id='@{{application_id}}' class='y_slider mascot_slider'></div>
+            <br />
+
         </div>
         <br />
         
@@ -113,6 +117,8 @@
             <br />
         </div>
         <br />
+
+        -->
 
     </script>
 
