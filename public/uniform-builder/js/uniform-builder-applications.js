@@ -1386,6 +1386,7 @@ $(document).ready(function() {
             var material_options = ub.current_material.materials_options;
             var shapes = _.filter(material_options, {setting_type: 'shape'});
             var apps_transformed = ub.data.applications_transformed;
+            var apps_one_dimensional = ub.data.applications_transformed_one_dimensional;
 
             _.each(shapes, function(shape){
 
@@ -1414,6 +1415,8 @@ $(document).ready(function() {
                             application: obj
                         });
 
+                        apps_one_dimensional.push(apps_transformed[shape.name][obj.id]);
+
                     });
 
                 }
@@ -1425,9 +1428,6 @@ $(document).ready(function() {
             var str_builder = "";
             var $mod_main_container = $('#mod_main_panel > .options_panel_section');
             $mod_main_container.html('');
-
-            console.log('Transformed Applications: ');
-            console.log(ub.data.applications_transformed);
 
             _.each (ub.data.applications_transformed, function ( shape ) {
 

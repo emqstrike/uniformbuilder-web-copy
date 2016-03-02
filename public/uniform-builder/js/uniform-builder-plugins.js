@@ -474,7 +474,9 @@
 
             });
 
-            $('input[type=radio][name=text_sizes][data-id=' + application.id + ']').change(function() {
+            var $radio_class = $('input[type=radio][name=text_sizes][data-id=' + application.id + ']');
+
+            $radio_class.change(function() {
             
                 var value = 0;
                 var fontID = $('div.font_style_drop[data-id="' + 1 + '"]').data('font-id');
@@ -496,6 +498,8 @@
                 $('.font_size_slider[data-id=' + application.id + ']').limitslider('values', [value]);
 
             });
+
+            $radio_class.trigger('change');
             
             var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');

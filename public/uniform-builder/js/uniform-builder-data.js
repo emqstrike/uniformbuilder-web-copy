@@ -66,6 +66,7 @@ $(document).ready(function(){
     // when loading a uniform that is not from a customized order
     ub.data.defaultUniformStyle = {};
 
+    ub.data.applications_transformed_one_dimensional = [];
     ub.data.applications_transformed = {};
     ub.data.applications_transformed_temp = {
         

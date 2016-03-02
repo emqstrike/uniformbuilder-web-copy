@@ -1339,12 +1339,13 @@ $(document).ready(function () {
                     
                 });
 
-                $('button[data-option="applications"]').on('click', function(e) {
+                $('button[data-option="applications"]').on('click', function (e) {
 
                     var $button = $(this);
                     var action = $button.data('action');
                     var data_id = $button.data("id");
-                    var application = _.find(ub.data.applications.items, { id: data_id });
+                    var application = _.find(ub.data.applications_transformed_one_dimensional, {id: data_id.toString()});
+
                     var perspective = application.perspective;
                     var view = ub[perspective + '_view'];
                     var view_objects = ub.objects[perspective + '_view'];
@@ -1394,49 +1395,116 @@ $(document).ready(function () {
                         var x = 0;
                         var y = 0;
 
-                        var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
+                        console.log('Application OBJ Here...');
+                        console.log(application);
+                        console.log('Views: ');
 
-                        if (typeof application_obj === 'undefined') {
+
+                        _.each(application.views, function (view) {
+
+                            var view_objects = ub.objects[view.perspective + '_view'];
+
+                            console.log(view.perspective);
+
+                            var application_obj_here = ub.objects[view.perspective + '_view']['objects_' + application.id];
+
+                            console.log('Application Object Here...');
+                            console.log(application_obj_here)
+
+                            var application_obj = application_obj_here;// ub.objects[application.perspective + '_view']['objects_' + application.id];
+
+                            if (typeof application_obj === 'undefined') {
+                                
+                                console.log('Application Here...');
+                                console.log(application);
+
+                                x = ub.dimensions.width * application.position.x;
+                                y = ub.dimensions.height * application.position.y;
+        
+                            }
+                            else {
+
+                                x = application_obj.x;
+                                y = application_obj.y;
+
+                            }
+                            
+                            var ui_handles = new PIXI.Container();
+
+                            point.position = new PIXI.Point(x,y);
+                            rotation_point.position = new PIXI.Point(x + 100, y);
+
+                            point.ubName = 'move_point';
+                            rotation_point.ubName = 'rotation_point';
+
+                            point.zIndex = -1000;
+                            rotation_point.zIndex = -1000;
+
+                            ui_handles.addChild(point);
+                            ui_handles.addChild(rotation_point);
+
+                            if (typeof view_objects['ui_handles'] === "object") {
+
+                                view.removeChild(view_objects['ui_handles']);
+                                delete view_objects['ui_handles'];
+
+                            }
+
+                            ui_handles.applicationID = application.id;
+
+                            view_objects['ui_handles'] = ui_handles;
+
+                            var view_container = ub[view.perspective + '_view'];
+                            view_container.addChild(ui_handles);
+
+                            ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
+                            ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
+
+                        });
+
+                        // var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
+
+                        // if (typeof application_obj === 'undefined') {
     
-                            x = ub.dimensions.width * application.position.x;
-                            y = ub.dimensions.height * application.position.y;
+                        //     x = ub.dimensions.width * application.position.x;
+                        //     y = ub.dimensions.height * application.position.y;
     
-                        }
-                        else {
+                        // }
+                        // else {
 
-                            x = application_obj.x;
-                            y = application_obj.y;
+                        //     x = application_obj.x;
+                        //     y = application_obj.y;
 
-                        }
+                        // }
                         
-                        var ui_handles = new PIXI.Container();
+                        // var ui_handles = new PIXI.Container();
 
-                        point.position = new PIXI.Point(x,y);
-                        rotation_point.position = new PIXI.Point(x + 100, y);
+                        // point.position = new PIXI.Point(x,y);
+                        // rotation_point.position = new PIXI.Point(x + 100, y);
 
-                        point.ubName = 'move_point';
-                        rotation_point.ubName = 'rotation_point';
+                        // point.ubName = 'move_point';
+                        // rotation_point.ubName = 'rotation_point';
 
-                        point.zIndex = -1000;
-                        rotation_point.zIndex = -1000;
+                        // point.zIndex = -1000;
+                        // rotation_point.zIndex = -1000;
 
-                        ui_handles.addChild(point);
-                        ui_handles.addChild(rotation_point);
+                        // ui_handles.addChild(point);
+                        // ui_handles.addChild(rotation_point);
 
-                        if (typeof view_objects['ui_handles'] === "object") {
+                        // if (typeof view_objects['ui_handles'] === "object") {
 
-                            view.removeChild(view_objects['ui_handles']);
-                            delete view_objects['ui_handles'];
+                        //     view.removeChild(view_objects['ui_handles']);
+                        //     delete view_objects['ui_handles'];
 
-                        }
+                        // }
 
-                        ui_handles.applicationID = application.id;
+                        // ui_handles.applicationID = application.id;
 
-                        view_objects['ui_handles'] = ui_handles;
-                        view.addChild(ui_handles);
+                        // view_objects['ui_handles'] = ui_handles;
+                        // view.addChild(ui_handles);
 
-                        ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
-                        ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
+                        // ub.funcs.createInteractiveUI(point, application, 'move', ui_handles)
+                        // ub.funcs.createInteractiveUI(rotation_point, application, 'rotate', ui_handles)
 
                     }
 
