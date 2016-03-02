@@ -8,7 +8,6 @@
 * [PrototypeJS](http://prototypejs.org/)
 * [jQuery](http://jquery.com)
 * [Twitter Bootstrap](http://getbootstrap.com/)
-// * [NormalizeCSS](https://necolas.github.io/normalize.css/)
 
 ### Structure
 
