@@ -62,6 +62,17 @@
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
 
+                var background_color = color.hex_code;
+
+                if(color.name === 'White') {
+                    background_color = 'ffffff';
+                }
+
+                var cl = '';
+                if (color.color_code === 'W') {
+                    cl = 'whitebtn';
+                }
+
                 if (typeof color === 'undefined') {
 
                     util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
@@ -71,7 +82,7 @@
 
                 var element = '<div class="color_element">';
 
-                element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                element = element + '<button class="btn change-color ' + cl + '" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 4px; border: 1px solid #eeeeee; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none">' + color.color_code + '</button>';
                 element = element + '</div>';    
                 color_elements = color_elements + element;
 
@@ -99,6 +110,21 @@
                 var color = $(this).data('color');
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
                 el_parent.find('span').css('background-color', color);
+                el_parent.find('span').html($(this).html());
+                el_parent.find('span').css('font-size', '10px');
+                el_parent.find('span').css('padding-top', '2px');
+                el_parent.find('span').css('color', '#eeeeee');
+
+                if($(this).html() === 'W'){
+                    el_parent.find('span').css('background-color', "#ffffff");
+                    el_parent.find('span').css('color', '#eeeeee');
+                }
+                if($(this).html() === 'CR'){
+                    el_parent.find('span').css('color', '#000000');
+                }
+
+
+
 
                 if (settings.type === 'gradient') {
 

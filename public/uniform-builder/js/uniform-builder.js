@@ -1072,8 +1072,12 @@ $(document).ready(function () {
                     }
 
                     var element = '<div class="color_element">';
+                    var cl = '';
+                    if (color.color_code === 'W') {
+                        cl = 'whitebtn';
+                    }
 
-                    element = element + '<button class="btn change-color" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                    element = element + '<button class="btn change-color ' + cl + '" data-panel="' + obj.material_option.split('_')[0] + '" data-target="' + code + '" data-color="#' + color.hex_code + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 4px; border: 1px solid #eeeeee; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none">' + color.color_code + '</button>';
                     element = element + '</div>';    
                     color_elements = color_elements + element;
 
@@ -1985,14 +1989,14 @@ $(document).ready(function () {
 
                var selection = $(window.ce).data('selection');
 
-               if (selection !== 'none') {
-                    $('#' + selection).css('background-color', color);
-               }
+//             if (selection !== 'none') {
+//                  $('#' + selection).css('background-color', color);
+//             }
 
                color_element.parent().data("active_color", color);
                ub.change_color(target, color, panel);
 
-               $("button[data-target='" + target +"']").html('');
+//             $("button[data-target='" + target +"']").html('');
 
                var path = '/images/sidebar/';
                var highlighter = '';
@@ -2006,7 +2010,7 @@ $(document).ready(function () {
 
                highlighter = "<img src = '" + path + "'>"
                
-               $(this).html(highlighter);
+//             $(this).html(highlighter);
                 
             }); 
 
