@@ -758,9 +758,6 @@
             var scale_settings = {x: 0.15, y: 0.15};
         }
 
-        console.log('Scale Settings Inside Create Mascot: ');
-        console.log(scale_settings);
-
         settings.applications[application.id] = {
             application: application,
             mascot: mascot,
@@ -1262,10 +1259,16 @@
                             var uniform_type = ub.current_material.material.type;
                             var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
-                            s = app_containers[settings.application.id].object.sprite;
+                            if (typeof app_containers[settings.application.id] !== 'undefined') {
+
+                                s = app_containers[settings.application.id].object.sprite;
                             mvChangeTextColor(settings.application.id, s, color_code);
                             color_drop.nonce = false;
 
+                                
+                            }
+
+                            
                         }
 
                     }
@@ -1719,7 +1722,7 @@
                 /// Recreate Gradient Object into new structure
 
                 var applicationObj = ub.current_material.settings.applications[target];
-                var sprite_collection = ub.current_material.containers.upper.application_containers[1].object.sprite;
+                var sprite_collection = ub.current_material.containers.upper.application_containers[application.id].object.sprite;
 
                 $.ub.mvChangeGradient(applicationObj, gradient_output, sprite_collection);
 

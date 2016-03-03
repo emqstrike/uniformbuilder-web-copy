@@ -1404,9 +1404,6 @@ $(document).ready(function () {
 
                             if (typeof application_obj === 'undefined') {
                                 
-                                console.log('Application Here...');
-                                console.log(application);
-
                                 x = ub.dimensions.width * application.position.x;
                                 y = ub.dimensions.height * application.position.y;
         
@@ -2985,6 +2982,17 @@ $(document).ready(function () {
                 var app = ub.current_material.settings.applications[application_obj.application.id];
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
+                if (typeof app_containers[application_obj.id] === 'undefined') {
+    
+                    app_containers[application_obj.id] = {};
+
+                    app_containers[application_obj.id].object = {};
+                    app_containers[application_obj.id].object.sprite = sprite_collection;
+
+    
+                }
+
+                
                 if(typeof input_object.applicationObj === 'object'){
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
