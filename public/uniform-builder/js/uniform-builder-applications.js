@@ -22,7 +22,6 @@ $(document).ready(function() {
 
             $element.html(markup);
 
-            /// Handler for clicking a mascot on the list of uploaded mascots
             $('a.mascot_picker').on('click', function (e) {
 
                 $link = $(e.target);
@@ -36,15 +35,13 @@ $(document).ready(function() {
                     id: mascot_id
                 });
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
+                var application = _.find(ub.data.applications_transformed_one_dimensional, {
+                    id: application_id.toString(),
                 });
 
                 ub.funcs.removeUIHandles();
-
                 ub.funcs.update_mascots_picker(application.id, mascot); 
                 ub.funcs.update_application_mascot(application, mascot);
-
 
             }); /// End $('a.mascot_picker').on('click'...
 
@@ -65,236 +62,252 @@ $(document).ready(function() {
         
         $container.html(markup);
 
-        var application = _.find(ub.data.applications.items, {
+        var application = _.find(ub.data.applications_transformed_one_dimensional, {
             id: application_id
         });
 
-        var view_str = application.perspective + '_view';
-        $('a#view_' + application.perspective).click();
+        // var view_str = application.perspective + '_view';
+        // $('a#view_' + application.perspective).click();
 
-        $('input#flip_mascot_' + application_id).click( function () {
+        // $('input#flip_mascot_' + application_id).click( function () {
 
-            var obj = ub.objects[view_str]['objects_' + application_id];
+        //     var obj = ub.objects[view_str]['objects_' + application_id];
 
-            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-            var value = parseInt($rotation_slider.find('span.edit').html());
-            var rotation = ( value / 620 ) * 360;
+        //     var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //     var value = parseInt($rotation_slider.find('span.edit').html());
+        //     var rotation = ( value / 620 ) * 360;
 
-            if( $(this).is(':checked') ) {
+        //     if( $(this).is(':checked') ) {
 
-                obj.flipped = true;
-                obj.scale.x = Math.abs(obj.scale.x) * -1;
+        //         obj.flipped = true;
+        //         obj.scale.x = Math.abs(obj.scale.x) * -1;
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(-1)',
-                    '-o-transform': 'scaleX(-1)',
-                    'transform': 'scaleX(-1)',
-                    'filter': 'FlipH',
-                    '-ms-filter': "FlipH",
-                    '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                });
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             '-moz-transform': 'scaleX(-1)',
+        //             '-o-transform': 'scaleX(-1)',
+        //             'transform': 'scaleX(-1)',
+        //             'filter': 'FlipH',
+        //             '-ms-filter': "FlipH",
+        //             '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+        //         });
 
-            }
-            else {
+        //     }
+        //     else {
             
-                obj.flipped = false;
-                obj.scale.x = Math.abs(obj.scale.x);
+        //         obj.flipped = false;
+        //         obj.scale.x = Math.abs(obj.scale.x);
 
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(1)',
-                    '-o-transform': 'scaleX(1)',
-                    'transform': 'scaleX(1)',
-                    'filter': 'none',
-                    '-ms-filter': "none",
-                    '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                });
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             '-moz-transform': 'scaleX(1)',
+        //             '-o-transform': 'scaleX(1)',
+        //             'transform': 'scaleX(1)',
+        //             'filter': 'none',
+        //             '-ms-filter': "none",
+        //             '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+        //         });
 
-            }
+        //     }
 
-        });
+        // });
 
-        $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+        // $('div.y_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.y  * ub.dimensions.height],
-            min: 0,
-            max: ub.dimensions.height,
-            gap: 0,
+        //     values: [application.position.y  * ub.dimensions.height],
+        //     min: 0,
+        //     max: ub.dimensions.height,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
 
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.y = value;
+        //         var value = $(this).limitslider("values")[0];
+        //         var object = ub.objects[view_str]['objects_' + application_id];
+        //         object.y = value;
 
-            }
+        //     }
 
-        });
+        // });
 
-        $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+        // $('div.x_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.x * ub.dimensions.width],
-            min: 0,
-            max: ub.dimensions.width,
-            gap: 0,
+        //     values: [application.position.x * ub.dimensions.width],
+        //     min: 0,
+        //     max: ub.dimensions.width,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.x = value;
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object = ub.objects[view_str]['objects_' + application_id];
+        //         object.x = value;
 
-            }
+        //     }
 
-        });
+        // });
 
-        var max_scale = 100;
-        $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+        // var max_scale = 100;
+        // $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [100],
-            min: 0,
-            max: max_scale,
-            gap: 0,
+        //     values: [100],
+        //     min: 0,
+        //     max: max_scale,
+        //     gap: 0,
 
-            change: function(event, ui) {
+        //     change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, { id: application_id });
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
-                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
-                var scale = new PIXI.Point(value / 100, value / 100);
+        //         var application = _.find(ub.data.applications.items, { id: application_id });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
+        //         var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+        //         var scale = new PIXI.Point(value / 100, value / 100);
                 
-                if (flipped) {
-                    scale.x = scale.x * -1;
-                }
-                else {
-                    scale.x = scale.x * 1;   
-                }
+        //         if (flipped) {
+        //             scale.x = scale.x * -1;
+        //         }
+        //         else {
+        //             scale.x = scale.x * 1;   
+        //         }
 
-                object.scale = scale;
+        //         object.scale = scale;
 
-                $('span[data-target="mascot"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+        //         $('span[data-target="mascot"][data-label="scale"][data-id="' + application_id + '"]').text(value);
 
-            }
+        //     }
+
+        // });
+
+        // var max_opacity = 100;
+        // $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+
+        //     values: [100],
+        //     min: 0,
+        //     max: max_opacity,
+        //     gap: 0,
+
+        //     change: function(event, ui) {
+
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
+        //         var value = $(this).limitslider("values")[0];
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
+        //         object.alpha = value / max_opacity;
+
+        //         $('span[data-target="mascot"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+        //         var opacity =  value / max_opacity;
+        //         $angle_slider_mascot.find('div.rs-bg-color').css({
+        //             "opacity": opacity,
+        //         });
+
+        //         ub.current_material.settings.applications[application_id].alpha = object.alpha;
+
+        //         ub.save_property({
+        //             application_id: application_id,
+        //             property: 'alpha',
+        //             value: object.alpha,
+        //         })
+
+        //     }
+
+        // });
+
+        // var max_rotation = 620;
+        // var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+        // $rotation_slider.roundSlider({
+
+        //     values: [0],
+        //     min: 0,
+        //     max: max_rotation,
+        //     gap: 0,
+        //     width: 5,
+        //     handleSize: "+14",
+        //     startAngle: 90,
+
+        //     change: function(event, ui) {
+
+        //         var application = _.find(ub.data.applications.items, {
+        //             id: application_id
+        //         });
+
+        //         var value = parseInt($rotation_slider.find('span.edit').html());
+        //         var object =  ub.objects[view_str]['objects_' + application_id];
+
+        //         object.rotation = value / 100;
+        //         var rotation = ( value / max_rotation ) * 360;
+
+        //         $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
+
+        //         var flipped = $('input#flip_mascot_' + application_id).is(':checked');
+
+        //         if (flipped) {
+
+        //             $angle_slider_mascot.find('div.rs-bg-color').css({
+        //                 '-moz-transform': 'scaleX(-1)',
+        //                 '-o-transform': 'scaleX(-1)', 
+        //                 'transform': 'scaleX(-1)',
+        //                 'filter': 'FlipH',
+        //                 '-ms-filter': "FlipH",
+        //                 '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+        //             });
+
+        //         } else {
+
+        //             $angle_slider_mascot.find('div.rs-bg-color').css({
+        //                 '-moz-transform': 'scaleX(1)',
+        //                 '-o-transform': 'scaleX(1)',
+        //                 'transform': 'scaleX(1)',
+        //                 'filter': 'none',
+        //                 '-ms-filter': "none",
+        //                 '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+        //             });
+
+        //         }
+
+        //     }
+
+        // });
+
+        $('input[type=radio][name=mascot_sizes][data-id="' + application_id + '"]').change(function() {
+            
+            // Todo: Scale Mascot based on value of this.value
+
+            var scale_obj = _.find(ub.data.mascotSizes.items, {size: this.value});
+  
+            _.each (application.views, function (view) {
+
+                var obj = ub.objects[view.perspective + '_view']['objects_' + application_id];
+                obj.scale = {x: scale_obj.scale, y: scale_obj.scale};
+                ub.current_material.settings.applications[application_id].scale = obj.scale;
+
+            });
 
         });
 
-        var max_opacity = 100;
-        $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+        // $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-            values: [100],
-            min: 0,
-            max: max_opacity,
-            gap: 0,
-
-            change: function(event, ui) {
-
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
-                object.alpha = value / max_opacity;
-
-                $('span[data-target="mascot"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
-
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-                var opacity =  value / max_opacity;
-                $angle_slider_mascot.find('div.rs-bg-color').css({
-                    "opacity": opacity,
-                });
-
-                ub.current_material.settings.applications[application_id].alpha = object.alpha;
-
-                ub.save_property({
-                    application_id: application_id,
-                    property: 'alpha',
-                    value: object.alpha,
-                })
-
-            }
-
-        });
-
-        var max_rotation = 620;
-        var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-        $rotation_slider.roundSlider({
-
-            values: [0],
-            min: 0,
-            max: max_rotation,
-            gap: 0,
-            width: 5,
-            handleSize: "+14",
-            startAngle: 90,
-
-            change: function(event, ui) {
-
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-
-                var value = parseInt($rotation_slider.find('span.edit').html());
-                var object =  ub.objects[view_str]['objects_' + application_id];
-
-                object.rotation = value / 100;
-                var rotation = ( value / max_rotation ) * 360;
-
-                $angle_slider_mascot = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-                var flipped = $('input#flip_mascot_' + application_id).is(':checked');
-
-                if (flipped) {
-
-                    $angle_slider_mascot.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(-1)',
-                        '-o-transform': 'scaleX(-1)', 
-                        'transform': 'scaleX(-1)',
-                        'filter': 'FlipH',
-                        '-ms-filter': "FlipH",
-                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                    });
-
-                } else {
-
-                    $angle_slider_mascot.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(1)',
-                        '-o-transform': 'scaleX(1)',
-                        'transform': 'scaleX(1)',
-                        'filter': 'none',
-                        '-ms-filter': "none",
-                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                    });
-
-                }
-
-            }
-
-        });
-
-        $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-
-        $rotation_slider.find('div.rs-bg-color').css({
-            'background-image': 'url(' + mascot.dataUrl + ')',
-            'background-size': '80%',
-            'background-position': 'center center',
-            'background-repeat': 'no-repeat',
-        });
+        // $rotation_slider.find('div.rs-bg-color').css({
+        //     'background-image': 'url(' + mascot.dataUrl + ')',
+        //     'background-size': '80%',
+        //     'background-position': 'center center',
+        //     'background-repeat': 'no-repeat',
+        // });
 
     };
 
     /// End Mascot Utilities
 
-    ub.funcs.update_logo_list = function() {
+    ub.funcs.update_logo_list = function () {
 
         var $logo_container = $('div.logo-container');
         var logos = ub.current_material.containers.files.logos;
@@ -346,7 +359,6 @@ $(document).ready(function() {
     ub.funcs.update_logos_picker = function(application_id, logo) {
 
         var $container = $('div.logo-controls[data-id="' + application_id + '"]');
-      
         var template = $('#logo-controls').html();
         var data = {
             application_id: application_id,
@@ -366,7 +378,6 @@ $(document).ready(function() {
         $('input#flip_logo_' + application_id).click( function () {
 
             var obj = ub.objects[view_str]['objects_' + application_id];
-
             var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
             var value = parseInt($rotation_slider.find('span.edit').html());
             var rotation = ( value / 620 ) * 360;
@@ -617,140 +628,57 @@ $(document).ready(function() {
 
     };
 
+
     ub.funcs.update_application_mascot = function(application, mascot) {
 
-        var x = ub.dimensions.width * application.position.x;
-        var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
-        var application_mascot_code = application.code + '_' + mascot.id;
+        var application_mascot_code = application.id + '_' + mascot.id;
 
-        settings.applications[application.code] = {
+        if(typeof settings.applications[application.id] !== 'undefined'){
+            var scale_settings = settings.applications[application.id].scale;            
+        }
+
+        settings.applications[application.id] = {
             application: application,
             mascot: mascot,
             type: 'mascot',
+            scale: scale_settings,
             color_array: {},
         };
 
-        var settings_obj = settings.applications[application.code];
+        var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
-        var container = new PIXI.Container();
+        var input_object = {
 
-        var elements = "";
+            application: application,
+            mascot: mascot,
 
-        _.each(mascot.layers, function(layer, index){
+        };
 
-            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+        var sprite_collection = ub.funcs.renderApplication($.ub.create_mascot, input_object, application.id);
+        var uniform_type = ub.current_material.material.type;
+        var app_containers = ub.current_material.containers[uniform_type].application_containers;
+        var sprite = sprite_collection;                
+        app_containers[application.id] = {};
+        app_containers[application.id].object = {
 
-            mascot_layer.tint = parseInt(layer.default_color,16);
-            mascot_obj.layers[index].color = mascot_layer.tint; 
-            mascot_layer.anchor.set(0.5, 0.5);
-            container.addChild(mascot_layer);
+            sprite: sprite_collection, 
 
-            var val = layer.default_color;
-            var col = layer.default_color;
-            var filename = layer.filename;
-            
-            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+        };
 
-        });
-
-        $('div.mascot_color_picker_container[data-id="' + application.code + '"]').html(elements);
-
-        $('input.mascot_' + application.code).ubColorPicker({
-                target: String(application.code),
-                type: 'mascot',
-                application: application,
-                target_name: application.layer,
-        });
-        
-        container.scale = new PIXI.Point(0.5, 0.5);
-        var sprite = container;
-
-        ub.current_material.containers[application.code] = {};
-
-        ub.current_material.containers[application.code].mascot = sprite;
-
-        var mask = _.find(ub.current_material.material.options, {
-            
-            perspective: application.perspective,
-            name: application.layer
-
-        });
-
-        var mask = ub.pixi.new_sprite(mask.material_option_path);
-        var temp = {}
-
-        sprite.mask = mask;
-
-        var s = view_objects['objects_' + application.code];
-
-        var position = '';
-        var scale = '';
-        var rotation = '';
-        var alpha = '';
-        
-        if (typeof(s) === 'object') {
-
-            var obj = view_objects['objects_' + application.code];
-
-            position = obj.position;
-            scale = obj.scale;
-            rotation = obj.rotation;
-            alpha = obj.alpha;
-            tint = obj.tint;
-            var color_array = settings_obj.color_array;
-
-            view.removeChild(view_objects['objects_' + application.code]);
-            delete view_objects['objects_' + application.code];
-
-        }
-
-        view_objects['objects_' + application.code] = sprite;
-        view.addChild(sprite);
-
-        sprite.position = new PIXI.Point(x,y);
-        sprite.rotation = application.rotation;
-
-        if(sprite.width === 1) {
-        
-            sprite.position.x -= (sprite.width / 2);
-            sprite.position.y -= (sprite.height / 2);
-
-        }
-  
-        var layer_order = ( 10 + application.layer_order );
-
-        sprite.originalZIndex = layer_order * (-1);
-        sprite.zIndex = layer_order * (-1);
-        settings_obj.layer_order = layer_order;
-    
-        ub.updateLayersOrder(view);
-
-        if(position !== ''){
-
-            sprite.position = position;
-            sprite.scale = scale;
-            sprite.rotation = rotation;
-            sprite.alpha = alpha;
-
-        }
-
-        settings_obj.position = sprite.position;
-        settings_obj.scale = sprite.scale;
-        settings_obj.rotation = sprite.rotation;
-        settings_obj.alpha = sprite.alpha;
+        // settings_obj.position = sprite.position;
+        // settings_obj.scale = sprite.scale;
+        // settings_obj.rotation = sprite.rotation;
+        // settings_obj.alpha = sprite.alpha;
 
         window.sprite = sprite;
-
-        $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-        $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
-
-        // ub.funcs.createDraggable(sprite, application, view);
-        ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.code);
-
+        
+        //ub.funcs.createClickable(sprite, application, view, 'application');
+        // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+        // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+      
     };
 
     ub.funcs.update_application = function(application, logo) {
@@ -758,20 +686,20 @@ $(document).ready(function() {
         var x = ub.dimensions.width * application.position.x;
         var y = ub.dimensions.height * application.position.y;
         var settings = ub.current_material.settings;
-        var application_logo_code = application.code + '_' + logo.id;
+        var application_logo_code = application.id + '_' + logo.id;
 
-        settings.applications[application.code] = {
+        settings.applications[application.id] = {
             application: application,
             type: 'logo',
             color_array: {},
         };
 
-        var settings_obj = settings.applications[application.code];
+        var settings_obj = settings.applications[application.id];
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var sprite = PIXI.Sprite.fromImage(logo.dataUrl);
 
-        ub.saveLogo(logo.dataUrl, application.code);
+        ub.saveLogo(logo.dataUrl, application.id);
         
         var mask = _.find(ub.current_material.material.options, {
             perspective: application.perspective,
@@ -782,7 +710,7 @@ $(document).ready(function() {
 
         sprite.mask = mask;
 
-        var s = view_objects['objects_' + application.code];
+        var s = view_objects['objects_' + application.id];
 
         var position = '';
         var scale = '';
@@ -791,7 +719,7 @@ $(document).ready(function() {
         
         if (typeof(s) === 'object') {
 
-            var obj = view_objects['objects_' + application.code];
+            var obj = view_objects['objects_' + application.id];
 
             position = obj.position;
             scale = obj.scale;
@@ -800,12 +728,12 @@ $(document).ready(function() {
             tint = obj.tint;
             var color_array = settings_obj.color_array;
 
-            view.removeChild(view_objects['objects_' + application.code]);
-            delete view_objects['objects_' + application.code];
+            view.removeChild(view_objects['objects_' + application.id]);
+            delete view_objects['objects_' + application.id];
 
         }
 
-        view_objects['objects_' + application.code] = sprite;
+        view_objects['objects_' + application.id] = sprite;
         view.addChild(sprite);
 
         sprite.position = new PIXI.Point(x,y);
@@ -847,7 +775,7 @@ $(document).ready(function() {
 
         ub.funcs.createDraggable(sprite, application, view);
         ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.code);
+        ub.funcs.identify(application.id);
 
     };
 
@@ -882,6 +810,7 @@ $(document).ready(function() {
 
             sprite.oldX = sprite.x;
             sprite.oldY = sprite.y;
+
             sprite.snapped = false;
             this.dragging = true;
 
@@ -937,7 +866,6 @@ $(document).ready(function() {
                 y: this_data.global.y
             };
 
-
             /// Hotspot
 
             // Check for Feature Flag
@@ -975,10 +903,49 @@ $(document).ready(function() {
             }
 
             /// End Hot Spot
-            
+
         };
 
     }
+
+
+    /// MV Functions 
+
+        ub.funcs.getViewsOfID = function (app_id) {
+
+            var views = ub.data.applications_transformed["Body"][app_id].views;
+            return views;
+
+        };
+
+        ub.funcs.getSpritesOfID = function (app_id) {
+
+            var views = ub.funcs.getViewsOfID(app_id);
+            var sprites = [];
+
+            _.each (views, function (view) {
+
+                var _view_name = view.perspective + '_view';
+
+                if (typeof ub.objects[_view_name]['objects_' + app_id] !== 'undefined'){
+
+                    sprites.push(ub.objects[_view_name]['objects_' + app_id]);
+
+                }
+                else{
+
+                    /// Not Found
+
+                }
+
+            });
+
+            return sprites;
+
+        };
+
+    /// End MV Functions
+
 
     /// End Create Interactive UI
 
@@ -1042,6 +1009,7 @@ $(document).ready(function() {
 
             sprite.oldX = sprite.x;
             sprite.oldY = sprite.y;
+
             sprite.snapped = false;
             this.dragging = true;
 
@@ -1058,13 +1026,13 @@ $(document).ready(function() {
                 var p_app = new PIXI.Point(x, y);
                 var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                 var distance = ub.funcs.lineDistance(p_app, p_sprite);
-                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.code];
+                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
                 if(typeof application_obj === 'undefined') {
                     return;
                 }
 
-                var settings_obj = ub.current_material.settings.applications[application.code];
+                var settings_obj = ub.current_material.settings.applications[application.id];
 
                 if (type === 'move') {
 
@@ -1084,6 +1052,14 @@ $(document).ready(function() {
                         return;
                     }
 
+                    /// Get Sprites and Update
+                    
+                    var _sprites = ub.funcs.getSpritesOfID(application.id);
+
+                    _.each(_sprites, function (_sprite) {
+
+                    });
+
                     application_obj.position = sprite.position;
                     settings_obj.position = sprite.position;
 
@@ -1093,12 +1069,10 @@ $(document).ready(function() {
 
                     sprite.oldX = sprite.x;
                     sprite.oldY = sprite.y;
-           
+
                 }
 
                 if (type === 'rotate') {
-
-                    //var angleRadians = Math.atan2(rotation_point.y - move_point.y, rotation_point.x - move_point.x);
 
                     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                     application_obj.rotation = angleRadians;
@@ -1110,8 +1084,9 @@ $(document).ready(function() {
 
                     var application_type = settings_obj.type;
 
-                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
+                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.
 
+                        config.isFeatureOn('ui','scale_text')) {
                         application_obj.scale.set(percentage, percentage);
                         settings_obj.scale = application_obj.scale;
 
@@ -1129,7 +1104,6 @@ $(document).ready(function() {
 
                         sprite.oldX = x;
                         sprite.oldY = y;
-
 
                         sprite.snapped = true;
                         this.dragging = false;
@@ -1183,7 +1157,7 @@ $(document).ready(function() {
 
                 }
 
-                $element = $('select.application_type_dropdown[data-id=' + application.code + ']');
+                $element = $('select.application_type_dropdown[data-id=' + application.id + ']');
 
                 var difference = $('div#right-main-window').offset().top - $element.offset().top;
 
@@ -1260,17 +1234,17 @@ $(document).ready(function() {
 
     ub.funcs.rearrangeApplications = function (application, movement) {
 
-        var code = application.code;
-        var current_layer_order = ub.current_material.settings.applications[application.code].layer_order;
-        var settings_obj = ub.current_material.settings.applications[application.code];
-        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.code];
+        var code = application.id;
+        var current_layer_order = ub.current_material.settings.applications[application.id].layer_order;
+        var settings_obj = ub.current_material.settings.applications[application.id];
+        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.id];
 
         if (movement === 'UP') {
 
             var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
             
             if(typeof next_element !== 'undefined') {
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
                 next_element.layer_order = (current_layer_order);
                 next_obj.zIndex = (current_layer_order) * -1;
             }
@@ -1288,7 +1262,7 @@ $(document).ready(function() {
             
             if(typeof next_element !== 'undefined') {
 
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.code];
+                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
                 next_element.layer_order = (current_layer_order);
                 next_obj.zIndex = (current_layer_order) * -1;
 
@@ -1316,10 +1290,42 @@ $(document).ready(function() {
 
         }
 
-        ub.funcs.renderApplication = function (sprite_function, application_views, app_id) {
 
-            var mat_option = "Body";
-            var marker_name = "app_ident_" + app_id;
+        /// TODO: This should be memoize this function
+        ub.funcs.getApplicationMatOption = function (app_id) {
+
+            var material_option = undefined;
+
+            _.each (ub.data.applications_transformed, function ( shape ) {
+
+                _.each(shape, function (application) {
+
+                    if (app_id === application.id) {
+
+                        material_option = shape.name;
+
+                    }
+
+                });
+
+            });    
+
+            if (typeof material_option === 'undefined') {
+
+                util.error('Material Option for Application ID ' + app_id + ' Not Found!');    
+
+            }
+            
+            return material_option;
+
+        };
+
+        ub.funcs.renderApplication = function (sprite_function, args, app_id) {
+
+            var sprite_collection = [];
+
+            var mat_option = ub.funcs.getApplicationMatOption(app_id);
+            var marker_name = "objects_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
             _.each(ub.views, function(_view){
@@ -1334,19 +1340,37 @@ $(document).ready(function() {
 
             _.each(views, function(view){
 
-                var point = sprite_function();
-                point.anchor.set(0.5, 0.5);
+                var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
                 point.rotation = (view.application.rotation * Math.PI) / 180;
                 point.zIndex = -30;
 
+                /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
+
+                var mask = _.find(ub.current_material.material.options, {
+                    perspective: view.perspective,
+                    name: mat_option,
+                });
+
+                var mask = ub.pixi.new_sprite(mask.material_option_path);
+                point.mask = mask;
+
                 var view_name = view.perspective + '_view';
                 ub.objects[view_name][marker_name] = point;
+                
                 ub[view_name].addChild(point);
+                sprite_collection.push(point);
+
+                //ub.funcs.createClickable(point, view.application, view, 'application');
 
                 ub.updateLayersOrder(ub[view_name]);
 
             });
+
+            ub.funcs.identify(app_id);
+
+
+            return sprite_collection;
 
         };
 
@@ -1366,31 +1390,34 @@ $(document).ready(function() {
 
         // Application Transformer
 
-        ub.data.applications_transformed = {};
-
         ub.funcs.transformedApplications = function () {
+
+            ub.data.applications_transformed = {};
 
             var material_options = ub.current_material.materials_options;
             var shapes = _.filter(material_options, {setting_type: 'shape'});
             var apps_transformed = ub.data.applications_transformed;
+            var apps_one_dimensional = ub.data.applications_transformed_one_dimensional;
 
             _.each(shapes, function(shape){
 
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
                 if(app_properties !== null){
-                    
-                    _.each(app_properties, function(obj){
+
+                    _.each(app_properties, function (obj) {
 
                         if (typeof apps_transformed[shape.name] === "undefined") {
-                    
-                            apps_transformed[shape.name] = {};    
-                    
-                        }
+                
+                            apps_transformed[shape.name] = {
+                                name: shape.name,
+                            };    
+                
+                        }  
 
                         if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
-                            
-                            apps_transformed[shape.name][obj.id] = { id: obj.id, views: [] };
+
+                            apps_transformed[shape.name][obj.id] = { id: obj.id, name: obj.name, views: [], layer: shape.name, type: obj.name.toCodeCase()};
 
                         }
                         
@@ -1398,6 +1425,8 @@ $(document).ready(function() {
                             perspective: shape.perspective, 
                             application: obj
                         });
+
+                        apps_one_dimensional.push(apps_transformed[shape.name][obj.id]);
 
                     });
 
@@ -1407,36 +1436,86 @@ $(document).ready(function() {
 
             /// Draw App ID's 
 
-            var $mod_main_container = $('#mod_main_panel > .options_panel_section');
-            var body_applications = ub.data.applications_transformed["Body"];
+            // var str_builder = "";
+            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
+            // $mod_main_container.html('');
 
-            var str_builder = "";
+            // _.each (ub.data.applications_transformed, function ( shape ) {
 
-            _.each(ub.data.applications_transformed["Body"], function(app){
+            //     var body_applications = ub.data.applications_transformed[shape.name];
+                
+            //     _.each(shape, function (app) {
 
-                str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+            //         str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+            //         $mod_main_container.append(str_builder);
 
-            });
+            //         $('.app_btn[data-id=' + app.id + ']').on('click', function(e) {
 
-            $mod_main_container.html('');
-            $mod_main_container.html(str_builder);
+            //             var mat_option = app.name;
+            //             var marker_name = 'app_ident';
+            //             var app_id = $(this).data('id');
+            //             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
-            $('.app_btn').on('click', function(e) {
+            //             ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
 
-                var mat_option = "Body";
-                var marker_name = 'app_ident';
-                var app_id = $(this).data('id');
-                var sprite = ub.pixi.new_sprite('/images/misc/swoosh.png');
-                var views = ub.data.applications_transformed[mat_option][app_id].views;
+            //         });
 
-                ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
+            //     })
 
-            });
+
+            // });
+
+            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
+            // var body_applications = ub.data.applications_transformed["Body"];
+            // var str_builder = "";
+
+            // _.each(ub.data.applications_transformed["Body"], function(app){
+
+            //     str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
+
+            // });
+
+            
+
 
             /// End Draw App ID's
 
     }
 
+
     /// End Transformed Applications
+
+    /// Get Primary View of Application, TODO: Set this on the backend primary_view, boolean
+
+    ub.funcs.getPrimaryView = function (application) {
+
+        var view = undefined;
+
+        view = _.find(application.views, {perspective: "front"});
+        
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "back"});
+        }
+
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "left"});
+        }
+
+        if (typeof view === 'undefined') {
+            view = _.find(application.views, {perspective: "right"});
+        }
+
+        return view;
+
+    }
+
+
+
+
+
+    /// End Get Primary View
+
+
+
 
 });

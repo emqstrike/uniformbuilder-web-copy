@@ -53,7 +53,9 @@ $( document ).ready(function() {
     /// Output: "Arm Trim"
 
     String.prototype.toTitleCase = function(){
-            return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        
+        return window.util.toTitleCase(this.replace("_", " "));
+
     };
 
     /// Call:   "Arm Trim".toCodeCase();
