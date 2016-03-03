@@ -253,7 +253,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -262,7 +262,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -271,7 +271,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 130, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 142, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -280,7 +280,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -289,7 +289,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -298,7 +298,7 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
             {
@@ -307,9 +307,110 @@ $(document).ready(function(){
                 startSize: 10,
                 increment: 10,
                 fontSizeTable: [
-                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, }, 
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
                 ],
             },
+            {
+                fontID: 8,
+                fontName: 'Bomber',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 9,
+                fontName: 'Bosox',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 10,
+                fontName: 'Brush Script',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 11,
+                fontName: 'Carbon Block',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 12,
+                fontName: 'Celtic',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 13,
+                fontName: 'Cobalt',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 14,
+                fontName: 'Cobra',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 15,
+                fontName: 'Cracker jack',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 16,
+                fontName: 'Demonized',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 17,
+                fontName: 'Dodger Script',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+            {
+                fontID: 18,
+                fontName: 'Duck Face',
+                startSize: 10,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 10, }, { inputSize: '2', outputSize: 20, }, { inputSize: '3', outputSize: 30, }, { inputSize: '4', outputSize: 40, },  { inputSize: '5', outputSize: 50, }, { inputSize: '6', outputSize: 60, }, { inputSize: '7', outputSize: 70, }, { inputSize: '8', outputSize: 80, }, { inputSize: '9', outputSize: 90, },  { inputSize: '10', outputSize: 100, },  { inputSize: '11', outputSize: 110, },  { inputSize: '12', outputSize: 120, }, 
+                ],
+            },
+
+
 
         ],
     };
