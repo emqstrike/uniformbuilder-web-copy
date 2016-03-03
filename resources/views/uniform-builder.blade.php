@@ -92,7 +92,7 @@
 
 <script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/jspdf.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/jspdf/addImage.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/addimage.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
