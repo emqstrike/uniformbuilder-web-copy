@@ -108,6 +108,7 @@
             colors_btn.on('click', function() {
 
                 var color = $(this).data('color');
+                
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
                 el_parent.find('span').css('background-color', color);
                 el_parent.find('span').html($(this).html());
@@ -119,12 +120,10 @@
                     el_parent.find('span').css('background-color', "#ffffff");
                     el_parent.find('span').css('color', '#eeeeee');
                 }
+
                 if($(this).html() === 'CR'){
                     el_parent.find('span').css('color', '#000000');
                 }
-
-
-
 
                 if (settings.type === 'gradient') {
 
@@ -505,7 +504,7 @@
             $radio_class.change(function() {
             
                 var value = 0;
-                var fontID = $('div.font_style_drop[data-id="' + 1 + '"]').data('font-id');
+                var fontID = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
 
                 if (typeof fontID !== 'number') {
                     
