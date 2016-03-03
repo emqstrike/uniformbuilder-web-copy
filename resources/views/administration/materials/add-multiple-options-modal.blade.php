@@ -85,13 +85,13 @@
                                 <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
-                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}">
+                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}" checked>
                             </td>
                             <td>
                                 <input class="check mo-allow-gradient layer1" name="mo_allow_gradient[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
-                                <input class="check mo-allow-color layer1" name="mo_allow_color[]" type="checkbox" value="{{ $color->hex_code }}">
+                                <input class="check mo-allow-color layer1" name="mo_allow_color[]" type="checkbox" value="{{ $color->hex_code }}" checked>
                             </td>
                             <td>
                                 <select class="mo-team-color-id layer1" name="mo_team_color_id[]">
@@ -120,7 +120,6 @@
                         <label>Origin</label>
                         <select name="origin" class="form-control">
                             <option value="web">Web</option>
-                            <option value="ipad">iPad</option>
                         </select>
                     </td>
                 </tr>
