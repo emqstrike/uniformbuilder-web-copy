@@ -2060,7 +2060,7 @@
                 /// if loading from existing saved design, else from text box TODO: save value to custom object and read from that, instead from text boxes
                 if (typeof sprite_collection === 'object') {
                 
-                    val = ub.current_material.settings.applications[1].pattern_obj.layers[0].default_color;
+                    val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
                 
                 }
                 else {
