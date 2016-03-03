@@ -48,7 +48,7 @@ $(document).ready(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    $(document).on('change', '#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         updateCoordinates();
     });
 
@@ -532,6 +532,9 @@ var appPropJson = "";
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
+                allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
+                allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
+                allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path'))
@@ -562,7 +565,20 @@ var appPropJson = "";
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
 
-        var id_nums = ['1', '2', '3', '4'];
+        if(material.option.blend){
+            $('#is_blend').prop('checked','checked');
+        }
+        if(material.option.allow_pattern){
+            $('#allow_pattern').prop('checked','checked');
+        }
+        if(material.option.allow_gradient){
+            $('#allow_gradient').prop('checked','checked');
+        }
+        if(material.option.allow_color){
+            $('#allow_color').prop('checked','checked');
+        }
+        
+        var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
         var team_color_id_options = "";
 
         id_nums.forEach(function(entry) {
@@ -615,10 +631,13 @@ var appPropJson = "";
         }
 
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
+        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $("#shape-view-top").css("opacity", "0.4)");
+
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
         $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
-        $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
+        // $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
         // **************
@@ -842,6 +861,46 @@ var appPropJson = "";
             'confirm-yes',
             'confirmation-modal-material-option'
         );
+    });
+
+    $('.cleanup-material-option').on('click', function(){
+        var id = $(this).data('material-option-id');
+        var name = $(this).data('material-option-name');
+        modalConfirm(
+            'Cleanup Material Option',
+            'This will reset the applications of : '+ name +'.',
+            id,
+            'confirm-yes',
+            'confirmation-modal-cleanup-material-option'
+        );
+    });
+
+    $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material_option/cleanupApp/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal-cleanup-material-option').modal('hide');
+                    location.reload();
+                    $('.material-option-' + id).fadeOut();
+                    $('.material-option-' + id).fadeIn();
+                }
+            }
+        });
     });
 
     $('.delete-multiple-material-option').on('click', function(){

@@ -51,6 +51,9 @@
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
 }
+.#shape-view-top {
+    opacity: .4;
+}
 </style>
 
 @endsection
@@ -80,7 +83,7 @@
 <div class="container-fluid main-content">
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-3'
-                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;">
+                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;{{ (!$material->active) ? ' background-color: #696969;' : '' }}">
                 <div style="float:left; position: relative; margin-top: 7px; margin-left: -10px;">
                     <span class="label" style="font-size: 14px; background-color: #808080;">{{ $material->id }}</span>
                 </div>

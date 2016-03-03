@@ -60,7 +60,6 @@
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Origin:</label>
                     <select name="origin" class="form-control origin">
                         <option value="web">Web</option>
-                        <option value="ipad">ipad</option>
                         <option id='saved-origin'></option>
                     </select>
                 </div>
@@ -131,10 +130,29 @@
                     </select>
                 </div>
 
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Blend:</label>
+                    <input type="checkbox" name="is_blend" id="is_blend" value="1">
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Pattern:</label>
+                    <input type="checkbox" name="allow_pattern" id="allow_pattern" value="1">
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Gradient:</label>
+                    <input type="checkbox" name="allow_gradient" id="allow_gradient" value="1">
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Color:</label>
+                    <input type="checkbox" name="allow_color" id="allow_color" value="1">
+                </div>
+
                 <div class="col-md-4">
                     <br><br><br>
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
-                    <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px;">
+                    <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px; opacity: 0.45;">
                         <canvas id="applications-front-canvas"></canvas>
                     </div>
                 </div>

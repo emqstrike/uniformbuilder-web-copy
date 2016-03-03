@@ -86,6 +86,12 @@
                                 <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item"
                                      data-material-option-name="{{ $option->name }}">
+                                    <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                data-material-option-id="{{ $option->id }}"
+                                                data-material-option-name="{{ $option->name }}"
+                                                role="button">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </a>
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
@@ -113,6 +119,9 @@
                                             data-material-option-colors='{{ $option->colors }}'
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
+                                            data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
+                                            data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
+                                            data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
                                             <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -131,6 +140,12 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
+                                    <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                data-material-option-id="{{ $option->id }}"
+                                                data-material-option-name="{{ $option->name }}"
+                                                role="button">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </a>
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
@@ -158,6 +173,9 @@
                                             data-material-option-colors='{{ $option->colors }}'
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
+                                            data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
+                                            data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
+                                            data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
                                             <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -176,6 +194,12 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
+                                    <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                data-material-option-id="{{ $option->id }}"
+                                                data-material-option-name="{{ $option->name }}"
+                                                role="button">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </a>
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
@@ -203,6 +227,9 @@
                                             data-material-option-colors='{{ $option->colors }}'
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
+                                            data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
+                                            data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
+                                            data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
                                             <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -221,6 +248,12 @@
                                 <div style="margin-top: 3px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                                      class="material-option-{{ $option->id }}  material-option-item" 
                                      data-material-option-name="{{ $option->name }}">
+                                    <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                data-material-option-id="{{ $option->id }}"
+                                                data-material-option-name="{{ $option->name }}"
+                                                role="button">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </a>
                                     <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
                                                 data-material-option-id="{{ $option->id }}"
                                                 data-material-option-name="{{ $option->name }}"
@@ -248,6 +281,9 @@
                                             data-material-option-colors='{{ $option->colors }}'
                                             data-material-option-gradients='{{ $option->gradients }}'
                                             data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
+                                            data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
+                                            data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
+                                            data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
                                             <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
@@ -275,6 +311,8 @@
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])
 
 @endsection
 @section('scripts')
