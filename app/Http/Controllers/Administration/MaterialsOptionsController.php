@@ -55,6 +55,9 @@ class MaterialsOptionsController extends Controller
         $sublimated_colors = $request->input('sublimated_colors');
         $gradients = $request->input('gradients');
         $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
+        $allow_pattern = is_null($request->input('allow_pattern')) ? 0 : 1;
+        $allow_gradient = is_null($request->input('allow_gradient')) ? 0 : 1;
+        $allow_color = is_null($request->input('allow_color')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
 
@@ -72,6 +75,9 @@ class MaterialsOptionsController extends Controller
             'sublimated_colors' => $sublimated_colors,
             'gradients' => $gradients,
             'is_blend' => $is_blend,
+            'allow_pattern' => $allow_pattern,
+            'allow_gradient' => $allow_gradient,
+            'allow_color' => $allow_color,
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties
         ];
@@ -101,7 +107,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+// dd($data);
         $response = null;
         if (!empty($materialOptionId))
         {
