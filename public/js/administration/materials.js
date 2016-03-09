@@ -26,6 +26,15 @@ $(document).ready(function() {
             $(".options-row").each(function(i) {
                 $(this).find(".layer-number").text(length);
                 $(this).find(".layer-number").val(length);
+                var type = $(this).find(".mo-setting-type").val();
+                if(type == "highlights"){
+                    $(this).find(".layer-number").val('99');
+                    $(this).find(".layer-number").text('99');
+                }
+                if(type == "shadows"){
+                    $(this).find(".layer-number").val('98');
+                    $(this).find(".layer-number").text('98');
+                }
                 length = length-1;
             });
             var newLength = $('.options-row').length;
@@ -34,21 +43,51 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.clone-row', function() {
+        // var length = $('.options-row').length;
+        // $(".options-row").each(function(i) {
+        //     $(this).find(".layer-number").text(length);
+        //     $(this).find(".layer-number").val(length);
+        //     var type = $(this).find(".mo-setting-type").val();
+        //     if(type == "highlights"){
+        //         $(this).find(".layer-number").val('99');
+        //         $(this).find(".layer-number").text('99');
+        //     }
+        //     if(type == "shadows"){
+        //         $(this).find(".layer-number").val('98');
+        //         $(this).find(".layer-number").text('98');
+        //     }
+        //     length = length-1;
+        // });
+        // var newLength = $('.options-row').length;
+        // renumberRows(newLength);
+        syncMOLayers();
+    });
+
+    function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
+            var type = $(this).find(".mo-setting-type").val();
+            if(type == "highlights"){
+                $(this).find(".layer-number").val('99');
+                $(this).find(".layer-number").text('99');
+            }
+            if(type == "shadows"){
+                $(this).find(".layer-number").val('98');
+                $(this).find(".layer-number").text('98');
+            }
             length = length-1;
         });
         var newLength = $('.options-row').length;
         renumberRows(newLength);
-    });
+    }
 
     $("#material-option-name").keyup(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    $(document).on('change', '#group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         updateCoordinates();
     });
 
@@ -332,9 +371,16 @@ var applicationProperties = {};
                 });
                 type = type.slice(0,-1);
                 elem.val(type);
-            }
-            else{
-                elem.val("");
+
+                if(type == "highlight"){
+                    $(this).parent().siblings().find(".layer-number").val('99');
+                    $(this).parent().siblings().find(".layer-number").text('99');
+                }
+                if(type == "shadow"){
+                    $(this).parent().siblings().find(".layer-number").val('98');
+                    $(this).parent().siblings().find(".layer-number").text('98');
+                }
+
             }
         });
 
@@ -349,6 +395,10 @@ var applicationProperties = {};
             else{
                 $(".body-layer-number").remove();
             }
+        });
+
+        $(".mo-group-id").keyup(function() {
+            renumberRows();
         });
 
         $(".mo-options-src").change(function() {
@@ -526,6 +576,7 @@ var appPropJson = "";
                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
                 type: $(this).data('material-option-setting-type'),
                 team_color_id: $(this).data('material-option-team-color-id'),
+                group_id: $(this).data('material-option-group-id'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
@@ -546,6 +597,7 @@ var appPropJson = "";
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
+        $('#group_id').val(material.option.group_id);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(material.option.type);
         $('#saved-setting-type').attr('selected','selected');
@@ -1097,15 +1149,28 @@ var appPropJson = "";
         var allow_gradient_arr = [];
         var allow_color_arr = [];
         $(".options-row").each(function(i) {
+            var old_length = length;
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
+
+            var settingTypeVal = $(this).find('.mo-setting-type').val();
+
+            if( settingTypeVal == "hightlight" ){
+                layer_class = ".mo-layer.layer99";
+                length = '99';
+            }
+            if( settingTypeVal == "shadow" ){
+                layer_class = ".mo-layer.layer98";
+                length = '98';
+            }
 
             materialOptions.front[thisLayer] = {};
             materialOptions.front[thisLayer]['image_file'] = {};
             materialOptions.front[thisLayer]['layer'] = {};
             materialOptions.front[thisLayer]['name'] = {};
-            materialOptions.front[thisLayer]['setting-type'] = {};
-            materialOptions.front[thisLayer]['team-color-id'] = {};
+            materialOptions.front[thisLayer]['setting_type'] = {};
+            materialOptions.front[thisLayer]['team_color_id'] = {};
+            materialOptions.front[thisLayer]['group_id'] = {};
             materialOptions.front[thisLayer]['default_color'] = {};
             materialOptions.front[thisLayer]['sublimated_default_color'] = {};
             materialOptions.front[thisLayer]['is_blend'] = {};
@@ -1169,13 +1234,17 @@ var appPropJson = "";
             var team_color_id_class = ".mo-team-color-id.layer" + length;
             $(this).find(team_color_id_class).addClass('mo-team-color-id');
 
+            $(this).find('.mo-group-id').removeClass().addClass("mo-group-id");
+            $(this).find('.mo-group-id').addClass(thisLayer);
+            var group_id_class = ".mo-group-id.layer" + length;
+            $(this).find(group_id_class).addClass('mo-group-id');
+
             materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
             materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
             materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
-            // materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            // materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            materialOptions.front[thisLayer]['team-color-id'] = $(this).find(team_color_id_class).val();
+            materialOptions.front[thisLayer]['setting_type'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['team_color_id'] = $(this).find(team_color_id_class).val();
+            materialOptions.front[thisLayer]['group_id'] = $(this).find(group_id_class).val();
             materialOptions.front[thisLayer]['default_color'] = $(this).find(def_color_class).val();
             materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(sub_def_color_class).val();
 
@@ -1220,10 +1289,11 @@ var appPropJson = "";
 
 
             // console.log("Blend Array: "+is_blend_arr);
+            length = old_length;
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
-        // console.log("MOS: "+moProperties);
+        console.log("MOS: "+moProperties);
     }
 
     function updateCoordinates() {
@@ -1352,9 +1422,7 @@ var appPropJson = "";
             });
             type = type.slice(0,-1)
             elem.val(type);
-        }
-        else{
-            elem.val("");
+            syncMOLayers();
         }
     });
 

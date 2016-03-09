@@ -34,6 +34,7 @@
                             <th>Allow Gradient</th>
                             <th>Allow Color</th>
                             <th>Team Color ID</th>
+                            <th>Group ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
                         </tr>
@@ -48,8 +49,8 @@
                             </td>
                             <td>
                                 <select class="mo-setting-type layer1" name="mo_setting_type[]">
-                                    <option value='part'>Part</option>
                                     <option value='shape'>Shape</option>
+                                    <option value='part'>Part</option>
                                     <option value='piping'>Piping</option>
                                     <option value='panel'>Panel</option>
                                     <option value='static_layer'>Static Layer</option>
@@ -99,7 +100,16 @@
                                     <option value='2'>2</option>
                                     <option value='3'>3</option>
                                     <option value='4'>4</option>
+                                    <option value='5'>5</option>
+                                    <option value='6'>6</option>
+                                    <option value='7'>7</option>
+                                    <option value='8'>8</option>
+                                    <option value='9'>9</option>
+                                    <option value='10'>10</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input class="check mo-group-id layer1" name="mo_group_id[]" type="text" size="5">
                             </td>
                             <td>
                                 <input type="file" class="mo-options-src layer1" name="mo_image[]">
