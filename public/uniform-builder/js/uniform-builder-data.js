@@ -9,6 +9,7 @@ $(document).ready(function(){
     ub.dimensions.height = 550;
     ub.active = null;
     ub.active_view = 'front';
+    ub.active_part = 'Body';
 
     ub.container_div = 'main_view';
     ub.views = ['front', 'back', 'left', 'right'];

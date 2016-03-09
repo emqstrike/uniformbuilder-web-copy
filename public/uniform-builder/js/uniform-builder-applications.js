@@ -1469,8 +1469,6 @@ $(document).ready(function() {
 
     /// Transformed Boundary Properties
 
-    //JSON.parse(s.boundary_properties.slice(1, -1));
-
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
         var isInside = false;
@@ -1550,38 +1548,39 @@ $(document).ready(function() {
             
             if(boundary_properties !== null){
 
-                    if (typeof boundaries_transformed[shape.name] === "undefined") {
-            
-                        boundaries_transformed[shape.name] = {
-                            name: shape.name,
-                            views: [],
-                        };    
-            
-                    }  
-
-                    var cObj = { 
-                        perspective: shape.perspective,
-                        bounding_box: {
-                           topLeft:  boundary_properties['topLeft'],
-                           topRight: boundary_properties['topRight'],
-                           bottomLeft: boundary_properties['bottomLeft'],
-                           bottomRight: boundary_properties['bottomRight'],
-                        }
-                    };
-
-                    boundaries_transformed[shape.name].views.push(cObj);
-                    boundaries_one_dimensional[shape.perspective].push({
-                        
+                if (typeof boundaries_transformed[shape.name] === "undefined") {
+        
+                    boundaries_transformed[shape.name] = {
                         name: shape.name,
-                        boundaries: cObj,
-                        polygon: [
-                            boundary_properties['topLeft'],
-                            boundary_properties['topRight'],
-                            boundary_properties['bottomRight'],
-                            boundary_properties['bottomLeft'],
-                        ],
+                        views: [],
+                    };    
+        
+                }  
 
-                    });
+                var cObj = { 
+                    perspective: shape.perspective,
+                    bounding_box: {
+                       topLeft:  boundary_properties['topLeft'],
+                       topRight: boundary_properties['topRight'],
+                       bottomLeft: boundary_properties['bottomLeft'],
+                       bottomRight: boundary_properties['bottomRight'],
+                    }
+                };
+
+                boundaries_transformed[shape.name].views.push(cObj);
+                boundaries_one_dimensional[shape.perspective].push({
+                    
+                    name: shape.name,
+                    boundaries: cObj,
+                    layer_no: shape.layer_level,
+                    polygon: [
+                        boundary_properties['topLeft'],
+                        boundary_properties['topRight'],
+                        boundary_properties['bottomRight'],
+                        boundary_properties['bottomLeft'],
+                    ],
+
+                });
 
             }
 
@@ -1589,14 +1588,42 @@ $(document).ready(function() {
 
         ub.stage.on('mousemove', function(mousedata){
            
-           var current_coodinates = mousedata.data.global;
-           var results = ub.funcs.withinMaterialOption(current_coodinates);
+            var current_coodinates = mousedata.data.global;
+            var results = ub.funcs.withinMaterialOption(current_coodinates);
 
-           if (results.length > 1) {
-                
-                // TODO: Process here...
-                
-           }
+            if (results.length > 0 ) {
+
+                var _match = _.first(results).name.toCodeCase();
+                var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+                _.each(_materialOptions, function (_materialOption) {
+
+                    var _name = _materialOption.name.toCodeCase();
+                    var _object = ub.objects[ub.active_view + '_view'][_name];
+
+                    _object.alpha = 0.5;
+
+                });
+
+                var _object = ub.objects[ub.active_view + '_view'][_match];
+
+                _object.alpha = 1;
+
+            }
+            else{
+
+                var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+                _.each(_materialOptions, function (_materialOption) {
+
+                    var _name = _materialOption.name.toCodeCase();
+                    var _object = ub.objects[ub.active_view + '_view'][_name];
+
+                    _object.alpha = 1;
+
+                });                
+
+            }
+
 
         })
 
