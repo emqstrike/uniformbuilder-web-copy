@@ -2189,6 +2189,65 @@ $(document).ready(function(){
         ],
     }
 
+    ub.uniformSizes = {
+        'YXS': {
+            name: 'Youth Extra Small',
+            active: false
+        },
+        'YS': {
+            name: 'Youth Small',
+            active: false
+        },
+        'YM': {
+            name: 'Youth Medium',
+            active: false
+        },
+        'YL': {
+            name: 'Youth Large',
+            active: false
+        },
+        'YXL': {
+            name: 'Youth Extra Large',
+            active: false
+        },
+        'Y2XL': {
+            name: 'Youth Double Extra Large',
+            active: false
+        },
+        'Y3XL': {
+            name: 'Youth Triple Extra Large',
+            active: false
+        },
+        'XS': {
+            name: 'Extra Small',
+            active: false
+        },
+        'S': {
+            name: 'Small',
+            active: false
+        },
+        'M': {
+            name: 'Medium',
+            active: false
+        },
+        'L': {
+            name: 'Large',
+            active: false
+        },
+        'XL': {
+            name: 'Extra Large',
+            active: false
+        },
+        '2XL': {
+            name: 'Double Extra Large',
+            active: false
+        },
+        '3XL': {
+            name: 'Triple Extra Large',
+            active: false
+        }
+    };
+
     ub.funcs.load_fonts = function () {
 
         var font_builder = '';

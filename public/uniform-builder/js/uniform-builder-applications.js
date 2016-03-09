@@ -668,16 +668,8 @@ $(document).ready(function() {
 
         };
 
-        // settings_obj.position = sprite.position;
-        // settings_obj.scale = sprite.scale;
-        // settings_obj.rotation = sprite.rotation;
-        // settings_obj.alpha = sprite.alpha;
-
         window.sprite = sprite;
         
-        //ub.funcs.createClickable(sprite, application, view, 'application');
-        // $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-        // $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
       
     };
 
@@ -1323,7 +1315,6 @@ $(document).ready(function() {
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection = [];
-
             var mat_option = ub.funcs.getApplicationMatOption(app_id);
             var marker_name = "objects_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
@@ -1336,12 +1327,52 @@ $(document).ready(function() {
                     ub[_view_name].removeChild(ub.objects[_view_name][marker_name]);
                 }
 
-            }); 
+            });
+
+            var adjustablePositions = ['1','2','6','5'];
 
             _.each(views, function(view){
 
                 var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
+
+                if(_.indexOf(adjustablePositions, app_id) !== -1) {
+
+                    //var line = new PIXI.Graphics();
+                    //line.lineStyle(1, 0xffffff);
+
+                    if(app_id === '1' || app_id === '6'){
+
+                        //line.moveTo(0, view.application.bottomRight.y);
+                        //line.lineTo(550, view.application.bottomRight.y);
+                        console.log('Baseline is bottom: ');
+
+                        var point = sprite_function(args);
+                        point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
+
+                    }
+                    
+                    if(app_id === '2' || app_id === '5'){
+
+                        var topRightY = view.application.topRight.y;
+
+                        // line.moveTo(0, topRightY);
+                        // line.lineTo(550, topRightY);
+
+                        var point = sprite_function(args);
+                        var y = (point.height / 4 ) + topRightY;
+
+                        console.log('Baseline is top: ');
+
+                        point.position = new PIXI.Point(view.application.pivot.x, y);
+
+                    }
+
+                    // var view_name = view.perspective + '_view';
+                    // ub[view_name].addChild(line);
+
+                }
+
                 point.rotation = (view.application.rotation * Math.PI) / 180;
                 point.zIndex = -30;
 
@@ -1369,14 +1400,11 @@ $(document).ready(function() {
 
             ub.funcs.identify(app_id);
 
-
             return sprite_collection;
 
         };
 
         // End Render Application
-
-
         // Init Click
 
         $('#init_applications').on("click", function(e){
@@ -1386,8 +1414,6 @@ $(document).ready(function() {
         });
 
         // End Init Click
-
-
         // Application Transformer
 
         ub.funcs.transformedApplications = function () {
@@ -1422,7 +1448,7 @@ $(document).ready(function() {
                         }
                         
                         apps_transformed[shape.name][obj.id].views.push({ 
-                            perspective: shape.perspective, 
+                            perspective: shape.perspective,
                             application: obj
                         });
 
@@ -1434,53 +1460,7 @@ $(document).ready(function() {
 
             });
 
-            /// Draw App ID's 
-
-            // var str_builder = "";
-            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
-            // $mod_main_container.html('');
-
-            // _.each (ub.data.applications_transformed, function ( shape ) {
-
-            //     var body_applications = ub.data.applications_transformed[shape.name];
-                
-            //     _.each(shape, function (app) {
-
-            //         str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
-            //         $mod_main_container.append(str_builder);
-
-            //         $('.app_btn[data-id=' + app.id + ']').on('click', function(e) {
-
-            //             var mat_option = app.name;
-            //             var marker_name = 'app_ident';
-            //             var app_id = $(this).data('id');
-            //             var views = ub.data.applications_transformed[mat_option][app_id].views;
-
-            //             ub.funcs.renderApplication(ub.funcs.create_sprite, views, app_id);
-
-            //         });
-
-            //     })
-
-
-            // });
-
-            // var $mod_main_container = $('#mod_main_panel > .options_panel_section');
-            // var body_applications = ub.data.applications_transformed["Body"];
-            // var str_builder = "";
-
-            // _.each(ub.data.applications_transformed["Body"], function(app){
-
-            //     str_builder += "<button class='btn app_btns app_btn' data-id='" + app.id + "'> Application ID: " + app.id + " </button><br />";
-
-            // });
-
-            
-
-
-            /// End Draw App ID's
-
-    }
+        }
 
 
     /// End Transformed Applications
@@ -1508,10 +1488,6 @@ $(document).ready(function() {
         return view;
 
     }
-
-
-
-
 
     /// End Get Primary View
 

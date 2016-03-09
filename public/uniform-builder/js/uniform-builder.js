@@ -6,10 +6,6 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            if (window.ub.config.material_id === -1) {
-                return;
-            }
-
             ub.config.print_version();
 
             /// Initialize Assets
@@ -19,15 +15,10 @@ $(document).ready(function () {
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-            // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-            ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
-            ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
-
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-            // ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-            ub.loader(ub.current_material.material_url, 'material', ub.callback);
-            ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
+
+            // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
 
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
@@ -35,71 +26,25 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
-            /// Activate Views
+            if (window.ub.config.material_id !== -1) {
 
-            $('#main_view').parent().fadeIn();
-            window.ub.refresh_thumbnails();
+                ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
+                ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
-            /// End Activate Views
+                ub.loader(ub.current_material.material_url, 'material', ub.callback);
+                ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
-            ub.uniformSizes = {
-                'YXS': {
-                    name: 'Youth Extra Small',
-                    active: false
-                },
-                'YS': {
-                    name: 'Youth Small',
-                    active: false
-                },
-                'YM': {
-                    name: 'Youth Medium',
-                    active: false
-                },
-                'YL': {
-                    name: 'Youth Large',
-                    active: false
-                },
-                'YXL': {
-                    name: 'Youth Extra Large',
-                    active: false
-                },
-                'Y2XL': {
-                    name: 'Youth Double Extra Large',
-                    active: false
-                },
-                'Y3XL': {
-                    name: 'Youth Triple Extra Large',
-                    active: false
-                },
-                'XS': {
-                    name: 'Extra Small',
-                    active: false
-                },
-                'S': {
-                    name: 'Small',
-                    active: false
-                },
-                'M': {
-                    name: 'Medium',
-                    active: false
-                },
-                'L': {
-                    name: 'Large',
-                    active: false
-                },
-                'XL': {
-                    name: 'Extra Large',
-                    active: false
-                },
-                '2XL': {
-                    name: 'Double Extra Large',
-                    active: false
-                },
-                '3XL': {
-                    name: 'Triple Extra Large',
-                    active: false
-                }
-            };
+                /// Activate Views
+
+                $('#main_view').parent().fadeIn();
+                window.ub.refresh_thumbnails();
+
+                /// End Activate Views
+
+                return;
+
+            }
+           
         };
 
         ub.updateLayersOrder = function (container) {
@@ -3614,8 +3559,15 @@ $(document).ready(function () {
 
     }
 
-    /// Saving, Loading and Sharing /// 
+    /// Show Builder Pickers is there's no Uniform or Order that's being loaded
+    if (window.ub.config.material_id === -1) {
 
+        $('a.btn-new.new').click();
+
+    }
+
+
+    /// Saving, Loading and Sharing /// 
 
     // New Design
     $('.new-design').on('click', function () {
