@@ -154,6 +154,12 @@ class MaterialsController extends Controller
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
+
+        $block_pattern = $request->input('block_pattern');
+        $price_item_code = $request->input('price_item_code');
+        $sku = $request->input('sku');
+        $builder_customizations = $request->input('builder_customizations');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -182,7 +188,11 @@ class MaterialsController extends Controller
             'uniform_category_id' => $uniformCategoryId,
             'color_code' => $colorCode,
             'lining_type' => $liningType,
-            'factory_code' => $factoryCode
+            'factory_code' => $factoryCode,
+            'block_pattern' => $block_pattern,
+            'price_item_code' => $price_item_code,
+            'sku' => $sku,
+            'builder_customizations' => $builder_customizations
         ];
 
         try {

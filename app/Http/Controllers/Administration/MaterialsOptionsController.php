@@ -48,6 +48,7 @@ class MaterialsOptionsController extends Controller
         $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
         $teamColorId = $request->input('team_color_id');
+        $groupId = $request->input('group_id');
         $defaultColor = $request->input('default_color');
         $sublimatedDefaultColor = $request->input('sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -68,6 +69,7 @@ class MaterialsOptionsController extends Controller
             'origin' => $origin,
             'layer_level' => $layerLevel,
             'team_color_id' => $teamColorId,
+            'group_id' => $groupId,
             'default_color' => $defaultColor,
             'sublimated_default_color' => $sublimatedDefaultColor,
             'perspective' => $perspective,
@@ -157,6 +159,7 @@ class MaterialsOptionsController extends Controller
         $layerLevels = $request->input('mo_layer');
         $settingTypes = $request->input('mo_setting_type');
         $teamColorId = $request->input('mo_team_color_id');
+        $groupId = $request->input('mo_group_id');
         $defaultColor = $request->input('mo_default_color');
         $sublimatedDefaultColor = $request->input('mo_sublimated_default_color');
         $perspective = $request->input('perspective');
@@ -189,6 +192,7 @@ class MaterialsOptionsController extends Controller
                 'origin' => $origin,
                 'layer_level' => $layerLevels[$ctr],
                 'team_color_id' => $teamColorId[$ctr],
+                'group_id' => $groupId[$ctr],
                 'default_color' => $defaultColor[$ctr],
                 'sublimated_default_color' => $sublimatedDefaultColor[$ctr],
                 'perspective' => $perspective,
