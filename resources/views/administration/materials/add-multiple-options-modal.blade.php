@@ -21,6 +21,9 @@
                 <h4>PERSPECTIVE :&nbsp;
                 <input type="text" name="perspective" class="perspective-multiple-upload">
                 </h4>
+
+                <a class="btn btn-primary clone-row"><i class="fa fa-plus"></i> Add option</a>
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -120,9 +123,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    <a class="btn btn-primary clone-row"><i class="fa fa-plus"></i> Add option</a>
-                </div>
             </div>
             <table class="table table-bordered">
                 <tr>
