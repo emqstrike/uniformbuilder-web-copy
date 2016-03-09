@@ -94,7 +94,7 @@ $(document).ready(function() {
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
         html: true,
         trigger: 'hover',
-        placement: 'left',
+        placement: 'top',
         content: function(){
             return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
         }
