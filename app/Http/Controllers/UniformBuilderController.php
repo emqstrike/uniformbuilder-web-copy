@@ -81,6 +81,7 @@ class UniformBuilderController extends Controller
             else {
 
                 $categoryId = $material->uniform_category_id;
+
             }
 
 
@@ -103,7 +104,6 @@ class UniformBuilderController extends Controller
             'material' => $material,
             'material_id' => $materialId,
             'category_id' => $categoryId,
-
         ];
 
         $params['builder_customizations'] = null;
@@ -116,9 +116,9 @@ class UniformBuilderController extends Controller
             {
                 if ($order['order_id'] == $config['order_id'])
                 {
-
+                    $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
                     $params['order'] = $order;
-                    $params['builder_customizations'] = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
+                    $params['builder_customizations'] = $bc;
                 }
                 else
                 {
