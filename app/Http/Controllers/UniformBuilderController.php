@@ -311,6 +311,7 @@ class UniformBuilderController extends Controller
             'user_id' => $request->input('user_id'),
             'client' => $request->input('client'),
             'email' => $request->input('email'),
+            'design_name' => $request->input('design_name'),
             'upper_body_uniform' => $request->input('upper_body_uniform'),
             'lower_body_uniform' => $request->input('lower_body_uniform'),
             'total_upper_uniforms' => $request->input('total_upper_uniforms'),

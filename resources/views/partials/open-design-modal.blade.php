@@ -26,7 +26,9 @@
 
 <script id='list-saved-designs' type="text/mustache">
 <div class='col-md-6 uniform-design-item'>
-    <label class='label label-info'>@{{created_at}}</label>
+    <label class='label design-name'>@{{design_name}}</label><br />
+    <label class='label label-info'>@{{created_at}}</label><br />
+    
     <br />
     <img height='70em' src="@{{upper_front_thumbnail_path}}" />
     <img height='70em' src="@{{upper_back_thumbnail_path}}" />
