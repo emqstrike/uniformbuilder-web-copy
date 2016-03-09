@@ -369,14 +369,13 @@ var applicationProperties = {};
                 type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
                 });
-                type = type.slice(0,-1);
+                // type = type.slice(0,-1);
                 elem.val(type);
 
                 if(type == "highlight"){
                     $(this).parent().siblings().find(".layer-number").val('99');
                     $(this).parent().siblings().find(".layer-number").text('99');
-                }
-                if(type == "shadow"){
+                } else {
                     $(this).parent().siblings().find(".layer-number").val('98');
                     $(this).parent().siblings().find(".layer-number").text('98');
                 }
