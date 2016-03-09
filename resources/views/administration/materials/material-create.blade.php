@@ -40,6 +40,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control material-block-pattern" name="block_pattern" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Price Item Code</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control material-price-item-code" name="price_item_code" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-8">
                                 <select name='uniform_category_id' class="form-control uniform-category">
@@ -82,6 +96,20 @@
                                         @endif
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">SKU</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control material-code" name="sku" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Builder Customizations</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control material-builder-customizations" name="builder_customizations"></textarea>
                             </div>
                         </div>
 

@@ -47,10 +47,14 @@
                         <option id='saved-perspective'></option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Team Color ID:</label>
                     <select name='team_color_id' class='form-control team-color-id' id="team_color_id">
                     </select>
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Group ID:</label>
+                    <input type="text" name="group_id" class="form-control" id="group_id">
                 </div>
                 <div class="col-md-6">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Material Option File:</label>
