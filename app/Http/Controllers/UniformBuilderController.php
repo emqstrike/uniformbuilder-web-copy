@@ -60,25 +60,29 @@ class UniformBuilderController extends Controller
                 $material = $this->materialsClient->getMaterial($materialId);
             }
 
-                if (is_null($material))
-                {
-                    $material = $this->materialsClient->getMaterials()[0];
-                    $materialId = $material->id;
+            if (is_null($material))
+            {
+                    
+                // Set to the first material if nothing is requested
+                //$material = $this->materialsClient->getMaterials()[0];
+                //$materialId = $material->id;
 
-                    if(env('APP_ENV') === 'local') {
+                // if(env('APP_ENV') === 'local') {
+                //     $materialId = -1;
+                // }
+                // else {
+                //     $materialId = -1;                
+                // }
 
-                        $materialId = 22;
+                // set to just -1 for now to signal opening pickers instead
+                $materialId = -1;                
+                   
+            }
+            else {
 
-                    }
-                    else {
-
-                        $materialId = 52;                
-
-                    }
-
+                $categoryId = $material->uniform_category_id;
             }
 
-            $categoryId = $material->uniform_category_id;
 
         }
         else
@@ -102,7 +106,7 @@ class UniformBuilderController extends Controller
 
         ];
 
-         $params['builder_customizations'] = null;
+        $params['builder_customizations'] = null;
 
         $params['order'] = null;
         if (Session::has('order'))
