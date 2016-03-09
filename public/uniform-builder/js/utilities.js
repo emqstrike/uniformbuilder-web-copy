@@ -63,7 +63,7 @@ $( document ).ready(function() {
 
     String.prototype.toCodeCase = function(){
 
-        return this.toLowerCase().replace(" ", "_");
+        return this.replace(" ", "_").toLowerCase().replace(" ", "_");
 
     };
 

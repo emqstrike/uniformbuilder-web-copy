@@ -942,6 +942,8 @@ $(document).ready(function() {
     /// End Create Interactive UI
 
     ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
+
+        console.log('Still ON!');
         
         var rotation_point = _.find(ui_handles.children, { ubName: 'rotation_point'});
         var move_point = _.find(ui_handles.children, { ubName: 'move_point'});
@@ -1464,6 +1466,170 @@ $(document).ready(function() {
 
 
     /// End Transformed Applications
+
+    /// Transformed Boundary Properties
+
+    ub.funcs.pointIsInPoly = function (p, polygon) {
+
+        var isInside = false;
+        var minX = polygon[0].x, maxX = polygon[0].x;
+        var minY = polygon[0].y, maxY = polygon[0].y;
+
+        for (var n = 1; n < polygon.length; n++) {
+
+            var q = polygon[n];
+            minX = Math.min(q.x, minX);
+            maxX = Math.max(q.x, maxX);
+            minY = Math.min(q.y, minY);
+            maxY = Math.max(q.y, maxY);
+
+        }
+
+        if (p.x < minX || p.x > maxX || p.y < minY || p.y > maxY) {
+
+            return false;
+
+        }
+
+        var i = 0, j = polygon.length - 1;
+
+        for (i, j; i < polygon.length; j = i++) {
+          
+            if ( (polygon[i].y > p.y) != (polygon[j].y > p.y) &&
+                    p.x < (polygon[j].x - polygon[i].x) * (p.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x ) {
+                isInside = !isInside;
+            }
+
+        }
+
+        return isInside;
+
+    }
+
+    ub.funcs.isWithin = function (point, boundaries) {
+
+        return ub.funcs.pointIsInPoly(point, boundaries);
+
+    }
+
+    ub.funcs.withinMaterialOption = function (point) {
+
+        var _results = [];
+
+        var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+        _.each(_materialOptions, function (_materialOption){
+
+            var result = ub.funcs.isWithin(point, _materialOption.polygon, ub.active_view);
+
+            if (result) {
+                _results.push(_materialOption);
+            }
+
+        });
+
+        return _results;
+
+    }
+
+    
+    ub.funcs.transformedBoundaries = function () {
+
+        ub.data.boundaries_transformed = {};
+
+        var material_options = ub.current_material.materials_options;
+        var shapes = _.filter(material_options, {setting_type: 'shape'});
+        var boundaries_transformed = ub.data.boundaries_transformed;
+        var boundaries_one_dimensional = ub.data.boundaries_transformed_one_dimensional;
+
+        _.each(shapes, function(shape){
+
+            var boundary_properties = JSON.parse(shape.boundary_properties.slice(1, -1));
+            
+            if(boundary_properties !== null){
+
+                if (typeof boundaries_transformed[shape.name] === "undefined") {
+        
+                    boundaries_transformed[shape.name] = {
+                        name: shape.name,
+                        views: [],
+                    };    
+        
+                }  
+
+                var cObj = { 
+                    perspective: shape.perspective,
+                    bounding_box: {
+                       topLeft:  boundary_properties['topLeft'],
+                       topRight: boundary_properties['topRight'],
+                       bottomLeft: boundary_properties['bottomLeft'],
+                       bottomRight: boundary_properties['bottomRight'],
+                    }
+                };
+
+                boundaries_transformed[shape.name].views.push(cObj);
+                boundaries_one_dimensional[shape.perspective].push({
+                    
+                    name: shape.name,
+                    boundaries: cObj,
+                    layer_no: shape.layer_level,
+                    polygon: [
+                        boundary_properties['topLeft'],
+                        boundary_properties['topRight'],
+                        boundary_properties['bottomRight'],
+                        boundary_properties['bottomLeft'],
+                    ],
+
+                });
+
+            }
+
+        });
+
+        ub.stage.on('mousemove', function(mousedata){
+           
+            var current_coodinates = mousedata.data.global;
+            var results = ub.funcs.withinMaterialOption(current_coodinates);
+
+            if (results.length > 0 ) {
+
+                var _match = _.first(results).name.toCodeCase();
+                var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+                _.each(_materialOptions, function (_materialOption) {
+
+                    var _name = _materialOption.name.toCodeCase();
+                    var _object = ub.objects[ub.active_view + '_view'][_name];
+
+                    _object.alpha = 0.5;
+
+                });
+
+                var _object = ub.objects[ub.active_view + '_view'][_match];
+
+                _object.alpha = 1;
+
+            }
+            else{
+
+                var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+                _.each(_materialOptions, function (_materialOption) {
+
+                    var _name = _materialOption.name.toCodeCase();
+                    var _object = ub.objects[ub.active_view + '_view'][_name];
+
+                    _object.alpha = 1;
+
+                });                
+
+            }
+
+
+        })
+
+    }
+
+    /// End Transformed Boundary Properties
 
     /// Get Primary View of Application, TODO: Set this on the backend primary_view, boolean
 

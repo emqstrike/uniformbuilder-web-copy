@@ -1135,7 +1135,10 @@ $(document).ready(function () {
             var markup = '';
 
             // var apps = ub.data.applications.items;
+            
             ub.funcs.transformedApplications();
+            ub.funcs.transformedBoundaries();
+
             // var apps = ub.data.applications_transformed["Body"];
 
             // _.each(apps, function (application) {
@@ -3462,6 +3465,8 @@ $(document).ready(function () {
                 ub[view + '_view'].position.x = 0;
 
                 $('#main_view').fadeIn();
+
+                ub.active_view = view;
 
             });
 

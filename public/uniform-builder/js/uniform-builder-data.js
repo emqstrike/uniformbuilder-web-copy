@@ -8,6 +8,8 @@ $(document).ready(function(){
     ub.dimensions.width = 496;
     ub.dimensions.height = 550;
     ub.active = null;
+    ub.active_view = 'front';
+    ub.active_part = 'Body';
 
     ub.container_div = 'main_view';
     ub.views = ['front', 'back', 'left', 'right'];
@@ -65,6 +67,14 @@ $(document).ready(function(){
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
     ub.data.defaultUniformStyle = {};
+
+    ub.data.boundaries_transformed_one_dimensional = {
+        front: [],
+        back: [],
+        right: [],
+        left: [],
+    };
+    ub.data.boundaries_transformed = {};
 
     ub.data.applications_transformed_one_dimensional = [];
     ub.data.applications_transformed = {};
