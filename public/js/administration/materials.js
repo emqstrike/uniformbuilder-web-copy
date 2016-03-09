@@ -261,7 +261,7 @@ var applicationProperties = {};
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
         fill: 'transparent',
-        stroke: '#fff',
+        stroke: 'red',
         originX: 'center',
         originY: 'center'
     });
@@ -684,11 +684,11 @@ var appPropJson = "";
 
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
-        $("#shape-view-top").css("opacity", "0.4)");
+        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
 
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
-        $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
+        // $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
         // $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
