@@ -51,9 +51,6 @@
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
 }
-.#shape-view-top {
-    opacity: .4;
-}
 </style>
 
 @endsection

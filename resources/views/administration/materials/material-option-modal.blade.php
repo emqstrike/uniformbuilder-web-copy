@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <div class="col-md-4">
                     <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
-                    <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px;">
+                    <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px; opacity: 0.45;">
                         <canvas id="bounding-box-canvas"></canvas>
                     </div>
                 </div>
