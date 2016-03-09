@@ -10,6 +10,9 @@
 
 @section('content')
 <div class="col-md-12" style="margin-top: -40px;">
+<a href="/administration/materials" class="btn btn-default btn-xs" role="button" style="border: 1px solid #808080; margin-top: 30px;">
+    Back
+</a>
 <center><h3>Material Options of: <b>{{ ucfirst($material->name) }}</b></h3>
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
 <small>
