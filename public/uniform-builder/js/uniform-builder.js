@@ -3560,12 +3560,12 @@ $(document).ready(function () {
     }
 
     /// Show Builder Pickers is there's no Uniform or Order that's being loaded
-    if (window.ub.config.material_id === -1) {
+    if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
 
         $('a.btn-new.new').click();
 
-    }
 
+    } 
 
     /// Saving, Loading and Sharing /// 
 
