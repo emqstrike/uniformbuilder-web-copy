@@ -1406,7 +1406,7 @@ var appPropJson = "";
             if(cs == 1){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(thisGroup.left);
                 $(this).parent().siblings('td').find("input[class=app-y]").val(thisGroup.top);
-                $(this).parent().siblings('td').find(".app-rotation").val(thisGroup.getAngle());
+                $(this).val(thisGroup.getAngle());
             }
 
             if(isPrimary.prop( "checked" )){
@@ -1513,8 +1513,6 @@ var appPropJson = "";
             // thisGroup.left 
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-            applicationProperties[itemIdx].ax = thisGroup.left;
-            applicationProperties[itemIdx].ay = thisGroup.top;
 
             canvasFront.renderAll();
         });
