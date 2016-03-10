@@ -10,21 +10,22 @@
 
 @section('content')
 <div class="col-md-12" style="margin-top: -40px;">
-<a href="/administration/materials" class="btn btn-default btn-xs" role="button" style="border: 1px solid #808080; margin-top: 30px;">
+<input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
+<a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px;">
     Back
 </a>
-<center><h3>Material Options of: <b>{{ ucfirst($material->name) }}</b></h3>
-<input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
-<small>
-    <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}">
-        <span class="glyphicon glyphicon-refresh"></span>
-        Cleanup
-    </a>
-</small>
+<center>
 <img src="{{ $material->thumbnail_path }}"
      width="100px"
-     height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;"
->
+     height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px; border: 1px solid #808080;">
+<h3>Material Options of: <b>{{ ucfirst($material->name) }}
+    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080;">
+        Edit
+    </a>
+    <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}" style="border: 1px solid #808080;">
+        Reset Properties
+    </a>
+</b></h3>
 </center>
 </div>
 <?php $highlight_path; ?>

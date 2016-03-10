@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="front-applications text-center">
+                    <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="text-center">
                         <h3>Applications</h3><hr>
                         <a class="btn btn-xs btn-success" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">
@@ -171,6 +171,25 @@
                             <option value="player_name" data-def-name="player_name">Player Name</option>
                         </select>
                         <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Rotation</th>
+                                <th>X</th>
+                                <th>Y</th>
+                                <th>Primary</th>
+                                <th>Logo</th>
+                                <th>Team name</th>
+                                <th>Player name</th>
+                                <th>Number</th>
+                                <th>Font sizes</th>
+                                <th>Sizes</th>
+                            </thead>
+                            <tbody class="front-applications">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

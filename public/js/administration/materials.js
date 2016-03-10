@@ -17,7 +17,6 @@ $(document).ready(function() {
 
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
-    // $( ".upload-sortable-rows" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
@@ -43,23 +42,6 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.clone-row', function() {
-        // var length = $('.options-row').length;
-        // $(".options-row").each(function(i) {
-        //     $(this).find(".layer-number").text(length);
-        //     $(this).find(".layer-number").val(length);
-        //     var type = $(this).find(".mo-setting-type").val();
-        //     if(type == "highlights"){
-        //         $(this).find(".layer-number").val('99');
-        //         $(this).find(".layer-number").text('99');
-        //     }
-        //     if(type == "shadows"){
-        //         $(this).find(".layer-number").val('98');
-        //         $(this).find(".layer-number").text('98');
-        //     }
-        //     length = length-1;
-        // });
-        // var newLength = $('.options-row').length;
-        // renumberRows(newLength);
         syncMOLayers();
     });
 
@@ -111,10 +93,8 @@ $(document).ready(function() {
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
-        // var default_name = $('#application_name').val(); // MOD
-        var default_name_raw = $('#application_name').val(); // MOD
-        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,""); // MOD
-        // console.log("FORMATTED NAME: "+default_name_raw); // MOD
+        var default_name_raw = $('#application_name').val();
+        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
 
         var area = new fabric.Rect({
             id: application_number,
@@ -154,12 +134,22 @@ $(document).ready(function() {
         canvasFront.add(group);
         application_number++;
 
-        var text = $(this).val();
-        var itemsArr = ["logo", "number", "team_name", "player_name"];
-        var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
-        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Delete</a>";
-        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\""+default_name+"\">";
+        var text                    = $(this).val();
+        var itemsArr                = ["logo", "number", "team_name", "player_name"];
+        var selectAppend            = '<select class="app-def-item" style="margin-right: 5px;">';
+        var updateApplication       = '<a class="btn btn-xs btn-success update-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Update</a>';
+        var deleteApplication       = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var def_name                = '<input type="text" style="margin-right: 5px;" class="app-def-name" value="'+default_name+'">';
+        var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="margin-right: 5px;" class="app-rotation" value="0" size="3">';
+        var app_x                   = '<input type="text" style="margin-right: 5px;" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
+        var app_y                   = '<input type="text" style="margin-right: 5px;" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
+        var app_primary             = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_logo                = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_team_name           = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_player_name         = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_number              = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_font_sizes          = '<input type="text" style="margin-right: 5px;" class="app-def-name" value="" size="3">';
+        var app_sizes               = '<input type="text" style="margin-right: 5px;" class="app-def-name" value="" size="3">';
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -173,7 +163,21 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
+        $( ".front-applications" ).append( '<tr><td><input type="text" style="margin-right: 5px;" class="app-id" name="application_id" value="' + group.id + '" size="3">' + 
+            '<td>' + selectAppend + '</td>' +
+            '<td>' + def_name + 
+            '<td>' + application_rotation + '</td>' +
+            '<td>' + app_x + '</td>' +
+            '<td>' + app_y + '</td>' +
+            '<td>' + app_primary + '</td>' +
+            '<td>' + app_logo + '</td>' +
+            '<td>' + app_team_name + '</td>' +
+            '<td>' + app_player_name + '</td>' +
+            '<td>' + app_number + '</td>' +
+            '<td>' + app_font_sizes + '</td>' +
+            '<td>' + app_sizes + '</td>' +
+            '<td>' + deleteApplication + '</td>' +
+            '</tr>');
 
         var canvasItem = "application"+group.id;
 
@@ -204,18 +208,15 @@ var applicationProperties = {};
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
-        // var applicationId = $(this).siblings("input[name=application_id]").val();
         var items = canvasFront.getObjects();
         var item = items[itemIdx];
-
-        // item.id = applicationId;
 
         var thisGroup = canvasFront.item(itemIdx);
 
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
         activeObject = canvasFront.getActiveObject();
         canvasFront.remove(activeObject);
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
 
         canvasFront.renderAll();
         updateCoordinates();
@@ -641,26 +642,12 @@ var appPropJson = "";
             }
         });
 
-        // foreach(id_nums as id){
-        //     if(id == material.option.team_color_id){
-        //         team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
-        //     } else {
-        //         team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
-        //     }
-            
-        // }
-
         $('#team_color_id').append(team_color_id_options);
 
-        // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
         var va_prop_val = $('.a-prop').val();
-        // console.log($('.b-prop').val());
         if($('.a-prop').val() != "\"{}\""){
-            // console.log("INSIDE IF");
-            // var trim_backslash = $('.a-prop').val().replace(/\\/g, ''); ************
-            // va_prop_val = trim_backslash.substring(1, trim_backslash.length-1); ************
             va_prop_val = $('.a-prop').val();
             $('.a-prop').prop("value", va_prop_val);
         }
@@ -684,22 +671,14 @@ var appPropJson = "";
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
-
-        // $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
-        // $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
         // **************
-        // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            // console.log("bprop");
-            // var jason = $('.b-prop').val().replace(/\\/g, '');
             var jason = $('.b-prop').val();
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
-            // var myData = output;
 
             bounding_box.oCoords.tl.x = myData.topLeft.x;
             bounding_box.oCoords.tl.y = myData.topLeft.y;
@@ -722,11 +701,7 @@ var appPropJson = "";
             canvas.renderAll();
             canvasFront.clear();
 
-            // var appPropJson = $('.a-prop').val().replace(/\\/g, '');
-            // var appProp = appPropJson.substring(1, appPropJson.length-1);
             if($('.a-prop').val() != "\"{}\""){
-            //     return false;
-            // } ***********************************************
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
             var app_properties = JSON.parse(ap_out);
 
@@ -740,7 +715,6 @@ var appPropJson = "";
                 var l = "layer"+c;
                 var default_item = app_properties[l].type;
                 var iid = app_properties[l].id;
-// console.log("APP PROP NAME: "+app_properties[l].name);
                 if(!app_properties[l].id){
                     break;
                 }
@@ -801,7 +775,6 @@ var appPropJson = "";
                     selectAppend += "</select>";
 
                     var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\"" + app_properties[l].name + "\">";
-// console.log("DEF NAME STRING: "+def_name);
                     $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
@@ -958,7 +931,6 @@ var appPropJson = "";
         var checkedMaterialOptionsIDs = [];
         $('input[type=checkbox]:checked').each(function () {
             if($(this).hasClass("delete-multiple-material-options")){
-                // console.log("CHECKED: "+$(this).val());
                 checkedMaterialOptionsIDs.push($(this).val());
             }
             
@@ -978,7 +950,6 @@ var appPropJson = "";
             url: url,
             type: "POST",
             data: JSON.stringify({id: id}),
-            // data: {data : checkedMaterialOptionsIDs},
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -1110,12 +1081,6 @@ var appPropJson = "";
             multiple: true,
             allowClear: true
         });
-
-        // $(".colors-multi-select").each(function(i) {
-        //     var color = $(this).data('color');
-        //     $('.select2-choice').css("background-color",color);
-        //     // $('.select2-results .select2-highlighted').css("background-color",color);
-        // });
     }
 
     function bindGradientsSelect2()
@@ -1286,8 +1251,6 @@ var appPropJson = "";
             allow_color_arr.push(materialOptions.front[thisLayer]['allow_color']);
             $('#allow-color-array').val(allow_color_arr);
 
-
-            // console.log("Blend Array: "+is_blend_arr);
             length = old_length;
             length--;
         });
