@@ -128,7 +128,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label" style="margin-top: 0; background-color: #808080;">{{ $option->group_id }}</span>
+                                    <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -183,7 +183,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label" style="margin-top: 0; background-color: #808080;">{{ $option->group_id }}</span>
+                                    <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -238,7 +238,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label" style="margin-top: 0; background-color: #808080;">{{ $option->group_id }}</span>
+                                    <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
@@ -293,7 +293,7 @@
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
-                                    <span class="label" style="margin-top: 0; background-color: #808080;">{{ $option->group_id }}</span>
+                                    <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                                     <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
                                 </div>
