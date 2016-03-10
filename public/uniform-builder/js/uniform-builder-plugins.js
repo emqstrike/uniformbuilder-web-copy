@@ -25,6 +25,146 @@
     /// End Basic Format for Plugin Definition
 
 
+    $.fn.ubColorPickerBasic = function (options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function() {
+
+            var target_name = window.util.toTitleCase(settings.target);
+            var obj_colors = ''
+
+            if (typeof settings.target_name === 'string') {
+
+                target_name  = settings.target_name;
+
+            }
+            else {
+
+                target_name = settings.target.toTitleCase();
+
+            }
+
+            obj_colors = _.find(ub.current_material.material.options, {name: target_name });
+
+            var el = $(this);
+            var el_parent = el.parent();
+            var color = el_parent.find('input').val();
+            var color_stop_index = el_parent.find('input').data('index');
+            var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
+            var code = target_name;
+            var name = target_name.toTitleCase();
+            var header = '';
+            var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
+            var color_elements = '';
+
+            _.each(JSON.parse(obj_colors.colors), function(color_obj) {
+
+                var color = _.find( ub.data.colors, { color_code: color_obj});
+
+                var background_color = color.hex_code;
+
+                if(color.name === 'White') {
+                    background_color = 'ffffff';
+                }
+
+                var cl = '';
+                if (color.color_code === 'W') {
+                    cl = 'whitebtn';
+                }
+
+                if (typeof color === 'undefined') {
+
+                    util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
+                    return;
+
+                }
+
+                var element = '<div class="color_element">';
+
+                element = element + '<button class="btn change-color ' + cl + '" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 4px; border: 1px solid #eeeeee; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none">' + color.color_code + '</button>';
+                element = element + '</div>';    
+                color_elements = color_elements + element;
+
+            });
+
+            str_builder = str_builder + color_elements;
+            str_builder = str_builder + '</div></div>';
+
+            var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
+            var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
+
+            el_parent.addClass('ubColorPicker');
+
+            el.data('target');
+            el.data('target', settings.target);
+            el.data('type');
+            el.data('type', settings.type);
+            el_parent.append(btn_el);
+            el_parent.append(popup_picker);
+
+            var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
+
+            colors_btn.on('click', function() {
+
+                var color = $(this).data('color');
+                
+                $('input#primary_text').val(color);
+                el_parent.find('span').css('background-color', color);
+                el_parent.find('span').html($(this).html());
+                el_parent.find('span').css('font-size', '10px');
+                el_parent.find('span').css('padding-top', '2px');
+                el_parent.find('span').css('color', '#eeeeee');
+
+                if($(this).html() === 'W'){
+                    el_parent.find('span').css('background-color', "#ffffff");
+                    el_parent.find('span').css('color', '#eeeeee');
+                }
+
+                if($(this).html() === 'CR'){
+                    el_parent.find('span').css('color', '#000000');
+                }
+
+                if (settings.type === 'single') {
+
+                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                    
+                }
+
+                if (settings.type === 'withMatch') {
+
+                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                    $('button.btn.change-color[data-target="' + settings.matchingSide + '"][data-color="' + color +'"]').click();
+
+                }
+
+            });
+
+            var preamble = 'div.options_panel_section.ubColorPicker';
+            var panels = util.dataSelector(preamble, { 'option': target_name });
+            var color_stop_btn = util.dataSelector('span', { 'target': settings.target, 'type': settings.type, 'index': color_stop_index });
+            
+            color_stop_btn.on("click", function() {
+                
+                var picker_panel = util.dataSelector(preamble, { 'type': settings.type, 'option': target_name, 'index': color_stop_index });
+
+                if (picker_panel.css('display') === "none") {
+                    panels.hide();
+                    picker_panel.show();
+                }
+                else {
+                    panels.hide();
+                }
+
+            });
+
+            panels.hide();
+
+        });
+
+    };
+
+
     $.fn.ubColorPicker = function (options) {
 
         var settings = $.extend({ target: 'target' }, options);
