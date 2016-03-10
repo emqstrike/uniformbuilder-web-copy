@@ -102,7 +102,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 180px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -157,7 +157,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 180px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -212,7 +212,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 180px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -267,7 +267,7 @@
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                     <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                                    <a href="#" style="width: 100px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                                    <a href="#" style="width: 180px; text-align: left;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                                      data-placement="right"
                                             data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                             data-material-option-applications-properties="{{ $option->applications_properties }}"
