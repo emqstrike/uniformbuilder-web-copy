@@ -1588,8 +1588,10 @@ $(document).ready(function() {
                 boundaries_one_dimensional[shape.perspective].push({
                     
                     name: shape.name,
+                    alias: shape.name.replace('Left ', '').replace('Right ',''),
                     boundaries: cObj,
                     layer_no: shape.layer_level,
+                    group_id: shape.group_id,
                     polygon: [
                         boundary_properties['topLeft'],
                         boundary_properties['topRight'],
@@ -1638,9 +1640,28 @@ $(document).ready(function() {
 
                             });
 
-                            var _object = ub.objects[ub.active_view + '_view'][_match];
+                            /// Matching Side 
+                            var _matching_side = '';
 
+                            if (_match.indexOf('left_') !== -1){
+
+                                _matching_side = _match.replace('left_','right_');
+                                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                                _matching_object.alpha = 1;
+
+                            } else if (_match.indexOf('right_') !== -1){
+
+                                _matching_side = _match.replace('right_','left_');
+
+                                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                                _matching_object.alpha = 1;
+
+                            }
+
+                            var _object = ub.objects[ub.active_view + '_view'][_match];
                             _object.alpha = 1;
+
+                            /// End Matching Side 
 
                         }    
 
@@ -1651,10 +1672,9 @@ $(document).ready(function() {
 
                     }
 
-
                 ///
 
-                var _header_text = ub.active_part.toTitleCase();
+                var _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
                 $("#primary_options_header").html(_header_text.toUpperCase());
 
                 ub.active_lock = true;
@@ -1698,8 +1718,31 @@ $(document).ready(function() {
                 });
 
                 var _object = ub.objects[ub.active_view + '_view'][_match];
-
                 _object.alpha = 1;
+
+
+                /// Matching Side 
+                var _matching_side = '';
+
+                if (_match.indexOf('left_') !== -1){
+
+                    _matching_side = _match.replace('left_','right_');
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                    _matching_object.alpha = 1;
+
+                } else if (_match.indexOf('right_') !== -1){
+
+                    _matching_side = _match.replace('right_','left_');
+
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                    _matching_object.alpha = 1;
+
+                }
+
+                var _object = ub.objects[ub.active_view + '_view'][_match];
+                _object.alpha = 1;
+
+                /// End Matching Side 
 
             }
             else{
