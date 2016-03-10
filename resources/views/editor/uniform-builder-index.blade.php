@@ -100,6 +100,8 @@
             <a href="" class="sidebar-buttons mod_main" data-filename='mod_main'>
             </a>
 
+            <a href="" class="sidebar-buttons mod_primary" data-filename='mod_primary'>
+            </a>
 
         </div>
 
@@ -126,6 +128,8 @@
             @include('partials.panels.attachments')
 
             @include('partials.panels.mod_main')
+
+            @include('partials.panels.mod_primary')
 
         </div>
 
