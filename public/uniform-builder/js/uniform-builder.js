@@ -3567,6 +3567,7 @@ $(document).ready(function () {
     /// Initialize
 
     $('a.mod_primary').click();
+    $('#right-sidebar > a.sidebar-buttons').hide();
 
     /// End Initialize
 
