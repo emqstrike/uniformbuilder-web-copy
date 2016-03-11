@@ -10,7 +10,7 @@
             <img src="/images/sidebar/smiley.png" />
         </a>
 
-        <a href="" class="btn_tabs" data-type="einstein" onclick="$('#primary_options_colors').hide(); $('#primary_options_colors_advanced').show(); return false;">
+        <a href="" class="btn_tabs" data-type="einstein" style='display: none;' onclick="$('#primary_options_colors').hide(); $('#primary_options_colors_advanced').show(); return false;">
             <img src="/images/sidebar/einstein.png"/>
         </a>
 
