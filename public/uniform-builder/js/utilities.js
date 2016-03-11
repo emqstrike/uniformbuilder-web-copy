@@ -54,7 +54,7 @@ $( document ).ready(function() {
 
     String.prototype.toTitleCase = function(){
         
-        return window.util.toTitleCase(this.replace("_", " "));
+        return window.util.toTitleCase(window.util.toTitleCase(this.replace("_", " ")).replace("_", " "));
 
     };
 

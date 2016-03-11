@@ -1532,6 +1532,72 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.resetHighlights = function () {
+
+        $("#primary_options_header").html('');
+        var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+                
+        _.each(_materialOptions, function (_materialOption) {
+
+            var _name = _materialOption.name.toCodeCase();
+            var _object = ub.objects[ub.active_view + '_view'][_name];
+
+            _object.alpha = 1;
+            ub.active_part = undefined;
+
+        });    
+
+    }
+
+    ub.funcs.create_plugins = function (match, mode, matchingSide) {
+
+        $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
+        $('a.btn_tabs[data-type="smiley"]').click();
+    
+        if (mode === 'single') {
+
+            $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
+            $('#primary_options_colors_advanced').html('<div></div>');
+
+            $('#primary_text').ubColorPickerBasic({
+        
+                target: match.toCodeCase(),
+                type: 'single',
+
+            });
+
+        }
+
+        if (mode === 'withMatch') {
+
+            $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
+            $('#primary_options_colors_advanced').html('<div><input type="text" id="primary_text_left" style="float: left; margin-top: -2px;"></input></div><div><input type="text" id="primary_text_right" style="float: left; margin-top: -2px;"></input></div>');
+
+            $('#primary_text').ubColorPickerBasic({
+        
+                target: match.toCodeCase(),
+                type: 'withMatch',
+                matchingSide: matchingSide,
+
+            });
+
+            $('#primary_text_left').ubColorPickerBasic({
+        
+                target: match.toCodeCase(),
+                type: 'single',
+                
+            });
+
+            $('#primary_text_right').ubColorPickerBasic({
+        
+                target: matchingSide.toCodeCase(),
+                type: 'single',
+                
+            });
+
+        }
+
+    };
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -1571,8 +1637,10 @@ $(document).ready(function() {
                 boundaries_one_dimensional[shape.perspective].push({
                     
                     name: shape.name,
+                    alias: shape.name.replace('Left ', '').replace('Right ',''),
                     boundaries: cObj,
                     layer_no: shape.layer_level,
+                    group_id: shape.group_id,
                     polygon: [
                         boundary_properties['topLeft'],
                         boundary_properties['topRight'],
@@ -1586,46 +1654,157 @@ $(document).ready(function() {
 
         });
 
+        ub.stage.on('mousedown', function (mousedata) {
+
+            var current_coodinates = mousedata.data.global;
+            var results = ub.funcs.withinMaterialOption(current_coodinates);
+            var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
+
+            if (typeof ub.active_part === 'undefined' || results.length === 0 ) {
+
+                ub.funcs.resetHighlights();
+                ub.active_lock = false;
+
+                $sidebar_buttons.show();
+
+            }
+            else {
+
+                $sidebar_buttons.hide();
+
+                if (results.length > 0 ) {
+
+                    var _match = _.first(results).name.toCodeCase();
+
+                    console.log('Match: ' + _match);
+                    console.log('Active Part: ' + ub.active_part);
+                    
+                    if (ub.active_part !== _match) {
+
+                        ub.active_part = _match;
+
+                    }   
+
+                    var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+                    _.each(_materialOptions, function (_materialOption) {
+
+                        var _name = _materialOption.name.toCodeCase();
+                        var _object = ub.objects[ub.active_view + '_view'][_name];
+
+                        _object.alpha = 0.5;
+
+                    });
+
+                    /// Matching Side 
+                    var _matching_side = '';
+
+                    if (_match.indexOf('left_') !== -1){
+
+                        _matching_side = _match.replace('left_','right_');
+                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                        _matching_object.alpha = 1;
+
+                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                    } else if (_match.indexOf('right_') !== -1){
+
+                        _matching_side = _match.replace('right_','left_');
+
+                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                        _matching_object.alpha = 1;
+
+                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                    }
+                    else  {
+                        ub.funcs.create_plugins(_match, 'single');
+                    }
+                    /// End Matching Side 
+
+                    var _object = ub.objects[ub.active_view + '_view'][_match];
+                    _object.alpha = 1;
+
+                }
+                else {
+
+                    ub.funcs.resetHighlights();
+
+                }
+
+                var _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+                $("#primary_options_header").html(_header_text.toUpperCase());
+                ub.active_lock = true;
+
+            }
+
+        });
+
         ub.stage.on('mousemove', function(mousedata){
-           
+
+            if (ub.active_lock === true) { return; }
+
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
             if (results.length > 0 ) {
 
                 var _match = _.first(results).name.toCodeCase();
+                
+                if (ub.active_part === _match) {
+    
+                    return;
+
+                }
+
+                var _active_view = ub.active_view + '_view';
+                ub.active_part = _match;
+
                 var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
 
                 _.each(_materialOptions, function (_materialOption) {
 
                     var _name = _materialOption.name.toCodeCase();
-                    var _object = ub.objects[ub.active_view + '_view'][_name];
+                    var _object = ub.objects[_active_view][_name];
 
-                    _object.alpha = 0.5;
+                    _object.alpha = 0.3;
 
                 });
 
-                var _object = ub.objects[ub.active_view + '_view'][_match];
+                var _object = ub.objects[_active_view][_match];
+                _object.alpha = 1;
 
+
+                /// Matching Side 
+                var _matching_side = '';
+
+                if (_match.indexOf('left_') !== -1){
+
+                    _matching_side = _match.replace('left_','right_');
+                    var _matching_object = ub.objects[_active_view][_matching_side];
+                    _matching_object.alpha = 1;
+
+                } else if (_match.indexOf('right_') !== -1){
+
+                    _matching_side = _match.replace('right_','left_');
+
+                    var _matching_object = ub.objects[_active_view][_matching_side];
+                    _matching_object.alpha = 1;
+
+                }
+                /// End Matching Side 
+
+                var _object = ub.objects[_active_view][_match];
                 _object.alpha = 1;
 
             }
             else{
 
-                var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
-                _.each(_materialOptions, function (_materialOption) {
-
-                    var _name = _materialOption.name.toCodeCase();
-                    var _object = ub.objects[ub.active_view + '_view'][_name];
-
-                    _object.alpha = 1;
-
-                });                
+                ub.funcs.resetHighlights();
 
             }
 
-
-        })
+        });
 
     }
 

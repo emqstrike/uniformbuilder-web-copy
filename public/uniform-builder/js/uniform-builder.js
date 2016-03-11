@@ -3564,11 +3564,17 @@ $(document).ready(function () {
 
     }
 
+    /// Initialize
+
+    $('a.mod_primary').click();
+    $('#right-sidebar > a.sidebar-buttons').hide();
+
+    /// End Initialize
+
     /// Show Builder Pickers is there's no Uniform or Order that's being loaded
     if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
 
         $('a.btn-new.new').click();
-
 
     } 
 
