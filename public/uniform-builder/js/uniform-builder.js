@@ -352,6 +352,12 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
+            var material_name = ub.current_material.material.name
+            $('span#design_name_input').text(material_name);
+            $('input[name="design_name"]').val(material_name);
+
+
+
         }
 
         /// Main Render Loop
@@ -2702,16 +2708,7 @@ $(document).ready(function () {
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") {
-
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
-
-            }
-            else {
-
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
-
-            }
+            guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
             var gradient_width  = 496;
             var gradient_height = 550;
@@ -2985,7 +2982,7 @@ $(document).ready(function () {
                 var target_name = target.toTitleCase();
                 
                 ub.current_material.containers[application.id] = {};
-                var application_settings = ub.current_material.containers[application.id]
+                var application_settings = ub.current_material.containers[application.id];
                 
                 if(typeof application_settings.pattern === 'undefined') {
 
@@ -3058,16 +3055,7 @@ $(document).ready(function () {
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") { 
-
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
-
-            }
-            else {
-
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 }; 
-
-            } 
+            guides = { x1: 23, y1: 67, x2: 466, y2: 464 }; 
 
             var gradient_width  = 496;
             var gradient_height = 550;
@@ -3556,6 +3544,46 @@ $(document).ready(function () {
 
     }
 
+    $('input[name="design_name"]').on('change', function () {
+
+        $('span#design_name_input').text($(this).val());
+
+    });
+
+    $('span#design_name_input').bind('click', function() {
+
+            $(this).attr('contentEditable', true);
+
+        }).blur(
+        
+            function() {
+                
+                $(this).attr('contentEditable', false);
+                var text = $('span#design_name_input').text();
+                $('input[name="design_name"]').val(text);
+
+            });
+
+    $('a#pencil_link').on('click', function () {
+
+        // TODO: Fill this with notes popup
+        return false;
+
+    })
+
+    $('input#simple_toggle').onoff();
+
+    $("input#simple_toggle").change(function() {
+        if(this.checked) {
+            $('a[data-type="einstein"]').hide();
+            $('div#primary_options_colors_advanced').hide();
+        }
+        else {
+            $('a[data-type="einstein"]').show();   
+            
+        }
+    });
+
     /// End Generate Pattern
 
     ub.funcs.identify = function (applicationCode) {
@@ -3577,7 +3605,6 @@ $(document).ready(function () {
         $('a.btn-new.new').click();
 
     } 
-
     /// Saving, Loading and Sharing /// 
 
     // New Design

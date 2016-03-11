@@ -1581,19 +1581,25 @@ $(document).ready(function() {
 
             });
 
-            $('#primary_text_left').ubColorPickerBasic({
-        
-                target: match.toCodeCase(),
-                type: 'single',
-                
-            });
+            var simple_mode = $('input#simple_toggle').is(":checked");
 
-            $('#primary_text_right').ubColorPickerBasic({
-        
-                target: matchingSide.toCodeCase(),
-                type: 'single',
-                
-            });
+            if (simple_mode !== true) {
+
+                $('#primary_text_left').ubColorPickerBasic({
+            
+                    target: match.toCodeCase(),
+                    type: 'single',
+                    
+                });
+
+                $('#primary_text_right').ubColorPickerBasic({
+            
+                    target: matchingSide.toCodeCase(),
+                    type: 'single',
+                    
+                });
+
+            }
 
         }
 
@@ -1676,9 +1682,6 @@ $(document).ready(function() {
 
                     var _match = _.first(results).name.toCodeCase();
 
-                    console.log('Match: ' + _match);
-                    console.log('Active Part: ' + ub.active_part);
-                    
                     if (ub.active_part !== _match) {
 
                         ub.active_part = _match;
@@ -1696,31 +1699,38 @@ $(document).ready(function() {
 
                     });
 
-                    /// Matching Side 
-                    var _matching_side = '';
+                    var simple_mode = $('input#simple_toggle').is(":checked");
 
-                    if (_match.indexOf('left_') !== -1){
+                    if (simple_mode === true) {
 
-                        _matching_side = _match.replace('left_','right_');
-                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                        _matching_object.alpha = 1;
+                        /// Matching Side 
+                        var _matching_side = '';
 
-                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+                        if (_match.indexOf('left_') !== -1){
 
-                    } else if (_match.indexOf('right_') !== -1){
+                            _matching_side = _match.replace('left_','right_');
+                            var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                            _matching_object.alpha = 1;
 
-                        _matching_side = _match.replace('right_','left_');
+                            ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
 
-                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                        _matching_object.alpha = 1;
+                        } else if (_match.indexOf('right_') !== -1){
 
-                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+                            _matching_side = _match.replace('right_','left_');
 
-                    }
-                    else  {
-                        ub.funcs.create_plugins(_match, 'single');
-                    }
-                    /// End Matching Side 
+                            var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                            _matching_object.alpha = 1;
+
+                            ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                        }
+                        else  {
+
+                            ub.funcs.create_plugins(_match, 'single');
+
+                        }
+                        /// End Matching Side 
+                    }    
 
                     var _object = ub.objects[ub.active_view + '_view'][_match];
                     _object.alpha = 1;
@@ -1774,25 +1784,30 @@ $(document).ready(function() {
                 var _object = ub.objects[_active_view][_match];
                 _object.alpha = 1;
 
+                var simple_mode = $('input#simple_toggle').is(":checked");
 
-                /// Matching Side 
-                var _matching_side = '';
+                if (simple_mode === true) {
 
-                if (_match.indexOf('left_') !== -1){
+                    /// Matching Side 
+                    var _matching_side = '';
 
-                    _matching_side = _match.replace('left_','right_');
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    _matching_object.alpha = 1;
+                    if (_match.indexOf('left_') !== -1){
 
-                } else if (_match.indexOf('right_') !== -1){
+                        _matching_side = _match.replace('left_','right_');
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        _matching_object.alpha = 1;
 
-                    _matching_side = _match.replace('right_','left_');
+                    } else if (_match.indexOf('right_') !== -1){
 
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    _matching_object.alpha = 1;
+                        _matching_side = _match.replace('right_','left_');
+
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        _matching_object.alpha = 1;
+
+                    }
+                    /// End Matching Side 
 
                 }
-                /// End Matching Side 
 
                 var _object = ub.objects[_active_view][_match];
                 _object.alpha = 1;

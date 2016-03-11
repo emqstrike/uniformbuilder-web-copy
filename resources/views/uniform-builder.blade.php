@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/onoff/jquery.onoff.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
@@ -36,6 +37,27 @@
             ×
         </button>
         <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+    </div>
+
+    <div class="row" id="special_modifiers">
+
+        <div class="col-md-6">
+    
+            <div id="design_name_container">
+                
+                <label>Design Name: </label> <span id="design_name_input">Infusion 14</span> &nbsp;
+                <i class="fa fa-pencil-square-o"></i>
+
+                <div id="simple_toggle_container">
+
+                    <input id="simple_toggle" type="checkbox" checked />
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
     <div id="main-row" class="row">
@@ -97,6 +119,7 @@
 <script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/onoff/jquery.onoff.min.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
