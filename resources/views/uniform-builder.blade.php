@@ -91,6 +91,13 @@
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
 
+<script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/jspdf.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/addimage.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
@@ -98,42 +105,90 @@
 
 <!-- Uniform Builder Scripts -->
 <script type="text/javascript">
-$(document).ready(function () {
-    window.ub = {}; window.ub.objects = {}; window.ub.config = { app_env: "{{ env('APP_ENV') }}", api_host: "http://{{ env('API_HOST') }}", material_id: {{ $material_id }}, category_id: {{ $category_id }}, host: 'http://{{ Request::server ("HTTP_HOST") }}', thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' };
-@if (Session::get('isLoggedIn'))
-    window.ub.user = {id: {{ Session::get('userId') }}, fullname: "{{ Session::get('fullname') }}", email: "{{ Session::get('email') }}", headerValue: "{{ base64_encode(Session::get('accessToken')) }}"};
-@else
-    window.ub.user = false;
-    $('#signup-modal .register').on('click', function(){
-        var captcha_response = $('.g-recaptcha-response').val();
-        if (captcha_response.length == 0) {
-            $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-            return false;
+
+    $(document).ready(function () {
+
+        window.ub = {};
+        window.ub.objects = {};
+        window.ub.config = { 
+            app_env: "{{ env('APP_ENV') }}", 
+            api_host: "http://{{ env('API_HOST') }}", 
+            material_id: {{ $material_id }}, 
+            category_id: {{ $category_id }}, 
+            host: 'http://{{ Request::server ("HTTP_HOST") }}', 
+            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' 
+        };
+
+        @if (Session::get('isLoggedIn'))
+
+            window.ub.user = {
+                id: {{ Session::get('userId') }}, 
+                fullname: "{{ Session::get('fullname') }}", 
+                email: "{{ Session::get('email') }}", 
+                headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
+            };
+
+        @else
+
+            window.ub.user = false;
+            $('#signup-modal .register').on('click', function(){
+                var captcha_response = $('.g-recaptcha-response').val();
+                if (captcha_response.length == 0) {
+                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    return false;
+                }
+                return true;
+            });
+
+        @endif
+
+        @if (Session::has('message'))
+
+            $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
+
+        @endif
+
+
+        // #load_order
+        var s = "{{ $builder_customizations }}";
+
+        if(s.length > 0){
+            
+            window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+
+            $('#genPDF').on('click', function(){
+             
+                var doc = new jsPDF();
+                var image = $('div.ub_qrcode > canvas').get(0).toDataURL("image/png", 1.0);
+                var front_view = ub.getThumbnailImage('front_view');
+
+                doc.setFontSize(40);
+                doc.addImage(image, 'png', 20, 40, 40, 40);
+                doc.text(20, 20, "Prolook UB");
+
+                doc.save('qrcode.pdf');
+
+            });
+            
+            $('div.ub_qrcode').qrcode({
+                "size": 100,
+                "color": "#3a3",
+                "text": window.location.href,
+            });
+
         }
-        return true;
+        else {
+
+            window.ub.temp = undefined;
+            
+        }    
+
+        // end #load_order
+
     });
-@endif
-@if (Session::has('message'))
-    $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
-@endif
-
-
-// #load_order
-var s = "{{ $builder_customizations }}";
-
-if(s.length > 0){
-    window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
-}
-else {
-    window.ub.temp = undefined;
-}    
-
-
-});
-
-
 
 </script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>

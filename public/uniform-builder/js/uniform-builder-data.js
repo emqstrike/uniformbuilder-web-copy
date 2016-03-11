@@ -9,6 +9,14 @@ $(document).ready(function(){
     ub.dimensions.height = 550;
     ub.active = null;
 
+    /// For Interactive Viewport
+
+    ub.active_view = 'front';
+    ub.active_part = undefined;
+    ub.active_lock = undefined;
+
+    /// End Interactive Viewport
+
     ub.container_div = 'main_view';
     ub.views = ['front', 'back', 'left', 'right'];
     ub.stage = new PIXI.Container();
@@ -64,8 +72,21 @@ $(document).ready(function(){
     
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
+
     ub.data.defaultUniformStyle = {};
 
+    ub.data.boundaries_transformed_one_dimensional = {
+
+        front: [],
+        back:  [],
+        right: [],
+        left:  [],
+        
+    };
+
+    ub.data.boundaries_transformed = {};
+
+    ub.data.applications_transformed_one_dimensional = [];
     ub.data.applications_transformed = {};
     ub.data.applications_transformed_temp = {
         
@@ -94,9 +115,325 @@ $(document).ready(function(){
 
         } 
 
+    };
+
+    ub.data.mascotSizes = {
+        
+        items: [
+            {
+                size: '1',
+                scale: 0.15,
+            },
+            {
+                size: '2',
+                scale: 0.3,
+            },
+            {
+                size: '3',
+                scale: 0.4,
+            },
+            {
+                size: '4',
+                scale: 0.5,
+            },
+        ],
 
     };
 
+    ub.data.applicationSizes = {
+
+        items: [
+                {
+                    name: 'team_name',
+                    sizes:  [
+                                {
+                                    type: 'embroidery',
+                                    size: 1,
+                                },
+                                {
+                                    type: 'tackle twill',
+                                    size: 2,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'team_name',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sizes:  [
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'front_number',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                            ],
+                    type: 'youth',
+                },
+                {
+                    name: 'back_number',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                { 
+                                    size: 10,
+                                },
+                            ],
+                    type: 'youth',
+                },
+                {
+                    name: 'shoulder_number',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'sleeve_number',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'logo',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                }
+                            ],
+                },
+            ],
+    }
+
+    /// Todo: Read This from API for a complete font listing
+
+    ub.data.fontSizes = {
+
+        items: [
+            {
+                fontID: 1,
+                fontName: 'Aachen Bold',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 2,
+                fontName: 'Algerian',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 3,
+                fontName: 'Angels',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 4,
+                fontName: 'Arabian Nights',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 5,
+                fontName: 'Athletic',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 6,
+                fontName: 'Baccus Expanded',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 7,
+                fontName: 'Bean Town',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 8,
+                fontName: 'Bomber',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 9,
+                fontName: 'Bosox',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 10,
+                fontName: 'Brush Script',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 11,
+                fontName: 'Carbon Block',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 12,
+                fontName: 'Celtic',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 13,
+                fontName: 'Cobalt',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 14,
+                fontName: 'Cobra',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 15,
+                fontName: 'Cracker jack',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 16,
+                fontName: 'Demonized',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 17,
+                fontName: 'Dodger Script',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+            {
+                fontID: 18,
+                fontName: 'Duck Face',
+                startSize: 20,
+                increment: 10,
+                fontSizeTable: [
+                    { inputSize: '1', outputSize: 20, }, { inputSize: '2', outputSize: 30, }, { inputSize: '3', outputSize: 40, }, { inputSize: '4', outputSize: 50, },  { inputSize: '5', outputSize: 60, }, { inputSize: '6', outputSize: 70, }, { inputSize: '7', outputSize: 80, }, { inputSize: '8', outputSize: 90, }, { inputSize: '9', outputSize: 100, },  { inputSize: '10', outputSize: 110, },  { inputSize: '11', outputSize: 120, },  { inputSize: '12', outputSize: 130, }, 
+                ],
+            },
+
+
+
+        ],
+    };
 
     // Layer Assignment for Applications 
     // 30 - 50
@@ -1871,6 +2208,65 @@ $(document).ready(function(){
 
         ],
     }
+
+    ub.uniformSizes = {
+        'YXS': {
+            name: 'Youth Extra Small',
+            active: false
+        },
+        'YS': {
+            name: 'Youth Small',
+            active: false
+        },
+        'YM': {
+            name: 'Youth Medium',
+            active: false
+        },
+        'YL': {
+            name: 'Youth Large',
+            active: false
+        },
+        'YXL': {
+            name: 'Youth Extra Large',
+            active: false
+        },
+        'Y2XL': {
+            name: 'Youth Double Extra Large',
+            active: false
+        },
+        'Y3XL': {
+            name: 'Youth Triple Extra Large',
+            active: false
+        },
+        'XS': {
+            name: 'Extra Small',
+            active: false
+        },
+        'S': {
+            name: 'Small',
+            active: false
+        },
+        'M': {
+            name: 'Medium',
+            active: false
+        },
+        'L': {
+            name: 'Large',
+            active: false
+        },
+        'XL': {
+            name: 'Extra Large',
+            active: false
+        },
+        '2XL': {
+            name: 'Double Extra Large',
+            active: false
+        },
+        '3XL': {
+            name: 'Triple Extra Large',
+            active: false
+        }
+    };
 
     ub.funcs.load_fonts = function () {
 

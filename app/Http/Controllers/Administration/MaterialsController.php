@@ -25,7 +25,7 @@ class MaterialsController extends Controller
     public function __construct(
         APIClient $apiClient,
         MaterialsOptionsAPIClient $optionsClient,
-        ColorsAPIClient $colorsClient,
+        ColorsAPIClient $colorsAPIClient,
         FactoriesAPIClient $factoriesClient,
         GradientsAPIClient $gradientClient
     )
@@ -33,7 +33,7 @@ class MaterialsController extends Controller
         $this->client = $apiClient;
         $this->optionsClient = $optionsClient;
         $this->factoriesClient = $factoriesClient;
-        $this->colorsClient = $colorsClient;
+        $this->colorsClient = $colorsAPIClient;
         $this->gradientClient = $gradientClient;
     }
 
@@ -93,7 +93,7 @@ class MaterialsController extends Controller
                 }
             }
         }
-// dd($options);
+
         $material = $this->client->getMaterial($id);
 
         $gradients = $this->gradientClient->getGradients();
@@ -135,12 +135,9 @@ class MaterialsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
-        $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
-            'colors' => $colors,
             'factories' => $factories
         ]);
     }
@@ -157,6 +154,12 @@ class MaterialsController extends Controller
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
+
+        $block_pattern = $request->input('block_pattern');
+        $price_item_code = $request->input('price_item_code');
+        $sku = $request->input('sku');
+        $builder_customizations = $request->input('builder_customizations');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -185,7 +188,11 @@ class MaterialsController extends Controller
             'uniform_category_id' => $uniformCategoryId,
             'color_code' => $colorCode,
             'lining_type' => $liningType,
-            'factory_code' => $factoryCode
+            'factory_code' => $factoryCode,
+            'block_pattern' => $block_pattern,
+            'price_item_code' => $price_item_code,
+            'sku' => $sku,
+            'builder_customizations' => $builder_customizations
         ];
 
         try {
@@ -202,7 +209,6 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
-
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
             if (isset($designSheetFile))

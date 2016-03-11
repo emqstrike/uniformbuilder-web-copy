@@ -60,25 +60,30 @@ class UniformBuilderController extends Controller
                 $material = $this->materialsClient->getMaterial($materialId);
             }
 
-                if (is_null($material))
-                {
-                    $material = $this->materialsClient->getMaterials()[0];
-                    $materialId = $material->id;
+            if (is_null($material))
+            {
+                    
+                // Set to the first material if nothing is requested
+                //$material = $this->materialsClient->getMaterials()[0];
+                //$materialId = $material->id;
 
-                    if(env('APP_ENV') === 'local') {
+                // if(env('APP_ENV') === 'local') {
+                //     $materialId = -1;
+                // }
+                // else {
+                //     $materialId = -1;                
+                // }
 
-                        $materialId = 20;
+                // set to just -1 for now to signal opening pickers instead
+                $materialId = -1;                
+                   
+            }
+            else {
 
-                    }
-                    else {
-
-                        $materialId = 52;                
-
-                    }
+                $categoryId = $material->uniform_category_id;
 
             }
 
-            $categoryId = $material->uniform_category_id;
 
         }
         else
@@ -99,10 +104,9 @@ class UniformBuilderController extends Controller
             'material' => $material,
             'material_id' => $materialId,
             'category_id' => $categoryId,
-
         ];
 
-         $params['builder_customizations'] = null;
+        $params['builder_customizations'] = null;
 
         $params['order'] = null;
         if (Session::has('order'))
@@ -112,9 +116,9 @@ class UniformBuilderController extends Controller
             {
                 if ($order['order_id'] == $config['order_id'])
                 {
-
+                    $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
                     $params['order'] = $order;
-                    $params['builder_customizations'] = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
+                    $params['builder_customizations'] = $bc;
                 }
                 else
                 {
@@ -311,6 +315,7 @@ class UniformBuilderController extends Controller
             'user_id' => $request->input('user_id'),
             'client' => $request->input('client'),
             'email' => $request->input('email'),
+            'design_name' => $request->input('design_name'),
             'upper_body_uniform' => $request->input('upper_body_uniform'),
             'lower_body_uniform' => $request->input('lower_body_uniform'),
             'total_upper_uniforms' => $request->input('total_upper_uniforms'),

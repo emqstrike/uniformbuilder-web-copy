@@ -1,6 +1,6 @@
 <!-- Open Design Modal -->
 <div class="modal bs-modal-sm in" id="open-design-modal" aria-hidden="false">
-    <div class="modal-dialog"> 
+    <div class="modal-dialog open-design-modal"> 
         <form class="form-horizontal" role="form" id='open-design-form'>
             <div class="modal-content"> 
                 <div class="modal-header"> 
@@ -25,12 +25,14 @@
 </div>
 
 <script id='list-saved-designs' type="text/mustache">
-<div class='col-md-6 uniform-design-item'>
-    <label class='label label-info'>@{{created_at}}</label>
+<div class='col-md-4 uniform-design-item'>
+    <label class='label design-name'>@{{design_name}}</label><br />
+    <label class='label label-info'>@{{created_at}}</label><br />
+    
     <br />
     <img height='70em' src="@{{upper_front_thumbnail_path}}" />
     <img height='70em' src="@{{upper_back_thumbnail_path}}" />
-    <br />
+    <br /><br />
     <a href="/order/@{{order_id}}" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="bottom" title="Open"><span class="fa fa-folder-open-o"></span>
     </a>
     <a href="#" class="btn btn-xs btn-default share-uniform-design" data-order-id="@{{order_id}}" data-toggle="tooltip" data-placement="bottom" title="Share"><span class="fa fa-mail-forward"></span>

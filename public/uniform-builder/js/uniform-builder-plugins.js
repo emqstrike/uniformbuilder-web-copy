@@ -22,8 +22,147 @@
     //
     // };
 
-
     /// End Basic Format for Plugin Definition
+
+
+    $.fn.ubColorPickerBasic = function (options) {
+
+        var settings = $.extend({ target: 'target' }, options);
+
+        return this.each(function() {
+
+            var target_name = window.util.toTitleCase(settings.target);
+            var obj_colors = ''
+
+            if (typeof settings.target_name === 'string') {
+
+                target_name  = settings.target_name;
+
+            }
+            else {
+
+                target_name = settings.target.toTitleCase();
+
+            }
+
+            obj_colors = _.find(ub.current_material.material.options, {name: target_name });
+
+            var el = $(this);
+            var el_parent = el.parent();
+            var color = el_parent.find('input').val();
+            var color_stop_index = el_parent.find('input').data('index');
+            var btn_el_id = settings.type + "_" + settings.target + "_" + color_stop_index;
+            var code = target_name;
+            var name = target_name.toTitleCase();
+            var header = '';
+            var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
+            var color_elements = '';
+
+            _.each(JSON.parse(obj_colors.colors), function(color_obj) {
+
+                var color = _.find( ub.data.colors, { color_code: color_obj});
+
+                var background_color = color.hex_code;
+
+                if(color.name === 'White') {
+                    background_color = 'ffffff';
+                }
+
+                var cl = '';
+                if (color.color_code === 'W') {
+                    cl = 'whitebtn';
+                }
+
+                if (typeof color === 'undefined') {
+
+                    util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
+                    return;
+
+                }
+
+                var element = '<div class="color_element">';
+
+                element = element + '<button class="btn change-color ' + cl + '" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 4px; border: 1px solid #eeeeee; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none">' + color.color_code + '</button>';
+                element = element + '</div>';    
+                color_elements = color_elements + element;
+
+            });
+
+            str_builder = str_builder + color_elements;
+            str_builder = str_builder + '</div></div>';
+
+            var btn_el = "<div id='" + btn_el_id + "' class='btn drop-target drop-theme-hubspot-popovers' title='Color Stop: " + color_stop_index + "' rel='popover' tabindex='0' data-placement='bottom' data-popover-content='#" + settings.type + "_" + settings.target + "' data-type='" + settings.type + "' data-target='" + settings.target + "'><span data-target='" + settings.target + "' data-index='" + color_stop_index + "' data-type='" + settings.type + "' style='background-color: " + color + "'></span></div>";
+            var popup_picker = "<div id='" + settings.type + "_" + settings.target + "' class='popup_picker'>" + str_builder + "</div>";
+
+            el_parent.addClass('ubColorPicker');
+
+            el.data('target');
+            el.data('target', settings.target);
+            el.data('type');
+            el.data('type', settings.type);
+            el_parent.append(btn_el);
+            el_parent.append(popup_picker);
+
+            var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
+
+            colors_btn.on('click', function() {
+
+                var color = $(this).data('color');
+                
+                $('input#primary_text').val(color);
+                el_parent.find('span').css('background-color', color);
+                el_parent.find('span').html($(this).html());
+                el_parent.find('span').css('font-size', '10px');
+                el_parent.find('span').css('padding-top', '2px');
+                el_parent.find('span').css('color', '#eeeeee');
+
+                if($(this).html() === 'W'){
+                    el_parent.find('span').css('background-color', "#ffffff");
+                    el_parent.find('span').css('color', '#eeeeee');
+                }
+
+                if($(this).html() === 'CR'){
+                    el_parent.find('span').css('color', '#000000');
+                }
+
+                if (settings.type === 'single') {
+
+                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                    
+                }
+
+                if (settings.type === 'withMatch') {
+
+                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
+                    $('button.btn.change-color[data-target="' + settings.matchingSide + '"][data-color="' + color +'"]').click();
+
+                }
+
+            });
+
+            var preamble = 'div.options_panel_section.ubColorPicker';
+            var panels = util.dataSelector(preamble, { 'option': target_name });
+            var color_stop_btn = util.dataSelector('span', { 'target': settings.target, 'type': settings.type, 'index': color_stop_index });
+            
+            color_stop_btn.on("click", function() {
+                
+                var picker_panel = util.dataSelector(preamble, { 'type': settings.type, 'option': target_name, 'index': color_stop_index });
+
+                if (picker_panel.css('display') === "none") {
+                    panels.hide();
+                    picker_panel.show();
+                }
+                else {
+                    panels.hide();
+                }
+
+            });
+
+            panels.hide();
+
+        });
+
+    };
 
 
     $.fn.ubColorPicker = function (options) {
@@ -63,6 +202,17 @@
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
 
+                var background_color = color.hex_code;
+
+                if(color.name === 'White') {
+                    background_color = 'ffffff';
+                }
+
+                var cl = '';
+                if (color.color_code === 'W') {
+                    cl = 'whitebtn';
+                }
+
                 if (typeof color === 'undefined') {
 
                     util.error('Color Not Found: ' + color_obj + ", Material Option: " + name);
@@ -72,7 +222,7 @@
 
                 var element = '<div class="color_element">';
 
-                element = element + '<button class="btn change-color" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + color.hex_code + '; width: 35px; height: 35px; border-radius: 8px; border: 2px solid white; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                element = element + '<button class="btn change-color ' + cl + '" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: 35px; height: 35px; border-radius: 4px; border: 1px solid #eeeeee; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none">' + color.color_code + '</button>';
                 element = element + '</div>';    
                 color_elements = color_elements + element;
 
@@ -88,10 +238,8 @@
 
             el.data('target');
             el.data('target', settings.target);
-
             el.data('type');
             el.data('type', settings.type);
-
             el_parent.append(btn_el);
             el_parent.append(popup_picker);
 
@@ -100,8 +248,22 @@
             colors_btn.on('click', function() {
 
                 var color = $(this).data('color');
+                
                 $('input[data-elid="' + btn_el_id + '"]').val(color);
                 el_parent.find('span').css('background-color', color);
+                el_parent.find('span').html($(this).html());
+                el_parent.find('span').css('font-size', '10px');
+                el_parent.find('span').css('padding-top', '2px');
+                el_parent.find('span').css('color', '#eeeeee');
+
+                if($(this).html() === 'W'){
+                    el_parent.find('span').css('background-color', "#ffffff");
+                    el_parent.find('span').css('color', '#eeeeee');
+                }
+
+                if($(this).html() === 'CR'){
+                    el_parent.find('span').css('color', '#000000');
+                }
 
                 if (settings.type === 'gradient') {
 
@@ -133,28 +295,38 @@
 
                 if (settings.type === 'text_pattern') {
 
-                    var pattern = ub.current_material.containers[settings.application.code].pattern;
+                    var pattern = ub.current_material.containers[settings.application.id].pattern;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
-                    pattern.children[layer_no].tint = color;
-                    ub.refresh_thumbnails();
+                    _.each(pattern, function(pat){
 
+                        pat.children[layer_no].tint = color;
+
+                    });
+                    
+                    ub.refresh_thumbnails();
                     ub.save_text_pattern_color(settings.application, layer_no, color);
 
                 }
                 
                 if (settings.type === 'mascot') {
 
-                    var mascot = ub.current_material.containers[settings.application.code].mascot;
+                    var uniform_type = ub.current_material.material.type;
+                    var mascot_collection = ub.current_material.containers[uniform_type].application_containers[settings.application.id].object.sprite;
                     var layer_no = $(this).data('index');
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
 
-                    mascot.children[layer_no].tint = color;
+                    _.each(mascot_collection, function(mascot){
 
-                    ub.current_material.settings.applications[settings.application.code].mascot.layers[layer_no].color = color; 
+                        mascot.children[layer_no].tint = color;
+
+                    })
+
+                    ub.current_material.settings.applications[settings.application.id].mascot.layers[layer_no].color = color; 
+                    ub.current_material.settings.applications[settings.application.id].mascot.layers[layer_no].default_color = color.toString(16);; 
                     ub.refresh_thumbnails();
 
                 }
@@ -205,7 +377,6 @@
 
             var template = $('#logo-dropdown').html();
             var markup = Mustache.render(template, data);
-
 
             $container.html(markup);
             
@@ -386,8 +557,7 @@
             var first_font = ub.data.fonts[0];
             var sample_text = '';
             var font_size = '';
-
-            var plugin_type = $('select.application_type_dropdown[data-id=' + application.code + ']').val();
+            var plugin_type = $('select.application_type_dropdown[data-id=' + application.id + ']').val();
 
             if (plugin_type === 'player_name') {
                 sample_text = 'Player Name';
@@ -404,11 +574,15 @@
                 font_size = 100;
             }
 
+            var applicationType = application.type;
+            var sizes = $.ub.getApplicationSizes(applicationType);
+
             var data = {
                 sample_text: sample_text,
                 application_id: settings.application.id,
                 first_font_name: first_font.name,
-                first_font_id: first_font.id
+                first_font_id: first_font.id,
+                sizes: sizes,
             }
 
             var text_ui_template = $('#text-ui').html();
@@ -435,26 +609,9 @@
             var rotation = '';
             var alpha = '';
             var tint = '';
-
             var view_objects = ub.objects[settings.application.perspective + '_view'];
             var view = ub[settings.application.perspective + '_view'];
-            var s = view_objects['objects_' + settings.application.code];
 
-            if (typeof(s) === 'object') {
-
-                var obj = view_objects['objects_' + application.code];
-
-                position = obj.position;
-                scale = obj.scale;
-                rotation = obj.rotation;
-                alpha = obj.alpha;
-                tint = obj.tint;
-
-                view.removeChild(view_objects['objects_' + application.code]);
-                delete view_objects['objects_' + application.code];
-
-            }
-            
             create_font_dropdown(settings);
             create_color_dropdown(settings);
             create_accent_dropdown(settings);
@@ -481,6 +638,33 @@
                 }
 
             });
+
+            var $radio_class = $('input[type=radio][name=text_sizes][data-id=' + application.id + ']');
+
+            $radio_class.change(function() {
+            
+                var value = 0;
+                var fontID = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
+
+                if (typeof fontID !== 'number') {
+                    
+                    fontID = 1;
+
+                }
+
+                value = $.ub.getFontSize({
+                    size: this.value,
+                    type: 'Adult',
+                    factory: 'BLB',
+                    applicationType: applicationType,
+                    fontID: fontID,
+                });
+
+                $('.font_size_slider[data-id=' + application.id + ']').limitslider('values', [value]);
+
+            });
+
+            $radio_class.trigger('change');
             
             var max_rotation = 620;
             var $rotation_slider = $('div.rotation_slider[data-id="' + application.id + '"]');
@@ -549,10 +733,8 @@
 
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects[view_str]['objects_' + application.id];
-
                     var value_x = $('div.scale_slider_x[data-id="' + application.id + '"]').limitslider("values")[0];
                     var value_y = $('div.scale_slider_y[data-id="' + application.id + '"]').limitslider("values")[0];
-
                     var scale = new PIXI.Point(value_x / 100, value_y / 100);
                     
                     object.scale = scale;
@@ -591,9 +773,15 @@
 
             });
 
+            /// Get Primary View
+
+            var view = "";
+            view = ub.funcs.getPrimaryView(application);
+            var _position = view.application.pivot;
+
             $('div.y_slider[data-id="' + application.id + '"]').limitslider({
 
-                values: [application.position.y  * ub.dimensions.height],
+                values: [_position.y  * ub.dimensions.height],
                 min: 0,
                 max: ub.dimensions.height,
                 gap: 0,
@@ -610,7 +798,7 @@
 
             $('div.x_slider[data-id="' + application.id + '"]').limitslider({
 
-                values: [application.position.x * ub.dimensions.width],
+                values: [_position.x * ub.dimensions.width],
                 min: 0,
                 max: ub.dimensions.width,
                 gap: 0,
@@ -619,6 +807,7 @@
 
                     var value = $(this).limitslider("values")[0];
                     var object = ub.objects[view_str]['objects_' + application.id];
+
                     object.x = value;
 
                 }
@@ -628,18 +817,19 @@
             var $textbox = $('input.applications.player_number[data-application-id="' + application.id + '"]');
 
             $textbox.on('keyup', function() {
+
                 _.debounce(500, $textbox.trigger('change'));
+
             });
 
             $textbox.on('change', function () {
 
                 if ($textbox.val().length === 0) { return; }
 
-                var x = ub.dimensions.width * application.position.x;
-                var y = ub.dimensions.height * application.position.y;
+                var x = ub.dimensions.width * _position.x;
+                var y = ub.dimensions.height * _position.y;
                 var settings = ub.current_material.settings;
                 var selected_font_id = $('div.font_style_drop[data-id="' + application.id + '"]').data('font-id');
-
                 var font_id = selected_font_id;
 
                 if (ub.config.app_env !== "local") {
@@ -655,20 +845,18 @@
 
                 var color_array = '';
 
-                if(typeof settings.applications[application.code] !== 'undefined') {
+                if(typeof settings.applications[application.id] !== 'undefined') {
                     
-                    color_array = settings.applications[application.code].color_array;
+                    color_array = settings.applications[application.id].color_array;
 
                 }    
 
                 var text_input = $textbox.val();
-                var sprite = create_text(" " + text_input + " ", font_obj.name, application);
-
                 var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
                 var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
                 var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
 
-                settings.applications[application.code] = {
+                settings.applications[application.id] = {
                     application: application,
                     accent_obj: accent_obj,
                     font_size: font_size, 
@@ -677,7 +865,7 @@
                     color_array: {},
                     object_type: 'text object',
                     appliation_type: plugin_type,
-                    code: application.code,
+                    code: application.id,
                     font_obj: font_obj,
                     gradient_obj: undefined,
                     gradient_settings: undefined,
@@ -688,140 +876,27 @@
                     scale: undefined,
                 };
 
+                var input_object = {
+                    text_input: text_input,
+                    font_name: font_obj.name,
+                    application: application,
+                    settingsObject: settings,
+                };
+
+                var sprite_collection = ub.funcs.renderApplication($.ub.create_text, input_object, application.id);
                 var uniform_type = ub.current_material.material.type;
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
-                
-                app_containers[application.code] = {};
-                app_containers[application.code].object = {
 
-                    sprite: sprite, 
+                app_containers[application.id] = {};
+                app_containers[application.id].object = {
+
+                    sprite: sprite_collection, 
 
                 };
 
                 if (color_array !== ''){
-                    settings.applications[application.code].color_array = color_array;
+                    settings.applications[application.id].color_array = color_array;
                 }
-
-                var view = ub[application.perspective + '_view'];
-                var view_objects = ub.objects[application.perspective + '_view'];
-                var mask = _.find(ub.current_material.material.options, {
-                    perspective: application.perspective,
-                    name: application.layer
-                });
-
-                var mask = ub.pixi.new_sprite(mask.material_option_path);
-
-                sprite.mask = mask;
-
-                var position = '';
-                var scale = '';
-                var rotation = '';
-                var alpha = '';
-                var tint = '';
-
-                var s = view_objects['objects_' + application.code];
-
-                if (typeof(s) === 'object') {
-
-                    var obj = view_objects['objects_' + application.code];
-                    var color_array = settings.applications[application.code].color_array;
-
-                    position = obj.position;
-                    scale = obj.scale;
-                    rotation = obj.rotation;
-                    alpha = obj.alpha;
-                    tint = obj.tint;
-
-                    view.removeChild(view_objects['objects_' + application.code]);
-                    delete view_objects['objects_' + application.code];
-
-                }
-
-                /// Set First Three Colors
-
-                var colors_obj = get_colors_obj(application.layer);
-                var length = sprite.children.length;
-                var children = _.clone(sprite.children);
-
-                children.reverse();
-
-                _.each(children, function (child, index) {
-
-                    child.tint = parseInt(child.ubDefaultColor, 16);
-
-                    if(color_array !== ''){
-
-                        var array = ub.current_material.settings.applications[application.code].color_array;
-                        var color_array_size = _.size(array);
-                        var code = ub.current_material.settings.applications[application.code].color_array[index + 1];
-
-                        if (typeof code !== 'undefined') {
-                            
-                            child.tint = parseInt(code.color_code, 16);
-
-                        }
-
-                    }
-
-                });
-         
-                /// End Set First Three Colors 
-
-                view_objects['objects_' + application.code] = sprite;
-                view.addChild(sprite);
-
-                sprite.position.x = x;
-                sprite.position.y = y;
-                sprite.rotation = application.rotation;
-
-                if(sprite.width === 1) {
-
-                    sprite.position.x -= (sprite.width / 2);
-                    sprite.position.y -= (sprite.height / 2);
-
-                }
-
-                var layer_order = ( 10 + application.layer_order ) 
-
-                sprite.originalZIndex = layer_order * (-1);
-                sprite.zIndex = layer_order * (-1);
-                settings.applications[application.code].layer_order = layer_order;
-
-                ub.updateLayersOrder(view);
-
-
-                app = settings.applications[application.code];
-
-                if (position !== '') {
-
-                    sprite.position = position;
-                    sprite.scale = scale;
-                    sprite.rotation = rotation;
-                    sprite.alpha = alpha;
-                    sprite.tint = tint;
-
-                    app.position = position;
-                    app.scale = scale;
-                    app.rotation = rotation;
-                    app.alpha = alpha;
-
-                }
-                else
-                {
-                    app.position = '';
-                }
-
-                settings.applications[application.code].position = sprite.position;
-                settings.applications[application.code].rotation = sprite.rotation;
-                settings.applications[application.code].scale = sprite.scale;
-                settings.applications[application.code].alpha = sprite.alpha;
-
-                $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-                $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
-
-                // ub.funcs.createDraggable(sprite, application, view);
-                ub.funcs.createClickable(sprite, application, view, 'application');
-                ub.funcs.identify(application.code);
 
             });
 
@@ -831,20 +906,117 @@
 
     };
 
-    function create_text (text_input, font_name, application) {
+    $.ub = {};
+
+    $.ub.create_mascot = function (input_object) {
+
+        var application = input_object.application;
+        var mascot = input_object.mascot;
+        var settings = ub.current_material.settings;
+        var application_mascot_code = application.id + '_' + mascot.id;
+        var scale_settings = undefined;
+
+        if(typeof settings.applications[application.id].scale === 'object') {
+            var scale_settings = settings.applications[application.id].scale ;
+        }
+        else {
+            var scale_settings = {x: 0.15, y: 0.15};
+        }
+
+        settings.applications[application.id] = {
+            application: application,
+            mascot: mascot,
+            type: 'mascot',
+            color_array: {},
+            scale: scale_settings,
+        };
+
+        var settings_obj = settings.applications[application.id];
+        var mascot_obj = settings_obj.mascot;
+        var view = ub[application.perspective + '_view'];
+        var view_objects = ub.objects[application.perspective + '_view'];
+        var container = new PIXI.Container();
+        var elements = "";
+
+        _.each(mascot.layers, function(layer, index){
+
+            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+
+            mascot_layer.tint = parseInt(layer.default_color,16);
+            mascot_obj.layers[index].color = mascot_layer.tint; 
+            mascot_layer.anchor.set(0.5, 0.5);
+            container.addChild(mascot_layer);
+
+            var val = layer.default_color;
+            var col = layer.default_color;
+            var filename = layer.filename;
+            
+            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
+
+        });
+
+        $('div.mascot_color_picker_container[data-id="' + application.id + '"]').html(elements);
+
+        $('input.mascot_' + application.id).ubColorPicker({
+                target: String(application.id),
+                type: 'mascot',
+                application: application,
+                target_name: application.layer,
+        });
+        
+        container.scale = new PIXI.Point(0.15, 0.15);
+        
+        var sprite = container;
+
+        ub.current_material.containers[application.id] = {};
+        ub.current_material.containers[application.id].mascot = sprite;
+
+        var temp = {}
+        var layer_order = ( 10 + application.layer_order );
+
+        sprite.originalZIndex = layer_order * (-1);
+        sprite.zIndex = layer_order * (-1);
+        settings_obj.layer_order = layer_order;
+        sprite.scale = scale_settings;
+
+        return sprite;
+
+    };
+
+    $.ub.create_text = function (input_object) {
 
         ub.funcs.removeUIHandles();
+    
+        var text_input = input_object.text_input;
+        var font_name = input_object.font_name;
+        var application = input_object.application;
+        var settings = input_object.settingsObject;
+        var accent_obj = input_object.accentObj;
+
+        // TODO: Create text values must all come from the settings object no values must be read from the controls 
 
         var text_layers = {};
         var container = new PIXI.Container();
+        var accent_id;
+        var accent_obj;
 
-        var accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
-        var accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+        if(input_object.typeofWindowTemp === 'object') {
 
+            accent_id = input_object.accentObj.id;
+            accent_obj = input_object.accentObj;
+
+        } 
+        else {
+
+            accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
+            accent_obj = _.find(ub.data.accents.items, {id: accent_id});
+
+        }
+        
         var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
+        $other_color_container.html('');    
 
-        $other_color_container.html('');
-
+        /// Create Text Accents
         _.each(accent_obj.layers, function (layer) {
 
             var text_layer = '';
@@ -855,8 +1027,20 @@
             text_layer.no = layer.layer_no;
             text_layer.accent_obj = layer;
 
+            if(typeof input_object.fontObj === 'object') {
+
+                accent_id = input_object.applicationObj.accent_obj.id;
+                accent_obj = input_object.applicationObj.accent_obj;
+
+            }
+
             var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
-            var style = {font: font_size + "px " + font_name, fill: "white", padding: 10};
+
+            if(typeof input_object.fontSize === 'number') {
+                font_size = input_object.fontSize;
+            }
+
+            var style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
             if (layer.outline === 1) {
 
@@ -918,11 +1102,14 @@
             container.addChild(text_layer.text_sprite);
 
             if (layer.name !== 'Base Color' && layer.name !== 'Mask') {
-                
-                $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
 
-                var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
-                create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+                if(input_object.typeofWindowTemp !== 'object') {
+
+                    $other_color_container.append('<div><div class="ub_label">' + layer.name + '</div><div class="other_color_dropdown" data-id="' + application.id + '" data-layer-name="' + layer.name + '" data-layer-no="' + layer.layer_no + '">0</div></div>');
+                    var selector = 'div.other_color_dropdown[data-id="' + application.id + '"][data-layer-no="' + layer.layer_no + '"]';
+                    create_color_dropdown_other_container (application, text_layer.text_sprite, selector, layer.layer_no); 
+                
+                }
 
             }
 
@@ -930,17 +1117,52 @@
                 text_layer.text_sprite.alpha = 1;                
             }
 
-        });
-
+        }); /// End Text Accents
 
         // Mask the main text to remove outline showing bug
         var text_mask = _.find(container.children, {ubName: 'Mask'});
         var main_text = _.find(container.children, {ubName: 'Base Color'});
 
         main_text.mask = text_mask;
-
         ub.updateLayersOrder(container);
 
+        // Set Initial Colors 
+
+        var length = container.children.length;
+        var children = _.clone(container.children);
+        var colors_obj = get_colors_obj(application.layer);
+        var color_array = [];
+
+        if(typeof settings.applications[application.id] !== 'undefined') {
+                    
+            color_array = settings.applications[application.id].color_array;
+
+        }    
+
+        children.reverse();
+
+        _.each(children, function (child, index) {
+
+            child.tint = parseInt(child.ubDefaultColor, 16);
+
+            if(color_array !== ''){
+
+                var array = ub.current_material.settings.applications[application.id].color_array;
+                var color_array_size = _.size(array);
+                var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+
+                if (typeof code !== 'undefined') {
+                    
+                    child.tint = parseInt(code.color_code, 16);
+
+                }
+
+            }
+
+        });
+ 
+        /// End Set First Three Colors 
+ 
         return container;
         
     }
@@ -1014,7 +1236,6 @@
             color_content = "";
 
             var colors_obj = get_colors_obj(application.layer);
-
             var color_drop_content = "";
             
             color_drop_content += "<div data-id='" + application.id + "' class='row color-container' id='color-container-" + application.id + "'>";
@@ -1082,15 +1303,15 @@
 
                     color_code = $(this).data('color');
 
-                    var app = ub.current_material.settings.applications[application.code];
+                    var app = ub.current_material.settings.applications[application.id];
                     
                     if ( typeof app !== 'undefined') {
 
-                        app.color_array[sprite.ubLayerNo] = {};
-                        app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
-                        app.color_array[sprite.ubLayerNo].layer_no = sprite.ubLayerNo;
-                        app.color_array[sprite.ubLayerNo].color_code = color_code;
-                        sprite.tint = parseInt(color_code, 16);
+                        var uniform_type = ub.current_material.material.type;
+                        var app_containers = ub.current_material.containers[uniform_type].application_containers;
+
+                        s = app_containers[application.id].object.sprite;
+                        mvChangeTextColor(application.id, s, color_code, sprite.ubLayerNo);
                         color_drop.nonce = false;
                         
                     }
@@ -1110,7 +1331,7 @@
 
             /// End Color Drop
 
-    } 
+    }
 
 
     function create_color_dropdown (settings) {
@@ -1194,33 +1415,25 @@
 
                     color_code = $(this).data('color');
 
-                    var app = ub.current_material.settings.applications[settings.application.code];
+                    var app = ub.current_material.settings.applications[settings.application.id];
 
                     if (typeof app !== 'undefined') {
 
                         if (app.type === 'player_number' || app.type === 'player_name' || app.type === 'team_name') {
 
-                            /// var sprite = _.find(app.text_obj.children, {ubName: 'Base Color'});
-
-                            ////
-
                             var uniform_type = ub.current_material.material.type;
                             var app_containers = ub.current_material.containers[uniform_type].application_containers;
-                
-                            s = app_containers[settings.application.code].object.sprite;
-                            var sprite = _.find(s.children, {ubName: 'Base Color'});
-                            app.color_array[0] = parseInt(color_code, 16);
-                
-                            ////    
 
-                            sprite.tint = parseInt(color_code, 16);    
-                            app.color_array[sprite.ubLayerNo] = {};
-                            app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
-                            app.color_array[sprite.ubLayerNo].layer_no = _.first(s.children).ubLayerNo;
-                            app.color_array[sprite.ubLayerNo].color_code = color_code;
-                            sprite.tint = parseInt(color_code, 16); 
+                            if (typeof app_containers[settings.application.id] !== 'undefined') {
+
+                                s = app_containers[settings.application.id].object.sprite;
+                            mvChangeTextColor(settings.application.id, s, color_code);
                             color_drop.nonce = false;
 
+                                
+                            }
+
+                            
                         }
 
                     }
@@ -1351,7 +1564,7 @@
         target = String(target);
         var application_id = application.id;
 
-        var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+        //var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
         var el = pattern_obj;
         var clone = {};
@@ -1514,116 +1727,7 @@
         });
 
         $("button#update-pattern-" + target).click('click', function (e) {
-
-            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
-            var main_text_obj = _.find(text_sprite.children, {ubName: 'Mask'});
-            main_text_obj.alpha = 1;  
-            var uniform_type = ub.current_material.material.type;
-
-            // Slider Values
-
-            var val_rotation = parseInt($rotation_slider.find('span.edit').html());
-            var val_opacity = $('#' + 'opacity_pattern_slider_' + target).limitslider('values')[0];
-            var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
-            var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
-            var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
-
-            var target_name = target.toTitleCase();
-
-            ub.current_material.containers[application.code] = {};
-
-            var application_settings = ub.current_material.containers[application.code];
-            
-            if(typeof application_settings.pattern === 'undefined') {
-
-                application_settings.pattern = new PIXI.Container();
-
-            }
-
-            if(typeof text_sprite.pattern_layer === "object" ){
-
-                text_sprite.pattern_layer.removeChildren();
-                text_sprite.removeChild(text_sprite.pattern_layer);
-                
-            }
-
-            var container = application_settings.pattern;
-            var v = application.perspective;
-            container.sprites = {};
-
-            _.each(clone.layers, function (layer, index) {
-
-                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
-
-                var sprite = container.sprites[index];
-
-                sprite.zIndex = layer.layer_number * -1;
-                sprite.tint = parseInt(layer.default_color,16);
-                sprite.anchor.set(0.5, 0.5);
-
-                var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
-                var val = $inputbox.val();
-                
-                if (val.length === 7) {
-                    val = val.substr(1, 6);
-                }
-
-                sprite.tint = parseInt(val, 16);
-                container.addChild(sprite);
-
-                var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
-                container.alpha = opacity_value / 100;
-
-                var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
-                var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
-                var x = ub.dimensions.width * (x_value / 100);
-                var y = ub.dimensions.height * (y_value / 100);
-
-                container.position = new PIXI.Point(x,y);
-
-            });
-
-            ub.updateLayersOrder(container);
-
-            var view = v + '_view';
-            var mask = main_text_obj;
-
-            if(typeof mask === 'undefined') {
-                return;
-            }
-
-            container.rotation = val_rotation / 100;
-            container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
-            container.position = new PIXI.Point(val_x_position, val_y_position);
-
-            var mask = main_text_obj;
-
-            text_sprite.pattern_layer = container;
-            container.mask = mask;
-            container.zIndex = -11;
-
-            ub.pl = container;
-
-            text_sprite.addChild(text_sprite.pattern_layer);
-
-            ub.updateLayersOrder(text_sprite);
-
-            ub.current_material.settings.applications[application.code].pattern_obj = clone;
-            ub.current_material.settings.applications[application.code].pattern_settings = {
-
-                rotation: container.rotation,
-                scale: container.scale,
-                position: container.position,
-                opcity: container.opacity, 
-
-            }
-
-
-            ub.refresh_thumbnails();
-
-
-
+            $.ub.mvChangePattern(application, target, clone);
         });
 
         $("button#update-pattern-" + target).click();
@@ -1669,7 +1773,7 @@
 
         var change_gradient = function (target, gradient, panel, application) {
 
-            var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.code];
+            //var text_sprite = ub.objects[application.perspective + '_view']['objects_' + application.id];
 
             var el = gradient;
             var clone = {};
@@ -1761,7 +1865,7 @@
             $("button#update-gradient-" + target).click('click', function (e) {
 
                 var gradient_output = ub.recreate_gradient_obj(clone);
-                generate_gradient(gradient_output, target, text_sprite, application);
+                //generate_gradient(gradient_output, target, text_sprite, application);
 
                 _.each(gradient_output.color_stops, function (e, index) {
 
@@ -1779,8 +1883,14 @@
                 gradient_output.angle = parseInt($('#' + 'angle_gradient_slider_' + target).find('span.edit').html()); 
 
                 /// Recreate Gradient Object into new structure
+
+                var applicationObj = ub.current_material.settings.applications[target];
+                var sprite_collection = ub.current_material.containers.upper.application_containers[application.id].object.sprite;
+
+                $.ub.mvChangeGradient(applicationObj, gradient_output, sprite_collection);
+
             
-                generate_gradient(gradient_output, target, text_sprite, application);
+                //generate_gradient(gradient_output, target, text_sprite, application);
 
             });
 
@@ -1848,7 +1958,7 @@
 
         var generate_gradient = function (gradient_obj, target, text_sprite, application) {
 
-            ub.current_material.settings.applications[application.code].gradient_obj = gradient_obj;
+            ub.current_material.settings.applications[application.id].gradient_obj = gradient_obj;
 
             var base_color_obj = _.find(text_sprite.children, {ubName: 'Base Color'});
             if (gradient_obj.code === "none") {
@@ -1998,5 +2108,268 @@
     }
 
     /// End Get Colors and Hex Codes For Given Material Option
+
+    /// MultiView Functions 
+
+    function mvChangeTextColor(appId, container, color_code, ubLayerNo){
+
+        var app = ub.current_material.settings.applications[appId];
+        s = container;
+
+        _.each(s, function(text) {
+
+            var sprite = '';
+           
+            if (typeof ubLayerNo !== 'undefined') {
+                
+                sprite = _.find(text.children, {ubLayerNo: ubLayerNo}); 
+                
+                if (typeof sprite === 'undefined') { // initial create, no layer yet
+                    return;
+                }
+
+            }
+            else {
+                sprite = _.find(text.children, {ubName: 'Base Color'});   
+            }
+
+            app.color_array[0] = parseInt(color_code, 16);
+
+            sprite.tint = parseInt(color_code, 16);    
+            app.color_array[sprite.ubLayerNo] = {};
+            app.color_array[sprite.ubLayerNo].layer_name = sprite.ubName;
+            app.color_array[sprite.ubLayerNo].layer_no = _.first(text.children).ubLayerNo;
+            app.color_array[sprite.ubLayerNo].color_code = color_code;
+            sprite.tint = parseInt(color_code, 16); 
+
+        });
+
+    };
+
+    $.ub.mvChangePattern = function(application, target, clone, sprite_collection){
+
+        var uniform_type = ub.current_material.material.type;
+        var app = ub.current_material.settings.applications[application.id];
+        var app_containers = ub.current_material.containers[uniform_type].application_containers;
+
+        if(typeof sprite_collection === 'object'){
+            s = sprite_collection;
+        }
+        else{
+            s = app_containers[application.id].object.sprite;    
+        }
+        
+        ub.current_material.containers[application.id] = {};
+
+        _.each(s, function(text, index) {
+
+            text_sprite = text;
+
+            var main_text_obj = _.find(text.children, {ubName: 'Mask'});
+            main_text_obj.alpha = 1;
+
+            var uniform_type = ub.current_material.material.type;
+
+            // Slider Values
+
+            var $rotation_slider = $('div#rotation_pattern_slider_' + target);
+            var val_rotation = parseInt($rotation_slider.find('span.edit').html());
+            var val_opacity = $('#' + 'opacity_pattern_slider_' + target).limitslider('values')[0];
+            var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
+            var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
+            var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
+            var application_settings = ub.current_material.containers[application.id];
+
+            if(typeof application_settings.pattern === 'undefined') {
+
+                application_settings.pattern = [];
+
+            }
+
+            var c = new PIXI.Container();
+            application_settings.pattern[index] = c;
+
+            if(typeof text_sprite.pattern_layer === "object" ){
+
+                text_sprite.pattern_layer.removeChildren();
+                text_sprite.removeChild(text_sprite.pattern_layer);
+                
+            }
+
+            var container = application_settings.pattern[index];
+            var v = application.perspective;
+            container.sprites = {};
+
+            _.each(clone.layers, function (layer, index) {
+
+                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                container.sprites[index] = ub.pixi.new_sprite(layer.filename);
+
+                var sprite = container.sprites[index];
+
+                sprite.zIndex = layer.layer_number * -1;
+                sprite.tint = parseInt(layer.default_color,16);
+                sprite.anchor.set(0.5, 0.5);
+
+                var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
+                var val = '';
+
+                /// if loading from existing saved design, else from text box TODO: save value to custom object and read from that, instead from text boxes
+                if (typeof sprite_collection === 'object') {
+                
+                    val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
+                
+                }
+                else {
+
+                    val = $inputbox.val();
+                
+                    if (val.length === 7) {
+                        val = val.substr(1, 6);
+                    }
+
+                }
+
+                sprite.tint = parseInt(val, 16);
+                container.addChild(sprite);
+
+                var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                container.alpha = opacity_value / 100;
+
+                var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+                var x = ub.dimensions.width * (x_value / 100);
+                var y = ub.dimensions.height * (y_value / 100);
+
+                container.position = new PIXI.Point(x,y);
+
+            });
+
+            ub.updateLayersOrder(container);
+
+            var view = v + '_view';
+            var mask = main_text_obj;
+
+            if(typeof mask === 'undefined') {
+                return;
+            }
+
+            container.rotation = val_rotation / 100;
+            container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
+            container.position = new PIXI.Point(val_x_position, val_y_position);
+
+            container.alpha = 1;
+            container.scale = new PIXI.Point(1, 1);
+            
+            var mask = main_text_obj;
+
+            text_sprite.pattern_layer = container;
+            container.mask = mask;
+            container.zIndex = -12;
+
+            ub.pl = container;
+
+            text_sprite.addChild(text_sprite.pattern_layer);
+
+            ub.updateLayersOrder(text_sprite);
+
+            ub.current_material.settings.applications[application.id].pattern_obj = clone;
+            ub.current_material.settings.applications[application.id].pattern_settings = {
+
+                rotation: container.rotation,
+                scale: container.scale,
+                position: container.position,
+                opcity: container.opacity, 
+
+            }
+
+            ub.refresh_thumbnails();
+
+        });
+
+
+    };
+
+    $.ub.mvChangeGradient = function (applicationObj, gradient_output, spriteCollection) {
+
+        var uniform_type = ub.current_material.material.type;
+        var app = ub.current_material.settings.applications[applicationObj.id];
+        var app_containers = ub.current_material.containers[uniform_type].application_containers;
+
+        s = spriteCollection;
+
+        _.each(s, function(text) {
+
+            generate_gradient(gradient_output, applicationObj.id, text, applicationObj.application);
+
+        });
+
+    }
+
+    /// End Multiview Functions
+
+    /// Utility Functions
+
+    $.ub.getApplicationSizes = function (applicationType) {
+
+        var sizes = [100,200];
+        var factory_code = ub.current_material.material.factory_code;
+        var _applicationSize = _.find(ub.data.applicationSizes.items, {name: applicationType});
+
+        if(typeof _applicationSize === 'undefined') {
+
+            sizes = [100, 200];
+
+        }
+        else {
+
+            sizes = _applicationSize.sizes;
+
+        }
+
+        return sizes;
+
+    };
+
+    $.ub.getFontSize = function (inputObject) {
+
+        // Input Object should contain:
+        // 
+        // applicationType
+        // factory
+        // type
+        // inputSize
+
+        var inputSize               = inputObject.size;
+        var inputType               = inputObject.type;
+        var inputFactory            = inputObject.factory;
+        var inputApplicationType    = inputObject.applicationType; 
+        var inputFontID             = inputObject.fontID;
+
+        /// Todo: Fetch this from API
+        
+        var outputFontObj           = _.find(ub.data.fontSizes.items, { fontID: inputFontID });
+        var outputSizeObject        = _.find(outputFontObj.fontSizeTable, { inputSize: inputSize });
+        var returnSize              = 0;
+
+        if (typeof outputSizeObject === 'undefined') {
+
+            util.error('Font Size not found');
+            returnSize = 100;
+
+        }
+        else {
+
+            returnSize = outputSizeObject.outputSize;
+
+        }
+
+        return returnSize;
+
+    }
+
+
+    /// End Utility Functions 
+
 
 }(jQuery));

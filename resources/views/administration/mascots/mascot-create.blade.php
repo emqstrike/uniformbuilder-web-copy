@@ -60,6 +60,24 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Team Color ID</label>
+                            <div class="col-md-6">
+                                <select name='team_color_id' class="form-control mascot-team-color-id">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layers
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
@@ -89,7 +107,7 @@ select:hover {
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
                                                 @foreach ($colors as $color)
                                                     @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->hex_code }}">
+                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
                                                         {{ $color->name }}
                                                     </option>
                                                     @endif

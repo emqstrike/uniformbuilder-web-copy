@@ -10,20 +10,20 @@
             <input type="hidden" name="boundary_properties" id="boundary-properties">
             <input type="hidden" name="applications_properties" id="application-properties">
             <input type="hidden" name="is_blend_array" id="is-blend-array">
+            <input type="hidden" name="allow_pattern_array" id="allow-pattern-array">
+            <input type="hidden" name="allow_gradient_array" id="allow-gradient-array">
+            <input type="hidden" name="allow_color_array" id="allow-color-array">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
             </div>
             <div class="modal-body front-options">
                 <h4>PERSPECTIVE :&nbsp;
-                <!-- <select name="perspective">
-                    <option value='front'>FRONT</option>
-                    <option value='back'>BACK</option>
-                    <option value='left'>LEFT</option>
-                    <option value='right'>RIGHT</option>
-                </select> -->
                 <input type="text" name="perspective" class="perspective-multiple-upload">
                 </h4>
+
+                <a class="btn btn-primary clone-row"><i class="fa fa-plus"></i> Add option</a>
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -33,6 +33,11 @@
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
                             <th>Blend</th>
+                            <th>Allow Pattern</th>
+                            <th>Allow Gradient</th>
+                            <th>Allow Color</th>
+                            <th>Team Color ID</th>
+                            <th>Group ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
                         </tr>
@@ -47,8 +52,8 @@
                             </td>
                             <td>
                                 <select class="mo-setting-type layer1" name="mo_setting_type[]">
-                                    <option value='part'>Part</option>
                                     <option value='shape'>Shape</option>
+                                    <option value='part'>Part</option>
                                     <option value='piping'>Piping</option>
                                     <option value='panel'>Panel</option>
                                     <option value='static_layer'>Static Layer</option>
@@ -84,6 +89,32 @@
                                 <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
+                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}" checked>
+                            </td>
+                            <td>
+                                <input class="check mo-allow-gradient layer1" name="mo_allow_gradient[]" type="checkbox" value="{{ $color->hex_code }}">
+                            </td>
+                            <td>
+                                <input class="check mo-allow-color layer1" name="mo_allow_color[]" type="checkbox" value="{{ $color->hex_code }}" checked>
+                            </td>
+                            <td>
+                                <select class="mo-team-color-id layer1" name="mo_team_color_id[]">
+                                    <option value='1'>1</option>
+                                    <option value='2'>2</option>
+                                    <option value='3'>3</option>
+                                    <option value='4'>4</option>
+                                    <option value='5'>5</option>
+                                    <option value='6'>6</option>
+                                    <option value='7'>7</option>
+                                    <option value='8'>8</option>
+                                    <option value='9'>9</option>
+                                    <option value='10'>10</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="check mo-group-id layer1" name="mo_group_id[]" type="text" size="5">
+                            </td>
+                            <td>
                                 <input type="file" class="mo-options-src layer1" name="mo_image[]">
                             </td>
                             <td>
@@ -92,9 +123,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    <a class="btn btn-primary clone-row"><i class="fa fa-plus"></i> Add option</a>
-                </div>
             </div>
             <table class="table table-bordered">
                 <tr>
@@ -102,7 +130,6 @@
                         <label>Origin</label>
                         <select name="origin" class="form-control">
                             <option value="web">Web</option>
-                            <option value="ipad">iPad</option>
                         </select>
                     </td>
                 </tr>

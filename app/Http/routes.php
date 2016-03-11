@@ -80,6 +80,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Colors
     Route::get('colors', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@index']);
+    Route::get('colors/updateAll', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@updateColors']);
     Route::post('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@store']);
     Route::post('color/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@store']);
     Route::get('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@addColorForm']);
@@ -87,6 +88,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Mascots
     Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
+    Route::post('mascots_filter', 'Administration\MascotsController@indexFiltered');
     Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addMascotForm']);
@@ -124,6 +126,14 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@store']);
     Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@addPatternForm']);
     Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@editPatternForm']);
+
+    // Preferences
+    Route::get('preferences', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@index']);
+    Route::get('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@addPreferenceForm']);
+    Route::post('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
+    Route::get('preference/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@editPreferenceForm']);
+    Route::post('preference/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
+
 
     // Fonts
     Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@index']);

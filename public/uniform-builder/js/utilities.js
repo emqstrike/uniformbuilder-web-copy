@@ -53,8 +53,8 @@ $( document ).ready(function() {
     /// Output: "Arm Trim"
 
     String.prototype.toTitleCase = function(){
-        
-        return window.util.toTitleCase(this.replace("_", " "));
+
+        return window.util.toTitleCase(window.util.toTitleCase(this.replace("_", " ")).replace("_", " "));
 
     };
 
@@ -63,7 +63,7 @@ $( document ).ready(function() {
 
     String.prototype.toCodeCase = function(){
 
-        return this.toLowerCase().replace(" ", "_");
+        return this.replace(" ", "_").toLowerCase().replace(" ", "_");
 
     };
 

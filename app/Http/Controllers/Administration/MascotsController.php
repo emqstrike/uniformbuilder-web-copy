@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administration;
 
+use View;
 use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
@@ -33,10 +34,40 @@ class MascotsController extends Controller
     public function index()
     {
         $mascots = $this->client->getMascots();
+        $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
 
         return view('administration.mascots.mascots', [
-            'mascots' => $mascots
+            'mascots' => $mascots,
+            'mascot_categories' => $mascot_categories
         ]);
+    }
+
+    public function indexFiltered(Request $request)
+    {
+// dd($request->category);
+        $category = $request->category;
+        $mascots = $this->client->getMascotByCategory($category);
+        $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
+
+        // return response()->json(['mascots' => $mascots->mascots]);
+// dd($mascots);
+
+        // $html = View::make('administration.mascots.mascots-table', [
+        //     'mascots' => $mascots->mascots,
+        //     'mascot_categories' => $mascot_categories
+        // ]);
+        $html = View::make('administration.mascots.mascots-table',
+            array(
+                    'mascots' => $mascots->mascots,
+                    'mascot_categories' => $mascot_categories
+            ))->render();
+        // dd($html);
+        return response()->json(['html' => $html, 'success' => true]);
+
+        // return view('administration.mascots.mascots', [
+        //     'mascots' => $mascots->mascots,
+        //     'mascot_categories' => $mascot_categories
+        // ]);
     }
 
     public function addMascotForm()
@@ -91,12 +122,14 @@ class MascotsController extends Controller
         $mascotName = $request->input('name');
         $code = $request->input('code');
         $category = $request->input('category');
+        $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
 
         $data = [
             'name' => $mascotName,
             'code' => $code,
             'category' => $category,
+            'team_color_id' => $team_color_id,
             'layers_properties' => $layersProperties
         ];
 
@@ -166,7 +199,7 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-//dd($data);
+
         $response = null;
         if (!empty($id))
         {

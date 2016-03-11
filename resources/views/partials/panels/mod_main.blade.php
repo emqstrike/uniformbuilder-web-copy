@@ -10,4 +10,21 @@
 
     </div>
 
+    <div class='ub_qrcode'>
+        
+
+    </div>
+
+    <div id='genContainer'>
+    <button id = 'genPDF' class='btn'>Generate PDF</button>
+    </div>
+
+    <iframe frameborder="0" width="500" height="400">
+        
+
+
+    </iframe>
+
+
+
 </div> <!-- End Attachments Panel -->

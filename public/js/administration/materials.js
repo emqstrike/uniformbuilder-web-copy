@@ -11,6 +11,10 @@ $(document).ready(function() {
         renumberRows(length);
     });
 
+    $('.confirm-no').on('click', function(){
+        location.reload();
+    });
+
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
     // $( ".upload-sortable-rows" ).sortable({
@@ -22,6 +26,15 @@ $(document).ready(function() {
             $(".options-row").each(function(i) {
                 $(this).find(".layer-number").text(length);
                 $(this).find(".layer-number").val(length);
+                var type = $(this).find(".mo-setting-type").val();
+                if(type == "highlights"){
+                    $(this).find(".layer-number").val('99');
+                    $(this).find(".layer-number").text('99');
+                }
+                if(type == "shadows"){
+                    $(this).find(".layer-number").val('98');
+                    $(this).find(".layer-number").text('98');
+                }
                 length = length-1;
             });
             var newLength = $('.options-row').length;
@@ -30,30 +43,60 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.clone-row', function() {
+        // var length = $('.options-row').length;
+        // $(".options-row").each(function(i) {
+        //     $(this).find(".layer-number").text(length);
+        //     $(this).find(".layer-number").val(length);
+        //     var type = $(this).find(".mo-setting-type").val();
+        //     if(type == "highlights"){
+        //         $(this).find(".layer-number").val('99');
+        //         $(this).find(".layer-number").text('99');
+        //     }
+        //     if(type == "shadows"){
+        //         $(this).find(".layer-number").val('98');
+        //         $(this).find(".layer-number").text('98');
+        //     }
+        //     length = length-1;
+        // });
+        // var newLength = $('.options-row').length;
+        // renumberRows(newLength);
+        syncMOLayers();
+    });
+
+    function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
             $(this).find(".layer-number").text(length);
             $(this).find(".layer-number").val(length);
+            var type = $(this).find(".mo-setting-type").val();
+            if(type == "highlights"){
+                $(this).find(".layer-number").val('99');
+                $(this).find(".layer-number").text('99');
+            }
+            if(type == "shadows"){
+                $(this).find(".layer-number").val('98');
+                $(this).find(".layer-number").text('98');
+            }
             length = length-1;
         });
         var newLength = $('.options-row').length;
         renumberRows(newLength);
-    });
+    }
 
     $("#material-option-name").keyup(function() {
-        checkNameLength();d
+        checkNameLength();
     });
 
-    $(document).on('change', '.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    $(document).on('change', '#group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         updateCoordinates();
     });
 
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
         html: true,
         trigger: 'hover',
-        placement: 'left',
+        placement: 'top',
         content: function(){
-            return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
+            return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #525252;"/>';
         }
     });
 
@@ -68,7 +111,10 @@ $(document).ready(function() {
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
-        var default_name = $('#application_name').val();
+        // var default_name = $('#application_name').val(); // MOD
+        var default_name_raw = $('#application_name').val(); // MOD
+        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,""); // MOD
+        // console.log("FORMATTED NAME: "+default_name_raw); // MOD
 
         var area = new fabric.Rect({
             id: application_number,
@@ -110,9 +156,10 @@ $(document).ready(function() {
 
         var text = $(this).val();
         var itemsArr = ["logo", "number", "team_name", "player_name"];
-        var selectAppend = "<select class=\"app-def-item\">";
+        var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
         var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var def_name = "<input type=\"text\" class=\"app-def-name\" value="+default_name+">";
+        var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Delete</a>";
+        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\""+default_name+"\">";
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -126,13 +173,13 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
+        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
 
         var canvasItem = "application"+group.id;
 
     });
 
-var applicationProperties = {};        
+var applicationProperties = {};    
 
     $(document).on('click', '.update-application', function() {
         var itemIdx = $(this).data('id');
@@ -152,7 +199,27 @@ var applicationProperties = {};
 
         canvasFront.renderAll();
         updateCoordinates();
-        
+
+    });
+
+    $(document).on('click', '.delete-application', function() {
+        var itemIdx = $(this).data('id');
+        // var applicationId = $(this).siblings("input[name=application_id]").val();
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+
+        // item.id = applicationId;
+
+        var thisGroup = canvasFront.item(itemIdx);
+
+        canvasFront.setActiveObject(canvasFront.item(itemIdx));
+        activeObject = canvasFront.getActiveObject();
+        canvasFront.remove(activeObject);
+        $(this).parent().remove();
+
+        canvasFront.renderAll();
+        updateCoordinates();
+
     });
 
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
@@ -191,11 +258,10 @@ var applicationProperties = {};
         rotation: 0,
         };
 
-
     var box = new fabric.Rect({
         width: 250, height: 250, angle: 0,
         fill: 'transparent',
-        stroke: '#fff',
+        stroke: 'red',
         originX: 'center',
         originY: 'center'
     });
@@ -280,7 +346,6 @@ var applicationProperties = {};
 
     $(".options-row-source").hide();
 
-    
     $('#front-default-item').change(function(){
         // var def_name = $(this).data('def-name');
         var def_name = $(this).val();
@@ -304,11 +369,17 @@ var applicationProperties = {};
                 type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
                 });
-                type = type.slice(0,-1)
+                // type = type.slice(0,-1);
                 elem.val(type);
-            }
-            else{
-                elem.val("");
+
+                if(type == "highlight"){
+                    $(this).parent().siblings().find(".layer-number").val('99');
+                    $(this).parent().siblings().find(".layer-number").text('99');
+                } else {
+                    $(this).parent().siblings().find(".layer-number").val('98');
+                    $(this).parent().siblings().find(".layer-number").text('98');
+                }
+
             }
         });
 
@@ -323,6 +394,10 @@ var applicationProperties = {};
             else{
                 $(".body-layer-number").remove();
             }
+        });
+
+        $(".mo-group-id").keyup(function() {
+            renumberRows();
         });
 
         $(".mo-options-src").change(function() {
@@ -352,7 +427,7 @@ var applicationProperties = {};
                 return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
             }
         });
-    }); 
+    });
 
     });
 
@@ -417,8 +492,10 @@ var material = {};
         $('#add-multiple-options-modal').modal('show');
     });
 
-    $('.remove-color').on('click', function(){
-        $('#remove-color-modal').modal('show');
+    $('.cleanup-material').on('click', function(){
+        $('#cleanup-material-modal').modal('show');
+        var id = $(this).data('id');
+        $('#cleanup_material_id').val(id);
     });
 
     $('.add-material-option').on('click', function(){
@@ -497,23 +574,29 @@ var appPropJson = "";
                 default_color_name: $(this).data('material-option-default-color-name'),
                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
                 type: $(this).data('material-option-setting-type'),
+                team_color_id: $(this).data('material-option-team-color-id'),
+                group_id: $(this).data('material-option-group-id'),
                 code: $(this).data('material-option-setting-code'),
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
                 colors: $(this).data('material-option-colors'),
                 gradients: $(this).data('material-option-gradients'),
                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
+                allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
+                allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
+                allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path'))
             }
         };
 
-        console.log("HIGHLIGHTS PATH: "+material.option.highlights);
+        // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
 
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
+        $('#group_id').val(material.option.group_id);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(material.option.type);
         $('#saved-setting-type').attr('selected','selected');
@@ -532,13 +615,50 @@ var appPropJson = "";
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
+
+        if(material.option.blend){
+            $('#is_blend').prop('checked','checked');
+        }
+        if(material.option.allow_pattern){
+            $('#allow_pattern').prop('checked','checked');
+        }
+        if(material.option.allow_gradient){
+            $('#allow_gradient').prop('checked','checked');
+        }
+        if(material.option.allow_color){
+            $('#allow_color').prop('checked','checked');
+        }
+        
+        var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+        var team_color_id_options = "";
+
+        id_nums.forEach(function(entry) {
+            id = entry;
+            if(id == material.option.team_color_id){
+                team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+            } else {
+                team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+            }
+        });
+
+        // foreach(id_nums as id){
+        //     if(id == material.option.team_color_id){
+        //         team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+        //     } else {
+        //         team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+        //     }
+            
+        // }
+
+        $('#team_color_id').append(team_color_id_options);
+
         // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
         var va_prop_val = $('.a-prop').val();
-        console.log($('.b-prop').val());
+        // console.log($('.b-prop').val());
         if($('.a-prop').val() != "\"{}\""){
-            console.log("INSIDE IF");
+            // console.log("INSIDE IF");
             // var trim_backslash = $('.a-prop').val().replace(/\\/g, ''); ************
             // va_prop_val = trim_backslash.substring(1, trim_backslash.length-1); ************
             va_prop_val = $('.a-prop').val();
@@ -560,18 +680,21 @@ var appPropJson = "";
         if(material.option.highlights != null){
             material_option_shape = material.option.highlights;
         }
-        
+
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
+        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
 
-        $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
-        $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
+        // $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
+        // $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
         // **************
         // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            console.log("bprop");
+            // console.log("bprop");
             // var jason = $('.b-prop').val().replace(/\\/g, '');
             var jason = $('.b-prop').val();
             var output = jason.substring(1, jason.length-1);
@@ -617,7 +740,7 @@ var appPropJson = "";
                 var l = "layer"+c;
                 var default_item = app_properties[l].type;
                 var iid = app_properties[l].id;
-
+// console.log("APP PROP NAME: "+app_properties[l].name);
                 if(!app_properties[l].id){
                     break;
                 }
@@ -661,8 +784,9 @@ var appPropJson = "";
                 if(app_properties[l].id != null){
 
                     var itemsArr = ["logo", "number", "team_name", "player_name"];
-                    var selectAppend = "<select class=\"app-def-item\">";
+                    var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
                     var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
+                    var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + c + ">Delete</a>";
 
                     selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
 
@@ -676,9 +800,9 @@ var appPropJson = "";
 
                     selectAppend += "</select>";
 
-                    var def_name = "<input type=\"text\" class=\"app-def-name\" value=" + app_properties[l].name + ">";
-
-                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"font-size: 11px; text-align:left;\"><input type=\"text\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + "</div>");
+                    var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\"" + app_properties[l].name + "\">";
+// console.log("DEF NAME STRING: "+def_name);
+                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
                     var thisGroup = group;
@@ -716,9 +840,12 @@ var appPropJson = "";
 
 
             var boundaryProperties = JSON.stringify(data);
-
-            // $('#boundary-properties').prop('value', boundaryProperties);
             $('.b-prop').prop('value', boundaryProperties);
+
+            // var applicationsProperties = JSON.stringify(data);
+            // $('.a-prop').prop('value', applicationsProperties);
+
+            // console.log("CONSOLE LOG: " + applicationsProperties);
 
 
             $("#file-src").prop("src", material.option.path);
@@ -787,11 +914,51 @@ var appPropJson = "";
         );
     });
 
+    $('.cleanup-material-option').on('click', function(){
+        var id = $(this).data('material-option-id');
+        var name = $(this).data('material-option-name');
+        modalConfirm(
+            'Cleanup Material Option',
+            'This will reset the applications of : '+ name +'.',
+            id,
+            'confirm-yes',
+            'confirmation-modal-cleanup-material-option'
+        );
+    });
+
+    $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material_option/cleanupApp/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal-cleanup-material-option').modal('hide');
+                    location.reload();
+                    $('.material-option-' + id).fadeOut();
+                    $('.material-option-' + id).fadeIn();
+                }
+            }
+        });
+    });
+
     $('.delete-multiple-material-option').on('click', function(){
         var checkedMaterialOptionsIDs = [];
         $('input[type=checkbox]:checked').each(function () {
             if($(this).hasClass("delete-multiple-material-options")){
-                console.log("CHECKED: "+$(this).val());
+                // console.log("CHECKED: "+$(this).val());
                 checkedMaterialOptionsIDs.push($(this).val());
             }
             
@@ -977,18 +1144,38 @@ var appPropJson = "";
 
     function renumberRows(length){
         var is_blend_arr = [];
+        var allow_pattern_arr = [];
+        var allow_gradient_arr = [];
+        var allow_color_arr = [];
         $(".options-row").each(function(i) {
+            var old_length = length;
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
+
+            var settingTypeVal = $(this).find('.mo-setting-type').val();
+
+            if( settingTypeVal == "hightlight" ){
+                layer_class = ".mo-layer.layer99";
+                length = '99';
+            }
+            if( settingTypeVal == "shadow" ){
+                layer_class = ".mo-layer.layer98";
+                length = '98';
+            }
 
             materialOptions.front[thisLayer] = {};
             materialOptions.front[thisLayer]['image_file'] = {};
             materialOptions.front[thisLayer]['layer'] = {};
             materialOptions.front[thisLayer]['name'] = {};
-            materialOptions.front[thisLayer]['setting-type'] = {};
+            materialOptions.front[thisLayer]['setting_type'] = {};
+            materialOptions.front[thisLayer]['team_color_id'] = {};
+            materialOptions.front[thisLayer]['group_id'] = {};
             materialOptions.front[thisLayer]['default_color'] = {};
             materialOptions.front[thisLayer]['sublimated_default_color'] = {};
             materialOptions.front[thisLayer]['is_blend'] = {};
+            materialOptions.front[thisLayer]['allow_pattern'] = {};
+            materialOptions.front[thisLayer]['allow_gradient'] = {};
+            materialOptions.front[thisLayer]['allow_color'] = {};
 
             $(this).find('.mo-layer').removeClass().addClass("mo-layer");
             $(this).find('.mo-layer').addClass(thisLayer);
@@ -1019,19 +1206,46 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
+            // ARRAYS ******************************
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
             $(this).find('.mo-blend').addClass(thisLayer);
             var mo_blend_class = ".mo-blend.layer" + length;
             $(this).find(mo_blend_class).addClass('mo-blend');
 
+            $(this).find('.mo-allow-pattern').removeClass().addClass("mo-allow-pattern");
+            $(this).find('.mo-allow-pattern').addClass(thisLayer);
+            var mo_allow_pattern_class = ".mo-allow-pattern.layer" + length;
+            $(this).find(mo_allow_pattern_class).addClass('mo-allow-pattern');
+
+            $(this).find('.mo-allow-gradient').removeClass().addClass("mo-allow-gradient");
+            $(this).find('.mo-allow-gradient').addClass(thisLayer);
+            var mo_allow_gradient_class = ".mo-allow-gradient.layer" + length;
+            $(this).find(mo_allow_gradient_class).addClass('mo-allow-gradient');
+
+            $(this).find('.mo-allow-color').removeClass().addClass("mo-allow-color");
+            $(this).find('.mo-allow-color').addClass(thisLayer);
+            var mo_allow_color_class = ".mo-allow-color.layer" + length;
+            $(this).find(mo_allow_color_class).addClass('mo-allow-color');
+            // END ARRAYS ******************************
+
+            $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
+            $(this).find('.mo-team-color-id').addClass(thisLayer);
+            var team_color_id_class = ".mo-team-color-id.layer" + length;
+            $(this).find(team_color_id_class).addClass('mo-team-color-id');
+
+            $(this).find('.mo-group-id').removeClass().addClass("mo-group-id");
+            $(this).find('.mo-group-id').addClass(thisLayer);
+            var group_id_class = ".mo-group-id.layer" + length;
+            $(this).find(group_id_class).addClass('mo-group-id');
+
             materialOptions.front[thisLayer]['name'] = $(this).find(name_class).val();
             materialOptions.front[thisLayer]['layer'] = $(this).find(layer_class).val();
             materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            materialOptions.front[thisLayer]['image_file'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['setting-type'] = $(this).find(type_class).val();
-            materialOptions.front[thisLayer]['default_color'] = $(this).find(src_class).val();
-            materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['setting_type'] = $(this).find(type_class).val();
+            materialOptions.front[thisLayer]['team_color_id'] = $(this).find(team_color_id_class).val();
+            materialOptions.front[thisLayer]['group_id'] = $(this).find(group_id_class).val();
+            materialOptions.front[thisLayer]['default_color'] = $(this).find(def_color_class).val();
+            materialOptions.front[thisLayer]['sublimated_default_color'] = $(this).find(sub_def_color_class).val();
 
             if($(mo_blend_class).is(':checked')){
                 materialOptions.front[thisLayer]['is_blend'] = "1";
@@ -1039,15 +1253,51 @@ var appPropJson = "";
                 materialOptions.front[thisLayer]['is_blend'] = "0";
             }
 
+            if($(mo_allow_pattern_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_pattern'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_pattern'] = "0";
+            }
+
+
+            if($(mo_allow_gradient_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_gradient'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_gradient'] = "0";
+            }
+
+
+            if($(mo_allow_color_class).is(':checked')){
+                materialOptions.front[thisLayer]['allow_color'] = "1";
+            }else{
+                materialOptions.front[thisLayer]['allow_color'] = "0";
+            }
+
+
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
+
+            allow_pattern_arr.push(materialOptions.front[thisLayer]['allow_pattern']);
+            $('#allow-pattern-array').val(allow_pattern_arr);
+
+            allow_gradient_arr.push(materialOptions.front[thisLayer]['allow_gradient']);
+            $('#allow-gradient-array').val(allow_gradient_arr);
+
+            allow_color_arr.push(materialOptions.front[thisLayer]['allow_color']);
+            $('#allow-color-array').val(allow_color_arr);
+
+
             // console.log("Blend Array: "+is_blend_arr);
+            length = old_length;
             length--;
         });
         var moProperties = JSON.stringify(materialOptions);
+        console.log("MOS: "+moProperties);
     }
 
     function updateCoordinates() {
+
+        applicationProperties = {}
 
         circle.radius = box.height / 2;
 
@@ -1154,6 +1404,8 @@ var appPropJson = "";
         appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
+
+        // console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR
@@ -1169,9 +1421,7 @@ var appPropJson = "";
             });
             type = type.slice(0,-1)
             elem.val(type);
-        }
-        else{
-            elem.val("");
+            syncMOLayers();
         }
     });
 
