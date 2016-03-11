@@ -1658,78 +1658,79 @@ $(document).ready(function() {
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
+            var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
 
             if (typeof ub.active_part === 'undefined' || results.length === 0 ) {
 
                 ub.funcs.resetHighlights();
                 ub.active_lock = false;
 
+                $sidebar_buttons.show();
+
             }
             else {
 
-                ///
+                $sidebar_buttons.hide();
 
-                    if (results.length > 0 ) {
+                if (results.length > 0 ) {
 
-                        var _match = _.first(results).name.toCodeCase();
-                        
-                        if (ub.active_part !== _match) {
-                            
-                            ub.active_part = _match;
+                    var _match = _.first(results).name.toCodeCase();
 
-                            var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+                    console.log('Match: ' + _match);
+                    console.log('Active Part: ' + ub.active_part);
+                    
+                    if (ub.active_part !== _match) {
 
-                            _.each(_materialOptions, function (_materialOption) {
+                        ub.active_part = _match;
 
-                                var _name = _materialOption.name.toCodeCase();
-                                var _object = ub.objects[ub.active_view + '_view'][_name];
+                    }   
 
-                                _object.alpha = 0.5;
+                    var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
 
-                            });
+                    _.each(_materialOptions, function (_materialOption) {
 
-                            /// Matching Side 
-                            var _matching_side = '';
+                        var _name = _materialOption.name.toCodeCase();
+                        var _object = ub.objects[ub.active_view + '_view'][_name];
 
-                            if (_match.indexOf('left_') !== -1){
+                        _object.alpha = 0.5;
 
-                                _matching_side = _match.replace('left_','right_');
-                                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                                _matching_object.alpha = 1;
+                    });
 
-                                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+                    /// Matching Side 
+                    var _matching_side = '';
 
-                            } else if (_match.indexOf('right_') !== -1){
+                    if (_match.indexOf('left_') !== -1){
 
-                                _matching_side = _match.replace('right_','left_');
+                        _matching_side = _match.replace('left_','right_');
+                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                        _matching_object.alpha = 1;
 
-                                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                                _matching_object.alpha = 1;
+                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
 
-                                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+                    } else if (_match.indexOf('right_') !== -1){
 
-                            }
-                            else  {
-                                ub.funcs.create_plugins(_match, 'single');
-                            }
+                        _matching_side = _match.replace('right_','left_');
 
-                            /// End Matching Side 
+                        var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                        _matching_object.alpha = 1;
 
-                            var _object = ub.objects[ub.active_view + '_view'][_match];
-                            _object.alpha = 1;
-
-                            
-
-                        }    
+                        ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
 
                     }
-                    else {
-
-                        ub.funcs.resetHighlights();
-
+                    else  {
+                        ub.funcs.create_plugins(_match, 'single');
                     }
+                    /// End Matching Side 
 
-                ///
+                    var _object = ub.objects[ub.active_view + '_view'][_match];
+                    _object.alpha = 1;
+
+                }
+                else {
+
+                    ub.funcs.resetHighlights();
+
+                }
 
                 var _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
                 $("#primary_options_header").html(_header_text.toUpperCase());
@@ -1741,11 +1742,7 @@ $(document).ready(function() {
 
         ub.stage.on('mousemove', function(mousedata){
 
-            if (ub.active_lock === true) {
-
-                return;
-
-            }
+            if (ub.active_lock === true) { return; }
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
@@ -1760,6 +1757,7 @@ $(document).ready(function() {
 
                 }
 
+                var _active_view = ub.active_view + '_view';
                 ub.active_part = _match;
 
                 var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
@@ -1767,13 +1765,13 @@ $(document).ready(function() {
                 _.each(_materialOptions, function (_materialOption) {
 
                     var _name = _materialOption.name.toCodeCase();
-                    var _object = ub.objects[ub.active_view + '_view'][_name];
+                    var _object = ub.objects[_active_view][_name];
 
                     _object.alpha = 0.3;
 
                 });
 
-                var _object = ub.objects[ub.active_view + '_view'][_match];
+                var _object = ub.objects[_active_view][_match];
                 _object.alpha = 1;
 
 
@@ -1783,20 +1781,20 @@ $(document).ready(function() {
                 if (_match.indexOf('left_') !== -1){
 
                     _matching_side = _match.replace('left_','right_');
-                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                    var _matching_object = ub.objects[_active_view][_matching_side];
                     _matching_object.alpha = 1;
 
                 } else if (_match.indexOf('right_') !== -1){
 
                     _matching_side = _match.replace('right_','left_');
 
-                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                    var _matching_object = ub.objects[_active_view][_matching_side];
                     _matching_object.alpha = 1;
 
                 }
                 /// End Matching Side 
 
-                var _object = ub.objects[ub.active_view + '_view'][_match];
+                var _object = ub.objects[_active_view][_match];
                 _object.alpha = 1;
 
             }
