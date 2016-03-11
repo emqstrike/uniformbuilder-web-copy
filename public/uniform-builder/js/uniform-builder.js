@@ -3571,6 +3571,19 @@ $(document).ready(function () {
 
     })
 
+    $('input#simple_toggle').onoff();
+
+    $("input#simple_toggle").change(function() {
+        if(this.checked) {
+            $('a[data-type="einstein"]').hide();
+            $('div#primary_options_colors_advanced').hide();
+        }
+        else {
+            $('a[data-type="einstein"]').show();   
+            
+        }
+    });
+
     /// End Generate Pattern
 
     ub.funcs.identify = function (applicationCode) {
