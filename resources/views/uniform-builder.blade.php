@@ -38,6 +38,21 @@
         <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
     </div>
 
+    <div class="row">
+
+        <div class="col-md-6">
+            
+            <div id="design_name_container">
+                
+                <label>Design Name: </label> <span id="design_name_input">Infusion 14</span> &nbsp;
+                <i class="fa fa-pencil-square-o"></i>
+              
+            </div>
+
+        </div>
+
+    </div>
+
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
             <!-- Main Preview Window -->
