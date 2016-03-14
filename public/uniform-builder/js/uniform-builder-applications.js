@@ -1604,6 +1604,69 @@ $(document).ready(function() {
         }
 
     };
+
+
+    ub.funcs.match = function (_match) {
+
+        var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+        _.each(_materialOptions, function (_materialOption) {
+
+            var _name = _materialOption.name.toCodeCase();
+            var _object = ub.objects[ub.active_view + '_view'][_name];
+
+            _object.alpha = 0.5;
+
+        });
+
+        var simple_mode = $('input#simple_toggle').is(":checked");
+
+        if (simple_mode === true) {
+
+            /// Matching Side 
+            var _matching_side = '';
+
+            if (_match.indexOf('left_') !== -1){
+
+                _matching_side = _match.replace('left_','right_');
+                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                _matching_object.alpha = 1;
+
+                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+            } else if (_match.indexOf('right_') !== -1){
+
+                _matching_side = _match.replace('right_','left_');
+
+                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+                _matching_object.alpha = 1;
+
+                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+            }
+            else  {
+
+                ub.funcs.create_plugins(_match, 'single');
+
+            }
+            /// End Matching Side 
+
+            _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
+        }
+        else {
+
+            ub.funcs.create_plugins(_match, 'single');
+            _header_text = ub.active_part.toTitleCase();
+
+        }    
+
+        var _object = ub.objects[ub.active_view + '_view'][_match];
+        _object.alpha = 1;
+
+        return _header_text;
+
+    }
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -1688,61 +1751,7 @@ $(document).ready(function() {
 
                     }   
 
-                    var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
-
-                    _.each(_materialOptions, function (_materialOption) {
-
-                        var _name = _materialOption.name.toCodeCase();
-                        var _object = ub.objects[ub.active_view + '_view'][_name];
-
-                        _object.alpha = 0.5;
-
-                    });
-
-                    var simple_mode = $('input#simple_toggle').is(":checked");
-
-                    if (simple_mode === true) {
-
-                        /// Matching Side 
-                        var _matching_side = '';
-
-                        if (_match.indexOf('left_') !== -1){
-
-                            _matching_side = _match.replace('left_','right_');
-                            var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                            _matching_object.alpha = 1;
-
-                            ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-                        } else if (_match.indexOf('right_') !== -1){
-
-                            _matching_side = _match.replace('right_','left_');
-
-                            var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                            _matching_object.alpha = 1;
-
-                            ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-                        }
-                        else  {
-
-                            ub.funcs.create_plugins(_match, 'single');
-
-                        }
-                        /// End Matching Side 
-
-                        _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
-
-                    }
-                    else {
-
-                        ub.funcs.create_plugins(_match, 'single');
-                        _header_text = ub.active_part.toTitleCase();
-
-                    }    
-
-                    var _object = ub.objects[ub.active_view + '_view'][_match];
-                    _object.alpha = 1;
+                    _header_text = ub.funcs.match(_match)
 
                 }
                 else {
