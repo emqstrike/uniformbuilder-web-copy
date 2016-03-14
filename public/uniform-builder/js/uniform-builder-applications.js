@@ -1730,6 +1730,15 @@ $(document).ready(function() {
 
                         }
                         /// End Matching Side 
+
+                        _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
+                    }
+                    else {
+
+                        ub.funcs.create_plugins(_match, 'single');
+                        _header_text = ub.active_part.toTitleCase();
+
                     }    
 
                     var _object = ub.objects[ub.active_view + '_view'][_match];
@@ -1742,7 +1751,6 @@ $(document).ready(function() {
 
                 }
 
-                var _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
                 $("#primary_options_header").html(_header_text.toUpperCase());
                 ub.active_lock = true;
 

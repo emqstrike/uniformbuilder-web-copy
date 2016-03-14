@@ -119,7 +119,7 @@
 <script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/onoff/jquery.onoff.min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
