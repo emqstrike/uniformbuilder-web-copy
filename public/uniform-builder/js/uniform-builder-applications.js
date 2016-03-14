@@ -1730,6 +1730,11 @@ $(document).ready(function() {
 
                         }
                         /// End Matching Side 
+                    }
+                    else {
+
+                        ub.funcs.create_plugins(_match, 'single');
+
                     }    
 
                     var _object = ub.objects[ub.active_view + '_view'][_match];
