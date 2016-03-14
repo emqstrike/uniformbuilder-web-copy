@@ -3574,14 +3574,11 @@ $(document).ready(function () {
     $('input#simple_toggle').onoff();
 
     $("input#simple_toggle").change(function() {
-        if(this.checked) {
-            $('a[data-type="einstein"]').hide();
-            $('div#primary_options_colors_advanced').hide();
-        }
-        else {
-            $('a[data-type="einstein"]').show();   
-            
-        }
+
+        ub.funcs.resetHighlights();
+        ub.active_lock = false;
+        $sidebar_buttons.show();
+        
     });
 
     /// End Generate Pattern
