@@ -5,7 +5,7 @@
  */
 .onoffswitch {
   position: relative;
-  width: 70px;
+  width: 100px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -45,14 +45,14 @@
 }
 
 .onoffswitch-inner:before {
-  content: "YES";
+  content: "Combine";
   padding-left: 10px;
   color: #FFFFFF;
   background-color: #acacac;
 }
 
 .onoffswitch-inner:after {
-  content: "NO";
+  content: "Separate";
   padding-right: 10px;
   color: #999999;
   background-color: #EEEEEE;
@@ -64,7 +64,7 @@
   display: block;
   top: 0;
   bottom: 0;
-  right: 40px;
+  right: 70px;
   width: 18px;
   margin: 4px;
   background: white;
