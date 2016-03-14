@@ -58,6 +58,8 @@
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
 
+            el_parent.hide();
+
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
@@ -159,6 +161,8 @@
             });
 
             panels.hide();
+
+            el_parent.fadeIn();
 
         });
 
