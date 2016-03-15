@@ -35,15 +35,10 @@ $(document).ready(function() {
         canvasFront.clear();
         application_number = 1;
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-        $(".front-applications").remove(".apOpt");
-        clearAppPropOptions();
 
         console.log('CHANGE TEMPLATE');
         var va_prop_val = $(this).val();
-        if($('.a-prop').val() != "\"{}\""){
-            va_prop_val = $('.a-prop').val();
-            $('.a-prop').prop("value", va_prop_val);
-        }
+
 
         if(va_prop_val != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
@@ -57,7 +52,7 @@ $(document).ready(function() {
             appendApplications(app_properties);
 
         }
-        // updateCoordinates();
+        updateCoordinates();
     });
 
 
