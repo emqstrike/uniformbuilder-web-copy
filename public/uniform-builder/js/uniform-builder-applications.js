@@ -942,8 +942,6 @@ $(document).ready(function() {
     /// End Create Interactive UI
 
     ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
-
-        console.log('Still ON!');
         
         var rotation_point = _.find(ui_handles.children, { ubName: 'rotation_point'});
         var move_point = _.find(ui_handles.children, { ubName: 'move_point'});
@@ -1347,7 +1345,6 @@ $(document).ready(function() {
 
                         //line.moveTo(0, view.application.bottomRight.y);
                         //line.lineTo(550, view.application.bottomRight.y);
-                        console.log('Baseline is bottom: ');
 
                         var point = sprite_function(args);
                         point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
@@ -1363,8 +1360,6 @@ $(document).ready(function() {
 
                         var point = sprite_function(args);
                         var y = (point.height / 4 ) + topRightY;
-
-                        console.log('Baseline is top: ');
 
                         point.position = new PIXI.Point(view.application.pivot.x, y);
 
@@ -1673,7 +1668,7 @@ $(document).ready(function() {
         ub.data.boundaries_transformed = {};
 
         var material_options = ub.current_material.materials_options;
-        var shapes = _.filter(material_options, {setting_type: 'shape'});
+        var shapes = _.filter(material_options, { setting_type: 'shape' });
         var boundaries_transformed = ub.data.boundaries_transformed;
         var boundaries_one_dimensional = ub.data.boundaries_transformed_one_dimensional;
 
