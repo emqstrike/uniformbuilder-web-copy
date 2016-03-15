@@ -422,6 +422,7 @@ var applicationProperties = {};
         $(".mo-setting-type").change(function() {
             var elem = $(this).parent().siblings().find('.mo-name');
             var type = $(this).val();
+            var type_raw = type;
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
 
             if(type == "highlights" || type == "shadows"){
@@ -430,11 +431,11 @@ var applicationProperties = {};
                 });
                 // type = type.slice(0,-1);
                 elem.val(type);
-
-                if(type == "highlight"){
+console.log('TYPE>>>> '+type_raw);
+                if(type_raw == "highlights"){
                     $(this).parent().siblings().find(".layer-number").val('99');
                     $(this).parent().siblings().find(".layer-number").text('99');
-                } else {
+                } else{
                     $(this).parent().siblings().find(".layer-number").val('98');
                     $(this).parent().siblings().find(".layer-number").text('98');
                 }
@@ -1249,8 +1250,7 @@ var appPropJson = "";
             if( settingTypeVal == "hightlight" ){
                 layer_class = ".mo-layer.layer99";
                 length = '99';
-            }
-            if( settingTypeVal == "shadow" ){
+            }else if( settingTypeVal == "shadow" ){
                 layer_class = ".mo-layer.layer98";
                 length = '98';
             }
