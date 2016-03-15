@@ -162,7 +162,22 @@
                 </div>
                 <div class="col-md-4">
                     <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="text-center">
-                        <h3>Applications</h3><hr>
+                        <h3>Applications</h3>
+                        <center>
+                            <label class="control-label label-success" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Application Template:</label>
+                            <select name="load_applications_template" class="form-control load-applications-template" style="width: 200px;">
+                                <option value='"{}"'>None</option>
+                                @foreach ($applications as $application)
+                                    <option value='{{ $application->applications_properties }}'>
+                                        {{ $application->block_pattern }}-
+                                        {{ $application->perspective }}-
+                                        {{ $application->part }}-
+                                        {{ $application->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </center>
+                        <hr>
                         <a class="btn btn-xs btn-success" id="add_front_application"><i class="fa fa-plus"></i></a>
                         <select name="default_item" id="front-default-item">
                             <option value="logo" data-def-name="logo">Logo</option>
@@ -171,9 +186,10 @@
                             <option value="player_name" data-def-name="player_name">Player Name</option>
                         </select>
                         <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
+
                         <table class="table table-bordered">
                             <thead>
-                                <th>ID</th>
+                                <th>App #</th>
                                 <th>Type</th>
                                 <th>Name</th>
                                 <th>Rotation</th>
@@ -190,6 +206,10 @@
                             <tbody class="front-applications">
                             </tbody>
                         </table>
+                        <input type="text" id="app_template_name" placeholder="Template Name...">
+                        <a href="#"
+                            class="btn btn-xs btn-primary" id="save_app_template" disabled>
+                        Save as Template</a><hr>
                     </div>
                 </div>
             </div>

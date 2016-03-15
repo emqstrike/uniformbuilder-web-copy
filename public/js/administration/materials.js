@@ -17,6 +17,51 @@ $(document).ready(function() {
     //     renumberRows(length);
     // });
 
+    // App props save template
+    $("#app_template_name").keyup(function() {
+        console.log("Changed template name, length is: "+$(this).val().length);
+        if( $(this).val().length > 2 ){
+            $('#save_app_template').removeAttr('disabled');
+            console.log('IF');
+        } else {
+            // $('#save_app_template').prop('disabled',true);
+            $('#save_app_template').attr('disabled', 'disabled');
+            console.log('ELSE');
+        }
+    });
+
+ // LOA APP PROP TEMPLATE
+    $(".load-applications-template").change(function() {
+        canvasFront.clear();
+        application_number = 1;
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+        $(".front-applications").remove(".apOpt");
+        clearAppPropOptions();
+
+        console.log('CHANGE TEMPLATE');
+        var va_prop_val = $(this).val();
+        if($('.a-prop').val() != "\"{}\""){
+            va_prop_val = $('.a-prop').val();
+            $('.a-prop').prop("value", va_prop_val);
+        }
+
+        if(va_prop_val != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
+
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+
+            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
+            appendApplications(app_properties);
+
+        }
+        // updateCoordinates();
+    });
+
+
+
     $('.confirm-no').on('click', function(){
         location.reload();
     });
@@ -771,7 +816,42 @@ var appPropJson = "";
 
             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
 
-            for(c = 0; c < Object.keys(app_properties).length; c++){
+            appendApplications(app_properties);
+
+            } // ************************ APP PROP IF END
+
+
+            var boundaryProperties = JSON.stringify(data);
+            $('.b-prop').prop('value', boundaryProperties);
+
+            // var applicationsProperties = JSON.stringify(data);
+            // $('.a-prop').prop('value', applicationsProperties);
+
+            // console.log("CONSOLE LOG: " + applicationsProperties);
+
+
+            $("#file-src").prop("src", material.option.path);
+            $("#layer-level").prop("value", material.option.layer_level);
+
+            if (material.option.blend) {
+                $('#is-blend').attr('checked', 'checked');
+            } else {
+                $('#is-blend').attr('checked', 'unchecked');
+            }
+
+        }
+        // **************
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-modal .material-id').val(material.id);
+        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-modal').modal('show');
+    });
+
+function appendApplications(app_properties){
+    for(c = 0; c < Object.keys(app_properties).length; c++){
 
                 var l = "layer"+c;
                 var default_item = app_properties[l].type;
@@ -936,37 +1016,57 @@ var appPropJson = "";
                     break;
                 }
             }
+}
 
-            } // ************************ APP PROP IF END
+    $('#save_app_template').on('click', function(){
+        // var id = $(this).data('material-id');
+        var name = $('#app_template_name').val();
+        var block_pattern = $('#material_block_pattern').val();
+        var perspective = $('#saved-perspective').val();
+        var part = $('#material-option-name').val();
+        var applications_properties = $('.a-prop').val();
 
+        var description = "Lorem Ipsum Yaddah";
 
-            var boundaryProperties = JSON.stringify(data);
-            $('.b-prop').prop('value', boundaryProperties);
+        var url = "//" + api_host + "/api/application";
 
-            // var applicationsProperties = JSON.stringify(data);
-            // $('.a-prop').prop('value', applicationsProperties);
+        var myData={
+            "name":name,
+            "block_pattern":block_pattern,
+            "perspective":perspective,
+            "part":part,
+            "description":description,
+            "applications_properties":applications_properties
+        };
 
-            // console.log("CONSOLE LOG: " + applicationsProperties);
+        if($(this).attr('disabled') != 'disabled'){
+            console.log('SAVE TEMPLATE!');
+            console.log('myData: '+JSON.stringify(myData));
 
-
-            $("#file-src").prop("src", material.option.path);
-            $("#layer-level").prop("value", material.option.layer_level);
-
-            if (material.option.blend) {
-                $('#is-blend').attr('checked', 'checked');
-            } else {
-                $('#is-blend').attr('checked', 'unchecked');
-            }
-
+            $.ajax({
+                url: url,
+                type: "POST",
+                // data: JSON.stringify({id: id}),
+                data: JSON.stringify(myData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
         }
-        // **************
-
-        $('#saved-setting-type').attr('selected',true);
-        $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-modal').modal('show');
+        
+        
     });
 
     $('.toggle-material').on('click', function(){
