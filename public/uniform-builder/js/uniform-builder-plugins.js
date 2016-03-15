@@ -58,6 +58,8 @@
             var str_builder = header + '<div class="options_panel_section ubColorPicker" data-index="' + color_stop_index + '" data-type="' + settings.type + '" data-option="' + code + '" data-group="colors"><div class="color_panel_container color_panel_container_ub_picker">';
             var color_elements = '';
 
+            el_parent.hide();
+
             _.each(JSON.parse(obj_colors.colors), function(color_obj) {
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
@@ -159,6 +161,8 @@
             });
 
             panels.hide();
+
+            el_parent.fadeIn();
 
         });
 
@@ -1727,9 +1731,7 @@
         });
 
         $("button#update-pattern-" + target).click('click', function (e) {
-
             $.ub.mvChangePattern(application, target, clone);
-
         });
 
         $("button#update-pattern-" + target).click();
@@ -1976,16 +1978,7 @@
             var bounds;
             var guides;
 
-            if (uniform_type === "upper") {
-
-                guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
-
-            }
-            else {
-
-                guides = { x1: 148, y1: 58, x2: 347, y2: 488 };
-
-            }
+            guides = { x1: 23, y1: 67, x2: 466, y2: 464 };
 
             var gradient_width  = 496;
             var gradient_height = 550;

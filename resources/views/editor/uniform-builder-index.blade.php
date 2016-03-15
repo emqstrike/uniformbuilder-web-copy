@@ -4,7 +4,7 @@
     <div id="left-pane" class="pane">
 
         <div id="left-top" class="pane-top">
-
+            
         </div>
 
         <div id="left-sidebar" class="pane-sidebar">
@@ -62,7 +62,7 @@
     <div id="right-pane" class="pane">
 
         <div id="right-top" class="pane-top">
-
+            
         </div>
 
         <div id="right-sidebar" class="pane-sidebar">
