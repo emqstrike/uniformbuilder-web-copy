@@ -14,6 +14,19 @@ $(document).ready(function(){
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;
+    ub.same_here_once = false;
+    ub.interacted  = {
+
+        previous: {
+            name: undefined,
+        },
+        
+        current: {
+            name: undefined,
+        },
+
+    }
+
 
     /// End Interactive Viewport
 

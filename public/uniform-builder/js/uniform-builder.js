@@ -3578,7 +3578,6 @@ $(document).ready(function () {
         $("#primary_options_header").html(_header_text.toUpperCase());
         ub.active_lock = true;
 
-        
     });
 
     /// End Generate Pattern
