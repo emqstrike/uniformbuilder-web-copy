@@ -12,10 +12,6 @@ $(document).ready(function() {
 
     var application_number = 1;
 
-    // $(document).on('change', function() {
-    //     var length = $('.options-row').length;
-    //     renumberRows(length);
-    // });
 
     // App props save template
     $("#app_template_name").keyup(function() {
@@ -24,7 +20,6 @@ $(document).ready(function() {
             $('#save_app_template').removeAttr('disabled');
             console.log('IF');
         } else {
-            // $('#save_app_template').prop('disabled',true);
             $('#save_app_template').attr('disabled', 'disabled');
             console.log('ELSE');
         }
@@ -283,27 +278,6 @@ $(document).ready(function() {
 
 var applicationProperties = {};    
 
-    // $(document).on('click', '.update-application', function() {
-    //     var itemIdx = $(this).data('id');
-    //     var applicationId = $(this).siblings("input[name=application_id]").val();
-    //     var applicationType = $(this).siblings("select[class=app-def-item]").val();
-    //     var items = canvasFront.getObjects();
-    //     var item = items[itemIdx];
-
-    //     item.id = applicationId;
-
-    //     var thisGroup = canvasFront.item(itemIdx);
-
-    //     thisGroup.item(1).text = applicationId;
-    //     thisGroup.item(2).text = applicationType;
-
-    //     canvasFront.setActiveObject(canvasFront.item(itemIdx));
-
-    //     canvasFront.renderAll();
-    //     updateCoordinates();
-
-    // });
-
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
         var items = canvasFront.getObjects();
@@ -469,7 +443,7 @@ var applicationProperties = {};
                 type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
                 });
-                // type = type.slice(0,-1);
+
                 elem.val(type);
 console.log('TYPE>>>> '+type_raw);
                 if(type_raw == "highlights"){
@@ -985,26 +959,6 @@ function appendApplications(app_properties){
                     
                     canvasFront.renderAll();
 
-                    // DECLARE
-
-                    // $(document).on('change', '.app-id', function() {
-                    //     var itemIdx = $(this).data('id');
-                    //     console.log('ID: '+itemIdx);
-                    //     var newId = $(this).val();
-
-                    //     var items = canvasFront.getObjects();
-                    //     var item = items[itemIdx];
-                    //     var thisGroup = canvasFront.item(itemIdx);
-                        
-
-                    //     thisGroup.item(1).text = itemIdx;
-
-                    //     item.id = itemIdx;
-
-                    //     canvasFront.renderAll();
-                    //     updateCoordinates();
-                    //     console.log('CHANGED');
-                    // });
                     application_number++;
                 }
                 else{
@@ -1014,7 +968,6 @@ function appendApplications(app_properties){
 }
 
     $('#save_app_template').on('click', function(){
-        // var id = $(this).data('material-id');
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
         var perspective = $('#saved-perspective').val();
@@ -1041,7 +994,6 @@ function appendApplications(app_properties){
             $.ajax({
                 url: url,
                 type: "POST",
-                // data: JSON.stringify({id: id}),
                 data: JSON.stringify(myData),
                 dataType: "json",
                 crossDomain: true,
@@ -1526,17 +1478,6 @@ function appendApplications(app_properties){
             layer = $(this).data('id');
 
             thisGroup = canvasFront.item(layer);
-            // applicationType = $(this).siblings("select[class=app-def-item]").val();
-            // applicationName = $(this).siblings("input[class=app-def-name]").val();
-            // applicationId = $(this).siblings("input[name=application_id]").val();
-
-            // isPrimary = $(this).siblings("input[class=app-primary]").val();
-            // hasLogo = $(this).siblings("input[class=app-logo]").val();
-            // hasTeamName = $(this).siblings("input[class=app-team-name]").val();
-            // hasPlayerName = $(this).siblings("input[class=app-player-name]").val();
-            // hasNumber = $(this).siblings("input[class=app-number]").val();
-            // fontSizes = $(this).siblings("input[class=app-font-sizes]").val();
-            // uniformSizes = $(this).siblings("input[class=app-uniform-sizes]").val();
             applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
             applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
             applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
