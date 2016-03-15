@@ -50,11 +50,11 @@ class MaterialsController extends Controller
         $materials = $this->client->getMaterials();
         $applications = $this->applicationClient->getApplications();
 
-        foreach ($materials as $material)
-        {
-            $options = $this->optionsClient->getByMaterialId($material->id);
-            $material->options = $options;
-        }
+        // foreach ($materials as $material)
+        // {
+        //     $options = $this->optionsClient->getByMaterialId($material->id);
+        //     $material->options = $options;
+        // }
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
