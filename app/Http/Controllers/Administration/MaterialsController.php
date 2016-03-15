@@ -88,8 +88,7 @@ class MaterialsController extends Controller
                     $option->default_hex_code = "000";
                     $option->default_color_name = "Black";
                 }
-            }
-            foreach($colors as $color){
+
                 if($color->color_code == $sublimated_default_color) {
                     $option->sublimated_default_hex_code = $color->hex_code;
                     $option->sublimated_default_color_name = $color->name;
@@ -99,6 +98,16 @@ class MaterialsController extends Controller
                     $option->sublimated_default_color_name = "Black";
                 }
             }
+            // foreach($colors as $color){
+            //     if($color->color_code == $sublimated_default_color) {
+            //         $option->sublimated_default_hex_code = $color->hex_code;
+            //         $option->sublimated_default_color_name = $color->name;
+            //         break;
+            //     } else {
+            //         $option->sublimated_default_hex_code = "000";
+            //         $option->sublimated_default_color_name = "Black";
+            //     }
+            // }
         }
 
         $material = $this->client->getMaterial($id);
