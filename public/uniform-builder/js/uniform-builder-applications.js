@@ -1554,6 +1554,8 @@ $(document).ready(function() {
             var _object = ub.objects[ub.active_view + '_view'][_name];
 
             _object.alpha = 0.3;
+            ub.funcs.setAlphaOff(_object);
+
 
         });
 
@@ -1564,7 +1566,8 @@ $(document).ready(function() {
                 if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
-                        object.alpha = 1;
+                        ub.funcs.setAlphaOn(object);
+
                         return;
                     }
 
@@ -1575,15 +1578,15 @@ $(document).ready(function() {
                         var _app_layer = _application_obj.application.layer.toCodeCase();
 
                         if (_app_layer.indexOf(_match) !== -1) {
+                            ub.funcs.setAlphaOn(object);
 
-                            object.alpha = 1;
                             return;
 
                         }
 
                     }
                     
-                    object.alpha = 0.3;
+                    ub.funcs.setAlphaOff(object);
 
                 }   
 
@@ -1605,7 +1608,7 @@ $(document).ready(function() {
             var _name = _materialOption.name.toCodeCase();
             var _object = ub.objects[ub.active_view + '_view'][_name];
 
-            _object.alpha = 1;
+            ub.funcs.setAlphaOn(_object, _object.name);
             ub.active_part = undefined;
 
         });    
@@ -1616,7 +1619,7 @@ $(document).ready(function() {
 
             if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
 
-                object.alpha = 1;
+                ub.funcs.setAlphaOn(object);
 
             }
             
@@ -1680,6 +1683,45 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.setAlphaOn = function (_object) {
+
+        _object.alpha = ub.ALPHA_ON;
+
+        var _other_views = _.without(ub.views, ub.active_view);
+
+        _.each (_other_views, function (_view) {
+
+            if (typeof ub.objects[_view + "_view"][_object.name] !== "undefined") {
+
+                _complementary_object = ub.objects[_view + "_view"][_object.name];
+                _complementary_object.alpha = ub.ALPHA_ON;
+
+            }
+
+        });
+
+
+    }
+
+    ub.funcs.setAlphaOff = function (_object) {
+
+        _object.alpha = ub.ALPHA_OFF;
+
+        var _other_views = _.without(ub.views, ub.active_view);
+
+        _.each (_other_views, function (_view) {
+
+            if (typeof ub.objects[_view + "_view"][_object.name] !== "undefined") {
+
+                _complementary_object = ub.objects[_view + "_view"][_object.name];
+                _complementary_object.alpha = ub.ALPHA_OFF;
+
+            }
+
+        });
+
+    }
+
     ub.funcs.match = function (_match) {
 
         ub.funcs.dim(_match);
@@ -1723,7 +1765,7 @@ $(document).ready(function() {
                             _header_text = ub.active_part.toTitleCase();
 
                             var _object = ub.objects[ub.active_view + '_view'][_match];
-                            _object.alpha = 1;
+                            ub.funcs.setAlphaOn(_object);
 
                             ub.same_here_once = true;
 
@@ -1747,8 +1789,7 @@ $(document).ready(function() {
 
                 _matching_side = _match.replace('left_','right_');
                 var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                _matching_object.alpha = 1;
-
+                ub.funcs.setAlphaOn(_matching_object);
                 ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
 
             } else if (_match.indexOf('right_') !== -1){
@@ -1756,8 +1797,7 @@ $(document).ready(function() {
                 _matching_side = _match.replace('right_','left_');
 
                 var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                _matching_object.alpha = 1;
-
+                ub.funcs.setAlphaOn(_matching_object);
                 ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
 
             }
@@ -1779,7 +1819,8 @@ $(document).ready(function() {
         }    
 
         var _object = ub.objects[ub.active_view + '_view'][_match];
-        _object.alpha = 1;
+
+        ub.funcs.setAlphaOn(_object);
 
         ub.same_here_once = false;
 
@@ -1906,21 +1947,10 @@ $(document).ready(function() {
                 var _active_view = ub.active_view + '_view';
                 ub.active_part = _match;
 
-                // var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
-
-                // _.each(_materialOptions, function (_materialOption) {
-
-                //     var _name = _materialOption.name.toCodeCase();
-                //     var _object = ub.objects[_active_view][_name];
-
-                //     _object.alpha = 0.3;
-
-                // });
-
                 ub.funcs.dim(_match);
 
                 var _object = ub.objects[_active_view][_match];
-                _object.alpha = 1;
+                ub.funcs.setAlphaOn(_object);
 
                 var simple_mode = $('input#simple_toggle').is(":checked");
 
@@ -1933,14 +1963,14 @@ $(document).ready(function() {
 
                         _matching_side = _match.replace('left_','right_');
                         var _matching_object = ub.objects[_active_view][_matching_side];
-                        _matching_object.alpha = 1;
+                        ub.funcs.setAlphaOn(_matching_object);
 
                     } else if (_match.indexOf('right_') !== -1){
 
                         _matching_side = _match.replace('right_','left_');
 
                         var _matching_object = ub.objects[_active_view][_matching_side];
-                        _matching_object.alpha = 1;
+                        ub.funcs.setAlphaOn(_matching_object);
 
                     }
                     /// End Matching Side 
@@ -1948,7 +1978,8 @@ $(document).ready(function() {
                 }
 
                 var _object = ub.objects[_active_view][_match];
-                _object.alpha = 1;
+                ub.funcs.setAlphaOn(_object);
+
 
             }
             else{

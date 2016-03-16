@@ -11,6 +11,9 @@ $(document).ready(function(){
 
     /// For Interactive Viewport
 
+    ub.ALPHA_ON = 1;
+    ub.ALPHA_OFF = 0.1;
+
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;
