@@ -6,10 +6,51 @@ $(document).ready(function() {
     materialOptions['left'] = {};
     materialOptions['right'] = {};
 
-    $(document).on('change', function() {
-        var length = $('.options-row').length;
-        renumberRows(length);
+    var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
+    canvasFront.setWidth( 496 );
+    canvasFront.setHeight( 550 );
+
+    var application_number = 1;
+
+
+    // App props save template
+    $("#app_template_name").keyup(function() {
+        console.log("Changed template name, length is: "+$(this).val().length);
+        if( $(this).val().length > 2 ){
+            $('#save_app_template').removeAttr('disabled');
+            console.log('IF');
+        } else {
+            $('#save_app_template').attr('disabled', 'disabled');
+            console.log('ELSE');
+        }
     });
+
+ // LOA APP PROP TEMPLATE
+    $(".load-applications-template").change(function() {
+        canvasFront.clear();
+        application_number = 1;
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+        console.log('CHANGE TEMPLATE');
+        var va_prop_val = $(this).val();
+
+
+        if(va_prop_val != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
+
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+
+            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
+            appendApplications(app_properties);
+
+        }
+        updateCoordinates();
+    });
+
+
 
     $('.confirm-no').on('click', function(){
         location.reload();
@@ -17,7 +58,6 @@ $(document).ready(function() {
 
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
-    // $( ".upload-sortable-rows" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
@@ -43,23 +83,6 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.clone-row', function() {
-        // var length = $('.options-row').length;
-        // $(".options-row").each(function(i) {
-        //     $(this).find(".layer-number").text(length);
-        //     $(this).find(".layer-number").val(length);
-        //     var type = $(this).find(".mo-setting-type").val();
-        //     if(type == "highlights"){
-        //         $(this).find(".layer-number").val('99');
-        //         $(this).find(".layer-number").text('99');
-        //     }
-        //     if(type == "shadows"){
-        //         $(this).find(".layer-number").val('98');
-        //         $(this).find(".layer-number").text('98');
-        //     }
-        //     length = length-1;
-        // });
-        // var newLength = $('.options-row').length;
-        // renumberRows(newLength);
         syncMOLayers();
     });
 
@@ -87,8 +110,42 @@ $(document).ready(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '#group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    $(document).on('change', '.front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         updateCoordinates();
+    });
+
+    $(document).on('change', '.app-id', function() {
+        var itemIdx = $(this).data('id') - 1;
+        console.log('ID: '+itemIdx);
+        var newId = $(this).val();
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+        
+
+        thisGroup.item(1).text = newId;
+
+        canvasFront.renderAll();
+        updateCoordinates();
+        console.log('CHANGED');
+    });
+
+    $(document).on('change', '.app-def-name', function() {
+        var itemIdx = $(this).data('id') - 1;
+        console.log('ID: '+itemIdx);
+        var newName = $(this).val();
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+        
+
+        thisGroup.item(2).text = newName;
+
+        canvasFront.renderAll();
+        updateCoordinates();
+        console.log('CHANGED');
     });
 
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
@@ -100,21 +157,38 @@ $(document).ready(function() {
         }
     });
 
-    var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
-    canvasFront.setWidth( 496 );
-    canvasFront.setHeight( 550 );
+    // Canvas Front
 
     fabric.Object.prototype.transparentCorners = false;
 
-    var application_number = 1;
+    $(document).on('change', '.app-rotation', function() {
+        var layer = $(this).data('id');
+        canvasFront.setActiveObject(canvasFront.item(layer));
+        canvasFront.item(layer).setAngle($(this).val()).setCoords();
+        canvasFront.renderAll();
+            console.log('Rotation'+$(this).val());
+        updateCoordinates();
+    });
+
+    $(document).on('change', '.app-x', function() {
+        var layer = $(this).data('id');
+        var val = $(this).val();
+        canvasFront.setActiveObject(canvasFront.item(layer));
+
+        var activeObject = canvasFront.getActiveObject();
+        activeObject.setLeft(val).setCoords();
+
+            console.log('LEFT: '+$(this).val());
+
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
 
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
-        // var default_name = $('#application_name').val(); // MOD
-        var default_name_raw = $('#application_name').val(); // MOD
-        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,""); // MOD
-        // console.log("FORMATTED NAME: "+default_name_raw); // MOD
+        var default_name_raw = $('#application_name').val();
+        var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
 
         var area = new fabric.Rect({
             id: application_number,
@@ -152,14 +226,23 @@ $(document).ready(function() {
         });
 
         canvasFront.add(group);
-        application_number++;
 
-        var text = $(this).val();
-        var itemsArr = ["logo", "number", "team_name", "player_name"];
-        var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
-        var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Update</a>";
-        var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + canvasFront.getObjects().indexOf(group) + ">Delete</a>";
-        var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\""+default_name+"\">";
+        var text                    = $(this).val();
+        var itemsArr                = ["logo", "number", "team_name", "player_name"];
+        var selectAppend            = '<select class="app-def-item" style="margin-right: 5px;">';
+        var updateApplication       = '<a class="btn btn-xs btn-success update-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Update</a>';
+        var deleteApplication       = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var def_name                = '<input type="text" style="margin-right: 5px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
+        var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="margin-right: 5px;" class="app-rotation" value="0" size="3">';
+        var app_x                   = '<input type="text" style="margin-right: 5px;" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
+        var app_y                   = '<input type="text" style="margin-right: 5px;" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
+        var app_primary             = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+        var app_logo                = '<input type="checkbox" style="margin-right: 5px;" class="app-logo" value="1">';
+        var app_team_name           = '<input type="checkbox" style="margin-right: 5px;" class="app-team-name" value="1">';
+        var app_player_name         = '<input type="checkbox" style="margin-right: 5px;" class="app-player-name" value="1">';
+        var app_number              = '<input type="checkbox" style="margin-right: 5px;" class="app-number" value="1">';
+        var app_font_sizes          = '<input type="text" style="margin-right: 5px;" class="app-font-sizes" value="" size="3">';
+        var app_sizes               = '<input type="text" style="margin-right: 5px;" class="app-uniform-sizes" value="" size="3">';
 
         selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
 
@@ -173,53 +256,43 @@ $(document).ready(function() {
 
         selectAppend += "</select>";
 
-        $( ".front-applications" ).append( "<div style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + group.id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
+        $( ".front-applications" ).append( '<tr><td><input type="text" style="margin-right: 5px;" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">' + 
+            '<td>' + selectAppend + '</td>' +
+            '<td>' + def_name + 
+            '<td>' + application_rotation + '</td>' +
+            '<td>' + app_x + '</td>' +
+            '<td>' + app_y + '</td>' +
+            '<td>' + app_primary + '</td>' +
+            '<td>' + app_logo + '</td>' +
+            '<td>' + app_team_name + '</td>' +
+            '<td>' + app_player_name + '</td>' +
+            '<td>' + app_number + '</td>' +
+            '<td>' + app_font_sizes + '</td>' +
+            '<td>' + app_sizes + '</td>' +
+            '<td>' + deleteApplication + '</td>' +
+            '</tr>');
 
         var canvasItem = "application"+group.id;
-
+        application_number++;
     });
 
 var applicationProperties = {};    
 
-    $(document).on('click', '.update-application', function() {
-        var itemIdx = $(this).data('id');
-        var applicationId = $(this).siblings("input[name=application_id]").val();
-        var applicationType = $(this).siblings("select[class=app-def-item]").val();
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-
-        item.id = applicationId;
-
-        var thisGroup = canvasFront.item(itemIdx);
-
-        thisGroup.item(1).text = applicationId;
-        thisGroup.item(2).text = applicationType;
-
-        canvasFront.setActiveObject(canvasFront.item(itemIdx));
-
-        canvasFront.renderAll();
-        updateCoordinates();
-
-    });
-
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
-        // var applicationId = $(this).siblings("input[name=application_id]").val();
         var items = canvasFront.getObjects();
         var item = items[itemIdx];
-
-        // item.id = applicationId;
 
         var thisGroup = canvasFront.item(itemIdx);
 
         canvasFront.setActiveObject(canvasFront.item(itemIdx));
         activeObject = canvasFront.getActiveObject();
         canvasFront.remove(activeObject);
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
 
         canvasFront.renderAll();
         updateCoordinates();
-
+        application_number--;
     });
 
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
@@ -315,9 +388,9 @@ var applicationProperties = {};
     });
 
     canvasFront.on({
-        'object:moving': updateCoordinates,
-        'object:scaling': updateCoordinates,
-        'object:rotating': updateCoordinates,
+        'object:moving': updateCoordinatesXYR,
+        'object:scaling': updateCoordinatesXYR,
+        'object:rotating': updateCoordinatesXYR,
         'mouse:up': updateCoordinates
     });
 
@@ -363,19 +436,20 @@ var applicationProperties = {};
         $(".mo-setting-type").change(function() {
             var elem = $(this).parent().siblings().find('.mo-name');
             var type = $(this).val();
+            var type_raw = type;
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
 
             if(type == "highlights" || type == "shadows"){
                 type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
                 });
-                // type = type.slice(0,-1);
-                elem.val(type);
 
-                if(type == "highlight"){
+                elem.val(type);
+console.log('TYPE>>>> '+type_raw);
+                if(type_raw == "highlights"){
                     $(this).parent().siblings().find(".layer-number").val('99');
                     $(this).parent().siblings().find(".layer-number").text('99');
-                } else {
+                } else{
                     $(this).parent().siblings().find(".layer-number").val('98');
                     $(this).parent().siblings().find(".layer-number").text('98');
                 }
@@ -641,26 +715,12 @@ var appPropJson = "";
             }
         });
 
-        // foreach(id_nums as id){
-        //     if(id == material.option.team_color_id){
-        //         team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
-        //     } else {
-        //         team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
-        //     }
-            
-        // }
-
         $('#team_color_id').append(team_color_id_options);
 
-        // $('#boundary-properties').prop("value", material.option.boundary_properties);
         $('.b-prop').prop("value", material.option.boundary_properties);
         $('.a-prop').prop("value", material.option.applications_properties);
         var va_prop_val = $('.a-prop').val();
-        // console.log($('.b-prop').val());
         if($('.a-prop').val() != "\"{}\""){
-            // console.log("INSIDE IF");
-            // var trim_backslash = $('.a-prop').val().replace(/\\/g, ''); ************
-            // va_prop_val = trim_backslash.substring(1, trim_backslash.length-1); ************
             va_prop_val = $('.a-prop').val();
             $('.a-prop').prop("value", va_prop_val);
         }
@@ -684,22 +744,16 @@ var appPropJson = "";
         $("#shape-view").css("background-image", "url("+material_option_shape+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-
         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
-
-        // $("#material-option-bounding-box-top").css("background-image", "url("+material_option_shape+")");
-        // $("#shape-view-top").css("background-image", "url(" + material_option_shape + ")");
         checkNameLength();
 
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
         // **************
-        // if($('#boundary-properties').val == "" || $('#boundary-properties').val == "\"\""){
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            // console.log("bprop");
-            // var jason = $('.b-prop').val().replace(/\\/g, '');
             var jason = $('.b-prop').val();
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
-            // var myData = output;
 
             bounding_box.oCoords.tl.x = myData.topLeft.x;
             bounding_box.oCoords.tl.y = myData.topLeft.y;
@@ -722,11 +776,7 @@ var appPropJson = "";
             canvas.renderAll();
             canvasFront.clear();
 
-            // var appPropJson = $('.a-prop').val().replace(/\\/g, '');
-            // var appProp = appPropJson.substring(1, appPropJson.length-1);
             if($('.a-prop').val() != "\"{}\""){
-            //     return false;
-            // } ***********************************************
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
             var app_properties = JSON.parse(ap_out);
 
@@ -735,12 +785,46 @@ var appPropJson = "";
 
             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
 
-            for(c = 0; c < Object.keys(app_properties).length; c++){
+            appendApplications(app_properties);
+
+            } // ************************ APP PROP IF END
+
+
+            var boundaryProperties = JSON.stringify(data);
+            $('.b-prop').prop('value', boundaryProperties);
+
+            // var applicationsProperties = JSON.stringify(data);
+            // $('.a-prop').prop('value', applicationsProperties);
+
+            // console.log("CONSOLE LOG: " + applicationsProperties);
+
+
+            $("#file-src").prop("src", material.option.path);
+            $("#layer-level").prop("value", material.option.layer_level);
+
+            if (material.option.blend) {
+                $('#is-blend').attr('checked', 'checked');
+            } else {
+                $('#is-blend').attr('checked', 'unchecked');
+            }
+
+        }
+        // **************
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-modal .material-id').val(material.id);
+        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-modal').modal('show');
+    });
+
+function appendApplications(app_properties){
+    for(c = 0; c < Object.keys(app_properties).length; c++){
 
                 var l = "layer"+c;
                 var default_item = app_properties[l].type;
                 var iid = app_properties[l].id;
-// console.log("APP PROP NAME: "+app_properties[l].name);
                 if(!app_properties[l].id){
                     break;
                 }
@@ -784,11 +868,42 @@ var appPropJson = "";
                 if(app_properties[l].id != null){
 
                     var itemsArr = ["logo", "number", "team_name", "player_name"];
-                    var selectAppend = "<select class=\"app-def-item\" style=\"margin-right: 5px;\">";
-                    var updateApplication = "<a class=\"btn btn-xs btn-success update-application\" data-id=" + c + ">Update</a>";
-                    var deleteApplication = "<a class=\"btn btn-xs btn-danger delete-application\" data-id=" + c + ">Delete</a>";
+                    var selectAppend = '<select class="app-def-item" style="margin-right: 5px;">';
+                    var deleteApplication = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
+                    var application_rotation    = '<input type="text" data-id="' + c + '" style="margin-right: 5px;" class="app-rotation" value="' + app_properties[l].rotation + '" size="3">';
+                    var app_x                   = '<input type="text" data-id="' + c + '" style="margin-right: 5px;" class="app-x" value="' + app_properties[l].pivot.x + '" size="4">';
+                    var app_y                   = '<input type="text" data-id="' + c + '" style="margin-right: 5px;" class="app-y" value=' + app_properties[l].pivot.y + ' size="4">';
 
-                    selectAppend += "<option value=\"" + app_properties[l].type + "\">" + app_properties[l].type + "</option>";
+                    var app_primary             = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
+                    var app_logo                = '<input type="checkbox" style="margin-right: 5px;" class="app-logo" value="1">';
+                    var app_team_name           = '<input type="checkbox" style="margin-right: 5px;" class="app-team-name" value="1">';
+                    var app_player_name         = '<input type="checkbox" style="margin-right: 5px;" class="app-player-name" value="1">';
+                    var app_number              = '<input type="checkbox" style="margin-right: 5px;" class="app-number" value="1">';
+
+                    if(app_properties[l].isPrimary == 1){
+                        app_primary = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1" checked>';
+                    }
+
+                    if(app_properties[l].hasLogo == 1){
+                        app_logo = '<input type="checkbox" style="margin-right: 5px;" class="app-logo" value="1" checked>';
+                    }
+
+                    if(app_properties[l].hasTeamName == 1){
+                        app_team_name = '<input type="checkbox" style="margin-right: 5px;" class="app-team-name" value="1" checked>';
+                    }
+
+                    if(app_properties[l].hasPlayerName == 1){
+                        app_player_name = '<input type="checkbox" style="margin-right: 5px;" class="app-player-name" value="1" checked>';
+                    }
+
+                    if(app_properties[l].hasNumber == 1){
+                        app_number = '<input type="checkbox" style="margin-right: 5px;" class="app-number" value="1" checked>';
+                    }
+
+                    var app_font_sizes          = '<input type="text" style="margin-right: 5px;" class="app-font-sizes" value="' + app_properties[l].fontSizes + '" size="3">';
+                    var app_sizes               = '<input type="text" style="margin-right: 5px;" class="app-uniform-sizes" value="' + app_properties[l].uniformSizes + '" size="3">';
+
+                    selectAppend += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
 
                     for(var i = 0; i<itemsArr.length; i++) {
 
@@ -800,9 +915,23 @@ var appPropJson = "";
 
                     selectAppend += "</select>";
 
-                    var def_name = "<input type=\"text\" style=\"margin-right: 5px;\" class=\"app-def-name\" value=\"" + app_properties[l].name + "\">";
-// console.log("DEF NAME STRING: "+def_name);
-                    $( ".front-applications" ).append( "<div class = \"apOpt\" style=\"padding: 5px; font-size: 11px; text-align:left;\"><input type=\"text\" style=\"margin-right: 5px;\" name=\"application_id\" value=" + app_properties[l].id + " size=\"3\">" + selectAppend + def_name + updateApplication + deleteApplication + "</div>");
+                    var def_name = '<input type="text" style="margin-right: 5px;" data-id="' + app_properties[l].id + '"class="app-def-name" value="' + app_properties[l].name + '">';
+                    // $( ".front-applications" ).append( '<div class = "apOpt" style="padding: 5px; font-size: 11px; text-align:left;"><input type="text" style="margin-right: 5px;" name="application_id" value="' + app_properties[l].id + '" size="3">' + selectAppend + def_name + deleteApplication + '</div>');
+                    $( ".front-applications" ).append( '<tr><td><input type="text" style="margin-right: 5px;" class="app-id" data-id="' + app_properties[l].id + '" name="application_id" value="' + app_properties[l].id + '" size="3">' + 
+                        '<td>' + selectAppend + '</td>' +
+                        '<td>' + def_name + 
+                        '<td>' + application_rotation + '</td>' +
+                        '<td>' + app_x + '</td>' +
+                        '<td>' + app_y + '</td>' +
+                        '<td>' + app_primary + '</td>' +
+                        '<td>' + app_logo + '</td>' +
+                        '<td>' + app_team_name + '</td>' +
+                        '<td>' + app_player_name + '</td>' +
+                        '<td>' + app_number + '</td>' +
+                        '<td>' + app_font_sizes + '</td>' +
+                        '<td>' + app_sizes + '</td>' +
+                        '<td>' + deleteApplication + '</td>' +
+                        '</tr>');
                     canvasFront.add(group);
                     var canvasItem = "application"+group.id;
                     var thisGroup = group;
@@ -830,42 +959,61 @@ var appPropJson = "";
                     
                     canvasFront.renderAll();
 
+                    application_number++;
                 }
                 else{
                     break;
                 }
             }
+}
 
-            } // ************************ APP PROP IF END
+    $('#save_app_template').on('click', function(){
+        var name = $('#app_template_name').val();
+        var block_pattern = $('#material_block_pattern').val();
+        var perspective = $('#saved-perspective').val();
+        var part = $('#material-option-name').val();
+        var applications_properties = $('.a-prop').val();
 
+        var description = "Lorem Ipsum Yaddah";
 
-            var boundaryProperties = JSON.stringify(data);
-            $('.b-prop').prop('value', boundaryProperties);
+        var url = "//" + api_host + "/api/application";
 
-            // var applicationsProperties = JSON.stringify(data);
-            // $('.a-prop').prop('value', applicationsProperties);
+        var myData={
+            "name":name,
+            "block_pattern":block_pattern,
+            "perspective":perspective,
+            "part":part,
+            "description":description,
+            "applications_properties":applications_properties
+        };
 
-            // console.log("CONSOLE LOG: " + applicationsProperties);
+        if($(this).attr('disabled') != 'disabled'){
+            console.log('SAVE TEMPLATE!');
+            console.log('myData: '+JSON.stringify(myData));
 
-
-            $("#file-src").prop("src", material.option.path);
-            $("#layer-level").prop("value", material.option.layer_level);
-
-            if (material.option.blend) {
-                $('#is-blend').attr('checked', 'checked');
-            } else {
-                $('#is-blend').attr('checked', 'unchecked');
-            }
-
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(myData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
         }
-        // **************
-
-        $('#saved-setting-type').attr('selected',true);
-        $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-modal').modal('show');
+        
+        
     });
 
     $('.toggle-material').on('click', function(){
@@ -888,6 +1036,44 @@ var appPropJson = "";
                         type: 'success',
                         hide: true
                     });
+                }
+            }
+        });
+    });
+
+    $('.duplicate-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var name = $(this).data('material-name');
+        modalConfirm(
+            'Duplicate Material',
+            'Are you sure you want to duplicate the Material: '+ name +'?',
+            id,
+            'confirm-yes',
+            'confirmation-modal-duplicate-material'
+        );
+    });
+
+    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material/duplicate/"+id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    window.location.reload(true);
                 }
             }
         });
@@ -958,7 +1144,6 @@ var appPropJson = "";
         var checkedMaterialOptionsIDs = [];
         $('input[type=checkbox]:checked').each(function () {
             if($(this).hasClass("delete-multiple-material-options")){
-                // console.log("CHECKED: "+$(this).val());
                 checkedMaterialOptionsIDs.push($(this).val());
             }
             
@@ -978,7 +1163,6 @@ var appPropJson = "";
             url: url,
             type: "POST",
             data: JSON.stringify({id: id}),
-            // data: {data : checkedMaterialOptionsIDs},
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -1110,12 +1294,6 @@ var appPropJson = "";
             multiple: true,
             allowClear: true
         });
-
-        // $(".colors-multi-select").each(function(i) {
-        //     var color = $(this).data('color');
-        //     $('.select2-choice').css("background-color",color);
-        //     // $('.select2-results .select2-highlighted').css("background-color",color);
-        // });
     }
 
     function bindGradientsSelect2()
@@ -1157,8 +1335,7 @@ var appPropJson = "";
             if( settingTypeVal == "hightlight" ){
                 layer_class = ".mo-layer.layer99";
                 length = '99';
-            }
-            if( settingTypeVal == "shadow" ){
+            }else if( settingTypeVal == "shadow" ){
                 layer_class = ".mo-layer.layer98";
                 length = '98';
             }
@@ -1286,8 +1463,6 @@ var appPropJson = "";
             allow_color_arr.push(materialOptions.front[thisLayer]['allow_color']);
             $('#allow-color-array').val(allow_color_arr);
 
-
-            // console.log("Blend Array: "+is_blend_arr);
             length = old_length;
             length--;
         });
@@ -1295,7 +1470,12 @@ var appPropJson = "";
         console.log("MOS: "+moProperties);
     }
 
-    function updateCoordinates() {
+    function updateCoordinatesXYR() {
+        var cs = 1;
+        updateCoordinates(cs);
+    }
+
+    function updateCoordinates(cs) {
 
         applicationProperties = {}
 
@@ -1329,16 +1509,54 @@ var appPropJson = "";
         boundaryProperties = "\""+boundaryProperties+"\"";
         $('.b-prop').prop('value', boundaryProperties);
 
-        $(".update-application").each(function(i) {
+        $(".app-rotation").each(function(i) {
             // BUILD APPLICATION PROPERTIES JSON
 
             itemIdx = "layer"+$(this).data('id');
             layer = $(this).data('id');
-            applicationType = $(this).siblings("select[class=app-def-item]").val();
-            applicationName = $(this).siblings("input[class=app-def-name]").val();
-            applicationId = $(this).siblings("input[name=application_id]").val();
 
             thisGroup = canvasFront.item(layer);
+            applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
+            applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
+            applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
+
+            isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
+            hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
+            hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
+            hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
+            hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
+            fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
+            uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+
+            if(isPrimary.prop( "checked" )){
+                isPrimary = 1;
+            } else {
+                isPrimary = 0;
+            }
+
+            if(hasLogo.prop( "checked" )){
+                hasLogo = 1;
+            } else {
+                hasLogo = 0;
+            }
+
+            if(hasTeamName.prop( "checked" )){
+                hasTeamName = 1;
+            } else {
+                hasTeamName = 0;
+            }
+
+            if(hasPlayerName.prop( "checked" )){
+                hasPlayerName = 1;
+            } else {
+                hasPlayerName = 0;
+            }
+
+            if(hasNumber.prop( "checked" )){
+                hasNumber = 1;
+            } else {
+                hasNumber = 0;
+            }
 
             var topLeftX = thisGroup.oCoords.tl.x;
             var topLeftY = thisGroup.oCoords.tl.y;
@@ -1368,6 +1586,13 @@ var appPropJson = "";
             applicationProperties[itemIdx]['bottomRight'] = {};
             applicationProperties[itemIdx]['bottomRight']['x'] = {};
             applicationProperties[itemIdx]['bottomRight']['y'] = {};
+            applicationProperties[itemIdx]['isPrimary'] = {};
+            applicationProperties[itemIdx]['hasLogo'] = {};
+            applicationProperties[itemIdx]['hasTeamName'] = {};
+            applicationProperties[itemIdx]['hasPlayerName'] = {};
+            applicationProperties[itemIdx]['hasNumber'] = {};
+            applicationProperties[itemIdx]['fontSizes'] = {};
+            applicationProperties[itemIdx]['uniformSizes'] = {};
 
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
@@ -1381,6 +1606,13 @@ var appPropJson = "";
             applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
             applicationProperties[itemIdx].bottomRight.x = bottomRightX;
             applicationProperties[itemIdx].bottomRight.y = bottomRightY;
+            applicationProperties[itemIdx].isPrimary = isPrimary;
+            applicationProperties[itemIdx].hasLogo = hasLogo;
+            applicationProperties[itemIdx].hasTeamName = hasTeamName;
+            applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
+            applicationProperties[itemIdx].hasNumber = hasNumber;
+            applicationProperties[itemIdx].fontSizes = fontSizes;
+            applicationProperties[itemIdx].uniformSizes = uniformSizes;
 
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 
@@ -1397,15 +1629,24 @@ var appPropJson = "";
             applicationProperties[itemIdx].height = thisGroup.getHeight();
             applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;;
             applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;;
+            // thisGroup.left 
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+
+            if(cs == 1){
+                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+                $(this).val(thisGroup.getAngle());
+            }
+
+            canvasFront.renderAll();
         });
         var appProperties = JSON.stringify(applicationProperties);
         appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
 
-        // console.log("APP PROPS: "+window.ap);
+        console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR

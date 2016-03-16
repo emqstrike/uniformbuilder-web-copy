@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\FactoriesAPIClient;
 use App\APIClients\GradientsAPIClient;
+use App\APIClients\ApplicationsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
@@ -21,20 +22,23 @@ class MaterialsController extends Controller
     protected $colorsClient;
     protected $factoriesClient;
     protected $gradientClient;
+    protected $applicationClient;
 
     public function __construct(
         APIClient $apiClient,
         MaterialsOptionsAPIClient $optionsClient,
         ColorsAPIClient $colorsAPIClient,
-        FactoriesAPIClient $factoriesClient,
-        GradientsAPIClient $gradientClient
+        FactoriesAPIClient $factoriesAPIClient,
+        GradientsAPIClient $gradientsAPIClient,
+        ApplicationsAPIClient $applicationsAPIClient
     )
     {
         $this->client = $apiClient;
         $this->optionsClient = $optionsClient;
-        $this->factoriesClient = $factoriesClient;
+        $this->factoriesClient = $factoriesAPIClient;
         $this->colorsClient = $colorsAPIClient;
-        $this->gradientClient = $gradientClient;
+        $this->gradientClient = $gradientsAPIClient;
+        $this->applicationClient = $applicationsAPIClient;
     }
 
     /**
@@ -44,12 +48,13 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
+        $applications = $this->applicationClient->getApplications();
 
-        foreach ($materials as $material)
-        {
-            $options = $this->optionsClient->getByMaterialId($material->id);
-            $material->options = $options;
-        }
+        // foreach ($materials as $material)
+        // {
+        //     $options = $this->optionsClient->getByMaterialId($material->id);
+        //     $material->options = $options;
+        // }
 
         $colors = $this->colorsClient->getColors();
         $gradients = $this->gradientClient->getGradients();
@@ -57,7 +62,8 @@ class MaterialsController extends Controller
         return view('administration.materials.materials', [
             'materials' => $materials,
             'colors' => $colors,
-            'gradients' => $gradients
+            'gradients' => $gradients,
+            'applications' => $applications
         ]);
     }
 
@@ -67,6 +73,7 @@ class MaterialsController extends Controller
 
         $options = $this->optionsClient->getByMaterialId($id);
         $colors = $this->colorsClient->getColors();
+        $applications = $this->applicationClient->getApplications();
 
         foreach($options as $option){
             $default_color = $option->default_color;
@@ -102,7 +109,8 @@ class MaterialsController extends Controller
             'material' => $material,
             'options' => $options,
             'colors' => $colors,
-            'gradients' => $gradients
+            'gradients' => $gradients,
+            'applications' => $applications
         ]);
         // return View::make('administration.materials.material-options', $options);
     }

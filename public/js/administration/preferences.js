@@ -11,6 +11,7 @@ $(document).ready(function() {
         $(this).css('background-color', color);
         var length = $('.layers-row').length;
         renumberRows(length);
+        console.log('CHANGE COLOR');
     });
 
     var colors_array = $('#colors_textarea').text();
@@ -126,6 +127,9 @@ $(document).ready(function() {
         $('.ma-default-color').change(function(){
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
+            var length = $('.layers-row').length;
+            renumberRows(length);
+            // console.log('CHANGE COLOR');
         });
 
         var length = $('.layers-row').length;
@@ -139,6 +143,8 @@ $(document).ready(function() {
         });
         var newLength = $('.layers-row').length;
         console.log("CLONE!");
+
+        renumberRows(newLength);
     });
 
     var existing_layers_properties = null;
@@ -181,7 +187,7 @@ $(document).ready(function() {
             ctr++;
         });
         var layersProperties = JSON.stringify(layers_properties);
-
+// console.log(layersProperties);
         $('#colors_properties').val(layersProperties);
         $('#existing-layers-properties').val(layersProperties);
         
