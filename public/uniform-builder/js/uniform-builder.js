@@ -2322,6 +2322,7 @@ $(document).ready(function () {
                         }
 
                         container.mask = mask;
+                        container.name = 'pattern_' + target;
 
                         if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                             ub[view].removeChild(ub.objects[view]['pattern_' + target]);
@@ -3529,7 +3530,10 @@ $(document).ready(function () {
             }
 
             container.mask = mask;
+            container.name = 'pattern_' + target;
             
+
+
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                 ub[view].removeChild(ub.objects[view]['pattern_' + target]);
             }
