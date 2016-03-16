@@ -3532,7 +3532,7 @@ $(document).ready(function () {
             container.mask = mask;
             container.name = 'pattern_' + target;
             
-            console.log(container.name);
+
 
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                 ub[view].removeChild(ub.objects[view]['pattern_' + target]);
