@@ -14,6 +14,19 @@ $(document).ready(function(){
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;
+    ub.same_here_once = false;
+    ub.interacted  = {
+
+        previous: {
+            name: undefined,
+        },
+        
+        current: {
+            name: undefined,
+        },
+
+    }
+
 
     /// End Interactive Viewport
 
@@ -42,7 +55,7 @@ $(document).ready(function(){
     ub.stage.addChild(ub.gradient_preview);
     ub.pCanvas.appendChild(ub.renderer.view);
 
-    ub.interactionManager = new PIXI.interaction.InteractionManager(ub.renderer, {});
+    ub.interactionManager = ub.renderer.plugins.interaction;
     ub.dragAndDropManager = new PIXI.DragAndDropManager(ub.interactionManager);
      
     /// Hide other views except for the left view, by bringing them offscreen, 
@@ -68,7 +81,6 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
-    
     
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
