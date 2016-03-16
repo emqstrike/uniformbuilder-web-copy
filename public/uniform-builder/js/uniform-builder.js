@@ -3572,18 +3572,12 @@ $(document).ready(function () {
     })
 
     $('input#simple_toggle').onoff();
-
     $("input#simple_toggle").change(function() {
-
-        // ub.funcs.resetHighlights();
-        // ub.active_lock = false;
-        // $sidebar_buttons.show();
 
         _header_text = ub.funcs.match(ub.active_part);
         $("#primary_options_header").html(_header_text.toUpperCase());
         ub.active_lock = true;
 
-        
     });
 
     /// End Generate Pattern

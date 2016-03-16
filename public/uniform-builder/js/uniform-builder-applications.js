@@ -942,8 +942,6 @@ $(document).ready(function() {
     /// End Create Interactive UI
 
     ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
-
-        console.log('Still ON!');
         
         var rotation_point = _.find(ui_handles.children, { ubName: 'rotation_point'});
         var move_point = _.find(ui_handles.children, { ubName: 'move_point'});
@@ -1347,7 +1345,6 @@ $(document).ready(function() {
 
                         //line.moveTo(0, view.application.bottomRight.y);
                         //line.lineTo(550, view.application.bottomRight.y);
-                        console.log('Baseline is bottom: ');
 
                         var point = sprite_function(args);
                         point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
@@ -1363,8 +1360,6 @@ $(document).ready(function() {
 
                         var point = sprite_function(args);
                         var y = (point.height / 4 ) + topRightY;
-
-                        console.log('Baseline is top: ');
 
                         point.position = new PIXI.Point(view.application.pivot.x, y);
 
@@ -1532,7 +1527,25 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.resetInteracted = function () {
+
+        ub.interacted  = {
+
+            previous: {
+                name: undefined,
+            },
+            
+            current: {
+                name: undefined,
+            },
+            
+        }
+
+    }
+
     ub.funcs.resetHighlights = function () {
+
+        ub.funcs.resetInteracted();
 
         $("#primary_options_header").html('');
         var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
@@ -1623,8 +1636,60 @@ $(document).ready(function() {
 
         if (simple_mode === true) {
 
-            /// Matching Side 
+            /// Matching Side
             var _matching_side = '';
+            /// 
+
+            ub.interacted = {
+
+                previous: { 
+
+                    name: ub.interacted.current.name,
+
+                },
+
+                current: {
+
+                    name: _match,
+
+                },
+
+            };
+
+            if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
+
+                if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
+    
+                    var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
+                    var actual = _match.replace('right_','').replace('left_','');
+
+                    if (previous_name === actual) {
+
+                        if (!ub.same_here_once) {
+
+                            ub.funcs.create_plugins(_match, 'single');
+                            _header_text = ub.active_part.toTitleCase();
+
+                            var _object = ub.objects[ub.active_view + '_view'][_match];
+                            _object.alpha = 1;
+
+                            ub.same_here_once = true;
+
+                            return _header_text;
+                        }    
+
+                    }
+                    else {
+
+                        ub.same_here_once = false;
+
+                    }
+    
+                }
+                
+            }
+
+            ///
 
             if (_match.indexOf('left_') !== -1){
 
@@ -1664,6 +1729,8 @@ $(document).ready(function() {
         var _object = ub.objects[ub.active_view + '_view'][_match];
         _object.alpha = 1;
 
+        ub.same_here_once = false;
+
         return _header_text;
 
     }
@@ -1673,7 +1740,7 @@ $(document).ready(function() {
         ub.data.boundaries_transformed = {};
 
         var material_options = ub.current_material.materials_options;
-        var shapes = _.filter(material_options, {setting_type: 'shape'});
+        var shapes = _.filter(material_options, { setting_type: 'shape' });
         var boundaries_transformed = ub.data.boundaries_transformed;
         var boundaries_one_dimensional = ub.data.boundaries_transformed_one_dimensional;
 
@@ -1729,7 +1796,7 @@ $(document).ready(function() {
             var results = ub.funcs.withinMaterialOption(current_coodinates);
             var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
 
-            if (typeof ub.active_part === 'undefined' || results.length === 0 ) {
+            if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
 
                 ub.funcs.resetHighlights();
                 ub.active_lock = false;
