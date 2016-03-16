@@ -1382,6 +1382,7 @@ $(document).ready(function() {
 
                 var mask = ub.pixi.new_sprite(mask.material_option_path);
                 point.mask = mask;
+                point.name = marker_name;
 
                 var view_name = view.perspective + '_view';
                 ub.objects[view_name][marker_name] = point;
@@ -1562,9 +1563,24 @@ $(document).ready(function() {
 
                 if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
-                    if (object.name.indexOf(_match) !== -1) { 
+                    if (object.name.indexOf(_match) !== -1) {
                         object.alpha = 1;
-                        return; 
+                        return;
+                    }
+
+                    if(object.name.indexOf('objects_') !== -1) {
+
+                        var _app_id = object.name.replace('objects_','');
+                        var _application_obj = ub.current_material.settings.applications[_app_id];
+                        var _app_layer = _application_obj.application.layer.toCodeCase();
+
+                        if (_app_layer.indexOf(_match) !== -1) {
+
+                            object.alpha = 1;
+                            return;
+
+                        }
+
                     }
                     
                     object.alpha = 0.3;
@@ -1572,7 +1588,6 @@ $(document).ready(function() {
                 }   
 
             }
-
 
         });
 
