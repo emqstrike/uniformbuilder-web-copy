@@ -145,7 +145,11 @@ $(document).ready(function(){
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
             var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\"></td>";
-            var thumbnail = "<td><img src="+myJson[length]['filename']+" style=\"width: 30px; height: 30px; background-color: #e3e3e3;\"><input type=\"hidden\" name=\"image-existing-source\" value=\""+myJson[length]['filename']+"\"></td>";
+            // var thumbnail = '<td><img src="'+myJson[length]['filename']+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
+            // var imgURL = encodeURIComponent(myJson[length]['filename']);
+            imgURL = myJson[length]['filename'].replace(" ", "%20");
+            console.log(imgURL);
+            var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
             
             var colors_select="";
             var select_hex_code_bg = "";
