@@ -25,7 +25,7 @@
 <![endif]-->
 @yield('styles')
 </head>
-<body class="hold-transition skin-black-light sidebar-mini">
+<body class="hold-transition skin-black-light sidebar-mini sidebar-collapse">
 
 <div class="wrapper">
 
@@ -146,9 +146,6 @@
 <script src="/dist/js/app.min.js"></script>
 
 @yield('scripts')
-<script type="text/javascript">
-    $("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
-</script>
 @yield('custom-scripts')
 
   </body>
