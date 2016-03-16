@@ -474,6 +474,50 @@ console.log('TYPE>>>> '+type_raw);
             renumberRows();
         });
 
+        $(".mo-options-src").change(function() {
+
+            var elem = $(this).parent().siblings().find('.thumbnail-link');
+            var elem2 = $(this).parent().siblings().find('.thumb-container');
+
+            var filename = $(this).val();
+            filename = filename.split("\\");
+            filename = filename[2].split(".");
+            var filenamex = filename[0].replace("_", " ");
+            filename = filenamex.replace(/[0-9]/g, '');
+            filename = filename.replace("_", " ");
+            filename = filename.replace("_", " ");
+
+            console.log('FILENAME: '+filename);
+
+            $(this).parent().siblings().find('.mo-name').val(filename);
+
+            var files = !!this.files ? this.files : [];
+            if (!files.length || !window.FileReader) return;
+
+            if (/^image/.test(files[0].type)){
+                var reader = new FileReader();
+                reader.readAsDataURL(files[0]);
+
+                reader.onloadend = function() {
+                    elem.data('img',this.result);
+                    elem2.attr('src',this.result);
+                    elem2.data('img',this.result);
+
+                    console.log('change file: '+this.result);
+                    $(this).parent().siblings().find('.mo-name').val(this.result);
+                }
+            }
+
+            $('a[data-toggle=popover],img[data-toggle=popover]').popover({
+                html: true,
+                trigger: 'hover',
+                placement: 'left',
+                content: function(){
+                    return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
+                }
+            });
+        }); 
+
     //     $(".mo-options-src").change(function() {
 
     //     var filename = $(this).val();
@@ -1743,6 +1787,7 @@ function appendApplications(app_properties){
         filename = filename[2].split(".");
         var filenamex = filename[0].replace("_", " ");
         filename = filenamex.replace(/[0-9]/g, '');
+        filename = filename.replace("_", " ");
         filename = filename.replace("_", " ");
 
         console.log('FILENAME: '+filename);
