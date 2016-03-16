@@ -131,6 +131,10 @@
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
+                    <a href="#" style="margin-right: 10px;" class="btn btn-default pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                        <i class="glyphicon glyphicon-copy"></i>
+                    </a>
+                    
                 </div>
             </div>
         @empty
@@ -149,6 +153,8 @@
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
+
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-duplicate-material'])
 
 @endsection
 

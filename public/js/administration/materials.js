@@ -1041,6 +1041,44 @@ function appendApplications(app_properties){
         });
     });
 
+    $('.duplicate-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var name = $(this).data('material-name');
+        modalConfirm(
+            'Duplicate Material',
+            'Are you sure you want to duplicate the Material: '+ name +'?',
+            id,
+            'confirm-yes',
+            'confirmation-modal-duplicate-material'
+        );
+    });
+
+    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material/duplicate/"+id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    window.location.reload(true);
+                }
+            }
+        });
+    });
+
     $('.delete-material').on('click', function(){
         var id = $(this).data('material-id');
         modalConfirm(
