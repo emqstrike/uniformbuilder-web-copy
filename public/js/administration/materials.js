@@ -10,7 +10,7 @@ $(document).ready(function() {
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
 
-    var application_number = 1;
+    var application_number = 0;
 
     $('.confirm-no').on('click', function(){
         location.reload();
@@ -151,88 +151,70 @@ $(document).ready(function() {
         var default_name_raw = $('#application_name').val();
         var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
 
-        var area = new fabric.Rect({
-            id: application_number,
-            fill: '#e3e3e3',
-            height: 30,
-            width: 30,
-            strokeWidth: 1,
-            stroke: 'red',
-            opacity: 0.6,
-            originX: 'center',
-            originY: 'center'
-        });
+        var fill = '#e3e3e3';
+        var height = 30;
+        var width = 30;
+        var opacity = 0.6;
+        var font_family = 'arial black';
+        var stroke_color = 'red';
+        var stroke_width = 1;
+        var app_id_font_size = 8;
+        var app_type_font_size = 8;
+        var group_left = canvasFront.width / 2.6;
+        var group_top = canvasFront.height / 5;
 
-        var appID = new fabric.IText(application_number.toString(),{
-            fontFamily: 'arial black',
-            originX: 'right',
-            originY: 'center',
-            opacity: 0.6,
-            fontSize: 11
-        });
-
-        var itemText = new fabric.IText(default_item.toString(),{
-            fontFamily: 'arial black',
-            originX: 'center',
-            originY: 'top',
-            opacity: 0.6,
-            fontSize: 8
-        });
-
-        var group = new fabric.Group([ area, appID, itemText ], {
-            id: area.id,
-            left: canvasFront.width / 2.6,
-            top: canvasFront.height / 5,
-            default_item: default_item
-        });
-
+        var area = fabricAppRectangle(application_number, fill, height, width, stroke_width, stroke_color, opacity);
+        var app_id = fabricAppID( application_number.toString(), font_family, opacity, app_id_font_size);
+        var app_type = fabricAppType( default_item.toString(), font_family, opacity, app_type_font_size);
+        var group = fabricAppGroup( application_number, group_left, group_top, area, app_id, app_type, default_item);
         canvasFront.add(group);
 
         var text                    = $(this).val();
-        var itemsArr                = ["logo", "number", "team_name", "player_name"];
-        var selectAppend            = '<select class="app-def-item" style="margin-right: 5px;">';
-        var updateApplication       = '<a class="btn btn-xs btn-success update-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Update</a>';
-        var deleteApplication       = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
-        var def_name                = '<input type="text" style="margin-right: 5px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
-        var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="margin-right: 5px;" class="app-rotation" value="0" size="3">';
-        var app_x                   = '<input type="text" style="margin-right: 5px;" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
-        var app_y                   = '<input type="text" style="margin-right: 5px;" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
-        var app_primary             = '<input type="checkbox" style="margin-right: 5px;" class="app-primary" value="1">';
-        var app_logo                = '<input type="checkbox" style="margin-right: 5px;" class="app-logo" value="1">';
-        var app_team_name           = '<input type="checkbox" style="margin-right: 5px;" class="app-team-name" value="1">';
-        var app_player_name         = '<input type="checkbox" style="margin-right: 5px;" class="app-player-name" value="1">';
-        var app_number              = '<input type="checkbox" style="margin-right: 5px;" class="app-number" value="1">';
-        var app_font_sizes          = '<input type="text" style="margin-right: 5px;" class="app-font-sizes" value="" size="3">';
-        var app_sizes               = '<input type="text" style="margin-right: 5px;" class="app-uniform-sizes" value="" size="3">';
+        var style                   = 'margin-right: 5px';
+        var items_arr               = ["logo", "number", "team_name", "player_name"];
+        var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
+        var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var def_name                = '<input type="text" style="' + style + '" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
+        var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
+        var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
+        var app_y                   = '<input type="text" style="' + style + '" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
+        var app_primary             = '<input type="checkbox" style="' + style + '" class="app-primary" value="1">';
+        var app_logo                = '<input type="checkbox" style="' + style + '" class="app-logo" value="1">';
+        var app_team_name           = '<input type="checkbox" style="' + style + '" class="app-team-name" value="1">';
+        var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
+        var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
+        var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
+        var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
 
-        selectAppend += "<option value=" + group.default_item + ">" + group.default_item + "</option>";
+        var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        select_append += '<option value="' + default_item + '">' + default_item + '</option>';
+        for(var i = 0; i<items_arr.length; i++) {
 
-        for(var i = 0; i<itemsArr.length; i++) {
-
-            if(group.default_item != itemsArr[i]) {
-                selectAppend += "<option value=" + itemsArr[i] + ">" + itemsArr[i] + "</option>";
+            if(default_item != items_arr[i]) {
+                select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
             }
 
         }
+        select_append += "</select>";
 
-        selectAppend += "</select>";
+        var fields = [
+                    app_id,
+                    select_append,
+                    def_name,
+                    application_rotation,
+                    app_x,
+                    app_y,
+                    app_primary,
+                    app_logo,
+                    app_team_name,
+                    app_player_name,
+                    app_number,
+                    app_font_sizes,
+                    app_sizes,
+                    delete_application
+                ];
 
-        $( ".front-applications" ).append( '<tr><td><input type="text" style="margin-right: 5px;" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">' + 
-            '<td>' + selectAppend + '</td>' +
-            '<td>' + def_name + 
-            '<td>' + application_rotation + '</td>' +
-            '<td>' + app_x + '</td>' +
-            '<td>' + app_y + '</td>' +
-            '<td>' + app_primary + '</td>' +
-            '<td>' + app_logo + '</td>' +
-            '<td>' + app_team_name + '</td>' +
-            '<td>' + app_player_name + '</td>' +
-            '<td>' + app_number + '</td>' +
-            '<td>' + app_font_sizes + '</td>' +
-            '<td>' + app_sizes + '</td>' +
-            '<td>' + deleteApplication + '</td>' +
-            '</tr>');
-
+        $( ".front-applications" ).append(generateTRow(fields));
         var canvasItem = "application"+group.id;
         application_number++;
     });
@@ -354,22 +336,6 @@ var applicationProperties = {};
         'mouse:up': updateCoordinates,
         'mouse:down': flashApplicationRow
     });
-
-    function flashApplicationRow(e){
-        var obj_id = e.target.get('id');
-        var ctr = 0;
-        $('.application-row').each(function(i, obj) {
-            if( ctr == obj_id ){
-                $(this).fadeOut();
-                setTimeout(fadeInRow($(this)), 1000)
-            }
-            ctr++;
-        });
-    }
-
-    function fadeInRow(row){
-        row.fadeIn();
-    }
 
     $(".modal").each(function(i) {
         $(this).draggable({
@@ -814,7 +780,6 @@ var appPropJson = "";
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
             var l = 'layer'+c;
-            var default_item = app_properties[l].type;
             var app_prop_id = app_properties[l].id;
             var app_prop_type = app_properties[l].type;
 
@@ -837,7 +802,7 @@ var appPropJson = "";
             var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
             var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
-            var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, default_item);
+            var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
             canvasFront.add(group);
 
             if(app_properties[l].id != null){
@@ -904,7 +869,6 @@ var appPropJson = "";
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
-
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
@@ -935,6 +899,22 @@ var appPropJson = "";
     }
 
     // *** Applications Properties helpers
+
+    function flashApplicationRow(e){
+        var obj_id = e.target.get('id');
+        var ctr = 0;
+        $('.application-row').each(function(i, obj) {
+            if( ctr == obj_id ){
+                $(this).fadeOut();
+                setTimeout(fadeInRow($(this)), 1000)
+            }
+            ctr++;
+        });
+    }
+
+    function fadeInRow(row){
+        row.fadeIn();
+    }
 
     $("#app_template_name").keyup(function() {
         console.log("Changed template name, length is: "+$(this).val().length);
