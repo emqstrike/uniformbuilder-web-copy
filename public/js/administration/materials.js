@@ -874,150 +874,180 @@ var appPropJson = "";
         $('#save-material-option-modal').modal('show');
     });
 
-function appendApplications(app_properties){
-    for(c = 0; c < Object.keys(app_properties).length; c++){
+    function appendApplications(app_properties){
+        for(c = 0; c < Object.keys(app_properties).length; c++){
 
-        var l = 'layer'+c;
-        var default_item = app_properties[l].type;
-        var iid = app_properties[l].id;
+            var l = 'layer'+c;
+            var default_item = app_properties[l].type;
+            var app_prop_id = app_properties[l].id;
+            var app_prop_type = app_properties[l].type;
 
-        var rectangle_fill = '#e3e3e3';
-        var font_family = 'arial black';
-        var fb_object_stroke_color = 'red'
+            // break loop if there's no data, to prevent error: Cheat
+            if(!app_properties[l].id){ break; }
 
-        // break loop if there's no data, to prevent error: Cheat
-        if(!app_properties[l].id){ break; }
+            var fill = '#e3e3e3';
+            var height = app_properties[l].height;
+            var width = app_properties[l].width;
+            var opacity = 0.6;
+            var font_family = 'arial black';
+            var stroke_color = 'red';
+            var stroke_width = 1;
+            var app_id_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 3;
+            var app_type_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 5.2;
+            var group_left = app_properties[l].topLeft.x;
+            var group_top = app_properties[l].topLeft.y;
 
-        var area = new fabric.Rect({
-            id: c,
-            fill: rectangle_fill,
-            height: app_properties[l].height,
-            width: app_properties[l].width,
-            strokeWidth: 1,
-            stroke: fb_object_stroke_color,
-            opacity: 0.6,
+            // Generate Fabric objects then add to canvas
+            var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
+            var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
+            var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
+            var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, default_item);
+            canvasFront.add(group);
+
+            if(app_properties[l].id != null){
+
+                var style                   = 'margin-right: 5px';
+                var items_arr               = ["logo", "number", "team_name", "player_name"];
+                var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + app_properties[l].id + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
+                var def_name                = '<input type="text" style="' + style + '" data-id="'                  + app_properties[l].id + '"class="app-def-name" value="'    + app_properties[l].name + '">';
+                var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
+                var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
+                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
+                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + app_properties[l].pivot.y     + ' size="4">';
+
+                var checked = "checked";
+                var primary_checked     = "",
+                    logo_checked        = "",
+                    team_name_checked   = "",
+                    player_name_checked = "", 
+                    number_checked      = "";
+
+                // Check checkbox if value is 1, isn't it obvious?
+                if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
+                if(app_properties[l].hasLogo == 1){ logo_checked = checked; }
+                if(app_properties[l].hasTeamName == 1){ team_name_checked = checked; }
+                if(app_properties[l].hasPlayerName == 1){ player_name_checked = checked; }
+                if(app_properties[l].hasNumber == 1){ number_checked = checked; }
+
+                var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
+                var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
+                var app_team_name       = '<input type="checkbox" style="'  + style + '" class="app-team-name" value="1" '      + team_name_checked                 + '>';
+                var app_player_name     = '<input type="checkbox" style="'  + style + '" class="app-player-name" value="1" '    + player_name_checked               + '>';
+                var app_number          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
+                var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
+                var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
+
+                // Append options to selectbox
+                var select_append       = '<select class="app-def-item" style="' + style + '">';
+                select_append           += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
+                for(var i = 0; i<items_arr.length; i++) {
+
+                    if(group.default_item != items_arr[i]) {
+                        select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
+                    }
+
+                }
+                select_append += "</select>";
+
+                // contain TDs in an array, obvious?
+                var fields = [
+                    app_id,
+                    select_append,
+                    def_name,
+                    application_rotation,
+                    app_x,
+                    app_y,
+                    app_primary,
+                    app_logo,
+                    app_team_name,
+                    app_player_name,
+                    app_number,
+                    app_font_sizes,
+                    app_sizes,
+                    delete_application
+                ];
+
+                $( ".front-applications" ).append(generateTRow(fields));
+
+                var canvasItem = "application"+group.id;
+                var thisGroup = group;
+
+                thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
+                thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y;
+                thisGroup.oCoords.tr.x  = app_properties[l].topRight.x;
+                thisGroup.oCoords.tr.y  = app_properties[l].topRight.y;
+                thisGroup.oCoords.bl.x  = app_properties[l].bottomLeft.x;
+                thisGroup.oCoords.bl.y  = app_properties[l].bottomLeft.y;
+                thisGroup.oCoords.br.x  = app_properties[l].bottomRight.x;
+                thisGroup.oCoords.br.y  = app_properties[l].bottomRight.y;
+                thisGroup.centerPoint   = app_properties[l].pivot;
+                thisGroup.setAngle(app_properties[l].rotation);
+                thisGroup.width         = app_properties[l].width;
+                thisGroup.height        = app_properties[l].height;
+                thisGroup.left          = app_properties[l].topLeft.x;
+                thisGroup.top           = app_properties[l].topLeft.y;
+                thisGroup.pivot         = thisGroup.centerPoint;
+                
+                canvasFront.renderAll();
+
+                application_number++;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
+        var fb_obj = new fabric.Rect({
+            id: obj_id,
+            fill: fill,
+            height: obj_height,
+            width: obj_width,
+            strokeWidth: stroke_width,
+            stroke: stroke_color,
+            opacity: opacity,
             originX: 'center',
             originY: 'center'
         });
 
-        var appID = new fabric.IText(iid.toString(),{
+        return fb_obj;
+    }
+
+    function fabricAppID( text, font_family, opacity, font_size ){
+        var fb_obj = new fabric.IText(text,{
             fontFamily: font_family,
             originX: 'center',
-            originY: 'center',
-            opacity: 0.6,
-            fontSize: 11
+            originY: 'bottom',
+            opacity: opacity,
+            fontSize: font_size
         });
 
-        var text = app_properties[l].type;
-        var itemText = new fabric.IText(text.toString(),{
+        return fb_obj;
+    }
+
+    function fabricAppType( text, font_family, opacity, font_size ){
+        var fb_obj = new fabric.IText(text,{
             fontFamily: font_family,
             originX: 'center',
             originY: 'top',
-            opacity: 0.6,
-            fontSize: 8
+            opacity: opacity,
+            fontSize: font_size
         });
 
-        var group = new fabric.Group([ area, appID, itemText ], {
+        return fb_obj;
+    }
+
+    function fabricAppGroup( obj_id, obj_left, obj_top, rectangle, app_id, app_type, default_item ){
+        var fb_obj = new fabric.Group([ rectangle, app_id, app_type ], {
             id: c,
-            left: app_properties[l].topLeft.x,
-            top: app_properties[l].topLeft.y,
+            left: obj_left,
+            top: obj_top,
             default_item: default_item
         });
 
-        if(app_properties[l].id != null){
-
-            var style                   = 'margin-right: 5px';
-            var items_arr               = ["logo", "number", "team_name", "player_name"];
-            var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + app_properties[l].id + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
-            var def_name                = '<input type="text" style="' + style + '" data-id="'                  + app_properties[l].id + '"class="app-def-name" value="'    + app_properties[l].name + '">';
-            var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
-            var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-            var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
-            var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + app_properties[l].pivot.y     + ' size="4">';
-
-            var checked = "checked";
-            var primary_checked     = "",
-                logo_checked        = "",
-                team_name_checked   = "",
-                player_name_checked = "", 
-                number_checked      = "";
-
-            // Check checkbox if value is 1, isn't it obvious?
-            if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
-            if(app_properties[l].hasLogo == 1){ logo_checked = checked; }
-            if(app_properties[l].hasTeamName == 1){ team_name_checked = checked; }
-            if(app_properties[l].hasPlayerName == 1){ player_name_checked = checked; }
-            if(app_properties[l].hasNumber == 1){ number_checked = checked; }
-
-            var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
-            var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
-            var app_team_name       = '<input type="checkbox" style="'  + style + '" class="app-team-name" value="1" '      + team_name_checked                 + '>';
-            var app_player_name     = '<input type="checkbox" style="'  + style + '" class="app-player-name" value="1" '    + player_name_checked               + '>';
-            var app_number          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
-            var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
-            var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
-
-            // Append options to selectbox
-            var select_append       = '<select class="app-def-item" style="' + style + '">';
-            select_append           += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
-            for(var i = 0; i<items_arr.length; i++) {
-
-                if(group.default_item != items_arr[i]) {
-                    select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
-                }
-
-            }
-            select_append += "</select>";
-
-            // contain TDs in an array, obvious?
-            var fields = [
-                app_id,
-                select_append,
-                def_name,
-                application_rotation,
-                app_x,
-                app_y,
-                app_primary,
-                app_logo,
-                app_team_name,
-                app_player_name,
-                app_number,
-                app_font_sizes,
-                app_sizes,
-                delete_application
-            ];
-
-            $( ".front-applications" ).append(generateTRow(fields));
-    
-            canvasFront.add(group);
-            var canvasItem = "application"+group.id;
-            var thisGroup = group;
-
-            thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
-            thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y;
-            thisGroup.oCoords.tr.x  = app_properties[l].topRight.x;
-            thisGroup.oCoords.tr.y  = app_properties[l].topRight.y;
-            thisGroup.oCoords.bl.x  = app_properties[l].bottomLeft.x;
-            thisGroup.oCoords.bl.y  = app_properties[l].bottomLeft.y;
-            thisGroup.oCoords.br.x  = app_properties[l].bottomRight.x;
-            thisGroup.oCoords.br.y  = app_properties[l].bottomRight.y;
-            thisGroup.centerPoint   = app_properties[l].pivot;
-            thisGroup.setAngle(app_properties[l].rotation);
-            thisGroup.width         = app_properties[l].width;
-            thisGroup.height        = app_properties[l].height;
-            thisGroup.left          = app_properties[l].topLeft.x;
-            thisGroup.top           = app_properties[l].topLeft.y;
-            thisGroup.pivot         = thisGroup.centerPoint;
-            
-            canvasFront.renderAll();
-
-            application_number++;
-        }
-        else{
-            break;
-        }
+        return fb_obj;
     }
-}
 
     function generateTRow(fields){
         var tr = '<tr>';
