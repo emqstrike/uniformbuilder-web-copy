@@ -9,6 +9,7 @@ $(document).ready(function() {
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
+    fabric.Object.prototype.transparentCorners = false;
 
     var application_number = 0;
 
@@ -78,59 +79,6 @@ $(document).ready(function() {
         updateCoordinates();
     });
 
-    $(document).on('change', '.app-id', function() {
-        var itemIdx = $(this).data('id');
-        console.log('ID: '+itemIdx);
-        var newId = $(this).val();
-
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-        
-
-        thisGroup.item(1).text = newId;
-
-        canvasFront.renderAll();
-        updateCoordinates();
-        console.log('CHANGED');
-    });
-
-    $(document).on('change', '.app-def-item', function() {
-        var itemIdx = $(this).data('id');
-        console.log('ID: '+itemIdx);
-        var newName = $(this).val();
-
-        console.log('TYPE: '+newName);
-
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-        
-
-        thisGroup.item(2).text = newName;
-
-        canvasFront.renderAll();
-        updateCoordinates();
-        console.log('CHANGED');
-    });
-
-    $(document).on('change', '.app-rotation', function() {
-        var itemIdx = $(this).data('id');
-        console.log('ID: '+itemIdx);
-        var newName = $(this).val();
-
-        console.log('TYPE: '+newName);
-
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        
-        canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
-
-        canvasFront.renderAll();
-        updateCoordinates();
-        console.log('CHANGED');
-    });
-
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
         html: true,
         trigger: 'hover',
@@ -139,11 +87,6 @@ $(document).ready(function() {
             return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #525252;"/>';
         }
     });
-
-    // Canvas Front
-
-    fabric.Object.prototype.transparentCorners = false;
-
 
     $('#add_front_application').mousedown(function(){
 
@@ -588,6 +531,7 @@ var appPropJson = "";
     });
 
     $('.edit-material-option').on('click', function(){
+        application_number = 0;
         material = {
             id: $(this).data('material-id'),
             name: $(this).data('material-name'),
@@ -916,6 +860,43 @@ var appPropJson = "";
         row.fadeIn();
     }
 
+    $(document).on('change', '.app-id', function() {
+        var itemIdx = $(this).data('id');
+        var newId = $(this).val();
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+
+        thisGroup.item(1).text = newId;
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
+
+    $(document).on('change', '.app-def-item', function() {
+
+        var itemIdx = $(this).data('id');
+        var newName = $(this).val();
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+
+        thisGroup.item(2).text = newName;
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
+
+    $(document).on('change', '.app-rotation', function() {
+        var itemIdx = $(this).data('id');
+        var newName = $(this).val();
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        
+        canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
+
     $("#app_template_name").keyup(function() {
         console.log("Changed template name, length is: "+$(this).val().length);
         if( $(this).val().length > 2 ){
@@ -926,8 +907,6 @@ var appPropJson = "";
             console.log('ELSE');
         }
     });
-
-    
 
     $(".load-applications-template").change(function() {
         canvasFront.clear();
@@ -1317,7 +1296,7 @@ var appPropJson = "";
 
     function fabricAppGroup( obj_id, obj_left, obj_top, rectangle, app_id, app_type, default_item ){
         var fb_obj = new fabric.Group([ rectangle, app_id, app_type ], {
-            id: c,
+            id: obj_id,
             left: obj_left,
             top: obj_top,
             default_item: default_item
