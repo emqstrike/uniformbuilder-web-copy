@@ -79,7 +79,7 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.app-id', function() {
-        var itemIdx = $(this).data('id') - 1;
+        var itemIdx = $(this).data('id');
         console.log('ID: '+itemIdx);
         var newId = $(this).val();
 
@@ -95,10 +95,12 @@ $(document).ready(function() {
         console.log('CHANGED');
     });
 
-    $(document).on('change', '.app-def-name', function() {
-        var itemIdx = $(this).data('id') - 1;
+    $(document).on('change', '.app-def-item', function() {
+        var itemIdx = $(this).data('id');
         console.log('ID: '+itemIdx);
         var newName = $(this).val();
+
+        console.log('TYPE: '+newName);
 
         var items = canvasFront.getObjects();
         var item = items[itemIdx];
@@ -106,6 +108,26 @@ $(document).ready(function() {
         
 
         thisGroup.item(2).text = newName;
+
+        canvasFront.renderAll();
+        updateCoordinates();
+        console.log('CHANGED');
+    });
+
+    $(document).on('change', '.app-rotation', function() {
+        var itemIdx = $(this).data('id');
+        console.log('ID: '+itemIdx);
+        var newName = $(this).val();
+
+        console.log('TYPE: '+newName);
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        // var thisGroup = canvasFront.item(itemIdx);
+        
+        canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
+
+        // thisGroup.item(2).text = newName;
 
         canvasFront.renderAll();
         updateCoordinates();
@@ -125,28 +147,6 @@ $(document).ready(function() {
 
     fabric.Object.prototype.transparentCorners = false;
 
-    $(document).on('change', '.app-rotation', function() {
-        var layer = $(this).data('id');
-        canvasFront.setActiveObject(canvasFront.item(layer));
-        canvasFront.item(layer).setAngle($(this).val()).setCoords();
-        canvasFront.renderAll();
-            console.log('Rotation'+$(this).val());
-        updateCoordinates();
-    });
-
-    $(document).on('change', '.app-x', function() {
-        var layer = $(this).data('id');
-        var val = $(this).val();
-        canvasFront.setActiveObject(canvasFront.item(layer));
-
-        var activeObject = canvasFront.getActiveObject();
-        activeObject.setLeft(val).setCoords();
-
-            console.log('LEFT: '+$(this).val());
-
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
 
     $('#add_front_application').mousedown(function(){
 
@@ -830,8 +830,8 @@ var appPropJson = "";
 
                 var style                   = 'margin-right: 5px';
                 var items_arr               = ["logo", "number", "team_name", "player_name"];
-                var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + app_properties[l].id + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
-                var def_name                = '<input type="text" style="' + style + '" data-id="'                  + app_properties[l].id + '"class="app-def-name" value="'    + app_properties[l].name + '">';
+                var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
+                var def_name                = '<input type="text" style="' + style + '" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
                 var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
@@ -860,11 +860,11 @@ var appPropJson = "";
                 var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
 
                 // Append options to selectbox
-                var select_append       = '<select class="app-def-item" style="' + style + '">';
+                var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
                 select_append           += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
                 for(var i = 0; i<items_arr.length; i++) {
 
-                    if(group.default_item != items_arr[i]) {
+                    if(app_properties[l].type != items_arr[i]) {
                         select_append += "<option value=" + items_arr[i] + ">" + items_arr[i] + "</option>";
                     }
 
