@@ -12,49 +12,11 @@ $(document).ready(function() {
 
     var application_number = 1;
 
-
-    // App props save template
-    $("#app_template_name").keyup(function() {
-        console.log("Changed template name, length is: "+$(this).val().length);
-        if( $(this).val().length > 2 ){
-            $('#save_app_template').removeAttr('disabled');
-            console.log('IF');
-        } else {
-            $('#save_app_template').attr('disabled', 'disabled');
-            console.log('ELSE');
-        }
-    });
-
- // LOA APP PROP TEMPLATE
-    $(".load-applications-template").change(function() {
-        canvasFront.clear();
-        application_number = 1;
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
-        console.log('CHANGE TEMPLATE');
-        var va_prop_val = $(this).val();
-
-
-        if(va_prop_val != "\"{}\""){
-            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-            var app_properties = JSON.parse(ap_out);
-
-            $(".front-applications").remove(".apOpt");
-            clearAppPropOptions();
-
-            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
-            appendApplications(app_properties);
-
-        }
-        updateCoordinates();
-    });
-
-
-
     $('.confirm-no').on('click', function(){
         location.reload();
     });
+
+    // *** Set the rows of Material Options Uploader to Sortable
 
     $( "tbody" ).disableSelection();
     $( "tbody" ).sortable({
@@ -81,6 +43,8 @@ $(document).ready(function() {
             renumberRows(newLength);
         }
     });
+
+    // *** Materials Options Uploader helpers
 
     $(document).on('click', '.clone-row', function() {
         syncMOLayers();
@@ -371,7 +335,6 @@ var applicationProperties = {};
         top: canvas.height / 2
     });
 
-    //midLine.lockUniScaling = true;
     midLine.hasControls = false;
 
     window.shapes.bounding_box = bounding_box;
@@ -420,7 +383,6 @@ var applicationProperties = {};
     $(".options-row-source").hide();
 
     $('#front-default-item').change(function(){
-        // var def_name = $(this).data('def-name');
         var def_name = $(this).val();
         $('#application_name').val(def_name);
     });
@@ -445,7 +407,7 @@ var applicationProperties = {};
                 });
 
                 elem.val(type);
-console.log('TYPE>>>> '+type_raw);
+
                 if(type_raw == "highlights"){
                     $(this).parent().siblings().find(".layer-number").val('99');
                     $(this).parent().siblings().find(".layer-number").text('99');
@@ -517,46 +479,6 @@ console.log('TYPE>>>> '+type_raw);
                 }
             });
         }); 
-
-    //     $(".mo-options-src").change(function() {
-
-    //     var filename = $(this).val();
-    //     console.log('FILENAME: '+filename);
-
-    //     var elem = $(this).parent().siblings().find('.thumbnail-link');
-    //     var elem2 = $(this).parent().siblings().find('.thumb-container');
-    //     var name = $(this).parent().siblings().find('.mo-name');
-
-    //     // Change Name
-    //     // console.log('change file: '+$(this).val());
-    //     // $(this).parent().siblings().find('.mo-name').val($(this).val());
-
-    //     var files = !!this.files ? this.files : [];
-    //     if (!files.length || !window.FileReader) return;
-
-    //     if (/^image/.test(files[0].type)){
-    //         var reader = new FileReader();
-    //         reader.readAsDataURL(files[0]);
-
-    //         reader.onloadend = function() {
-    //             elem.data('img',this.result);
-    //             elem2.attr('src',this.result);
-    //             elem2.data('img',this.result);
-
-    //             console.log('change file: '+this.result);
-    //             $(this).parent().siblings().find('.mo-name').val(this.result);
-    //         }
-    //     }
-
-    //     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
-    //         html: true,
-    //         trigger: 'hover',
-    //         placement: 'left',
-    //         content: function(){
-    //             return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
-    //         }
-    //     });
-    // });
 
     });
 
@@ -998,65 +920,40 @@ var appPropJson = "";
         }
     }
 
-    function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
-        var fb_obj = new fabric.Rect({
-            id: obj_id,
-            fill: fill,
-            height: obj_height,
-            width: obj_width,
-            strokeWidth: stroke_width,
-            stroke: stroke_color,
-            opacity: opacity,
-            originX: 'center',
-            originY: 'center'
-        });
+    // *** Applications Properties helpers
 
-        return fb_obj;
-    }
+    $("#app_template_name").keyup(function() {
+        console.log("Changed template name, length is: "+$(this).val().length);
+        if( $(this).val().length > 2 ){
+            $('#save_app_template').removeAttr('disabled');
+            console.log('IF');
+        } else {
+            $('#save_app_template').attr('disabled', 'disabled');
+            console.log('ELSE');
+        }
+    });
 
-    function fabricAppID( text, font_family, opacity, font_size ){
-        var fb_obj = new fabric.IText(text,{
-            fontFamily: font_family,
-            originX: 'center',
-            originY: 'bottom',
-            opacity: opacity,
-            fontSize: font_size
-        });
+    
 
-        return fb_obj;
-    }
+    $(".load-applications-template").change(function() {
+        canvasFront.clear();
+        application_number = 1;
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
 
-    function fabricAppType( text, font_family, opacity, font_size ){
-        var fb_obj = new fabric.IText(text,{
-            fontFamily: font_family,
-            originX: 'center',
-            originY: 'top',
-            opacity: opacity,
-            fontSize: font_size
-        });
+        console.log('CHANGE TEMPLATE');
+        var va_prop_val = $(this).val();
 
-        return fb_obj;
-    }
+        if(va_prop_val != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
 
-    function fabricAppGroup( obj_id, obj_left, obj_top, rectangle, app_id, app_type, default_item ){
-        var fb_obj = new fabric.Group([ rectangle, app_id, app_type ], {
-            id: c,
-            left: obj_left,
-            top: obj_top,
-            default_item: default_item
-        });
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+            appendApplications(app_properties);
 
-        return fb_obj;
-    }
-
-    function generateTRow(fields){
-        var tr = '<tr>';
-        fields.forEach(function(entry) {
-            tr += '<td>' + entry + '</td>';
-        });
-        tr += '</tr>';
-        return tr;
-    }
+        }
+        updateCoordinates();
+    });
 
     $('#save_app_template').on('click', function(){
         var name = $('#app_template_name').val();
@@ -1107,6 +1004,8 @@ var appPropJson = "";
         
     });
 
+    // *** Active / Disabled toggler
+
     $('.toggle-material').on('click', function(){
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/toggle/";
@@ -1131,6 +1030,8 @@ var appPropJson = "";
             }
         });
     });
+
+    // *** Confirmation Modals
 
     $('.duplicate-material').on('click', function(){
         var id = $(this).data('material-id');
@@ -1378,6 +1279,72 @@ var appPropJson = "";
         });
     });
 
+    // *** Custom Fabric Functions
+
+    function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
+        var fb_obj = new fabric.Rect({
+            id: obj_id,
+            fill: fill,
+            height: obj_height,
+            width: obj_width,
+            strokeWidth: stroke_width,
+            stroke: stroke_color,
+            opacity: opacity,
+            originX: 'center',
+            originY: 'center'
+        });
+
+        return fb_obj;
+    }
+
+    function fabricAppID( text, font_family, opacity, font_size ){
+        var fb_obj = new fabric.IText(text,{
+            fontFamily: font_family,
+            originX: 'center',
+            originY: 'bottom',
+            opacity: opacity,
+            fontSize: font_size
+        });
+
+        return fb_obj;
+    }
+
+    function fabricAppType( text, font_family, opacity, font_size ){
+        var fb_obj = new fabric.IText(text,{
+            fontFamily: font_family,
+            originX: 'center',
+            originY: 'top',
+            opacity: opacity,
+            fontSize: font_size
+        });
+
+        return fb_obj;
+    }
+
+    function fabricAppGroup( obj_id, obj_left, obj_top, rectangle, app_id, app_type, default_item ){
+        var fb_obj = new fabric.Group([ rectangle, app_id, app_type ], {
+            id: c,
+            left: obj_left,
+            top: obj_top,
+            default_item: default_item
+        });
+
+        return fb_obj;
+    }
+
+    // *** Generate rows when appending applications in canvas
+
+    function generateTRow(fields){
+        var tr = '<tr>';
+        fields.forEach(function(entry) {
+            tr += '<td>' + entry + '</td>';
+        });
+        tr += '</tr>';
+        return tr;
+    }
+
+    // *** Bind Color selects
+
     function bindColorsSelect2()
     {
         $('.colors').select2({
@@ -1411,11 +1378,15 @@ var appPropJson = "";
         }
     }
 
+    // *** Renumber rows - Material Options Uploader
+
     function renumberRows(length){
+
         var is_blend_arr = [];
         var allow_pattern_arr = [];
         var allow_gradient_arr = [];
         var allow_color_arr = [];
+
         $(".options-row").each(function(i) {
             var old_length = length;
             var thisLayer = "layer"+length;
@@ -1474,7 +1445,10 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
+
+
             // ARRAYS ******************************
+
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
             $(this).find('.mo-blend').addClass(thisLayer);
             var mo_blend_class = ".mo-blend.layer" + length;
@@ -1494,7 +1468,10 @@ var appPropJson = "";
             $(this).find('.mo-allow-color').addClass(thisLayer);
             var mo_allow_color_class = ".mo-allow-color.layer" + length;
             $(this).find(mo_allow_color_class).addClass('mo-allow-color');
-            // END ARRAYS ******************************
+
+            // END ARRAYS
+
+
 
             $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
             $(this).find('.mo-team-color-id').addClass(thisLayer);
@@ -1561,6 +1538,7 @@ var appPropJson = "";
         console.log("MOS: "+moProperties);
     }
 
+    // *** Update Coordinates if Canvas is Updated
     function updateCoordinatesXYR() {
         var cs = 1;
         updateCoordinates(cs);
