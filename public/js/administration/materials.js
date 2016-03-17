@@ -123,11 +123,8 @@ $(document).ready(function() {
 
         var items = canvasFront.getObjects();
         var item = items[itemIdx];
-        // var thisGroup = canvasFront.item(itemIdx);
         
         canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
-
-        // thisGroup.item(2).text = newName;
 
         canvasFront.renderAll();
         updateCoordinates();
@@ -354,8 +351,25 @@ var applicationProperties = {};
         'object:moving': updateCoordinatesXYR,
         'object:scaling': updateCoordinatesXYR,
         'object:rotating': updateCoordinatesXYR,
-        'mouse:up': updateCoordinates
+        'mouse:up': updateCoordinates,
+        'mouse:down': flashApplicationRow
     });
+
+    function flashApplicationRow(e){
+        var obj_id = e.target.get('id');
+        var ctr = 0;
+        $('.application-row').each(function(i, obj) {
+            if( ctr == obj_id ){
+                $(this).fadeOut();
+                setTimeout(fadeInRow($(this)), 1000)
+            }
+            ctr++;
+        });
+    }
+
+    function fadeInRow(row){
+        row.fadeIn();
+    }
 
     $(".modal").each(function(i) {
         $(this).draggable({
@@ -1335,7 +1349,7 @@ var appPropJson = "";
     // *** Generate rows when appending applications in canvas
 
     function generateTRow(fields){
-        var tr = '<tr>';
+        var tr = '<tr class="application-row">';
         fields.forEach(function(entry) {
             tr += '<td>' + entry + '</td>';
         });
@@ -1715,7 +1729,7 @@ var appPropJson = "";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
 
-        console.log("APP PROPS: "+window.ap);
+        // console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR
