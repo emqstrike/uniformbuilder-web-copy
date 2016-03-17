@@ -11,6 +11,28 @@ $(document).ready(function() {
     canvasFront.setHeight( 550 );
     fabric.Object.prototype.transparentCorners = false;
 
+    var topInterval;
+    var bottomInterval;
+    var leftInterval;
+    var rightInterval;
+
+    var controls_state = 0;
+    $('#app-controls').hide();
+
+    $(document).on('click', '#app_controls_button', function() {
+        if( controls_state == 0 ){
+            $('#app-controls').fadeIn();
+            $(this).text('Hide Controls');
+            controls_state = 1;
+            console.log('toggle if');
+        } else{
+            $('#app-controls').fadeOut();
+            $(this).text('Show Controls');
+            controls_state = 0;
+            console.log('toggle else');
+        }
+    });
+
     var application_number = 0;
 
     $('.confirm-no').on('click', function(){
@@ -20,7 +42,7 @@ $(document).ready(function() {
     // *** Set the rows of Material Options Uploader to Sortable
 
     $( "tbody" ).disableSelection();
-    $( "tbody" ).sortable({
+    $( "tbody.upload-sortable-rows" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
@@ -1794,7 +1816,103 @@ var appPropJson = "";
                 elem2.data('img',this.result);
             }
         }
-    }); 
+    });
+
+    // *** Fabric Listeners
+
+    fabric.util.addListener(document.getElementById('move-top'), 'mouseenter', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            topInterval = setInterval(function() {
+               activeObject.top -= 1;
+               canvasFront.renderAll();
+               updateCoordinatesXYR();  
+            }, 100);
+        }
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-top'), 'mouseleave', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            clearInterval(topInterval);
+        }
+        updateCoordinatesXYR();
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-bottom'), 'mouseenter', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            bottomInterval = setInterval(function() {
+               activeObject.top += 1;
+               canvasFront.renderAll();
+               updateCoordinatesXYR();
+            }, 100);
+        }
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-bottom'), 'mouseleave', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            clearInterval(bottomInterval);
+        }
+        updateCoordinatesXYR();
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-left'), 'mouseenter', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            leftInterval = setInterval(function() {
+               activeObject.left -= 1;
+               canvasFront.renderAll();
+               updateCoordinatesXYR();   
+            }, 100);
+        }
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-left'), 'mouseleave', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            clearInterval(leftInterval);
+        }
+        updateCoordinatesXYR();
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-right'), 'mouseenter', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            rightInterval = setInterval(function() {
+               activeObject.left += 1;
+               canvasFront.renderAll();
+               updateCoordinatesXYR();  
+            }, 100);
+        }
+
+    });
+
+    fabric.util.addListener(document.getElementById('move-right'), 'mouseleave', function () {
+
+        activeObject = canvasFront.getActiveObject();
+        if(activeObject){
+            clearInterval(rightInterval);
+        }
+        updateCoordinatesXYR();
+
+    });
+
+    // *** END OF Fabric Listeners
 
     bindColorsSelect2();
     bindGradientsSelect2();
