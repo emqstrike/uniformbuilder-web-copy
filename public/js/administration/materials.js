@@ -394,6 +394,10 @@ var applicationProperties = {};
             filename = filename.replace("_", " ");
             filename = filename.replace("_", " ");
 
+            if( filename.charAt(0) == ' ' ){
+                filename = filename.substr(1);
+            }
+
             console.log('FILENAME: '+filename);
 
             $(this).parent().siblings().find('.mo-name').val(filename);
@@ -1798,6 +1802,10 @@ var appPropJson = "";
         filename = filenamex.replace(/[0-9]/g, '');
         filename = filename.replace("_", " ");
         filename = filename.replace("_", " ");
+
+        if( filename.charAt(0) == ' ' ){
+            filename = filename.substr(1);
+        }
 
         console.log('FILENAME: '+filename);
 
