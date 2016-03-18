@@ -39,6 +39,15 @@
         <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
     </div>
 
+    <div class="row">
+       
+    <div class="col-md-12 main_steps_bar">
+        <img src="/ui/circle-nav.png" /><br />
+        <img src="/ui/shadowed_header_large.png" />
+    </div> 
+
+    </div>
+
     <div class="row" id="special_modifiers">
 
         <div class="col-md-6">
@@ -120,6 +129,7 @@
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
+
 
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
@@ -218,6 +228,9 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
+
 <!-- End Uniform Builder Scripts -->
 
 </body>

@@ -339,7 +339,7 @@ $(document).ready(function() {
                 ub.ui.drops[application_id].close();
 
                 var logo = _.find(logos, {
-                    id: logo_id
+                    id: logo_id,
                 });
 
                 var application = _.find(ub.data.applications.items, {
@@ -1887,19 +1887,14 @@ $(document).ready(function() {
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
-            var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
 
             if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
 
                 ub.funcs.resetHighlights();
                 ub.active_lock = false;
 
-                $sidebar_buttons.show();
-
             }
             else {
-
-                $sidebar_buttons.hide();
 
                 if (results.length > 0 ) {
 

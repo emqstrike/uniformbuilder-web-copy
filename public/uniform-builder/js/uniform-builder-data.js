@@ -30,7 +30,6 @@ $(document).ready(function(){
 
     }
 
-
     /// End Interactive Viewport
 
     ub.container_div = 'main_view';
@@ -128,7 +127,7 @@ $(document).ready(function(){
                 },       
             ]
 
-        } 
+        }
 
     };
 
@@ -137,7 +136,7 @@ $(document).ready(function(){
         items: [
             {
                 size: '1',
-                scale: 0.15,
+                scale: 0.07,
             },
             {
                 size: '2',

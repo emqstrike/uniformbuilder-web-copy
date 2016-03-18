@@ -337,9 +337,31 @@
             <div data-id='@{{application_id}}' class='y_slider logo_slider'></div>
 
         </div>
+
         <br />
         <hr />
 
     </script>
 
 <!-- End Typography UI's -->
+
+    
+
+<!-- UI V1 -->
+
+    <script  type="text/mustache" id="team-color-main-picker">
+    
+        <div class="team-color-main-picker-container">
+            
+            <em>
+
+                Here...
+
+            </em>
+
+        </div>
+
+    </script>
+
+<!-- End UI V1 -->
+

@@ -37,8 +37,10 @@
         </div>
 
         <div id="left-main-window" class="pane-main-window">
-            <div class="canvas-views" id="main_view" width="496" height="550">
+
+            <div class="canvas-views" id="main_view" height="550">
             </div>
+
         </div>
 
         <div id="change-views">
@@ -49,7 +51,6 @@
             <a class="btn change-view" data-view="right"  id="view_right">R</a>
 
         </div>
-
 
     </div>
 
@@ -102,6 +103,36 @@
 
             <a href="" class="sidebar-buttons mod_primary" data-filename='mod_primary'>
             </a>
+
+        </div>
+
+        <div id="right-main-window" class="pane-main-window team-color-pane">        
+
+            <span class="shadowed_header">
+                TEAM COLOR
+            </span>
+
+            <div class="team_color_picker_container">
+
+                <div class="team_color_picker_item" data-id='1' style="background-color: #222222;">
+                    
+                </div>
+                
+                <div class="team_color_picker_item" data-id='2' style="background-color: #d10000;">
+                    
+                </div>
+
+                <div class="team_color_picker_item" data-id='3' style="background-color: #222222;">
+                    
+                </div>
+
+                <div class="team_color_picker_item" data-id='4' style="background-color: #222222;">
+                    
+                </div>
+
+            </div>
+
+            </div> 
 
         </div>
 

@@ -1650,7 +1650,7 @@ $(document).ready(function () {
 
             // $(panel).fadeIn(100);
             $(panel).show();
-            
+
         }
 
         /// RIGHT SIDEBAR
@@ -1707,7 +1707,7 @@ $(document).ready(function () {
 
         /// LEFT SIDEBAR
 
-            $('div#left-sidebar > a.sidebar-buttons').hover(function (e){
+            $('div#left-sidebar > a.sidebar-buttons').hover(function (e) {
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
@@ -1741,7 +1741,7 @@ $(document).ready(function () {
 
             });
 
-            $('div#left-sidebar > a.sidebar-buttons').on('click', function (e){
+            $('div#left-sidebar > a.sidebar-buttons').on('click', function (e) {
 
                 $('#arrow_design_sets').remove();
 
@@ -1765,13 +1765,11 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'close.png';
                         
-                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        
                         $('a.btn-new').removeClass('highlighter_off');
                         $('a.btn-new').addClass('highlighter_on');
+                        $('a.btn-new').data('status','close');
 
                         $('#right-main-window').css('background-color','#f8f8f8');
-                        $('a.btn-new').data('status','close');
 
                         ub.display_gender_picker();
 
@@ -1792,11 +1790,10 @@ $(document).ready(function () {
  
                         $('a.btn-new').removeClass('highlighter_off');
                         $('a.btn-new').addClass('highlighter_on');
+                        $('a.btn-new').data('status','new');
  
                         $('#right-main-window').css('background-color','#ffffff');
                         $('#left-main-window').css('background-color','#ffffff');
-
-                        $('a.btn-new').data('status','new');
 
                         switch_panel('#materials_panel');
 
@@ -2942,7 +2939,6 @@ $(document).ready(function () {
     
                 }
 
-                
                 if(typeof input_object.applicationObj === 'object'){
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
@@ -3531,8 +3527,6 @@ $(document).ready(function () {
 
             container.mask = mask;
             container.name = 'pattern_' + target;
-            
-
 
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                 ub[view].removeChild(ub.objects[view]['pattern_' + target]);
@@ -3605,6 +3599,55 @@ $(document).ready(function () {
         $('a.btn-new.new').click();
 
     } 
+    /// End Show Builder Pickers 
+
+
+    /// UI v1
+
+    ub.funcs.init_team_colors = function () {
+
+        var data = {
+            name: 'test',
+        };
+
+        var selector = 'div.team_color_picker_item';
+        var team_color_picker = $('#team-color-main-picker').html();
+        var content = Mustache.render(team_color_picker, data);
+
+        var drop = new Drop({
+            target: document.querySelector(selector),
+            content: content,
+            classes: 'drop-theme-arrows',
+            position: 'top center',
+            openOn: 'click',
+        });
+
+        ub.ui.drops['team_color_picker'] = drop;
+
+        $(selector).on('click', function (e) {
+
+            $item = $(this);
+
+        });
+
+        $(selector).hover(function (e) {
+
+            $(this).removeClass('team_color_item_off');
+            $(this).addClass('team_color_item_on');
+                
+        }, function (e) {
+
+            $(this).removeClass('team_color_item_on');
+            $(this).addClass('team_color_item_off');
+
+        });
+
+    };
+
+    ub.funcs.init_team_colors();
+
+    /// End UI v1
+
     /// Saving, Loading and Sharing /// 
 
     // New Design
