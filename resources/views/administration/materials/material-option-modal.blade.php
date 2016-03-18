@@ -162,6 +162,46 @@
                 </div>
                 <div class="col-md-4">
                     <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="text-center">
+                        <a href="#" style="float: left; position: relative; margin-top: 5px; margin-left: 5px;" id="app_controls_button" class="btn btn-primary app-controls-button">Show Controls</a>
+                        <div id="app-controls" style="margin-top: 5px;">
+                            <table style="width: 200px;">
+                                <tr>
+                                    <td colspan="2">
+                                        <center>
+                                            <a href="#" class="btn btn-primary" id="move-top">
+                                                <span class="glyphicon glyphicon-arrow-up"></span>
+                                            </a> 
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <center>
+                                            <a href="#" class="btn btn-primary" id="move-left">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                            </a>
+                                        </center> 
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a href="#" class="btn btn-primary" id="move-right">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </a>
+                                        </center>   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <center>
+                                            <a href="#" class="btn btn-primary" id="move-bottom">
+                                                <span class="glyphicon glyphicon-arrow-down"></span>
+                                            </a>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr>
                         <h3>Applications</h3>
                         <center>
                             <label class="control-label label-success" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Application Template:</label>
