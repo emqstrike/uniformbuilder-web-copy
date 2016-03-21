@@ -3594,59 +3594,16 @@ $(document).ready(function () {
     /// End Initialize
 
     /// Show Builder Pickers is there's no Uniform or Order that's being loaded
+
     if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
 
         $('a.btn-new.new').click();
 
     } 
+
     /// End Show Builder Pickers 
 
-
-    /// UI v1
-
-    ub.funcs.init_team_colors = function () {
-
-        var data = {
-            name: 'test',
-        };
-
-        var selector = 'div.team_color_picker_item';
-        var team_color_picker = $('#team-color-main-picker').html();
-        var content = Mustache.render(team_color_picker, data);
-
-        var drop = new Drop({
-            target: document.querySelector(selector),
-            content: content,
-            classes: 'drop-theme-arrows',
-            position: 'top center',
-            openOn: 'click',
-        });
-
-        ub.ui.drops['team_color_picker'] = drop;
-
-        $(selector).on('click', function (e) {
-
-            $item = $(this);
-
-        });
-
-        $(selector).hover(function (e) {
-
-            $(this).removeClass('team_color_item_off');
-            $(this).addClass('team_color_item_on');
-                
-        }, function (e) {
-
-            $(this).removeClass('team_color_item_on');
-            $(this).addClass('team_color_item_off');
-
-        });
-
-    };
-
-    ub.funcs.init_team_colors();
-
-    /// End UI v1
+    
 
     /// Saving, Loading and Sharing /// 
 

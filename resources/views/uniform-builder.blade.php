@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/onoff/jquery.onoff.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css{{$asset_version}}">
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
@@ -129,7 +130,7 @@
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/dropdown/jquery.dropdown.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
@@ -146,10 +147,10 @@
         window.ub.config = { 
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}", 
-            material_id: {{ $material_id }}, 
+            material_id: {{ $material_id }},
             category_id: {{ $category_id }}, 
-            host: 'http://{{ Request::server ("HTTP_HOST") }}', 
-            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' 
+            host: 'http://{{ Request::server ("HTTP_HOST") }}',
+            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
         };
 
         @if (Session::get('isLoggedIn'))
@@ -180,7 +181,6 @@
             $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 
         @endif
-
 
         // #load_order
         var s = "{{ $builder_customizations }}";
@@ -228,10 +228,36 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
+
+
+<!-- Drop Down Test-->
+
+    <div class="team_color_picker_options" data-team-color-id = '-1'>
+
+        <button class="color_picker_item" data-color="seminole" data-hex="#6b0c1e" style="background-color: #6b0c1e;">
+            
+        </button>
+
+        <button class="color_picker_item" data-color="brown" data-hex="#2b1500" style="background-color: #2b1500;">
+            
+        </button>
+
+        <button class="color_picker_item" data-color="gold" data-hex="#ffba00"  style="background-color: #ffba00;">
+            
+        </button>
+
+        <button class="color_picker_item" data-color="maroon" data-hex="#5c0000"  style="background-color: #5c0000;">
+            
+        </button>
+
+    </div>
+
+<!-- End Drop Down Test-->
 
 </body>
 </html>
