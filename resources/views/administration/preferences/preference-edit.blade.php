@@ -47,6 +47,20 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">School</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-name" name="school_name" value="{{ $preference->school_name }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Team</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-name" name="team_name" value="{{ $preference->team_name }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
@@ -83,7 +97,7 @@ select:hover {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-colors">
                                     </tbody>
                                 </table>
                             </div>

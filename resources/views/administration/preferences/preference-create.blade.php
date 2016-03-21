@@ -43,11 +43,36 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">School</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-school-name" name="school_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Team</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-team-name" name="team_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
                                 @foreach ($fonts as $font)
                                     <option value='{{ $font->name }}'>{{ $font->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sport</label>
+                            <div class="col-md-6">
+                                <select name='uniform_category' class="form-control preference-uniform-category">
+                                @foreach ($uniform_categories as $uniform_category)
+                                <option value='{{ $uniform_category->id }}'>{{ $uniform_category->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -68,7 +93,7 @@ select:hover {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-colors">
                                         <tr class="layers-row">
                                             <td>
                                                 <select class="ma-layer layer1"  name="ma_layer[]" disabled>

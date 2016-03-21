@@ -74,11 +74,17 @@ class PreferencesController extends Controller
 
     public function addPreferenceForm()
     {
+        $preferences = $this->client->getPreferences();
         $colors = $this->colorsClient->getColors();
         $fonts = $this->fontsClient->getFonts();
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $mascots = $this->mascotsClient->getMascots();
+
         return view('administration.preferences.preference-create', [
             'colors' => $colors,
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'uniform_categories' => $uniform_categories,
+            'mascots' => $mascots
         ]);
     }
 
@@ -88,6 +94,8 @@ class PreferencesController extends Controller
         $font = $request->input('font');
         $colors_properties = $request->input('colors_properties');
         $uniform_category = $request->input('uniform_category');
+        $school_name = $request->input('school_name');
+        $team_name = $request->input('team_name');
         
         $id = null;
 
@@ -108,6 +116,8 @@ class PreferencesController extends Controller
             'font' => $font,
             'colors_properties' => $colors_properties,
             'uniform_category_id' => $uniform_category,
+            'school_name' => $school_name,
+            'team_name' => $team_name,
             'id' => $id
         ];
 
