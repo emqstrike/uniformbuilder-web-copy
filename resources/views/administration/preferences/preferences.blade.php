@@ -86,7 +86,11 @@
                             <tr>
                                 <th>Logo</th>
                                 <th>Name</th>
+                                <th>School</th>
+                                <th>Team Name</th>
+                                <th>Mascot</th>
                                 <th>Font</th>
+                                <th>Sport</th>
                                 <th>Colors</th>
                                 <th>Active Status</th>
                                 <th>User ID</th>
@@ -104,7 +108,19 @@
                             {{ $preference->name }}
                         </td>
                         <td>
+                            {{ $preference->school_name }}
+                        </td>
+                        <td>
+                            {{ $preference->team_name }}
+                        </td>
+                        <td>
+                            {{ $preference->mascot_id }}
+                        </td>
+                        <td>
                             {{ $preference->font }}
+                        </td>
+                        <td>
+                            {{ $preference->uniform_category }}
                         </td>
                         <td class="colors-cell">
                             <input type="hidden" value="{{ $preference->colors_properties }}" class="color-prop-container">

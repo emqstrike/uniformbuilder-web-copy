@@ -58,6 +58,17 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Sport</label>
+                            <div class="col-md-6">
+                                <select name='uniform_category' class="form-control preference-uniform-category">
+                                @foreach ($uniform_categories as $uniform_category)
+                                <option value='{{ $uniform_category->id }}' <?php if($uniform_category->id == $preference->uniform_category_id){ echo "selected"; } ?>>{{ $uniform_category->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Colors
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Color</a>
