@@ -66,6 +66,7 @@ select:hover {
                                 <select class="form-control preference-mascot" id="preference_mascot">
                                 </select>
                                 <input type="hidden" id="mascot" name="mascot">
+                                <input type="hidden" id="current_mascot" name="current_mascot" value="{{ $preference->mascot_id }}">
                             </div>
                         </div>
 
@@ -183,6 +184,16 @@ $(document).ready(function(){
             var close = "<tr>";
             $('#layers-row-container').append(open+layer+colors+remove+close);
             ctr++;
+
+            $('.ma-default-color').change(function(){
+                var color = "#"+$('option:selected', this).data('color');
+                $(this).css('background-color', color);
+
+                var color = $('option:selected', this).data('color');
+                $(this).css('background-color', color);
+                var length = $('.layers-row').length;
+                renumberRows(length);
+            });
         }
     }
 
@@ -232,6 +243,16 @@ $(document).ready(function(){
                 
                 layers_properties[ctr]['default_color'] = hexString;
                 layers_properties[ctr]['filename'] = $(this).find(src_class).val();
+
+                $('.ma-default-color').change(function(){
+                    var color = "#"+$('option:selected', this).data('color');
+                    $(this).css('background-color', color);
+
+                    var color = $('option:selected', this).data('color');
+                    $(this).css('background-color', color);
+                    var length = $('.layers-row').length;
+                    renumberRows(length);
+                });
             }
             ctr++;
         });
@@ -242,6 +263,8 @@ $(document).ready(function(){
         
     }
 
+    var current_mascot = $('#current_mascot').val();
+
     window.items = null;
     getMascots(function(items){
         console.log(items);
@@ -250,7 +273,8 @@ $(document).ready(function(){
 
     function getMascots(callback){
         var items;
-        var url = "//" + api_host + "/api/mascots";
+        // var url = "//" + api_host + "/api/mascots";
+        var url = "//api-dev.qstrike.com/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -269,7 +293,11 @@ $(document).ready(function(){
     $.each(window.items, function(i, item) {
         item['text'] = item.name;
         item['value'] = item.id;
-        item['selected'] = false;
+        if( current_mascot == item.id ){
+            item['selected'] = true;
+        } else {
+            item['selected'] = false;
+        }
         item['description'] = 'Mascot';
         item['imageSrc'] = item.icon;
     });
@@ -279,12 +307,17 @@ $(document).ready(function(){
     $('#preference_mascot').ddslick({
         data: ddData,
         width: 300,
+        height: 300,
         imagePosition: "left",
-        selectText: "Select your favorite social network",
+        selectText: "Select Mascot",
         onSelected: function (data) {
             $('#mascot').val(data['selectedData']['value']);
         },
     });
+
+    var length = $('.layers-row').length;
+    renumberRows(length);
+
 });
 </script>
 @endsection

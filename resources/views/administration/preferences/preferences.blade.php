@@ -114,7 +114,7 @@
                             {{ $preference->team_name }}
                         </td>
                         <td>
-                            {{ $preference->mascot_id }}
+                            <center><img src="{{ $preference->icon }}" style="height: 75px; width: 75px;" class="img-thumbnail"></center>
                         </td>
                         <td>
                             {{ $preference->font }}
@@ -135,7 +135,7 @@
                             </div>
                         </td>
                         <td>
-                            {{ $preference->user_id }}
+                            {{ $preference->last_name }}, {{ $preference->first_name }} - [{{ $preference->user_id }}]
                         </td>
                         <td>
                             <a href="/administration/preference/edit/{{ $preference->id }}" class="btn btn-primary btn-xs edit-preference" data-preference-id="{{ $preference->id }}" role="button">

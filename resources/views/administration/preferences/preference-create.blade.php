@@ -57,6 +57,15 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Mascot</label>
+                            <div class="col-md-6">
+                                <select class="form-control preference-mascot" id="preference_mascot">
+                                </select>
+                                <input type="hidden" id="mascot" name="mascot">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
@@ -191,5 +200,57 @@ select:hover {
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
 <script type="text/javascript" src="/js/administration/preferences.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    window.items = null;
+    getMascots(function(items){
+        console.log(items);
+        window.items = items;
+    });
+
+    function getMascots(callback){
+        var items;
+        var url = "//" + api_host + "/api/mascots";
+        // var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                items = data['mascots'];
+                console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(items);
+            }
+        });
+    }
+
+    $.each(window.items, function(i, item) {
+        item['text'] = item.name;
+        item['value'] = item.id;
+        item['selected'] = false;
+        item['description'] = 'Mascot';
+        item['imageSrc'] = item.icon;
+    });
+
+    var ddData = window.items;
+
+    $('#preference_mascot').ddslick({
+        data: ddData,
+        width: 300,
+        imagePosition: "left",
+        selectText: "Select Mascot",
+        onSelected: function (data) {
+            $('#mascot').val(data['selectedData']['value']);
+        },
+    });
+
+    var length = $('.layers-row').length;
+    renumberRows(length);
+});
+</script>
 @endsection
