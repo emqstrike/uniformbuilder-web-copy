@@ -61,6 +61,15 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Mascot</label>
+                            <div class="col-md-6">
+                                <select class="form-control preference-mascot" id="preference_mascot">
+                                </select>
+                                <input type="hidden" id="mascot" name="mascot">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
@@ -76,7 +85,7 @@ select:hover {
                             <div class="col-md-6">
                                 <select name='uniform_category' class="form-control preference-uniform-category">
                                 @foreach ($uniform_categories as $uniform_category)
-                                <option value='{{ $uniform_category->id }}' <?php if($uniform_category->id == $preference->uniform_category_id){ echo "selected"; } ?>>{{ $uniform_category->name }}</option>
+                                <option value='{{ $uniform_category->id }}' style="background-image:url(male.png);" <?php if($uniform_category->id == $preference->uniform_category_id){ echo "selected"; } ?>>{{ $uniform_category->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -102,7 +111,6 @@ select:hover {
                                 </table>
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -130,6 +138,7 @@ select:hover {
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
 <script type="text/javascript" src="/js/administration/preferences.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -175,7 +184,6 @@ $(document).ready(function(){
             $('#layers-row-container').append(open+layer+colors+remove+close);
             ctr++;
         }
-        // console.log("Build Layers"+colors_array);
     }
 
     $('select:not(:has(option))').attr('visible', false);
@@ -233,6 +241,50 @@ $(document).ready(function(){
         $('#existing-layers-properties').val(layersProperties);
         
     }
+
+    window.items = null;
+    getMascots(function(items){
+        console.log(items);
+        window.items = items;
+    });
+
+    function getMascots(callback){
+        var items;
+        var url = "//" + api_host + "/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                items = data['mascots'];
+                console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(items);
+            }
+        });
+    }
+
+    $.each(window.items, function(i, item) {
+        item['text'] = item.name;
+        item['value'] = item.id;
+        item['selected'] = false;
+        item['description'] = 'Mascot';
+        item['imageSrc'] = item.icon;
+    });
+
+    var ddData = window.items;
+
+    $('#preference_mascot').ddslick({
+        data: ddData,
+        width: 300,
+        imagePosition: "left",
+        selectText: "Select your favorite social network",
+        onSelected: function (data) {
+            $('#mascot').val(data['selectedData']['value']);
+        },
+    });
 });
 </script>
 @endsection

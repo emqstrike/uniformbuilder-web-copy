@@ -96,6 +96,7 @@ class PreferencesController extends Controller
         $uniform_category = $request->input('uniform_category');
         $school_name = $request->input('school_name');
         $team_name = $request->input('team_name');
+        $mascot_id = $request->input('mascot');
         
         $id = null;
 
@@ -118,6 +119,7 @@ class PreferencesController extends Controller
             'uniform_category_id' => $uniform_category,
             'school_name' => $school_name,
             'team_name' => $team_name,
+            'mascot_id' => $mascot_id,
             'id' => $id
         ];
 
