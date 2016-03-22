@@ -242,6 +242,7 @@ $(document).ready(function(){
     $('#preference_mascot').ddslick({
         data: ddData,
         width: 300,
+        height: 300,
         imagePosition: "left",
         selectText: "Select Mascot",
         onSelected: function (data) {
