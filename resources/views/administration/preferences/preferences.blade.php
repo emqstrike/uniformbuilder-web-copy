@@ -86,7 +86,11 @@
                             <tr>
                                 <th>Logo</th>
                                 <th>Name</th>
+                                <th>School</th>
+                                <th>Team Name</th>
+                                <th>Mascot</th>
                                 <th>Font</th>
+                                <th>Sport</th>
                                 <th>Colors</th>
                                 <th>Active Status</th>
                                 <th>User ID</th>
@@ -104,7 +108,19 @@
                             {{ $preference->name }}
                         </td>
                         <td>
+                            {{ $preference->school_name }}
+                        </td>
+                        <td>
+                            {{ $preference->team_name }}
+                        </td>
+                        <td>
+                            <center><img src="{{ $preference->icon }}" style="height: 75px; width: 75px;" class="img-thumbnail"></center>
+                        </td>
+                        <td>
                             {{ $preference->font }}
+                        </td>
+                        <td>
+                            {{ $preference->uniform_category }}
                         </td>
                         <td class="colors-cell">
                             <input type="hidden" value="{{ $preference->colors_properties }}" class="color-prop-container">
@@ -119,7 +135,7 @@
                             </div>
                         </td>
                         <td>
-                            {{ $preference->user_id }}
+                            {{ $preference->last_name }}, {{ $preference->first_name }} - [{{ $preference->user_id }}]
                         </td>
                         <td>
                             <a href="/administration/preference/edit/{{ $preference->id }}" class="btn btn-primary btn-xs edit-preference" data-preference-id="{{ $preference->id }}" role="button">

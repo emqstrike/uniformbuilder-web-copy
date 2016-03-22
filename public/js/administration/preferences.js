@@ -101,7 +101,7 @@ $(document).ready(function() {
     });
 
     $( "tbody" ).disableSelection();
-    $( "tbody" ).sortable({
+    $( "tbody.sortable-colors" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },

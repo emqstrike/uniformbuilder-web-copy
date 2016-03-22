@@ -11,7 +11,7 @@ select:hover {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New preference</div>
+                <div class="panel-heading">Edit preference</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -47,11 +47,46 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">School</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-name" name="school_name" value="{{ $preference->school_name }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Team</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-name" name="team_name" value="{{ $preference->team_name }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Mascot</label>
+                            <div class="col-md-6">
+                                <select class="form-control preference-mascot" id="preference_mascot">
+                                </select>
+                                <input type="hidden" id="mascot" name="mascot">
+                                <input type="hidden" id="current_mascot" name="current_mascot" value="{{ $preference->mascot_id }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
                                 @foreach ($fonts as $font)
                                 <option value='{{ $font->name }}' <?php if($font->name == $preference->font){ echo "selected"; } ?>>{{ $font->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sport</label>
+                            <div class="col-md-6">
+                                <select name='uniform_category' class="form-control preference-uniform-category">
+                                @foreach ($uniform_categories as $uniform_category)
+                                <option value='{{ $uniform_category->id }}' style="background-image:url(male.png);" <?php if($uniform_category->id == $preference->uniform_category_id){ echo "selected"; } ?>>{{ $uniform_category->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -72,12 +107,11 @@ select:hover {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-colors">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -105,6 +139,7 @@ select:hover {
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
 <script type="text/javascript" src="/js/administration/preferences.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -149,8 +184,17 @@ $(document).ready(function(){
             var close = "<tr>";
             $('#layers-row-container').append(open+layer+colors+remove+close);
             ctr++;
+
+            $('.ma-default-color').change(function(){
+                var color = "#"+$('option:selected', this).data('color');
+                $(this).css('background-color', color);
+
+                var color = $('option:selected', this).data('color');
+                $(this).css('background-color', color);
+                var length = $('.layers-row').length;
+                renumberRows(length);
+            });
         }
-        // console.log("Build Layers"+colors_array);
     }
 
     $('select:not(:has(option))').attr('visible', false);
@@ -199,6 +243,16 @@ $(document).ready(function(){
                 
                 layers_properties[ctr]['default_color'] = hexString;
                 layers_properties[ctr]['filename'] = $(this).find(src_class).val();
+
+                $('.ma-default-color').change(function(){
+                    var color = "#"+$('option:selected', this).data('color');
+                    $(this).css('background-color', color);
+
+                    var color = $('option:selected', this).data('color');
+                    $(this).css('background-color', color);
+                    var length = $('.layers-row').length;
+                    renumberRows(length);
+                });
             }
             ctr++;
         });
@@ -208,6 +262,62 @@ $(document).ready(function(){
         $('#existing-layers-properties').val(layersProperties);
         
     }
+
+    var current_mascot = $('#current_mascot').val();
+
+    window.items = null;
+    getMascots(function(items){
+        console.log(items);
+        window.items = items;
+    });
+
+    function getMascots(callback){
+        var items;
+        // var url = "//" + api_host + "/api/mascots";
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                items = data['mascots'];
+                console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(items);
+            }
+        });
+    }
+
+    $.each(window.items, function(i, item) {
+        item['text'] = item.name;
+        item['value'] = item.id;
+        if( current_mascot == item.id ){
+            item['selected'] = true;
+        } else {
+            item['selected'] = false;
+        }
+        item['description'] = 'Mascot';
+        item['imageSrc'] = item.icon;
+    });
+
+    var ddData = window.items;
+
+    $('#preference_mascot').ddslick({
+        data: ddData,
+        width: 300,
+        height: 300,
+        imagePosition: "left",
+        selectText: "Select Mascot",
+        onSelected: function (data) {
+            $('#mascot').val(data['selectedData']['value']);
+        },
+    });
+
+    var length = $('.layers-row').length;
+    renumberRows(length);
+
 });
 </script>
 @endsection
