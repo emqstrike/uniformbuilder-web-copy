@@ -8,14 +8,6 @@
 
 @endsection
 
-@section('custom-styles')
-
-@foreach ($fonts as $font)
-@font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
-@endforeach
-
-@endsection
-
 @section('content')
 <div class="col-md-12" style="margin-top: -40px;">
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
