@@ -145,9 +145,9 @@ $(document).ready(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
-        updateCoordinates();
-    });
+    // $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    //     updateCoordinates();
+    // });
 
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
@@ -389,20 +389,20 @@ var applicationProperties = {};
 
     bounding_box.transparentCorners = false;
     canvas.add(bounding_box, midLine);
-    updateCoordinates();
+    // updateCoordinates();
 
     canvas.on({
-        'object:moving': updateCoordinates,
-        'object:scaling': updateCoordinates,
-        'object:rotating': updateCoordinates,
-        'mouse:up': updateCoordinates
+        // 'object:moving': updateCoordinates,
+        // 'object:scaling': updateCoordinates,
+        // 'object:rotating': updateCoordinates,
+        // 'mouse:up': updateCoordinates
     });
 
     canvasFront.on({
         'object:moving': updateCoordinatesXYR,
         'object:scaling': updateCoordinatesXYR,
         'object:rotating': updateCoordinatesXYR,
-        'mouse:up': updateCoordinates,
+        // 'mouse:up': updateCoordinates,
         'mouse:down': flashApplicationRow
     });
 
@@ -909,7 +909,7 @@ var appPropJson = "";
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
                 var app_team_name       = '<input type="checkbox" style="'  + style + '" class="app-team-name" value="1" '      + team_name_checked                 + '>';
                 var app_player_name     = '<input type="checkbox" style="'  + style + '" class="app-player-name" value="1" '    + player_name_checked               + '>';
-                var app_number          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
+                var app_dnumber          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
                 var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
@@ -942,7 +942,7 @@ var appPropJson = "";
                         font_style = window.fonts[i].name;
                     }
                 }
-                console.log("Font Style: "+font_style);
+                // console.log("Font Style: "+font_style);
                 var default_font        = '<select style="' + style + '; float: left;" class="app-default-font" style="font-family: ' + font_style + '; font-size: 30" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var default_number      = '<input type="number" style="' + style + '; float: left;" class="app-default-number" size="3" data-id="' + group.id + '" value="' + app_number + '">';
@@ -977,7 +977,7 @@ var appPropJson = "";
                     app_logo,
                     app_team_name,
                     app_player_name,
-                    app_number,
+                    app_dnumber,
                     app_font_sizes,
                     app_sizes,
                     default_mascot,
@@ -1017,34 +1017,14 @@ var appPropJson = "";
                     selectText: "Select Mascot",
                     onSelected: function (data) {
                         $(amv_id).val(data['selectedData']['value']);
-                        // console.log('This Class >> ' + firstClass);
-                        // console.log('AMV CLASS > '+amv_class);
-                        // console.log('DD Click ' + data['selectedData']['value']);
-                        updateCoordinates();
+                        // updateCoordinates();
                     },
-                });
-
-                $(".app-default-font").each(function(i) {
-                    console.log('each: >> ');
-                    var font = $('option:selected', this).data('font-family');
-                    var font_size = 30;
-                    $(this).css('font-family', font);
-                    $(this).css('font-size', font_size);
-
-                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
-                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
-
-                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
-                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
-
-                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
-                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
                     var font_size = 30;
-                    console.log("Font: "+font);
+                    // console.log("Font: "+font);
                     $(this).css('font-family', font);
                     $(this).css('font-size', font_size);
 
@@ -1081,6 +1061,23 @@ var appPropJson = "";
             else{
                 break;
             }
+
+            $(".app-default-font").each(function(i) {
+                // console.log('each: >> ');
+                var font = $('option:selected', this).data('font-family');
+                var font_size = 30;
+                $(this).css('font-family', font);
+                $(this).css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+            });
         }
     }
 
@@ -1754,9 +1751,35 @@ var appPropJson = "";
     }
 
     // *** Update Coordinates if Canvas is Updated
+    // function updateCoordinatesXYR() {
+    //     var cs = 1;
+    //     updateCoordinates(cs);
+    // }
     function updateCoordinatesXYR() {
         var cs = 1;
-        updateCoordinates(cs);
+        updateRXY(cs);
+    }
+
+    function updateRXY(cs){
+        applicationProperties = {}
+
+        if(cs == 1){
+            $(".app-rotation").each(function(i) {
+                itemIdx = "layer"+$(this).data('id');
+                layer = $(this).data('id');
+
+                thisGroup = canvasFront.item(layer);
+                applicationProperties[itemIdx] = {};
+                applicationProperties[itemIdx].pivot = {};
+                applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+
+                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+                $(this).val(thisGroup.getAngle());
+
+                canvasFront.renderAll();
+            });
+        }
     }
 
     function updateCoordinates(cs) {
