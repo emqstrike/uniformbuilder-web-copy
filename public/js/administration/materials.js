@@ -367,14 +367,14 @@ var applicationProperties = {};
         $(".mo-name").keyup(function() {
             var elem = $(this).parent().siblings().find('.mo-layer');
             var name = $(this).val().toLowerCase();
-            if(name == "body"){
-                console.log('MATCH');
-                $(this).val("Body");
-                $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-            }
-            else{
-                $(".body-layer-number").remove();
-            }
+            // if(name == "body"){
+            //     console.log('MATCH');
+            //     $(this).val("Body");
+            //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+            // }
+            // else{
+            //     $(".body-layer-number").remove();
+            // }
         });
 
         $(".mo-group-id").keyup(function() {
@@ -1737,14 +1737,14 @@ var appPropJson = "";
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
-        if(name == "body"){
-            console.log('MATCH');
-            $(this).val("Body");
-            $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-        }
-        else{
-            $(".body-layer-number").remove();
-        }
+        // if(name == "body"){
+        //     console.log('MATCH');
+        //     $(this).val("Body");
+        //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+        // }
+        // else{
+        //     $(".body-layer-number").remove();
+        // }
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
