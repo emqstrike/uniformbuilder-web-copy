@@ -153,7 +153,7 @@ $(document).ready(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '.front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
         // if($(this).hasClass('app-default-mascot')){
         //     $(this).ddslick({
         //         data: ddData,
@@ -168,6 +168,23 @@ $(document).ready(function() {
         // }
 
         updateCoordinates();
+    });
+
+    $(document).on('change', '.app-default-font', function() {
+        var font = $('option:selected', this).data('font-family');
+        var font_size = 30;
+        console.log("Font: "+font);
+        $(this).css('font-family', font);
+        $(this).css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
     });
 
     // $(document).on('change', '.app-default-mascot, .dd-selected-value', function() {
@@ -210,7 +227,7 @@ $(document).ready(function() {
 
         var fonts_options = '<option value="">Not Set</option>';
         for(var i = 0; i < window.fonts.length; i++) {
-            fonts_options += "<option value=" + window.fonts[i].id + ">" + window.fonts[i].name + "</option>";
+            fonts_options += "<option value=" + window.fonts[i].id + " style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
         }
 
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
@@ -939,16 +956,27 @@ var appPropJson = "";
                 var fonts_options = '<option value="">Not Set</option>';
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(app_font == window.fonts[i].id){
-                        fonts_options += "<option value=" + window.fonts[i].id + " selected>" + window.fonts[i].name + "</option>";
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' selected>" + window.fonts[i].name + "</option>";
                     } else {
-                        fonts_options += "<option value=" + window.fonts[i].id + ">" + window.fonts[i].name + "</option>";
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;'>" + window.fonts[i].name + "</option>";
                     }
                 }
 
-                var default_font        = '<select style=' + style + ' class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+                var font_style = "";
+                for(var i = 0; i < window.fonts.length; i++) {
+                    if( app_properties[l].defaultFont == window.fonts[i].id ){
+                        font_style = window.fonts[i].name;
+                    }
+                }
+                console.log("Font Style: "+font_style);
+                var default_font        = '<select style=' + style + ' class="app-default-font" style="font-family: ' + font_style + '; font-size: 30" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var default_number      = '<input type="number" style="' + style + '" class="app-default-number" size="3" data-id="' + group.id + '" value="' + app_number + '">';
 
+                // var font_size = 30;
+                // console.log("Font: "+font);
+                // $(this).css('font-family', font);
+                // $(this).css('font-size', font_size);
                 // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
@@ -1021,6 +1049,40 @@ var appPropJson = "";
                         // console.log('DD Click ' + data['selectedData']['value']);
                         updateCoordinates();
                     },
+                });
+
+                $(".app-default-font").each(function(i) {
+                    console.log('each: >> ');
+                    var font = $('option:selected', this).data('font-family');
+                    var font_size = 30;
+                    $(this).css('font-family', font);
+                    $(this).css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+                });
+
+                $(document).on('change', '.app-default-font', function() {
+                    var font = $('option:selected', this).data('font-family');
+                    var font_size = 30;
+                    console.log("Font: "+font);
+                    $(this).css('font-family', font);
+                    $(this).css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
                 thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
@@ -1778,9 +1840,9 @@ var appPropJson = "";
             uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
             applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
-            applicationFont = $(this).parent().siblings('td').find(".dd-selected-value").val();
-            applicationText = $(this).parent().siblings('td').find(".dd-selected-value").val();
-            applicationNumber = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
+            applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
+            applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
             // console.log("Default Mascot:"+applicationMascot);
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
@@ -1849,6 +1911,9 @@ var appPropJson = "";
             applicationProperties[itemIdx]['uniformSizes'] = {};
 
             applicationProperties[itemIdx]['defaultMascot'] = {};
+            applicationProperties[itemIdx]['defaultFont'] = {};
+            applicationProperties[itemIdx]['defaultText'] = {};
+            applicationProperties[itemIdx]['defaultNumber'] = {};
 
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
@@ -1871,6 +1936,9 @@ var appPropJson = "";
             applicationProperties[itemIdx].uniformSizes = uniformSizes;
 
             applicationProperties[itemIdx].defaultMascot = applicationMascot;
+            applicationProperties[itemIdx].defaultFont = applicationFont;
+            applicationProperties[itemIdx].defaultText = applicationText;
+            applicationProperties[itemIdx].defaultNumber = applicationNumber;
 
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 
