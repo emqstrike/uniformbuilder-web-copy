@@ -16,6 +16,31 @@ $(document).ready(function() {
     var leftInterval;
     var rightInterval;
 
+    window.items = null;
+    getMascots(function(items){
+        // console.log(items);
+        window.items = items;
+    });
+
+    function getMascots(callback){
+        var items;
+        // var url = "//" + api_host + "/api/mascots";
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                items = data['mascots'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(items);
+            }
+        });
+    }
+
     var controls_state = 0;
     $('#app-controls').hide();
 
@@ -98,8 +123,26 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+        // if($(this).hasClass('app-default-mascot')){
+        //     $(this).ddslick({
+        //         data: ddData,
+        //         width: 300,
+        //         height: 300,
+        //         imagePosition: "left",
+        //         selectText: "Select Mascot",
+        //         onSelected: function (data) {
+        //             $(this).find(".app-mascot-value").val(data['selectedData']['value']);
+        //         },
+        //     });
+        // }
+
         updateCoordinates();
     });
+
+    // $(document).on('change', '.app-default-mascot, .dd-selected-value', function() {
+    //     console.log('mascot changed');
+    //     updateCoordinates();
+    // });
 
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
         html: true,
@@ -150,6 +193,7 @@ $(document).ready(function() {
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
+        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -176,12 +220,35 @@ $(document).ready(function() {
                     app_number,
                     app_font_sizes,
                     app_sizes,
+                    default_mascot,
                     delete_application
                 ];
 
         $( ".front-applications" ).append(generateTRow(fields));
         var canvasItem = "application"+group.id;
         application_number++;
+
+        $.each(window.items, function(i, item) {
+            item['text'] = item.name;
+            item['value'] = item.id;
+            item['selected'] = false;
+            item['description'] = 'Mascot';
+            item['imageSrc'] = item.icon;
+        });
+
+        var ddData = window.items;
+
+        var mascot_class = '.app-default-mascot';
+        $(mascot_class).ddslick({
+            data: ddData,
+            width: 250,
+            height: 300,
+            imagePosition: "left",
+            selectText: "Select Mascot",
+            onSelected: function (data) {
+                $('#mascot').val(data['selectedData']['value']);
+            },
+        });
     });
 
 var applicationProperties = {};    
@@ -747,6 +814,7 @@ var appPropJson = "";
     });
 
     function appendApplications(app_properties){
+
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
             var l = 'layer'+c;
@@ -807,6 +875,8 @@ var appPropJson = "";
                 var app_number          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
+                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+                // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -835,12 +905,47 @@ var appPropJson = "";
                     app_number,
                     app_font_sizes,
                     app_sizes,
+                    default_mascot,
                     delete_application
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
+
+                $.each(window.items, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    if( app_properties[l].defaultMascot == item.id ){
+                        item['selected'] = true;
+                    } else {
+                        item['selected'] = false;
+                    }
+                    item['description'] = 'Mascot';
+                    item['imageSrc'] = item.icon;
+                });
+
+                var ddData = window.items;
+
+                var mascot_class = '.default_mascot_'+c;
+                var mascot_id = '#default_mascot_'+c;
+                var amv_class = '.amv'+c;
+                var amv_id = '#amv'+c;
+                $(mascot_id).ddslick({
+                    data: ddData,
+                    width: 250,
+                    height: 300,
+                    imagePosition: "left",
+                    selectText: "Select Mascot",
+                    onSelected: function (data) {
+                        $(amv_id).val(data['selectedData']['value']);
+                        var firstClass = $(this).attr("class");
+                        // console.log('This Class >> ' + firstClass);
+                        // console.log('AMV CLASS > '+amv_class);
+                        // console.log('DD Click ' + data['selectedData']['value']);
+                        updateCoordinates();
+                    },
+                });
 
                 thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
                 thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y;
@@ -1596,6 +1701,8 @@ var appPropJson = "";
             fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
             uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
+            applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            // console.log("Default Mascot:"+applicationMascot);
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
             } else {
@@ -1662,6 +1769,8 @@ var appPropJson = "";
             applicationProperties[itemIdx]['fontSizes'] = {};
             applicationProperties[itemIdx]['uniformSizes'] = {};
 
+            applicationProperties[itemIdx]['defaultMascot'] = {};
+
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
             applicationProperties[itemIdx].id = applicationId;
@@ -1681,6 +1790,8 @@ var appPropJson = "";
             applicationProperties[itemIdx].hasNumber = hasNumber;
             applicationProperties[itemIdx].fontSizes = fontSizes;
             applicationProperties[itemIdx].uniformSizes = uniformSizes;
+
+            applicationProperties[itemIdx].defaultMascot = applicationMascot;
 
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 

@@ -160,15 +160,15 @@
                         <canvas id="applications-front-canvas"></canvas>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="text-center">
-                        <a href="#" style="float: left; position: relative; margin-top: 5px; margin-left: 5px;" id="app_controls_button" class="btn btn-primary app-controls-button">Show Controls</a>
+                        <a href="#" style="float: left; position: relative; margin-top: 5px; margin-left: 5px;" id="app_controls_button" class="btn btn-default app-controls-button"><span class="glyphicon glyphicon-cog"></span> Show Controls</a>
                         <div id="app-controls" style="margin-top: 5px;">
-                            <table style="width: 200px;">
+                            <table style="width: 200px;" style="overflow: x;">
                                 <tr>
                                     <td colspan="2">
                                         <center>
-                                            <a href="#" class="btn btn-primary" id="move-top">
+                                            <a href="#" class="btn btn-default" id="move-top">
                                                 <span class="glyphicon glyphicon-arrow-up"></span>
                                             </a> 
                                         </center>
@@ -177,14 +177,14 @@
                                 <tr>
                                     <td>
                                         <center>
-                                            <a href="#" class="btn btn-primary" id="move-left">
+                                            <a href="#" class="btn btn-default" id="move-left">
                                                 <span class="glyphicon glyphicon-arrow-left"></span>
                                             </a>
                                         </center> 
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="#" class="btn btn-primary" id="move-right">
+                                            <a href="#" class="btn btn-default" id="move-right">
                                                 <span class="glyphicon glyphicon-arrow-right"></span>
                                             </a>
                                         </center>   
@@ -193,7 +193,7 @@
                                 <tr>
                                     <td colspan="2">
                                         <center>
-                                            <a href="#" class="btn btn-primary" id="move-bottom">
+                                            <a href="#" class="btn btn-default" id="move-bottom">
                                                 <span class="glyphicon glyphicon-arrow-down"></span>
                                             </a>
                                         </center>
@@ -204,7 +204,7 @@
                         <hr>
                         <h3>Applications</h3>
                         <center>
-                            <label class="control-label label-success" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Application Template:</label>
+                            <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Application Template:</label>
                             <select name="load_applications_template" class="form-control load-applications-template" style="width: 200px;">
                                 <option value='"{}"'>None</option>
                                 @foreach ($applications as $application)
@@ -242,6 +242,7 @@
                                 <th>Number</th>
                                 <th>Font sizes</th>
                                 <th>Sizes</th>
+                                <th>Default Macot</th>
                             </thead>
                             <tbody class="front-applications">
                             </tbody>
@@ -249,10 +250,11 @@
                         <input type="text" id="app_template_name" placeholder="Template Name...">
                         <a href="#"
                             class="btn btn-xs btn-primary" id="save_app_template" disabled>
-                        Save as Template</a><hr>
+                        <span class="glyphicon glyphicon-save"></span> Save as Template</a><hr>
                     </div>
                 </div>
             </div>
+            <hr>
             <div class="modal-footer">
                 <input type="submit" class="btn btn-primary save-changes" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
