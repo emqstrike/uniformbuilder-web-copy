@@ -16,14 +16,18 @@ $(document).ready(function() {
     var leftInterval;
     var rightInterval;
 
-    window.items = null;
-    getMascots(function(items){
+    $('#applications_div').animate({ 'zoom': 0.75 }, 400);
+    // $('#save-material-option-modal').css('height',$( window ).height()*1);
+    // $('#save-material-option-modal').css('overflow','auto');
+
+    window.mascots = null;
+    getMascots(function(mascots){
         // console.log(items);
-        window.items = items;
+        window.mascots = mascots;
     });
 
     function getMascots(callback){
-        var items;
+        var mascots;
         // var url = "//" + api_host + "/api/mascots";
         var url = "//api-dev.qstrike.com/api/mascots";
         $.ajax({
@@ -34,12 +38,39 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                items = data['mascots'];
+                mascots = data['mascots'];
                 // console.log("Mascots: "+items);
-                if(typeof callback === "function") callback(items);
+                if(typeof callback === "function") callback(mascots);
             }
         });
     }
+
+    window.fonts = null;
+    getFonts(function(fonts){
+        // console.log(items);
+        window.fonts = fonts;
+    });
+
+    function getFonts(callback){
+        var mascots;
+        // var url = "//" + api_host + "/api/mascots";
+        var url = "//api-dev.qstrike.com/api/fonts";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fonts = data['fonts'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(fonts);
+            }
+        });
+    }
+
+    // console.log('FONTS: '+JSON.stringify(fonts));
 
     var controls_state = 0;
     $('#app-controls').hide();
@@ -177,6 +208,14 @@ $(document).ready(function() {
         var group = fabricAppGroup( application_number, group_left, group_top, area, app_id, app_type, default_item);
         canvasFront.add(group);
 
+        var fonts_options = '<option value="">Not Set</option>';
+        for(var i = 0; i < window.fonts.length; i++) {
+            fonts_options += "<option value=" + window.fonts[i].id + ">" + window.fonts[i].name + "</option>";
+        }
+
+        var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
+        var default_text_label      = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Text:</label>';
+        var default_number_label    = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Number:</label>';
         var text                    = $(this).val();
         var style                   = 'margin-right: 5px';
         var items_arr               = ["logo", "number", "team_name", "player_name"];
@@ -194,6 +233,9 @@ $(document).ready(function() {
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
         var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_font            = '<select style=' + style + ' class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+        var default_text            = '<input type="text" style="' + style + '" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
+        var default_number          = '<input type="number" style="' + style + '" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -206,6 +248,7 @@ $(document).ready(function() {
         }
         select_append += "</select>";
 
+        // var defaults = default_font + default_text + default_number;
         var fields = [
                     app_id,
                     select_append,
@@ -221,6 +264,9 @@ $(document).ready(function() {
                     app_font_sizes,
                     app_sizes,
                     default_mascot,
+                    default_font,
+                    default_text,
+                    default_number,
                     delete_application
                 ];
 
@@ -228,7 +274,7 @@ $(document).ready(function() {
         var canvasItem = "application"+group.id;
         application_number++;
 
-        $.each(window.items, function(i, item) {
+        $.each(window.mascots, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
@@ -236,12 +282,12 @@ $(document).ready(function() {
             item['imageSrc'] = item.icon;
         });
 
-        var ddData = window.items;
+        var mascotsData = window.mascots;
 
         var mascot_class = '.app-default-mascot';
         $(mascot_class).ddslick({
-            data: ddData,
-            width: 250,
+            data: mascotsData,
+            width: 200,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
@@ -434,14 +480,14 @@ var applicationProperties = {};
         $(".mo-name").keyup(function() {
             var elem = $(this).parent().siblings().find('.mo-layer');
             var name = $(this).val().toLowerCase();
-            if(name == "body"){
-                console.log('MATCH');
-                $(this).val("Body");
-                $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-            }
-            else{
-                $(".body-layer-number").remove();
-            }
+            // if(name == "body"){
+            //     console.log('MATCH');
+            //     $(this).val("Body");
+            //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+            // }
+            // else{
+            //     $(".body-layer-number").remove();
+            // }
         });
 
         $(".mo-group-id").keyup(function() {
@@ -876,6 +922,33 @@ var appPropJson = "";
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
                 var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+        
+                var app_font = "";
+                if(app_properties[l].hasOwnProperty('defaultFont')){
+                    app_font = app_properties[l].defaultFont;
+                }
+                var app_text = "";
+                if(app_properties[l].hasOwnProperty('defaultText')){
+                    app_text = app_properties[l].defaultText;
+                }
+                var app_number = "";
+                if(app_properties[l].hasOwnProperty('defaultNumber')){
+                    app_number = app_properties[l].defaultNumber;
+                }
+
+                var fonts_options = '<option value="">Not Set</option>';
+                for(var i = 0; i < window.fonts.length; i++) {
+                    if(app_font == window.fonts[i].id){
+                        fonts_options += "<option value=" + window.fonts[i].id + " selected>" + window.fonts[i].name + "</option>";
+                    } else {
+                        fonts_options += "<option value=" + window.fonts[i].id + ">" + window.fonts[i].name + "</option>";
+                    }
+                }
+
+                var default_font        = '<select style=' + style + ' class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+                var default_text        = '<input type="text" style="' + style + '" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
+                var default_number      = '<input type="number" style="' + style + '" class="app-default-number" size="3" data-id="' + group.id + '" value="' + app_number + '">';
+
                 // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
@@ -906,6 +979,9 @@ var appPropJson = "";
                     app_font_sizes,
                     app_sizes,
                     default_mascot,
+                    default_font,
+                    default_text,
+                    default_number,
                     delete_application
                 ];
 
@@ -913,7 +989,7 @@ var appPropJson = "";
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
-                $.each(window.items, function(i, item) {
+                $.each(window.mascots, function(i, item) {
                     item['text'] = item.name;
                     item['value'] = item.id;
                     if( app_properties[l].defaultMascot == item.id ){
@@ -925,14 +1001,14 @@ var appPropJson = "";
                     item['imageSrc'] = item.icon;
                 });
 
-                var ddData = window.items;
+                var mascotsData = window.mascots;
 
                 var mascot_class = '.default_mascot_'+c;
                 var mascot_id = '#default_mascot_'+c;
                 var amv_class = '.amv'+c;
                 var amv_id = '#amv'+c;
                 $(mascot_id).ddslick({
-                    data: ddData,
+                    data: mascotsData,
                     width: 250,
                     height: 300,
                     imagePosition: "left",
@@ -1702,6 +1778,9 @@ var appPropJson = "";
             uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
             applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationFont = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationText = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationNumber = $(this).parent().siblings('td').find(".dd-selected-value").val();
             // console.log("Default Mascot:"+applicationMascot);
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
@@ -1848,14 +1927,14 @@ var appPropJson = "";
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
-        if(name == "body"){
-            console.log('MATCH');
-            $(this).val("Body");
-            $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-        }
-        else{
-            $(".body-layer-number").remove();
-        }
+        // if(name == "body"){
+        //     console.log('MATCH');
+        //     $(this).val("Body");
+        //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+        // }
+        // else{
+        //     $(".body-layer-number").remove();
+        // }
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
