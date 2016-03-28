@@ -212,7 +212,7 @@ $(document).ready(function() {
         var items_arr               = ["logo", "number", "team_name", "player_name"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
         var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
-        var def_name                = '<input type="text" style="' + style + '; float: left;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
+        var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
         var app_y                   = '<input type="text" style="' + style + '" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
@@ -224,9 +224,9 @@ $(document).ready(function() {
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
         var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
-        var default_font            = '<select style="' + style + '; float: left;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
-        var default_text            = '<input type="text" style="' + style + '; float: left;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
-        var default_number          = '<input type="number" style="' + style + '; float: left;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+        var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
+        var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -278,7 +278,7 @@ $(document).ready(function() {
         var mascot_class = '.app-default-mascot';
         $(mascot_class).ddslick({
             data: mascotsData,
-            width: 200,
+            width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
@@ -885,7 +885,7 @@ var appPropJson = "";
                 var style                   = 'margin-right: 5px';
                 var items_arr               = ["logo", "number", "team_name", "player_name"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
-                var def_name                = '<input type="text" style="' + style + '; float: left;" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
+                var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
                 var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
@@ -927,12 +927,12 @@ var appPropJson = "";
                     app_number = app_properties[l].defaultNumber;
                 }
 
-                var fonts_options = '<option value="">Not Set</option>';
+                var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(app_font == window.fonts[i].id){
-                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' selected>" + window.fonts[i].name + "</option>";
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                     } else {
-                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;'>" + window.fonts[i].name + "</option>";
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
                     }
                 }
 
@@ -943,9 +943,9 @@ var appPropJson = "";
                     }
                 }
                 // console.log("Font Style: "+font_style);
-                var default_font        = '<select style="' + style + '; float: left;" class="app-default-font" style="font-family: ' + font_style + '; font-size: 30" data-id="' + group.id + '">' + fonts_options + '</select>';
-                var default_text        = '<input type="text" style="' + style + '; float: left;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
-                var default_number      = '<input type="number" style="' + style + '; float: left;" class="app-default-number" size="3" data-id="' + group.id + '" value="' + app_number + '">';
+                var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+                var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
+                var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
 
                 // var font_size = 30;
                 // console.log("Font: "+font);
@@ -1027,6 +1027,7 @@ var appPropJson = "";
                     // console.log("Font: "+font);
                     $(this).css('font-family', font);
                     $(this).css('font-size', font_size);
+                    $(this).css('width', '300px');
 
                     $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
                     $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
