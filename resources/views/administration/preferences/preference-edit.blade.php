@@ -1,9 +1,6 @@
 @extends('administration.lte-main')
 
 @section('custom-styles')
-select:hover {
-  background-color: transparent;
-}
 @endsection
 
 @section('content')
@@ -75,7 +72,9 @@ select:hover {
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
                                 @foreach ($fonts as $font)
-                                <option value='{{ $font->name }}' <?php if($font->name == $preference->font){ echo "selected"; } ?>>{{ $font->name }}</option>
+                                <option value='{{ $font->name }}' 
+                                <?php if($font->name == $preference->font){ echo "selected"; } ?>
+                                >{{ $font->name }}</option>
                                 @endforeach
                                 </select>
                             </div>

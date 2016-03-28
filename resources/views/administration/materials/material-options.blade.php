@@ -29,7 +29,7 @@
 </b></h3>
 </center>
 </div>
-<?php $highlight_path; ?>
+<?php $highlight_path = null; ?>
 <div class="container-fluid main-content">
     <!-- <div class="row">
         <div class="col-md-12"> -->
@@ -129,7 +129,7 @@
                                             data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                             data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            <?php if($option->setting_type == "highlights"){ $highlight_path = $option->material_option_path } ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
@@ -184,7 +184,7 @@
                                             data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                             data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            <?php if($option->setting_type == "highlights"){ $highlight_path = $option->material_option_path } ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
@@ -239,7 +239,7 @@
                                             data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                             data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            <?php if($option->setting_type == "highlights"){ $highlight_path = $option->material_option_path } ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
@@ -294,7 +294,7 @@
                                             data-material-option-allow-gradient='{{ ($option->allow_gradient) ? "yes" : "no" }}'
                                             data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                             data-material-id="{{ $option->material_id }}"
-                                            <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                            <?php if($option->setting_type == "highlights"){ $highlight_path = $option->material_option_path } ?>
                                             data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                             >[{{ $option->layer_level }}] {{ $option->name }}
                                             <i class="glyphicon glyphicon-edit"></i></a>
