@@ -319,7 +319,8 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
-                                <textarea class="form-control material-description" name="description">{{ $material->description }}</textarea>
+                                <input type="hidden" name="description" id="description" value="{{ $material->description }}">
+                                <textarea class="form-control material-description">{{ $material->description }}</textarea>
                             </div>
                         </div>
 
@@ -329,6 +330,10 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Material
                                 </button>
+                                <!-- <a href="#" class="btn btn-success edit-material">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    Update Material
+                                </a> -->
                                 <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
@@ -346,7 +351,34 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/materials.js"></script>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script>
+$( document ).ready(function() {
+
+    tinymce.init({ 
+        selector:'textarea.material-description'
+    });
+
+    loadEditor();
+    function loadEditor(){
+        setTimeout(function(){
+            window.mce = $('#description').val();
+            tinymce.editors[0].setContent(window.mce);
+            $('#description').val('');
+        }, 1000);
+    }
+
+    $('.edit-material').on('click', function(){
+        saveEditor();
+        console.log('SAVE');
+    });
+
+    function saveEditor(){
+        window.mce = tinyMCE.activeEditor.getContent();
+        console.log('MCE: ' + window.mce);
+        $('#description').val(window.mce);
+    }
+
+});
+</script>
 @endsection
