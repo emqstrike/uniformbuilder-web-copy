@@ -317,6 +317,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Description</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control material-description" name="description">{{ $material->description }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

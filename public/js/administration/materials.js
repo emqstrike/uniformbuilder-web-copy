@@ -790,23 +790,34 @@ var appPropJson = "";
             var output = jason.substring(1, jason.length-1);
             var myData = JSON.parse(output);
 
-            bounding_box.oCoords.tl.x = myData.topLeft.x;
-            bounding_box.oCoords.tl.y = myData.topLeft.y;
-            bounding_box.oCoords.tr.x = myData.topRight.x;
-            bounding_box.oCoords.tr.y = myData.topRight.y;
-            bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-            bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-            bounding_box.oCoords.br.x = myData.bottomRight.x;
-            bounding_box.oCoords.br.y = myData.bottomRight.y;
+
+            // bounding_box.oCoords.tl.x = myData.topLeft.x;
+            // bounding_box.oCoords.tl.y = myData.topLeft.y;
+            // bounding_box.oCoords.tr.x = myData.topRight.x;
+            // bounding_box.oCoords.tr.y = myData.topRight.y;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y;
+            // bounding_box.centerPoint = myData.pivot;
+
+            bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+            bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+            bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+            bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+            bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+            bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+            bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+            bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
             bounding_box.centerPoint = myData.pivot;
             bounding_box.setAngle(myData.rotation);
 
-            bounding_box.width = myData.boxWidth;
-            bounding_box.height = myData.boxHeight;
-            box.width = myData.boxWidth;
-            box.height = myData.boxHeight;
-            bounding_box.left = myData.topLeft.x;
-            bounding_box.top = myData.topLeft.y;
+            bounding_box.width = myData.boxWidth / 2;
+            bounding_box.height = myData.boxHeight / 2;
+            box.width = myData.boxWidth / 2;
+            box.height = myData.boxHeight / 2;
+            bounding_box.left = myData.topLeft.x / 2;
+            bounding_box.top = myData.topLeft.y / 2;
 
             canvas.renderAll();
             canvasFront.clear();
@@ -866,16 +877,16 @@ var appPropJson = "";
             if(!app_properties[l].id){ break; }
 
             var fill = '#e3e3e3';
-            var height = app_properties[l].height;
-            var width = app_properties[l].width;
+            var height = app_properties[l].height / 2;
+            var width = app_properties[l].width / 2;
             var opacity = 0.6;
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 3;
-            var app_type_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 5.2;
-            var group_left = app_properties[l].topLeft.x;
-            var group_top = app_properties[l].topLeft.y;
+            var app_id_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 3;
+            var app_type_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 5.2;
+            var group_left = app_properties[l].topLeft.x /2;
+            var group_top = app_properties[l].topLeft.y / 2;
 
             // Generate Fabric objects then add to canvas
             var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
@@ -892,8 +903,10 @@ var appPropJson = "";
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
-                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + app_properties[l].pivot.y     + ' size="4">';
+                var ix = ( app_properties[l].pivot.x ) / 2;
+                var iy = ( app_properties[l].pivot.y ) / 2;
+                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
+                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
 
                 var checked = "checked";
                 var primary_checked     = "",
@@ -1043,20 +1056,20 @@ var appPropJson = "";
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
-                thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
-                thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y;
-                thisGroup.oCoords.tr.x  = app_properties[l].topRight.x;
-                thisGroup.oCoords.tr.y  = app_properties[l].topRight.y;
-                thisGroup.oCoords.bl.x  = app_properties[l].bottomLeft.x;
-                thisGroup.oCoords.bl.y  = app_properties[l].bottomLeft.y;
-                thisGroup.oCoords.br.x  = app_properties[l].bottomRight.x;
-                thisGroup.oCoords.br.y  = app_properties[l].bottomRight.y;
+                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / 2;
+                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / 2;
+                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / 2;
+                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / 2;
+                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / 2;
+                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / 2;
+                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / 2;
+                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / 2;
                 thisGroup.centerPoint   = app_properties[l].pivot;
                 thisGroup.setAngle(app_properties[l].rotation);
-                thisGroup.width         = app_properties[l].width;
-                thisGroup.height        = app_properties[l].height;
-                thisGroup.left          = app_properties[l].topLeft.x;
-                thisGroup.top           = app_properties[l].topLeft.y;
+                thisGroup.width         = (app_properties[l].width) / 2;
+                thisGroup.height        = (app_properties[l].height) / 2;
+                thisGroup.left          = (app_properties[l].topLeft.x) / 2;
+                thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
                 
                 canvasFront.renderAll();
@@ -1793,14 +1806,23 @@ var appPropJson = "";
 
         circle.radius = box.height / 2;
 
-        var topLeftX = bounding_box.oCoords.tl.x;
-        var topLeftY = bounding_box.oCoords.tl.y;
-        var topRightX = bounding_box.oCoords.tr.x;
-        var topRightY = bounding_box.oCoords.tr.y;
-        var bottomLeftX = bounding_box.oCoords.bl.x;
-        var bottomLeftY = bounding_box.oCoords.bl.y;
-        var bottomRightX = bounding_box.oCoords.br.x;
-        var bottomRightY = bounding_box.oCoords.br.y;
+        // var topLeftX = bounding_box.oCoords.tl.x;
+        // var topLeftY = bounding_box.oCoords.tl.y;
+        // var topRightX = bounding_box.oCoords.tr.x;
+        // var topRightY = bounding_box.oCoords.tr.y;
+        // var bottomLeftX = bounding_box.oCoords.bl.x;
+        // var bottomLeftY = bounding_box.oCoords.bl.y;
+        // var bottomRightX = bounding_box.oCoords.br.x;
+        // var bottomRightY = bounding_box.oCoords.br.y;
+
+        var topLeftX = bounding_box.oCoords.tl.x * 2;
+        var topLeftY = bounding_box.oCoords.tl.y * 2;
+        var topRightX = bounding_box.oCoords.tr.x * 2;
+        var topRightY = bounding_box.oCoords.tr.y * 2;
+        var bottomLeftX = bounding_box.oCoords.bl.x * 2;
+        var bottomLeftY = bounding_box.oCoords.bl.y * 2;
+        var bottomRightX = bounding_box.oCoords.br.x * 2;
+        var bottomRightY = bounding_box.oCoords.br.y * 2;
 
         canvas.renderAll();
 
@@ -1812,8 +1834,8 @@ var appPropJson = "";
         data.bottomLeft.y = bottomLeftY;
         data.bottomRight.x = bottomRightX;
         data.bottomRight.y = bottomRightY;
-        data.boxWidth = bounding_box.getWidth();
-        data.boxHeight = bounding_box.getHeight();
+        data.boxWidth = bounding_box.getWidth() * 2;
+        data.boxHeight = bounding_box.getHeight() * 2;
         data.pivot = bounding_box.getCenterPoint();
         data.rotation = bounding_box.getAngle();
 
@@ -1932,14 +1954,23 @@ var appPropJson = "";
                 hasNumber = 0;
             }
 
-            var topLeftX = thisGroup.oCoords.tl.x;
-            var topLeftY = thisGroup.oCoords.tl.y;
-            var topRightX = thisGroup.oCoords.tr.x;
-            var topRightY = thisGroup.oCoords.tr.y;
-            var bottomLeftX = thisGroup.oCoords.bl.x;
-            var bottomLeftY = thisGroup.oCoords.bl.y;
-            var bottomRightX = thisGroup.oCoords.br.x;
-            var bottomRightY = thisGroup.oCoords.br.y;
+            // var topLeftX = thisGroup.oCoords.tl.x;
+            // var topLeftY = thisGroup.oCoords.tl.y;
+            // var topRightX = thisGroup.oCoords.tr.x;
+            // var topRightY = thisGroup.oCoords.tr.y;
+            // var bottomLeftX = thisGroup.oCoords.bl.x;
+            // var bottomLeftY = thisGroup.oCoords.bl.y;
+            // var bottomRightX = thisGroup.oCoords.br.x;
+            // var bottomRightY = thisGroup.oCoords.br.y;
+
+            var topLeftX = thisGroup.oCoords.tl.x * 2;
+            var topLeftY = thisGroup.oCoords.tl.y * 2;
+            var topRightX = thisGroup.oCoords.tr.x * 2;
+            var topRightY = thisGroup.oCoords.tr.y * 2;
+            var bottomLeftX = thisGroup.oCoords.bl.x * 2;
+            var bottomLeftY = thisGroup.oCoords.bl.y * 2;
+            var bottomRightX = thisGroup.oCoords.br.x * 2;
+            var bottomRightY = thisGroup.oCoords.br.y * 2;
 
             canvas.renderAll();
 
@@ -1976,6 +2007,10 @@ var appPropJson = "";
             applicationProperties[itemIdx]['mascotData'] = {};
             applicationProperties[itemIdx]['fontData'] = {};
 
+            applicationProperties[itemIdx]['center'] = {};
+            applicationProperties[itemIdx].center['x'] = {};
+            applicationProperties[itemIdx].center['y'] = {};
+
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
             applicationProperties[itemIdx].id = applicationId;
@@ -2006,22 +2041,40 @@ var appPropJson = "";
 
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 
-            applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
 
-            applicationProperties[itemIdx].width = thisGroup.getWidth();
-            applicationProperties[itemIdx].height = thisGroup.getHeight();
-            applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;;
-            applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;;
+            // applicationProperties[itemIdx].width = thisGroup.getWidth();
+            // applicationProperties[itemIdx].height = thisGroup.getHeight();
+            // applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
+
+            // ************* x2 values
+            applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
+
+            applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
+            applicationProperties[itemIdx].height = thisGroup.getHeight() * 2;
+            applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * 2;
             // thisGroup.left 
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+
+            applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
+            applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
 
             if(cs == 1){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
@@ -2035,7 +2088,7 @@ var appPropJson = "";
         appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
-        
+
 
         console.log("APP PROPS: "+window.ap);
     }
