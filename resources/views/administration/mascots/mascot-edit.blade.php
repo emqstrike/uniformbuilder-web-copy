@@ -21,7 +21,8 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/mascot/update" enctype="multipart/form-data" id='edit-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="mascot_id" value="{{ $mascot->id }}">
-                        <input type="hidden" name="layers_properties" value="{{ $mascot->layers_properties }}" id="existing-layers-properties">
+                        <input type="hidden" value="{{ $mascot->layers_properties }}" id="existing-layers-properties">
+                        <input type="hidden" name="layers_properties" id="layers-properties">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
@@ -47,7 +48,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
                             <div class="col-md-6">
                                 <select name='team_color_id' class="form-control mascot-team-color-id">
@@ -63,7 +64,7 @@
                                     <option value="10" <?php if($mascot->team_color_id == 10){ echo "selected"; } ?>>10</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
@@ -84,6 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th>Layer</th>
+                                            <th>Team Color ID</th>
                                             <th>New File</th>
                                             <th>Saved Thumbnail</th>
                                             <th>Default Color</th>
@@ -133,6 +135,11 @@ $(document).ready(function(){
         console.log(err.message);
     }
 
+    $(document).on('change', function() {
+        var length = $('.layers-row').length;
+        renumberRows(length);
+    });
+
     buildLayers();
     function buildLayers(){
         existing_layers_properties = $('#existing-layers-properties').val();
@@ -141,14 +148,30 @@ $(document).ready(function(){
         var length = Object.keys(myJson).length;
 
         while(length > 0) {
-            console.log("LENGTH: "+length);
+            $(document).on('change', function() {
+                var length = $('.layers-row').length;
+                renumberRows(length);
+            });
+            // console.log("LENGTH: "+length);
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
+            
+            var team_color_id_options = '';
+
+            for(var i = 1; i <= 10; i++){
+                if( myJson[length]['team_color_id'] == i ){
+                    team_color_id_options += '<option value="'+i+'" selected>'+i+'</option>';
+                } else {
+                    team_color_id_options += '<option value="'+i+'">'+i+'</option>';
+                }
+            }
+            // console.log(team_color_id_options);
+            var team_color_id = '<td><select class="ma-team-color-id layer' + length + '" name="ma_team_color_id[]">' + team_color_id_options + '</select></td>';
             var file = "<td><input type=\"file\" class=\"ma-options-src layer"+length+"\" name=\"ma_image[]\"></td>";
             // var thumbnail = '<td><img src="'+myJson[length]['filename']+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
             // var imgURL = encodeURIComponent(myJson[length]['filename']);
             imgURL = myJson[length]['filename'].replace(" ", "%20");
-            console.log(imgURL);
+            // console.log(imgURL);
             var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
             
             var colors_select="";
@@ -156,16 +179,16 @@ $(document).ready(function(){
             $.each(test, function(entryIndex, entry) {
                 var color = myJson[length]['default_color'];
                 // console.log("HEX_CODE: "+entry['hex_code']);
-                console.log("COLOR: : "+color+" ENTRY COLOR: "+entry['color_code']);
+                // console.log("COLOR: : "+color+" ENTRY COLOR: "+entry['color_code']);
                 if(color == entry['color_code']){
-                    console.log('ENTRY_HEX: '+entry['hex_code']);
+                    // console.log('ENTRY_HEX: '+entry['hex_code']);
                     colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+" selected>"+entry['name']+"</option>";
                     select_hex_code_bg = entry['hex_code'];
                 } else {
                     colors_select = colors_select + "<option data-color="+entry['hex_code']+" style=\"background-color: #"+entry['hex_code']+"; text-shadow: 1px 1px #000;\" value="+entry['color_code']+">"+entry['name']+"</option>";
                 }
             });
-console.log("SELECT HEXCODE BG: "+select_hex_code_bg);
+// console.log("SELECT HEXCODE BG: "+select_hex_code_bg);
             // var colors = "<td><select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\"  style=\"background-color: #"+myJson[length]['default_color']+"; color: #fff;text-shadow: 1px 1px #000;\">@foreach ($colors as $color)@if ($color->active)<option data-color=\"#{{ $color->hex_code }}\" style=\"background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;\" value=\"{{ $color->hex_code }}\">{{ $color->name }}</option>@endif @endforeach<option value="+myJson[length]['default_color']+" style=\"background-color: #"+myJson[length]['filename']+"\" selected>{{ $color->name }}</option></select></td>";
             var colors = "<td>"
             +"<select class=\"ma-default-color layer"+length+"\" name=\"default_color[]\" style=\"background-color: #"+select_hex_code_bg+"; color: #fff;text-shadow: 1px 1px #000;\">"
@@ -173,7 +196,7 @@ console.log("SELECT HEXCODE BG: "+select_hex_code_bg);
             +"</select></td>";
             var remove = "<td><a class=\"btn btn-danger btn-xs btn-remove-layer\"><i class=\"fa fa-remove\"></i> Remove</a></td>";
             var close = "<tr>";
-            $('#layers-row-container').append(open+layer+file+thumbnail+colors+remove+close);
+            $('#layers-row-container').append(open+layer+team_color_id+file+thumbnail+colors+remove+close);
             length--;
         }
     }
@@ -209,6 +232,11 @@ console.log("SELECT HEXCODE BG: "+select_hex_code_bg);
             $(this).find('.ma-layer').addClass(thisLayer);
             $(this).find(layer_class).addClass('ma-layer');
 
+            $(this).find('.ma-team-color-id').removeClass().addClass("ma-team-color-id");
+            $(this).find('.ma-team-color-id').addClass(thisLayer);
+            var team_color_id_class = ".ma-team-color-id.layer" + length;
+            $(this).find(team_color_id_class).addClass('ma-team-color-id');
+
             $(this).find('.ma-default-color').removeClass().addClass("ma-default-color");
             $(this).find('.ma-default-color').addClass(thisLayer);
             var default_color_class = ".ma-default-color.layer" + length;
@@ -228,11 +256,12 @@ console.log("SELECT HEXCODE BG: "+select_hex_code_bg);
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
             layers_properties[length]['filename'] = $(this).find(src_class).val();
+            layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
         });
         var layersProperties = JSON.stringify(layers_properties);
-
+        window.lp = layersProperties;
         $('#layers-properties').val(layersProperties);
         $('#existing-colors-properties').val(layersProperties);
     }

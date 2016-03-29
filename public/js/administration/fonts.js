@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.fonts').bootstrapTable();
+    // $('.fonts').bootstrapTable();
 
     $('.enable-font').on('click', function(){
         var id = $(this).data('font-id');
@@ -98,4 +98,5 @@ $(document).ready(function(){
         });
         $('.main-content').fadeOut('slow');
     });
+
 });

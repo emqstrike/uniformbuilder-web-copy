@@ -12,6 +12,7 @@ use App\APIClients\ColorsAPIClient;
 use App\APIClients\FactoriesAPIClient;
 use App\APIClients\GradientsAPIClient;
 use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\FontsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
@@ -23,6 +24,7 @@ class MaterialsController extends Controller
     protected $factoriesClient;
     protected $gradientClient;
     protected $applicationClient;
+    protected $fontClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -30,7 +32,8 @@ class MaterialsController extends Controller
         ColorsAPIClient $colorsAPIClient,
         FactoriesAPIClient $factoriesAPIClient,
         GradientsAPIClient $gradientsAPIClient,
-        ApplicationsAPIClient $applicationsAPIClient
+        ApplicationsAPIClient $applicationsAPIClient,
+        FontsAPIClient $fontsAPIClient
     )
     {
         $this->client = $apiClient;
@@ -39,6 +42,7 @@ class MaterialsController extends Controller
         $this->colorsClient = $colorsAPIClient;
         $this->gradientClient = $gradientsAPIClient;
         $this->applicationClient = $applicationsAPIClient;
+        $this->fontClient = $fontsAPIClient;
     }
 
     /**
@@ -74,6 +78,7 @@ class MaterialsController extends Controller
         $options = $this->optionsClient->getByMaterialId($id);
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
+        $fonts = $this->fontClient->getFonts();
 
         foreach($options as $option){
             $default_color = $option->default_color;
@@ -110,7 +115,8 @@ class MaterialsController extends Controller
             'options' => $options,
             'colors' => $colors,
             'gradients' => $gradients,
-            'applications' => $applications
+            'applications' => $applications,
+            'fonts' => $fonts
         ]);
         // return View::make('administration.materials.material-options', $options);
     }

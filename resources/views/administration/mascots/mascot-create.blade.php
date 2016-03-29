@@ -59,7 +59,7 @@ select:hover {
                             </div>
                         </div>
 
-                        <div class="form-group">
+<!--                         <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
                             <div class="col-md-6">
                                 <select name='team_color_id' class="form-control mascot-team-color-id">
@@ -75,7 +75,7 @@ select:hover {
                                     <option value="10">10</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layers
@@ -83,11 +83,12 @@ select:hover {
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
                             </div>
                             </label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Layer</th>
+                                            <th>Team Color ID</th>
                                             <th>File</th>
                                             <th>Default Color</th>
                                             <th></th>
@@ -98,6 +99,20 @@ select:hover {
                                             <td>
                                                 <select class="ma-layer layer1"  name="ma_layer[]" disabled>
                                                     <option value = '1' class="layer-number">1</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="ma-team-color-id layer1" name="ma_team_color_id[]">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
                                                 </select>
                                             </td>
                                             <td>

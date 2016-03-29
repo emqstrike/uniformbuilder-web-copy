@@ -167,11 +167,17 @@ $(document).ready(function() {
             layers_properties[length] = {};
             layers_properties[length]['default_color'] = {};
             layers_properties[length]['layer_number'] = {};
+            layers_properties[length]['team_color_id'] = {};
             layers_properties[length]['filename'] = {};
 
             $(this).find('.ma-layer').removeClass().addClass("ma-layer");
             $(this).find('.ma-layer').addClass(thisLayer);
             $(this).find(layer_class).addClass('ma-layer');
+
+            $(this).find('.ma-team-color-id').removeClass().addClass("ma-team-color-id");
+            $(this).find('.ma-team-color-id').addClass(thisLayer);
+            var team_color_id_class = ".ma-team-color-id.layer" + length;
+            $(this).find(team_color_id_class).addClass('ma-team-color-id');
 
             $(this).find('.ma-default-color').removeClass().addClass("ma-default-color");
             $(this).find('.ma-default-color').addClass(thisLayer);
@@ -192,11 +198,12 @@ $(document).ready(function() {
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
             layers_properties[length]['filename'] = $(this).find(src_class).val();
+            layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
         });
         var layersProperties = JSON.stringify(layers_properties);
-
+        window.lp = layersProperties;
         $('#layers-properties').val(layersProperties);
         $('#existing-colors-properties').val(layersProperties);
     }
@@ -255,6 +262,11 @@ $(document).ready(function() {
             length--;
         });
         var newLength = $('.layers-row').length;
+    });
+
+    $('.ma-default-color').change(function(){
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
     });
 
 });
