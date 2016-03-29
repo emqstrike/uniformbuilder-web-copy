@@ -67,6 +67,10 @@ $(document).ready(function() {
     var controls_state = 0;
     $('#app-controls').hide();
 
+    $(document).on('click', '.update-applications-json', function() {
+        updateCoordinates();
+    });
+
     $(document).on('click', '#app_controls_button', function() {
         if( controls_state == 0 ){
             $('#app-controls').fadeIn();
@@ -1870,6 +1874,33 @@ var appPropJson = "";
             }
 
             mascotData = window.mascotData;
+
+            window.fontData = null;
+            getfontData(function(fontData){
+                // console.log(items);
+                window.fontData = fontData;
+            });
+
+            function getfontData(callback){
+                var fontData;
+                // var url = "//" + api_host + "/api/mascots";
+                var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        fontData = data['font'];
+                        // console.log("Mascots: "+items);
+                        if(typeof callback === "function") callback(fontData);
+                    }
+                });
+            }
+
+            fontData = window.fontData;
             // console.log("Default Mascot:"+applicationMascot);
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
@@ -1943,6 +1974,7 @@ var appPropJson = "";
             applicationProperties[itemIdx]['defaultNumber'] = {};
 
             applicationProperties[itemIdx]['mascotData'] = {};
+            applicationProperties[itemIdx]['fontData'] = {};
 
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
@@ -1970,6 +2002,7 @@ var appPropJson = "";
             applicationProperties[itemIdx].defaultNumber = applicationNumber;
 
             applicationProperties[itemIdx].mascotData = mascotData;
+            applicationProperties[itemIdx].fontData = fontData;
 
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 
@@ -2002,8 +2035,9 @@ var appPropJson = "";
         appProperties = "\""+appProperties+"\"";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
+        
 
-        // console.log("APP PROPS: "+window.ap);
+        console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR
@@ -2213,4 +2247,5 @@ var appPropJson = "";
 
     bindColorsSelect2();
     bindGradientsSelect2();
+
 });
