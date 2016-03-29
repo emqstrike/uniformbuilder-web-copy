@@ -37,7 +37,7 @@
 </b></h3>
 </center>
 </div>
-<?php $highlight_path; ?>
+<?php $highlight_path = null; ?>
 <div class="container-fluid main-content">
     <table class="col-md-12">
         <thead style="background-color: #fff;">
