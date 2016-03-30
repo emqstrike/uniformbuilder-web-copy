@@ -1501,26 +1501,30 @@ $(document).ready(function() {
         return isInside;
 
     }
-
+    
     ub.funcs.isWithin = function (point, boundaries) {
 
-        var _transformed_boundaries = Object.create(boundaries);
+        var _transformed_boundaries = [];
 
         if(ub[ub.active_view + '_view'].scale.x === 0.5) {
 
-            _.each (_transformed_boundaries, function(point) {
-
-                point.x = point.x / 2;
-                point.y = point.y / 2;
+            _.each (boundaries, function(point) {
+                
+                var p = new PIXI.Point(point.x / 2, point.y / 2);
+                _transformed_boundaries.push(p); 
 
             });      
     
+        }
+        else {
+
+             _transformed_boundaries = boundaries;
+
         }
 
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
-
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];

@@ -26,6 +26,19 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+
+            ///
+
+            _.each(ub.views, function(view){
+
+                ub[view + '_view'].scale.set(0.5, 0.5);
+                
+            });
+
+
+            ///
+
+
             if (window.ub.config.material_id !== -1) {
 
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
