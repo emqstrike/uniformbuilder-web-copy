@@ -9,12 +9,15 @@ $(document).ready(function() {
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
+    var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
 
     var topInterval;
     var bottomInterval;
     var leftInterval;
     var rightInterval;
+
+    var polyData;
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
@@ -40,6 +43,146 @@ $(document).ready(function() {
             }
         });
     }
+
+    // **************************************************************************
+var lineIdx = 0;
+var coords = [];
+var loadCase = 0;
+
+
+$('.add-point').on('click', function(){
+
+    var pointsCount = canvas.getObjects('circle').length;
+    var linesCount = canvas.getObjects('line').length;
+    var l = linesCount - 1;
+    var lines = canvas.getObjects('line');
+    var circles = canvas.getObjects('circle');
+    var itemsCount = canvas.getObjects().length;
+    var y = pointsCount - 1;
+
+    if(pointsCount < 20){
+        var z = pointsCount + 1;
+        var j = pointsCount - 1;
+
+        lines.forEach(function(entry) {
+            if( entry.id == l ){
+                entry.remove();
+                var a = Math.floor((Math.random() * 5) + 1);
+                var b = Math.floor((Math.random() * 5) + 1);
+                if( loadCase == 0 ){
+                    window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
+                    addLine(window['a'+pointsCount], window['a'+z], lineIdx);
+                    lineIdx++;
+                    addLine(window['a'+z], window['a1'], lineIdx);
+                } else {
+                    window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
+                    addLine(window['a'+j], window['a'+pointsCount], lineIdx);
+                    lineIdx++;
+                    addLine(window['a'+pointsCount], window['a0'], lineIdx);
+                }
+
+                canvas.renderAll();
+            }
+        });
+    }
+});
+
+// ------- points & circles -------
+
+function distance(p1, p2) {
+    //Accepts two objects p1 & p2. Returns the distance between p1 & p2
+    return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
+} // distance()
+
+function addCircle(name, x, y, style) {
+
+    if (style === 'knot') {
+        cfill = 'FireBrick';
+        cstroke = 'FireBrick';
+        ctype = 'knot';
+    } else {
+        cfill = '';
+        cstroke = 'gray';
+        ctype = 'control';
+    }
+    var c = new fabric.Circle({
+        name: name,
+        left: x,
+        top: y,
+        strokeWidth: 2,
+        radius: 5.8,
+        fill: cfill,
+        stroke: cstroke,
+        hasBorders: false,
+        hasControls: false,
+        lockUniScaling: true,
+        selectable: true,
+        coords: x + ', ' + y,
+        reference: true,
+        ptype: ctype,
+        opacity: 0.3
+    });
+    return c;
+} // addCircle()
+
+
+function addPoint(name, x, y, style) {
+
+    var p = addCircle(name, x, y, style);
+    p.point = new fabric.Point(x, y);
+    p.text = new fabric.Text(name, {
+        left: x,
+        top: y - 10,
+        name: name + '_text',
+        fill: '#808080',
+        fontSize: 14,
+        hasBorders: false,
+        hasControls: false,
+        lockUniScaling: true,
+        selectable: false,
+        reference: true
+    });
+    // canvas.add(p.text);
+    canvas.add(p);
+    canvas.bringToFront(p);
+    return p;
+} // addPoint()
+
+
+// ------- paths -------
+
+function addLine(p0, p1, lineIdx) {
+    var new_line = new fabric.Object();
+    new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
+        id: lineIdx,
+        fill: "red",
+        stroke: "red",
+        strokeLinejoin: "miter",
+        strokeMiterlimit: 1,
+        strokeWidth: 1,
+        strokeDashArray: [5, 5],
+        selectable: false,
+        hasBorders: false,
+        hasControls: false,
+        reference: false,
+        opacity: 0.8,
+        name: "Line_" + p0.name + p1.name
+    });
+    if (p0.hasOwnProperty('outPath') === false) {
+        p0.outPath = [];
+    }
+    p0.outPath.push(new_line);
+    if (p1.hasOwnProperty('inPath') === false) {
+        p1.inPath = [];
+    }
+    p1.inPath.push(new_line);
+    canvas.add(new_line);
+    canvas.sendBackwards(new_line);
+    // canvas.bringToFront(p0);
+    // canvas.bringToFront(p1);
+    return new_line;
+} //addLine()
+    // **************************************************************************
 
     window.fonts = null;
     getFonts(function(fonts){
@@ -321,79 +464,79 @@ var applicationProperties = {};
     fabric.Object.prototype.transparentCorners = false;
     canvas.setWidth( 496 );
     canvas.setHeight( 550 );
+    fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    // window.shapes = {};
 
-    window.shapes = {};
+    // var data = {
+    //     topLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     topRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     width: 0,
+    //     height: 0,
+    //     pivot: 0,
+    //     rotation: 0,
+    //     };
 
-    var data = {
-        topLeft: {
-            "x":0,
-            "y":0
-        },
-        topRight: {
-            "x":0,
-            "y":0
-        },
-        bottomLeft: {
-            "x":0,
-            "y":0
-        },
-        bottomRight: {
-            "x":0,
-            "y":0
-        },
-        width: 0,
-        height: 0,
-        pivot: 0,
-        rotation: 0,
-        };
+    // var box = new fabric.Rect({
+    //     width: 250, height: 250, angle: 0,
+    //     fill: 'transparent',
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var box = new fabric.Rect({
-        width: 250, height: 250, angle: 0,
-        fill: 'transparent',
-        stroke: 'red',
-        originX: 'center',
-        originY: 'center'
-    });
+    // var circle = new fabric.Circle({
+    //     radius: 40,
+    //     fill: 'red',
+    //     opacity: 0.35,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var circle = new fabric.Circle({
-        radius: 40,
-        fill: 'red',
-        opacity: 0.35,
-        originX: 'center',
-        originY: 'center'
-    });
+    // circle.hasBorders = false;
+    // circle.hasControls = false;
 
-    circle.hasBorders = false;
-    circle.hasControls = false;
+    // var text = new fabric.Text('Bounding box', {
+    //     fontSize: 11,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var text = new fabric.Text('Bounding box', {
-        fontSize: 11,
-        originX: 'center',
-        originY: 'center'
-    });
+    // var bounding_box = new fabric.Group([ box, text ], {
+    //     left: canvas.width / 2.6,
+    //     top: canvas.height / 5
+    // });
 
-    var bounding_box = new fabric.Group([ box, text ], {
-        left: canvas.width / 2.6,
-        top: canvas.height / 5
-    });
+    // var midLine = new fabric.Line([0, 20, 350, 20], {
+    //     strokeDashArray: [5, 5],
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center',
+    //     angle: 90,
+    //     left: canvas.width / 2,
+    //     top: canvas.height / 2
+    // });
 
-    var midLine = new fabric.Line([0, 20, 350, 20], {
-        strokeDashArray: [5, 5],
-        stroke: 'red',
-        originX: 'center',
-        originY: 'center',
-        angle: 90,
-        left: canvas.width / 2,
-        top: canvas.height / 2
-    });
+    // midLine.hasControls = false;
 
-    midLine.hasControls = false;
+    // window.shapes.bounding_box = bounding_box;
 
-    window.shapes.bounding_box = bounding_box;
+    // bounding_box.transparentCorners = false;
+    // canvas.add(bounding_box, midLine);
 
-    bounding_box.transparentCorners = false;
-    canvas.add(bounding_box, midLine);
-    // updateCoordinates();
 
     canvas.on({
         // 'object:moving': updateCoordinates,
@@ -786,12 +929,19 @@ var appPropJson = "";
 
         // **************
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+            canvas.clear();
             var jason = $('.b-prop').val();
+            // var polyData = "'"+jason+"'";
             var output = jason.substring(1, jason.length-1);
-            var myData = JSON.parse(output);
+            // var myData = JSON.parse(output);
+            // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
 
 
-            // bounding_box.oCoords.tl.x = myData.topLeft.x;
+            // var output = jason.substring(1, jason.length-1);
+            polyData = JSON.parse(output);
+
+// console.log('JASON: '+jason);
+            // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
             // bounding_box.oCoords.tl.y = myData.topLeft.y;
             // bounding_box.oCoords.tr.x = myData.topRight.x;
             // bounding_box.oCoords.tr.y = myData.topRight.y;
@@ -799,25 +949,54 @@ var appPropJson = "";
             // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
             // bounding_box.oCoords.br.x = myData.bottomRight.x;
             // bounding_box.oCoords.br.y = myData.bottomRight.y;
+            // bounding_box.centerPoint = myData.pivot; ***
+
+            // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+            // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+            // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+            // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
             // bounding_box.centerPoint = myData.pivot;
+            // bounding_box.setAngle(myData.rotation);
 
-            bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
-            bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
-            bounding_box.oCoords.tr.x = myData.topRight.x / 2;
-            bounding_box.oCoords.tr.y = myData.topRight.y / 2;
-            bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
-            bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
-            bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
-            bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
-            bounding_box.centerPoint = myData.pivot;
-            bounding_box.setAngle(myData.rotation);
+            // bounding_box.width = myData.boxWidth / 2;
+            // bounding_box.height = myData.boxHeight / 2;
+            // box.width = myData.boxWidth / 2;
+            // box.height = myData.boxHeight / 2;
+            // bounding_box.left = myData.topLeft.x / 2;
+            // bounding_box.top = myData.topLeft.y / 2;
 
-            bounding_box.width = myData.boxWidth / 2;
-            bounding_box.height = myData.boxHeight / 2;
-            box.width = myData.boxWidth / 2;
-            box.height = myData.boxHeight / 2;
-            bounding_box.left = myData.topLeft.x / 2;
-            bounding_box.top = myData.topLeft.y / 2;
+
+            loadPolygon(polyData);
+            function loadPolygon(data){
+                var z = 0;
+                $.each(data, function(i, item) {
+                     window['a'+z] = addPoint('a'+z, item.x, item.y, 'knot');
+                     z++;
+                });
+
+                lineIdx = 0;
+                var circles = canvas.getObjects('circle');
+                var x = 0;
+                var a = circles.length - 1;
+
+                circles.forEach(function(entry) {
+                    var y = x + 1;
+                    if( x < a ){
+                        addLine(window['a'+x], window['a'+y], lineIdx);
+                        lineIdx++;
+                    } else {
+                        addLine(window['a'+x], window['a0'], lineIdx);  
+                    }
+
+                    x++;
+                });
+                console.log('Line Index: ' + lineIdx);
+                loadCase = 1;
+            }
 
             canvas.renderAll();
             canvasFront.clear();
@@ -836,7 +1015,7 @@ var appPropJson = "";
             } // ************************ APP PROP IF END
 
 
-            var boundaryProperties = JSON.stringify(data);
+            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
             $('.b-prop').prop('value', boundaryProperties);
 
             // var applicationsProperties = JSON.stringify(data);
@@ -1804,7 +1983,7 @@ var appPropJson = "";
 
         applicationProperties = {}
 
-        circle.radius = box.height / 2;
+        // circle.radius = box.height / 2;
 
         // var topLeftX = bounding_box.oCoords.tl.x;
         // var topLeftY = bounding_box.oCoords.tl.y;
@@ -1815,32 +1994,44 @@ var appPropJson = "";
         // var bottomRightX = bounding_box.oCoords.br.x;
         // var bottomRightY = bounding_box.oCoords.br.y;
 
-        var topLeftX = bounding_box.oCoords.tl.x * 2;
-        var topLeftY = bounding_box.oCoords.tl.y * 2;
-        var topRightX = bounding_box.oCoords.tr.x * 2;
-        var topRightY = bounding_box.oCoords.tr.y * 2;
-        var bottomLeftX = bounding_box.oCoords.bl.x * 2;
-        var bottomLeftY = bounding_box.oCoords.bl.y * 2;
-        var bottomRightX = bounding_box.oCoords.br.x * 2;
-        var bottomRightY = bounding_box.oCoords.br.y * 2;
+        // var topLeftX = bounding_box.oCoords.tl.x * 2;
+        // var topLeftY = bounding_box.oCoords.tl.y * 2;
+        // var topRightX = bounding_box.oCoords.tr.x * 2;
+        // var topRightY = bounding_box.oCoords.tr.y * 2;
+        // var bottomLeftX = bounding_box.oCoords.bl.x * 2;
+        // var bottomLeftY = bounding_box.oCoords.bl.y * 2;
+        // var bottomRightX = bounding_box.oCoords.br.x * 2;
+        // var bottomRightY = bounding_box.oCoords.br.y * 2;
+        var circles = canvas.getObjects('circle');
+        coords = new Array();
+        var x = 0;
+        circles.forEach(function(entry) {
+            var getCenterPoint = entry.getCenterPoint();
+            console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+            coords[x] = {};
+            // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2));
+            coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2));
+            x++;
+        });
 
         canvas.renderAll();
 
-        data.topLeft.x = topLeftX;
-        data.topLeft.y = topLeftY;
-        data.topRight.x = topRightX;
-        data.topRight.y = topRightY;
-        data.bottomLeft.x = bottomLeftX;
-        data.bottomLeft.y = bottomLeftY;
-        data.bottomRight.x = bottomRightX;
-        data.bottomRight.y = bottomRightY;
-        data.boxWidth = bounding_box.getWidth() * 2;
-        data.boxHeight = bounding_box.getHeight() * 2;
-        data.pivot = bounding_box.getCenterPoint();
-        data.rotation = bounding_box.getAngle();
+        // data.topLeft.x = topLeftX;
+        // data.topLeft.y = topLeftY;
+        // data.topRight.x = topRightX;
+        // data.topRight.y = topRightY;
+        // data.bottomLeft.x = bottomLeftX;
+        // data.bottomLeft.y = bottomLeftY;
+        // data.bottomRight.x = bottomRightX;
+        // data.bottomRight.y = bottomRightY;
+        // data.boxWidth = bounding_box.getWidth() * 2;
+        // data.boxHeight = bounding_box.getHeight() * 2;
+        // data.pivot = bounding_box.getCenterPoint();
+        // data.rotation = bounding_box.getAngle();
 
-        var boundaryProperties = JSON.stringify(data);
-        boundaryProperties = "\""+boundaryProperties+"\"";
+        var boundaryProperties = JSON.stringify(coords);
+        boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
 
         $(".app-rotation").each(function(i) {
@@ -2300,5 +2491,75 @@ var appPropJson = "";
 
     bindColorsSelect2();
     bindGradientsSelect2();
+
+canvas.observe('object:moving', function (e) { 
+    var p = e.target;
+    console.log('Moving ' + p.name);
+    
+    if (p.hasOwnProperty("text") === true) {
+        //move text label to new circle location
+        p.text.set({
+            'left': p.left,
+            'top': p.top - 10
+        });
+    }
+    
+    if (p.hasOwnProperty("inPath") === true) {
+        //inpaths - paths end at circle
+        for (var i = 0; i < p.inPath.length; i++) {
+            ppath = p.inPath[i];
+            if (p.ptype === 'control') {
+                ppath.path[1][3] = p.left; // p is 2nd control circle in curve, update c1.x
+                ppath.path[1][4] = p.top; // p is 2nd control circle in curve, update c1.y
+            } else if (ppath.type === 'path') {
+                ppath.path[1][5] = p.left; // p is end circle in curve, update p1.x
+                ppath.path[1][6] = p.top; // p is end circle in curve update p1.y
+            } else if (ppath.type === 'line') {
+                ppath.set({
+                    'x2': p.left,
+                    'y2': p.top
+                }); //p is begin circle in line, update left & top
+            }
+        }
+    }
+    if (p.hasOwnProperty("outPath") === true) {
+        //outpaths - paths begin at circle
+        for (var i = 0; i < p.outPath.length; i++) {
+            ppath = p.outPath[i];
+            if (p.ptype === 'control') {
+                ppath.path[1][1] = p.left; //p is 1st control circle in curve, update c0.x
+                ppath.path[1][2] = p.top; //p is 1st control circle in curve, update c0.y
+            } else if (ppath.type === 'path') {
+                ppath.path[0][1] = p.left; // p is begin circle in curve, update p0.x
+                ppath.path[0][2] = p.top; // p is begin circle in curve, update p0.y
+            } else if (ppath.type === 'line') {
+                ppath.set({
+                    'x1': p.left,
+                    'y1': p.top
+                }); //p is end circle in line, update left & top
+            }
+        }
+    }
+    console.log(p.name + ' moved!');
+    canvas.renderAll();
+    var circles = canvas.getObjects('circle');
+    coords = new Array();
+    var x = 0;
+    circles.forEach(function(entry) {
+        var getCenterPoint = entry.getCenterPoint();
+        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+        coords[x] = {};
+        // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2));
+        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2));
+        x++;
+    });
+
+    coords.forEach(function(entry) {
+        console.log('Entry: '+entry['x']+', '+entry['y']);
+    });
+    console.log(JSON.stringify(coords));
+    console.log("JSON"+canvas.toJSON());
+}); //canvas.observe()
 
 });
