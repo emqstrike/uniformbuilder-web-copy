@@ -1870,12 +1870,7 @@ $(document).ready(function() {
                     boundaries: cObj,
                     layer_no: shape.layer_level,
                     group_id: shape.group_id,
-                    polygon: [
-                        boundary_properties['topLeft'],
-                        boundary_properties['topRight'],
-                        boundary_properties['bottomRight'],
-                        boundary_properties['bottomLeft'],
-                    ],
+                    polygon: boundary_properties,
 
                 });
 
