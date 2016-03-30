@@ -1504,7 +1504,20 @@ $(document).ready(function() {
 
     ub.funcs.isWithin = function (point, boundaries) {
 
-        return ub.funcs.pointIsInPoly(point, boundaries);
+        var _transformed_boundaries = Object.create(boundaries);
+
+        if(ub[ub.active_view + '_view'].scale.x === 0.5) {
+
+            _.each (_transformed_boundaries, function(point) {
+
+                point.x = point.x / 2;
+                point.y = point.y / 2;
+
+            });      
+    
+        }
+
+        return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
 
