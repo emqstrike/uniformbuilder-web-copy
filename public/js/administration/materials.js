@@ -974,8 +974,11 @@ var appPropJson = "";
             function loadPolygon(data){
                 var z = 0;
                 $.each(data, function(i, item) {
-                     window['a'+z] = addPoint('a'+z, item.x, item.y, 'knot');
-                     z++;
+                    var xcoord = item.x / 2;
+                    var ycoord = item.y / 2;
+                    // window['a'+z] = addPoint('a'+z, item.x, item.y, 'knot');
+                    window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
+                    z++;
                 });
 
                 lineIdx = 0;
@@ -2010,8 +2013,8 @@ var appPropJson = "";
             console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
             // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
-            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2));
-            coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2));
+            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+            coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
         });
 
@@ -2550,8 +2553,8 @@ canvas.observe('object:moving', function (e) {
         console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
         // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
-        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2));
-        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2));
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
 
