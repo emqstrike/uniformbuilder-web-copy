@@ -187,6 +187,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Description</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control material-description" name=""></textarea>
+                                <input type="hidden" name="description" id="description">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
@@ -205,4 +213,27 @@
     </div>
 </div>
 
+@endsection
+@section('scripts')
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script>
+$( document ).ready(function() {
+
+    tinymce.init({ 
+        selector:'textarea.material-description'
+    });
+
+    $('.create-user').on('click', function(){
+        saveEditor();
+        console.log('SAVE');
+    });
+
+    function saveEditor(){
+        window.mce = tinyMCE.activeEditor.getContent();
+        console.log('MCE: ' + window.mce);
+        $('#description').val(window.mce);
+    }
+
+});
+</script>
 @endsection

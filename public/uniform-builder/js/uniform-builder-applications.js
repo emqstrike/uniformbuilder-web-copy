@@ -1501,11 +1501,10 @@ $(document).ready(function() {
         return isInside;
 
     }
-
+    
     ub.funcs.isWithin = function (point, boundaries) {
 
         var _transformed_boundaries = [];
-
         if(ub[ub.active_view + '_view'].scale.x === 0.5) {
 
             _.each (boundaries, function(point) {
@@ -1525,7 +1524,6 @@ $(document).ready(function() {
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
-
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];

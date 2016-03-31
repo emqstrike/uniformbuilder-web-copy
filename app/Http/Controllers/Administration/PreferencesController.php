@@ -12,6 +12,8 @@ use Aws\S3\Exception\S3Exception;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
+use App\APIClients\MascotsAPIClient;
+use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\PreferencesAPIClient as APIClient;
 
@@ -20,49 +22,69 @@ class PreferencesController extends Controller
     protected $client;
     protected $colorsClient;
     protected $fontsClient;
+    protected $uniformCategoriesClient;
+    protected $mascotsClient;
 
     public function __construct(
         APIClient $apiClient,
         ColorsAPIClient $colorsAPIClient,
-        FontsAPIClient $fontsAPIClient
+        FontsAPIClient $fontsAPIClient,
+        UniformCategoriesAPIClient $uniformCategoriesAPIClient,
+        MascotsAPIClient $mascotsAPIClient
     )
     {
         $this->client = $apiClient;
         $this->colorsClient = $colorsAPIClient;
         $this->fontsClient = $fontsAPIClient;
+        $this->mascotsClient = $mascotsAPIClient;
+        $this->uniformCategoriesClient = $uniformCategoriesAPIClient;
     }
 
     public function index()
     {
         $preferences = $this->client->getPreferences();
         $colors = $this->colorsClient->getColors();
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $mascots = $this->mascotsClient->getMascots();
 
         return view('administration.preferences.preferences', [
             'colors' => $colors,
-            'preferences' => $preferences
+            'preferences' => $preferences,
+            'uniform_categories' => $uniform_categories,
+            'mascots' => $mascots
         ]);
     }
 
     public function editPreferenceForm($id)
-    {//dd($id);
-        $colors = $this->colorsClient->getColors();
+    {
         $preference = $this->client->getPreference($id);
+        $colors = $this->colorsClient->getColors();
         $fonts = $this->fontsClient->getFonts();
-// dd($preference);
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $mascots = $this->mascotsClient->getMascots();
+
         return view('administration.preferences.preference-edit', [
             'preference' => $preference,
             'fonts' => $fonts,
             'colors' => $colors,
+            'uniform_categories' => $uniform_categories,
+            'mascots' => $mascots
         ]);
     }
 
     public function addPreferenceForm()
     {
+        $preferences = $this->client->getPreferences();
         $colors = $this->colorsClient->getColors();
         $fonts = $this->fontsClient->getFonts();
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        $mascots = $this->mascotsClient->getMascots();
+
         return view('administration.preferences.preference-create', [
             'colors' => $colors,
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'uniform_categories' => $uniform_categories,
+            'mascots' => $mascots
         ]);
     }
 
@@ -71,6 +93,10 @@ class PreferencesController extends Controller
         $name = $request->input('name');
         $font = $request->input('font');
         $colors_properties = $request->input('colors_properties');
+        $uniform_category = $request->input('uniform_category');
+        $school_name = $request->input('school_name');
+        $team_name = $request->input('team_name');
+        $mascot_id = $request->input('mascot');
         
         $id = null;
 
@@ -78,7 +104,7 @@ class PreferencesController extends Controller
         {
             $id = $request->input('preference_id');
         }
-        // Is the Category Name taken?
+        // Is the Preference Name taken?
         if ($this->client->isPreferenceTaken($name, $id))
         {
             return Redirect::to('administration/preferences')
@@ -90,6 +116,10 @@ class PreferencesController extends Controller
             'name' => $name,
             'font' => $font,
             'colors_properties' => $colors_properties,
+            'uniform_category_id' => $uniform_category,
+            'school_name' => $school_name,
+            'team_name' => $team_name,
+            'mascot_id' => $mascot_id,
             'id' => $id
         ];
 
@@ -119,7 +149,7 @@ class PreferencesController extends Controller
         }
 
         $data['colors_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-// dd($data);
+
         $response = null;
         if (!empty($id))
         {

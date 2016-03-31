@@ -9,6 +9,7 @@ $(document).ready(function() {
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
+    var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
 
     var topInterval;
@@ -16,8 +17,202 @@ $(document).ready(function() {
     var leftInterval;
     var rightInterval;
 
+    var polyData;
+
+    $('#applications_div').animate({ 'zoom': 0.75 }, 400);
+
+    window.mascots = null;
+    getMascots(function(mascots){
+        window.mascots = mascots;
+    });
+
+    function getMascots(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                mascots = data['mascots'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(mascots);
+            }
+        });
+    }
+
+    // **************************************************************************
+var lineIdx = 0;
+var coords = [];
+var loadCase = 0;
+
+
+$('.add-point').on('click', function(){
+
+    var pointsCount = canvas.getObjects('circle').length;
+    var linesCount = canvas.getObjects('line').length;
+    var l = linesCount - 1;
+    var lines = canvas.getObjects('line');
+    var circles = canvas.getObjects('circle');
+    var itemsCount = canvas.getObjects().length;
+    var y = pointsCount - 1;
+
+    if(pointsCount < 20){
+        var z = pointsCount + 1;
+        var j = pointsCount - 1;
+
+        lines.forEach(function(entry) {
+            if( entry.id == l ){
+                entry.remove();
+                var a = Math.floor((Math.random() * 5) + 1);
+                var b = Math.floor((Math.random() * 5) + 1);
+                if( loadCase == 0 ){
+                    window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
+                    addLine(window['a'+pointsCount], window['a'+z], lineIdx);
+                    lineIdx++;
+                    addLine(window['a'+z], window['a1'], lineIdx);
+                } else {
+                    window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
+                    addLine(window['a'+j], window['a'+pointsCount], lineIdx);
+                    lineIdx++;
+                    addLine(window['a'+pointsCount], window['a0'], lineIdx);
+                }
+
+                canvas.renderAll();
+            }
+        });
+    }
+});
+
+// ------- points & circles -------
+
+function distance(p1, p2) {
+    //Accepts two objects p1 & p2. Returns the distance between p1 & p2
+    return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
+} // distance()
+
+function addCircle(name, x, y, style) {
+
+    if (style === 'knot') {
+        cfill = 'FireBrick';
+        cstroke = 'FireBrick';
+        ctype = 'knot';
+    } else {
+        cfill = '';
+        cstroke = 'gray';
+        ctype = 'control';
+    }
+    var c = new fabric.Circle({
+        name: name,
+        left: x,
+        top: y,
+        strokeWidth: 2,
+        radius: 5.8,
+        fill: cfill,
+        stroke: cstroke,
+        hasBorders: false,
+        hasControls: false,
+        lockUniScaling: true,
+        selectable: true,
+        coords: x + ', ' + y,
+        reference: true,
+        ptype: ctype,
+        opacity: 0.3
+    });
+    return c;
+} // addCircle()
+
+
+function addPoint(name, x, y, style) {
+
+    var p = addCircle(name, x, y, style);
+    p.point = new fabric.Point(x, y);
+    p.text = new fabric.Text(name, {
+        left: x,
+        top: y - 10,
+        name: name + '_text',
+        fill: '#808080',
+        fontSize: 14,
+        hasBorders: false,
+        hasControls: false,
+        lockUniScaling: true,
+        selectable: false,
+        reference: true
+    });
+    // canvas.add(p.text);
+    canvas.add(p);
+    canvas.bringToFront(p);
+    return p;
+} // addPoint()
+
+
+// ------- paths -------
+
+function addLine(p0, p1, lineIdx) {
+    var new_line = new fabric.Object();
+    new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
+        id: lineIdx,
+        fill: "red",
+        stroke: "red",
+        strokeLinejoin: "miter",
+        strokeMiterlimit: 1,
+        strokeWidth: 1,
+        strokeDashArray: [5, 5],
+        selectable: false,
+        hasBorders: false,
+        hasControls: false,
+        reference: false,
+        opacity: 0.8,
+        name: "Line_" + p0.name + p1.name
+    });
+    if (p0.hasOwnProperty('outPath') === false) {
+        p0.outPath = [];
+    }
+    p0.outPath.push(new_line);
+    if (p1.hasOwnProperty('inPath') === false) {
+        p1.inPath = [];
+    }
+    p1.inPath.push(new_line);
+    canvas.add(new_line);
+    canvas.sendBackwards(new_line);
+    // canvas.bringToFront(p0);
+    // canvas.bringToFront(p1);
+    return new_line;
+} //addLine()
+    // **************************************************************************
+
+    window.fonts = null;
+    getFonts(function(fonts){
+        window.fonts = fonts;
+    });
+
+    function getFonts(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/fonts";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fonts = data['fonts'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(fonts);
+            }
+        });
+    }
+
     var controls_state = 0;
     $('#app-controls').hide();
+
+    $(document).on('click', '.update-applications-json', function() {
+        updateCoordinates();
+    });
 
     $(document).on('click', '#app_controls_button', function() {
         if( controls_state == 0 ){
@@ -97,8 +292,25 @@ $(document).ready(function() {
         checkNameLength();
     });
 
-    $(document).on('change', '.front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
-        updateCoordinates();
+    // $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
+    //     updateCoordinates();
+    // });
+
+    $(document).on('change', '.app-default-font', function() {
+        var font = $('option:selected', this).data('font-family');
+        var font_size = 30;
+        console.log("Font: "+font);
+        $(this).css('font-family', font);
+        $(this).css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+        $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+        $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
     });
 
     $('a[data-toggle=popover],img[data-toggle=popover]').popover({
@@ -134,12 +346,20 @@ $(document).ready(function() {
         var group = fabricAppGroup( application_number, group_left, group_top, area, app_id, app_type, default_item);
         canvasFront.add(group);
 
+        var fonts_options = '<option value="">Not Set</option>';
+        for(var i = 0; i < window.fonts.length; i++) {
+            fonts_options += "<option value=" + window.fonts[i].id + " style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+        }
+
+        var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
+        var default_text_label      = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Text:</label>';
+        var default_number_label    = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Number:</label>';
         var text                    = $(this).val();
         var style                   = 'margin-right: 5px';
         var items_arr               = ["logo", "number", "team_name", "player_name"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
         var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
-        var def_name                = '<input type="text" style="' + style + '" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
+        var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
         var app_y                   = '<input type="text" style="' + style + '" class="app-y" value=' + canvasFront.height / 2 + ' size="4">';
@@ -150,6 +370,10 @@ $(document).ready(function() {
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
+        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+        var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
+        var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -162,6 +386,7 @@ $(document).ready(function() {
         }
         select_append += "</select>";
 
+        // var defaults = default_font + default_text + default_number;
         var fields = [
                     app_id,
                     select_append,
@@ -176,12 +401,38 @@ $(document).ready(function() {
                     app_number,
                     app_font_sizes,
                     app_sizes,
+                    default_mascot,
+                    default_font,
+                    default_text,
+                    default_number,
                     delete_application
                 ];
 
         $( ".front-applications" ).append(generateTRow(fields));
         var canvasItem = "application"+group.id;
         application_number++;
+
+        $.each(window.mascots, function(i, item) {
+            item['text'] = item.name;
+            item['value'] = item.id;
+            item['selected'] = false;
+            item['description'] = 'Mascot';
+            item['imageSrc'] = item.icon;
+        });
+
+        var mascotsData = window.mascots;
+
+        var mascot_class = '.app-default-mascot';
+        $(mascot_class).ddslick({
+            data: mascotsData,
+            width: 250,
+            height: 300,
+            imagePosition: "left",
+            selectText: "Select Mascot",
+            onSelected: function (data) {
+                $('#mascot').val(data['selectedData']['value']);
+            },
+        });
     });
 
 var applicationProperties = {};    
@@ -213,92 +464,92 @@ var applicationProperties = {};
     fabric.Object.prototype.transparentCorners = false;
     canvas.setWidth( 496 );
     canvas.setHeight( 550 );
+    fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    // window.shapes = {};
 
-    window.shapes = {};
+    // var data = {
+    //     topLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     topRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     width: 0,
+    //     height: 0,
+    //     pivot: 0,
+    //     rotation: 0,
+    //     };
 
-    var data = {
-        topLeft: {
-            "x":0,
-            "y":0
-        },
-        topRight: {
-            "x":0,
-            "y":0
-        },
-        bottomLeft: {
-            "x":0,
-            "y":0
-        },
-        bottomRight: {
-            "x":0,
-            "y":0
-        },
-        width: 0,
-        height: 0,
-        pivot: 0,
-        rotation: 0,
-        };
+    // var box = new fabric.Rect({
+    //     width: 250, height: 250, angle: 0,
+    //     fill: 'transparent',
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var box = new fabric.Rect({
-        width: 250, height: 250, angle: 0,
-        fill: 'transparent',
-        stroke: 'red',
-        originX: 'center',
-        originY: 'center'
-    });
+    // var circle = new fabric.Circle({
+    //     radius: 40,
+    //     fill: 'red',
+    //     opacity: 0.35,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var circle = new fabric.Circle({
-        radius: 40,
-        fill: 'red',
-        opacity: 0.35,
-        originX: 'center',
-        originY: 'center'
-    });
+    // circle.hasBorders = false;
+    // circle.hasControls = false;
 
-    circle.hasBorders = false;
-    circle.hasControls = false;
+    // var text = new fabric.Text('Bounding box', {
+    //     fontSize: 11,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
 
-    var text = new fabric.Text('Bounding box', {
-        fontSize: 11,
-        originX: 'center',
-        originY: 'center'
-    });
+    // var bounding_box = new fabric.Group([ box, text ], {
+    //     left: canvas.width / 2.6,
+    //     top: canvas.height / 5
+    // });
 
-    var bounding_box = new fabric.Group([ box, text ], {
-        left: canvas.width / 2.6,
-        top: canvas.height / 5
-    });
+    // var midLine = new fabric.Line([0, 20, 350, 20], {
+    //     strokeDashArray: [5, 5],
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center',
+    //     angle: 90,
+    //     left: canvas.width / 2,
+    //     top: canvas.height / 2
+    // });
 
-    var midLine = new fabric.Line([0, 20, 350, 20], {
-        strokeDashArray: [5, 5],
-        stroke: 'red',
-        originX: 'center',
-        originY: 'center',
-        angle: 90,
-        left: canvas.width / 2,
-        top: canvas.height / 2
-    });
+    // midLine.hasControls = false;
 
-    midLine.hasControls = false;
+    // window.shapes.bounding_box = bounding_box;
 
-    window.shapes.bounding_box = bounding_box;
+    // bounding_box.transparentCorners = false;
+    // canvas.add(bounding_box, midLine);
 
-    bounding_box.transparentCorners = false;
-    canvas.add(bounding_box, midLine);
-    updateCoordinates();
 
     canvas.on({
-        'object:moving': updateCoordinates,
-        'object:scaling': updateCoordinates,
-        'object:rotating': updateCoordinates,
-        'mouse:up': updateCoordinates
+        // 'object:moving': updateCoordinates,
+        // 'object:scaling': updateCoordinates,
+        // 'object:rotating': updateCoordinates,
+        // 'mouse:up': updateCoordinates
     });
 
     canvasFront.on({
         'object:moving': updateCoordinatesXYR,
         'object:scaling': updateCoordinatesXYR,
         'object:rotating': updateCoordinatesXYR,
-        'mouse:up': updateCoordinates,
+        // 'mouse:up': updateCoordinates,
         'mouse:down': flashApplicationRow
     });
 
@@ -367,14 +618,14 @@ var applicationProperties = {};
         $(".mo-name").keyup(function() {
             var elem = $(this).parent().siblings().find('.mo-layer');
             var name = $(this).val().toLowerCase();
-            if(name == "body"){
-                console.log('MATCH');
-                $(this).val("Body");
-                $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-            }
-            else{
-                $(".body-layer-number").remove();
-            }
+            // if(name == "body"){
+            //     console.log('MATCH');
+            //     $(this).val("Body");
+            //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+            // }
+            // else{
+            //     $(".body-layer-number").remove();
+            // }
         });
 
         $(".mo-group-id").keyup(function() {
@@ -678,27 +929,77 @@ var appPropJson = "";
 
         // **************
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+            canvas.clear();
             var jason = $('.b-prop').val();
+            // var polyData = "'"+jason+"'";
             var output = jason.substring(1, jason.length-1);
-            var myData = JSON.parse(output);
+            // var myData = JSON.parse(output);
+            // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
 
-            bounding_box.oCoords.tl.x = myData.topLeft.x;
-            bounding_box.oCoords.tl.y = myData.topLeft.y;
-            bounding_box.oCoords.tr.x = myData.topRight.x;
-            bounding_box.oCoords.tr.y = myData.topRight.y;
-            bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-            bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-            bounding_box.oCoords.br.x = myData.bottomRight.x;
-            bounding_box.oCoords.br.y = myData.bottomRight.y;
-            bounding_box.centerPoint = myData.pivot;
-            bounding_box.setAngle(myData.rotation);
 
-            bounding_box.width = myData.boxWidth;
-            bounding_box.height = myData.boxHeight;
-            box.width = myData.boxWidth;
-            box.height = myData.boxHeight;
-            bounding_box.left = myData.topLeft.x;
-            bounding_box.top = myData.topLeft.y;
+            // var output = jason.substring(1, jason.length-1);
+            polyData = JSON.parse(output);
+
+// console.log('JASON: '+jason);
+            // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
+            // bounding_box.oCoords.tl.y = myData.topLeft.y;
+            // bounding_box.oCoords.tr.x = myData.topRight.x;
+            // bounding_box.oCoords.tr.y = myData.topRight.y;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y;
+            // bounding_box.centerPoint = myData.pivot; ***
+
+            // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+            // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+            // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+            // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
+            // bounding_box.centerPoint = myData.pivot;
+            // bounding_box.setAngle(myData.rotation);
+
+            // bounding_box.width = myData.boxWidth / 2;
+            // bounding_box.height = myData.boxHeight / 2;
+            // box.width = myData.boxWidth / 2;
+            // box.height = myData.boxHeight / 2;
+            // bounding_box.left = myData.topLeft.x / 2;
+            // bounding_box.top = myData.topLeft.y / 2;
+
+
+            loadPolygon(polyData);
+            function loadPolygon(data){
+                var z = 0;
+                $.each(data, function(i, item) {
+                    var xcoord = item.x / 2;
+                    var ycoord = item.y / 2;
+                    // window['a'+z] = addPoint('a'+z, item.x, item.y, 'knot');
+                    window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
+                    z++;
+                });
+
+                lineIdx = 0;
+                var circles = canvas.getObjects('circle');
+                var x = 0;
+                var a = circles.length - 1;
+
+                circles.forEach(function(entry) {
+                    var y = x + 1;
+                    if( x < a ){
+                        addLine(window['a'+x], window['a'+y], lineIdx);
+                        lineIdx++;
+                    } else {
+                        addLine(window['a'+x], window['a0'], lineIdx);  
+                    }
+
+                    x++;
+                });
+                console.log('Line Index: ' + lineIdx);
+                loadCase = 1;
+            }
 
             canvas.renderAll();
             canvasFront.clear();
@@ -717,7 +1018,7 @@ var appPropJson = "";
             } // ************************ APP PROP IF END
 
 
-            var boundaryProperties = JSON.stringify(data);
+            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
             $('.b-prop').prop('value', boundaryProperties);
 
             // var applicationsProperties = JSON.stringify(data);
@@ -747,6 +1048,7 @@ var appPropJson = "";
     });
 
     function appendApplications(app_properties){
+
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
             var l = 'layer'+c;
@@ -757,16 +1059,16 @@ var appPropJson = "";
             if(!app_properties[l].id){ break; }
 
             var fill = '#e3e3e3';
-            var height = app_properties[l].height;
-            var width = app_properties[l].width;
+            var height = app_properties[l].height / 2;
+            var width = app_properties[l].width / 2;
             var opacity = 0.6;
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 3;
-            var app_type_font_size = ( app_properties[l].topRight.x - app_properties[l].topLeft.x ) / 5.2;
-            var group_left = app_properties[l].topLeft.x;
-            var group_top = app_properties[l].topLeft.y;
+            var app_id_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 3;
+            var app_type_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 5.2;
+            var group_left = app_properties[l].topLeft.x /2;
+            var group_top = app_properties[l].topLeft.y / 2;
 
             // Generate Fabric objects then add to canvas
             var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
@@ -780,11 +1082,13 @@ var appPropJson = "";
                 var style                   = 'margin-right: 5px';
                 var items_arr               = ["logo", "number", "team_name", "player_name"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
-                var def_name                = '<input type="text" style="' + style + '" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
+                var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + app_properties[l].pivot.x     + '" size="4">';
-                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + app_properties[l].pivot.y     + ' size="4">';
+                var ix = ( app_properties[l].pivot.x ) / 2;
+                var iy = ( app_properties[l].pivot.y ) / 2;
+                var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
+                var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
 
                 var checked = "checked";
                 var primary_checked     = "",
@@ -804,9 +1108,49 @@ var appPropJson = "";
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
                 var app_team_name       = '<input type="checkbox" style="'  + style + '" class="app-team-name" value="1" '      + team_name_checked                 + '>';
                 var app_player_name     = '<input type="checkbox" style="'  + style + '" class="app-player-name" value="1" '    + player_name_checked               + '>';
-                var app_number          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
+                var app_dnumber          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
+                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+        
+                var app_font = "";
+                if(app_properties[l].hasOwnProperty('defaultFont')){
+                    app_font = app_properties[l].defaultFont;
+                }
+                var app_text = "";
+                if(app_properties[l].hasOwnProperty('defaultText')){
+                    app_text = app_properties[l].defaultText;
+                }
+                var app_number = "";
+                if(app_properties[l].hasOwnProperty('defaultNumber')){
+                    app_number = app_properties[l].defaultNumber;
+                }
+
+                var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
+                for(var i = 0; i < window.fonts.length; i++) {
+                    if(app_font == window.fonts[i].id){
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
+                    } else {
+                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
+                    }
+                }
+
+                var font_style = "";
+                for(var i = 0; i < window.fonts.length; i++) {
+                    if( app_properties[l].defaultFont == window.fonts[i].id ){
+                        font_style = window.fonts[i].name;
+                    }
+                }
+                // console.log("Font Style: "+font_style);
+                var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
+                var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
+                var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
+
+                // var font_size = 30;
+                // console.log("Font: "+font);
+                // $(this).css('font-family', font);
+                // $(this).css('font-size', font_size);
+                // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -832,9 +1176,13 @@ var appPropJson = "";
                     app_logo,
                     app_team_name,
                     app_player_name,
-                    app_number,
+                    app_dnumber,
                     app_font_sizes,
                     app_sizes,
+                    default_mascot,
+                    default_font,
+                    default_text,
+                    default_number,
                     delete_application
                 ];
 
@@ -842,20 +1190,68 @@ var appPropJson = "";
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
-                thisGroup.oCoords.tl.x  = app_properties[l].topLeft.x;
-                thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y;
-                thisGroup.oCoords.tr.x  = app_properties[l].topRight.x;
-                thisGroup.oCoords.tr.y  = app_properties[l].topRight.y;
-                thisGroup.oCoords.bl.x  = app_properties[l].bottomLeft.x;
-                thisGroup.oCoords.bl.y  = app_properties[l].bottomLeft.y;
-                thisGroup.oCoords.br.x  = app_properties[l].bottomRight.x;
-                thisGroup.oCoords.br.y  = app_properties[l].bottomRight.y;
+                $.each(window.mascots, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    if( app_properties[l].defaultMascot == item.id ){
+                        item['selected'] = true;
+                    } else {
+                        item['selected'] = false;
+                    }
+                    item['description'] = 'Mascot';
+                    item['imageSrc'] = item.icon;
+                });
+
+                var mascotsData = window.mascots;
+
+                var mascot_class = '.default_mascot_'+c;
+                var mascot_id = '#default_mascot_'+c;
+                var amv_class = '.amv'+c;
+                var amv_id = '#amv'+c;
+                $(mascot_id).ddslick({
+                    data: mascotsData,
+                    width: 250,
+                    height: 300,
+                    imagePosition: "left",
+                    selectText: "Select Mascot",
+                    onSelected: function (data) {
+                        $(amv_id).val(data['selectedData']['value']);
+                        // updateCoordinates();
+                    },
+                });
+
+                $(document).on('change', '.app-default-font', function() {
+                    var font = $('option:selected', this).data('font-family');
+                    var font_size = 30;
+                    // console.log("Font: "+font);
+                    $(this).css('font-family', font);
+                    $(this).css('font-size', font_size);
+                    $(this).css('width', '300px');
+
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+                    $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+                });
+
+                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / 2;
+                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / 2;
+                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / 2;
+                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / 2;
+                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / 2;
+                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / 2;
+                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / 2;
+                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / 2;
                 thisGroup.centerPoint   = app_properties[l].pivot;
                 thisGroup.setAngle(app_properties[l].rotation);
-                thisGroup.width         = app_properties[l].width;
-                thisGroup.height        = app_properties[l].height;
-                thisGroup.left          = app_properties[l].topLeft.x;
-                thisGroup.top           = app_properties[l].topLeft.y;
+                thisGroup.width         = (app_properties[l].width) / 2;
+                thisGroup.height        = (app_properties[l].height) / 2;
+                thisGroup.left          = (app_properties[l].topLeft.x) / 2;
+                thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
                 
                 canvasFront.renderAll();
@@ -865,6 +1261,23 @@ var appPropJson = "";
             else{
                 break;
             }
+
+            $(".app-default-font").each(function(i) {
+                // console.log('each: >> ');
+                var font = $('option:selected', this).data('font-family');
+                var font_size = 30;
+                $(this).css('font-family', font);
+                $(this).css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-def-name]").css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-default-text]").css('font-size', font_size);
+
+                $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
+                $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+            });
         }
     }
 
@@ -1538,43 +1951,90 @@ var appPropJson = "";
     }
 
     // *** Update Coordinates if Canvas is Updated
+    // function updateCoordinatesXYR() {
+    //     var cs = 1;
+    //     updateCoordinates(cs);
+    // }
     function updateCoordinatesXYR() {
         var cs = 1;
-        updateCoordinates(cs);
+        updateRXY(cs);
+    }
+
+    function updateRXY(cs){
+        applicationProperties = {}
+
+        if(cs == 1){
+            $(".app-rotation").each(function(i) {
+                itemIdx = "layer"+$(this).data('id');
+                layer = $(this).data('id');
+
+                thisGroup = canvasFront.item(layer);
+                applicationProperties[itemIdx] = {};
+                applicationProperties[itemIdx].pivot = {};
+                applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+
+                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+                $(this).val(thisGroup.getAngle());
+
+                canvasFront.renderAll();
+            });
+        }
     }
 
     function updateCoordinates(cs) {
 
         applicationProperties = {}
 
-        circle.radius = box.height / 2;
+        // circle.radius = box.height / 2;
 
-        var topLeftX = bounding_box.oCoords.tl.x;
-        var topLeftY = bounding_box.oCoords.tl.y;
-        var topRightX = bounding_box.oCoords.tr.x;
-        var topRightY = bounding_box.oCoords.tr.y;
-        var bottomLeftX = bounding_box.oCoords.bl.x;
-        var bottomLeftY = bounding_box.oCoords.bl.y;
-        var bottomRightX = bounding_box.oCoords.br.x;
-        var bottomRightY = bounding_box.oCoords.br.y;
+        // var topLeftX = bounding_box.oCoords.tl.x;
+        // var topLeftY = bounding_box.oCoords.tl.y;
+        // var topRightX = bounding_box.oCoords.tr.x;
+        // var topRightY = bounding_box.oCoords.tr.y;
+        // var bottomLeftX = bounding_box.oCoords.bl.x;
+        // var bottomLeftY = bounding_box.oCoords.bl.y;
+        // var bottomRightX = bounding_box.oCoords.br.x;
+        // var bottomRightY = bounding_box.oCoords.br.y;
+
+        // var topLeftX = bounding_box.oCoords.tl.x * 2;
+        // var topLeftY = bounding_box.oCoords.tl.y * 2;
+        // var topRightX = bounding_box.oCoords.tr.x * 2;
+        // var topRightY = bounding_box.oCoords.tr.y * 2;
+        // var bottomLeftX = bounding_box.oCoords.bl.x * 2;
+        // var bottomLeftY = bounding_box.oCoords.bl.y * 2;
+        // var bottomRightX = bounding_box.oCoords.br.x * 2;
+        // var bottomRightY = bounding_box.oCoords.br.y * 2;
+        var circles = canvas.getObjects('circle');
+        coords = new Array();
+        var x = 0;
+        circles.forEach(function(entry) {
+            var getCenterPoint = entry.getCenterPoint();
+            console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+            coords[x] = {};
+            // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+            coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
+            x++;
+        });
 
         canvas.renderAll();
 
-        data.topLeft.x = topLeftX;
-        data.topLeft.y = topLeftY;
-        data.topRight.x = topRightX;
-        data.topRight.y = topRightY;
-        data.bottomLeft.x = bottomLeftX;
-        data.bottomLeft.y = bottomLeftY;
-        data.bottomRight.x = bottomRightX;
-        data.bottomRight.y = bottomRightY;
-        data.boxWidth = bounding_box.getWidth();
-        data.boxHeight = bounding_box.getHeight();
-        data.pivot = bounding_box.getCenterPoint();
-        data.rotation = bounding_box.getAngle();
+        // data.topLeft.x = topLeftX;
+        // data.topLeft.y = topLeftY;
+        // data.topRight.x = topRightX;
+        // data.topRight.y = topRightY;
+        // data.bottomLeft.x = bottomLeftX;
+        // data.bottomLeft.y = bottomLeftY;
+        // data.bottomRight.x = bottomRightX;
+        // data.bottomRight.y = bottomRightY;
+        // data.boxWidth = bounding_box.getWidth() * 2;
+        // data.boxHeight = bounding_box.getHeight() * 2;
+        // data.pivot = bounding_box.getCenterPoint();
+        // data.rotation = bounding_box.getAngle();
 
-        var boundaryProperties = JSON.stringify(data);
-        boundaryProperties = "\""+boundaryProperties+"\"";
+        var boundaryProperties = JSON.stringify(coords);
+        boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
 
         $(".app-rotation").each(function(i) {
@@ -1596,6 +2056,68 @@ var appPropJson = "";
             fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
             uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
+            applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+            applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
+            applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
+            applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
+
+            // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+            // mascotData = "Placeholder";
+
+            window.mascotData = null;
+            getMascotData(function(mascotData){
+                // console.log(items);
+                window.mascotData = mascotData;
+            });
+
+            function getMascotData(callback){
+                var mascotData;
+                // var url = "//" + api_host + "/api/mascots";
+                var url = "//api-dev.qstrike.com/api/mascot/"+applicationMascot;
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        mascotData = data['mascot']['mascot'];
+                        // console.log("Mascots: "+items);
+                        if(typeof callback === "function") callback(mascotData);
+                    }
+                });
+            }
+
+            mascotData = window.mascotData;
+
+            window.fontData = null;
+            getfontData(function(fontData){
+                // console.log(items);
+                window.fontData = fontData;
+            });
+
+            function getfontData(callback){
+                var fontData;
+                // var url = "//" + api_host + "/api/mascots";
+                var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    success: function(data){
+                        fontData = data['font'];
+                        // console.log("Mascots: "+items);
+                        if(typeof callback === "function") callback(fontData);
+                    }
+                });
+            }
+
+            fontData = window.fontData;
+            // console.log("Default Mascot:"+applicationMascot);
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
             } else {
@@ -1626,14 +2148,23 @@ var appPropJson = "";
                 hasNumber = 0;
             }
 
-            var topLeftX = thisGroup.oCoords.tl.x;
-            var topLeftY = thisGroup.oCoords.tl.y;
-            var topRightX = thisGroup.oCoords.tr.x;
-            var topRightY = thisGroup.oCoords.tr.y;
-            var bottomLeftX = thisGroup.oCoords.bl.x;
-            var bottomLeftY = thisGroup.oCoords.bl.y;
-            var bottomRightX = thisGroup.oCoords.br.x;
-            var bottomRightY = thisGroup.oCoords.br.y;
+            // var topLeftX = thisGroup.oCoords.tl.x;
+            // var topLeftY = thisGroup.oCoords.tl.y;
+            // var topRightX = thisGroup.oCoords.tr.x;
+            // var topRightY = thisGroup.oCoords.tr.y;
+            // var bottomLeftX = thisGroup.oCoords.bl.x;
+            // var bottomLeftY = thisGroup.oCoords.bl.y;
+            // var bottomRightX = thisGroup.oCoords.br.x;
+            // var bottomRightY = thisGroup.oCoords.br.y;
+
+            var topLeftX = thisGroup.oCoords.tl.x * 2;
+            var topLeftY = thisGroup.oCoords.tl.y * 2;
+            var topRightX = thisGroup.oCoords.tr.x * 2;
+            var topRightY = thisGroup.oCoords.tr.y * 2;
+            var bottomLeftX = thisGroup.oCoords.bl.x * 2;
+            var bottomLeftY = thisGroup.oCoords.bl.y * 2;
+            var bottomRightX = thisGroup.oCoords.br.x * 2;
+            var bottomRightY = thisGroup.oCoords.br.y * 2;
 
             canvas.renderAll();
 
@@ -1662,6 +2193,18 @@ var appPropJson = "";
             applicationProperties[itemIdx]['fontSizes'] = {};
             applicationProperties[itemIdx]['uniformSizes'] = {};
 
+            applicationProperties[itemIdx]['defaultMascot'] = {};
+            applicationProperties[itemIdx]['defaultFont'] = {};
+            applicationProperties[itemIdx]['defaultText'] = {};
+            applicationProperties[itemIdx]['defaultNumber'] = {};
+
+            applicationProperties[itemIdx]['mascotData'] = {};
+            applicationProperties[itemIdx]['fontData'] = {};
+
+            applicationProperties[itemIdx]['center'] = {};
+            applicationProperties[itemIdx].center['x'] = {};
+            applicationProperties[itemIdx].center['y'] = {};
+
             applicationProperties[itemIdx].type = applicationType;
             applicationProperties[itemIdx].name = applicationName;
             applicationProperties[itemIdx].id = applicationId;
@@ -1682,24 +2225,50 @@ var appPropJson = "";
             applicationProperties[itemIdx].fontSizes = fontSizes;
             applicationProperties[itemIdx].uniformSizes = uniformSizes;
 
+            applicationProperties[itemIdx].defaultMascot = applicationMascot;
+            applicationProperties[itemIdx].defaultFont = applicationFont;
+            applicationProperties[itemIdx].defaultText = applicationText;
+            applicationProperties[itemIdx].defaultNumber = applicationNumber;
+
+            applicationProperties[itemIdx].mascotData = mascotData;
+            applicationProperties[itemIdx].fontData = fontData;
+
             // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
 
-            applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
-            applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
-            applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
+            // applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
 
-            applicationProperties[itemIdx].width = thisGroup.getWidth();
-            applicationProperties[itemIdx].height = thisGroup.getHeight();
-            applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;;
-            applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;;
+            // applicationProperties[itemIdx].width = thisGroup.getWidth();
+            // applicationProperties[itemIdx].height = thisGroup.getHeight();
+            // applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;
+            // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
+
+            // ************* x2 values
+            applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
+            applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
+
+            applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
+            applicationProperties[itemIdx].height = thisGroup.getHeight() * 2;
+            applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * 2;
+            applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * 2;
             // thisGroup.left 
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+
+            applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
+            applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
 
             if(cs == 1){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
@@ -1714,7 +2283,8 @@ var appPropJson = "";
         $('.a-prop').prop('value', appProperties);
         window.ap = appProperties;
 
-        // console.log("APP PROPS: "+window.ap);
+
+        console.log("APP PROPS: "+window.ap);
     }
 
     // UPDATES - DETECTOR
@@ -1737,14 +2307,14 @@ var appPropJson = "";
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
-        if(name == "body"){
-            console.log('MATCH');
-            $(this).val("Body");
-            $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-        }
-        else{
-            $(".body-layer-number").remove();
-        }
+        // if(name == "body"){
+        //     console.log('MATCH');
+        //     $(this).val("Body");
+        //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
+        // }
+        // else{
+        //     $(".body-layer-number").remove();
+        // }
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
@@ -1924,4 +2494,75 @@ var appPropJson = "";
 
     bindColorsSelect2();
     bindGradientsSelect2();
+
+canvas.observe('object:moving', function (e) { 
+    var p = e.target;
+    console.log('Moving ' + p.name);
+    
+    if (p.hasOwnProperty("text") === true) {
+        //move text label to new circle location
+        p.text.set({
+            'left': p.left,
+            'top': p.top - 10
+        });
+    }
+    
+    if (p.hasOwnProperty("inPath") === true) {
+        //inpaths - paths end at circle
+        for (var i = 0; i < p.inPath.length; i++) {
+            ppath = p.inPath[i];
+            if (p.ptype === 'control') {
+                ppath.path[1][3] = p.left; // p is 2nd control circle in curve, update c1.x
+                ppath.path[1][4] = p.top; // p is 2nd control circle in curve, update c1.y
+            } else if (ppath.type === 'path') {
+                ppath.path[1][5] = p.left; // p is end circle in curve, update p1.x
+                ppath.path[1][6] = p.top; // p is end circle in curve update p1.y
+            } else if (ppath.type === 'line') {
+                ppath.set({
+                    'x2': p.left,
+                    'y2': p.top
+                }); //p is begin circle in line, update left & top
+            }
+        }
+    }
+    if (p.hasOwnProperty("outPath") === true) {
+        //outpaths - paths begin at circle
+        for (var i = 0; i < p.outPath.length; i++) {
+            ppath = p.outPath[i];
+            if (p.ptype === 'control') {
+                ppath.path[1][1] = p.left; //p is 1st control circle in curve, update c0.x
+                ppath.path[1][2] = p.top; //p is 1st control circle in curve, update c0.y
+            } else if (ppath.type === 'path') {
+                ppath.path[0][1] = p.left; // p is begin circle in curve, update p0.x
+                ppath.path[0][2] = p.top; // p is begin circle in curve, update p0.y
+            } else if (ppath.type === 'line') {
+                ppath.set({
+                    'x1': p.left,
+                    'y1': p.top
+                }); //p is end circle in line, update left & top
+            }
+        }
+    }
+    console.log(p.name + ' moved!');
+    canvas.renderAll();
+    var circles = canvas.getObjects('circle');
+    coords = new Array();
+    var x = 0;
+    circles.forEach(function(entry) {
+        var getCenterPoint = entry.getCenterPoint();
+        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+        coords[x] = {};
+        // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
+        x++;
+    });
+
+    coords.forEach(function(entry) {
+        console.log('Entry: '+entry['x']+', '+entry['y']);
+    });
+    console.log(JSON.stringify(coords));
+    console.log("JSON"+canvas.toJSON());
+}); //canvas.observe()
+
 });

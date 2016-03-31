@@ -43,11 +43,45 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">School</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-school-name" name="school_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Team</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control preference-team-name" name="team_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Mascot</label>
+                            <div class="col-md-6">
+                                <select class="form-control preference-mascot" id="preference_mascot">
+                                </select>
+                                <input type="hidden" id="mascot" name="mascot">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Font</label>
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
                                 @foreach ($fonts as $font)
                                     <option value='{{ $font->name }}'>{{ $font->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sport</label>
+                            <div class="col-md-6">
+                                <select name='uniform_category' class="form-control preference-uniform-category">
+                                @foreach ($uniform_categories as $uniform_category)
+                                <option value='{{ $uniform_category->id }}'>{{ $uniform_category->name }}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -68,7 +102,7 @@ select:hover {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-colors">
                                         <tr class="layers-row">
                                             <td>
                                                 <select class="ma-layer layer1"  name="ma_layer[]" disabled>
@@ -166,5 +200,58 @@ select:hover {
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
 <script type="text/javascript" src="/js/administration/preferences.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    window.items = null;
+    getMascots(function(items){
+        console.log(items);
+        window.items = items;
+    });
+
+    function getMascots(callback){
+        var items;
+        var url = "//" + api_host + "/api/mascots";
+        // var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                items = data['mascots'];
+                console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(items);
+            }
+        });
+    }
+
+    $.each(window.items, function(i, item) {
+        item['text'] = item.name;
+        item['value'] = item.id;
+        item['selected'] = false;
+        item['description'] = 'Mascot';
+        item['imageSrc'] = item.icon;
+    });
+
+    var ddData = window.items;
+
+    $('#preference_mascot').ddslick({
+        data: ddData,
+        width: 300,
+        height: 300,
+        imagePosition: "left",
+        selectText: "Select Mascot",
+        onSelected: function (data) {
+            $('#mascot').val(data['selectedData']['value']);
+        },
+    });
+
+    var length = $('.layers-row').length;
+    renumberRows(length);
+});
+</script>
 @endsection
