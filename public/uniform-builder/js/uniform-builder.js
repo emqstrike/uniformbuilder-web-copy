@@ -26,6 +26,16 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+            ///
+ 
+            _.each(ub.views, function(view){
+ 
+                 ub[view + '_view'].scale.set(0.5, 0.5);
+                 
+            });
+ 
+            ///
+
             if (window.ub.config.material_id !== -1) {
 
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
@@ -75,11 +85,13 @@ $(document).ready(function () {
                      typeof(ub.data.fonts) !== 'undefined';  
 
             if (ok) {
-                ub.load_assets();            
+
+                ub.load_assets();
+                ub.funcs.init_team_colors();
+
             }
             
         };
-
 
         ub.loader = function (url, object_name, cb) {
           
@@ -1479,7 +1491,7 @@ $(document).ready(function () {
             ub.init_style = function () {
 
                 // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
-                if (typeof window.ub.temp !== 'undefined') {
+                if (typeof window.ub.temp !== 'undefined') { 
                     
                     ub.loadSettings(window.ub.temp);
 
@@ -2936,7 +2948,6 @@ $(document).ready(function () {
                     app_containers[application_obj.id].object = {};
                     app_containers[application_obj.id].object.sprite = sprite_collection;
 
-    
                 }
 
                 if(typeof input_object.applicationObj === 'object'){
@@ -3294,8 +3305,6 @@ $(document).ready(function () {
             var settings = ub.current_material.settings;
 
             var filename = application_obj.filename;
-
-
             var view = ub[application.perspective + '_view'];
             var view_objects = ub.objects[application.perspective + '_view'];
             
@@ -3593,17 +3602,179 @@ $(document).ready(function () {
 
     /// End Initialize
 
-    /// Show Builder Pickers is there's no Uniform or Order that's being loaded
+
+    /// New UI Code 
+
+    ub.funcs.reBindEventsPickers = function () {
+
+        $('div.main-picker-items').on('click', function () {
+
+            $picker_item = $(this);
+
+            var _picker_type = $(this).data('picker-type');
+            var _item        = $(this).data('item');
+
+            if (_picker_type === 'gender') {
+
+               ub.funcs.initSportsPicker(_item);
+
+            }
+
+            if (_picker_type === 'sports') {
+
+                ub.funcs.initUniformsPicker(_item);
+
+            }
+
+            if (_picker_type === 'uniforms') {
+
+
+
+            }
+
+        });
+
+        $(".grow" ).hover(
+        
+            function() {
+
+               var $caption = $(this).find('span.main-picker-item-caption');
+               $caption.css('margin-top', '-73px');
+
+            }, function() {
+
+                var $caption = $(this).find('span.main-picker-item-caption');
+                $caption.css('margin-top', '0px');
+
+            }
+
+        );
+
+    };
+
+    ub.funcs.initScroller = function (type, items, gender) {
+
+        var $element = $('#main-picker-scroller');
+
+        if (type === 'gender') {
+
+            var _genders = items;
+            var template = $('#m-picker-items').html();
+
+            var data = {
+                picker_type: 'gender',
+                picker_items: _genders,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+            $('.picker-header').html('Choose a Gender');
+
+        }
+
+        if(type === 'sports') {
+
+            var template = $('#m-picker-items-sport').html();
+
+            var data = {
+                gender: gender,
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+
+            $('.picker-header').html('Choose a Sport');
+            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+
+            $('div.back-link').on('click', function () {
+
+                ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
+        if(type === 'uniforms') {
+
+            var template = $('#m-picker-items-uniforms').html();
+
+            var data = {
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+
+            $('.picker-header').html('Choose a Style');
+            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+
+            $('div.back-link').on('click', function () {
+
+                //ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
+        ub.funcs.reBindEventsPickers();
+
+    };
+
+    ub.funcs.initGenderPicker = function () {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = ub.data.genders;
+
+        ub.funcs.initScroller('gender', items);
+
+    };
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+
+        var items = _.find(ub.data.sports, {gender: sport});
+        ub.funcs.initScroller('sports', items.sports);
+
+    };
+
+    ub.funcs.initUniformsPicker = function (sport) {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = _.filter(ub.materials, {uniform_category: sport });
+        ub.funcs.initScroller('uniforms', items, sport);
+
+    };
+
+    /// End New UI Code 
+
+
+    // /// Show Builder Pickers is there's no Uniform or Order that's being loaded
 
     if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
 
-        $('a.btn-new.new').click();
+        // $('a.btn-new.new').click();
+        ub.funcs.initGenderPicker();
 
     } 
 
-    /// End Show Builder Pickers 
-
-    
+    // /// End Show Builder Pickers 
 
     /// Saving, Loading and Sharing /// 
 
@@ -3614,7 +3785,9 @@ $(document).ready(function () {
 
     // Open Design
     $('.open-design').on('click', function () {
+
         openSavedUniformDesigns(ub.user.id);
+
     });
 
     // Compare Designs
@@ -3624,6 +3797,7 @@ $(document).ready(function () {
 
     // Save Design Modal
     $('.open-save-design-modal').on('click', function () {
+
         if (ub.user === false) {
             
             showSignUpModal();
@@ -3638,6 +3812,7 @@ $(document).ready(function () {
             $('#save-design-modal').modal('show');
 
         }
+
     });
 
     // Remove Uniform Design Trigger

@@ -41,11 +41,6 @@
     </div>
 
     <div class="row">
-       
-    <div class="col-md-12 main_steps_bar">
-        <img src="/ui/circle-nav.png" /><br />
-        <img src="/ui/shadowed_header_large.png" />
-    </div> 
 
     </div>
 
@@ -70,6 +65,8 @@
 
     </div>
 
+    <!-- MAIN ROW -->
+    
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
             <!-- Main Preview Window -->
@@ -80,6 +77,27 @@
             @yield('right-pane')
         </div>
     </div>
+
+    <!-- END MAIN ROW -->
+
+    <!-- Gender Pickers --> 
+
+    <div id="main-picker-container">
+
+        <h2 class='picker-header'>CHOOSE A GENDER</h2>
+
+        <div id="main-picker-scroller">
+            
+            
+
+        </div>
+        
+        <div class='back-link' data-destination="gender"></div>
+
+    </div>
+
+    <!-- End Gender Pickers-->
+
 </div>
 
 <!--
@@ -131,7 +149,7 @@
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/dropdown/jquery.dropdown.js{{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
@@ -142,9 +160,11 @@
 
     $(document).ready(function () {
 
-        window.ub = {};
-        window.ub.objects = {};
-        window.ub.config = { 
+        window.ub           = {};
+        window.ub.objects   = {};
+        window.ub.funcs     = {};
+
+        window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}", 
             material_id: {{ $material_id }},
@@ -189,7 +209,7 @@
             
             window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
 
-            $('#genPDF').on('click', function(){
+            $('#genPDF').on('click', function () {
              
                 var doc = new jsPDF();
                 var image = $('div.ub_qrcode > canvas').get(0).toDataURL("image/png", 1.0);
@@ -239,21 +259,13 @@
 
     <div class="team_color_picker_options" data-team-color-id = '-1'>
 
-        <button class="color_picker_item" data-color="seminole" data-hex="#6b0c1e" style="background-color: #6b0c1e;">
+        <div class="color_items_container">
             
-        </button>
+        </div>
 
-        <button class="color_picker_item" data-color="brown" data-hex="#2b1500" style="background-color: #2b1500;">
+        <div class="scroller">
             
-        </button>
-
-        <button class="color_picker_item" data-color="gold" data-hex="#ffba00"  style="background-color: #ffba00;">
-            
-        </button>
-
-        <button class="color_picker_item" data-color="maroon" data-hex="#5c0000"  style="background-color: #5c0000;">
-            
-        </button>
+        </div>
 
     </div>
 

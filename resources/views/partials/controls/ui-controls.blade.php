@@ -349,7 +349,7 @@
 
 <!-- UI V1 -->
 
-    <script  type="text/mustache" id="team-color-main-picker">
+    <script type="text/mustache" id="team-color-main-picker">
     
         <div class="team-color-main-picker-container">
             
@@ -365,3 +365,116 @@
 
 <!-- End UI V1 -->
 
+    <script type="text/mustache" id="m-color-picker-buttons">
+
+        @{{#colors}}
+            
+            <button class="color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
+                @{{color_code}}
+            </button>
+
+        @{{/colors}}
+
+    </script>
+
+<!-- Gender Picker -->
+
+    <script type="text/mustache" id="m-picker-items">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="gender" data-item="@{{name}}">
+
+                <img src="/images/main-ui/pickers/@{{code}}.png">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Gender Picker -->
+
+<!-- Sports Picker -->
+
+    <script type="text/mustache" id="m-picker-items-sport">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="sports" data-item="@{{name}}">
+
+                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Sports Pickers -->
+
+<!-- Uniforms Picker -->
+
+    <script type="text/mustache" id="m-picker-items-uniforms">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="uniforms" data-item="@{{name}}">
+
+                <img src="@{{thumbnail_path}}">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Uniforms Pickers -->

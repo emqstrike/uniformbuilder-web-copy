@@ -1,9 +1,9 @@
-$(document).ready(function () {
+$(document).ready( function () {
 
     ub.debug = {};
     ub.debug.UI_VERSION = 1;
 
-    /// UI Functions 
+    /// UI Functions
 
     ub.funcs.uiV2 = function () {
 
@@ -12,7 +12,7 @@ $(document).ready(function () {
         $('a.mod_primary').click();
 
         $('#design_name_container').css({'float':'left','width':'100%'});
-        $('div.main_steps_bar').show()
+        $('div.main_steps_bar').show();
         $('#change-views').css('margin-left', '0px');
         $('#main_view').css('width','563px');
         $('div#right-sidebar > a.sidebar-buttons').hide();
@@ -37,7 +37,7 @@ $(document).ready(function () {
         ub.dimensions.width = 496;
 
         $('#design_name_container').css({'float':'right','width':'90%'});
-        $('div.main_steps_bar').hide()
+        $('div.main_steps_bar').hide();
         $('#change-views').css('margin-left', '70px');
         $('#main_view').css('width','496px');
         $('div#right-sidebar > a.sidebar-buttons').show();

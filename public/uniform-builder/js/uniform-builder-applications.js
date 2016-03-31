@@ -1269,7 +1269,7 @@ $(document).ready(function() {
 
     };
 
-    /// End Rearrange Layers 
+    /// End Rearrange Layers
 
 
     /// Transformed Applications
@@ -1504,7 +1504,25 @@ $(document).ready(function() {
 
     ub.funcs.isWithin = function (point, boundaries) {
 
-        return ub.funcs.pointIsInPoly(point, boundaries);
+        var _transformed_boundaries = [];
+
+        if(ub[ub.active_view + '_view'].scale.x === 0.5) {
+
+            _.each (boundaries, function(point) {
+                
+                var p = new PIXI.Point(point.x / 2, point.y / 2);
+                _transformed_boundaries.push(p); 
+
+            });      
+    
+        }
+        else {
+
+             _transformed_boundaries = boundaries;
+
+        }
+
+        return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
 
@@ -1870,12 +1888,7 @@ $(document).ready(function() {
                     boundaries: cObj,
                     layer_no: shape.layer_level,
                     group_id: shape.group_id,
-                    polygon: [
-                        boundary_properties['topLeft'],
-                        boundary_properties['topRight'],
-                        boundary_properties['bottomRight'],
-                        boundary_properties['bottomLeft'],
-                    ],
+                    polygon: boundary_properties,
 
                 });
 
