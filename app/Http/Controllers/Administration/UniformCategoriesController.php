@@ -6,6 +6,7 @@ use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
+use App\Utilities\FileUploader;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\UniformCategoriesAPIClient as APIClient;
@@ -54,6 +55,59 @@ class UniformCategoriesController extends Controller
             $id = $request->input('uniform_category_id');
             $data['id'] = $id;
         }
+
+        try {
+            // Thumbnail Files
+            $thumbnaleMale = $request->file('thumbnail_male');
+            if (isset($thumbnaleMale))
+            {
+                if ($thumbnaleMale->isValid())
+                {
+                    $data['thumbnail_male'] = FileUploader::upload(
+                                                    $thumbnaleMale,
+                                                    $name,
+                                                    'thumbnail',
+                                                    "categories/{name}/thumbnail_male.png"
+                                                );
+                }
+            }
+
+            $thumbnaleFemale = $request->file('thumbnail_female');
+            if (isset($thumbnaleFemale))
+            {
+                if ($thumbnaleFemale->isValid())
+                {
+                    $data['thumbnail_female'] = FileUploader::upload(
+                                                    $thumbnaleFemale,
+                                                    $name,
+                                                    'thumbnail',
+                                                    "categories/{name}/thumbnail_female.png"
+                                                );
+                }
+            }
+
+            $thumbnaleYouth = $request->file('thumbnail_youth');
+            if (isset($thumbnaleYouth))
+            {
+                if ($thumbnaleYouth->isValid())
+                {
+                    $data['thumbnail_youth'] = FileUploader::upload(
+                                                    $thumbnaleYouth,
+                                                    $name,
+                                                    'thumbnail',
+                                                    "categories/{name}/thumbnail_youth.png"
+                                                );
+                }
+            }
+
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/categories')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
         // Is the Category Name taken?
         if ($this->client->isCategoryTaken($name, $id))
         {
