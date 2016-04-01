@@ -30,6 +30,27 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Male Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control male-thumbnail-file" name="thumbnail_male" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Female Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control female-thumbnail-file" name="thumbnail_female" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Youth Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
