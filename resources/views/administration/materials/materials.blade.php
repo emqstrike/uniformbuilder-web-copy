@@ -80,7 +80,7 @@
 <div class="container-fluid main-content">
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} col-md-3'
-                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 250px; border-radius: 3px;{{ (!$material->active) ? ' background-color: #696969;' : '' }}">
+                 style="border: 1px solid #000; margin-right: 10px; margin-top: 10px; height: 290px; border-radius: 3px;{{ (!$material->active) ? ' background-color: #696969;' : '' }}">
                 <div style="float:left; position: relative; margin-top: 7px; margin-left: -10px;">
                     <span class="label" style="font-size: 14px; background-color: #808080;">{{ $material->id }}</span>
                 </div>
@@ -96,9 +96,7 @@
                 <div class="col-md-12">
                     <center>
                         <img src="{{ $material->thumbnail_path }}"
-                             width="100px"
-                             height="100px"
-                             alt="{{ $material->slug }}" style="margin-bottom: 7px; margin-top: -7px; border-radius: 5px;">
+                             alt="{{ $material->slug }}" style="height: 140px; width: 94px; margin-bottom: 7px; margin-top: -7px; border-radius: 5px;">
                     </center>
                 </div><hr>
                 <div style="display: inline;"><span class="label label-default" style="font-size: 11px;">{{ $material->code }}</span></div>
