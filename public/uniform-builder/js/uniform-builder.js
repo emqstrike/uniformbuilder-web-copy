@@ -26,18 +26,15 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
-
             ///
-
+ 
             _.each(ub.views, function(view){
-
-                ub[view + '_view'].scale.set(0.5, 0.5);
-                
+ 
+                 ub[view + '_view'].scale.set(0.5, 0.5);
+                 
             });
-
-
+ 
             ///
-
 
             if (window.ub.config.material_id !== -1) {
 
@@ -88,11 +85,13 @@ $(document).ready(function () {
                      typeof(ub.data.fonts) !== 'undefined';  
 
             if (ok) {
-                ub.load_assets();            
+
+                ub.load_assets();
+                ub.funcs.init_team_colors();
+
             }
             
         };
-
 
         ub.loader = function (url, object_name, cb) {
           
@@ -1492,7 +1491,7 @@ $(document).ready(function () {
             ub.init_style = function () {
 
                 // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
-                if (typeof window.ub.temp !== 'undefined') {
+                if (typeof window.ub.temp !== 'undefined') { 
                     
                     ub.loadSettings(window.ub.temp);
 
@@ -1663,7 +1662,7 @@ $(document).ready(function () {
 
             // $(panel).fadeIn(100);
             $(panel).show();
-            
+
         }
 
         /// RIGHT SIDEBAR
@@ -1720,7 +1719,7 @@ $(document).ready(function () {
 
         /// LEFT SIDEBAR
 
-            $('div#left-sidebar > a.sidebar-buttons').hover(function (e){
+            $('div#left-sidebar > a.sidebar-buttons').hover(function (e) {
 
                 var s = $(e.currentTarget).attr('class').split(' ')[0];
                 var sidebar_classes = ['btn-new', 'btn-load', 'btn-compare', 'btn-save'];
@@ -1754,7 +1753,7 @@ $(document).ready(function () {
 
             });
 
-            $('div#left-sidebar > a.sidebar-buttons').on('click', function (e){
+            $('div#left-sidebar > a.sidebar-buttons').on('click', function (e) {
 
                 $('#arrow_design_sets').remove();
 
@@ -1778,13 +1777,11 @@ $(document).ready(function () {
 
                         var filename = '/images/sidebar/' + 'close.png';
                         
-                        // $('a.btn-new').css('background-image', 'url(' + filename + ')');
-                        
                         $('a.btn-new').removeClass('highlighter_off');
                         $('a.btn-new').addClass('highlighter_on');
+                        $('a.btn-new').data('status','close');
 
                         $('#right-main-window').css('background-color','#f8f8f8');
-                        $('a.btn-new').data('status','close');
 
                         ub.display_gender_picker();
 
@@ -1805,11 +1802,10 @@ $(document).ready(function () {
  
                         $('a.btn-new').removeClass('highlighter_off');
                         $('a.btn-new').addClass('highlighter_on');
+                        $('a.btn-new').data('status','new');
  
                         $('#right-main-window').css('background-color','#ffffff');
                         $('#left-main-window').css('background-color','#ffffff');
-
-                        $('a.btn-new').data('status','new');
 
                         switch_panel('#materials_panel');
 
@@ -2952,10 +2948,8 @@ $(document).ready(function () {
                     app_containers[application_obj.id].object = {};
                     app_containers[application_obj.id].object.sprite = sprite_collection;
 
-    
                 }
 
-                
                 if(typeof input_object.applicationObj === 'object'){
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
@@ -3311,8 +3305,6 @@ $(document).ready(function () {
             var settings = ub.current_material.settings;
 
             var filename = application_obj.filename;
-
-
             var view = ub[application.perspective + '_view'];
             var view_objects = ub.objects[application.perspective + '_view'];
             
@@ -3544,8 +3536,6 @@ $(document).ready(function () {
 
             container.mask = mask;
             container.name = 'pattern_' + target;
-            
-
 
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                 ub[view].removeChild(ub.objects[view]['pattern_' + target]);
@@ -3612,12 +3602,242 @@ $(document).ready(function () {
 
     /// End Initialize
 
-    /// Show Builder Pickers is there's no Uniform or Order that's being loaded
+
+    /// New UI Code 
+
+    ub.funcs.reBindEventsPickers = function () {
+
+        $('div.main-picker-items').on('click', function () {
+
+            $picker_item = $(this);
+
+            var _picker_type = $(this).data('picker-type');
+            var _item        = $(this).data('item');
+
+            if (_picker_type === 'gender') {
+
+               ub.funcs.initSportsPicker(_item);
+
+            }
+
+            if (_picker_type === 'sports') {
+
+                ub.funcs.initUniformsPicker(_item);
+
+            }
+
+            if (_picker_type === 'uniforms') {
+
+                var _uniform = _.find(ub.materials, {name: _item});
+                window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
+
+            }
+
+        });
+
+        $(".grow" ).hover(
+        
+            function() {
+
+               var $caption = $(this).find('span.main-picker-item-caption');
+               $caption.css('margin-top', '-72px');
+
+               if ($(this).data('picker-type') === 'uniforms') {
+
+                    $('div.uniform_details').hide();
+
+                    $('span.uniform_name').html($(this).data('item'));
+
+                    var s = _.find(ub.materials, {name: $(this).data('item')}).description
+                    $('span.uniform_description').html(s);
+
+                    $('div.uniform_details').fadeIn();
+
+               }
+               else {
+                    
+                    $('div.uniform_details').hide();
+
+               }
+
+            }, function() {
+
+                var $caption = $(this).find('span.main-picker-item-caption');
+                $caption.css('margin-top', '0px');
+
+            }
+
+        );
+        
+        ///
+
+        var $bl    = $("#main-picker-container"),
+                $th    = $("#main-picker-scroller"),
+                blW    = $bl.outerWidth() + 400,
+                blSW   = $bl[0].scrollWidth,
+                wDiff  = (blSW/blW)-1,  // widths difference ratio
+                mPadd  = 60,  // Mousemove Padding
+                damp   = 60,  // Mousemove response softness
+                mX     = 0,   // Real mouse position
+                mX2    = 0,   // Modified mouse position
+                posX   = 0,
+                mmAA   = ($('#main-picker-scroller').width()) - (mPadd*2), // The mousemove available area
+                mmAAr  = (blW/mmAA);    // get available mousemove fidderence ratio
+
+            $bl.mousemove(function(e) {
+
+                if ($('.picker-header').text() === 'Choose a Gender') {
+                    return;
+                }
+
+                mX = e.pageX - this.offsetLeft;
+                mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
+
+            });
+
+            ub.data.intervalFunction = setInterval(function() {
+
+                posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"    
+                $th.css({marginLeft: -posX * wDiff });
+
+            }, 10);
+
+        ///
+
+    };
+
+    ub.funcs.initScroller = function (type, items, gender) {
+
+        if (typeof ub.data.intervalFunction === 'number') {
+
+            $("#main-picker-container").unbind('mousemove');
+            clearInterval(ub.data.intervalFunction);
+
+        }
+
+        var $element = $('#main-picker-scroller');
+
+        if (type === 'gender') {
+
+            var _genders = items;
+            var template = $('#m-picker-items').html();
+
+            var data = {
+                picker_type: 'gender',
+                picker_items: _genders,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+            $('.picker-header').html('Choose a Gender');
+            $('div.back-link').html('');
+
+        }
+
+        if(type === 'sports') {
+
+            var template = $('#m-picker-items-sport').html();
+
+            var data = {
+                gender: gender,
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+
+            $('.picker-header').html('Choose a Sport');
+
+            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+            $('div.back-link').on('click', function () {
+
+                ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
+        if(type === 'uniforms') {
+
+            var template = $('#m-picker-items-uniforms').html();
+
+            var data = {
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $element.html(markup);
+
+            $('.picker-header').html('Choose a Style');
+            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+
+            $('div.back-link').on('click', function () {
+
+                //ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
+        ub.funcs.reBindEventsPickers();
+
+    };
+
+    ub.funcs.initGenderPicker = function () {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = ub.data.genders;
+
+        ub.funcs.initScroller('gender', items);
+
+    };
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+
+        var items = _.find(ub.data.sports, {gender: sport});
+        ub.funcs.initScroller('sports', items.sports);
+
+    };
+
+    ub.funcs.initUniformsPicker = function (sport) {
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = _.filter(ub.materials, {uniform_category: sport });
+        ub.funcs.initScroller('uniforms', items, sport);
+
+    };
+
+    /// End New UI Code 
+
+
+    // /// Show Builder Pickers is there's no Uniform or Order that's being loaded
+
     if (window.ub.config.material_id === -1 && typeof window.ub.temp === 'undefined') {
 
-        $('a.btn-new.new').click();
+        // $('a.btn-new.new').click();
+        ub.funcs.initGenderPicker();
 
     } 
+
+    // /// End Show Builder Pickers 
+
     /// Saving, Loading and Sharing /// 
 
     // New Design
@@ -3627,7 +3847,9 @@ $(document).ready(function () {
 
     // Open Design
     $('.open-design').on('click', function () {
+
         openSavedUniformDesigns(ub.user.id);
+
     });
 
     // Compare Designs
@@ -3637,6 +3859,7 @@ $(document).ready(function () {
 
     // Save Design Modal
     $('.open-save-design-modal').on('click', function () {
+
         if (ub.user === false) {
             
             showSignUpModal();
@@ -3651,6 +3874,7 @@ $(document).ready(function () {
             $('#save-design-modal').modal('show');
 
         }
+
     });
 
     // Remove Uniform Design Trigger

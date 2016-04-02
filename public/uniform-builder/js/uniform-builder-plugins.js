@@ -24,7 +24,6 @@
 
     /// End Basic Format for Plugin Definition
 
-
     $.fn.ubColorPickerBasic = function (options) {
 
         var settings = $.extend({ target: 'target' }, options);

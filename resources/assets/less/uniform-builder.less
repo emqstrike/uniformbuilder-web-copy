@@ -236,6 +236,7 @@ a.active_button {
         /* background-image: url(/images/misc/bg.png); */
         background-size: cover;
         background-color: #eeeeee;
+        text-align: center;
     }
 
 }
@@ -260,7 +261,7 @@ a.active_button {
     padding: 3px;
     position: absolute;
     margin-top: 395px;
-    margin-left: 55px;
+    margin-left: 65px;
 
     a {
         color: white;
@@ -321,7 +322,7 @@ div.options_panel  {
     div.options_panel_header {
      
         background-color: #f2f2f2;
-        width: 500px;
+        width: 100%;
         display: table;
         height: 40px;
         border-bottom: 1px solid @border_color;
@@ -471,7 +472,10 @@ div.pattern_panel_container {
 
 
 #right-main-window {
+
     overflow-y: scroll;
+    border: 1px solid @border_color;
+
 }
 
 
@@ -1484,13 +1488,17 @@ input.fe_input, select.fe_input {
 }
 
 div.help-block > a  {
+
     color: @main_highlight_off !important;
+
 }
 
 label.label.design-name {
+
     background-color: white;
     font-size: 1.1em;
     color: black;
+
 }
 
 .label-info {
@@ -1503,7 +1511,9 @@ label.label.design-name {
 }
 
 .modal-dialog.open-design-modal {
+
     width: 70%;
+
 }
 
 a.btn_tabs {
@@ -1540,5 +1550,259 @@ a#pencil_link {
     color: @forecolor;
 
 }
+
+div#left-pane-column {
+
+    padding-right: 5px !important;
+
+}
+
+div#right-pane-column {
+
+    padding-left: 5px !important;
+
+}
+
+
+/*  UI V1  */
+
+span.shadowed_header {
+    
+    text-align: center;
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+
+}
+
+div#special_modifiers > div.col-md-6 {
+
+    padding-right: 5px !important;
+
+}
+
+div.team_color_picker_container {
+
+    height: 50px;
+    width: 280px;
+    margin: 0 auto;
+    margin-top: 25px;
+    
+    div.team_color_picker_item {
+
+        background-color: #ffffff;
+        width: 60px;
+        height: 30px;
+        float: left;    
+        margin-left: 10px;
+        border: 1px solid @border_color;
+
+    }
+
+}
+
+.team_color_pane {
+
+    height: 100px !important;
+    display: none;
+    margin-bottom: 10px;
+    float: left;
+    background-image: url(/ui/shadowed_header_small.png);
+    background-position-y: -40px;
+    overflow-y: hidden !important;
+
+}
+
+div.main_steps_bar {
+    
+    height: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 70px;
+    text-align: center;
+
+}
+
+/* Team Color and New Color Pickers */
+
+.team_color_item_off {
+
+    border: 1px solid @border_color !important;
+
+}
+
+.team_color_item_on {
+    
+    border: 1px solid @text_color !important;
+
+}
+
+div.team-color-main-picker-container {
+
+    
+
+}
+
+div.team_color_picker_item {
+    
+    
+
+}
+
+div.team_color_picker_options {
+
+    display: none;
+    width: 545px;
+    height: 200px;
+    background-color: #fff;
+    position: absolute; 
+    border: solid 1px #eeeeee;
+    overflow: hidden;
+
+    -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+}
+
+button.color_picker_item {
+
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+
+    background-color: white;
+    border: 1px solid #acacac;
+    
+}
+
+div.team_color_picker_options > div.color_items_container {
+    
+    background-color: #acacac;
+    width: 545px;
+    height: 130px;
+
+}
+
+div.team_color_picker_options > div.scroller {
+    
+    background-color: #eeeeee;   
+    width: 545px;
+    height: 30px; 
+
+}
+
+/* End Team Color and New Color Pickers */
+
+
+/* New UI */ 
+
+.grow {  transform: scale(1.0); transition: all .2s ease-in-out; }
+.grow:hover { transform: scale(1.15); }
+
+.disabled { 
+    opacity: 0.7;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+    transition: none !important;
+    transform: scale(1.0) !important;
+}
+
+.pickers-enabled  {
+    overflow: hidden;
+    background-image: url('/images/main-ui/bg.png');
+}
+
+div.back-link {
+
+    text-align: left;
+    margin-left: 60px;
+    font-size: 1.5em;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: -10px;
+
+}
+
+h2.picker-header {
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-top: 10px;
+}
+
+div#main-picker-container {
+
+    display: none;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+    padding-left: 60px;
+
+    div.uniform_details {
+
+        color: white;
+        display: none;
+
+        padding-top: 10px;
+        margin-left: 60px;
+        font-size: 1.3em;
+
+        span.uniform_description {
+
+            font-size: 0.8em;
+
+        }
+
+    }
+
+    div#main-picker-scroller {
+
+        display: block;
+        width: 100000px;
+        top: 25%;
+        
+        position: absolute;
+
+        div.main-picker-items {
+
+           overflow: hidden; 
+           background-image: url('/images/main-ui/bg-picker-item.png');
+           display: block;
+           width: 280px;
+           height: 420px;
+           margin-right: 60px;
+           float: left;
+
+            -webkit-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+            box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+
+            span.main-picker-item-caption {
+
+                color: white;
+                background-color: black;
+                width: 100%;
+                height: 73px;
+                display: block;
+                opacity: 0.9;
+                transition: all .2s ease-in-out; 
+                text-align: center;
+                font-size: 1.4em;
+                padding-top: 23px;
+
+            }
+
+        }        
+
+    }
+
+}
+
+/* End New UI */ 
 
 

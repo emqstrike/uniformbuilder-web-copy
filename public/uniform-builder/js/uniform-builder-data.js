@@ -30,7 +30,6 @@ $(document).ready(function(){
 
     }
 
-
     /// End Interactive Viewport
 
     ub.container_div = 'main_view';
@@ -128,7 +127,7 @@ $(document).ready(function(){
                 },       
             ]
 
-        } 
+        }
 
     };
 
@@ -137,7 +136,7 @@ $(document).ready(function(){
         items: [
             {
                 size: '1',
-                scale: 0.15,
+                scale: 0.07,
             },
             {
                 size: '2',
@@ -1424,35 +1423,57 @@ $(document).ready(function(){
 
     ////// Patterns End
 
+    ub.data.genders = [
+        {
+            code: 'men',
+            name: 'Men', 
+        },
+        {
+            code: 'women',
+            name: 'Women', 
+        },
+        {
+            code: 'youth',
+            name: 'Youth', 
+        },
+    ];
+
     ub.data.sports = [
         {
             gender: 'Men',
             sports: [
                 {
-                    name: 'Baseball',
-                    active: "1",
-                },
-                {
-                    name: 'Basketball',
-                    active: "1",
-                },
-                {
+                    code: 'football',
                     name: 'Football',
                     active: "1",
                 },
                 {
+                    code: 'baseball',
+                    name: 'Baseball',
+                    active: "1",
+                },
+                {
+                    code: 'basketball',
+                    name: 'Basketball',
+                    active: "1",
+                },
+                {
+                    code: 'hockey',
                     name: 'Hockey',
                     active: "1",
                 },
                 {
+                    code: 'lacrosse',
                     name: 'Lacrosse',
                     active: "1",
                 },
                 {
+                    code: 'soccer',
                     name: 'Soccer',
                     active: "1",
                 }, 
                 {
+                    code: 'wrestling',
                     name: 'Wrestling',
                     active: "1",
                 }, 

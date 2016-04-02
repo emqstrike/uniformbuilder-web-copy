@@ -339,7 +339,7 @@ $(document).ready(function() {
                 ub.ui.drops[application_id].close();
 
                 var logo = _.find(logos, {
-                    id: logo_id
+                    id: logo_id,
                 });
 
                 var application = _.find(ub.data.applications.items, {
@@ -1269,7 +1269,7 @@ $(document).ready(function() {
 
     };
 
-    /// End Rearrange Layers 
+    /// End Rearrange Layers
 
 
     /// Transformed Applications
@@ -1505,7 +1505,6 @@ $(document).ready(function() {
     ub.funcs.isWithin = function (point, boundaries) {
 
         var _transformed_boundaries = [];
-
         if(ub[ub.active_view + '_view'].scale.x === 0.5) {
 
             _.each (boundaries, function(point) {
@@ -1899,19 +1898,14 @@ $(document).ready(function() {
 
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
-            var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
 
             if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
 
                 ub.funcs.resetHighlights();
                 ub.active_lock = false;
 
-                $sidebar_buttons.show();
-
             }
             else {
-
-                $sidebar_buttons.hide();
 
                 if (results.length > 0 ) {
 
@@ -1991,7 +1985,6 @@ $(document).ready(function() {
 
                 var _object = ub.objects[_active_view][_match];
                 ub.funcs.setAlphaOn(_object);
-
 
             }
             else{
