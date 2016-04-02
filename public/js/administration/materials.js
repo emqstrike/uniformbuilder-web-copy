@@ -60,7 +60,7 @@ $('.add-point').on('click', function(){
     var itemsCount = canvas.getObjects().length;
     var y = pointsCount - 1;
 
-    if(pointsCount < 20){
+    if(pointsCount < 30){
         var z = pointsCount + 1;
         var j = pointsCount - 1;
 
@@ -1552,21 +1552,25 @@ var appPropJson = "";
             }
             
         });
+        console.log(checkedMaterialOptionsIDs);
         modalConfirm(
             'Remove Multiple Material Options',
             'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
+            checkedMaterialOptionsIDs,
             'confirm-yes',
             'confirmation-modal-multiple-material-option'
         );
     });
 
     $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
-        var id = $(this).data('checkedMaterialOptionsIDs');
+        // console.log('DELETE MULTIPLE');
+        var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/deleteMultiple/";
+        // console.log("IDs: " + id);
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id}),
+            data: JSON.stringify(id),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -1580,8 +1584,8 @@ var appPropJson = "";
                         hide: true
                     });
                     $('#confirmation-modal-multiple-material-option').modal('hide');
-                    $('.material-option-' + id).fadeOut();
                 }
+                window.location.reload(true);
             }
         });
     });
