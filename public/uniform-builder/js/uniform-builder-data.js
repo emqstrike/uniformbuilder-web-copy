@@ -14,6 +14,8 @@ $(document).ready(function(){
     ub.ALPHA_ON = 1;
     ub.ALPHA_OFF = 0.1;
 
+    ub.zoom = false;
+
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;

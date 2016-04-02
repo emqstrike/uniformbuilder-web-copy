@@ -1935,9 +1935,21 @@ $(document).ready(function() {
 
         ub.stage.on('mousemove', function (mousedata) {
 
+            var current_coodinates = mousedata.data.global;
+
+            if (ub.zoom) {
+                console.clear();
+                console.log(current_coodinates);
+
+                ub[ub.active_view + '_view'].position.set(-current_coodinates.x, -current_coodinates.y);
+
+                return;
+
+            }
+
             if (ub.active_lock === true) { return; }
 
-            var current_coodinates = mousedata.data.global;
+
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
             if (results.length > 0 ) {

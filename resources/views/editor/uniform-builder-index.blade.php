@@ -44,6 +44,9 @@
         </div>
 
         <div id="change-views">
+
+            <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i>
+</a>
             
             <a class="btn change-view" data-view="front" id="view_front">F</a>
             <a class="btn change-view" data-view="back" id="view_back">B</a>

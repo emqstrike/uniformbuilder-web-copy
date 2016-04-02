@@ -26,15 +26,7 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
-            ///
- 
-            _.each(ub.views, function(view){
- 
-                 ub[view + '_view'].scale.set(0.5, 0.5);
-                 
-            });
- 
-            ///
+            ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) {
 
@@ -55,6 +47,61 @@ $(document).ready(function () {
 
             }
            
+        };
+
+        ub.zoom_off = function () {
+
+            _.each(ub.views, function(view){
+ 
+                 ub[view + '_view'].scale.set(0.5, 0.5);
+                 
+            });
+
+            ub.zoom = false;
+            ub.show_all_views();
+            ub[ub.active_view + '_view'].position.set(0,0);
+
+        };
+
+        ub.zoom_on = function () {
+
+            _.each(ub.views, function(view){
+ 
+                 ub[view + '_view'].scale.set(1, 1);
+                 
+            });
+
+            ub.zoom = true;
+            ub.hide_all_views();
+
+        };
+
+        ub.hide_all_views = function () {
+
+            _.each(ub.views, function(view){
+
+                var _v = view + '_view'
+ 
+                if (view !== ub.active_view) {
+                 ub[_v].alpha = 0;
+                }
+                 
+            });
+
+        };
+
+        ub.show_all_views = function () {
+
+            _.each(ub.views, function(view){
+
+                var _v = view + '_view'
+ 
+                if (view !== ub.active_view) {
+                 ub[_v].alpha = 1;
+                }
+                 
+            });
+
         };
 
         ub.updateLayersOrder = function (container) {
@@ -3449,6 +3496,28 @@ $(document).ready(function () {
             $('a.change-view').on('click', function (e) {
 
                 var view = $(this).data('view');
+
+                if (view === 'zoom') {
+
+                    if (!ub.zoom) {
+
+                        ub.zoom_on();
+                        $(this).addClass('zoom_on');
+
+                    }
+                    else {
+
+                        ub.zoom_off();
+                        $(this).removeClass('zoom_on');
+
+                    }
+
+
+                    return;
+
+                }
+
+                ub.zoom_off();
 
                 ub.left_view.position.x = ub.dimensions.width;
                 ub.right_view.position.x = ub.dimensions.width;
