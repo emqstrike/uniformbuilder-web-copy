@@ -88,11 +88,10 @@
 
         <div id="main-picker-scroller">
             
-            
-
         </div>
         
         <div class='back-link' data-destination="gender"></div>
+        <div class="uniform_details"><span class="uniform_name">Test:</span><span class="uniform_description"></span></div>
 
     </div>
 

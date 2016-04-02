@@ -1986,7 +1986,6 @@ $(document).ready(function() {
                 var _object = ub.objects[_active_view][_match];
                 ub.funcs.setAlphaOn(_object);
 
-
             }
             else{
 

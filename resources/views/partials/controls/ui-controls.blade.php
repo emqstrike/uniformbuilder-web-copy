@@ -385,7 +385,7 @@
             
             <div class="main-picker-items grow" data-picker-type="gender" data-item="@{{name}}">
 
-                <img src="/images/main-ui/pickers/@{{code}}.png">
+                <img src="/images/main-ui/pickers/@{{code}}.png{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
@@ -419,7 +419,7 @@
             
             <div class="main-picker-items grow" data-picker-type="sports" data-item="@{{name}}">
 
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png">
+                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
@@ -453,7 +453,7 @@
             
             <div class="main-picker-items grow" data-picker-type="uniforms" data-item="@{{name}}">
 
-                <img src="@{{thumbnail_path}}">
+                <img src="@{{thumbnail_path}}{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}

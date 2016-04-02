@@ -3628,7 +3628,8 @@ $(document).ready(function () {
 
             if (_picker_type === 'uniforms') {
 
-
+                var _uniform = _.find(ub.materials, {name: _item});
+                window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
 
             }
 
@@ -3639,7 +3640,25 @@ $(document).ready(function () {
             function() {
 
                var $caption = $(this).find('span.main-picker-item-caption');
-               $caption.css('margin-top', '-73px');
+               $caption.css('margin-top', '-72px');
+
+               if ($(this).data('picker-type') === 'uniforms') {
+
+                    $('div.uniform_details').hide();
+
+                    $('span.uniform_name').html($(this).data('item'));
+
+                    var s = _.find(ub.materials, {name: $(this).data('item')}).description
+                    $('span.uniform_description').html(s);
+
+                    $('div.uniform_details').fadeIn();
+
+               }
+               else {
+                    
+                    $('div.uniform_details').hide();
+
+               }
 
             }, function() {
 
@@ -3649,10 +3668,52 @@ $(document).ready(function () {
             }
 
         );
+        
+        ///
+
+        var $bl    = $("#main-picker-container"),
+                $th    = $("#main-picker-scroller"),
+                blW    = $bl.outerWidth() + 400,
+                blSW   = $bl[0].scrollWidth,
+                wDiff  = (blSW/blW)-1,  // widths difference ratio
+                mPadd  = 60,  // Mousemove Padding
+                damp   = 60,  // Mousemove response softness
+                mX     = 0,   // Real mouse position
+                mX2    = 0,   // Modified mouse position
+                posX   = 0,
+                mmAA   = ($('#main-picker-scroller').width()) - (mPadd*2), // The mousemove available area
+                mmAAr  = (blW/mmAA);    // get available mousemove fidderence ratio
+
+            $bl.mousemove(function(e) {
+
+                if ($('.picker-header').text() === 'Choose a Gender') {
+                    return;
+                }
+
+                mX = e.pageX - this.offsetLeft;
+                mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
+
+            });
+
+            ub.data.intervalFunction = setInterval(function() {
+
+                posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"    
+                $th.css({marginLeft: -posX * wDiff });
+
+            }, 10);
+
+        ///
 
     };
 
     ub.funcs.initScroller = function (type, items, gender) {
+
+        if (typeof ub.data.intervalFunction === 'number') {
+
+            $("#main-picker-container").unbind('mousemove');
+            clearInterval(ub.data.intervalFunction);
+
+        }
 
         var $element = $('#main-picker-scroller');
 
@@ -3669,6 +3730,7 @@ $(document).ready(function () {
             var markup = Mustache.render(template, data);
             $element.html(markup);
             $('.picker-header').html('Choose a Gender');
+            $('div.back-link').html('');
 
         }
 
@@ -3686,8 +3748,8 @@ $(document).ready(function () {
             $element.html(markup);
 
             $('.picker-header').html('Choose a Sport');
-            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
 
+            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
             $('div.back-link').on('click', function () {
 
                 ub.funcs.initGenderPicker();        
