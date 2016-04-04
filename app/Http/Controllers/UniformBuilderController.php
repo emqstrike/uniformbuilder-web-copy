@@ -75,6 +75,7 @@ class UniformBuilderController extends Controller
                 // }
 
                 // set to just -1 for now to signal opening pickers instead
+
                 $materialId = -1;                
                    
             }
@@ -83,7 +84,6 @@ class UniformBuilderController extends Controller
                 $categoryId = $material->uniform_category_id;
 
             }
-
 
         }
         else
@@ -116,6 +116,7 @@ class UniformBuilderController extends Controller
             {
                 if ($order['order_id'] == $config['order_id'])
                 {
+
                     $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
                     $params['order'] = $order;
                     $params['builder_customizations'] = $bc;
@@ -127,9 +128,8 @@ class UniformBuilderController extends Controller
             }
         }
 
-
-
         return view('editor.uniform-builder-index', $params);
+
     }
 
     /**

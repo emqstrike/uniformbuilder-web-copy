@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/onoff/jquery.onoff.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css{{$asset_version}}">
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 </head>
@@ -37,6 +38,10 @@
             ×
         </button>
         <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
+    </div>
+
+    <div class="row">
+
     </div>
 
     <div class="row" id="special_modifiers">
@@ -60,6 +65,8 @@
 
     </div>
 
+    <!-- MAIN ROW -->
+    
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
             <!-- Main Preview Window -->
@@ -70,6 +77,26 @@
             @yield('right-pane')
         </div>
     </div>
+
+    <!-- END MAIN ROW -->
+
+    <!-- Gender Pickers --> 
+
+    <div id="main-picker-container">
+
+        <h2 class='picker-header'>CHOOSE A GENDER</h2>
+
+        <div id="main-picker-scroller">
+            
+        </div>
+        
+        <div class='back-link' data-destination="gender"></div>
+        <div class="uniform_details"><span class="uniform_name">Test:</span><span class="uniform_description"></span></div>
+
+    </div>
+
+    <!-- End Gender Pickers-->
+
 </div>
 
 <!--
@@ -120,7 +147,8 @@
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/dropdown/jquery.dropdown.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
@@ -131,15 +159,17 @@
 
     $(document).ready(function () {
 
-        window.ub = {};
-        window.ub.objects = {};
-        window.ub.config = { 
+        window.ub           = {};
+        window.ub.objects   = {};
+        window.ub.funcs     = {};
+
+        window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}", 
-            material_id: {{ $material_id }}, 
+            material_id: {{ $material_id }},
             category_id: {{ $category_id }}, 
-            host: 'http://{{ Request::server ("HTTP_HOST") }}', 
-            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/' 
+            host: 'http://{{ Request::server ("HTTP_HOST") }}',
+            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
         };
 
         @if (Session::get('isLoggedIn'))
@@ -171,7 +201,6 @@
 
         @endif
 
-
         // #load_order
         var s = "{{ $builder_customizations }}";
 
@@ -179,7 +208,7 @@
             
             window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
 
-            $('#genPDF').on('click', function(){
+            $('#genPDF').on('click', function () {
              
                 var doc = new jsPDF();
                 var image = $('div.ub_qrcode > canvas').get(0).toDataURL("image/png", 1.0);
@@ -218,7 +247,28 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js{{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
+
 <!-- End Uniform Builder Scripts -->
+
+
+<!-- Drop Down Test-->
+
+    <div class="team_color_picker_options" data-team-color-id = '-1'>
+
+        <div class="color_items_container">
+            
+        </div>
+
+        <div class="scroller">
+            
+        </div>
+
+    </div>
+
+<!-- End Drop Down Test-->
 
 </body>
 </html>
