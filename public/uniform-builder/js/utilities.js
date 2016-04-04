@@ -54,7 +54,7 @@ $( document ).ready(function() {
 
     String.prototype.toTitleCase = function(){
 
-        return window.util.toTitleCase(window.util.toTitleCase(this.replace("_", " ")).replace("_", " "));
+        return window.util.toTitleCase(window.util.toTitleCase(this.replace("_", " ")).replace("_", " ").replace("_", " ").replace("_", " "));
 
     };
 
@@ -63,7 +63,7 @@ $( document ).ready(function() {
 
     String.prototype.toCodeCase = function(){
 
-        return this.replace(" ", "_").toLowerCase().replace(" ", "_");
+        return this.replace(" ", "_").toLowerCase().replace(" ", "_").replace(" ", "_").replace(" ", "_");
 
     };
 
