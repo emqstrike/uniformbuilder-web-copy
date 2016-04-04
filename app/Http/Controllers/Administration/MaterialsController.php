@@ -12,6 +12,7 @@ use App\APIClients\ColorsAPIClient;
 use App\APIClients\FactoriesAPIClient;
 use App\APIClients\GradientsAPIClient;
 use App\APIClients\ApplicationsAPIClient;
+use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
@@ -24,6 +25,7 @@ class MaterialsController extends Controller
     protected $factoriesClient;
     protected $gradientClient;
     protected $applicationClient;
+    protected $boundaryClient;
     protected $fontClient;
 
     public function __construct(
@@ -33,6 +35,7 @@ class MaterialsController extends Controller
         FactoriesAPIClient $factoriesAPIClient,
         GradientsAPIClient $gradientsAPIClient,
         ApplicationsAPIClient $applicationsAPIClient,
+        BoundariesAPIClient $boundariesAPIClient,
         FontsAPIClient $fontsAPIClient
     )
     {
@@ -42,6 +45,7 @@ class MaterialsController extends Controller
         $this->colorsClient = $colorsAPIClient;
         $this->gradientClient = $gradientsAPIClient;
         $this->applicationClient = $applicationsAPIClient;
+        $this->boundaryClient = $boundariesAPIClient;
         $this->fontClient = $fontsAPIClient;
     }
 
@@ -53,6 +57,7 @@ class MaterialsController extends Controller
         Log::info('Index');
         $materials = $this->client->getMaterials();
         $applications = $this->applicationClient->getApplications();
+        $boundaries = $this->boundaryClient->getBoundaries();
 
         // foreach ($materials as $material)
         // {
@@ -67,7 +72,8 @@ class MaterialsController extends Controller
             'materials' => $materials,
             'colors' => $colors,
             'gradients' => $gradients,
-            'applications' => $applications
+            'applications' => $applications,
+            'boundaries' => $boundaries
         ]);
     }
 
@@ -78,6 +84,7 @@ class MaterialsController extends Controller
         $options = $this->optionsClient->getByMaterialId($id);
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
+        $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
 
         foreach($options as $option){
@@ -116,6 +123,7 @@ class MaterialsController extends Controller
             'colors' => $colors,
             'gradients' => $gradients,
             'applications' => $applications,
+            'boundaries' => $boundaries,
             'fonts' => $fonts
         ]);
         // return View::make('administration.materials.material-options', $options);

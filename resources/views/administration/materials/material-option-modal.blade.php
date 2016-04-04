@@ -17,7 +17,23 @@
                 <div class="col-md-4">
                     <div>
                         <a href="#" class="btn btn-success add-point">Add point</a>
-                        <a href="#" class="btn btn-primary update-applications-json" style="float: right;">Save</a>
+                        <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Template:</label>
+                        <select name="load_boundaries_template" class="load-boundaries-template" style="width: 200px;">
+                            <option value='"{}"'>None</option>
+                            @foreach ($boundaries as $boundary)
+                                <option value='{{ $boundary->boundary_properties }}'>
+                                    {{ $boundary->block_pattern }}-
+                                    {{ $boundary->perspective }}-
+                                    {{ $boundary->part }}-
+                                    {{ $boundary->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <input type="text" id="boundary_template_name" placeholder="Template Name...">
+                        <a href="#"
+                            class="btn btn-xs btn-primary" id="save_boundary_template" disabled>
+                        <span class="glyphicon glyphicon-save"></span> Save as Template</a>
+                        <!-- <a href="#" class="btn btn-primary update-applications-json" style="float: right;">Save</a> -->
                     </div>
                     <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
                     <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px; opacity: 0.45;">
@@ -159,9 +175,9 @@
 
                 <div class="col-md-4">
                     <br><br><br>
-                    <div>
+                    <!-- <div>
                         <a href="#" class="btn btn-primary update-applications-json">Save</a>
-                    </div>
+                    </div> -->
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px; opacity: 0.45;">
                         <canvas id="applications-front-canvas"></canvas>
@@ -257,7 +273,7 @@
                             <tbody class="front-applications">
                             </tbody>
                         </table>
-                        <input type="text" id="app_template_name" placeholder="Template Name...">
+                        <input type="text" id="app_template_name" placeholder="Template Name.">
                         <a href="#"
                             class="btn btn-xs btn-primary" id="save_app_template" disabled>
                         <span class="glyphicon glyphicon-save"></span> Save as Template</a><hr>
@@ -266,6 +282,7 @@
             </div>
             <hr>
             <div class="modal-footer">
+                <a href="#" class="btn btn-success update-applications-json">Save Properties</a>
                 <input type="submit" class="btn btn-primary save-changes" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button>
             </div>

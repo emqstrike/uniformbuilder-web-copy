@@ -1,23 +1,23 @@
 <?php
 namespace App\APIClients;
 
-class ApplicationsAPIClient extends APIClient
+class BoundariesAPIClient extends APIClient
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function getApplications()
+    public function getBoundaries()
     {
-        $response = $this->get('applications');
+        $response = $this->get('boundaries');
         $result = $this->decoder->decode($response->getBody());
 
-        $applications = [];
+        $boundaries = [];
         if ($result->success)
         {
-            $applications = $result->applications;
+            $boundaries = $result->boundaries;
         }
-        return $applications;
+        return $boundaries;
     }
 }
