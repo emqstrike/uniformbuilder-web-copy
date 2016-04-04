@@ -971,37 +971,8 @@ var appPropJson = "";
 
 
             loadPolygon(polyData);
-            function loadPolygon(data){
-                var z = 0;
-                $.each(data, function(i, item) {
-                    var xcoord = item.x / 2;
-                    var ycoord = item.y / 2;
-                    // window['a'+z] = addPoint('a'+z, item.x, item.y, 'knot');
-                    window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
-                    z++;
-                });
 
-                lineIdx = 0;
-                var circles = canvas.getObjects('circle');
-                var x = 0;
-                var a = circles.length - 1;
-
-                circles.forEach(function(entry) {
-                    var y = x + 1;
-                    if( x < a ){
-                        addLine(window['a'+x], window['a'+y], lineIdx);
-                        lineIdx++;
-                    } else {
-                        addLine(window['a'+x], window['a0'], lineIdx);  
-                    }
-
-                    x++;
-                });
-                console.log('Line Index: ' + lineIdx);
-                loadCase = 1;
-            }
-
-            canvas.renderAll();
+            // canvas.renderAll();
             canvasFront.clear();
 
             if($('.a-prop').val() != "\"{}\""){
@@ -1347,12 +1318,21 @@ var appPropJson = "";
         }
     });
 
+    $("#boundary_template_name").keyup(function() {
+        console.log("Changed template name, length is: "+$(this).val().length);
+        if( $(this).val().length > 2 ){
+            $('#save_boundary_template').removeAttr('disabled');
+            console.log('IF');
+        } else {
+            $('#save_boundary_template').attr('disabled', 'disabled');
+            console.log('ELSE');
+        }
+    });
+
     $(".load-applications-template").change(function() {
         canvasFront.clear();
         application_number = 1;
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
-        console.log('CHANGE TEMPLATE');
         var va_prop_val = $(this).val();
 
         if(va_prop_val != "\"{}\""){
@@ -1364,7 +1344,78 @@ var appPropJson = "";
             appendApplications(app_properties);
 
         }
-        updateCoordinates();
+        // updateCoordinates();
+    });
+
+    $(".load-boundaries-template").change(function() {
+        var va_prop_val = $(this).val();
+
+        if( va_prop_val == '"{}"' || va_prop_val == null ){
+            va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
+        }
+        console.log('VA_PROP_VAL' + va_prop_val);
+        var output = va_prop_val.substring(1, va_prop_val.length-1);
+        polyData = JSON.parse(output);
+        loadPolygon(polyData);
+        // updateCoordinates();
+    });
+
+    function fixLoadPolygon(){
+        var va_prop_val = $('.load-boundaries-template').val();
+
+        var output = va_prop_val.substring(1, va_prop_val.length-1);
+        polyData = JSON.parse(output);
+
+        loadPolygon(polyData);
+    }
+
+    $('#save_boundary_template').on('click', function(){
+        var name = $('#boundary_template_name').val();
+        var block_pattern = $('#material_block_pattern').val();
+        var perspective = $('#saved-perspective').val();
+        var part = $('#material-option-name').val();
+        var boundary_properties = $('.b-prop').val();
+
+        var description = "Lorem Ipsum Yaddah";
+
+        var url = "//" + api_host + "/api/boundary";
+
+        var myData={
+            "name":name,
+            "block_pattern":block_pattern,
+            "perspective":perspective,
+            "part":part,
+            "description":description,
+            "boundary_properties":boundary_properties
+        };
+
+        if($(this).attr('disabled') != 'disabled'){
+            console.log('SAVE TEMPLATE!');
+            console.log('myData: '+JSON.stringify(myData));
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(myData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
+        }
+        
+        
     });
 
     $('#save_app_template').on('click', function(){
@@ -2010,13 +2061,17 @@ var appPropJson = "";
         // var bottomRightX = bounding_box.oCoords.br.x * 2;
         // var bottomRightY = bounding_box.oCoords.br.y * 2;
         var circles = canvas.getObjects('circle');
-        coords = new Array();
+        // coords = new Array();
         var x = 0;
         circles.forEach(function(entry) {
             var getCenterPoint = entry.getCenterPoint();
             console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
+            var groups = canvas.getObjects('group');
             // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+            if( x == 0 ){
+                coords[x]['angle'] = parseFloat(groups[0].getAngle());
+            }
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
@@ -2036,10 +2091,11 @@ var appPropJson = "";
         // data.boxHeight = bounding_box.getHeight() * 2;
         // data.pivot = bounding_box.getCenterPoint();
         // data.rotation = bounding_box.getAngle();
-
+        console.log('BPROP RAW COORDS: '+JSON.stringify(coords));
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
+        console.log('BPROP: '+boundaryProperties);
 
         $(".app-rotation").each(function(i) {
             // BUILD APPLICATION PROPERTIES JSON
@@ -2499,6 +2555,37 @@ var appPropJson = "";
     bindColorsSelect2();
     bindGradientsSelect2();
 
+canvas.observe('object:rotating', function (e) { 
+    // coords = new Array();
+    // coords[0] = {};
+    // var groups = canvas.getObjects('group');
+    // coords[0].angle = groups[0].getAngle();
+    // console.log(JSON.stringify(coords));
+    // console.log("JSON"+canvas.toJSON());
+
+    canvas.renderAll();
+    var circles = canvas.getObjects('circle');
+    var groups = canvas.getObjects('group');
+    coords = new Array();
+    var x = 0;
+    circles.forEach(function(entry) {
+        var getCenterPoint = entry.getCenterPoint();
+        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+        coords[x] = {};
+        if( x == 0 ){
+            coords[x]['angle'] = parseFloat(groups[0].getAngle());
+        }
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
+        x++;
+    });
+    coords.forEach(function(entry) {
+        console.log('Entry: '+entry['x']+', '+entry['y']);
+    });
+    console.log(JSON.stringify(coords));
+    console.log("JSON"+canvas.toJSON());
+});
+
 canvas.observe('object:moving', function (e) { 
     var p = e.target;
     console.log('Moving ' + p.name);
@@ -2550,23 +2637,101 @@ canvas.observe('object:moving', function (e) {
     console.log(p.name + ' moved!');
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
+    var groups = canvas.getObjects('group');
     coords = new Array();
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+        // console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
-        // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
+        if( x == 0 ){
+            coords[x]['angle'] = parseFloat(groups[0].getAngle());
+        }
         coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
-
-    coords.forEach(function(entry) {
-        console.log('Entry: '+entry['x']+', '+entry['y']);
-    });
+    // coords.forEach(function(entry) {
+    //     console.log('Entry: '+entry['x']+', '+entry['y']);
+    // });
     console.log(JSON.stringify(coords));
-    console.log("JSON"+canvas.toJSON());
 }); //canvas.observe()
+
+function loadPolygon(data){
+    console.log("PolyData >> "+JSON.stringify(data));
+    var angle;
+    canvas.clear();
+    var z = 0;
+    // console.log('POLY TEST >> '+data[0].angle);
+    $.each(data, function(i, item) {
+        var xcoord = item.x / 2;
+        var ycoord = item.y / 2;
+        if( z == 0 && item.angle != undefined ){
+            console.log('ITEM ANGLE: '+item.angle);
+            angle = item.angle;
+        }
+        window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
+        z++;
+    });
+
+    lineIdx = 0;
+    var circles = canvas.getObjects('circle');
+    var x = 0;
+    var a = circles.length - 1;
+
+    circles.forEach(function(entry) {
+        var y = x + 1;
+        if( x < a ){
+            addLine(window['a'+x], window['a'+y], lineIdx);
+            lineIdx++;
+        } else {
+            addLine(window['a'+x], window['a0'], lineIdx);  
+        }
+
+        x++;
+    });
+    console.log('Line Index: ' + lineIdx);
+    loadCase = 1;
+
+    var rect = new fabric.Rect({
+        left: 453,
+        top: 362,
+        fill: 'White',
+        stroke: 'red',
+        stroke_width: '2px',
+        hasBorders: false,
+        lockScalingX: true,
+        lockScalingY: true,
+        lockUniScaling: true,
+        width: 50,
+        height: 50
+    });
+
+    var text = new fabric.Text('Pattern Angle', {
+        fill: 'black',
+        fontSize: 15,
+        left: 453,
+        top: 362
+    });
+
+    var triangle = new fabric.Triangle({
+        width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180
+    });
+
+    if( angle == null || angle == "" ){
+        angle = 0;
+    }
+
+    var group = new fabric.Group([ rect, triangle, text ], {
+        left: 453,
+        top: 362,
+        angle: angle
+    });
+    // console.log("Load Angle >>> "+data[0].angle);
+    // group.setAngle(angle);
+    canvas.add(group);
+    canvas.renderAll();
+    // fixLoadPolygon();
+}
 
 });

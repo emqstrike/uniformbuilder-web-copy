@@ -17,6 +17,22 @@
                 <div class="col-md-4">
                     <div>
                         <a href="#" class="btn btn-success add-point">Add point</a>
+                        <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Load Template:</label>
+                        <select name="load_boundaries_template" class="load-boundaries-template" style="width: 200px;">
+                            <option value='"{}"'>None</option>
+                            @foreach ($boundaries as $boundary)
+                                <option value='{{ $boundary->boundary_properties }}'>
+                                    {{ $boundary->block_pattern }}-
+                                    {{ $boundary->perspective }}-
+                                    {{ $boundary->part }}-
+                                    {{ $boundary->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <input type="text" id="boundary_template_name" placeholder="Template Name...">
+                        <a href="#"
+                            class="btn btn-xs btn-primary" id="save_boundary_template" disabled>
+                        <span class="glyphicon glyphicon-save"></span> Save as Template</a>
                         <a href="#" class="btn btn-primary update-applications-json" style="float: right;">Save</a>
                     </div>
                     <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
