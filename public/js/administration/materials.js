@@ -60,7 +60,7 @@ $('.add-point').on('click', function(){
     var itemsCount = canvas.getObjects().length;
     var y = pointsCount - 1;
 
-    if(pointsCount < 30){
+    if(pointsCount < 50){
         var z = pointsCount + 1;
         var j = pointsCount - 1;
 
