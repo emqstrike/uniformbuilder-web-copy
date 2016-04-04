@@ -273,7 +273,7 @@
                             <tbody class="front-applications">
                             </tbody>
                         </table>
-                        <input type="text" id="app_template_name" placeholder="Template Name...">
+                        <input type="text" id="app_template_name" placeholder="Template Name.">
                         <a href="#"
                             class="btn btn-xs btn-primary" id="save_app_template" disabled>
                         <span class="glyphicon glyphicon-save"></span> Save as Template</a><hr>
