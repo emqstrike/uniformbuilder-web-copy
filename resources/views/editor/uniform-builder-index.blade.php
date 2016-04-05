@@ -109,7 +109,7 @@
 
         </div>
 
-        <div id="right-main-window" class="pane-main-window team-color-pane">        
+        <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane">        
 
             <span class="shadowed_header">
                 TEAM COLOR
