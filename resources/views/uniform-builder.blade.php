@@ -84,13 +84,17 @@
 
     <div id="main-picker-container">
 
-        <h2 class='picker-header'>CHOOSE A GENDER</h2>
+        <div class='header-container'>
+            
+            <div class='back-link' data-destination="gender"></div>
+            <h2 class='picker-header'>CHOOSE A GENDER</h2>
+
+        </div>
 
         <div id="main-picker-scroller">
             
         </div>
         
-        <div class='back-link' data-destination="gender"></div>
         <div class="uniform_details"><span class="uniform_name">Test:</span><span class="uniform_description"></span></div>
 
     </div>
