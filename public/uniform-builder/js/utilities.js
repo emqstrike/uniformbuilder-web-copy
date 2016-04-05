@@ -52,20 +52,25 @@ $( document ).ready(function() {
     /// Call:   "arm trim".toTitleCase();
     /// Output: "Arm Trim"
 
-    String.prototype.toTitleCase = function(){
-
-        return window.util.toTitleCase(window.util.toTitleCase(this.replace("_", " ")).replace("_", " ").replace("_", " ").replace("_", " "));
+    String.prototype.toTitleCase = function () {
+ 
+        var fullStringValue = this.toString();
+        var returnValue     = window.util.toTitleCase(fullStringValue.split('_').join(' '));
+        
+        return returnValue;
 
     };
 
     /// Call:   "Arm Trim".toCodeCase();
     /// Output: "arm_trim"
 
-    String.prototype.toCodeCase = function(){
+    String.prototype.toCodeCase = function () {
 
-        return this.replace(" ", "_").toLowerCase().replace(" ", "_").replace(" ", "_").replace(" ", "_");
+        var fullStringValue = this.toString();
+        var returnValue     = fullStringValue.split(' ').join('_').toLowerCase();
+
+        return returnValue;
 
     };
-
 
 }); 
