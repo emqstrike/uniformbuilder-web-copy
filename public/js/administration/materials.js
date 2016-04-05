@@ -386,7 +386,6 @@ function addLine(p0, p1, lineIdx) {
         }
         select_append += "</select>";
 
-        // var defaults = default_font + default_text + default_number;
         var fields = [
                     app_id,
                     select_append,
@@ -465,85 +464,6 @@ var applicationProperties = {};
     canvas.setWidth( 496 );
     canvas.setHeight( 550 );
     fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
-    // window.shapes = {};
-
-    // var data = {
-    //     topLeft: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     topRight: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     bottomLeft: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     bottomRight: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     width: 0,
-    //     height: 0,
-    //     pivot: 0,
-    //     rotation: 0,
-    //     };
-
-    // var box = new fabric.Rect({
-    //     width: 250, height: 250, angle: 0,
-    //     fill: 'transparent',
-    //     stroke: 'red',
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // var circle = new fabric.Circle({
-    //     radius: 40,
-    //     fill: 'red',
-    //     opacity: 0.35,
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // circle.hasBorders = false;
-    // circle.hasControls = false;
-
-    // var text = new fabric.Text('Bounding box', {
-    //     fontSize: 11,
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // var bounding_box = new fabric.Group([ box, text ], {
-    //     left: canvas.width / 2.6,
-    //     top: canvas.height / 5
-    // });
-
-    // var midLine = new fabric.Line([0, 20, 350, 20], {
-    //     strokeDashArray: [5, 5],
-    //     stroke: 'red',
-    //     originX: 'center',
-    //     originY: 'center',
-    //     angle: 90,
-    //     left: canvas.width / 2,
-    //     top: canvas.height / 2
-    // });
-
-    // midLine.hasControls = false;
-
-    // window.shapes.bounding_box = bounding_box;
-
-    // bounding_box.transparentCorners = false;
-    // canvas.add(bounding_box, midLine);
-
-
-    canvas.on({
-        // 'object:moving': updateCoordinates,
-        // 'object:scaling': updateCoordinates,
-        // 'object:rotating': updateCoordinates,
-        // 'mouse:up': updateCoordinates
-    });
 
     canvasFront.on({
         'object:moving': updateCoordinatesXYR,
@@ -749,36 +669,36 @@ var material = {};
         $('#cleanup_material_id').val(id);
     });
 
-    $('.add-material-option').on('click', function(){
-        material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name'),
-            front_shape: ($(this).data('material-front-shape')),
-            back_shape: ($(this).data('material-back-shape')),
-            left_shape: ($(this).data('material-left-shape')),
-            right_shape: ($(this).data('material-right-shape'))
-        };
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-        $('#save-material-option-modal').modal('show');
+    // $('.add-material-option').on('click', function(){
+    //     material = {
+    //         id: $(this).data('material-id'),
+    //         name: $(this).data('material-name'),
+    //         front_shape: ($(this).data('material-front-shape')),
+    //         back_shape: ($(this).data('material-back-shape')),
+    //         left_shape: ($(this).data('material-left-shape')),
+    //         right_shape: ($(this).data('material-right-shape'))
+    //     };
+    //     $('#save-material-option-modal .material-id').val(material.id);
+    //     $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
+    //     $('#save-material-option-modal').modal('show');
 
-        $('.material-id').prop("value", material.id);
-        $('.material-option-id').val('');
-        $('#material-option-name').val('');
-        $('#saved-setting-type').val('');
-        $('#saved-setting-type').prop("visible", false);
-        $('#saved-perspective').val('');
-        $('#saved-perspective').prop("visible", false);
-        $('#boundary-properties').val('');
-        $('#application-properties').val('');
-        $("#material-option-bounding-box").css("background-image", '');
-        $("#shape-view-top").css("background-image", "url()");
-        $("#material-option-bounding-box-top").css("background-image", "url()");
-        checkNameLength();
-        canvasFront.clear();
-        clearAppPropOptions();
+    //     $('.material-id').prop("value", material.id);
+    //     $('.material-option-id').val('');
+    //     $('#material-option-name').val('');
+    //     $('#saved-setting-type').val('');
+    //     $('#saved-setting-type').prop("visible", false);
+    //     $('#saved-perspective').val('');
+    //     $('#saved-perspective').prop("visible", false);
+    //     $('#boundary-properties').val('');
+    //     $('#application-properties').val('');
+    //     $("#material-option-bounding-box").css("background-image", '');
+    //     $("#shape-view-top").css("background-image", "url()");
+    //     $("#material-option-bounding-box-top").css("background-image", "url()");
+    //     checkNameLength();
+    //     canvasFront.clear();
+    //     clearAppPropOptions();
 
-    });
+    // });
 
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
@@ -807,7 +727,366 @@ var appPropJson = "";
         $('.perspective-multiple-upload').val(perspective);
     });
 
-    $('.edit-material-option').on('click', function(){
+//     $('.edit-material-option').on('click', function(){
+//         application_number = 0;
+//         material = {
+//             id: $(this).data('material-id'),
+//             name: $(this).data('material-name'),
+//             front_shape: ($(this).data('material-front-shape')),
+//             back_shape: ($(this).data('material-back-shape')),
+//             left_shape: ($(this).data('material-left-shape')),
+//             right_shape: ($(this).data('material-right-shape')),
+//             option: {
+//                 id: $(this).data('material-option-id'),
+//                 name: $(this).data('material-option-name'),
+//                 origin: $(this).data('material-option-origin'),
+//                 layer_level: $(this).data('material-option-layer-level'),
+//                 default_color: $(this).data('material-option-default-color'),
+//                 sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
+//                 default_color_name: $(this).data('material-option-default-color-name'),
+//                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
+//                 type: $(this).data('material-option-setting-type'),
+//                 team_color_id: $(this).data('material-option-team-color-id'),
+//                 group_id: $(this).data('material-option-group-id'),
+//                 code: $(this).data('material-option-setting-code'),
+//                 path: $(this).data('material-option-path'),
+//                 perspective: $(this).data('material-option-perspective'),
+//                 colors: $(this).data('material-option-colors'),
+//                 gradients: $(this).data('material-option-gradients'),
+//                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
+//                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
+//                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
+//                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+//                 boundary_properties: ($(this).data('material-option-boundary-properties')),
+//                 applications_properties: ($(this).data('material-option-applications-properties')),
+//                 highlights: ($(this).data('material-highlights-path'))
+//             }
+//         };
+
+//         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
+
+//         $('.material-id').prop("value", material.id);
+//         $('.material-option-id').prop("value", material.option.id);
+//         $('#material-option-name').val(material.option.name);
+//         $('#group_id').val(material.option.group_id);
+//         $('#saved-setting-type').val(material.option.type);
+//         $('#saved-setting-type').text(material.option.type);
+//         $('#saved-setting-type').attr('selected','selected');
+//         $('#saved-origin').val(material.option.origin);
+//         $('#saved-origin').text(material.option.origin);
+//         $('#saved-origin').attr('selected','selected');
+
+//         $('.saved-default-color').val(material.option.default_color);
+//         $('.saved-default-color').text(material.option.default_color_name);
+//         $('.saved-default-color').attr('selected','selected');
+
+//         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
+//         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
+//         $('#saved-sublimated-default-color').attr('selected','selected');
+
+//         $('#saved-perspective').val(material.option.perspective);
+//         $('#saved-perspective').text(material.option.perspective + " View");
+//         $('#saved-perspective').attr('selected','selected');
+
+//         if(material.option.blend){
+//             $('#is_blend').prop('checked','checked');
+//         }
+//         if(material.option.allow_pattern){
+//             $('#allow_pattern').prop('checked','checked');
+//         }
+//         if(material.option.allow_gradient){
+//             $('#allow_gradient').prop('checked','checked');
+//         }
+//         if(material.option.allow_color){
+//             $('#allow_color').prop('checked','checked');
+//         }
+        
+//         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+//         var team_color_id_options = "";
+
+//         id_nums.forEach(function(entry) {
+//             id = entry;
+//             if(id == material.option.team_color_id){
+//                 team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+//             } else {
+//                 team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+//             }
+//         });
+
+//         $('#team_color_id').append(team_color_id_options);
+
+//         $('.b-prop').prop("value", material.option.boundary_properties);
+//         $('.a-prop').prop("value", material.option.applications_properties);
+//         var va_prop_val = $('.a-prop').val();
+//         if($('.a-prop').val() != "\"{}\""){
+//             va_prop_val = $('.a-prop').val();
+//             $('.a-prop').prop("value", va_prop_val);
+//         }
+
+//         var perspective = material.option.perspective;
+//         var material_option_shape;
+//         if(perspective == 'front') {
+//             material_option_shape = material.front_shape;
+//         } else if(perspective == 'back') {
+//             material_option_shape = material.back_shape;
+//         } else if(perspective == 'left') {
+//             material_option_shape = material.left_shape;
+//         } else if(perspective == 'right') {
+//             material_option_shape = material.right_shape;
+//         }
+
+//         if(material.option.highlights != null){
+//             material_option_shape = material.option.highlights;
+//         }
+
+//         $("#shape-view").css("background-image", "url("+material_option_shape+")");
+//         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+//         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+//         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
+//         checkNameLength();
+
+//         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+//         // **************
+//         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+//             canvas.clear();
+//             var jason = $('.b-prop').val();
+//             // var polyData = "'"+jason+"'";
+//             var output = jason.substring(1, jason.length-1);
+//             // var myData = JSON.parse(output);
+//             // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
+
+
+//             // var output = jason.substring(1, jason.length-1);
+//             polyData = JSON.parse(output);
+
+// // console.log('JASON: '+jason);
+//             // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
+//             // bounding_box.oCoords.tl.y = myData.topLeft.y;
+//             // bounding_box.oCoords.tr.x = myData.topRight.x;
+//             // bounding_box.oCoords.tr.y = myData.topRight.y;
+//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+//             // bounding_box.oCoords.br.x = myData.bottomRight.x;
+//             // bounding_box.oCoords.br.y = myData.bottomRight.y;
+//             // bounding_box.centerPoint = myData.pivot; ***
+
+//             // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+//             // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+//             // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+//             // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+//             // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+//             // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
+//             // bounding_box.centerPoint = myData.pivot;
+//             // bounding_box.setAngle(myData.rotation);
+
+//             // bounding_box.width = myData.boxWidth / 2;
+//             // bounding_box.height = myData.boxHeight / 2;
+//             // box.width = myData.boxWidth / 2;
+//             // box.height = myData.boxHeight / 2;
+//             // bounding_box.left = myData.topLeft.x / 2;
+//             // bounding_box.top = myData.topLeft.y / 2;
+
+
+//             loadPolygon(polyData);
+
+//             // canvas.renderAll();
+//             canvasFront.clear();
+
+//             if($('.a-prop').val() != "\"{}\""){
+//             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+//             var app_properties = JSON.parse(ap_out);
+
+//             $(".front-applications").remove(".apOpt");
+//             clearAppPropOptions();
+
+//             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
+//             appendApplications(app_properties);
+
+//             } // ************************ APP PROP IF END
+
+
+//             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
+//             $('.b-prop').prop('value', boundaryProperties);
+
+//             // var applicationsProperties = JSON.stringify(data);
+//             // $('.a-prop').prop('value', applicationsProperties);
+
+//             // console.log("CONSOLE LOG: " + applicationsProperties);
+
+
+//             $("#file-src").prop("src", material.option.path);
+//             $("#layer-level").prop("value", material.option.layer_level);
+
+//             if (material.option.blend) {
+//                 $('#is-blend').attr('checked', 'checked');
+//             } else {
+//                 $('#is-blend').attr('checked', 'unchecked');
+//             }
+
+//         }
+//         // **************
+
+//         $('#saved-setting-type').attr('selected',true);
+//         $('#saved-perspective').attr('selected',true);
+//         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+//         $('#save-material-option-modal .material-id').val(material.id);
+//         $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+//         $('#save-material-option-modal').modal('show');
+//     });
+
+    $('.material-option-boundary').on('click', function(){
+        application_number = 0;
+        material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape')),
+            option: {
+                material_id: $(this).data('material-id'),
+                id: $(this).data('material-option-id'),
+                name: $(this).data('material-option-name'),
+                type: $(this).data('material-option-setting-type'),
+                code: $(this).data('material-option-setting-code'),
+                path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-option-perspective'),
+                boundary_properties: ($(this).data('material-option-boundary-properties')),
+                highlights: ($(this).data('material-highlights-path'))
+            }
+        };
+
+        $('.b-prop').val(material.option.boundary_properties);
+        $('.material-option-id').val(material.option.id);
+        $('.material-id').val(material.id);
+
+        console.log('MO ID: '+material.option.id);
+        console.log('MAT ID: '+material.option.material_id);
+
+        var perspective = material.option.perspective;
+        var material_option_shape = material.option.path;
+
+        $('#app-saved-perspective').val(material.option.perspective);
+        $('#app-material-option-name').val(material.option.name);
+        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+        $("#material-option-bounding-box").css("background-image", "url("+material.option.highlights+")");
+
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+        canvasFront.clear();
+
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
+
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+        }
+
+
+
+        console.log('B prop val >>'+$('.b-prop').val());
+
+
+        if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
+            canvas.clear();
+            var jason = $('.b-prop').val();
+            var output = jason.substring(1, jason.length-1);
+            polyData = JSON.parse(output);
+
+            loadPolygon(polyData);
+            canvasFront.clear();
+
+            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
+            $('.b-prop').prop('value', boundaryProperties);
+        }
+
+
+
+
+
+
+
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-boundary-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-boundary-modal .material-id').val(material.id);
+        $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-boundary-modal').modal('show');
+    });
+
+    $('.material-option-applications').on('click', function(){
+        application_number = 0;
+        material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape')),
+            option: {
+                id: $(this).data('material-option-id'),
+                name: $(this).data('material-option-name'),
+                type: $(this).data('material-option-setting-type'),
+                code: $(this).data('material-option-setting-code'),
+                path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-option-perspective'),
+                applications_properties: ($(this).data('material-option-applications-properties')),
+                highlights: ($(this).data('material-highlights-path'))
+            }
+        };
+
+        $('.a-prop').prop("value", material.option.applications_properties);
+        var va_prop_val = $('.a-prop').val();
+        if($('.a-prop').val() != "\"{}\""){
+            va_prop_val = $('.a-prop').val();
+            $('.a-prop').prop("value", va_prop_val);
+        }
+
+        var perspective = material.option.perspective;
+        var material_option_shape = material.option.path;
+
+        $('#app-saved-perspective').val(material.option.perspective);
+        $('#app-material-option-name').val(material.option.name);
+        $("#shape-view").css("background-image", "url("+material.option.highlights+")");
+        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+        canvasFront.clear();
+
+        if($('.a-prop').val() != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+
+        }
+
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
+
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+        }
+
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-applications-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-applications-modal .material-id').val(material.id);
+        $('#save-material-option-applications-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-applications-modal').modal('show');
+    });
+
+    $('.edit-material-option-info').on('click', function(){
         application_number = 0;
         material = {
             id: $(this).data('material-id'),
@@ -926,96 +1205,21 @@ var appPropJson = "";
         checkNameLength();
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
 
-        // **************
-        if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            canvas.clear();
-            var jason = $('.b-prop').val();
-            // var polyData = "'"+jason+"'";
-            var output = jason.substring(1, jason.length-1);
-            // var myData = JSON.parse(output);
-            // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
-
-
-            // var output = jason.substring(1, jason.length-1);
-            polyData = JSON.parse(output);
-
-// console.log('JASON: '+jason);
-            // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
-            // bounding_box.oCoords.tl.y = myData.topLeft.y;
-            // bounding_box.oCoords.tr.x = myData.topRight.x;
-            // bounding_box.oCoords.tr.y = myData.topRight.y;
-            // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-            // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-            // bounding_box.oCoords.br.x = myData.bottomRight.x;
-            // bounding_box.oCoords.br.y = myData.bottomRight.y;
-            // bounding_box.centerPoint = myData.pivot; ***
-
-            // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
-            // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
-            // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
-            // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
-            // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
-            // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
-            // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
-            // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
-            // bounding_box.centerPoint = myData.pivot;
-            // bounding_box.setAngle(myData.rotation);
-
-            // bounding_box.width = myData.boxWidth / 2;
-            // bounding_box.height = myData.boxHeight / 2;
-            // box.width = myData.boxWidth / 2;
-            // box.height = myData.boxHeight / 2;
-            // bounding_box.left = myData.topLeft.x / 2;
-            // bounding_box.top = myData.topLeft.y / 2;
-
-
-            loadPolygon(polyData);
-
-            // canvas.renderAll();
-            canvasFront.clear();
-
-            if($('.a-prop').val() != "\"{}\""){
-            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-            var app_properties = JSON.parse(ap_out);
-
-            $(".front-applications").remove(".apOpt");
-            clearAppPropOptions();
-
-            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
-            appendApplications(app_properties);
-
-            } // ************************ APP PROP IF END
-
-
-            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
-            $('.b-prop').prop('value', boundaryProperties);
-
-            // var applicationsProperties = JSON.stringify(data);
-            // $('.a-prop').prop('value', applicationsProperties);
-
-            // console.log("CONSOLE LOG: " + applicationsProperties);
-
-
-            $("#file-src").prop("src", material.option.path);
-            $("#layer-level").prop("value", material.option.layer_level);
-
-            if (material.option.blend) {
-                $('#is-blend').attr('checked', 'checked');
-            } else {
-                $('#is-blend').attr('checked', 'unchecked');
-            }
-
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
         }
-        // **************
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-modal').modal('show');
+        $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-info-modal .material-id').val(material.id);
+        $('#save-material-option-info-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-info-modal').modal('show');
     });
 
     function appendApplications(app_properties){
@@ -1421,8 +1625,8 @@ var appPropJson = "";
     $('#save_app_template').on('click', function(){
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
-        var perspective = $('#saved-perspective').val();
-        var part = $('#material-option-name').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
         var applications_properties = $('.a-prop').val();
 
         var description = "Lorem Ipsum Yaddah";
@@ -2132,7 +2336,6 @@ var appPropJson = "";
 
             function getMascotData(callback){
                 var mascotData;
-                // var url = "//" + api_host + "/api/mascots";
                 var url = "//api-dev.qstrike.com/api/mascot/"+applicationMascot;
                 $.ajax({
                     url: url,
@@ -2153,13 +2356,11 @@ var appPropJson = "";
 
             window.fontData = null;
             getfontData(function(fontData){
-                // console.log(items);
                 window.fontData = fontData;
             });
 
             function getfontData(callback){
                 var fontData;
-                // var url = "//" + api_host + "/api/mascots";
                 var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
                 $.ajax({
                     url: url,
@@ -2177,7 +2378,7 @@ var appPropJson = "";
             }
 
             fontData = window.fontData;
-            // console.log("Default Mascot:"+applicationMascot);
+            
             if(isPrimary.prop( "checked" )){
                 isPrimary = 1;
             } else {
@@ -2556,12 +2757,6 @@ var appPropJson = "";
     bindGradientsSelect2();
 
 canvas.observe('object:rotating', function (e) { 
-    // coords = new Array();
-    // coords[0] = {};
-    // var groups = canvas.getObjects('group');
-    // coords[0].angle = groups[0].getAngle();
-    // console.log(JSON.stringify(coords));
-    // console.log("JSON"+canvas.toJSON());
 
     canvas.renderAll();
     var circles = canvas.getObjects('circle');

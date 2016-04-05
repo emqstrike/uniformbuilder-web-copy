@@ -27,6 +27,44 @@ class MaterialsOptionsController extends Controller
         $this->materialClient = $materialClient;
     }
 
+    public function saveBoundary(Request $request)
+    {
+
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+
+
+        $boundary_properties = $request->input('boundary_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $materialId,
+            'boundary_properties' => $boundary_properties
+        ];
+// dd($data);
+        $response = null;
+        if (!empty($materialOptionId))
+        {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->updateBoundary($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem saving your material option');
+        }
+    }
+
     public function store(Request $request)
     {
         $materialId = $request->input('material_id');
@@ -109,7 +147,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-// dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {

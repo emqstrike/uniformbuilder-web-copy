@@ -100,6 +100,30 @@
                     <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                          class="material-option-{{ $option->id }}  material-option-item"
                          data-material-option-name="{{ $option->name }}">
+                        <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
+                                    data-material-option-id="{{ $option->id }}"
+                                    data-material-id="{{ $material->id }}"
+                                    data-material-option-name="{{ $option->name }}"
+                                    data-material-option-applications-properties="{{ $option->applications_properties }}"
+                                    data-material-option-path="{{ $option->material_option_path }}"
+                                    data-material-option-perspective="{{ $option->perspective }}"
+                                    <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
+                                    role="button">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </a>
+                        <a href="#" class="btn btn-default btn-xs material-option-boundary pull-right"
+                                    data-material-option-id="{{ $option->id }}"
+                                    data-material-id="{{ $material->id }}"
+                                    data-material-option-name="{{ $option->name }}"
+                                    data-material-option-boundary-properties="{{ $option->boundary_properties }}"
+                                    data-material-option-path="{{ $option->material_option_path }}"
+                                    data-material-option-perspective="{{ $option->perspective }}"
+                                    <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
+                                data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
+                                    role="button">
+                            <i class="glyphicon glyphicon-screenshot"></i>
+                        </a>
                         <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-option-name="{{ $option->name }}"
@@ -113,7 +137,7 @@
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
                         <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                        <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option" data-toggle="popover" data-img="{{ $option->material_option_path }}"
+                        <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                          data-placement="right"
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
@@ -140,11 +164,10 @@
                                 data-material-id="{{ $option->material_id }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
-                                >[{{ $option->layer_level }}] {{ $option->name }}
-                                <i class="glyphicon glyphicon-edit"></i></a>
+                                ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                         <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
-                        <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span>
+                        <!-- <span style="margin-top: 0; background-color: #{{ $option->sublimated_default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->sublimated_default_hex_code }}</span> -->
                     </div>
                 @endif
             @endforeach
@@ -320,13 +343,19 @@
 
 @include('administration.materials.add-multiple-options-modal')
 
+@include('administration.materials.material-option-boundary-modal')
+
+@include('administration.materials.material-option-applications-modal')
+
+@include('administration.materials.material-option-info-modal')
+
 @include('administration.materials.material-option-modal')
 
 @include('administration.materials.cleanup-material-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
-@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
+{{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option']) --}}
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])
 
