@@ -3771,7 +3771,7 @@ $(document).ready(function () {
 
         var $bl    = $("#main-picker-container"),
                 $th    = $("#main-picker-scroller"),
-                blW    = $bl.outerWidth() + 400,
+                blW    = $bl.outerWidth(),
                 blSW   = temp    // $bl[0].scrollWidth,
                 wDiff  = (blSW/blW)-1,  // widths difference ratio
                 mPadd  = 60,  // Mousemove Padding
