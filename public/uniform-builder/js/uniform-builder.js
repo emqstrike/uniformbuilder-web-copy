@@ -26,6 +26,13 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+            if (typeof ub.user.id !== 'undefined') {
+
+                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+                ub.loader(ub.orders_url, 'orders', ub.load_orders);                
+
+            }
+
             ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) {
@@ -337,7 +344,211 @@ $(document).ready(function () {
 
         };
 
-        ub.load_design_sets = function (obj, object_name){
+        var substringMatcher = function(strs) {
+          return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+              if (substrRegex.test(str)) {
+                matches.push(str);
+              }
+            });
+
+            cb(matches);
+          };
+        };
+
+        ub.overrideTypeAheadEvent = function (e) {
+            
+            var $element = $(e);
+            var _value = $element.data('value');
+            var _id = $element.data('id');
+
+        };
+
+        ub.funcs.getSearchObject = function (type, name) {
+
+            var _object;
+            var _id;
+            var _thumbnail;
+
+            if (type === 'materials') {
+
+                _object = _.find(ub.materials, {name: name});
+                _id = _object.id;
+                _thumbnail = _object.thumbnail_path;
+
+            }
+            else if (type === 'orders') {
+
+                _object =  _.find(ub.orders, {design_name: name});
+                _id = _object.order_id;
+
+                if (_object.upper_front_thumbnail_path !== null) {
+
+                    _thumbnail = _object.upper_front_thumbnail_path;    
+
+                }
+                else {
+
+                    _thumbnail = _object.lower_front_thumbnail_path
+
+                }
+
+            }
+            else {
+
+                _object = undefined;
+
+            }
+
+            return {
+
+                object: _object,
+                id: _id,
+                thumbnail: _thumbnail,
+
+            }
+
+        }
+
+        ub.addToSearchResults = function (type, data) {
+
+            var _key = Math.round(+new Date()/1000); 
+            var _searchResultsObject = ub.searchResults;
+
+            if (!Array.isArray(_searchResultsObject[_key])) {
+
+                _searchResultsObject[_key] = [];
+
+            }
+
+            var _object = ub.funcs.getSearchObject(type, data);
+
+            _searchResultsObject[_key].push({
+                type: type,
+                name: data,
+                thumbnail: _object.thumbnail,
+                id: _object.id,
+            });
+
+            $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
+
+            ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
+
+        };
+
+        ub.prepareTypeAhead = function () {
+
+            if (typeof ub.user.id !== 'undefined') { // Logged In
+
+                if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
+
+                    $('.typeahead').typeahead({
+                        minLength: 3,
+                        highlight: true
+                    },
+                    {
+                        name: 'materials',
+                        source: substringMatcher(ub.data.searchSource['materials']),
+                        templates: {
+                            header: '<h3 class="header-name">Styles</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('materials', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
+
+                            },
+
+                        },
+                    },
+                    {
+                        name: 'orders',
+                        source: substringMatcher(ub.data.searchSource['orders']),
+                        templates: {
+                            
+                            header: '<h3 class="header-name orders">Saved Designs</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('orders', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="orders">' + data + '</div>';                            
+
+                            },
+
+                        },
+                    });
+
+                    $('.typeahead').unbind('typeahead:idle');
+                    $('.typeahead').bind('typeahead:idle', function (ev, list, flag, dataset) {
+                        ub.searchResults = {};
+                    });
+
+                    $('.typeahead').unbind('typeahead:select');
+                    $('.typeahead').bind('typeahead:select', function (ev, data) {
+                        $('[data-item="'+ data +'"]').click();
+                    });
+
+                    $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    setTimeout("$('#search_field').focus();", 0);
+
+                }
+
+            }
+            else { // Guest 
+
+                if (typeof ub.data.searchSource['materials'] === 'object') {
+
+                    $('.typeahead').typeahead({
+                        minLength: 3,
+                        highlight: true
+                    },{
+                        
+                        name: 'materials',
+                        source: substringMatcher(ub.data.searchSource['materials']),
+                        templates: {
+                            header: '<h3 class="header-name">Styles</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('materials', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
+    
+                            },
+                        },
+
+                    });
+
+                    $('.typeahead').unbind('typeahead:idle');
+                    $('.typeahead').bind('typeahead:idle', function (ev, list, flag, dataset) {
+
+                        ub.searchResults = {};
+
+                    });
+
+                    $('.typeahead').unbind('typeahead:select');
+                    $('.typeahead').bind('typeahead:select', function (ev, data) {
+                        $('[data-item="'+ data +'"]').click();
+                    });
+
+                    $('#search_field').attr("placeholder","Search: Style");
+                    setTimeout("$('#search_field').focus();", 0);
+
+                }
+
+            }
+
+            $('input#search_field').prop('disabled', false);
+
+        };
+
+        ub.load_design_sets = function (obj, object_name) {
 
             ub.design_sets = {};
             ub.design_sets = obj;
@@ -350,6 +561,19 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.materials = obj;
+            ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+
+            ub.prepareTypeAhead();
+
+        }
+
+        ub.load_orders = function (obj, object_name){
+
+            ub.orders = {};
+            ub.orders = obj;
+            ub.data.searchSource['orders'] = _.pluck(ub.orders, 'design_name');
+
+            ub.prepareTypeAhead();
 
         }
 
@@ -3697,6 +3921,8 @@ $(document).ready(function () {
         var $backLink = $('div.back-link');
         $backLink.hide();
 
+
+
     }
 
     ub.funcs.reBindEventsPickers = function () {
@@ -3728,6 +3954,30 @@ $(document).ready(function () {
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
 
+            }
+
+            if (_picker_type === 'search-result') {
+
+                var $searchField = $('input#search_field');
+                $searchField.hide();
+
+                ub.funcs.fadeOutElements();
+                $('body').removeClass('pickers-enabled');
+
+                var _item_type = $(this).data('uniform-type');
+                var _id = $(this).data('id');
+
+                if (_item_type === 'materials') {
+
+                    window.location.href = window.ub.config.host + '/builder/0/' + _id;
+
+                }
+                else if (_item_type === 'orders') {
+
+                    window.location.href = window.ub.config.host + '/orders/' + _id;
+
+                }
+                
             }
 
         });
@@ -3816,6 +4066,9 @@ $(document).ready(function () {
         var $uniformDetailsElement = $('div.uniform_details');
         var $pickerHeader = $('.picker-header');
 
+        var $searchField = $('input#search_field');
+        $searchField.show();
+
         if (typeof ub.data.intervalFunction === 'number') {
 
             $("#main-picker-container").unbind('mousemove');
@@ -3895,6 +4148,28 @@ $(document).ready(function () {
 
         }
 
+        if(type === 'search_results') {
+
+            var template = $('#m-picker-items-search-results').html();
+
+            var data = {
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $scrollerElement.html(markup);
+
+            $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
+
+            $('div.back-link').on('click', function () {
+
+                //ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
         $scrollerElement.fadeIn();
         $pickerHeader.fadeIn();
         ub.funcs.reBindEventsPickers();
@@ -3909,6 +4184,10 @@ $(document).ready(function () {
         $('div#special_modifiers').hide();
         $('div#main-picker-container').show();
 
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
+
+
         var items = ub.data.genders;
 
         ub.funcs.initScroller('gender', items);
@@ -3921,6 +4200,9 @@ $(document).ready(function () {
 
         $('div#main-row').hide();
         $('div#special_modifiers').hide();
+
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
 
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports);
@@ -3940,8 +4222,30 @@ $(document).ready(function () {
 
     };
 
-    /// End New UI Code 
+    ub.funcs.initSearchPicker = function (term, items) {
 
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = items;
+        ub.funcs.initScroller('search_results', items, term);
+
+    };
+
+    $('input#search_field').on('input', function () {
+
+        var _input = $(this).val();
+
+        if (_input === '') {
+            ub.funcs.initGenderPicker();
+        } 
+
+    });
+
+    /// End New UI Code 
 
     // /// Show Builder Pickers is there's no Uniform or Order that's being loaded
 

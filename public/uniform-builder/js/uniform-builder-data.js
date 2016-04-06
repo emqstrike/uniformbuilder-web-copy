@@ -9,6 +9,10 @@ $(document).ready(function(){
     ub.dimensions.height = 550;
     ub.active = null;
 
+    /// Search
+
+    ub.searchResults = {};
+
     /// For Interactive Viewport
 
     ub.ALPHA_ON = 1;
@@ -87,6 +91,8 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
+
+    ub.data.searchSource = {};
     
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order

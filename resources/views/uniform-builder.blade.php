@@ -50,7 +50,7 @@
     
             <div id="design_name_container">
                 
-                <label>Design Name: </label> <span id="design_name_input">Infusion 14</span> &nbsp;
+                <label>Design Name: </label> <span id="design_name_input"></span> &nbsp;
                 <i class="fa fa-pencil-square-o"></i>
 
                 <div id="simple_toggle_container">
@@ -80,7 +80,9 @@
 
     <!-- END MAIN ROW -->
 
-    <!-- Gender Pickers --> 
+    <!-- Scrolling Pickers --> 
+
+    @include('partials.panels.texts')
 
     <div id="main-picker-container">
 
@@ -88,6 +90,8 @@
             
             <div class='back-link' data-destination="gender"></div>
             <h2 class='picker-header'>CHOOSE A GENDER</h2>
+
+            <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
         </div>
 
@@ -99,7 +103,7 @@
 
     </div>
 
-    <!-- End Gender Pickers-->
+    <!-- End Scrolling Pickers -->
 
 </div>
 
@@ -154,6 +158,7 @@
 <script src="{{$asset_storage}}/dropdown/jquery.dropdown.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/typeahead/typeahead.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
