@@ -67,9 +67,10 @@ $(document).ready(function () {
                  
             });
 
+            ub[ub.active_view + '_view'].position.set(33.5, 0);
+
             ub.zoom = false;
             ub.show_all_views();
-            ub[ub.active_view + '_view'].position.set(0,0);
 
         };
 
@@ -3755,7 +3756,6 @@ $(document).ready(function () {
 
                     }
 
-
                     return;
 
                 }
@@ -3768,7 +3768,7 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.x = 33.5;
+                ub[view + '_view'].position.set(33.5,0);
 
                 $('#main_view').fadeIn();
 
