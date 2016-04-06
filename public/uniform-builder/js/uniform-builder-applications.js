@@ -1467,17 +1467,17 @@ $(document).ready(function() {
 
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
-        var _offset = 33.5;
+
 
         var isInside = false;
-        var minX = polygon[0].x + _offset, maxX = polygon[0].x + _offset;
+        var minX = polygon[0].x, maxX = polygon[0].x;
         var minY = polygon[0].y, maxY = polygon[0].y;
 
         for (var n = 1; n < polygon.length; n++) {
 
             var q = polygon[n];
-            minX = Math.min(q.x + _offset, minX);
-            maxX = Math.max(q.x + _offset, maxX);
+            minX = Math.min(q.x, minX);
+            maxX = Math.max(q.x, maxX);
             minY = Math.min(q.y, minY);
             maxY = Math.max(q.y, maxY);
 
@@ -1494,7 +1494,7 @@ $(document).ready(function() {
         for (i, j; i < polygon.length; j = i++) {
           
             if ( (polygon[i].y > p.y) != (polygon[j].y > p.y) &&
-                    p.x < (polygon[j].x + _offset - polygon[i].x + _offset) * (p.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x + _offset) {
+                    p.x < (polygon[j].x - polygon[i].x) * (p.y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x ) {
                 isInside = !isInside;
             }
 
@@ -1511,7 +1511,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x / 2, point.y / 2);
+                var p = new PIXI.Point((point.x / 2) + 33.5, point.y / 2);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1519,7 +1519,12 @@ $(document).ready(function() {
         }
         else {
 
-             _transformed_boundaries = boundaries;
+            _.each (boundaries, function(point) {
+                
+                var p = new PIXI.Point(point.x + 33.5, point.y);
+                _transformed_boundaries.push(p); 
+
+            });   
 
         }
 
