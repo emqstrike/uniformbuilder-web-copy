@@ -4198,7 +4198,7 @@ $(document).ready(function () {
 
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
-
+        $searchField.focus();
 
         var items = ub.data.genders;
 
