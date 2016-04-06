@@ -3768,13 +3768,14 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.x = 0;
+                ub[view + '_view'].position.x = 33.5;
 
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
 
             });
+            $('a.change-view[data-view="front"]').click();
 
         /// End Camera Views
 
