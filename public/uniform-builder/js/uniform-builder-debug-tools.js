@@ -11,7 +11,7 @@ $(document).ready( function () {
 
         $('a.mod_primary').click();
 
-        $('#design_name_container').css({'float':'left','width':'100%'});
+        $('#design_name_container').css({'text-align':'center','width':'100%'});
         $('div.main_steps_bar').show();
         $('#change-views').css('margin-left', '0px');
         $('#main_view').css('width','563px');
@@ -19,6 +19,7 @@ $(document).ready( function () {
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
         $('div#right-main-window').css('height','440px');
+        $('div#right-main-window').css('display','block');
         $('div#right-main-window').css('width','100%');
         $('div#right-main-window.team-color-pane').addClass('team_color_pane');
         $('div#right-main-window.team-color-pane').css('display','block');

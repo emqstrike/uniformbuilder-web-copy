@@ -650,7 +650,12 @@ $(document).ready(function () {
             $('input[name="design_name"]').val(material_name);
 
             ub.funcs.showViewports();
+            
+            $('#main-row').fadeIn();
+            $('div#design_name_container').fadeIn();
 
+            $('div#change-views').fadeIn();
+            
         }
 
         /// Main Render Loop

@@ -148,6 +148,8 @@ div#left-sidebar > a.sidebar-buttons {
         #right-pane-column {
             height: 100%;
         }
+
+        display: none;
     }
 
 }
@@ -284,6 +286,7 @@ a.active_button {
     position: absolute;
     margin-top: 220px;
     margin-left: 10px !important;
+    display: none;
 
     a {
         color: white;
@@ -291,6 +294,11 @@ a.active_button {
         margin-bottom: 2px;
         width: 35px; 
         border-radius: 50%;
+
+            -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
     }
 
     a.zoom {
@@ -517,6 +525,8 @@ div.pattern_panel_container {
 
 
 #right-main-window {
+
+    display: none;
 
     overflow-y: scroll;
     border: 1px solid @border_color;
@@ -1583,6 +1593,7 @@ div#design_name_container {
     float: right;
     width: 90%;
     color: @forecolor;
+    display: none;
 
 }
 
