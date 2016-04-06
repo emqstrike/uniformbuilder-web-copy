@@ -456,7 +456,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 3,
+                        minLength: 4,
                         highlight: true
                     },
                     {
@@ -510,7 +510,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 3,
+                        minLength: 4,
                         highlight: true
                     },{
                         
@@ -3935,6 +3935,50 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.scrollize = function (containerSelector, groupSelector, itemSelector, widthOfItems) {
+        
+        // Sample Usage
+        //
+        // ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
+        //
+        // containerSelector:   'div#main-picker-container'
+        // groupSelector:       'div#main-picker-scroller'        
+        // itemSelector:        'div.main-picker-items'
+
+        var temp = $(itemSelector).length * (widthOfItems + 60);
+        var $bl  = $(containerSelector),
+                $th    = $(groupSelector),
+                blW    = $bl.outerWidth(),
+                blSW   = temp                                           // $bl[0].scrollWidth,
+                wDiff  = (blSW/blW)-1,                                  // Widths Difference Ratio
+                mPadd  = 60,                                            // Mousemove Padding
+                damp   = 60,                                            // Mousemove response softness
+                mX     = 0,                                             // Real mouse position
+                mX2    = 0,                                             // Modified mouse position
+                posX   = 0,
+                mmAA   = blW,                                           // Mousemove Available Area
+                mmAAr  = (blW/mmAA);                                    // Available Mousemove Fidderence Ratio
+
+        $bl.mousemove(function(e) {
+
+            if ($(itemSelector).length - 3 < 4) {
+                return;
+            }
+            
+            mX = e.pageX - this.offsetLeft;
+            mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
+
+        });
+
+        ub.data.intervalFunction = setInterval(function() {
+
+            posX += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay"    
+            $th.css({marginLeft: -posX * wDiff });
+
+        }, 10);
+
+    };
+
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items').on('click', function () {
@@ -4027,44 +4071,7 @@ $(document).ready(function () {
 
         );
         
-        ///
-
-        var temp = $('.main-picker-items').length * (280 + 60);
-
-        var $bl    = $("#main-picker-container"),
-                $th    = $("#main-picker-scroller"),
-                blW    = $bl.outerWidth(),
-                blSW   = temp    // $bl[0].scrollWidth,
-                wDiff  = (blSW/blW)-1,  // widths difference ratio
-                mPadd  = 60,  // Mousemove Padding
-                damp   = 60,  // Mousemove response softness
-                mX     = 0,   // Real mouse position
-                mX2    = 0,   // Modified mouse position
-                posX   = 0,
-                mmAA   = blW, // The mousemove available area
-                mmAAr  = (blW/mmAA);    // get available mousemove fidderence ratio
-
-            $bl.mousemove(function(e) {
-
-                var lbl = $('.picker-header').text();
-
-                if ($('div.main-picker-items').length - 3 < 4) {
-                    return;
-                }
-                
-                mX = e.pageX - this.offsetLeft;
-                mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
-
-            });
-
-            ub.data.intervalFunction = setInterval(function() {
-
-                posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"    
-                $th.css({marginLeft: -posX * wDiff });
-
-            }, 10);
-
-        ///
+       ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
 
     };
 
