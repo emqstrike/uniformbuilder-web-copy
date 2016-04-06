@@ -2274,7 +2274,7 @@ var appPropJson = "";
         $('.b-prop').prop('value', boundaryProperties);
         console.log('BPROP: '+boundaryProperties);
 
-        // APP ROTATION EACH HERE ))))))))))))))))))))))))))))))))))))
+        // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
     }
 
     // UPDATES - DETECTOR
