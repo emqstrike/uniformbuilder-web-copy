@@ -3768,13 +3768,14 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.x = 0;
+                ub[view + '_view'].position.x = 33.5;
 
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
 
             });
+            $('a.change-view[data-view="front"]').click();
 
         /// End Camera Views
 
@@ -3961,7 +3962,7 @@ $(document).ready(function () {
 
         $bl.mousemove(function(e) {
 
-            if ($(itemSelector).length - 3 < 4) {
+            if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
             
