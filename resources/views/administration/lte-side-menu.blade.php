@@ -19,12 +19,17 @@
     <ul class="treeview-menu">
       <li>
         <a href="/administration/design_sets">
-          <i class="fa fa-building-o"></i> <span>Design Sets</span>
+          <i class="fa fa-star"></i> <span>Block Patterns</span>
+        </a>
+      </li>
+      <li>
+        <a href="/administration/design_sets">
+          <i class="fa fa-shirtsinbulk"></i> <span>Design Sets</span>
         </a>
       </li>
       <li>
         <a href="/administration/mascots">
-          <i class="fa fa-circle"></i> <span>Mascots</span>
+          <i class="fa fa-linux"></i> <span>Mascots</span>
         </a>
       </li>
       <li>
@@ -44,37 +49,37 @@
       </li>
       <li>
         <a href="/administration/categories">
-          <i class="fa fa-building-o"></i> <span>Uniform Categories</span>
+          <i class="fa fa-soccer-ball-o"></i> <span>Uniform Categories</span>
         </a>
       </li>
       <li>
         <a href="/administration/fabrics">
-          <i class="fa fa-slack"></i> <span>Fabrics</span>
+          <i class="fa fa-cut"></i> <span>Fabrics</span>
         </a>
       </li>
       <li>
         <a href="/administration/colors">
-          <i class="fa fa-th"></i> <span>Colors</span>
+          <i class="fa fa-paint-brush"></i> <span>Colors</span>
         </a>
       </li>
       <li>
         <a href="/administration/patterns">
-          <i class="glyphicon glyphicon-th-list"></i> <span>Patterns</span>
+          <i class="fa fa-table"></i> <span>Patterns</span>
         </a>
       </li>
       <li>
         <a href="/administration/preferences">
-          <i class="glyphicon glyphicon-star"></i> <span>Preferences</span>
+          <i class="glyphicon glyphicon-bookmark"></i> <span>Preferences</span>
         </a>
       </li>
       <li>
         <a href="/administration/fonts">
-          <i class="fa fa-cubes"></i> <span>Fonts</span>
+          <i class="fa fa-font"></i> <span>Fonts</span>
         </a>
       </li>
       <li>
         <a href="/administration/gradients">
-          <i class="fa fa-cubes"></i> <span>Gradients</span>
+          <i class="fa fa-adjust"></i> <span>Gradients</span>
         </a>
       </li>
       <li>
