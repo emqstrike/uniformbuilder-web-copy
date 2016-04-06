@@ -407,6 +407,10 @@
 
         </div>
 
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
     </script>
 
 <!-- End Gender Picker -->
@@ -428,6 +432,10 @@
             </div>
 
         @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
 
         <div class="main-picker-items grow disabled">
 
@@ -475,6 +483,10 @@
 
         </div>
 
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
     </script>
 
 <!-- End Uniforms Pickers -->
@@ -496,6 +508,10 @@
             </div>
 
         @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
 
         <div class="main-picker-items grow disabled">
 

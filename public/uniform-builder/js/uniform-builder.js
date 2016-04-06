@@ -3961,7 +3961,7 @@ $(document).ready(function () {
 
         $bl.mousemove(function(e) {
 
-            if ($(itemSelector).length - 3 < 4) {
+            if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
             
