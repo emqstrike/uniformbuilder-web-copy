@@ -464,7 +464,86 @@ var applicationProperties = {};
     fabric.Object.prototype.transparentCorners = false;
     canvas.setWidth( 496 );
     canvas.setHeight( 550 );
-    fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center'
+    fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    // window.shapes = {};
+
+    // var data = {
+    //     topLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     topRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomLeft: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     bottomRight: {
+    //         "x":0,
+    //         "y":0
+    //     },
+    //     width: 0,
+    //     height: 0,
+    //     pivot: 0,
+    //     rotation: 0,
+    //     };
+
+    // var box = new fabric.Rect({
+    //     width: 250, height: 250, angle: 0,
+    //     fill: 'transparent',
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
+
+    // var circle = new fabric.Circle({
+    //     radius: 40,
+    //     fill: 'red',
+    //     opacity: 0.35,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
+
+    // circle.hasBorders = false;
+    // circle.hasControls = false;
+
+    // var text = new fabric.Text('Bounding box', {
+    //     fontSize: 11,
+    //     originX: 'center',
+    //     originY: 'center'
+    // });
+
+    // var bounding_box = new fabric.Group([ box, text ], {
+    //     left: canvas.width / 2.6,
+    //     top: canvas.height / 5
+    // });
+
+    // var midLine = new fabric.Line([0, 20, 350, 20], {
+    //     strokeDashArray: [5, 5],
+    //     stroke: 'red',
+    //     originX: 'center',
+    //     originY: 'center',
+    //     angle: 90,
+    //     left: canvas.width / 2,
+    //     top: canvas.height / 2
+    // });
+
+    // midLine.hasControls = false;
+
+    // window.shapes.bounding_box = bounding_box;
+
+    // bounding_box.transparentCorners = false;
+    // canvas.add(bounding_box, midLine);
+
+
+    canvas.on({
+        // 'object:moving': updateCoordinates,
+        // 'object:scaling': updateCoordinates,
+        // 'object:rotating': updateCoordinates,
+        // 'mouse:up': updateCoordinates
+    });
 
     canvasFront.on({
         'object:moving': updateCoordinatesXYR,
@@ -852,11 +931,48 @@ var appPropJson = "";
         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
             canvas.clear();
             var jason = $('.b-prop').val();
+            // var polyData = "'"+jason+"'";
             var output = jason.substring(1, jason.length-1);
+            // var myData = JSON.parse(output);
+            // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
 
+
+            // var output = jason.substring(1, jason.length-1);
             polyData = JSON.parse(output);
+
+// console.log('JASON: '+jason);
+            // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
+            // bounding_box.oCoords.tl.y = myData.topLeft.y;
+            // bounding_box.oCoords.tr.x = myData.topRight.x;
+            // bounding_box.oCoords.tr.y = myData.topRight.y;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y;
+            // bounding_box.centerPoint = myData.pivot; ***
+
+            // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+            // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+            // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+            // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+            // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+            // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+            // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+            // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
+            // bounding_box.centerPoint = myData.pivot;
+            // bounding_box.setAngle(myData.rotation);
+
+            // bounding_box.width = myData.boxWidth / 2;
+            // bounding_box.height = myData.boxHeight / 2;
+            // box.width = myData.boxWidth / 2;
+            // box.height = myData.boxHeight / 2;
+            // bounding_box.left = myData.topLeft.x / 2;
+            // bounding_box.top = myData.topLeft.y / 2;
+
+
             loadPolygon(polyData);
 
+            // canvas.renderAll();
             canvasFront.clear();
 
             if($('.a-prop').val() != "\"{}\""){
@@ -872,8 +988,16 @@ var appPropJson = "";
 
             } // ************************ APP PROP IF END
 
+
             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
             $('.b-prop').prop('value', boundaryProperties);
+
+            // var applicationsProperties = JSON.stringify(data);
+            // $('.a-prop').prop('value', applicationsProperties);
+
+            // console.log("CONSOLE LOG: " + applicationsProperties);
+
+
             $("#file-src").prop("src", material.option.path);
             $("#layer-level").prop("value", material.option.layer_level);
 
@@ -884,6 +1008,7 @@ var appPropJson = "";
             }
 
         }
+        // **************
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -911,9 +1036,9 @@ var appPropJson = "";
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( ( ( app_properties[l].topRight.x - 33.5 ) / 2 ) - ( ( app_properties[l].topLeft.x - 33.5 ) / 2 ) ) / 3;
-            var app_type_font_size = ( ( ( app_properties[l].topRight.x - 33.5 ) / 2 ) - ( ( app_properties[l].topLeft.x - 33.5 ) / 2 ) ) / 5.2;
-            var group_left = ( app_properties[l].topLeft.x - 33.5 ) / 2;
+            var app_id_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 3;
+            var app_type_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 5.2;
+            var group_left = app_properties[l].topLeft.x /2;
             var group_top = app_properties[l].topLeft.y / 2;
 
             // Generate Fabric objects then add to canvas
@@ -931,8 +1056,8 @@ var appPropJson = "";
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-                var ix = ( app_properties[l].pivot.x - 33.5) / 2;
-                var iy = app_properties[l].pivot.y / 2;
+                var ix = ( app_properties[l].pivot.x ) / 2;
+                var iy = ( app_properties[l].pivot.y ) / 2;
                 var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
                 var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
 
@@ -987,11 +1112,18 @@ var appPropJson = "";
                         font_style = window.fonts[i].name;
                     }
                 }
-
+                // console.log("Font Style: "+font_style);
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
 
+                // var font_size = 30;
+                // console.log("Font: "+font);
+                // $(this).css('font-family', font);
+                // $(this).css('font-size', font_size);
+                // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
+
+                // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
                 select_append           += '<option value="' + app_properties[l].type + '">' + app_properties[l].type + '</option>';
                 for(var i = 0; i<items_arr.length; i++) {
@@ -1077,20 +1209,20 @@ var appPropJson = "";
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
-                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x - 33.5) / 2;
-                thisGroup.oCoords.tl.y  = app_properties[l].topLeft.y / 2;
-                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x - 33.5) / 2;
-                thisGroup.oCoords.tr.y  = app_properties[l].topRight.y / 2;
-                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x - 33.5) / 2;
-                thisGroup.oCoords.bl.y  = app_properties[l].bottomLeft.y / 2;
-                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x - 33.5) / 2;
-                thisGroup.oCoords.br.y  = app_properties[l].bottomRight.y / 2;
+                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / 2;
+                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / 2;
+                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / 2;
+                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / 2;
+                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / 2;
+                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / 2;
+                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / 2;
+                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / 2;
                 thisGroup.centerPoint   = app_properties[l].pivot;
                 thisGroup.setAngle(app_properties[l].rotation);
-                thisGroup.width         = app_properties[l].width / 2;
-                thisGroup.height        = app_properties[l].height / 2;
-                thisGroup.left          = (app_properties[l].topLeft.x - 33.5) / 2;
-                thisGroup.top           = app_properties[l].topLeft.y / 2;
+                thisGroup.width         = (app_properties[l].width) / 2;
+                thisGroup.height        = (app_properties[l].height) / 2;
+                thisGroup.left          = (app_properties[l].topLeft.x) / 2;
+                thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
                 
                 canvasFront.renderAll();
@@ -1908,7 +2040,28 @@ var appPropJson = "";
     function updateCoordinates(cs) {
 
         applicationProperties = {}
+
+        // circle.radius = box.height / 2;
+
+        // var topLeftX = bounding_box.oCoords.tl.x;
+        // var topLeftY = bounding_box.oCoords.tl.y;
+        // var topRightX = bounding_box.oCoords.tr.x;
+        // var topRightY = bounding_box.oCoords.tr.y;
+        // var bottomLeftX = bounding_box.oCoords.bl.x;
+        // var bottomLeftY = bounding_box.oCoords.bl.y;
+        // var bottomRightX = bounding_box.oCoords.br.x;
+        // var bottomRightY = bounding_box.oCoords.br.y;
+
+        // var topLeftX = bounding_box.oCoords.tl.x * 2;
+        // var topLeftY = bounding_box.oCoords.tl.y * 2;
+        // var topRightX = bounding_box.oCoords.tr.x * 2;
+        // var topRightY = bounding_box.oCoords.tr.y * 2;
+        // var bottomLeftX = bounding_box.oCoords.bl.x * 2;
+        // var bottomLeftY = bounding_box.oCoords.bl.y * 2;
+        // var bottomRightX = bounding_box.oCoords.br.x * 2;
+        // var bottomRightY = bounding_box.oCoords.br.y * 2;
         var circles = canvas.getObjects('circle');
+        // coords = new Array();
         var x = 0;
         circles.forEach(function(entry) {
             var getCenterPoint = entry.getCenterPoint();
@@ -1919,16 +2072,30 @@ var appPropJson = "";
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
-            coords[x]['x'] = (parseFloat(getCenterPoint.x.toFixed(2)) * 2) + 33.5;
+            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
         });
 
         canvas.renderAll();
 
+        // data.topLeft.x = topLeftX;
+        // data.topLeft.y = topLeftY;
+        // data.topRight.x = topRightX;
+        // data.topRight.y = topRightY;
+        // data.bottomLeft.x = bottomLeftX;
+        // data.bottomLeft.y = bottomLeftY;
+        // data.bottomRight.x = bottomRightX;
+        // data.bottomRight.y = bottomRightY;
+        // data.boxWidth = bounding_box.getWidth() * 2;
+        // data.boxHeight = bounding_box.getHeight() * 2;
+        // data.pivot = bounding_box.getCenterPoint();
+        // data.rotation = bounding_box.getAngle();
+        console.log('BPROP RAW COORDS: '+JSON.stringify(coords));
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
+        console.log('BPROP: '+boundaryProperties);
 
         $(".app-rotation").each(function(i) {
             // BUILD APPLICATION PROPERTIES JSON
@@ -2050,13 +2217,13 @@ var appPropJson = "";
             // var bottomRightX = thisGroup.oCoords.br.x;
             // var bottomRightY = thisGroup.oCoords.br.y;
 
-            var topLeftX = (thisGroup.oCoords.tl.x * 2) + 33.5;
+            var topLeftX = thisGroup.oCoords.tl.x * 2;
             var topLeftY = thisGroup.oCoords.tl.y * 2;
-            var topRightX = (thisGroup.oCoords.tr.x * 2) + 33.5;
+            var topRightX = thisGroup.oCoords.tr.x * 2;
             var topRightY = thisGroup.oCoords.tr.y * 2;
-            var bottomLeftX = (thisGroup.oCoords.bl.x * 2) + 33.5;
+            var bottomLeftX = thisGroup.oCoords.bl.x * 2;
             var bottomLeftY = thisGroup.oCoords.bl.y * 2;
-            var bottomRightX = (thisGroup.oCoords.br.x * 2) + 33.5;
+            var bottomRightX = thisGroup.oCoords.br.x * 2;
             var bottomRightY = thisGroup.oCoords.br.y * 2;
 
             canvas.renderAll();
@@ -2143,13 +2310,13 @@ var appPropJson = "";
             // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
 
             // ************* x2 values
-            applicationProperties[itemIdx].topLeft.xp = (((topLeftX / canvasFront.width) * 100) * 2)  + 33.5;
+            applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
             applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].topRight.xp = (((topRightX / canvasFront.width) * 100) * 2)  + 33.5;
+            applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
             applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].bottomLeft.xp = (((bottomLeftX / canvasFront.width) * 100) * 2)  + 33.5;
+            applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
             applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].bottomRight.xp = (((bottomRightX / canvasFront.width) * 100) * 2)  + 33.5;
+            applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
             applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
 
             applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
@@ -2160,11 +2327,11 @@ var appPropJson = "";
             applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
             applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-            applicationProperties[itemIdx].center.x = ((applicationProperties[itemIdx].pivot.x) * 2) + 33.5;
+            applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
             applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
 
             if(cs == 1){
-                $(this).parent().siblings('td').find("input[class=app-x]").val((applicationProperties[itemIdx].pivot.x) + 33.5);
+                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
                 $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
                 $(this).val(thisGroup.getAngle());
             }
@@ -2403,12 +2570,12 @@ canvas.observe('object:rotating', function (e) {
     var x = 0;
     circles.forEach(function(entry) {
         var getCenterPoint = entry.getCenterPoint();
-        // console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+        console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
         coords[x] = {};
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
         }
-        coords[x]['x'] = (parseFloat(getCenterPoint.x.toFixed(2)) * 2) + 33.5;
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
@@ -2480,7 +2647,7 @@ canvas.observe('object:moving', function (e) {
         if( x == 0 ){
             coords[x]['angle'] = parseFloat(groups[0].getAngle());
         }
-        coords[x]['x'] = (parseFloat(getCenterPoint.x.toFixed(2)) * 2)  + 33.5;
+        coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
         coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
         x++;
     });
@@ -2497,7 +2664,7 @@ function loadPolygon(data){
     var z = 0;
     // console.log('POLY TEST >> '+data[0].angle);
     $.each(data, function(i, item) {
-        var xcoord = ( item.x - 33.5 ) / 2;
+        var xcoord = item.x / 2;
         var ycoord = item.y / 2;
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
