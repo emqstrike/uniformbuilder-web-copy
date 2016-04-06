@@ -4047,13 +4047,11 @@ $(document).ready(function () {
             $bl.mousemove(function(e) {
 
                 var lbl = $('.picker-header').text();
-                
-                if ( lbl === 'Choose a Gender') {
 
+                if ($('div.main-picker-items').length - 3 < 4) {
                     return;
-
                 }
-
+                
                 mX = e.pageX - this.offsetLeft;
                 mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
 
