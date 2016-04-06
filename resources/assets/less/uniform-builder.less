@@ -202,6 +202,10 @@ div.pane {
 
     }
 
+    div#right-sidebar > a.sidebar-buttons {
+        display: none;
+    }
+
     div.pane-main-window {
 
         float: right;
@@ -492,6 +496,8 @@ div.pattern_panel_container {
 
     overflow-y: scroll;
     border: 1px solid @border_color;
+
+    width: 100%;
 
 }
 
@@ -1735,21 +1741,27 @@ div.team_color_picker_options > div.scroller {
 
 div.back-link {
 
+    float: left;
     text-align: left;
-    margin-left: 60px;
-    font-size: 1.5em;
+    font-size: 30px;
     color: #ffffff;
     cursor: pointer;
-    margin-top: -10px;
 
+    span {
+        color: #000;
+    }
+    
 }
 
 h2.picker-header {
-    width: 100%;
-    text-align: center;
+    float: left;
     color: white;
-    margin-top: 10px;
+    margin-top: 7px;
+    text-shadow: 2px 2px #000;
+    margin-left: 30px;
+
 }
+
 
 div#main-picker-container {
 
@@ -1762,12 +1774,16 @@ div#main-picker-container {
 
     div.uniform_details {
 
+        position: absolute;
+        bottom: 15%;
         color: white;
         display: none;
 
         padding-top: 10px;
         margin-left: 60px;
         font-size: 1.3em;
+
+        text-shadow: 2px 2px #000;
 
         span.uniform_description {
 
@@ -1781,8 +1797,7 @@ div#main-picker-container {
 
         display: block;
         width: 100000px;
-        top: 25%;
-        
+        top: 13%;
         position: absolute;
 
         div.main-picker-items {

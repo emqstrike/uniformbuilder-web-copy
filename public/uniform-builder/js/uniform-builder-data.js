@@ -46,6 +46,8 @@ $(document).ready(function(){
 
     PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
 
+    $('#main_view').hide();
+
     ub.stage.interactive = true;
     ub.pCanvas = document.getElementById(ub.container_div);
     ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);

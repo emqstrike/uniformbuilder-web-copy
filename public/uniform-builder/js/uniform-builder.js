@@ -415,7 +415,7 @@ $(document).ready(function () {
             $('span#design_name_input').text(material_name);
             $('input[name="design_name"]').val(material_name);
 
-
+            ub.funcs.showViewports();
 
         }
 
@@ -912,6 +912,16 @@ $(document).ready(function () {
 
     };
 
+    /// Show Viewports 
+
+    ub.funcs.showViewports = function () {
+
+        $('#main_view').fadeIn();
+
+    }
+
+    /// End Show Viewports
+
     window.ub.setup_material_options = function () {
 
         ub.current_material.options_distinct_names = {};
@@ -1005,7 +1015,6 @@ $(document).ready(function () {
             ub.updateLayersOrder(ub[view + '_view']);
 
         });    
-
 
         /// Manual Color Test 
 
@@ -3674,6 +3683,22 @@ $(document).ready(function () {
 
     /// New UI Code 
 
+    ub.funcs.fadeOutElements = function () {
+
+        var $element = $('#main-picker-scroller');
+        $element.hide();
+
+        var $uniformDetailsElement = $('div.uniform_details');
+        $uniformDetailsElement.hide();
+
+        var $pickerHeader = $('.picker-header');
+        $pickerHeader.hide();
+
+        var $backLink = $('div.back-link');
+        $backLink.hide();
+
+    }
+
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items').on('click', function () {
@@ -3697,6 +3722,9 @@ $(document).ready(function () {
 
             if (_picker_type === 'uniforms') {
 
+                ub.funcs.fadeOutElements();
+                $('body').removeClass('pickers-enabled');
+
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
 
@@ -3714,12 +3742,11 @@ $(document).ready(function () {
                if ($(this).data('picker-type') === 'uniforms') {
 
                     $('div.uniform_details').hide();
-
                     $('span.uniform_name').html($(this).data('item'));
 
                     var s = _.find(ub.materials, {name: $(this).data('item')}).description
-                    $('span.uniform_description').html(s);
 
+                    $('span.uniform_description').html(s);
                     $('div.uniform_details').fadeIn();
 
                }
@@ -3740,23 +3767,29 @@ $(document).ready(function () {
         
         ///
 
+        var temp = $('.main-picker-items').length * (280 + 60);
+
         var $bl    = $("#main-picker-container"),
                 $th    = $("#main-picker-scroller"),
-                blW    = $bl.outerWidth() + 400,
-                blSW   = $bl[0].scrollWidth,
+                blW    = $bl.outerWidth(),
+                blSW   = temp    // $bl[0].scrollWidth,
                 wDiff  = (blSW/blW)-1,  // widths difference ratio
                 mPadd  = 60,  // Mousemove Padding
                 damp   = 60,  // Mousemove response softness
                 mX     = 0,   // Real mouse position
                 mX2    = 0,   // Modified mouse position
                 posX   = 0,
-                mmAA   = ($('#main-picker-scroller').width()) - (mPadd*2), // The mousemove available area
+                mmAA   = blW, // The mousemove available area
                 mmAAr  = (blW/mmAA);    // get available mousemove fidderence ratio
 
             $bl.mousemove(function(e) {
 
-                if ($('.picker-header').text() === 'Choose a Gender') {
+                var lbl = $('.picker-header').text();
+                
+                if ( lbl === 'Choose a Gender') {
+
                     return;
+
                 }
 
                 mX = e.pageX - this.offsetLeft;
@@ -3777,14 +3810,18 @@ $(document).ready(function () {
 
     ub.funcs.initScroller = function (type, items, gender) {
 
+        ub.funcs.fadeOutElements();
+
+        var $scrollerElement = $('#main-picker-scroller');
+        var $uniformDetailsElement = $('div.uniform_details');
+        var $pickerHeader = $('.picker-header');
+
         if (typeof ub.data.intervalFunction === 'number') {
 
             $("#main-picker-container").unbind('mousemove');
             clearInterval(ub.data.intervalFunction);
 
         }
-
-        var $element = $('#main-picker-scroller');
 
         if (type === 'gender') {
 
@@ -3795,11 +3832,19 @@ $(document).ready(function () {
                 picker_type: 'gender',
                 picker_items: _genders,
             }
-            
+
             var markup = Mustache.render(template, data);
-            $element.html(markup);
+            $scrollerElement.html(markup);
+
             $('.picker-header').html('Choose a Gender');
             $('div.back-link').html('');
+
+        }
+
+        if (type !== 'gender') {
+
+            var $backLink = $('div.back-link');
+            $backLink.fadeIn();
 
         }
 
@@ -3814,11 +3859,11 @@ $(document).ready(function () {
             }
             
             var markup = Mustache.render(template, data);
-            $element.html(markup);
+            $scrollerElement.html(markup);
 
             $('.picker-header').html('Choose a Sport');
 
-            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+            $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
             $('div.back-link').on('click', function () {
 
                 ub.funcs.initGenderPicker();        
@@ -3837,10 +3882,10 @@ $(document).ready(function () {
             }
             
             var markup = Mustache.render(template, data);
-            $element.html(markup);
+            $scrollerElement.html(markup);
 
             $('.picker-header').html('Choose a Style');
-            $('div.back-link').html('<img src="/images/main-ui/back.png" />');
+            $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
             $('div.back-link').on('click', function () {
 
@@ -3850,8 +3895,10 @@ $(document).ready(function () {
 
         }
 
+        $scrollerElement.fadeIn();
+        $pickerHeader.fadeIn();
         ub.funcs.reBindEventsPickers();
-
+        
     };
 
     ub.funcs.initGenderPicker = function () {
