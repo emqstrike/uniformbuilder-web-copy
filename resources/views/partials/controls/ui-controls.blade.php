@@ -478,3 +478,37 @@
     </script>
 
 <!-- End Uniforms Pickers -->
+
+<!-- Uniforms Picker -->
+
+    <script type="text/mustache" id="m-picker-items-search-results">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
+
+                <img width='280' src="@{{thumbnail}}{{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Uniforms Pickers -->
