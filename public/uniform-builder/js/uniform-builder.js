@@ -37,6 +37,9 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id !== -1) {
 
+                $('div.header-container.main').fadeIn();
+                $('div.backlink').addClass('back-link-on');
+
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
                 ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
@@ -3730,6 +3733,13 @@ $(document).ready(function () {
 
                 var view = $(this).data('view');
 
+                if (view === 'home') {
+
+                    ub.funcs.initGenderPicker();
+                    return;
+
+                }
+
                 if (view === 'zoom') {
 
                     if (!ub.zoom) {
@@ -3950,6 +3960,8 @@ $(document).ready(function () {
 
                 ub.funcs.fadeOutElements();
                 $('body').removeClass('pickers-enabled');
+
+                $('#main-picker-container').hide();
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
@@ -4241,9 +4253,18 @@ $(document).ready(function () {
 
         if (_input === '') {
             ub.funcs.initGenderPicker();
-        } 
+        }
 
     });
+
+    ub.funcs.backHome = function () {
+
+        $('div.header-container.main').hide();
+
+        ub.funcs.initGenderPicker();
+        return;
+
+    };
 
     /// End New UI Code 
 
