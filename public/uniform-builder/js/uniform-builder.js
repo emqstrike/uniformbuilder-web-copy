@@ -497,6 +497,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    setTimeout("$('#search_field').focus();", 0);
 
                 }
 
@@ -537,6 +538,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style");
+                    setTimeout("$('#search_field').focus();", 0);
 
                 }
 
