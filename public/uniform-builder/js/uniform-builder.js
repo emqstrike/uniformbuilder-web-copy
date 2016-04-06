@@ -32,6 +32,12 @@ $(document).ready(function () {
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);                
 
             }
+            else{
+
+                $('.open-save-design-modal').hide();
+                $('div#change-views').css('margin-top', '280px');
+
+            }
 
             ub.zoom_off();
 
@@ -3760,6 +3766,12 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'save') {
+
+                    return;
+
+                }
+
                 ub.zoom_off();
 
                 ub.left_view.position.x = ub.dimensions.width;
@@ -3891,14 +3903,14 @@ $(document).ready(function () {
 
     })
 
-    $('input#simple_toggle').onoff();
-    $("input#simple_toggle").change(function() {
+    // $('input#simple_toggle').onoff();
+    // $("input#simple_toggle").change(function() {
 
-        _header_text = ub.funcs.match(ub.active_part);
-        $("#primary_options_header").html(_header_text.toUpperCase());
-        ub.active_lock = true;
+    //     _header_text = ub.funcs.match(ub.active_part);
+    //     $("#primary_options_header").html(_header_text.toUpperCase());
+    //     ub.active_lock = true;
 
-    });
+    // });
 
     /// End Generate Pattern
 
