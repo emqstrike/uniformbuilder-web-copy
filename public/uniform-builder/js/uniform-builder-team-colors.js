@@ -158,6 +158,14 @@ $(document).ready(function () {
             var $element    = $('div.team_color_picker_item[data-id=' + _dataID + ']')
 
             $element.css('background-color', _hex_color);
+
+            if (_color_name === 'White') {
+                
+                $element.css('background-color','#ffffff');
+                $element.css('border', 'solid 1px #d7d7d7');
+
+            }
+
             $element.html(_color_code);
 
             $element.parent().find('.team_color_picker_item_label').html(_color_name);
