@@ -111,11 +111,11 @@
 
         </div>
 
-        <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane">        
+        <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
-            <span class="shadowed_header">
-                TEAM COLOR
-            </span>
+            <div class="options_panel_header">
+                <span class="header_text">TEAM COLORS</span>
+            </div>
 
             <div class="team_color_picker_container">
 
