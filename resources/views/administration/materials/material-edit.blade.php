@@ -39,14 +39,30 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control material-block-pattern" name="block_pattern" value="{{ $material->block_pattern }}">
+                            <div class="col-md-6">
+                                <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern_id">
+                                    <option value="">None</option>
+                                    @foreach ($block_patterns as $block_pattern)
+                                        @if ($block_pattern->active)
+                                        <option value='{{ $block_pattern->id }}' @if($block_pattern->id == $material->block_pattern_id) selected="selected"@endif>{{ $block_pattern->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Neck Option</label>
+                            <div class="col-md-6">
+                            <input type="hidden" id="existing_neck_option" value="{{ $material->neck_option }}">
+                                <select class="form-control material-neck-option" name="neck_option" id="neck_option">
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Code</label>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <input type="text" class="form-control material-price-item-code" name="price_item_code" value="{{ $material->price_item_code }}">
                             </div>
                         </div>
@@ -98,14 +114,14 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">SKU</label>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <input type="text" class="form-control material-code" name="sku" value="{{ $material->sku }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Builder Customizations</label>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <textarea class="form-control material-builder-customizations" name="builder_customizations">{{ $material->builder_customizations }}</textarea>
                             </div>
                         </div>
@@ -378,6 +394,69 @@ $( document ).ready(function() {
         console.log('MCE: ' + window.mce);
         $('#description').val(window.mce);
     }
+
+    window.block_patterns = null;
+    getBlockPatterns(function(block_patterns){
+        window.block_patterns = block_patterns;
+    });
+
+    function getBlockPatterns(callback){
+        var block_patterns;
+        // var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//localhost:8888/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+
+    console.log( window.block_patterns );
+
+    var block_pattern_id = $('#block_pattern_id').val();
+    var existing_neck_option = $('#existing_neck_option').val();
+
+    console.log(existing_neck_option);
+
+    $.each(window.block_patterns, function(i, item) {
+        if( item.id === block_pattern_id ){
+            window.neck_options = JSON.parse(item.neck_options);
+            $.each(window.neck_options, function(i, item) {
+                if( existing_neck_option == item.name ){
+                    console.log(' IF ');
+                    $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+                } else {
+                    console.log(' IF ');
+                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                }
+            });
+        }
+    });
+
+    $(document).on('change', '#block_pattern_id', function() {
+
+        var id = $(this).val();
+
+        $( '#neck_option' ).html('');
+
+        $.each(window.block_patterns, function(i, item) {
+            if( item.id === id ){
+                window.neck_options = JSON.parse(item.neck_options);
+                $.each(window.neck_options, function(i, item) {
+                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                });
+            }
+        });
+
+    });
 
 });
 </script>

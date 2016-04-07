@@ -19,6 +19,12 @@ $(document).ready(function() {
 
     var polyData;
 
+    $(document).on('change', '#block_pattern', function() {
+
+        console.log('Changed' + $(this).val());
+
+    });
+
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
     window.mascots = null;
@@ -1399,7 +1405,6 @@ var appPropJson = "";
                     selectText: "Select Mascot",
                     onSelected: function (data) {
                         $(amv_id).val(data['selectedData']['value']);
-                        // updateCoordinates();
                     },
                 });
 
@@ -1583,7 +1588,7 @@ var appPropJson = "";
 
     $('#save_boundary_template').on('click', function(){
         var name = $('#boundary_template_name').val();
-        var block_pattern = $('#material_block_pattern').val();
+        var block_pattern = $('#material_block_pattern_id').val();
         var perspective = $('#saved-perspective').val();
         var part = $('#material-option-name').val();
         var boundary_properties = $('.b-prop').val();
@@ -2620,7 +2625,13 @@ function loadPolygon(data){
     console.log('Line Index: ' + lineIdx);
     loadCase = 1;
 
-    $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
+    // $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
+    try {
+        $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
+    }
+    catch(err) {
+        // document.getElementById("demo").innerHTML = err.message;
+    }
 
     var rect = new fabric.Rect({
         left: 453,

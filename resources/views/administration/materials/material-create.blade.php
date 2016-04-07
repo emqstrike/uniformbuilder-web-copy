@@ -42,7 +42,22 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-8">
-                                <input type="text" class="form-control material-block-pattern" name="block_pattern" value="">
+                                <select class="form-control material-block-pattern" name="block_pattern_id" id="block_pattern">
+                                    <option value="">None</option>
+                                    @foreach ($block_patterns as $block_pattern)
+                                        @if ($block_pattern->active)
+                                        <option value='{{ $block_pattern->id }}'>{{ $block_pattern->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Neck Option</label>
+                            <div class="col-md-8">
+                                <select class="form-control material-neck-option" name="neck_option" id="neck_option">
+                                </select>
                             </div>
                         </div>
 
@@ -206,6 +221,7 @@
                                 </a>
                             </div>
                         </div>
+                        <textarea id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
                     </form>
                 </div>
             </div>
@@ -215,23 +231,52 @@
 
 @endsection
 @section('scripts')
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 $( document ).ready(function() {
 
+    $('#block_patterns_data').hide();
+    var block_patterns_array = $('#block_patterns_data').text();
+    window.block_patterns = JSON.parse(block_patterns_array);
+
+    $(document).on('change', '#block_pattern', function() {
+
+        var id = $(this).val();
+
+        $( '#neck_option' ).html('');
+
+        $.each(window.block_patterns, function(i, item) {
+            if( item.id === id ){
+                window.neck_options = JSON.parse(item.neck_options);
+                $.each(window.neck_options, function(i, item) {
+                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                });
+            }
+        });
+
+    });
+
     tinymce.init({ 
+
         selector:'textarea.material-description'
+
     });
 
     $('.create-user').on('click', function(){
+
         saveEditor();
         console.log('SAVE');
+
     });
 
     function saveEditor(){
+
         window.mce = tinyMCE.activeEditor.getContent();
         console.log('MCE: ' + window.mce);
         $('#description').val(window.mce);
+
     }
 
 });
