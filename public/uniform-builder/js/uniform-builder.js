@@ -3964,13 +3964,21 @@ $(document).ready(function () {
         // itemSelector:        'div.main-picker-items'
 
         var temp = $(itemSelector).length * (widthOfItems + 60);
+        var _damp = 210;
+
+        if (itemSelector === '.color_picker_item') {
+            temp    = temp / 3;
+            _damp   = 30;
+        }
+
+        
         var $bl  = $(containerSelector),
                 $th    = $(groupSelector),
                 blW    = $bl.outerWidth(),
                 blSW   = temp                                           // $bl[0].scrollWidth,
                 wDiff  = (blSW/blW)-1,                                  // Widths Difference Ratio
                 mPadd  = 60,                                            // Mousemove Padding
-                damp   = 210,                                           // Mousemove response softness
+                damp   = _damp,                                           // Mousemove response softness
                 mX     = 0,                                             // Real mouse position
                 mX2    = 0,                                             // Modified mouse position
                 posX   = 0,

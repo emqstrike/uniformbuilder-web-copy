@@ -149,14 +149,39 @@ $(document).ready(function () {
 
         $('button.color_picker_item').on('click', function () {
 
-            var _dataID = $('div.team_color_picker_options').data('team-color-id');
-            var _element = $(this);
-            var _hex_color = $(this).data('hex');
+            var _dataID         = $('div.team_color_picker_options').data('team-color-id');
+            var _element        = $(this);
+            var _hex_color      = $(this).data('hex');
+            var _color_code     = $(this).data('color-code');
+            var _color_name     = $(this).data('color');
 
-            $('div.team_color_picker_item[data-id=' + _dataID + ']').css('background-color', _hex_color);
+            var $element    = $('div.team_color_picker_item[data-id=' + _dataID + ']')
+
+            $element.css('background-color', _hex_color);
+            $element.html(_color_code);
+
+            $element.parent().find('.team_color_picker_item_label').html(_color_name);
+
             ub.funcs.ui.hideTeamColorPicker();
 
         });
+
+        // Sample Usage
+        //
+
+        var _widthOfItem        = $('div.color_item_group').width();
+        var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
+        var _numberOfColors     = $('.color_picker_item').length;
+        var _rowsOfColor        = 2;
+        var _extra              = $('.team_color_picker_options').width() + 140; // so that options wont be scrolled to the left most
+
+        var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
+
+        $('.color_items_container').width(_widthOfContainer);
+
+        ub.funcs.scrollize ('.team_color_picker_options', '.color_items_container', '.color_picker_item', 30)
+
+        $('button.color_picker_item[data-color="White"]').css('background-color','#ffffff !important');
 
     };
 

@@ -18,7 +18,7 @@ $(document).ready( function () {
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
-        $('div#right-main-window').css('height','440px');
+        $('div#right-main-window').css('height','430px');
         $('div#right-main-window').css('display','block');
         $('div#right-main-window').css('width','100%');
         $('div#right-main-window.team-color-pane').addClass('team_color_pane');
