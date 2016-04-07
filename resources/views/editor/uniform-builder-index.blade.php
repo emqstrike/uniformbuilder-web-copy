@@ -119,20 +119,52 @@
 
             <div class="team_color_picker_container">
 
-                <div class="team_color_picker_item" data-id='1' data-status="closed">
-                
+                <div class='team_color_picker_container_group'>
+                    
+                    <div class="team_color_picker_item" data-id='1' data-status="closed">
+                    
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
+                </div>            
+
+                <div class='team_color_picker_container_group'>     
+
+                    <div class="team_color_picker_item" data-id='2' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
-                <div class="team_color_picker_item" data-id='2' data-status="closed">
-                    
+                <div class='team_color_picker_container_group'>
+
+                    <div class="team_color_picker_item" data-id='3' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
-                <div class="team_color_picker_item" data-id='3' data-status="closed">
-                    
-                </div>
+                <div class='team_color_picker_container_group'>
 
-                <div class="team_color_picker_item" data-id='4' data-status="closed">
-                    
+                    <div class="team_color_picker_item" data-id='4' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
             </div>

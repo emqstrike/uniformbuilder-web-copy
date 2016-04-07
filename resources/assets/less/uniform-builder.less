@@ -7,7 +7,7 @@
 */
 @forecolor: #acacac;
 @text_color: #3d3d3d;
-@border_color: #eeeeee;
+@border_color: #d7d7d7;
 
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
@@ -1682,6 +1682,7 @@ span.shadowed_header {
 
 }
 
+
 div#special_modifiers > div.col-md-6 {
 
     padding-right: 5px !important;
@@ -1691,7 +1692,7 @@ div#special_modifiers > div.col-md-6 {
 div.team_color_picker_container {
 
     height: 50px;
-    width: 280px;
+    width: 380px;
     margin: 0 auto;
     margin-top: 14px;
     
@@ -1701,8 +1702,29 @@ div.team_color_picker_container {
         width: 60px;
         height: 30px;
         float: left;    
-        margin-left: 10px;
+        
         border: 1px solid @border_color;
+
+        -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+    }
+
+}
+
+div.color_item_group {
+    
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin-top: 10px;
+    text-align: center;
+
+    div {
+
+        font-size: 0.7em;
+        margin-top: 5px;
 
     }
 
@@ -1710,7 +1732,7 @@ div.team_color_picker_container {
 
 .team_color_pane {
 
-    height: 100px !important;
+    height: 110px !important;
     display: none;
     margin-bottom: 10px;
     float: left;
@@ -1751,16 +1773,33 @@ div.team-color-main-picker-container {
 
 div.team_color_picker_item {
     
-    
+    text-shadow: 1px 1px #333333;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 4px;
+    margin-bottom: 3px;
 
+}
+
+div.team_color_picker_container_group {
+    float: left;
+    text-align: center;
+    margin-left: 30px;
+}
+
+div.team_color_picker_item_label {
+    font-size: 0.7em;
+    width: 100%;
+    text-align: center;
 }
 
 div.team_color_picker_options {
 
     display: none;
     width: 545px;
-    height: 200px;
-    background-color: #fff;
+    height: 190px;
+    background-color: #f2f2f2;
     position: absolute; 
     border: solid 1px #eeeeee;
     overflow: hidden;
@@ -1773,20 +1812,24 @@ div.team_color_picker_options {
 
 button.color_picker_item {
 
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
     margin-top: 10px;
-    margin-left: 10px;
+
+    text-shadow: 1px 1px #333333;
+    color: white;
+    font-weight: bold;
 
     background-color: white;
-    border: 1px solid #acacac;
+
+    border: none;
     
 }
 
 div.team_color_picker_options > div.color_items_container {
     
-    background-color: #acacac;
-    width: 545px;
+    background-color: #f2f2f2;
     height: 130px;
 
 }

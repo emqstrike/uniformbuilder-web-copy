@@ -271,10 +271,6 @@
             
         </div>
 
-        <div class="scroller">
-            
-        </div>
-
     </div>
 
 <!-- End Drop Down Test-->
