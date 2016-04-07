@@ -6,8 +6,8 @@
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
 */
 @forecolor: #acacac;
-@border_color: @forecolor;
 @text_color: #3d3d3d;
+@border_color: #eeeeee;
 
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
@@ -59,9 +59,9 @@ div.navbar-header {
 .navbar-default {
 
     box-shadow: none;
-    background-color: #ffffff;
+    background-color: #f2f2f2;
     height: @navbar-height;
-    border-bottom: 1px solid @main_highlight !important;
+    border-bottom: 1px solid #f2f2f2 !important;
 
 }
 
@@ -374,7 +374,7 @@ div.options_panel  {
 
     div.options_panel_header {
      
-        background-color: #f2f2f2;
+        background-color: #ffffff;
         width: 100%;
         display: table;
         height: 40px;
@@ -454,6 +454,10 @@ div.options_panel  {
 
     }
 
+}
+
+div.options_panel {
+    display: none;
 }
 
 div.color_element {
@@ -1541,7 +1545,49 @@ input.fe_input, select.fe_input {
 /* Sign In, Sign Up Area */
 
 .user-profile.pull-right > div > button.btn {
-    background-color: @main_highlight_off !important;
+    background-color: @text_color !important;
+    color: #f2f2f2;
+}
+.user-profile.pull-right > div > button.btn:hover {
+
+    background-color: @text_color !important;
+    color: #f2f2f2 !important;
+    border: solid 1px @text_color;
+
+}
+
+.btn-group > .btn {
+    border-radius: 0px;
+}
+
+.dropdown-menu {
+
+    background-color: @text_color !important;
+    border-radius: 0px !important;
+
+}
+
+.dropdown-menu>li>a {
+
+    color: #ffffff;
+    margin-left: 1px;
+
+}
+
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
+
+    color: #f2f2f2;
+    background-image: none;
+    background-color: @text_color !important;
+    border: none;
+
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #f2f2f2;
 }
 
 div.help-block > a  {
@@ -1627,10 +1673,12 @@ div#right-pane-column {
 
 span.shadowed_header {
     
-    text-align: center;
-    display: block;
-    font-weight: bold;
-    padding: 5px;
+    background-color: #ffffff;
+    width: 100%;
+    display: table;
+    height: 40px;
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
 
 }
 
@@ -1645,7 +1693,7 @@ div.team_color_picker_container {
     height: 50px;
     width: 280px;
     margin: 0 auto;
-    margin-top: 25px;
+    margin-top: 14px;
     
     div.team_color_picker_item {
 
@@ -1666,7 +1714,6 @@ div.team_color_picker_container {
     display: none;
     margin-bottom: 10px;
     float: left;
-    background-image: url(/ui/shadowed_header_small.png);
     background-position-y: -40px;
     overflow-y: hidden !important;
 
@@ -1989,4 +2036,7 @@ div.header-container.main {
 
 /* End TypeAhead Styling */
 
+/* Generic */
 
+
+/* End Generic */

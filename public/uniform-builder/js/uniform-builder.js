@@ -432,7 +432,7 @@ $(document).ready(function () {
 
         ub.addToSearchResults = function (type, data) {
 
-            var _key = Math.round(+new Date()/1000); 
+            var _key = Math.round(+new Date()/1000).toString(); 
             var _searchResultsObject = ub.searchResults;
 
             if (!Array.isArray(_searchResultsObject[_key])) {
@@ -463,7 +463,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 4,
+                        minLength: 3,
                         highlight: true
                     },
                     {
@@ -517,7 +517,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 4,
+                        minLength: 3,
                         highlight: true
                     },{
                         
@@ -3970,7 +3970,7 @@ $(document).ready(function () {
                 blSW   = temp                                           // $bl[0].scrollWidth,
                 wDiff  = (blSW/blW)-1,                                  // Widths Difference Ratio
                 mPadd  = 60,                                            // Mousemove Padding
-                damp   = 60,                                            // Mousemove response softness
+                damp   = 210,                                           // Mousemove response softness
                 mX     = 0,                                             // Real mouse position
                 mX2    = 0,                                             // Modified mouse position
                 posX   = 0,
