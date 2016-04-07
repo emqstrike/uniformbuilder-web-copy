@@ -3,6 +3,13 @@ $(document).ready(function () {
     /// UI v1
 
     ub.funcs.ui = {};
+
+    ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {;
+
+        var _teamColorObj = ub.current_material.settings.team_colors;
+        _teamColorObj[teamColorID - 1] = colorObj;
+
+    };
     
     ///  material_option:    Body, etc...
     ///  type:               sublimated | non-sublimated
@@ -154,8 +161,13 @@ $(document).ready(function () {
             var _hex_color      = $(this).data('hex');
             var _color_code     = $(this).data('color-code');
             var _color_name     = $(this).data('color');
-
             var $element    = $('div.team_color_picker_item[data-id=' + _dataID + ']')
+
+            ub.funcs.setTeamColorByID(_dataID, {
+                hex_code: _hex_color,
+                color_code: _color_code,
+                color_name: _color_name,
+            });
 
             $element.css('background-color', _hex_color);
 
