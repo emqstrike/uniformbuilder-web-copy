@@ -22,7 +22,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/block_pattern/update" enctype="multipart/form-data" id='edit-block-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="block_pattern_id" value="{{ $block_pattern->id }}">
-                        <input type="hidden" id="neck_properties" value="{{ $block_pattern->neck_options }}">
+                        <input type="hidden" name="neck_options" id="neck_options" value="{{ $block_pattern->neck_options }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern Name</label>

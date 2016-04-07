@@ -1,7 +1,9 @@
 $(document).ready(function(){
 
 
+
     var layers_properties = {};
+
 
 
     $(document).on('click', '.clone-row', function() {
@@ -13,13 +15,16 @@ $(document).ready(function(){
     });
 
 
+
     updater();
-    function updater(){
+    function updater(edit){
 
         $('.neck-option-name').keyup(function(){
+
             console.log($(this).val());
             var length = $('.layers-row').length;
-            updateJSON(length);
+            updateJSON(length, edit);
+
         });
 
     }
@@ -63,6 +68,7 @@ $(document).ready(function(){
     });
 
 
+
     $(".neck-options-container").each(function(i) {
 
         var data = $(this).val();
@@ -93,7 +99,8 @@ $(document).ready(function(){
     });
 
 
-    function updateJSON(length){
+
+    function updateJSON(length, edit){
 
         console.log('Update JSON');
         layers_properties = {};
@@ -117,10 +124,21 @@ $(document).ready(function(){
                 $(this).find('.neck-option-file').addClass(thisLayer);
                 var file_class = ".neck-option-file.layer" + ctr;
                 $(this).find(file_class).addClass('neck-option-file');
+
+                var existing_file_class = ".neck-option-existing-file.layer" + ctr;
                 
                 console.log('Name VAL: ' + $(this).find(name_class).val());
                 layers_properties[ctr]['name'] = $(this).find(name_class).val();
-                layers_properties[ctr]['thumbnail_path'] = $(this).find(file_class).val();
+
+                if( edit == 1 ){
+
+                    layers_properties[ctr]['thumbnail_path'] = $(this).find(existing_file_class).val();
+
+                } else {
+
+                    layers_properties[ctr]['thumbnail_path'] = $(this).find(file_class).val();
+
+                }
             }
             ctr++;
 
@@ -133,27 +151,29 @@ $(document).ready(function(){
     }
 
 
+
     buildLayers();
     function buildLayers(){
 
-        neck_properties = $('#neck_properties').val();
-        var myJson = JSON.parse(neck_properties);
+        neck_options = $('#neck_options').val();
+        var data = JSON.parse(neck_options);
 
-        var length = Object.keys(myJson).length;
+        var length = Object.keys(data).length;
         var x = 1;
 
         while(x <= length) {
 
-            updater();
+            updater(1);
 
-            var open = '<tr class="layers-row">';
-            var name = '<td><input type="text" class="neck-option-name layer'+x+'" value="'+myJson[x].name+'" name="neck_option_name[]"></td>';
-            var file = '<td><input type="file" class="neck-option-file layer'+x+'" name="neck_option_image[]"></td>';
-            var thumbnail = '<td><img src="'+myJson[x].thumbnail_path+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
+            var open            = '<tr class="layers-row">';
+            var existing_file   = '<input type="hidden" class="neck-option-existing-file layer' + x + '" value="' + data[x].thumbnail_path + '">';
+            var name            = '<td><input type="text" class="neck-option-name layer' + x + '" value="' + data[x].name + '" name="neck_option_name[]"></td>';
+            var file            = '<td><input type="file" class="neck-option-file layer' + x + '" name="neck_option_image[]"></td>';
+            var thumbnail       = '<td><img src="' + data[x].thumbnail_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
+            var remove          = '<td><a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a></td>';
+            var close           = '<tr>';
 
-            var remove = '<td><a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a></td>';
-            var close = '<tr>';
-            $('#layers-row-container').append(open+name+thumbnail+file+remove+close);
+            $('#layers-row-container').append( open + name + existing_file + thumbnail + file + remove + close );
             x++;
 
         }

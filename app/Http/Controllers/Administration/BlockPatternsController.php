@@ -108,7 +108,9 @@ class BlockPatternsController extends Controller
                 {
                     if ($neckOptionsFile->isValid())
                     {
-                        $filename = Random::randomize(12);
+                        // $filename = Random::randomize(12);
+                        $filename = $myJson[(string)$ctr]['name'];
+                        $filename = str_replace(' ', '', $filename);
                         $myJson[(string)$ctr]['thumbnail_path'] = FileUploader::upload(
                                                                     $neckOptionsFile,
                                                                     $name,

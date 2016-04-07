@@ -75,12 +75,12 @@ class BlockPatternsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    // public function updateCategory($data)
-    // {
-    //     $response = $this->post('category/update', [
-    //         'json' => $data
-    //     ]);
+    public function updateBlockPattern($data)
+    {
+        $response = $this->post('block_pattern/update', [
+            'json' => $data
+        ]);
 
-    //     return $this->decoder->decode($response->getBody());
-    // }
+        return $this->decoder->decode($response->getBody());
+    }
 }
