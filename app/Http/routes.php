@@ -197,8 +197,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Block Patterns
     Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@index']);
-    Route::get('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@addForm']);
-    Route::post('block_pattern/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
+    Route::get('block_pattern/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@addForm']);
+    Route::post('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
+    Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@editForm']);
+    Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
 });
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');

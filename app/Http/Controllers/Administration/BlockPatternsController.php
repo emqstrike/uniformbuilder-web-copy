@@ -36,13 +36,16 @@ class BlockPatternsController extends Controller
         ]);
     }
 
-    // public function editCategoryForm($id)
-    // {
-    //     $category = $this->client->getCategory($id);
-    //     return view('administration.categories.category-edit', [
-    //         'category' => $category
-    //     ]);
-    // }
+    public function editForm($id)
+    {
+        $block_pattern = $this->client->getBlockPattern($id);
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+
+        return view('administration.block-patterns.block-pattern-edit', [
+            'block_pattern' => $block_pattern,
+            'uniform_categories' => $uniform_categories
+        ]);
+    }
 
     public function addForm()
     {
@@ -125,7 +128,6 @@ class BlockPatternsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['neck_options'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-// dd($data);
 
         $response = null;
         if (!empty($id))

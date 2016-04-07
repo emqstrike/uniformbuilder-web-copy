@@ -8,16 +8,16 @@ class BlockPatternsAPIClient extends APIClient
         parent::__construct();
     }
 
-    // public function getCategory($id)
-    // {
-    //     $response = $this->get('category/' . $id);
-    //     $result = $this->decoder->decode($response->getBody());
-    //     if ($result->success)
-    //     {
-    //         return $result->category;
-    //     }
-    //     return null;
-    // }
+    public function getBlockPattern($id)
+    {
+        $response = $this->get('block_pattern/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->block_pattern;
+        }
+        return null;
+    }
 
     public function getBlockPatterns()
     {

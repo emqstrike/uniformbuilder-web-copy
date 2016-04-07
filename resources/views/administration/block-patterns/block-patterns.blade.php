@@ -103,7 +103,7 @@
                             <input type="hidden" value="{{ $block_pattern->neck_options }}" class="neck-options-container">
                         </td>
                         <td>
-                            <img src="{{ $block_pattern->thumbnail_path }}" style="height: 105px; width: 70px;">
+                            <img class="img-thumbnail" src="{{ $block_pattern->thumbnail_path }}" style="height: 210px; width: 140px;">
                         <td>
                             {{ $block_pattern->uniform_category }}
                         </td>
@@ -117,7 +117,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="/administration/block-patterns/edit/{{ $block_pattern->id }}" class="btn btn-primary btn-xs edit-block-pattern" data-block-pattern-id="{{ $block_pattern->id }}" role="button">
+                            <a href="/administration/block_pattern/edit/{{ $block_pattern->id }}" class="btn btn-primary btn-xs edit-block-pattern" data-block-pattern-id="{{ $block_pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
