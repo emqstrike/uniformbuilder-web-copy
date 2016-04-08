@@ -3963,22 +3963,22 @@ $(document).ready(function () {
         // groupSelector:       'div#main-picker-scroller'        
         // itemSelector:        'div.main-picker-items'
 
-        var temp = $(itemSelector).length * (widthOfItems + 60);
-        var _damp = 210;
+        var _noOfItems  = $(itemSelector).length;
+        var _temp       = _noOfItems * (widthOfItems + 60);
+        var _damp       = 210;
 
         if (itemSelector === '.color_picker_item') {
-            temp    = temp / 3;
+            _temp   = _temp / 3;
             _damp   = 30;
         }
-
         
         var $bl  = $(containerSelector),
                 $th    = $(groupSelector),
                 blW    = $bl.outerWidth(),
-                blSW   = temp                                           // $bl[0].scrollWidth,
+                blSW   = _temp                                           // $bl[0].scrollWidth,
                 wDiff  = (blSW/blW)-1,                                  // Widths Difference Ratio
                 mPadd  = 60,                                            // Mousemove Padding
-                damp   = _damp,                                           // Mousemove response softness
+                damp   = _damp,                                         // Mousemove response softness
                 mX     = 0,                                             // Real mouse position
                 mX2    = 0,                                             // Modified mouse position
                 posX   = 0,
@@ -3994,12 +3994,23 @@ $(document).ready(function () {
             mX = e.pageX - this.offsetLeft;
             mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
 
+            var _mouseX          = (e.clientX - this.offsetLeft);
+            var _travel          = _mouseX / blW;
+            var _resultingMargin =  (_travel * _temp) * -1;
+
+            if (itemSelector !== '.color_picker_item' && _noOfItems > 15) {
+                $th.css({marginLeft: _resultingMargin  });
+            }
+
         });
 
         ub.data.intervalFunction = setInterval(function() {
 
             posX += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay"    
-            $th.css({marginLeft: -posX * wDiff });
+
+            if (itemSelector === '.color_picker_item' || _noOfItems < 15) {
+                $th.css({marginLeft: -posX * wDiff });
+            }
 
         }, 10);
 
