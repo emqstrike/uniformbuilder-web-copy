@@ -8,6 +8,7 @@ $(document).ready(function(){
     ub.dimensions.width = 563;
     ub.dimensions.height = 550;
     ub.active = null;
+    ub.vars = {};
 
     /// Search
 

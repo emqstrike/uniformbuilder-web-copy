@@ -3949,8 +3949,6 @@ $(document).ready(function () {
         var $backLink = $('div.back-link');
         $backLink.hide();
 
-
-
     }
 
     ub.funcs.scrollize = function (containerSelector, groupSelector, itemSelector, widthOfItems) {
@@ -3964,8 +3962,8 @@ $(document).ready(function () {
         // itemSelector:        'div.main-picker-items'
 
         var _noOfItems  = $(itemSelector).length;
-        var _temp       = _noOfItems * (widthOfItems + 60);
-        var _damp       = 210;
+        var _temp       = _noOfItems * (widthOfItems + 20);
+        var _damp       = 60;
 
         if (itemSelector === '.color_picker_item') {
             _temp   = _temp / 3;
@@ -3975,8 +3973,8 @@ $(document).ready(function () {
         var $bl  = $(containerSelector),
                 $th    = $(groupSelector),
                 blW    = $bl.outerWidth(),
-                blSW   = _temp                                           // $bl[0].scrollWidth,
-                wDiff  = (blSW/blW)-1,                                  // Widths Difference Ratio
+                blSW   = _temp                                          // $bl[0].scrollWidth,
+                wDiff  =  2;   // (blSW/blW)-1                          // Widths Difference Ratio
                 mPadd  = 60,                                            // Mousemove Padding
                 damp   = _damp,                                         // Mousemove response softness
                 mX     = 0,                                             // Real mouse position
@@ -3984,6 +3982,10 @@ $(document).ready(function () {
                 posX   = 0,
                 mmAA   = blW,                                           // Mousemove Available Area
                 mmAAr  = (blW/mmAA);                                    // Available Mousemove Fidderence Ratio
+
+        var _mouseX, _resultingMargin;
+
+        ub.th = $th;
 
         $bl.mousemove(function(e) {
 
@@ -3994,22 +3996,22 @@ $(document).ready(function () {
             mX = e.pageX - this.offsetLeft;
             mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
 
-            var _mouseX          = (e.clientX - this.offsetLeft);
-            var _travel          = _mouseX / blW;
-            var _resultingMargin =  (_travel * _temp) * -1;
+            _mouseX          = (e.clientX - this.offsetLeft);
+            ub.vars.travel   = _mouseX / blW;
+            _resultingMargin =  (ub.vars.travel * _temp) * -1;
 
             if (itemSelector !== '.color_picker_item' && _noOfItems > 15) {
-                $th.css({marginLeft: _resultingMargin  });
+                $th.css({marginLeft: _resultingMargin});
             }
 
         });
 
         ub.data.intervalFunction = setInterval(function() {
 
-            posX += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay"    
+            posX        += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay" 
 
             if (itemSelector === '.color_picker_item' || _noOfItems < 15) {
-                $th.css({marginLeft: -posX * wDiff });
+                $th.css({marginLeft: -posX * wDiff});
             }
 
         }, 10);

@@ -87,6 +87,21 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.tennGuardTemp = function (name) {
+
+        var _name = '';
+
+        if (name === 'Tennessee Orange') {
+            _name = 'Tenn. Orange';
+        }
+        else{
+            _name = name;
+        }
+
+        return _name;
+
+    }
+
     ub.funcs.init_team_colors = function () {
 
         var $teamColorPicker = $('div.team_color_picker_options');
@@ -99,6 +114,11 @@ $(document).ready(function () {
 
         var data = {
             colors: _colorSet,
+            abbr: function () {
+
+                return ub.funcs.tennGuardTemp(this.name);
+
+            }
         };
 
         var _markup = Mustache.render(template, data);
@@ -161,7 +181,7 @@ $(document).ready(function () {
             var _hex_color      = $(this).data('hex');
             var _color_code     = $(this).data('color-code');
             var _color_name     = $(this).data('color');
-            var $element    = $('div.team_color_picker_item[data-id=' + _dataID + ']')
+            var $element        = $('div.team_color_picker_item[data-id=' + _dataID + ']')
 
             ub.funcs.setTeamColorByID(_dataID, {
                 hex_code: _hex_color,
@@ -179,8 +199,7 @@ $(document).ready(function () {
             }
 
             $element.html(_color_code);
-
-            $element.parent().find('.team_color_picker_item_label').html(_color_name);
+            $element.parent().find('.team_color_picker_item_label').html(ub.funcs.tennGuardTemp(_color_name));
 
             ub.funcs.ui.hideTeamColorPicker();
 
@@ -190,7 +209,7 @@ $(document).ready(function () {
         var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
         var _numberOfColors     = $('.color_picker_item').length;
         var _rowsOfColor        = 2;
-        var _extra              = $('.team_color_picker_options').width() + 140; // so that options wont be scrolled to the left most
+        var _extra              = 20; // so that options wont be scrolled to the left most
 
         var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
 
