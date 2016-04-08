@@ -99,6 +99,9 @@ $(document).ready(function(){
 
     ub.data.defaultUniformStyle = {};
 
+    ub.data.modifierLabels = {};
+    
+
     ub.data.boundaries_transformed_one_dimensional = {
 
         front: [],

@@ -1850,6 +1850,19 @@ $(document).ready(function() {
         return _header_text;
 
     }
+
+    ub.funcs.makeActive = function (name) {
+
+        var _ht = name;
+        var _label = name.prepareModifierLabel();
+        _group_id = ub.data.modifierLabels[_label].group_id;
+
+        ub.funcs.match(name);
+
+        $("span.part_label").html(_ht.toUpperCase());
+        $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));
+
+    }
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -1924,7 +1937,7 @@ $(document).ready(function() {
 
                     }   
 
-                    _header_text = ub.funcs.match(_match)
+                    _header_text = ub.funcs.match(_match);
 
                 }
                 else {
@@ -1933,7 +1946,11 @@ $(document).ready(function() {
 
                 }
 
-                $("#primary_options_header").html(_header_text.toUpperCase());
+                var _ht = _header_text;
+                _group_id = ub.data.modifierLabels[_ht].group_id;
+
+                $("span.part_label").html(_ht.toUpperCase());
+                $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));
                 ub.active_lock = true;
 
             }
@@ -2044,7 +2061,29 @@ $(document).ready(function() {
 
     /// End Get Primary View
 
+    /// Get Modifier Labels
 
+    ub.funcs.get_modifier_labels = function () {
 
+        var _modifierLabels = ub.data.modifierLabels;
+
+        _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
+
+            var _result     = _distinct_name.modifier_label;
+            var _group_id   = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()}).group_id;            
+
+            _result = _result.prepareModifierLabel();
+            
+            _modifierLabels[_result] = {
+                name: _result,
+                group_id: _group_id,
+                fullname: _distinct_name,
+            };
+
+        });
+
+    };
+
+    /// End Get Modifier Labels
 
 });

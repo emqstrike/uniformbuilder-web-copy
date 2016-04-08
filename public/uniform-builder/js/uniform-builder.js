@@ -1451,6 +1451,7 @@ $(document).ready(function () {
             
             ub.funcs.transformedApplications();
             ub.funcs.transformedBoundaries();
+            ub.funcs.get_modifier_labels();
 
             // var apps = ub.data.applications_transformed["Body"];
 
