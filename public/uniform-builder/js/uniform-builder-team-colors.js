@@ -186,9 +186,6 @@ $(document).ready(function () {
 
         });
 
-        // Sample Usage
-        //
-
         var _widthOfItem        = $('div.color_item_group').width();
         var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
         var _numberOfColors     = $('.color_picker_item').length;
