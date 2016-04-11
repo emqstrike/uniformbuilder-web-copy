@@ -163,6 +163,7 @@
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
+                                data-pattern-properties="{{ $option->pattern_properties }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -241,6 +242,7 @@
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
+                                data-pattern-properties="{{ $option->pattern_properties }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -319,6 +321,7 @@
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
+                                data-pattern-properties="{{ $option->pattern_properties }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -397,6 +400,7 @@
                                 data-material-option-allow-color='{{ ($option->allow_color) ? "yes" : "no" }}'
                                 data-material-id="{{ $option->material_id }}"
                                 data-pattern-id="{{ $option->pattern_id }}"
+                                data-pattern-properties="{{ $option->pattern_properties }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>

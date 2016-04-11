@@ -100,6 +100,7 @@ $(document).ready(function() {
     
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
+        var colors_dropdown = '';
         $.each(window.colors, function( key, value ) {
             if( color_code == value.color_code){
                 colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
@@ -121,33 +122,71 @@ $(document).ready(function() {
         loadPatternLayers(id);
     });
 
-    function loadPatternLayers(id){
-        $.each(window.patterns, function(i, item) {
-            if( item.id == id ){
-                // console.log('Item properties' + item.pattern_properties);
-                var pattern_props = JSON.parse( item.pattern_properties );
-                window.current_pattern_properties = pattern_props;
-                var x = 1;
-                $.each(pattern_props, function(i, item) {
-
-                    $('.layer-default-color').change(function(){
-                        var color = $('option:selected', this).data('color');
-                        $(this).css('background-color', color);
-                        $(this).css('color', '#fff');
-                        $(this).css('text-shadow', '1px 1px #000');
-                    });
-
-                    console.log(' Color Code : ' + item.default_color);
-                    var colors = generateColorsDropdown(item.default_color);
-                    var label = 'Layer #' + x;
-                    var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
-                    var preview = '<img src = "' + item.file_path + '" style="hegiht: 150px; width: 150px">'
-                    $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
-                    x++;
-                });
-            }
+    function refreshColors(){
+        $(".layer-default-color").change(function() {
+            var x = 1;
+            $(".layer-default-color").each(function(i) {
+                window.current_pattern_properties[x].default_color = $(this).val();
+                x++;
+            });
+            console.log( JSON.stringify(window.current_pattern_properties) );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) +'"' );
         });
-        $('#pattern_properties').val(window.current_pattern_properties);
+    }
+
+    function refreshColorBG(){
+        $('.layer-default-color').change(function(){
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+            $(this).css('color', '#fff');
+            $(this).css('text-shadow', '1px 1px #000');
+        });
+    }
+
+    function loadPatternLayers(id, loaded_pattern){
+        console.log('ID: ' + id + ", LP: " + loaded_pattern);
+
+        if(loaded_pattern == 1){
+            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length-1) );
+            window.current_pattern_properties = pattern_props;
+            var x = 1;
+            $.each(pattern_props, function(i, item) {
+                // refreshColors();
+                console.log(' Color Code : ' + item.default_color);
+                var colors = generateColorsDropdown(item.default_color);
+                var label = 'Layer #' + x;
+                var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
+                $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                refreshColors();
+                refreshColorBG();
+                x++;
+            });
+        } else {
+            $.each(window.patterns, function(i, item) {
+                if( item.id == id ){
+                    // console.log('Item properties' + item.pattern_properties);
+                    var pattern_props = JSON.parse( item.pattern_properties );
+                    window.current_pattern_properties = pattern_props;
+                    var x = 1;
+                    $.each(pattern_props, function(i, item) {
+                        // refreshColors();
+                        
+
+                        console.log(' Color Code : ' + item.default_color);
+                        var colors = generateColorsDropdown(item.default_color);
+                        var label = 'Layer #' + x;
+                        var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                        var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
+                        $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                        refreshColors();
+                        refreshColorBG();
+                        x++;
+                    });
+                }
+            });
+        }
+        $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
 
@@ -1212,6 +1251,9 @@ var appPropJson = "";
     });
 
     $('.edit-material-option-info').on('click', function(){
+        $('#pattern_layers_OC').html('');
+        var pattern_loaded = 0;
+
         application_number = 0;
         material = {
             id: $(this).data('material-id'),
@@ -1244,9 +1286,16 @@ var appPropJson = "";
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
-                pattern_id: ($(this).data('pattern-id'))
+                pattern_id: ($(this).data('pattern-id')),
+                pattern_properties: ($(this).data('pattern-properties'))
             }
         };
+        console.log('TESTER' + material.option.pattern_properties);
+        $('#pattern_properties').val(material.option.pattern_properties);
+
+        if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
+            pattern_loaded = 1;
+        }
 
         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
 
@@ -1340,7 +1389,7 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '';
+        var patterns_dropdown = '<option value="">None</option>';
         $.each(window.patterns, function(i, item) {
 
             if( material.option.pattern_id == item.id ){
@@ -1350,9 +1399,9 @@ var appPropJson = "";
             }
 
         });
-
-        loadPatternLayers(material.option.pattern_id);
-
+// console.log(pattern_loaded);
+        loadPatternLayers(material.option.pattern_id, pattern_loaded);
+        $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
 
         $('#saved-setting-type').attr('selected',true);

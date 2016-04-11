@@ -9,7 +9,7 @@
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
             <input type="hidden" name="applications_properties" id="application-properties" class="a-prop" value="">
-            <input type="hidden" name="pattern_properties" id="pattern_properties" value="">
+            <input type="hidden" name="pattern_properties" id="pattern_properties">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>

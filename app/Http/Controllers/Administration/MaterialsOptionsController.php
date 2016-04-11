@@ -71,6 +71,7 @@ class MaterialsOptionsController extends Controller
         $materialOptionId = $request->input('material_option_id');
         $materialObject = null;
         $patternId = $request->input('pattern_id');
+        $pattern_properties = $request->input('pattern_properties');
         if (!is_null($materialId))
         {
             $materialObject = $this->materialClient->getMaterial($materialId);
@@ -121,7 +122,8 @@ class MaterialsOptionsController extends Controller
             'allow_color' => $allow_color,
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties,
-            'pattern_id' => $patternId
+            'pattern_id' => $patternId,
+            'pattern_properties' => $pattern_properties
         ];
 
         try
