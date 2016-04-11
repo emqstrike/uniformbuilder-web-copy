@@ -26,6 +26,10 @@ $(document).ready(function() {
 
     });
 
+    $(document).on('change', '#mirror_polygon', function() {
+        updateCoordinates();
+    });
+
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
     window.patterns = null;
@@ -130,7 +134,7 @@ $(document).ready(function() {
                 x++;
             });
             console.log( JSON.stringify(window.current_pattern_properties) );
-            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) +'"' );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) );
         });
     }
 
@@ -1389,7 +1393,7 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '<option value="">None</option>';
+        var patterns_dropdown = '';
         $.each(window.patterns, function(i, item) {
 
             if( material.option.pattern_id == item.id ){
@@ -1765,9 +1769,10 @@ var appPropJson = "";
 
     $('#save_boundary_template').on('click', function(){
         var name = $('#boundary_template_name').val();
-        var block_pattern = $('#material_block_pattern_id').val();
-        var perspective = $('#saved-perspective').val();
-        var part = $('#material-option-name').val();
+        var block_pattern = $('#material_block_pattern').val();
+        var neck_option = $('#material_neck_option').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
         var boundary_properties = $('.b-prop').val();
 
         var description = "Lorem Ipsum Yaddah";
@@ -1780,7 +1785,8 @@ var appPropJson = "";
             "perspective":perspective,
             "part":part,
             "description":description,
-            "boundary_properties":boundary_properties
+            "boundary_properties":boundary_properties,
+            "neck_option":neck_option
         };
 
         if($(this).attr('disabled') != 'disabled'){
@@ -1797,7 +1803,7 @@ var appPropJson = "";
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                        var elem = '.material-' + id;
+                        // var elem = '.material-' + id;
                         new PNotify({
                             title: 'Success',
                             text: response.message,
@@ -2445,6 +2451,15 @@ var appPropJson = "";
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
+
+            var mirror_pattern = 0;
+            if( $('#mirror_polygon:checkbox:checked').length > 0 ){
+                console.log('checked');
+                coords[x]['mirror'] = 1;
+            } else {
+                console.log('unchecked');
+                coords[x]['mirror'] = 0;
+            }
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
@@ -2778,6 +2793,7 @@ catch(err) {
 function loadPolygon(data){
     console.log("PolyData >> "+JSON.stringify(data));
     var angle;
+    var mirror;
     canvas.clear();
     var z = 0;
     // console.log('POLY TEST >> '+data[0].angle);
@@ -2787,6 +2803,7 @@ function loadPolygon(data){
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
+            mirror = item.mirror;
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -2810,6 +2827,12 @@ function loadPolygon(data){
     });
     console.log('Line Index: ' + lineIdx);
     loadCase = 1;
+
+    if( mirror == 1 ){
+        $('#mirror_polygon').attr('checked', 'checked');
+    } else {
+        $('#mirror_polygon').attr('checked', 'unchecked');
+    }
 
     // $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     try {

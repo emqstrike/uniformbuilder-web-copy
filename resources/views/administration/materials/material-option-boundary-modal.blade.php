@@ -20,25 +20,26 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="col-md-3"><div>Load Template:</div></td>
-                                    <td class="col-md-3">
-                                        <select name="load_boundaries_template" class="load-boundaries-template" style="width: 100px;">
+                                    <td class="col-md-12">
+                                        Load Template: <select name="load_boundaries_template" class="load-boundaries-template" style="width: 100px; display: inline;">
                                             <option value='"{}"'>None</option>
                                             @foreach ($boundaries as $boundary)
                                                 <option value='{{ $boundary->boundary_properties }}'>
                                                     {{ $boundary->block_pattern }}-
+                                                    {{ $boundary->neck_option }}-
                                                     {{ $boundary->perspective }}-
                                                     {{ $boundary->part }}-
                                                     {{ $boundary->name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        Filter: <input type="text" id="filter_boundary">
                                     </td>
-                                <!-- </tr>
-                                <tr> -->
-                                    <td class="col-md-3"><div>Pattern Angle:</div></td>
-                                    <td class="col-md-3">
-                                        <input type="text" id="pattern_angle" placeholder="Angle...">
+                                </tr>
+                                <tr>
+                                    <td class="col-md-6">Pattern Angle: <input type="text" id="pattern_angle" placeholder="Angle..."></td>
+                                    <td class="col-md-6">
+                                        Mirror: <input type="checkbox" id="mirror_polygon" value="1">
                                     </td>
                                 </tr>
                                 <tr>
