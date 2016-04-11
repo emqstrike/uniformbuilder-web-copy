@@ -23,6 +23,9 @@
                     <thead>
                         <tr>
                             <th>Categories</th>
+                            <th>Male</th>
+                            <th>Female</th>
+                            <th>Youth</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -33,6 +36,15 @@
                         <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
                             <td>
                                 {{ $category->name }}
+                            </td>
+                            <td>
+                                <img src="{{ $category->thumbnail_male }}" style="height: 105px; width: 70px;">
+                            </td>
+                            <td>
+                                <img src="{{ $category->thumbnail_female }}" style="height: 105px; width: 70px;">
+                            </td>
+                            <td>
+                                <img src="{{ $category->thumbnail_youth }}" style="height: 105px; width: 70px;">
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>

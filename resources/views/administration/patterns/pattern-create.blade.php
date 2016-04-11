@@ -26,11 +26,12 @@ select:hover {
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/pattern/add" enctype="multipart/form-data" id='create-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="pattern_properties" id="pattern_properties">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control pattern-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control pattern-name" name="name" value="{{ old('name') }}" required>
                             </div>
                         </div>
 
@@ -41,7 +42,7 @@ select:hover {
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
                             <div class="col-md-6">
                                 <select name='team_color_id' class="form-control pattern-team-color-id">
@@ -52,7 +53,6 @@ select:hover {
                                 </select>
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
@@ -120,6 +120,42 @@ select:hover {
                                 @endforeach
                                 </select>
                             </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Pattern Layers
+                            <div>
+                                <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Pattern Layer</a>
+                            </div>
+                            </label>
+                            <div class="col-md-8">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Layer #</th>
+                                            <th>Default Color</th>
+                                            <th>Pattern File</th>
+                                            <th>Team Color ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="layers-row-container" class="layers">
+                                        <tr class="layers-row">
+                                            <td>
+                                                <input type="text" class="ma-layer layer1" size="3" value="1" disabled>
+                                            </td>
+                                            <td>
+                                                <select class="layer-default-color layer1" name=""></select>
+                                            </td>
+                                            <td>
+                                                <input type="file" class="pattern-layer-file layer1" name="pattern_layer_image[]">
+                                            </td>
+                                            <td>
+                                                <select id="pattern_tc_id_dp" class="pattern-team-color-id" name=""></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -134,6 +170,7 @@ select:hover {
                                 </a>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -144,6 +181,9 @@ select:hover {
 @endsection
 
 @section('custom-scripts')
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/patterns.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
@@ -151,6 +191,8 @@ $(document).ready(function(){
     $('.layer-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
+        $(this).css('color', '#fff');
+        $(this).css('text-shadow', '1px 1px #000');
     });
 });
 </script>

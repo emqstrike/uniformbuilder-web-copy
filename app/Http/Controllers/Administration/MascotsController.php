@@ -141,7 +141,6 @@ class MascotsController extends Controller
         }
 
         $myJson = json_decode($layersProperties, true);
-
         $materialFolder = $mascotName;
         try
         {

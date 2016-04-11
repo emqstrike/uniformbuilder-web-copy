@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administration;
 use \Redirect;
 use App\Http\Requests;
 use App\Utilities\Log;
+use App\Utilities\Random;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
@@ -57,19 +58,21 @@ class PatternsController extends Controller
     public function store(Request $request)
     {
         $patternName = $request->input('name');
-        $team_color_id = $request->input('team_color_id');
-        $layer_1_color = $request->input('layer_1_color');
-        $layer_2_color = $request->input('layer_2_color');
-        $layer_3_color = $request->input('layer_3_color');
-        $layer_4_color = $request->input('layer_4_color');
+        $patternProperties = $request->input('pattern_properties');
+        // $team_color_id = $request->input('team_color_id');
+        // $layer_1_color = $request->input('layer_1_color');
+        // $layer_2_color = $request->input('layer_2_color');
+        // $layer_3_color = $request->input('layer_3_color');
+        // $layer_4_color = $request->input('layer_4_color');
 
         $data = [
             'name' => $patternName,
-            'layer_1_default_color' => $layer_1_color,
-            'layer_2_default_color' => $layer_2_color,
-            'layer_3_default_color' => $layer_3_color,
-            'layer_4_default_color' => $layer_4_color,
-            'team_color_id' => $team_color_id
+            'pattern_properties' => $patternProperties
+            // 'layer_1_default_color' => $layer_1_color,
+            // 'layer_2_default_color' => $layer_2_color,
+            // 'layer_3_default_color' => $layer_3_color,
+            // 'layer_4_default_color' => $layer_4_color,
+            // 'team_color_id' => $team_color_id
         ];
 
         $patternId = null;
@@ -88,26 +91,26 @@ class PatternsController extends Controller
 
         try
         {
-            for ($i = 1; $i <= 4; $i++)
-            {
-                $fieldName = "layer_{$i}_path";
-                $filename = "layer{$i}.png";
-                $patternFile = $request->file($fieldName);
-                if (isset($patternFile))
-                {
-                    if ($patternFile->isValid())
-                    {
-                        $data[$fieldName] = FileUploader::upload(
-                            $patternFile,
-                            $patternName,
-                            'pattern_layer',    // Type
-                            'patterns',         // S3 Folder
-                            $filename     // Layer File Name
-                        );
+            // for ($i = 1; $i <= 4; $i++)
+            // {
+            //     $fieldName = "layer_{$i}_path";
+            //     $filename = "layer{$i}.png";
+            //     $patternFile = $request->file($fieldName);
+            //     if (isset($patternFile))
+            //     {
+            //         if ($patternFile->isValid())
+            //         {
+            //             $data[$fieldName] = FileUploader::upload(
+            //                 $patternFile,
+            //                 $patternName,
+            //                 'pattern_layer',    // Type
+            //                 'patterns',         // S3 Folder
+            //                 $filename     // Layer File Name
+            //             );
 
-                    }
-                }
-            }
+            //         }
+            //     }
+            // }
             $thumbnailFile = $request->file('thumbnail_path');
             if (isset($thumbnailFile))
             {
@@ -128,6 +131,40 @@ class PatternsController extends Controller
             return Redirect::to('/administration/patterns')
                             ->with('message', 'There was a problem uploading your files');
         }
+        $myJson = json_decode($patternProperties, true);
+        // Upload Neck Options Thumbnails
+        try
+        {
+            $layerFiles = $request->file('pattern_layer_image');
+            $ctr = 1;
+            foreach ($layerFiles as $layerFile) {
+                if (!is_null($layerFile))
+                {
+                    if ($layerFile->isValid())
+                    {
+                        $filename = Random::randomize(12);
+                        // $filename = $myJson[(string)$ctr]['name'];
+                        // $filename = str_replace(' ', '', $filename);
+                        $myJson[(string)$ctr]['file_path'] = FileUploader::upload(
+                                                                    $layerFile,
+                                                                    $patternName,
+                                                                    'material_option',
+                                                                    "materials",
+                                                                    "{$patternName}/{$filename}.png"
+                                                                );
+                    }
+                }
+                $ctr++;
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/block_patterns')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+        $data['pattern_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+
 
         $response = null;
         if (!empty($patternId))
