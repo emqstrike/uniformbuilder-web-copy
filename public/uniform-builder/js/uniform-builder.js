@@ -3990,10 +3990,21 @@ $(document).ready(function () {
 
         $bl.mousemove(function(e) {
 
+            if (itemSelector !== '.color_picker_item') {
+
+                var _upperBound = $th.offset().top;
+                var _lowerBound = $th.offset().top + $th.height();
+
+                var _mouseY = e.clientY;
+
+                if (_mouseY < _upperBound || _mouseY > _lowerBound) { return; }
+
+            }    
+            
             if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
-            
+
             mX = e.pageX - this.offsetLeft;
             mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
 
