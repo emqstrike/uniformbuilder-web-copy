@@ -463,7 +463,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 3,
+                        minLength: 2,
                         highlight: true
                     },
                     {
@@ -517,7 +517,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 3,
+                        minLength: 2,
                         highlight: true
                     },{
                         
@@ -4208,6 +4208,7 @@ $(document).ready(function () {
         if(type === 'search_results') {
 
             var template = $('#m-picker-items-search-results').html();
+
 
             var data = {
                 picker_type: type,

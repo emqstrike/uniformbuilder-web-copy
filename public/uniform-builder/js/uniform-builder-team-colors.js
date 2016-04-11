@@ -9,6 +9,10 @@ $(document).ready(function () {
         var _teamColorObj = ub.current_material.settings.team_colors;
         _teamColorObj[teamColorID - 1] = colorObj;
 
+        var _removedHash =colorObj.hex_code.replace('#', '');
+
+        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash);
+
     };
     
     ///  material_option:    Body, etc...

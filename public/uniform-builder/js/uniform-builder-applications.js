@@ -1708,6 +1708,8 @@ $(document).ready(function() {
 
     ub.funcs.setAlphaOn = function (_object) {
 
+        if (typeof _object === 'undefined') { return; }
+
         _object.alpha = ub.ALPHA_ON;
 
         var _other_views = _.without(ub.views, ub.active_view);
@@ -1947,10 +1949,14 @@ $(document).ready(function() {
                 }
 
                 var _ht = _header_text;
-                _group_id = ub.data.modifierLabels[_ht].group_id;
 
-                $("span.part_label").html(_ht.toUpperCase());
-                $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));
+                if (typeof ub.data.modifierLabels[_ht] !== 'undefined') {
+                    _group_id = ub.data.modifierLabels[_ht].group_id;
+
+                    $("span.part_label").html(_ht.toUpperCase());
+                    $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));    
+                }
+                
                 ub.active_lock = true;
 
             }
@@ -1962,8 +1968,6 @@ $(document).ready(function() {
             var current_coodinates = mousedata.data.global;
 
             if (ub.zoom) {
-                console.clear();
-                console.log(current_coodinates);
 
                 ub[ub.active_view + '_view'].position.set(-current_coodinates.x, -current_coodinates.y);
 
@@ -2077,7 +2081,7 @@ $(document).ready(function() {
             _modifierLabels[_result] = {
                 name: _result,
                 group_id: _group_id,
-                fullname: _distinct_name,
+                fullname: _distinct_name.modifier_label,
             };
 
         });
@@ -2085,5 +2089,46 @@ $(document).ready(function() {
     };
 
     /// End Get Modifier Labels
+
+    ub.funcs.setGroupColor = function (groupID, hexCode) {
+
+      var _group_items = _.filter(ub.current_material.materials_options, {team_color_id: groupID});
+
+      _.each (_group_items, function (_item) {
+
+        var _name = _item.name.toCodeCase();
+        var _perspespective = _item.perspective + "_view"; 
+
+        if (typeof ub.objects[_perspespective][_name] !== 'undefined' ) {
+
+            if (_item.setting_type === 'shape') {
+                ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
+
+                console.log('Name: ' + _name);
+            }
+            
+        }
+
+      });
+
+    };
+
+    ub.funcs.printNames = function () {
+
+        _.each(ub.current_material.materials_options, function (_mo) {
+
+            if (_mo.name.indexOf('_') > 3) {
+                console.error(_mo.name + ' ' + _mo.perspective);
+            }
+            else {
+                console.info(_mo.name + ' ' + _mo.perspective);    
+            }
+            
+
+
+
+        })
+
+    }
 
 });
