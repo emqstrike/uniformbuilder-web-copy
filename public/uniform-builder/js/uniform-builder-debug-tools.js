@@ -8,6 +8,7 @@ $(document).ready( function () {
     ub.funcs.uiV2 = function () {
 
         ub.dimensions.width = 563;
+        ub.dimensions.height = 616;
 
         $('a.mod_primary').click();
 
@@ -15,6 +16,7 @@ $(document).ready( function () {
         $('div.main_steps_bar').show();
         $('#change-views').css('margin-left', '0px');
         $('#main_view').css('width','563px');
+        $('#main_view').css('height','616px');
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();

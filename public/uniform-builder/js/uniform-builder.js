@@ -73,7 +73,7 @@ $(document).ready(function () {
                  
             });
 
-            ub[ub.active_view + '_view'].position.set(33.5, 0);
+            ub[ub.active_view + '_view'].position.set(33.5, 33.5);
 
             ub.zoom = false;
             ub.show_all_views();
@@ -3786,7 +3786,7 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.set(33.5,0);
+                ub[view + '_view'].position.set(33.5, 33.5);
 
                 $('#main_view').fadeIn();
 
@@ -3994,7 +3994,6 @@ $(document).ready(function () {
 
                 var _upperBound = $th.offset().top;
                 var _lowerBound = $th.offset().top + $th.height();
-
                 var _mouseY = e.clientY;
 
                 if (_mouseY < _upperBound || _mouseY > _lowerBound) { return; }
@@ -4023,7 +4022,7 @@ $(document).ready(function () {
 
         ub.data.intervalFunction = setInterval(function() {
 
-            posX        += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay" 
+             posX        += (mX2 - posX) / damp;                       // Zeno's Paradox Equation "catching delay" 
 
             // Turn off intertia for now
             //

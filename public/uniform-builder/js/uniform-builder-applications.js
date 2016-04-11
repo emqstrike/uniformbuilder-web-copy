@@ -1511,7 +1511,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point((point.x / 2) + 33.5, point.y / 2);
+                var p = new PIXI.Point((point.x / 2) + 33.5, (point.y / 2) + 33.5);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1521,7 +1521,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x + 33.5, point.y);
+                var p = new PIXI.Point(point.x + 33.5, (point.y / 2) + 33.5 );
                 _transformed_boundaries.push(p); 
 
             });   
@@ -2106,7 +2106,6 @@ $(document).ready(function() {
             if (_item.setting_type === 'shape') {
                 ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
 
-                console.log('Name: ' + _name);
             }
             
         }
@@ -2125,9 +2124,6 @@ $(document).ready(function() {
             else {
                 console.info(_mo.name + ' ' + _mo.perspective);    
             }
-            
-
-
 
         })
 

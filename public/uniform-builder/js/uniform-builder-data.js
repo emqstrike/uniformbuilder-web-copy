@@ -6,7 +6,7 @@ $(document).ready(function(){
     ub.tethers = {}; 
     ub.dimensions = {};
     ub.dimensions.width = 563;
-    ub.dimensions.height = 550;
+    ub.dimensions.height = 616;
     ub.active = null;
     ub.vars = {};
 
