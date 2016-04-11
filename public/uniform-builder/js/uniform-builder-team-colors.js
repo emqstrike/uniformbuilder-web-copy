@@ -213,7 +213,7 @@ $(document).ready(function () {
         var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
         var _numberOfColors     = $('.color_picker_item').length;
         var _rowsOfColor        = 2;
-        var _extra              = 20; // so that options wont be scrolled to the left most
+        var _extra              = 40; // so that options wont be scrolled to the left most
 
         var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
 
