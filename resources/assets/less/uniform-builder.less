@@ -394,6 +394,41 @@ div.options_panel  {
 
         }
 
+        div.triple-header {
+            
+            float: left;
+            display: block;
+            text-align: center;
+
+
+        }
+
+        div.prev {
+            padding-top: 10px;
+            width: 25%;
+        }
+
+        div.main {
+            width: 50%;
+            border-right: 1px solid @border_color;
+            border-left: 1px solid @border_color;
+
+            span.part_label {
+                font-size: 1.2em;
+                font-weight:bold;
+            }
+
+            span.nOf {
+                color: @border_color;
+                font-size: 0.9em;
+            }
+        }
+
+        div.next {
+            padding-top: 10px;
+            width: 25%;
+        }
+
     }
 
 
@@ -1767,8 +1802,6 @@ div.main_steps_bar {
 
 div.team-color-main-picker-container {
 
-    
-
 }
 
 div.team_color_picker_item {
@@ -1847,7 +1880,7 @@ div.team_color_picker_options > div.scroller {
 
 /* New UI */ 
 
-.grow {  transform: scale(1.0); transition: all .2s ease-in-out; }
+.grow {  transform: scale(1.0); transition: all .1s ease-in-out; }
 .grow:hover { transform: scale(1.15); }
 
 .disabled { 

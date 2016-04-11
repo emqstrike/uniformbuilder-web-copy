@@ -370,12 +370,12 @@
         @{{#colors}}
             
             <div class='color_item_group'>
-                <button class="color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
+                <button class="grow color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
                     @{{color_code}}
                 </button>
 
                 <div>
-                    @{{name}}
+                    @{{abbr}}
                 </div>
             </div>
 

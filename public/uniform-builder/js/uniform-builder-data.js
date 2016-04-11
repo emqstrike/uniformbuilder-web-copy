@@ -8,6 +8,7 @@ $(document).ready(function(){
     ub.dimensions.width = 563;
     ub.dimensions.height = 550;
     ub.active = null;
+    ub.vars = {};
 
     /// Search
 
@@ -97,6 +98,9 @@ $(document).ready(function(){
     // when loading a uniform that is not from a customized order
 
     ub.data.defaultUniformStyle = {};
+
+    ub.data.modifierLabels = {};
+    
 
     ub.data.boundaries_transformed_one_dimensional = {
 

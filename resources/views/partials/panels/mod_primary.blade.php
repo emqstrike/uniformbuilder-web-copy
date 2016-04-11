@@ -1,7 +1,22 @@
 <div class="options_panel" id="mod_primary_panel">
 
     <div class="options_panel_header">
-        <span class="header_text">PRIMARY OPTIONS</span>
+
+        <div class='prev triple-header'>
+            
+            <i class="fa fa-caret-left"></i> Prev
+
+        </div>
+
+        <div class='main triple-header'>
+            <span class='part_label'>Body</span><br />
+            <span class='nOf'>1 of 7</span>
+        </div>
+
+        <div  class='next triple-header'>
+            Next <i class="fa fa-caret-right"></i>
+        </div>
+
     </div>
 
     <div class="options_panel_section" id="primary_options_container">

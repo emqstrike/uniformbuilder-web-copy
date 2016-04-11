@@ -73,4 +73,17 @@ $( document ).ready(function() {
 
     };
 
+    String.prototype.prepareModifierLabel = function () {
+
+        var fullStringValue = this.toString();
+        var _result = '';
+
+        _result = fullStringValue.replace(' ', '');
+        _result = fullStringValue.replace('left_','').replace('right_','');
+        _result = _result.toTitleCase();
+
+        return _result;
+
+    };
+
 }); 
