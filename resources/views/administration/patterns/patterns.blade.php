@@ -2,6 +2,53 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<style type="text/css">
+.onoffswitch {
+    position: relative; width: 61px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 9px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
+    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 5px;
+    background-color: #02C723; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 5px;
+    background-color: #BF5050; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 1px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 37px;
+    border: 2px solid #999999; border-radius: 9px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>
 @endsection
 
 @section('content')
@@ -26,10 +73,10 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
-                                <th>Thumbnail</th>
-                                <th>Pattern Name</th>
+                                <th>Layer #</th>
+                                <th>Default Color</th>
+                                <th>Pattern File</th>
                                 <th>Team Color ID</th>
-                                <th>Active Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -49,38 +96,33 @@
                             {{ $pattern->name }}
                         </td>
                         <td>
-                            {{ $pattern->team_color_id }}
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-default btn-xs disable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? : 'disabled="disabled"' }}>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-pattern" id="switch-{{ $pattern->id }}" data-pattern-id="{{ $pattern->id }}" {{ ($pattern->active) ? 'checked' : '' }}>
+                                <label class="onoffswitch-label" for="switch-{{ $pattern->id }}">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <!-- <a href="#" class="btn btn-default btn-xs disable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? : 'disabled="disabled"' }}>
                                 <i class="glyphicon glyphicon-eye-close"></i>
                                 Disable
                             </a>
                             <a href="#" class="btn btn-info btn-xs enable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? 'disabled="disabled"' : '' }}>
                                 <i class="glyphicon glyphicon-eye-open"></i>
                                 Enable
-                            </a>
+                            </a> -->
                         </td>
                         <td>
                             <a href="/administration/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-xs edit-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
-                            <a href="#" class="btn btn-default btn-xs show-pattern" role="button"
-                                data-pattern-name="{{ $pattern->name }}"
-                                data-pattern-layer-one="{{ $pattern->layers[0]->url }}"
-                                data-pattern-layer-two="{{ $pattern->layers[1]->url }}"
-                                data-pattern-layer-three="{{ $pattern->layers[2]->url }}"
-                                data-pattern-layer-four="{{ $pattern->layers[3]->url }}"
-                                data-pattern-id="{{ $pattern->id }}">
-                                <li class="glyphicon glyphicon-info-sign"></li>
-                                View
-                            </a>
-                            <a href="#" class="btn btn-danger pull-right btn-xs delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                            <a href="#" class="btn btn-danger btn-xs delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Remove
                             </a>
                         </td>
+                        
                     </tr>
 
                 @empty
@@ -102,47 +144,7 @@
 </section>
 
 <!-- Information Modal -->
-<div class="modal fade" id="view-pattern-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <div class='tabbable'>
-                    <ul class="nav nav-tabs">
-                        <li class="tab-menu-layer-1 active"><a href="#tab-pattern-layer-1" data-toggle="tab">Layer 1</a></li>
-                        <li class="tab-menu-layer-2"><a href="#tab-pattern-layer-2" data-toggle="tab">Layer 2</a></li>
-                        <li class="tab-menu-layer-3"><a href="#tab-pattern-layer-3" data-toggle="tab">Layer 3</a></li>
-                        <li class="tab-menu-layer-4"><a href="#tab-pattern-layer-4" data-toggle="tab">Layer 4</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-pattern-layer-1" align='center'>
-                            <span class="badge pattern-layer-1-path"></span>
-                            <img src="" class="pattern-layer-1" width="300px" height="300px" style="background: black;">
-                        </div>
-                        <div class="tab-pane" id="tab-pattern-layer-2" align='center'>
-                            <span class="badge pattern-layer-2-path"></span>
-                            <img src="" class="pattern-layer-2" width="300px" height="300px" style="background: black;">
-                        </div>
-                        <div class="tab-pane" id="tab-pattern-layer-3" align='center'>
-                            <span class="badge pattern-layer-3-path"></span>
-                            <img src="" class="pattern-layer-3" width="300px" height="300px" style="background: black;">
-                        </div>
-                        <div class="tab-pane" id="tab-pattern-layer-4" align='center'>
-                            <span class="badge pattern-layer-4-path"></span>
-                            <img src="" class="pattern-layer-4" width="300px" height="300px" style="background: black;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 @include('partials.confirmation-modal')
 
 @endsection
@@ -153,14 +155,7 @@
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+    
 });
 </script>
 @endsection

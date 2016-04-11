@@ -20,9 +20,9 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="col-md-6"><p class="pull-right">Load Template:</p></td>
-                                    <td class="col-md-6">
-                                        <select name="load_boundaries_template" class="load-boundaries-template" style="width: 200px;">
+                                    <td class="col-md-3"><div>Load Template:</div></td>
+                                    <td class="col-md-3">
+                                        <select name="load_boundaries_template" class="load-boundaries-template" style="width: 100px;">
                                             <option value='"{}"'>None</option>
                                             @foreach ($boundaries as $boundary)
                                                 <option value='{{ $boundary->boundary_properties }}'>
@@ -34,11 +34,16 @@
                                             @endforeach
                                         </select>
                                     </td>
+                                <!-- </tr>
+                                <tr> -->
+                                    <td class="col-md-3"><div>Pattern Angle:</div></td>
+                                    <td class="col-md-3">
+                                        <input type="text" id="pattern_angle" placeholder="Angle...">
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-6"><p class="pull-right">Pattern Angle:</p></td>
-                                    <td class="col-md-6">
-                                        <input type="text" id="pattern_angle" placeholder="Angle...">
+                                    <td>
+                                        <a href="#" class="btn btn-success btn-xs add-point" style="margin-top: -3px;">Add point</a>
                                     </td>
                                 </tr>
                             </tbody>

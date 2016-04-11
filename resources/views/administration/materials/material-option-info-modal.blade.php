@@ -9,6 +9,7 @@
             <input type="hidden" name="form-action" id="form-action" value="">
             <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
             <input type="hidden" name="applications_properties" id="application-properties" class="a-prop" value="">
+            <input type="hidden" name="pattern_properties" id="pattern_properties" value="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -126,6 +127,17 @@
                             @endif
                         @endforeach
                     </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Default Pattern:</label>
+                    <select class="form-control default-pattern" name="pattern_id" id="default_pattern">
+                        <option value="">None</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12" id="pattern_layers_OC">
+                    <hr>
                 </div>
 
                 <div class="col-md-3">

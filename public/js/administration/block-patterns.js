@@ -85,13 +85,13 @@ $(document).ready(function(){
                 var thumbnail = value.thumbnail_path;
                 var name = value.name;
                 $(container).append(
-                        '<div class="col-md-3">' +
-                        '<div class="panel panel-default">' +
-                        '<div class="panel-heading"><center><b>' + name + '</b></center></div>' +
-                        '<div class="panel-body">' +
-                        '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
-                        '</div></div></div>'
-                        );
+                    '<div class="col-md-3">' +
+                    '<div class="panel panel-default">' +
+                    '<div class="panel-heading"><center><b>' + name + '</b></center></div>' +
+                    '<div class="panel-body">' +
+                    '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
+                    '</div></div></div>'
+                );
             });
 
         }
