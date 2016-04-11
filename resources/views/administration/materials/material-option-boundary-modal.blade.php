@@ -50,6 +50,7 @@
                             </tbody>
                         </table>
                     </div>
+
                     <!-- <div class="col-md-12" class="pull-right">
                         <h3 style="display: inline;">Load Template: </h3><select name="load_boundaries_template" class="load-boundaries-template" style="width: 200px;">
                             <option value='"{}"'>None</option>
