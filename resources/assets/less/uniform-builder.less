@@ -6,8 +6,8 @@
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
 */
 @forecolor: #acacac;
-@border_color: @forecolor;
 @text_color: #3d3d3d;
+@border_color: #d7d7d7;
 
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
@@ -59,9 +59,9 @@ div.navbar-header {
 .navbar-default {
 
     box-shadow: none;
-    background-color: #ffffff;
+    background-color: #f2f2f2;
     height: @navbar-height;
-    border-bottom: 1px solid @main_highlight !important;
+    border-bottom: 1px solid #f2f2f2 !important;
 
 }
 
@@ -87,6 +87,12 @@ div.navbar-header {
 }
 #left-sidebar .save {
     background-image: url(/images/sidebar/save.png);
+}
+
+div#left-sidebar > a.sidebar-buttons {
+    
+    display: none;
+
 }
 
 /* END LEFT Side Bar Icons */
@@ -142,6 +148,8 @@ div.navbar-header {
         #right-pane-column {
             height: 100%;
         }
+
+        display: none;
     }
 
 }
@@ -241,6 +249,10 @@ a.active_button {
         background-size: cover;
         background-color: #eeeeee;
         text-align: center;
+
+        border: none;
+        width: 563px !important;
+
     }
 
 }
@@ -272,8 +284,9 @@ a.active_button {
     width: 10%;
     padding: 3px;
     position: absolute;
-    margin-top: 350px;
-    margin-left: 65px;
+    margin-top: 220px;
+    margin-left: 10px !important;
+    display: none;
 
     a {
         color: white;
@@ -281,11 +294,30 @@ a.active_button {
         margin-bottom: 2px;
         width: 35px; 
         border-radius: 50%;
+
+            -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
     }
 
     a.zoom {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
 
+        i.fa {
+            margin-left: -2px;
+        }
+
+    }
+
+    a.save {
+
+        margin-top: 30px;
+
+    }
+
+    a.home {
+    
         i.fa {
             margin-left: -2px;
         }
@@ -342,7 +374,7 @@ div.options_panel  {
 
     div.options_panel_header {
      
-        background-color: #f2f2f2;
+        background-color: #ffffff;
         width: 100%;
         display: table;
         height: 40px;
@@ -360,6 +392,41 @@ div.options_panel  {
             padding: 10px;
             padding-right: 23px;
 
+        }
+
+        div.triple-header {
+            
+            float: left;
+            display: block;
+            text-align: center;
+
+
+        }
+
+        div.prev {
+            padding-top: 10px;
+            width: 25%;
+        }
+
+        div.main {
+            width: 50%;
+            border-right: 1px solid @border_color;
+            border-left: 1px solid @border_color;
+
+            span.part_label {
+                font-size: 1.2em;
+                font-weight:bold;
+            }
+
+            span.nOf {
+                color: @border_color;
+                font-size: 0.9em;
+            }
+        }
+
+        div.next {
+            padding-top: 10px;
+            width: 25%;
         }
 
     }
@@ -422,6 +489,10 @@ div.options_panel  {
 
     }
 
+}
+
+div.options_panel {
+    display: none;
 }
 
 div.color_element {
@@ -493,6 +564,8 @@ div.pattern_panel_container {
 
 
 #right-main-window {
+
+    display: none;
 
     overflow-y: scroll;
     border: 1px solid @border_color;
@@ -1507,7 +1580,49 @@ input.fe_input, select.fe_input {
 /* Sign In, Sign Up Area */
 
 .user-profile.pull-right > div > button.btn {
-    background-color: @main_highlight_off !important;
+    background-color: @text_color !important;
+    color: #f2f2f2;
+}
+.user-profile.pull-right > div > button.btn:hover {
+
+    background-color: @text_color !important;
+    color: #f2f2f2 !important;
+    border: solid 1px @text_color;
+
+}
+
+.btn-group > .btn {
+    border-radius: 0px;
+}
+
+.dropdown-menu {
+
+    background-color: @text_color !important;
+    border-radius: 0px !important;
+
+}
+
+.dropdown-menu>li>a {
+
+    color: #ffffff;
+    margin-left: 1px;
+
+}
+
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
+
+    color: #f2f2f2;
+    background-image: none;
+    background-color: @text_color !important;
+    border: none;
+
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #f2f2f2;
 }
 
 div.help-block > a  {
@@ -1559,12 +1674,14 @@ div#design_name_container {
     float: right;
     width: 90%;
     color: @forecolor;
+    display: none;
 
 }
 
 div#simple_toggle_container {
     
     float: right;
+    display: none;
 
 }
 
@@ -1591,12 +1708,15 @@ div#right-pane-column {
 
 span.shadowed_header {
     
-    text-align: center;
-    display: block;
-    font-weight: bold;
-    padding: 5px;
+    background-color: #ffffff;
+    width: 100%;
+    display: table;
+    height: 40px;
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px;
 
 }
+
 
 div#special_modifiers > div.col-md-6 {
 
@@ -1607,9 +1727,9 @@ div#special_modifiers > div.col-md-6 {
 div.team_color_picker_container {
 
     height: 50px;
-    width: 280px;
+    width: 380px;
     margin: 0 auto;
-    margin-top: 25px;
+    margin-top: 14px;
     
     div.team_color_picker_item {
 
@@ -1617,8 +1737,29 @@ div.team_color_picker_container {
         width: 60px;
         height: 30px;
         float: left;    
-        margin-left: 10px;
+        
         border: 1px solid @border_color;
+
+        -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+    }
+
+}
+
+div.color_item_group {
+    
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin-top: 10px;
+    text-align: center;
+
+    div {
+
+        font-size: 0.7em;
+        margin-top: 5px;
 
     }
 
@@ -1626,11 +1767,10 @@ div.team_color_picker_container {
 
 .team_color_pane {
 
-    height: 100px !important;
+    height: 110px !important;
     display: none;
     margin-bottom: 10px;
     float: left;
-    background-image: url(/ui/shadowed_header_small.png);
     background-position-y: -40px;
     overflow-y: hidden !important;
 
@@ -1662,22 +1802,37 @@ div.main_steps_bar {
 
 div.team-color-main-picker-container {
 
-    
-
 }
 
 div.team_color_picker_item {
     
-    
+    text-shadow: 1px 1px #333333;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 4px;
+    margin-bottom: 3px;
 
+}
+
+div.team_color_picker_container_group {
+    float: left;
+    text-align: center;
+    margin-left: 30px;
+}
+
+div.team_color_picker_item_label {
+    font-size: 0.7em;
+    width: 100%;
+    text-align: center;
 }
 
 div.team_color_picker_options {
 
     display: none;
     width: 545px;
-    height: 200px;
-    background-color: #fff;
+    height: 190px;
+    background-color: #f2f2f2;
     position: absolute; 
     border: solid 1px #eeeeee;
     overflow: hidden;
@@ -1690,20 +1845,24 @@ div.team_color_picker_options {
 
 button.color_picker_item {
 
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
     margin-top: 10px;
-    margin-left: 10px;
+
+    text-shadow: 1px 1px #333333;
+    color: white;
+    font-weight: bold;
 
     background-color: white;
-    border: 1px solid #acacac;
+
+    border: none;
     
 }
 
 div.team_color_picker_options > div.color_items_container {
     
-    background-color: #acacac;
-    width: 545px;
+    background-color: #f2f2f2;
     height: 130px;
 
 }
@@ -1721,7 +1880,7 @@ div.team_color_picker_options > div.scroller {
 
 /* New UI */ 
 
-.grow {  transform: scale(1.0); transition: all .2s ease-in-out; }
+.grow {  transform: scale(1.0); transition: all .1s ease-in-out; }
 .grow:hover { transform: scale(1.15); }
 
 .disabled { 
@@ -1732,6 +1891,9 @@ div.team_color_picker_options > div.scroller {
     -ms-transition: none !important;
     transition: none !important;
     transform: scale(1.0) !important;
+
+    cursor: auto !important;
+
 }
 
 .pickers-enabled  {
@@ -1833,9 +1995,124 @@ div#main-picker-container {
         }        
 
     }
+}
 
+input#search_field {
+
+    float: right;
+    margin-right: 60px;
+    font-size: 1em;
+
+    -webkit-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+
+}
+
+span.twitter-typeahead { 
+    float: right;
+    margin-right: 0px;
+    font-size: 1em;
+}
+
+div.header-container.main {
+    display: none;
+    color: @text_color !important;
+    margin-left: 12px;
+}
+
+.back-link-on {
+    color: @text_color !important;
 }
 
 /* End New UI */ 
 
 
+/* TypeAhead Styling */
+
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 396px;
+  height: 30px;
+  padding: 8px 12px;
+  font-size: 1em;
+  line-height: 30px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #acacac;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {
+  width: 500px;
+  margin: 12px 0;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.header-name {
+  margin: 0px 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-name.orders {
+  margin: 20px 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* End TypeAhead Styling */
+
+/* Generic */
+
+
+/* End Generic */

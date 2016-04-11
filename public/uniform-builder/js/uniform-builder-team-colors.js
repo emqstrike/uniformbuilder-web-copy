@@ -3,6 +3,17 @@ $(document).ready(function () {
     /// UI v1
 
     ub.funcs.ui = {};
+
+    ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {;
+
+        var _teamColorObj = ub.current_material.settings.team_colors;
+        _teamColorObj[teamColorID - 1] = colorObj;
+
+        var _removedHash =colorObj.hex_code.replace('#', '');
+
+        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash);
+
+    };
     
     ///  material_option:    Body, etc...
     ///  type:               sublimated | non-sublimated
@@ -80,6 +91,21 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.tennGuardTemp = function (name) {
+
+        var _name = '';
+
+        if (name === 'Tennessee Orange') {
+            _name = 'Tenn. Orange';
+        }
+        else{
+            _name = name;
+        }
+
+        return _name;
+
+    }
+
     ub.funcs.init_team_colors = function () {
 
         var $teamColorPicker = $('div.team_color_picker_options');
@@ -92,6 +118,11 @@ $(document).ready(function () {
 
         var data = {
             colors: _colorSet,
+            abbr: function () {
+
+                return ub.funcs.tennGuardTemp(this.name);
+
+            }
         };
 
         var _markup = Mustache.render(template, data);
@@ -149,14 +180,48 @@ $(document).ready(function () {
 
         $('button.color_picker_item').on('click', function () {
 
-            var _dataID = $('div.team_color_picker_options').data('team-color-id');
-            var _element = $(this);
-            var _hex_color = $(this).data('hex');
+            var _dataID         = $('div.team_color_picker_options').data('team-color-id');
+            var _element        = $(this);
+            var _hex_color      = $(this).data('hex');
+            var _color_code     = $(this).data('color-code');
+            var _color_name     = $(this).data('color');
+            var $element        = $('div.team_color_picker_item[data-id=' + _dataID + ']')
 
-            $('div.team_color_picker_item[data-id=' + _dataID + ']').css('background-color', _hex_color);
+            ub.funcs.setTeamColorByID(_dataID, {
+                hex_code: _hex_color,
+                color_code: _color_code,
+                color_name: _color_name,
+            });
+
+            $element.css('background-color', _hex_color);
+
+            if (_color_name === 'White') {
+                
+                $element.css('background-color','#ffffff');
+                $element.css('border', 'solid 1px #d7d7d7');
+
+            }
+
+            $element.html(_color_code);
+            $element.parent().find('.team_color_picker_item_label').html(ub.funcs.tennGuardTemp(_color_name));
+
             ub.funcs.ui.hideTeamColorPicker();
 
         });
+
+        var _widthOfItem        = $('div.color_item_group').width();
+        var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
+        var _numberOfColors     = $('.color_picker_item').length;
+        var _rowsOfColor        = 2;
+        var _extra              = 40; // so that options wont be scrolled to the left most
+
+        var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
+
+        $('.color_items_container').width(_widthOfContainer);
+
+        ub.funcs.scrollize ('.team_color_picker_options', '.color_items_container', '.color_picker_item', 30)
+
+        $('button.color_picker_item[data-color="White"]').css('background-color','#ffffff !important');
 
     };
 

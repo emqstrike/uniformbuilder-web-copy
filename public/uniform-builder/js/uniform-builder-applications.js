@@ -1467,6 +1467,8 @@ $(document).ready(function() {
 
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
+
+
         var isInside = false;
         var minX = polygon[0].x, maxX = polygon[0].x;
         var minY = polygon[0].y, maxY = polygon[0].y;
@@ -1509,7 +1511,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x / 2, point.y / 2);
+                var p = new PIXI.Point((point.x / 2) + 33.5, point.y / 2);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1517,7 +1519,12 @@ $(document).ready(function() {
         }
         else {
 
-             _transformed_boundaries = boundaries;
+            _.each (boundaries, function(point) {
+                
+                var p = new PIXI.Point(point.x + 33.5, point.y);
+                _transformed_boundaries.push(p); 
+
+            });   
 
         }
 
@@ -1701,6 +1708,8 @@ $(document).ready(function() {
 
     ub.funcs.setAlphaOn = function (_object) {
 
+        if (typeof _object === 'undefined') { return; }
+
         _object.alpha = ub.ALPHA_ON;
 
         var _other_views = _.without(ub.views, ub.active_view);
@@ -1843,6 +1852,19 @@ $(document).ready(function() {
         return _header_text;
 
     }
+
+    ub.funcs.makeActive = function (name) {
+
+        var _ht = name;
+        var _label = name.prepareModifierLabel();
+        _group_id = ub.data.modifierLabels[_label].group_id;
+
+        ub.funcs.match(name);
+
+        $("span.part_label").html(_ht.toUpperCase());
+        $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));
+
+    }
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -1917,7 +1939,7 @@ $(document).ready(function() {
 
                     }   
 
-                    _header_text = ub.funcs.match(_match)
+                    _header_text = ub.funcs.match(_match);
 
                 }
                 else {
@@ -1926,7 +1948,15 @@ $(document).ready(function() {
 
                 }
 
-                $("#primary_options_header").html(_header_text.toUpperCase());
+                var _ht = _header_text;
+
+                if (typeof ub.data.modifierLabels[_ht] !== 'undefined') {
+                    _group_id = ub.data.modifierLabels[_ht].group_id;
+
+                    $("span.part_label").html(_ht.toUpperCase());
+                    $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));    
+                }
+                
                 ub.active_lock = true;
 
             }
@@ -1938,8 +1968,6 @@ $(document).ready(function() {
             var current_coodinates = mousedata.data.global;
 
             if (ub.zoom) {
-                console.clear();
-                console.log(current_coodinates);
 
                 ub[ub.active_view + '_view'].position.set(-current_coodinates.x, -current_coodinates.y);
 
@@ -2037,7 +2065,72 @@ $(document).ready(function() {
 
     /// End Get Primary View
 
+    /// Get Modifier Labels
+
+    ub.funcs.get_modifier_labels = function () {
+
+        var _modifierLabels = ub.data.modifierLabels;
+
+        _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
+
+            if (typeof _result === 'undefined') { return; }
+
+            var _result     = _distinct_name.modifier_label;
+            var _group_id   = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()}).group_id;            
+
+            _result = _result.prepareModifierLabel();
+            
+            _modifierLabels[_result] = {
+                name: _result,
+                group_id: _group_id,
+                fullname: _distinct_name.modifier_label,
+            };
+
+        });
+
+    };
+
+    /// End Get Modifier Labels
+
+    ub.funcs.setGroupColor = function (groupID, hexCode) {
+
+      var _group_items = _.filter(ub.current_material.materials_options, {team_color_id: groupID});
+
+      _.each (_group_items, function (_item) {
+
+        var _name = _item.name.toCodeCase();
+        var _perspespective = _item.perspective + "_view"; 
+
+        if (typeof ub.objects[_perspespective][_name] !== 'undefined' ) {
+
+            if (_item.setting_type === 'shape') {
+                ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
+
+                console.log('Name: ' + _name);
+            }
+            
+        }
+
+      });
+
+    };
+
+    ub.funcs.printNames = function () {
+
+        _.each(ub.current_material.materials_options, function (_mo) {
+
+            if (_mo.name.indexOf('_') > 3) {
+                console.error(_mo.name + ' ' + _mo.perspective);
+            }
+            else {
+                console.info(_mo.name + ' ' + _mo.perspective);    
+            }
+            
 
 
+
+        })
+
+    }
 
 });

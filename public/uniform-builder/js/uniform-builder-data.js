@@ -5,9 +5,14 @@ $(document).ready(function(){
     ub.modifiers = {};
     ub.tethers = {}; 
     ub.dimensions = {};
-    ub.dimensions.width = 496;
+    ub.dimensions.width = 563;
     ub.dimensions.height = 550;
     ub.active = null;
+    ub.vars = {};
+
+    /// Search
+
+    ub.searchResults = {};
 
     /// For Interactive Viewport
 
@@ -67,7 +72,6 @@ $(document).ready(function(){
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
-    ub.front_view.position.x = 0;
     
     ub.right_view.position.x = ub.dimensions.width;
     ub.back_view.position.x = ub.dimensions.width;
@@ -87,11 +91,16 @@ $(document).ready(function(){
     ub.data.materials = {};
     ub.data.colors = {};
     ub.data.fonts = {};
+
+    ub.data.searchSource = {};
     
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
 
     ub.data.defaultUniformStyle = {};
+
+    ub.data.modifierLabels = {};
+    
 
     ub.data.boundaries_transformed_one_dimensional = {
 

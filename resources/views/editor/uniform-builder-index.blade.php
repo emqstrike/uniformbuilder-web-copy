@@ -44,14 +44,16 @@
         </div>
 
         <div id="change-views">
-
-            <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i>
-</a>
+            
+            <a class="btn change-view home" data-view="home" id="view_home"><i class="fa fa-home"></i></a>
+            <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i></a>    
             
             <a class="btn change-view" data-view="front" id="view_front">F</a>
             <a class="btn change-view" data-view="back" id="view_back">B</a>
             <a class="btn change-view" data-view="left"  id="view_left">L</a>
             <a class="btn change-view" data-view="right"  id="view_right">R</a>
+
+            <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save"><i class="fa fa-save"></i></a>    
 
         </div>
 
@@ -109,28 +111,60 @@
 
         </div>
 
-        <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane">        
+        <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
-            <span class="shadowed_header">
-                TEAM COLOR
-            </span>
+            <div class="options_panel_header">
+                <span class="header_text">TEAM COLORS</span>
+            </div>
 
             <div class="team_color_picker_container">
 
-                <div class="team_color_picker_item" data-id='1' data-status="closed">
-                
+                <div class='team_color_picker_container_group'>
+                    
+                    <div class="team_color_picker_item" data-id='1' data-status="closed">
+                    
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
+                </div>            
+
+                <div class='team_color_picker_container_group'>     
+
+                    <div class="team_color_picker_item" data-id='2' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
-                <div class="team_color_picker_item" data-id='2' data-status="closed">
-                    
+                <div class='team_color_picker_container_group'>
+
+                    <div class="team_color_picker_item" data-id='3' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
-                <div class="team_color_picker_item" data-id='3' data-status="closed">
-                    
-                </div>
+                <div class='team_color_picker_container_group'>
 
-                <div class="team_color_picker_item" data-id='4' data-status="closed">
-                    
+                    <div class="team_color_picker_item" data-id='4' data-status="closed">
+                        
+                    </div>
+
+                    <div class='team_color_picker_item_label'>
+                        
+                    </div>
+
                 </div>
 
             </div>

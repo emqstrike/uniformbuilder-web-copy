@@ -369,9 +369,15 @@
 
         @{{#colors}}
             
-            <button class="color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
-                @{{color_code}}
-            </button>
+            <div class='color_item_group'>
+                <button class="grow color_picker_item" data-color="@{{name}}" data-color-code="@{{color_code}}" data-hex="#@{{hex_code}}"  style="background-color: #@{{hex_code}};">
+                    @{{color_code}}
+                </button>
+
+                <div>
+                    @{{abbr}}
+                </div>
+            </div>
 
         @{{/colors}}
 
@@ -394,6 +400,10 @@
             </div>
 
         @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
 
         <div class="main-picker-items grow disabled">
 
@@ -441,6 +451,10 @@
 
         </div>
 
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
     </script>
 
 <!-- End Sports Pickers -->
@@ -462,6 +476,48 @@
             </div>
 
         @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Uniforms Pickers -->
+
+<!-- Uniforms Picker -->
+
+    <script type="text/mustache" id="m-picker-items-search-results">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
+
+                <img width='280' src="@{{thumbnail}}{{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
 
         <div class="main-picker-items grow disabled">
 

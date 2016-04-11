@@ -50,7 +50,7 @@
             @else
             <div class = "btn-group">
                <button type = "button" class = "btn">
-                    <strong>Hello There {{ Session::get('first_name') }}!</strong>
+                    <strong>Hello {{ Session::get('first_name') }}!</strong>
                </button>
 
                <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">

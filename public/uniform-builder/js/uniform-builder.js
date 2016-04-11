@@ -26,9 +26,25 @@ $(document).ready(function () {
             ub.materials_url = window.ub.config.api_host + '/api/materials/';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
+            if (typeof ub.user.id !== 'undefined') {
+
+                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+                ub.loader(ub.orders_url, 'orders', ub.load_orders);                
+
+            }
+            else{
+
+                $('.open-save-design-modal').hide();
+                $('div#change-views').css('margin-top', '280px');
+
+            }
+
             ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) {
+
+                $('div.header-container.main').fadeIn();
+                $('div.backlink').addClass('back-link-on');
 
                 ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
                 ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
@@ -57,9 +73,10 @@ $(document).ready(function () {
                  
             });
 
+            ub[ub.active_view + '_view'].position.set(33.5, 0);
+
             ub.zoom = false;
             ub.show_all_views();
-            ub[ub.active_view + '_view'].position.set(0,0);
 
         };
 
@@ -337,7 +354,211 @@ $(document).ready(function () {
 
         };
 
-        ub.load_design_sets = function (obj, object_name){
+        var substringMatcher = function(strs) {
+          return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+              if (substrRegex.test(str)) {
+                matches.push(str);
+              }
+            });
+
+            cb(matches);
+          };
+        };
+
+        ub.overrideTypeAheadEvent = function (e) {
+            
+            var $element = $(e);
+            var _value = $element.data('value');
+            var _id = $element.data('id');
+
+        };
+
+        ub.funcs.getSearchObject = function (type, name) {
+
+            var _object;
+            var _id;
+            var _thumbnail;
+
+            if (type === 'materials') {
+
+                _object = _.find(ub.materials, {name: name});
+                _id = _object.id;
+                _thumbnail = _object.thumbnail_path;
+
+            }
+            else if (type === 'orders') {
+
+                _object =  _.find(ub.orders, {design_name: name});
+                _id = _object.order_id;
+
+                if (_object.upper_front_thumbnail_path !== null) {
+
+                    _thumbnail = _object.upper_front_thumbnail_path;    
+
+                }
+                else {
+
+                    _thumbnail = _object.lower_front_thumbnail_path
+
+                }
+
+            }
+            else {
+
+                _object = undefined;
+
+            }
+
+            return {
+
+                object: _object,
+                id: _id,
+                thumbnail: _thumbnail,
+
+            }
+
+        }
+
+        ub.addToSearchResults = function (type, data) {
+
+            var _key = Math.round(+new Date()/1000).toString(); 
+            var _searchResultsObject = ub.searchResults;
+
+            if (!Array.isArray(_searchResultsObject[_key])) {
+
+                _searchResultsObject[_key] = [];
+
+            }
+
+            var _object = ub.funcs.getSearchObject(type, data);
+
+            _searchResultsObject[_key].push({
+                type: type,
+                name: data,
+                thumbnail: _object.thumbnail,
+                id: _object.id,
+            });
+
+            $('.picker-header').html('Search Results: ' + $('input#search_field').val()); // Term is passed on gender, refactor this
+
+            ub.funcs.initSearchPicker(_key, _searchResultsObject[_key]);
+
+        };
+
+        ub.prepareTypeAhead = function () {
+
+            if (typeof ub.user.id !== 'undefined') { // Logged In
+
+                if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
+
+                    $('.typeahead').typeahead({
+                        minLength: 2,
+                        highlight: true
+                    },
+                    {
+                        name: 'materials',
+                        source: substringMatcher(ub.data.searchSource['materials']),
+                        templates: {
+                            header: '<h3 class="header-name">Styles</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('materials', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
+
+                            },
+
+                        },
+                    },
+                    {
+                        name: 'orders',
+                        source: substringMatcher(ub.data.searchSource['orders']),
+                        templates: {
+                            
+                            header: '<h3 class="header-name orders">Saved Designs</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('orders', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="orders">' + data + '</div>';                            
+
+                            },
+
+                        },
+                    });
+
+                    $('.typeahead').unbind('typeahead:idle');
+                    $('.typeahead').bind('typeahead:idle', function (ev, list, flag, dataset) {
+                        ub.searchResults = {};
+                    });
+
+                    $('.typeahead').unbind('typeahead:select');
+                    $('.typeahead').bind('typeahead:select', function (ev, data) {
+                        $('[data-item="'+ data +'"]').click();
+                    });
+
+                    $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    setTimeout("$('#search_field').focus();", 0);
+
+                }
+
+            }
+            else { // Guest 
+
+                if (typeof ub.data.searchSource['materials'] === 'object') {
+
+                    $('.typeahead').typeahead({
+                        minLength: 2,
+                        highlight: true
+                    },{
+                        
+                        name: 'materials',
+                        source: substringMatcher(ub.data.searchSource['materials']),
+                        templates: {
+                            header: '<h3 class="header-name">Styles</h3>',
+                            suggestion:  function (data) {
+
+                                ub.addToSearchResults('materials', data);
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
+    
+                            },
+                        },
+
+                    });
+
+                    $('.typeahead').unbind('typeahead:idle');
+                    $('.typeahead').bind('typeahead:idle', function (ev, list, flag, dataset) {
+
+                        ub.searchResults = {};
+
+                    });
+
+                    $('.typeahead').unbind('typeahead:select');
+                    $('.typeahead').bind('typeahead:select', function (ev, data) {
+                        $('[data-item="'+ data +'"]').click();
+                    });
+
+                    $('#search_field').attr("placeholder","Search: Style");
+                    setTimeout("$('#search_field').focus();", 0);
+
+                }
+
+            }
+
+            $('input#search_field').prop('disabled', false);
+
+        };
+
+        ub.load_design_sets = function (obj, object_name) {
 
             ub.design_sets = {};
             ub.design_sets = obj;
@@ -350,6 +571,19 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.materials = obj;
+            ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+
+            ub.prepareTypeAhead();
+
+        }
+
+        ub.load_orders = function (obj, object_name){
+
+            ub.orders = {};
+            ub.orders = obj;
+            ub.data.searchSource['orders'] = _.pluck(ub.orders, 'design_name');
+
+            ub.prepareTypeAhead();
 
         }
 
@@ -416,7 +650,12 @@ $(document).ready(function () {
             $('input[name="design_name"]').val(material_name);
 
             ub.funcs.showViewports();
+            
+            $('#main-row').fadeIn();
+            $('div#design_name_container').fadeIn();
 
+            $('div#change-views').fadeIn();
+            
         }
 
         /// Main Render Loop
@@ -1212,6 +1451,7 @@ $(document).ready(function () {
             
             ub.funcs.transformedApplications();
             ub.funcs.transformedBoundaries();
+            ub.funcs.get_modifier_labels();
 
             // var apps = ub.data.applications_transformed["Body"];
 
@@ -3506,6 +3746,13 @@ $(document).ready(function () {
 
                 var view = $(this).data('view');
 
+                if (view === 'home') {
+
+                    ub.funcs.initGenderPicker();
+                    return;
+
+                }
+
                 if (view === 'zoom') {
 
                     if (!ub.zoom) {
@@ -3521,6 +3768,11 @@ $(document).ready(function () {
 
                     }
 
+                    return;
+
+                }
+
+                if (view === 'save') {
 
                     return;
 
@@ -3534,13 +3786,14 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.x = 0;
+                ub[view + '_view'].position.set(33.5,0);
 
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
 
             });
+            $('a.change-view[data-view="front"]').click();
 
         /// End Camera Views
 
@@ -3656,14 +3909,14 @@ $(document).ready(function () {
 
     })
 
-    $('input#simple_toggle').onoff();
-    $("input#simple_toggle").change(function() {
+    // $('input#simple_toggle').onoff();
+    // $("input#simple_toggle").change(function() {
 
-        _header_text = ub.funcs.match(ub.active_part);
-        $("#primary_options_header").html(_header_text.toUpperCase());
-        ub.active_lock = true;
+    //     _header_text = ub.funcs.match(ub.active_part);
+    //     $("#primary_options_header").html(_header_text.toUpperCase());
+    //     ub.active_lock = true;
 
-    });
+    // });
 
     /// End Generate Pattern
 
@@ -3699,6 +3952,78 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.scrollize = function (containerSelector, groupSelector, itemSelector, widthOfItems) {
+        
+        // Sample Usage
+        //
+        // ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
+        //
+        // containerSelector:   'div#main-picker-container'
+        // groupSelector:       'div#main-picker-scroller'        
+        // itemSelector:        'div.main-picker-items'
+
+        var _noOfItems  = $(itemSelector).length;
+        var _temp       = _noOfItems * (widthOfItems + 22);
+        var _damp       = 60;
+
+        if (itemSelector === '.color_picker_item') {
+            _temp   = _temp / 2;
+            _damp   = 30;
+        }
+        
+        var $bl  = $(containerSelector),
+                $th    = $(groupSelector),
+                blW    = $bl.outerWidth(),
+                blSW   = _temp                                          // $bl[0].scrollWidth,
+                wDiff  =  2;   // (blSW/blW)-1                          // Widths Difference Ratio
+                mPadd  = 60,                                            // Mousemove Padding
+                damp   = _damp,                                         // Mousemove response softness
+                mX     = 0,                                             // Real mouse position
+                mX2    = 0,                                             // Modified mouse position
+                posX   = 0,
+                mmAA   = blW,                                           // Mousemove Available Area
+                mmAAr  = (blW/mmAA);                                    // Available Mousemove Fidderence Ratio
+
+        var _mouseX, _resultingMargin;
+
+        ub.th = $th;
+
+        $bl.mousemove(function(e) {
+
+            if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
+                return;
+            }
+            
+            mX = e.pageX - this.offsetLeft;
+            mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
+
+            _mouseX          = (e.clientX - this.offsetLeft);
+            ub.vars.travel   = _mouseX / blW;
+            _resultingMargin =  (ub.vars.travel * _temp) * -1;
+
+            if (itemSelector !== '.color_picker_item' && _noOfItems > 15) {
+                $th.css({marginLeft: _resultingMargin});
+            }
+            else {
+                $th.css({marginLeft: _resultingMargin});   
+            }
+
+        });
+
+        ub.data.intervalFunction = setInterval(function() {
+
+            posX        += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay" 
+
+            // Turn off intertia for now
+            //
+            // if (itemSelector === '.color_picker_item' || _noOfItems < 15) {
+            //     $th.css({marginLeft: -posX * wDiff});
+            // }
+
+        }, 10);
+
+    };
+
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items').on('click', function () {
@@ -3725,9 +4050,35 @@ $(document).ready(function () {
                 ub.funcs.fadeOutElements();
                 $('body').removeClass('pickers-enabled');
 
+                $('#main-picker-container').hide();
+
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
 
+            }
+
+            if (_picker_type === 'search-result') {
+
+                var $searchField = $('input#search_field');
+                $searchField.hide();
+
+                ub.funcs.fadeOutElements();
+                $('body').removeClass('pickers-enabled');
+
+                var _item_type = $(this).data('uniform-type');
+                var _id = $(this).data('id');
+
+                if (_item_type === 'materials') {
+
+                    window.location.href = window.ub.config.host + '/builder/0/' + _id;
+
+                }
+                else if (_item_type === 'orders') {
+
+                    window.location.href = window.ub.config.host + '/orders/' + _id;
+
+                }
+                
             }
 
         });
@@ -3765,46 +4116,7 @@ $(document).ready(function () {
 
         );
         
-        ///
-
-        var temp = $('.main-picker-items').length * (280 + 60);
-
-        var $bl    = $("#main-picker-container"),
-                $th    = $("#main-picker-scroller"),
-                blW    = $bl.outerWidth(),
-                blSW   = temp    // $bl[0].scrollWidth,
-                wDiff  = (blSW/blW)-1,  // widths difference ratio
-                mPadd  = 60,  // Mousemove Padding
-                damp   = 60,  // Mousemove response softness
-                mX     = 0,   // Real mouse position
-                mX2    = 0,   // Modified mouse position
-                posX   = 0,
-                mmAA   = blW, // The mousemove available area
-                mmAAr  = (blW/mmAA);    // get available mousemove fidderence ratio
-
-            $bl.mousemove(function(e) {
-
-                var lbl = $('.picker-header').text();
-                
-                if ( lbl === 'Choose a Gender') {
-
-                    return;
-
-                }
-
-                mX = e.pageX - this.offsetLeft;
-                mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
-
-            });
-
-            ub.data.intervalFunction = setInterval(function() {
-
-                posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"    
-                $th.css({marginLeft: -posX * wDiff });
-
-            }, 10);
-
-        ///
+       ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
 
     };
 
@@ -3815,6 +4127,9 @@ $(document).ready(function () {
         var $scrollerElement = $('#main-picker-scroller');
         var $uniformDetailsElement = $('div.uniform_details');
         var $pickerHeader = $('.picker-header');
+
+        var $searchField = $('input#search_field');
+        $searchField.show();
 
         if (typeof ub.data.intervalFunction === 'number') {
 
@@ -3895,6 +4210,28 @@ $(document).ready(function () {
 
         }
 
+        if(type === 'search_results') {
+
+            var template = $('#m-picker-items-search-results').html();
+
+            var data = {
+                picker_type: type,
+                picker_items: items,
+            }
+            
+            var markup = Mustache.render(template, data);
+            $scrollerElement.html(markup);
+
+            $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
+
+            $('div.back-link').on('click', function () {
+
+                //ub.funcs.initGenderPicker();        
+
+            });
+
+        }
+
         $scrollerElement.fadeIn();
         $pickerHeader.fadeIn();
         ub.funcs.reBindEventsPickers();
@@ -3909,6 +4246,10 @@ $(document).ready(function () {
         $('div#special_modifiers').hide();
         $('div#main-picker-container').show();
 
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
+        $searchField.focus();
+
         var items = ub.data.genders;
 
         ub.funcs.initScroller('gender', items);
@@ -3921,6 +4262,9 @@ $(document).ready(function () {
 
         $('div#main-row').hide();
         $('div#special_modifiers').hide();
+
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
 
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports);
@@ -3940,8 +4284,39 @@ $(document).ready(function () {
 
     };
 
-    /// End New UI Code 
+    ub.funcs.initSearchPicker = function (term, items) {
 
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div#special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = items;
+        ub.funcs.initScroller('search_results', items, term);
+
+    };
+
+    $('input#search_field').on('input', function () {
+
+        var _input = $(this).val();
+
+        if (_input === '') {
+            ub.funcs.initGenderPicker();
+        }
+
+    });
+
+    ub.funcs.backHome = function () {
+
+        $('div.header-container.main').hide();
+
+        ub.funcs.initGenderPicker();
+        return;
+
+    };
+
+    /// End New UI Code 
 
     // /// Show Builder Pickers is there's no Uniform or Order that's being loaded
 
