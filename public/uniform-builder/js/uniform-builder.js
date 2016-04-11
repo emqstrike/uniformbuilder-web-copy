@@ -3963,11 +3963,11 @@ $(document).ready(function () {
         // itemSelector:        'div.main-picker-items'
 
         var _noOfItems  = $(itemSelector).length;
-        var _temp       = _noOfItems * (widthOfItems + 20);
+        var _temp       = _noOfItems * (widthOfItems + 22);
         var _damp       = 60;
 
         if (itemSelector === '.color_picker_item') {
-            _temp   = _temp / 3;
+            _temp   = _temp / 2;
             _damp   = 30;
         }
         
@@ -4004,6 +4004,9 @@ $(document).ready(function () {
             if (itemSelector !== '.color_picker_item' && _noOfItems > 15) {
                 $th.css({marginLeft: _resultingMargin});
             }
+            else {
+                $th.css({marginLeft: _resultingMargin});   
+            }
 
         });
 
@@ -4011,9 +4014,11 @@ $(document).ready(function () {
 
             posX        += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay" 
 
-            if (itemSelector === '.color_picker_item' || _noOfItems < 15) {
-                $th.css({marginLeft: -posX * wDiff});
-            }
+            // Turn off intertia for now
+            //
+            // if (itemSelector === '.color_picker_item' || _noOfItems < 15) {
+            //     $th.css({marginLeft: -posX * wDiff});
+            // }
 
         }, 10);
 
@@ -4208,7 +4213,6 @@ $(document).ready(function () {
         if(type === 'search_results') {
 
             var template = $('#m-picker-items-search-results').html();
-
 
             var data = {
                 picker_type: type,
