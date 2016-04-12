@@ -1394,15 +1394,20 @@ var appPropJson = "";
         }
 
         var patterns_dropdown = '';
-        $.each(window.patterns, function(i, item) {
+        try{
+            $.each(window.patterns, function(i, item) {
 
-            if( material.option.pattern_id == item.id ){
-                patterns_dropdown += '<option value="' + item.id + '" selected>' + item.name + '</option>';
-            } else {
-                patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
-            }
+                if( material.option.pattern_id == item.id ){
+                    patterns_dropdown += '<option value="' + item.id + '" selected>' + item.name + '</option>';
+                } else {
+                    patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
+                }
 
-        });
+            });
+        }
+        catch(err) {
+            // document.getElementById("demo").innerHTML = err.message;
+        }
 // console.log(pattern_loaded);
         loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
