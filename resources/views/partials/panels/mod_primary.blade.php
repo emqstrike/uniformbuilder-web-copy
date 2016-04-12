@@ -2,39 +2,42 @@
 
     <div class="options_panel_header">
 
-        <div class='prev triple-header'>
+        <div class='main double-header'>
+
+            <span class='part_label'>BODY</span><br />
+            <span class='nOf'>1 of 7</span> 
             
-            <i class="fa fa-caret-left"></i> Prev
-
         </div>
 
-        <div class='main triple-header'>
-            <span class='part_label'>Body</span><br />
-            <span class='nOf'>1 of 7</span>
-        </div>
-
-        <div  class='next triple-header'>
-            Next <i class="fa fa-caret-right"></i>
+        <div  class='next double-header'>
+            <div id="select_part" >JUMP TO PART <i class="fa fa-arrow-circle-down button_drop" aria-hidden="true"></i>
+            </div>
         </div>
 
     </div>
 
+    <div id="parts_dropdown" data-status="closed">
+    
+    </div>
+
     <div class="options_panel_section" id="primary_options_container">
         
-        <span id="primary_options_header"></span><br />
-        <div id="primary_options_colors" style='float: left;'>
+        <span id="primary_options_header" class="mod_primary_panels"></span><br />
+
+        <div id="primary_options_colors" class="mod_primary_panels" style='float: left;'>
         
-            <input type='text' id='primary_text' style="float: left; margin-top: -2px;"></input>
+            <input type='text' id='primary_text' style="margin-top: -2px;"></input>
             
         </div>
 
-        <div id="primary_options_patterns">
+        <div id="primary_options_patterns" class="mod_primary_panels">
             <div></div>
         </div>
 
-        <div id="primary_options_applications">
+        <div id="primary_options_applications" class="mod_primary_panels">
             <div></div>
         </div>
+
 
     </div>
 </div> <!-- End Sizes Panel -->

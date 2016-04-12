@@ -112,7 +112,7 @@
         <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
             <div class="options_panel_header">
-                <span class=''>TEAM COLORS</span>
+                <span class='team_color_header'>TEAM COLORS</span>
             </div>
             <div class="team_color_picker_container">
 
@@ -120,6 +120,7 @@
                     
                     <div class="team_color_picker_item" data-id='1' data-status="closed">
                     
+
                         <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
 
                     </div>
@@ -211,7 +212,7 @@
             <div id="design_name_container">
 
                 <div class="usage_note">
-                    If you can't finish working on your design now,<br />you can save now and continue working with it later:
+                    If you can't finish the design now,<br />you can SAVE and continue working on it later:
                 </div>
                 
                 <div class="save_box">
@@ -221,7 +222,7 @@
                     <i class="fa fa-pencil-square-o"></i>    
                     -->
 
-                    <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> Save Design</a>   
+                    <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>   
 
                 </div>
 

@@ -4000,7 +4000,7 @@ $(document).ready(function () {
 
             }    
             
-            if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
+            if ($(itemSelector).length - 4 < 5) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
 
@@ -4141,6 +4141,8 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.show();
 
+        $('#main-picker-scroller').css('marginLeft', '0px');
+
         if (typeof ub.data.intervalFunction === 'number') {
 
             $("#main-picker-container").unbind('mousemove');
@@ -4163,8 +4165,7 @@ $(document).ready(function () {
 
             $('.picker-header').html('Choose a Gender');
             $('div.back-link').html('');
-            $('#main-picker-scroller').css('marginLeft', '0px');
-
+            
         }
 
         if (type !== 'gender') {
@@ -4327,6 +4328,36 @@ $(document).ready(function () {
         return;
 
     };
+
+    ub.funcs.showPartsDropdown = function () {
+
+        var $partsdropdown = $('div#parts_dropdown');
+
+        if ($partsdropdown.data('status') === 'closed') {
+
+            $partsdropdown.data('status','open');
+            $partsdropdown.fadeIn();    
+            $('.mod_primary_panels').hide();
+
+        }
+        else {
+
+            $partsdropdown.data('status','closed');
+            $partsdropdown.css('display', 'none');    
+            $('.mod_primary_panels').fadeIn('fast');
+
+        } 
+
+        
+
+    };
+
+    $('div#select_part').on('click', function () {
+
+
+        ub.funcs.showPartsDropdown();
+
+    });
 
     /// End New UI Code 
 
