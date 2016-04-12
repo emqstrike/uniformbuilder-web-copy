@@ -151,7 +151,9 @@ $(document).ready(function() {
         console.log('ID: ' + id + ", LP: " + loaded_pattern);
 
         if(loaded_pattern == 1){
-            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length-1) );
+            console.log('IF');
+            console.log('VALUE: ' + $('#pattern_properties').val());
+            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length) );
             window.current_pattern_properties = pattern_props;
             var x = 1;
             $.each(pattern_props, function(i, item) {
@@ -167,6 +169,7 @@ $(document).ready(function() {
                 x++;
             });
         } else {
+            console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
                     // console.log('Item properties' + item.pattern_properties);
