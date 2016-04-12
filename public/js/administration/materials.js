@@ -40,8 +40,8 @@ $(document).ready(function() {
 
     function getPatterns(callback){
         var patterns;
-        // var url = "//api-dev.qstrike.com/api/patterns";
-        var url = "//localhost:8888/api/patterns";
+        var url = "//api-dev.qstrike.com/api/patterns";
+        // var url = "//localhost:8888/api/patterns";
         $.ajax({
             url: url,
             async: false,
