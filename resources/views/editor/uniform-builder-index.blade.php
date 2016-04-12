@@ -38,7 +38,7 @@
 
         <div id="left-main-window" class="pane-main-window">
 
-            <div class="canvas-views" id="main_view" height="550">
+            <div class="canvas-views" id="main_view" height="583">
             </div>
 
         </div>
@@ -52,8 +52,6 @@
             <a class="btn change-view" data-view="back" id="view_back">B</a>
             <a class="btn change-view" data-view="left"  id="view_left">L</a>
             <a class="btn change-view" data-view="right"  id="view_right">R</a>
-
-            <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save"><i class="fa fa-save"></i></a>    
 
         </div>
 
@@ -114,15 +112,16 @@
         <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
             <div class="options_panel_header">
-                <span class="header_text">TEAM COLORS</span>
+                <span class=''>TEAM COLORS</span>
             </div>
-
             <div class="team_color_picker_container">
 
                 <div class='team_color_picker_container_group'>
                     
                     <div class="team_color_picker_item" data-id='1' data-status="closed">
                     
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
+
                     </div>
 
                     <div class='team_color_picker_item_label'>
@@ -134,6 +133,8 @@
                 <div class='team_color_picker_container_group'>     
 
                     <div class="team_color_picker_item" data-id='2' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
@@ -146,6 +147,8 @@
                 <div class='team_color_picker_container_group'>
 
                     <div class="team_color_picker_item" data-id='3' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
@@ -158,6 +161,8 @@
                 <div class='team_color_picker_container_group'>
 
                     <div class="team_color_picker_item" data-id='4' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
@@ -169,7 +174,7 @@
 
             </div>
 
-            </div> 
+        </div> 
 
         </div>
 
@@ -200,6 +205,36 @@
             @include('partials.panels.mod_primary')
 
         </div>
+
+        <div id="right-main-window" class="pane-main-window save-pane special_modifiers">        
+
+            <div id="design_name_container">
+
+                <div class="usage_note">
+                    If you can't finish working on your design now,<br />you can save now and continue working with it later:
+                </div>
+                
+                <div class="save_box">
+
+                    <!-- 
+                    <label>Save As: </label> <span id="design_name_input"></span> &nbsp;
+                    <i class="fa fa-pencil-square-o"></i>    
+                    -->
+
+                    <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> Save Design</a>   
+
+                </div>
+
+                <div id="simple_toggle_container">
+
+                    <input id="simple_toggle" type="checkbox" checked />
+
+                </div>
+
+            </div>
+     
+        </div>
+
 
     </div>
 

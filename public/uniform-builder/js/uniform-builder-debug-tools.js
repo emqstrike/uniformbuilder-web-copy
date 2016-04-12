@@ -8,6 +8,7 @@ $(document).ready( function () {
     ub.funcs.uiV2 = function () {
 
         ub.dimensions.width = 563;
+        ub.dimensions.height = 616;
 
         $('a.mod_primary').click();
 
@@ -15,6 +16,7 @@ $(document).ready( function () {
         $('div.main_steps_bar').show();
         $('#change-views').css('margin-left', '0px');
         $('#main_view').css('width','563px');
+        $('#main_view').css('height','616px');
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
@@ -36,6 +38,7 @@ $(document).ready( function () {
     
         ub.dimensions.width = 496;
 
+        $('div.special_modifiers').hide();
         $('#design_name_container').css({'float':'right','width':'90%'});
         $('div.main_steps_bar').hide();
         $('#change-views').css('margin-left', '70px');
@@ -44,7 +47,7 @@ $(document).ready( function () {
         $('div#right-main-window').css('float', 'right');
         $('div#right-main-window').css('width','498px');
         $('div#right-main-window.team-color-pane').hide();
-        $('div#right-main-window').css('height','550px');
+        $('div#right-main-window').css('height','616px');
         $('div#right-main-window.team-color-pane').removeClass('team_color_pane');
         $('div#right-main-window.team-color-pane').css('display','none');
         $('div#left-pane-column').css('padding-right', '15px !important');

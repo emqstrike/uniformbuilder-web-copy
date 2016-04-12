@@ -35,7 +35,7 @@ $(document).ready(function () {
             else{
 
                 $('.open-save-design-modal').hide();
-                $('div#change-views').css('margin-top', '280px');
+                $('div#change-views').css('margin-top', '350px');
 
             }
 
@@ -73,7 +73,7 @@ $(document).ready(function () {
                  
             });
 
-            ub[ub.active_view + '_view'].position.set(33.5, 0);
+            ub[ub.active_view + '_view'].position.set(33.5, 33.5);
 
             ub.zoom = false;
             ub.show_all_views();
@@ -3786,7 +3786,7 @@ $(document).ready(function () {
                 ub.back_view.position.x  = ub.dimensions.width;
                 ub.pattern_view.position.x  = ub.dimensions.width;
 
-                ub[view + '_view'].position.set(33.5,0);
+                ub[view + '_view'].position.set(33.5, 33.5);
 
                 $('#main_view').fadeIn();
 
@@ -3990,10 +3990,20 @@ $(document).ready(function () {
 
         $bl.mousemove(function(e) {
 
+            if (itemSelector !== '.color_picker_item') {
+
+                var _upperBound = $th.offset().top;
+                var _lowerBound = $th.offset().top + $th.height();
+                var _mouseY = e.clientY;
+
+                if (_mouseY < _upperBound || _mouseY > _lowerBound) { return; }
+
+            }    
+            
             if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
-            
+
             mX = e.pageX - this.offsetLeft;
             mX2 = Math.min( Math.max(0, mX-mPadd), mmAA ) * mmAAr;
 
@@ -4012,7 +4022,7 @@ $(document).ready(function () {
 
         ub.data.intervalFunction = setInterval(function() {
 
-            posX        += (mX2 - posX) / damp;                                // Zeno's Paradox Equation "catching delay" 
+             posX        += (mX2 - posX) / damp;                       // Zeno's Paradox Equation "catching delay" 
 
             // Turn off intertia for now
             //
@@ -4243,7 +4253,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var $searchField = $('input#search_field');
@@ -4261,7 +4271,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
 
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
@@ -4276,7 +4286,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var items = _.filter(ub.materials, {uniform_category: sport });
@@ -4289,7 +4299,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var items = items;

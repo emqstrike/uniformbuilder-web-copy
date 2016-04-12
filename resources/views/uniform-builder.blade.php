@@ -47,19 +47,6 @@
     <div class="row" id="special_modifiers">
 
         <div class="col-md-6">
-    
-            <div id="design_name_container">
-                
-                <label>Design Name: </label> <span id="design_name_input"></span> &nbsp;
-                <i class="fa fa-pencil-square-o"></i>
-
-                <div id="simple_toggle_container">
-
-                    <input id="simple_toggle" type="checkbox" checked />
-
-                </div>
-
-            </div>
 
         </div>
 

@@ -252,6 +252,7 @@ a.active_button {
 
         border: none;
         width: 563px !important;
+        height: 616px !important;
 
     }
 
@@ -284,20 +285,21 @@ a.active_button {
     width: 10%;
     padding: 3px;
     position: absolute;
-    margin-top: 220px;
+    margin-top: 350px;
     margin-left: 10px !important;
     display: none;
 
     a {
+    
         color: white;
         background-color: @main_forecolor;
         margin-bottom: 2px;
         width: 35px; 
         border-radius: 50%;
 
-            -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
-    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
-    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+        box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
 
     }
 
@@ -324,6 +326,27 @@ a.active_button {
 
     }
     
+}
+
+a#view_save_footer {
+    
+    color: white;
+    background-color: @main_forecolor;
+    margin-bottom: 2px;
+    width: 150px; 
+    border-radius: 0;
+    display: block !important;
+    float: right;
+
+    -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+}
+
+#change-views.small {
+    
+    margin-top: 0px !important;
 
 }
 
@@ -381,6 +404,14 @@ div.options_panel  {
         border-bottom: 1px solid @border_color;
         padding: 10px;
 
+        span.default {
+
+            width: 100%;
+            text-align: center;
+            display: block;
+
+        }
+
         span.header_text {
             
             font-weight: bold;
@@ -399,7 +430,6 @@ div.options_panel  {
             float: left;
             display: block;
             text-align: center;
-
 
         }
 
@@ -1675,6 +1705,8 @@ div#design_name_container {
     width: 90%;
     color: @forecolor;
     display: none;
+    padding: 10px;
+    padding-left: 50px;
 
 }
 
@@ -1744,6 +1776,14 @@ div.team_color_picker_container {
         -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
         box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
 
+        i.color-caret-down {
+
+            color: @text_color;
+            margin-left: 40px;
+            margin-top: 10px;
+
+        }
+
     }
 
 }
@@ -1773,6 +1813,13 @@ div.color_item_group {
     float: left;
     background-position-y: -40px;
     overflow-y: hidden !important;
+
+}
+
+.save-pane {
+    
+    height: 55px !important;
+    margin-top: 10px;
 
 }
 
@@ -2113,6 +2160,22 @@ div.header-container.main {
 /* End TypeAhead Styling */
 
 /* Generic */
+
+    
+    div.usage_note {
+
+        color: @text_color;
+        font-size: 0.9em;
+
+        float: left;
+
+    }
+
+    div.save_box {
+
+
+
+    }
 
 
 /* End Generic */
