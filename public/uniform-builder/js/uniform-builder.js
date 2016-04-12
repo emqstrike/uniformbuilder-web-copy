@@ -35,7 +35,7 @@ $(document).ready(function () {
             else{
 
                 $('.open-save-design-modal').hide();
-                $('div#change-views').css('margin-top', '280px');
+                $('div#change-views').css('margin-top', '350px');
 
             }
 
@@ -4253,7 +4253,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var $searchField = $('input#search_field');
@@ -4271,7 +4271,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
 
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
@@ -4286,7 +4286,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var items = _.filter(ub.materials, {uniform_category: sport });
@@ -4299,7 +4299,7 @@ $(document).ready(function () {
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
-        $('div#special_modifiers').hide();
+        $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
         var items = items;
