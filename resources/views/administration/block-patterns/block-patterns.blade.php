@@ -53,18 +53,29 @@
 
 @section('content')
 
+@if (Session::has('message'))
+<div class="alert alert-{{ Session::get('alert-class') }} alert-dismissable flash-alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+        ×
+    </button>
+
+    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
+</div>
+@endif
+
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="glyphicon glyphicon-th-list"></span>
-                        Patterns
+                        <span class="glyphicon glyphicon-star"></span>
+                        Block Patterns
+                        <br />
                         <small>
-                            <a href="/administration/pattern/add" class='btn btn-xs btn-success'>
+                            <a href="/administration/block_pattern/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
-                                Add New Pattern
+                                Add a block pattern
                             </a>
                         </small>
                     </h1>
@@ -73,63 +84,55 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
-                                <th>Layer #</th>
-                                <th>Default Color</th>
-                                <th>Pattern File</th>
-                                <th>Team Color ID</th>
+                                <th>Name</th>
+                                <th>Neck Options</th>
+                                <th>Thumbnail</th>
+                                <th>Sport</th>
+                                <th>Active</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
 
-                @forelse ($patterns as $pattern)
-
-                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
+                 @forelse ($block_patterns as $block_pattern)
+                    <tr class='block-pattern-{{ $block_pattern->id }} {{ (!$block_pattern->active) ? ' inactive' : '' }}'>
                         <td>
-                            @if ($pattern->thumbnail_path)
-                            <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
-                            @else
-                            <img src="http://dummyimage.com/100" width="100px" height="100px">
-                            @endif
+                            {{ $block_pattern->name }}
+                        </td>
+                        <td class="neck-options-cell">
+                            <input type="hidden" value="{{ $block_pattern->neck_options }}" class="neck-options-container">
                         </td>
                         <td>
-                            {{ $pattern->name }}
+                            <img class="img-thumbnail" src="{{ $block_pattern->thumbnail_path }}" style="height: 210px; width: 140px;">
+                        <td>
+                            {{ $block_pattern->uniform_category }}
                         </td>
                         <td>
                             <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-pattern" id="switch-{{ $pattern->id }}" data-pattern-id="{{ $pattern->id }}" {{ ($pattern->active) ? 'checked' : '' }}>
-                                <label class="onoffswitch-label" for="switch-{{ $pattern->id }}">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-block-pattern" id="switch-{{ $block_pattern->id }}" data-block-pattern-id="{{ $block_pattern->id }}" {{ ($block_pattern->active) ? 'checked' : '' }}>
+                                <label class="onoffswitch-label" for="switch-{{ $block_pattern->id }}">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
                             </div>
-                            <!-- <a href="#" class="btn btn-default btn-xs disable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? : 'disabled="disabled"' }}>
-                                <i class="glyphicon glyphicon-eye-close"></i>
-                                Disable
-                            </a>
-                            <a href="#" class="btn btn-info btn-xs enable-pattern" data-pattern-id="{{ $pattern->id }}" role="button" {{ ($pattern->active) ? 'disabled="disabled"' : '' }}>
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                                Enable
-                            </a> -->
                         </td>
                         <td>
-                            <a href="/administration/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-xs edit-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                            <a href="/administration/block_pattern/edit/{{ $block_pattern->id }}" class="btn btn-primary btn-xs edit-block-pattern" data-block-pattern-id="{{ $block_pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
-                            <a href="#" class="btn btn-danger btn-xs delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                            <a href="#" class="btn btn-danger pull-right btn-xs delete-block-pattern" data-block-pattern-id="{{ $block_pattern->id }}" data-block-pattern-name="{{ $block_pattern->name }}" role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Remove
                             </a>
                         </td>
-                        
                     </tr>
 
                 @empty
 
                     <tr>
                         <td colspan='3'>
-                            No Patterns
+                            No Block Patterns Found
                         </td>
                     </tr>
 
@@ -143,19 +146,25 @@
     </div>
 </section>
 
-<!-- Information Modal -->
-
-@include('partials.confirmation-modal')
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/patterns.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/block-patterns.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
 });
 </script>
 @endsection

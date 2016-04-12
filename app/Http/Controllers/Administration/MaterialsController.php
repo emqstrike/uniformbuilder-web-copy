@@ -14,6 +14,7 @@ use App\APIClients\GradientsAPIClient;
 use App\APIClients\ApplicationsAPIClient;
 use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
+use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
@@ -27,6 +28,7 @@ class MaterialsController extends Controller
     protected $applicationClient;
     protected $boundaryClient;
     protected $fontClient;
+    protected $blockPatternClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -36,7 +38,8 @@ class MaterialsController extends Controller
         GradientsAPIClient $gradientsAPIClient,
         ApplicationsAPIClient $applicationsAPIClient,
         BoundariesAPIClient $boundariesAPIClient,
-        FontsAPIClient $fontsAPIClient
+        FontsAPIClient $fontsAPIClient,
+        BlockPatternsAPIClient $blockPatternsAPIClient
     )
     {
         $this->client = $apiClient;
@@ -47,6 +50,7 @@ class MaterialsController extends Controller
         $this->applicationClient = $applicationsAPIClient;
         $this->boundaryClient = $boundariesAPIClient;
         $this->fontClient = $fontsAPIClient;
+        $this->blockPatternClient = $blockPatternsAPIClient;
     }
 
     /**
@@ -142,13 +146,15 @@ class MaterialsController extends Controller
         $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
             'material' => $material,
             'uniform_categories' => $uniformCategories,
             'colors' => $colors,
-            'factories' => $factories
+            'factories' => $factories,
+            'block_patterns' => $block_patterns
         ]);
     }
 
@@ -156,11 +162,13 @@ class MaterialsController extends Controller
     {
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
-            'factories' => $factories
+            'factories' => $factories,
+            'block_patterns' => $block_patterns
         ]);
     }
 
@@ -177,7 +185,14 @@ class MaterialsController extends Controller
         $liningType = $request->input('lining_type');
         $slug = FileUploader::makeSlug($materialName);
 
-        $block_pattern = $request->input('block_pattern');
+        $block_pattern_id = $request->input('block_pattern_id');
+
+        if (!empty($request->input('neck_option')))
+        {
+            $neck_option = $request->input('neck_option');
+        }
+
+        $neck_option = $request->input('neck_option');
         $price_item_code = $request->input('price_item_code');
         $sku = $request->input('sku');
         $builder_customizations = $request->input('builder_customizations');
@@ -213,7 +228,8 @@ class MaterialsController extends Controller
             'color_code' => $colorCode,
             'lining_type' => $liningType,
             'factory_code' => $factoryCode,
-            'block_pattern' => $block_pattern,
+            'block_pattern_id' => $block_pattern_id,
+            'neck_option' => $neck_option,
             'price_item_code' => $price_item_code,
             'sku' => $sku,
             'builder_customizations' => $builder_customizations,

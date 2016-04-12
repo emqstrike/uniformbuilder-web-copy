@@ -11,6 +11,7 @@ $(document).ready(function() {
     canvasFront.setHeight( 550 );
     var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
+    window.current_pattern_properties;
 
     var topInterval;
     var bottomInterval;
@@ -19,7 +20,41 @@ $(document).ready(function() {
 
     var polyData;
 
+    $(document).on('change', '#block_pattern', function() {
+
+        console.log('Changed' + $(this).val());
+
+    });
+
+    $(document).on('change', '#mirror_polygon', function() {
+        updateCoordinates();
+    });
+
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
+
+    window.patterns = null;
+    getPatterns(function(patterns){
+        window.patterns = patterns;
+    });
+
+
+    function getPatterns(callback){
+        var patterns;
+        // var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//localhost:8888/api/patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                patterns = data['patterns'];
+                if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
 
     window.mascots = null;
     getMascots(function(mascots){
@@ -44,14 +79,123 @@ $(document).ready(function() {
         });
     }
 
+    window.colors = null;
+    getColors(function(colors){
+        window.colors = colors;
+    });
+
+    function getColors(callback){
+        var colors;
+        var url = "//api-dev.qstrike.com/api/colors";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                // console.log("Mascots: "+items);
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+    
+    var colors_dropdown = generateColorsDropdown();
+    function generateColorsDropdown(color_code){
+        var colors_dropdown = '';
+        $.each(window.colors, function( key, value ) {
+            if( color_code == value.color_code){
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '" selected>' + value.name + '</option>';
+            } else {
+                colors_dropdown += '<option value="' + value.color_code + '" data-color="#' + value.hex_code + '" style="text-shadow: 1px 2px #000; color: #fff; background-color: #' + value.hex_code + '">' + value.name + '</option>';
+            }
+        });
+        return colors_dropdown;
+    }
+
     // **************************************************************************
-var lineIdx = 0;
-var coords = [];
-var loadCase = 0;
+    var lineIdx = 0;
+    var coords = [];
+    var loadCase = 0;
+
+    $("#default_pattern").change(function() {
+        $('#pattern_layers_OC').html('');
+        var id = $(this).val();
+        loadPatternLayers(id);
+    });
+
+    function refreshColors(){
+        $(".layer-default-color").change(function() {
+            var x = 1;
+            $(".layer-default-color").each(function(i) {
+                window.current_pattern_properties[x].default_color = $(this).val();
+                x++;
+            });
+            console.log( JSON.stringify(window.current_pattern_properties) );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) );
+        });
+    }
+
+    function refreshColorBG(){
+        $('.layer-default-color').change(function(){
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+            $(this).css('color', '#fff');
+            $(this).css('text-shadow', '1px 1px #000');
+        });
+    }
+
+    function loadPatternLayers(id, loaded_pattern){
+        console.log('ID: ' + id + ", LP: " + loaded_pattern);
+
+        if(loaded_pattern == 1){
+            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length-1) );
+            window.current_pattern_properties = pattern_props;
+            var x = 1;
+            $.each(pattern_props, function(i, item) {
+                // refreshColors();
+                console.log(' Color Code : ' + item.default_color);
+                var colors = generateColorsDropdown(item.default_color);
+                var label = 'Layer #' + x;
+                var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
+                $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                refreshColors();
+                refreshColorBG();
+                x++;
+            });
+        } else {
+            $.each(window.patterns, function(i, item) {
+                if( item.id == id ){
+                    // console.log('Item properties' + item.pattern_properties);
+                    var pattern_props = JSON.parse( item.pattern_properties );
+                    window.current_pattern_properties = pattern_props;
+                    var x = 1;
+                    $.each(pattern_props, function(i, item) {
+                        // refreshColors();
+                        
+
+                        console.log(' Color Code : ' + item.default_color);
+                        var colors = generateColorsDropdown(item.default_color);
+                        var label = 'Layer #' + x;
+                        var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                        var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
+                        $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                        refreshColors();
+                        refreshColorBG();
+                        x++;
+                    });
+                }
+            });
+        }
+        $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
+    }
 
 
 $('.add-point').on('click', function(){
-
+    // updateApplicationsJSON();
     var pointsCount = canvas.getObjects('circle').length;
     var linesCount = canvas.getObjects('line').length;
     var l = linesCount - 1;
@@ -211,7 +355,8 @@ function addLine(p0, p1, lineIdx) {
     $('#app-controls').hide();
 
     $(document).on('click', '.update-applications-json', function() {
-        updateCoordinates();
+        // updateCoordinates();
+        updateApplicationsJSON();
     });
 
     $(document).on('click', '#app_controls_button', function() {
@@ -295,6 +440,13 @@ function addLine(p0, p1, lineIdx) {
     // $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
     //     updateCoordinates();
     // });
+
+    $(document).on('keyup', '#pattern_angle', function() {
+        var groups = canvas.getObjects('group');
+        groups[0].setAngle($(this).val());
+        canvas.renderAll();
+        updateCoordinates();
+    });
 
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
@@ -386,7 +538,6 @@ function addLine(p0, p1, lineIdx) {
         }
         select_append += "</select>";
 
-        // var defaults = default_font + default_text + default_number;
         var fields = [
                     app_id,
                     select_append,
@@ -460,98 +611,35 @@ var applicationProperties = {};
     });
 
 
-    var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
-    fabric.Object.prototype.transparentCorners = false;
-    canvas.setWidth( 496 );
-    canvas.setHeight( 550 );
-    fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
-    // window.shapes = {};
+    try {
+        // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
+        var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
+        fabric.Object.prototype.transparentCorners = false;
+        canvas.setWidth( 496 );
+        canvas.setHeight( 550 );
+        fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    // var data = {
-    //     topLeft: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     topRight: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     bottomLeft: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     bottomRight: {
-    //         "x":0,
-    //         "y":0
-    //     },
-    //     width: 0,
-    //     height: 0,
-    //     pivot: 0,
-    //     rotation: 0,
-    //     };
-
-    // var box = new fabric.Rect({
-    //     width: 250, height: 250, angle: 0,
-    //     fill: 'transparent',
-    //     stroke: 'red',
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // var circle = new fabric.Circle({
-    //     radius: 40,
-    //     fill: 'red',
-    //     opacity: 0.35,
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // circle.hasBorders = false;
-    // circle.hasControls = false;
-
-    // var text = new fabric.Text('Bounding box', {
-    //     fontSize: 11,
-    //     originX: 'center',
-    //     originY: 'center'
-    // });
-
-    // var bounding_box = new fabric.Group([ box, text ], {
-    //     left: canvas.width / 2.6,
-    //     top: canvas.height / 5
-    // });
-
-    // var midLine = new fabric.Line([0, 20, 350, 20], {
-    //     strokeDashArray: [5, 5],
-    //     stroke: 'red',
-    //     originX: 'center',
-    //     originY: 'center',
-    //     angle: 90,
-    //     left: canvas.width / 2,
-    //     top: canvas.height / 2
-    // });
-
-    // midLine.hasControls = false;
-
-    // window.shapes.bounding_box = bounding_box;
-
-    // bounding_box.transparentCorners = false;
-    // canvas.add(bounding_box, midLine);
-
-
-    canvas.on({
-        // 'object:moving': updateCoordinates,
-        // 'object:scaling': updateCoordinates,
-        // 'object:rotating': updateCoordinates,
-        // 'mouse:up': updateCoordinates
-    });
-
-    canvasFront.on({
-        'object:moving': updateCoordinatesXYR,
-        'object:scaling': updateCoordinatesXYR,
-        'object:rotating': updateCoordinatesXYR,
-        // 'mouse:up': updateCoordinates,
-        'mouse:down': flashApplicationRow
-    });
+    // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
+    // fabric.Object.prototype.transparentCorners = false;
+    // canvas.setWidth( 496 );
+    // canvas.setHeight( 550 );
+    // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    try {
+        canvasFront.on({
+            'object:moving': updateCoordinatesXYR,
+            'object:scaling': updateCoordinatesXYR,
+            'object:rotating': updateCoordinatesXYR,
+            // 'mouse:up': updateCoordinates,
+            'mouse:down': flashApplicationRow
+        });
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
     $(".modal").each(function(i) {
         $(this).draggable({
@@ -749,36 +837,36 @@ var material = {};
         $('#cleanup_material_id').val(id);
     });
 
-    $('.add-material-option').on('click', function(){
-        material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name'),
-            front_shape: ($(this).data('material-front-shape')),
-            back_shape: ($(this).data('material-back-shape')),
-            left_shape: ($(this).data('material-left-shape')),
-            right_shape: ($(this).data('material-right-shape'))
-        };
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-        $('#save-material-option-modal').modal('show');
+    // $('.add-material-option').on('click', function(){
+    //     material = {
+    //         id: $(this).data('material-id'),
+    //         name: $(this).data('material-name'),
+    //         front_shape: ($(this).data('material-front-shape')),
+    //         back_shape: ($(this).data('material-back-shape')),
+    //         left_shape: ($(this).data('material-left-shape')),
+    //         right_shape: ($(this).data('material-right-shape'))
+    //     };
+    //     $('#save-material-option-modal .material-id').val(material.id);
+    //     $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
+    //     $('#save-material-option-modal').modal('show');
 
-        $('.material-id').prop("value", material.id);
-        $('.material-option-id').val('');
-        $('#material-option-name').val('');
-        $('#saved-setting-type').val('');
-        $('#saved-setting-type').prop("visible", false);
-        $('#saved-perspective').val('');
-        $('#saved-perspective').prop("visible", false);
-        $('#boundary-properties').val('');
-        $('#application-properties').val('');
-        $("#material-option-bounding-box").css("background-image", '');
-        $("#shape-view-top").css("background-image", "url()");
-        $("#material-option-bounding-box-top").css("background-image", "url()");
-        checkNameLength();
-        canvasFront.clear();
-        clearAppPropOptions();
+    //     $('.material-id').prop("value", material.id);
+    //     $('.material-option-id').val('');
+    //     $('#material-option-name').val('');
+    //     $('#saved-setting-type').val('');
+    //     $('#saved-setting-type').prop("visible", false);
+    //     $('#saved-perspective').val('');
+    //     $('#saved-perspective').prop("visible", false);
+    //     $('#boundary-properties').val('');
+    //     $('#application-properties').val('');
+    //     $("#material-option-bounding-box").css("background-image", '');
+    //     $("#shape-view-top").css("background-image", "url()");
+    //     $("#material-option-bounding-box-top").css("background-image", "url()");
+    //     checkNameLength();
+    //     canvasFront.clear();
+    //     clearAppPropOptions();
 
-    });
+    // });
 
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
@@ -807,7 +895,369 @@ var appPropJson = "";
         $('.perspective-multiple-upload').val(perspective);
     });
 
-    $('.edit-material-option').on('click', function(){
+//     $('.edit-material-option').on('click', function(){
+//         application_number = 0;
+//         material = {
+//             id: $(this).data('material-id'),
+//             name: $(this).data('material-name'),
+//             front_shape: ($(this).data('material-front-shape')),
+//             back_shape: ($(this).data('material-back-shape')),
+//             left_shape: ($(this).data('material-left-shape')),
+//             right_shape: ($(this).data('material-right-shape')),
+//             option: {
+//                 id: $(this).data('material-option-id'),
+//                 name: $(this).data('material-option-name'),
+//                 origin: $(this).data('material-option-origin'),
+//                 layer_level: $(this).data('material-option-layer-level'),
+//                 default_color: $(this).data('material-option-default-color'),
+//                 sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
+//                 default_color_name: $(this).data('material-option-default-color-name'),
+//                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
+//                 type: $(this).data('material-option-setting-type'),
+//                 team_color_id: $(this).data('material-option-team-color-id'),
+//                 group_id: $(this).data('material-option-group-id'),
+//                 code: $(this).data('material-option-setting-code'),
+//                 path: $(this).data('material-option-path'),
+//                 perspective: $(this).data('material-option-perspective'),
+//                 colors: $(this).data('material-option-colors'),
+//                 gradients: $(this).data('material-option-gradients'),
+//                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
+//                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
+//                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
+//                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
+//                 boundary_properties: ($(this).data('material-option-boundary-properties')),
+//                 applications_properties: ($(this).data('material-option-applications-properties')),
+//                 highlights: ($(this).data('material-highlights-path'))
+//             }
+//         };
+
+//         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
+
+//         $('.material-id').prop("value", material.id);
+//         $('.material-option-id').prop("value", material.option.id);
+//         $('#material-option-name').val(material.option.name);
+//         $('#group_id').val(material.option.group_id);
+//         $('#saved-setting-type').val(material.option.type);
+//         $('#saved-setting-type').text(material.option.type);
+//         $('#saved-setting-type').attr('selected','selected');
+//         $('#saved-origin').val(material.option.origin);
+//         $('#saved-origin').text(material.option.origin);
+//         $('#saved-origin').attr('selected','selected');
+
+//         $('.saved-default-color').val(material.option.default_color);
+//         $('.saved-default-color').text(material.option.default_color_name);
+//         $('.saved-default-color').attr('selected','selected');
+
+//         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
+//         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
+//         $('#saved-sublimated-default-color').attr('selected','selected');
+
+//         $('#saved-perspective').val(material.option.perspective);
+//         $('#saved-perspective').text(material.option.perspective + " View");
+//         $('#saved-perspective').attr('selected','selected');
+
+//         if(material.option.blend){
+//             $('#is_blend').prop('checked','checked');
+//         }
+//         if(material.option.allow_pattern){
+//             $('#allow_pattern').prop('checked','checked');
+//         }
+//         if(material.option.allow_gradient){
+//             $('#allow_gradient').prop('checked','checked');
+//         }
+//         if(material.option.allow_color){
+//             $('#allow_color').prop('checked','checked');
+//         }
+        
+//         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+//         var team_color_id_options = "";
+
+//         id_nums.forEach(function(entry) {
+//             id = entry;
+//             if(id == material.option.team_color_id){
+//                 team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
+//             } else {
+//                 team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
+//             }
+//         });
+
+//         $('#team_color_id').append(team_color_id_options);
+
+//         $('.b-prop').prop("value", material.option.boundary_properties);
+//         $('.a-prop').prop("value", material.option.applications_properties);
+//         var va_prop_val = $('.a-prop').val();
+//         if($('.a-prop').val() != "\"{}\""){
+//             va_prop_val = $('.a-prop').val();
+//             $('.a-prop').prop("value", va_prop_val);
+//         }
+
+//         var perspective = material.option.perspective;
+//         var material_option_shape;
+//         if(perspective == 'front') {
+//             material_option_shape = material.front_shape;
+//         } else if(perspective == 'back') {
+//             material_option_shape = material.back_shape;
+//         } else if(perspective == 'left') {
+//             material_option_shape = material.left_shape;
+//         } else if(perspective == 'right') {
+//             material_option_shape = material.right_shape;
+//         }
+
+//         if(material.option.highlights != null){
+//             material_option_shape = material.option.highlights;
+//         }
+
+//         $("#shape-view").css("background-image", "url("+material_option_shape+")");
+//         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+//         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+//         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
+//         checkNameLength();
+
+//         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+//         // **************
+//         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
+//             canvas.clear();
+//             var jason = $('.b-prop').val();
+//             // var polyData = "'"+jason+"'";
+//             var output = jason.substring(1, jason.length-1);
+//             // var myData = JSON.parse(output);
+//             // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
+
+
+//             // var output = jason.substring(1, jason.length-1);
+//             polyData = JSON.parse(output);
+
+// // console.log('JASON: '+jason);
+//             // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
+//             // bounding_box.oCoords.tl.y = myData.topLeft.y;
+//             // bounding_box.oCoords.tr.x = myData.topRight.x;
+//             // bounding_box.oCoords.tr.y = myData.topRight.y;
+//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
+//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
+//             // bounding_box.oCoords.br.x = myData.bottomRight.x;
+//             // bounding_box.oCoords.br.y = myData.bottomRight.y;
+//             // bounding_box.centerPoint = myData.pivot; ***
+
+//             // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
+//             // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
+//             // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
+//             // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
+//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
+//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
+//             // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
+//             // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
+//             // bounding_box.centerPoint = myData.pivot;
+//             // bounding_box.setAngle(myData.rotation);
+
+//             // bounding_box.width = myData.boxWidth / 2;
+//             // bounding_box.height = myData.boxHeight / 2;
+//             // box.width = myData.boxWidth / 2;
+//             // box.height = myData.boxHeight / 2;
+//             // bounding_box.left = myData.topLeft.x / 2;
+//             // bounding_box.top = myData.topLeft.y / 2;
+
+
+//             loadPolygon(polyData);
+
+//             // canvas.renderAll();
+//             canvasFront.clear();
+
+//             if($('.a-prop').val() != "\"{}\""){
+//             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+//             var app_properties = JSON.parse(ap_out);
+
+//             $(".front-applications").remove(".apOpt");
+//             clearAppPropOptions();
+
+//             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
+
+//             appendApplications(app_properties);
+
+//             } // ************************ APP PROP IF END
+
+
+//             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
+//             $('.b-prop').prop('value', boundaryProperties);
+
+//             // var applicationsProperties = JSON.stringify(data);
+//             // $('.a-prop').prop('value', applicationsProperties);
+
+//             // console.log("CONSOLE LOG: " + applicationsProperties);
+
+
+//             $("#file-src").prop("src", material.option.path);
+//             $("#layer-level").prop("value", material.option.layer_level);
+
+//             if (material.option.blend) {
+//                 $('#is-blend').attr('checked', 'checked');
+//             } else {
+//                 $('#is-blend').attr('checked', 'unchecked');
+//             }
+
+//         }
+//         // **************
+
+//         $('#saved-setting-type').attr('selected',true);
+//         $('#saved-perspective').attr('selected',true);
+//         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
+//         $('#save-material-option-modal .material-id').val(material.id);
+//         $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
+//         $('#save-material-option-modal').modal('show');
+//     });
+
+    $('.material-option-boundary').on('click', function(){
+        application_number = 0;
+        material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape')),
+            option: {
+                material_id: $(this).data('material-id'),
+                id: $(this).data('material-option-id'),
+                name: $(this).data('material-option-name'),
+                type: $(this).data('material-option-setting-type'),
+                code: $(this).data('material-option-setting-code'),
+                path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-option-perspective'),
+                boundary_properties: ($(this).data('material-option-boundary-properties')),
+                highlights: ($(this).data('material-highlights-path'))
+            }
+        };
+
+        $('.b-prop').val(material.option.boundary_properties);
+        $('.material-option-id').val(material.option.id);
+        $('.material-id').val(material.id);
+
+        console.log('MO ID: '+material.option.id);
+        console.log('MAT ID: '+material.option.material_id);
+
+        var perspective = material.option.perspective;
+        var material_option_shape = material.option.path;
+
+        $('#app-saved-perspective').val(material.option.perspective);
+        $('#app-material-option-name').val(material.option.name);
+        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+        $("#material-option-bounding-box").css("background-image", "url("+material.option.highlights+")");
+
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+        canvasFront.clear();
+
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
+
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+        }
+
+
+
+        console.log('B prop val >>'+$('.b-prop').val());
+
+
+        if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
+            canvas.clear();
+            var jason = $('.b-prop').val();
+            var output = jason.substring(1, jason.length-1);
+            polyData = JSON.parse(output);
+
+            loadPolygon(polyData);
+            canvasFront.clear();
+
+            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
+            $('.b-prop').prop('value', boundaryProperties);
+        }
+
+
+
+
+
+
+
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-boundary-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-boundary-modal .material-id').val(material.id);
+        $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-boundary-modal').modal('show');
+    });
+
+    $('.material-option-applications').on('click', function(){
+        application_number = 0;
+        material = {
+            id: $(this).data('material-id'),
+            name: $(this).data('material-name'),
+            front_shape: ($(this).data('material-front-shape')),
+            back_shape: ($(this).data('material-back-shape')),
+            left_shape: ($(this).data('material-left-shape')),
+            right_shape: ($(this).data('material-right-shape')),
+            option: {
+                id: $(this).data('material-option-id'),
+                name: $(this).data('material-option-name'),
+                type: $(this).data('material-option-setting-type'),
+                code: $(this).data('material-option-setting-code'),
+                path: $(this).data('material-option-path'),
+                perspective: $(this).data('material-option-perspective'),
+                applications_properties: ($(this).data('material-option-applications-properties')),
+                highlights: ($(this).data('material-highlights-path'))
+            }
+        };
+
+        $('.a-prop').prop("value", material.option.applications_properties);
+        var va_prop_val = $('.a-prop').val();
+        if($('.a-prop').val() != "\"{}\""){
+            va_prop_val = $('.a-prop').val();
+            $('.a-prop').prop("value", va_prop_val);
+        }
+
+        var perspective = material.option.perspective;
+        var material_option_shape = material.option.path;
+
+        $('#app-saved-perspective').val(material.option.perspective);
+        $('#app-material-option-name').val(material.option.name);
+        $("#shape-view").css("background-image", "url("+material.option.highlights+")");
+        $("#shape-view-top").css("background-image", "url("+material.option.path+")");
+
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+
+        canvasFront.clear();
+
+        if($('.a-prop').val() != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+
+        }
+
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
+
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+        }
+
+
+        $('#saved-setting-type').attr('selected',true);
+        $('#saved-perspective').attr('selected',true);
+        $('#edit-material-option-applications-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-applications-modal .material-id').val(material.id);
+        $('#save-material-option-applications-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-applications-modal').modal('show');
+    });
+
+    $('.edit-material-option-info').on('click', function(){
+        $('#pattern_layers_OC').html('');
+        var pattern_loaded = 0;
+
         application_number = 0;
         material = {
             id: $(this).data('material-id'),
@@ -839,9 +1289,17 @@ var appPropJson = "";
                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
                 boundary_properties: ($(this).data('material-option-boundary-properties')),
                 applications_properties: ($(this).data('material-option-applications-properties')),
-                highlights: ($(this).data('material-highlights-path'))
+                highlights: ($(this).data('material-highlights-path')),
+                pattern_id: ($(this).data('pattern-id')),
+                pattern_properties: ($(this).data('pattern-properties'))
             }
         };
+        console.log('TESTER' + material.option.pattern_properties);
+        $('#pattern_properties').val(material.option.pattern_properties);
+
+        if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
+            pattern_loaded = 1;
+        }
 
         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
 
@@ -926,96 +1384,37 @@ var appPropJson = "";
         checkNameLength();
 
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+        $("#file-src").prop("src", material.option.path);
+        $("#layer-level").prop("value", material.option.layer_level);
 
-        // **************
-        if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-            canvas.clear();
-            var jason = $('.b-prop').val();
-            // var polyData = "'"+jason+"'";
-            var output = jason.substring(1, jason.length-1);
-            // var myData = JSON.parse(output);
-            // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
+        if (material.option.blend) {
+            $('#is-blend').attr('checked', 'checked');
+        } else {
+            $('#is-blend').attr('checked', 'unchecked');
+        }
 
+        var patterns_dropdown = '';
+        $.each(window.patterns, function(i, item) {
 
-            // var output = jason.substring(1, jason.length-1);
-            polyData = JSON.parse(output);
-
-// console.log('JASON: '+jason);
-            // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
-            // bounding_box.oCoords.tl.y = myData.topLeft.y;
-            // bounding_box.oCoords.tr.x = myData.topRight.x;
-            // bounding_box.oCoords.tr.y = myData.topRight.y;
-            // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-            // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-            // bounding_box.oCoords.br.x = myData.bottomRight.x;
-            // bounding_box.oCoords.br.y = myData.bottomRight.y;
-            // bounding_box.centerPoint = myData.pivot; ***
-
-            // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
-            // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
-            // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
-            // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
-            // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
-            // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
-            // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
-            // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
-            // bounding_box.centerPoint = myData.pivot;
-            // bounding_box.setAngle(myData.rotation);
-
-            // bounding_box.width = myData.boxWidth / 2;
-            // bounding_box.height = myData.boxHeight / 2;
-            // box.width = myData.boxWidth / 2;
-            // box.height = myData.boxHeight / 2;
-            // bounding_box.left = myData.topLeft.x / 2;
-            // bounding_box.top = myData.topLeft.y / 2;
-
-
-            loadPolygon(polyData);
-
-            // canvas.renderAll();
-            canvasFront.clear();
-
-            if($('.a-prop').val() != "\"{}\""){
-            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-            var app_properties = JSON.parse(ap_out);
-
-            $(".front-applications").remove(".apOpt");
-            clearAppPropOptions();
-
-            // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
-            appendApplications(app_properties);
-
-            } // ************************ APP PROP IF END
-
-
-            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
-            $('.b-prop').prop('value', boundaryProperties);
-
-            // var applicationsProperties = JSON.stringify(data);
-            // $('.a-prop').prop('value', applicationsProperties);
-
-            // console.log("CONSOLE LOG: " + applicationsProperties);
-
-
-            $("#file-src").prop("src", material.option.path);
-            $("#layer-level").prop("value", material.option.layer_level);
-
-            if (material.option.blend) {
-                $('#is-blend').attr('checked', 'checked');
+            if( material.option.pattern_id == item.id ){
+                patterns_dropdown += '<option value="' + item.id + '" selected>' + item.name + '</option>';
             } else {
-                $('#is-blend').attr('checked', 'unchecked');
+                patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
             }
 
-        }
-        // **************
+        });
+// console.log(pattern_loaded);
+        loadPatternLayers(material.option.pattern_id, pattern_loaded);
+        $('#default_pattern').html('');
+        $('#default_pattern').append( patterns_dropdown );
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-modal .material-id').val(material.id);
-        $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-modal').modal('show');
+        $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
+        $('#save-material-option-info-modal .material-id').val(material.id);
+        $('#save-material-option-info-modal .modal-title span').html("Edit: " + material.option.name);
+        $('#save-material-option-info-modal').modal('show');
+
     });
 
     function appendApplications(app_properties){
@@ -1187,7 +1586,6 @@ var appPropJson = "";
                     selectText: "Select Mascot",
                     onSelected: function (data) {
                         $(amv_id).val(data['selectedData']['value']);
-                        // updateCoordinates();
                     },
                 });
 
@@ -1357,7 +1755,7 @@ var appPropJson = "";
         var output = va_prop_val.substring(1, va_prop_val.length-1);
         polyData = JSON.parse(output);
         loadPolygon(polyData);
-        // updateCoordinates();
+        updateCoordinates();
     });
 
     function fixLoadPolygon(){
@@ -1372,8 +1770,9 @@ var appPropJson = "";
     $('#save_boundary_template').on('click', function(){
         var name = $('#boundary_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
-        var perspective = $('#saved-perspective').val();
-        var part = $('#material-option-name').val();
+        var neck_option = $('#material_neck_option').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
         var boundary_properties = $('.b-prop').val();
 
         var description = "Lorem Ipsum Yaddah";
@@ -1386,7 +1785,8 @@ var appPropJson = "";
             "perspective":perspective,
             "part":part,
             "description":description,
-            "boundary_properties":boundary_properties
+            "boundary_properties":boundary_properties,
+            "neck_option":neck_option
         };
 
         if($(this).attr('disabled') != 'disabled'){
@@ -1403,7 +1803,7 @@ var appPropJson = "";
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                        var elem = '.material-' + id;
+                        // var elem = '.material-' + id;
                         new PNotify({
                             title: 'Success',
                             text: response.message,
@@ -1421,8 +1821,8 @@ var appPropJson = "";
     $('#save_app_template').on('click', function(){
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
-        var perspective = $('#saved-perspective').val();
-        var part = $('#material-option-name').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
         var applications_properties = $('.a-prop').val();
 
         var description = "Lorem Ipsum Yaddah";
@@ -2040,28 +2440,7 @@ var appPropJson = "";
     function updateCoordinates(cs) {
 
         applicationProperties = {}
-
-        // circle.radius = box.height / 2;
-
-        // var topLeftX = bounding_box.oCoords.tl.x;
-        // var topLeftY = bounding_box.oCoords.tl.y;
-        // var topRightX = bounding_box.oCoords.tr.x;
-        // var topRightY = bounding_box.oCoords.tr.y;
-        // var bottomLeftX = bounding_box.oCoords.bl.x;
-        // var bottomLeftY = bounding_box.oCoords.bl.y;
-        // var bottomRightX = bounding_box.oCoords.br.x;
-        // var bottomRightY = bounding_box.oCoords.br.y;
-
-        // var topLeftX = bounding_box.oCoords.tl.x * 2;
-        // var topLeftY = bounding_box.oCoords.tl.y * 2;
-        // var topRightX = bounding_box.oCoords.tr.x * 2;
-        // var topRightY = bounding_box.oCoords.tr.y * 2;
-        // var bottomLeftX = bounding_box.oCoords.bl.x * 2;
-        // var bottomLeftY = bounding_box.oCoords.bl.y * 2;
-        // var bottomRightX = bounding_box.oCoords.br.x * 2;
-        // var bottomRightY = bounding_box.oCoords.br.y * 2;
         var circles = canvas.getObjects('circle');
-        // coords = new Array();
         var x = 0;
         circles.forEach(function(entry) {
             var getCenterPoint = entry.getCenterPoint();
@@ -2072,279 +2451,27 @@ var appPropJson = "";
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
+
+            var mirror_pattern = 0;
+            if( $('#mirror_polygon:checkbox:checked').length > 0 ){
+                console.log('checked');
+                coords[x]['mirror'] = 1;
+            } else {
+                console.log('unchecked');
+                coords[x]['mirror'] = 0;
+            }
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
         });
 
         canvas.renderAll();
-
-        // data.topLeft.x = topLeftX;
-        // data.topLeft.y = topLeftY;
-        // data.topRight.x = topRightX;
-        // data.topRight.y = topRightY;
-        // data.bottomLeft.x = bottomLeftX;
-        // data.bottomLeft.y = bottomLeftY;
-        // data.bottomRight.x = bottomRightX;
-        // data.bottomRight.y = bottomRightY;
-        // data.boxWidth = bounding_box.getWidth() * 2;
-        // data.boxHeight = bounding_box.getHeight() * 2;
-        // data.pivot = bounding_box.getCenterPoint();
-        // data.rotation = bounding_box.getAngle();
-        console.log('BPROP RAW COORDS: '+JSON.stringify(coords));
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
         console.log('BPROP: '+boundaryProperties);
 
-        $(".app-rotation").each(function(i) {
-            // BUILD APPLICATION PROPERTIES JSON
-
-            itemIdx = "layer"+$(this).data('id');
-            layer = $(this).data('id');
-
-            thisGroup = canvasFront.item(layer);
-            applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
-            applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
-            applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
-
-            isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
-            hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
-            hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
-            hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
-            hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
-            fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
-            uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
-
-            applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
-            applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
-            applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
-            applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
-
-            // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
-            // mascotData = "Placeholder";
-
-            window.mascotData = null;
-            getMascotData(function(mascotData){
-                // console.log(items);
-                window.mascotData = mascotData;
-            });
-
-            function getMascotData(callback){
-                var mascotData;
-                // var url = "//" + api_host + "/api/mascots";
-                var url = "//api-dev.qstrike.com/api/mascot/"+applicationMascot;
-                $.ajax({
-                    url: url,
-                    async: false,
-                    type: "GET",
-                    dataType: "json",
-                    crossDomain: true,
-                    contentType: 'application/json',
-                    success: function(data){
-                        mascotData = data['mascot']['mascot'];
-                        // console.log("Mascots: "+items);
-                        if(typeof callback === "function") callback(mascotData);
-                    }
-                });
-            }
-
-            mascotData = window.mascotData;
-
-            window.fontData = null;
-            getfontData(function(fontData){
-                // console.log(items);
-                window.fontData = fontData;
-            });
-
-            function getfontData(callback){
-                var fontData;
-                // var url = "//" + api_host + "/api/mascots";
-                var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
-                $.ajax({
-                    url: url,
-                    async: false,
-                    type: "GET",
-                    dataType: "json",
-                    crossDomain: true,
-                    contentType: 'application/json',
-                    success: function(data){
-                        fontData = data['font'];
-                        // console.log("Mascots: "+items);
-                        if(typeof callback === "function") callback(fontData);
-                    }
-                });
-            }
-
-            fontData = window.fontData;
-            // console.log("Default Mascot:"+applicationMascot);
-            if(isPrimary.prop( "checked" )){
-                isPrimary = 1;
-            } else {
-                isPrimary = 0;
-            }
-
-            if(hasLogo.prop( "checked" )){
-                hasLogo = 1;
-            } else {
-                hasLogo = 0;
-            }
-
-            if(hasTeamName.prop( "checked" )){
-                hasTeamName = 1;
-            } else {
-                hasTeamName = 0;
-            }
-
-            if(hasPlayerName.prop( "checked" )){
-                hasPlayerName = 1;
-            } else {
-                hasPlayerName = 0;
-            }
-
-            if(hasNumber.prop( "checked" )){
-                hasNumber = 1;
-            } else {
-                hasNumber = 0;
-            }
-
-            // var topLeftX = thisGroup.oCoords.tl.x;
-            // var topLeftY = thisGroup.oCoords.tl.y;
-            // var topRightX = thisGroup.oCoords.tr.x;
-            // var topRightY = thisGroup.oCoords.tr.y;
-            // var bottomLeftX = thisGroup.oCoords.bl.x;
-            // var bottomLeftY = thisGroup.oCoords.bl.y;
-            // var bottomRightX = thisGroup.oCoords.br.x;
-            // var bottomRightY = thisGroup.oCoords.br.y;
-
-            var topLeftX = thisGroup.oCoords.tl.x * 2;
-            var topLeftY = thisGroup.oCoords.tl.y * 2;
-            var topRightX = thisGroup.oCoords.tr.x * 2;
-            var topRightY = thisGroup.oCoords.tr.y * 2;
-            var bottomLeftX = thisGroup.oCoords.bl.x * 2;
-            var bottomLeftY = thisGroup.oCoords.bl.y * 2;
-            var bottomRightX = thisGroup.oCoords.br.x * 2;
-            var bottomRightY = thisGroup.oCoords.br.y * 2;
-
-            canvas.renderAll();
-
-            applicationProperties[itemIdx] = {};
-            applicationProperties[itemIdx]['type'] = {};
-            applicationProperties[itemIdx]['name'] = {};
-            applicationProperties[itemIdx]['id'] = {};
-            applicationProperties[itemIdx]['layerOrder'] = {};
-            applicationProperties[itemIdx]['topLeft'] = {};
-            applicationProperties[itemIdx]['topLeft']['x'] = {};
-            applicationProperties[itemIdx]['topLeft']['y'] = {};
-            applicationProperties[itemIdx]['topRight'] = {};
-            applicationProperties[itemIdx]['topRight']['x'] = {};
-            applicationProperties[itemIdx]['topRight']['y'] = {};
-            applicationProperties[itemIdx]['bottomLeft'] = {};
-            applicationProperties[itemIdx]['bottomLeft']['x'] = {};
-            applicationProperties[itemIdx]['bottomLeft']['y'] = {};
-            applicationProperties[itemIdx]['bottomRight'] = {};
-            applicationProperties[itemIdx]['bottomRight']['x'] = {};
-            applicationProperties[itemIdx]['bottomRight']['y'] = {};
-            applicationProperties[itemIdx]['isPrimary'] = {};
-            applicationProperties[itemIdx]['hasLogo'] = {};
-            applicationProperties[itemIdx]['hasTeamName'] = {};
-            applicationProperties[itemIdx]['hasPlayerName'] = {};
-            applicationProperties[itemIdx]['hasNumber'] = {};
-            applicationProperties[itemIdx]['fontSizes'] = {};
-            applicationProperties[itemIdx]['uniformSizes'] = {};
-
-            applicationProperties[itemIdx]['defaultMascot'] = {};
-            applicationProperties[itemIdx]['defaultFont'] = {};
-            applicationProperties[itemIdx]['defaultText'] = {};
-            applicationProperties[itemIdx]['defaultNumber'] = {};
-
-            applicationProperties[itemIdx]['mascotData'] = {};
-            applicationProperties[itemIdx]['fontData'] = {};
-
-            applicationProperties[itemIdx]['center'] = {};
-            applicationProperties[itemIdx].center['x'] = {};
-            applicationProperties[itemIdx].center['y'] = {};
-
-            applicationProperties[itemIdx].type = applicationType;
-            applicationProperties[itemIdx].name = applicationName;
-            applicationProperties[itemIdx].id = applicationId;
-            applicationProperties[itemIdx].layerOrder = applicationId;
-            applicationProperties[itemIdx].topLeft.x = topLeftX;
-            applicationProperties[itemIdx].topLeft.y = topLeftY;
-            applicationProperties[itemIdx].topRight.x = topRightX;
-            applicationProperties[itemIdx].topRight.y = topRightY;
-            applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
-            applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
-            applicationProperties[itemIdx].bottomRight.x = bottomRightX;
-            applicationProperties[itemIdx].bottomRight.y = bottomRightY;
-            applicationProperties[itemIdx].isPrimary = isPrimary;
-            applicationProperties[itemIdx].hasLogo = hasLogo;
-            applicationProperties[itemIdx].hasTeamName = hasTeamName;
-            applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
-            applicationProperties[itemIdx].hasNumber = hasNumber;
-            applicationProperties[itemIdx].fontSizes = fontSizes;
-            applicationProperties[itemIdx].uniformSizes = uniformSizes;
-
-            applicationProperties[itemIdx].defaultMascot = applicationMascot;
-            applicationProperties[itemIdx].defaultFont = applicationFont;
-            applicationProperties[itemIdx].defaultText = applicationText;
-            applicationProperties[itemIdx].defaultNumber = applicationNumber;
-
-            applicationProperties[itemIdx].mascotData = mascotData;
-            applicationProperties[itemIdx].fontData = fontData;
-
-            // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
-
-            // applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
-            // applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
-            // applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
-            // applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
-            // applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
-            // applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
-            // applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
-            // applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
-
-            // applicationProperties[itemIdx].width = thisGroup.getWidth();
-            // applicationProperties[itemIdx].height = thisGroup.getHeight();
-            // applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;
-            // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
-
-            // ************* x2 values
-            applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
-            applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
-            applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
-            applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
-            applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
-            applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
-
-            applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
-            applicationProperties[itemIdx].height = thisGroup.getHeight() * 2;
-            applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * 2;
-            applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * 2;
-            // thisGroup.left 
-            applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
-            applicationProperties[itemIdx].rotation = thisGroup.getAngle();
-
-            applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
-            applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
-
-            if(cs == 1){
-                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
-                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
-                $(this).val(thisGroup.getAngle());
-            }
-
-            canvasFront.renderAll();
-        });
-        var appProperties = JSON.stringify(applicationProperties);
-        appProperties = "\""+appProperties+"\"";
-        $('.a-prop').prop('value', appProperties);
-        window.ap = appProperties;
-
-
-        console.log("APP PROPS: "+window.ap);
+        // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
     }
 
     // UPDATES - DETECTOR
@@ -2457,7 +2584,7 @@ var appPropJson = "";
     });
 
     // *** Fabric Listeners
-
+try {
     fabric.util.addListener(document.getElementById('move-top'), 'mouseenter', function () {
 
         activeObject = canvasFront.getActiveObject();
@@ -2549,19 +2676,18 @@ var appPropJson = "";
         updateCoordinatesXYR();
 
     });
+}
+catch(err) {
+    // document.getElementById("demo").innerHTML = err.message;
+}
+
 
     // *** END OF Fabric Listeners
 
     bindColorsSelect2();
     bindGradientsSelect2();
-
+try {
 canvas.observe('object:rotating', function (e) { 
-    // coords = new Array();
-    // coords[0] = {};
-    // var groups = canvas.getObjects('group');
-    // coords[0].angle = groups[0].getAngle();
-    // console.log(JSON.stringify(coords));
-    // console.log("JSON"+canvas.toJSON());
 
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
@@ -2584,6 +2710,8 @@ canvas.observe('object:rotating', function (e) {
     });
     console.log(JSON.stringify(coords));
     console.log("JSON"+canvas.toJSON());
+    updateCoordinates();
+    $('#pattern_angle').val(parseFloat(groups[0].getAngle().toFixed(2)));
 });
 
 canvas.observe('object:moving', function (e) { 
@@ -2655,11 +2783,17 @@ canvas.observe('object:moving', function (e) {
     //     console.log('Entry: '+entry['x']+', '+entry['y']);
     // });
     console.log(JSON.stringify(coords));
+    updateCoordinates();
 }); //canvas.observe()
+}
+catch(err) {
+    // document.getElementById("demo").innerHTML = err.message;
+}
 
 function loadPolygon(data){
     console.log("PolyData >> "+JSON.stringify(data));
     var angle;
+    var mirror;
     canvas.clear();
     var z = 0;
     // console.log('POLY TEST >> '+data[0].angle);
@@ -2669,6 +2803,7 @@ function loadPolygon(data){
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
+            mirror = item.mirror;
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -2692,6 +2827,20 @@ function loadPolygon(data){
     });
     console.log('Line Index: ' + lineIdx);
     loadCase = 1;
+
+    if( mirror == 1 ){
+        $('#mirror_polygon').attr('checked', 'checked');
+    } else {
+        $('#mirror_polygon').attr('checked', 'unchecked');
+    }
+
+    // $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
+    try {
+        $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
+    }
+    catch(err) {
+        // document.getElementById("demo").innerHTML = err.message;
+    }
 
     var rect = new fabric.Rect({
         left: 453,
@@ -2733,5 +2882,252 @@ function loadPolygon(data){
     canvas.renderAll();
     // fixLoadPolygon();
 }
+
+// function updateApplicationsJSON(){
+//     $(".app-rotation").each(function(i) {
+//         // BUILD APPLICATION PROPERTIES JSON
+
+//         itemIdx = "layer"+$(this).data('id');
+//         layer = $(this).data('id');
+
+//         thisGroup = canvasFront.item(layer);
+//         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
+//         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
+//         applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
+
+//         isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
+//         hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
+//         hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
+//         hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
+//         hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
+//         fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
+//         uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+
+//         applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+//         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
+//         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
+//         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
+
+//         // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+//         // mascotData = "Placeholder";
+
+//         // window.mascotData = null;
+//         // getMascotData(function(mascotData){
+//         //     // console.log(items);
+//         //     window.mascotData = mascotData;
+//         // });
+
+//         // function getMascotData(callback){
+//         //     var mascotData;
+//         //     var url = "//api-dev.qstrike.com/api/mascot/" + applicationMascot;
+//         //     $.ajax({
+//         //         url: url,
+//         //         async: false,
+//         //         type: "GET",
+//         //         dataType: "json",
+//         //         crossDomain: true,
+//         //         contentType: 'application/json',
+//         //         success: function(data){
+//         //             mascotData = data['mascot']['mascot'];
+//         //             // console.log("Mascots: "+items);
+//         //             if(typeof callback === "function") callback(mascotData);
+//         //         }
+//         //     });
+//         // }
+
+//         // mascotData = window.mascotData;
+
+//         // window.fontData = null;
+//         // getfontData(function(fontData){
+//         //     window.fontData = fontData;
+//         // });
+
+//         // function getfontData(callback){
+//         //     var fontData;
+//         //     var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
+//         //     $.ajax({
+//         //         url: url,
+//         //         async: false,
+//         //         type: "GET",
+//         //         dataType: "json",
+//         //         crossDomain: true,
+//         //         contentType: 'application/json',
+//         //         success: function(data){
+//         //             fontData = data['font'];
+//         //             // console.log("Mascots: "+items);
+//         //             if(typeof callback === "function") callback(fontData);
+//         //         }
+//         //     });
+//         // }
+
+//         // fontData = window.fontData;
+        
+//         if(isPrimary.prop( "checked" )){
+//             isPrimary = 1;
+//         } else {
+//             isPrimary = 0;
+//         }
+
+//         if(hasLogo.prop( "checked" )){
+//             hasLogo = 1;
+//         } else {
+//             hasLogo = 0;
+//         }
+
+//         if(hasTeamName.prop( "checked" )){
+//             hasTeamName = 1;
+//         } else {
+//             hasTeamName = 0;
+//         }
+
+//         if(hasPlayerName.prop( "checked" )){
+//             hasPlayerName = 1;
+//         } else {
+//             hasPlayerName = 0;
+//         }
+
+//         if(hasNumber.prop( "checked" )){
+//             hasNumber = 1;
+//         } else {
+//             hasNumber = 0;
+//         }
+
+//         // var topLeftX = thisGroup.oCoords.tl.x;
+//         // var topLeftY = thisGroup.oCoords.tl.y;
+//         // var topRightX = thisGroup.oCoords.tr.x;
+//         // var topRightY = thisGroup.oCoords.tr.y;
+//         // var bottomLeftX = thisGroup.oCoords.bl.x;
+//         // var bottomLeftY = thisGroup.oCoords.bl.y;
+//         // var bottomRightX = thisGroup.oCoords.br.x;
+//         // var bottomRightY = thisGroup.oCoords.br.y;
+
+//         var topLeftX = thisGroup.oCoords.tl.x * 2;
+//         var topLeftY = thisGroup.oCoords.tl.y * 2;
+//         var topRightX = thisGroup.oCoords.tr.x * 2;
+//         var topRightY = thisGroup.oCoords.tr.y * 2;
+//         var bottomLeftX = thisGroup.oCoords.bl.x * 2;
+//         var bottomLeftY = thisGroup.oCoords.bl.y * 2;
+//         var bottomRightX = thisGroup.oCoords.br.x * 2;
+//         var bottomRightY = thisGroup.oCoords.br.y * 2;
+
+//         canvas.renderAll();
+
+//         applicationProperties[itemIdx] = {};
+//         applicationProperties[itemIdx]['type'] = {};
+//         applicationProperties[itemIdx]['name'] = {};
+//         applicationProperties[itemIdx]['id'] = {};
+//         applicationProperties[itemIdx]['layerOrder'] = {};
+//         applicationProperties[itemIdx]['topLeft'] = {};
+//         applicationProperties[itemIdx]['topLeft']['x'] = {};
+//         applicationProperties[itemIdx]['topLeft']['y'] = {};
+//         applicationProperties[itemIdx]['topRight'] = {};
+//         applicationProperties[itemIdx]['topRight']['x'] = {};
+//         applicationProperties[itemIdx]['topRight']['y'] = {};
+//         applicationProperties[itemIdx]['bottomLeft'] = {};
+//         applicationProperties[itemIdx]['bottomLeft']['x'] = {};
+//         applicationProperties[itemIdx]['bottomLeft']['y'] = {};
+//         applicationProperties[itemIdx]['bottomRight'] = {};
+//         applicationProperties[itemIdx]['bottomRight']['x'] = {};
+//         applicationProperties[itemIdx]['bottomRight']['y'] = {};
+//         applicationProperties[itemIdx]['isPrimary'] = {};
+//         applicationProperties[itemIdx]['hasLogo'] = {};
+//         applicationProperties[itemIdx]['hasTeamName'] = {};
+//         applicationProperties[itemIdx]['hasPlayerName'] = {};
+//         applicationProperties[itemIdx]['hasNumber'] = {};
+//         applicationProperties[itemIdx]['fontSizes'] = {};
+//         applicationProperties[itemIdx]['uniformSizes'] = {};
+
+//         applicationProperties[itemIdx]['defaultMascot'] = {};
+//         applicationProperties[itemIdx]['defaultFont'] = {};
+//         applicationProperties[itemIdx]['defaultText'] = {};
+//         applicationProperties[itemIdx]['defaultNumber'] = {};
+
+//         applicationProperties[itemIdx]['mascotData'] = {};
+//         applicationProperties[itemIdx]['fontData'] = {};
+
+//         applicationProperties[itemIdx]['center'] = {};
+//         applicationProperties[itemIdx].center['x'] = {};
+//         applicationProperties[itemIdx].center['y'] = {};
+
+//         applicationProperties[itemIdx].type = applicationType;
+//         applicationProperties[itemIdx].name = applicationName;
+//         applicationProperties[itemIdx].id = applicationId;
+//         applicationProperties[itemIdx].layerOrder = applicationId;
+//         applicationProperties[itemIdx].topLeft.x = topLeftX;
+//         applicationProperties[itemIdx].topLeft.y = topLeftY;
+//         applicationProperties[itemIdx].topRight.x = topRightX;
+//         applicationProperties[itemIdx].topRight.y = topRightY;
+//         applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
+//         applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
+//         applicationProperties[itemIdx].bottomRight.x = bottomRightX;
+//         applicationProperties[itemIdx].bottomRight.y = bottomRightY;
+//         applicationProperties[itemIdx].isPrimary = isPrimary;
+//         applicationProperties[itemIdx].hasLogo = hasLogo;
+//         applicationProperties[itemIdx].hasTeamName = hasTeamName;
+//         applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
+//         applicationProperties[itemIdx].hasNumber = hasNumber;
+//         applicationProperties[itemIdx].fontSizes = fontSizes;
+//         applicationProperties[itemIdx].uniformSizes = uniformSizes;
+
+//         applicationProperties[itemIdx].defaultMascot = applicationMascot;
+//         applicationProperties[itemIdx].defaultFont = applicationFont;
+//         applicationProperties[itemIdx].defaultText = applicationText;
+//         applicationProperties[itemIdx].defaultNumber = applicationNumber;
+
+//         applicationProperties[itemIdx].mascotData = mascotData;
+//         applicationProperties[itemIdx].fontData = fontData;
+
+//         // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
+
+//         // applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
+//         // applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
+//         // applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
+//         // applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
+//         // applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
+//         // applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
+//         // applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
+//         // applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
+
+//         // applicationProperties[itemIdx].width = thisGroup.getWidth();
+//         // applicationProperties[itemIdx].height = thisGroup.getHeight();
+//         // applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;
+//         // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
+
+//         // ************* x2 values
+//         applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
+//         applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
+//         applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
+//         applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
+//         applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
+//         applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
+//         applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
+//         applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
+
+//         applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
+//         applicationProperties[itemIdx].height = thisGroup.getHeight() * 2;
+//         applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * 2;
+//         applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * 2;
+//         // thisGroup.left 
+//         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+//         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+
+//         applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
+//         applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
+
+//         if(cs == 1){
+//             $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+//             $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+//             $(this).val(thisGroup.getAngle());
+//         }
+
+//         canvasFront.renderAll();
+//     });
+//     var appProperties = JSON.stringify(applicationProperties);
+//     appProperties = "\""+appProperties+"\"";
+//     $('.a-prop').prop('value', appProperties);
+//     window.ap = appProperties;
+
+//     console.log("APP PROPS: "+window.ap);
+// }
 
 });

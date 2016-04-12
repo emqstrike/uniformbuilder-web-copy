@@ -110,6 +110,8 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
+    Route::post('material_option/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@saveApplications']);
+    Route::post('material_option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@saveBoundary']);
     Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@storeMultiple']);
     Route::post('material_option/purgeColor', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@purgeColor']);
 
@@ -193,6 +195,12 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
 
+    // Block Patterns
+    Route::get('block_patterns', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@index']);
+    Route::get('block_pattern/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@addForm']);
+    Route::post('block_pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
+    Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@editForm']);
+    Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
 });
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');

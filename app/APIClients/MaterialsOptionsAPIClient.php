@@ -39,9 +39,17 @@ class MaterialsOptionsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updateBoundary($data)
+    {
+        $response = $this->post('material_option/updateBoundary', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
     public function update($data)
     {
-        // dd($data);
         $response = $this->post('material_option/update', [
             'json' => $data
         ]);
