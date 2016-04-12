@@ -1452,7 +1452,6 @@ $(document).ready(function () {
             ub.funcs.transformedApplications();
             ub.funcs.transformedBoundaries();
             ub.funcs.get_modifier_labels();
-
             // var apps = ub.data.applications_transformed["Body"];
 
             // _.each(apps, function (application) {
@@ -4000,7 +3999,7 @@ $(document).ready(function () {
 
             }    
             
-            if ($(itemSelector).length - 4 < 4) {                       // Prevent Scrolling if items is less than 4
+            if ($(itemSelector).length - 4 < 5) {                       // Prevent Scrolling if items is less than 4
                 return;
             }
 
@@ -4141,6 +4140,8 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.show();
 
+        $('#main-picker-scroller').css('marginLeft', '0px');
+
         if (typeof ub.data.intervalFunction === 'number') {
 
             $("#main-picker-container").unbind('mousemove');
@@ -4163,8 +4164,7 @@ $(document).ready(function () {
 
             $('.picker-header').html('Choose a Gender');
             $('div.back-link').html('');
-            $('#main-picker-scroller').css('marginLeft', '0px');
-
+            
         }
 
         if (type !== 'gender') {

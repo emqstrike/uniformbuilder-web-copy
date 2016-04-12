@@ -2073,10 +2073,10 @@ $(document).ready(function() {
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
-            if (typeof _result === 'undefined') { return; }
-
             var _result     = _distinct_name.modifier_label;
             var _group_id   = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()}).group_id;            
+
+            if (typeof _result === 'undefined') { return; }
 
             _result = _result.prepareModifierLabel();
             

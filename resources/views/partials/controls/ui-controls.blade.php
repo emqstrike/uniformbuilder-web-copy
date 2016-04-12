@@ -413,10 +413,6 @@
 
         </div>
 
-        <div class="main-picker-items grow disabled">
-
-        </div>
-
     </script>
 
 <!-- End Gender Picker -->
