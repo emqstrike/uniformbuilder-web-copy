@@ -1402,14 +1402,14 @@ var appPropJson = "";
                 } else {
                     patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
                 }
-
+                loadPatternLayers(material.option.pattern_id, pattern_loaded);
             });
         }
         catch(err) {
             // document.getElementById("demo").innerHTML = err.message;
         }
 // console.log(pattern_loaded);
-        loadPatternLayers(material.option.pattern_id, pattern_loaded);
+        // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
 
