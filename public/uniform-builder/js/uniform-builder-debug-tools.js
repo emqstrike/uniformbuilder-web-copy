@@ -1,6 +1,9 @@
 $(document).ready( function () {
 
     ub.debug = {};
+
+    ub.debug.mode = true;
+
     ub.debug.UI_VERSION = 1;
 
     /// UI Functions

@@ -21,10 +21,12 @@ $(document).ready(function(){
 
     ub.zoom = false;
 
+    ub.current_group_id = '1';
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;
     ub.same_here_once = false;
+
     ub.interacted  = {
 
         previous: {

@@ -1452,6 +1452,7 @@ $(document).ready(function () {
             ub.funcs.transformedApplications();
             ub.funcs.transformedBoundaries();
             ub.funcs.get_modifier_labels();
+
             // var apps = ub.data.applications_transformed["Body"];
 
             // _.each(apps, function (application) {
@@ -4327,6 +4328,36 @@ $(document).ready(function () {
         return;
 
     };
+
+    ub.funcs.showPartsDropdown = function () {
+
+        var $partsdropdown = $('div#parts_dropdown');
+
+        if ($partsdropdown.data('status') === 'closed') {
+
+            $partsdropdown.data('status','open');
+            $partsdropdown.fadeIn();    
+            $('.mod_primary_panels').hide();
+
+        }
+        else {
+
+            $partsdropdown.data('status','closed');
+            $partsdropdown.css('display', 'none');    
+            $('.mod_primary_panels').fadeIn('fast');
+
+        } 
+
+        
+
+    };
+
+    $('div#select_part').on('click', function () {
+
+
+        ub.funcs.showPartsDropdown();
+
+    });
 
     /// End New UI Code 
 

@@ -330,8 +330,9 @@ a.active_button {
 
 a#view_save_footer {
     
-    color: white;
-    background-color: @main_forecolor;
+    color: @main_forecolor !important;
+    border-left: solid 1px @border_color;
+    background-color: white !important;
     margin-bottom: 2px;
     width: 150px; 
     border-radius: 0;
@@ -425,23 +426,22 @@ div.options_panel  {
 
         }
 
-        div.triple-header {
+        div.double-header {
             
             float: left;
             display: block;
             text-align: center;
+            padding-right: 15px;
 
-        }
-
-        div.prev {
-            padding-top: 10px;
-            width: 25%;
         }
 
         div.main {
-            width: 50%;
-            border-right: 1px solid @border_color;
-            border-left: 1px solid @border_color;
+
+            text-align: left !important;
+
+            width: 60%;
+            margin-top: 3px;
+            padding-left: 15px;
 
             span.part_label {
                 font-size: 1.2em;
@@ -450,13 +450,13 @@ div.options_panel  {
 
             span.nOf {
                 color: @border_color;
-                font-size: 0.9em;
+                font-size: 1em;
             }
         }
 
         div.next {
-            padding-top: 10px;
-            width: 25%;
+            width: 40%;
+            padding-left: 10px;
         }
 
     }
@@ -596,8 +596,7 @@ div.pattern_panel_container {
 #right-main-window {
 
     display: none;
-
-    overflow-y: scroll;
+    overflow-y: none;
     border: 1px solid @border_color;
 
     width: 100%;
@@ -1706,7 +1705,7 @@ div#design_name_container {
     color: @forecolor;
     display: none;
     padding: 10px;
-    padding-left: 50px;
+    padding-left: 57px;
 
 }
 
@@ -1887,6 +1886,14 @@ div.team_color_picker_options {
     -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
     -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
     box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+}
+
+span.team_color_header {
+ 
+    display: block;
+    width: 100%;   
+    text-align: center;
 
 }
 
@@ -2177,5 +2184,69 @@ div.header-container.main {
 
     }
 
+    div#select_part {
+
+        cursor: pointer;
+        
+        color: @main_forecolor !important;
+        border: solid 1px #ffffff;
+        background-color: white !important;
+        margin-bottom: 2px;
+        width: 100%; 
+        border-radius: 0;
+        display: block !important;
+        float: right;
+        margin-top: 10px;
+
+    }
+
+    div#parts_dropdown {
+        position: absolute;
+        display: none;
+        width: 563px;
+        height: 361px;
+        background-color: #3d3d3d;
+        overflow-y: scroll;
+    }
+
+    i.button_drop {
+        float: right;
+        border-left: solid 1px #acacac;
+        height: 20px;
+        padding-top: 0px;
+        padding-left: 30px;
+        font-size: 1.5em;
+    }
+
+    div.pd-dropdown-links {
+
+        height: 40px;
+        cursor: pointer;
+        color: #ffffff;
+        font-size: 1.2em;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        padding-left: 30px;
+
+        
+        text-transform: uppercase;
+
+        i {
+            color: @border_color;
+            font-size: 0.8em;
+            margin-right: 20px;
+            width: 100px;
+        }
+
+    }
+
+    .pdHover {
+        
+        color: #3d3d3d !important;
+        background-color: #ffffff;
+
+
+    }
 
 /* End Generic */

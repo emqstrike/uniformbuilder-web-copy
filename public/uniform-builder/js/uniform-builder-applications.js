@@ -1951,13 +1951,16 @@ $(document).ready(function() {
                 var _ht = _header_text;
 
                 if (typeof ub.data.modifierLabels[_ht] !== 'undefined') {
+                    
                     _group_id = ub.data.modifierLabels[_ht].group_id;
 
                     $("span.part_label").html(_ht.toUpperCase());
-                    $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));    
+                    $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels)); 
+                    ub.current_group_id = _group_id;   
+
                 }
                 
-                ub.active_lock = true;
+               // ub.active_lock = true;
 
             }
 
@@ -2069,14 +2072,20 @@ $(document).ready(function() {
 
     ub.funcs.get_modifier_labels = function () {
 
+        if (ub.debug.mode) {
+            ub.funcs.printNames();    
+        }
+        
         var _modifierLabels = ub.data.modifierLabels;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
             var _result     = _distinct_name.modifier_label;
-            var _group_id   = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()}).group_id;            
-
-            if (typeof _result === 'undefined') { return; }
+            var _obj        = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()});
+            
+            if (typeof _obj === 'undefined') { return; }
+            
+            var _group_id   = _obj.group_id;            
 
             _result = _result.prepareModifierLabel();
             
@@ -2088,9 +2097,75 @@ $(document).ready(function() {
 
         });
 
+        ub.funcs.drawPartsDrop();
+
+    };
+
+    ub.funcs.drawPartsDrop = function () {
+
+        var strBuilder              = '';
+        var _moCount                = _.size(ub.data.modifierLabels)
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'group_id');
+
+        $('span.nOf').html('1 of ' + _moCount);
+        
+        $pd = $('div#parts_dropdown');
+
+        _.each(_sortedModifierLabels, function (label){
+            strBuilder += '<div class="pd-dropdown-links" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + label.name + '">' + '<i>' + label.group_id + ' of ' + _moCount + '</i> ' + label.name + '</div>';    
+        });
+
+        $pd.html(strBuilder);
+
+        $('div.pd-dropdown-links').on('click', function () {
+
+            var _group_id = $(this).data('group-id');
+            var _fullname = $(this).data('fullname');
+            var _name = $(this).data('name');
+            var _ht = _name;
+
+            ub.active_part = _fullname;
+            
+            if (typeof _.find(ub.data.modifierLabels, {'name': _ht}) !== 'undefined') {
+                
+                _group_id = _group_id;
+
+                $("span.part_label").html(_ht.toUpperCase());
+                $("span.nOf").html(_group_id + ' of ' + _moCount); 
+                ub.current_group_id = _group_id;   
+
+            }
+
+            $pd.hide();
+            ub.funcs.match(_fullname);
+            // ub.active_lock = true;
+
+        });
+
+        $("div.pd-dropdown-links").hover(
+    
+          function() {
+            $( this ).addClass("pdHover");
+          }, function() {
+            $( this ).removeClass( "pdHover" );
+          }
+
+        );
+
     };
 
     /// End Get Modifier Labels
+
+    ub.funcs.moveToNextMaterialOption = function () {
+
+        var _current_group_id = ub.current_group_id;
+
+    };
+
+    ub.funcs.moveToNextMaterialOption = function () {
+
+
+    };
 
     ub.funcs.setGroupColor = function (groupID, hexCode) {
 
@@ -2104,6 +2179,7 @@ $(document).ready(function() {
         if (typeof ub.objects[_perspespective][_name] !== 'undefined' ) {
 
             if (_item.setting_type === 'shape') {
+
                 ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
 
             }
@@ -2119,10 +2195,11 @@ $(document).ready(function() {
         _.each(ub.current_material.materials_options, function (_mo) {
 
             if (_mo.name.indexOf('_') > 3) {
-                console.error(_mo.name + ' ' + _mo.perspective);
+                console.error('Underscore character used in Name: ' + _mo.name + ' ' + _mo.perspective);
             }
-            else {
-                console.info(_mo.name + ' ' + _mo.perspective);    
+
+            if (_mo.name.indexOf(' ') === 0) {
+                console.error('Space in begining of Name: ' + _mo.name + ' ' + _mo.perspective);
             }
 
         })
