@@ -4126,7 +4126,7 @@ $(document).ready(function () {
 
         );
         
-       ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
+        ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
 
     };
 
@@ -4163,6 +4163,7 @@ $(document).ready(function () {
 
             $('.picker-header').html('Choose a Gender');
             $('div.back-link').html('');
+            $('#main-picker-scroller').css('marginLeft', '0px');
 
         }
 
@@ -4191,7 +4192,8 @@ $(document).ready(function () {
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
             $('div.back-link').on('click', function () {
 
-                ub.funcs.initGenderPicker();        
+                ub.funcs.initGenderPicker();
+                ub.funcs.reBindEventsPickers();        
 
             });
 
@@ -4214,8 +4216,8 @@ $(document).ready(function () {
 
             $('div.back-link').on('click', function () {
 
-                //ub.funcs.initGenderPicker();        
-
+                ub.funcs.initGenderPicker();
+                
             });
 
         }
@@ -4236,7 +4238,7 @@ $(document).ready(function () {
 
             $('div.back-link').on('click', function () {
 
-                //ub.funcs.initGenderPicker();        
+                ub.funcs.initGenderPicker();        
 
             });
 
