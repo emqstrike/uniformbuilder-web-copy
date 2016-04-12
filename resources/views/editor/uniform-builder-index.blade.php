@@ -120,6 +120,8 @@
                     
                     <div class="team_color_picker_item" data-id='1' data-status="closed">
                     
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
+
                     </div>
 
                     <div class='team_color_picker_item_label'>
@@ -131,6 +133,8 @@
                 <div class='team_color_picker_container_group'>     
 
                     <div class="team_color_picker_item" data-id='2' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
@@ -143,6 +147,8 @@
                 <div class='team_color_picker_container_group'>
 
                     <div class="team_color_picker_item" data-id='3' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
@@ -155,6 +161,8 @@
                 <div class='team_color_picker_container_group'>
 
                     <div class="team_color_picker_item" data-id='4' data-status="closed">
+
+                        <i class="fa fa-caret-down color-caret-down" aria-hidden="true"></i>
                         
                     </div>
 
