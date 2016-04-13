@@ -2197,6 +2197,7 @@ $(document).ready(function() {
 
             ub.current_part += 1;
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
+            $('button#next_mo').css('background-color', '#3d3d3d');
 
         }
         else {
@@ -2218,6 +2219,7 @@ $(document).ready(function() {
 
             ub.current_part -= 1;
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
+            $('button#next_mo').css('background-color', '#3d3d3d');
 
         }
 
