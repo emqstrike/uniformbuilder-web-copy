@@ -15,8 +15,11 @@ $(document).ready(function () {
             
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
+            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
 
             // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
 
@@ -140,6 +143,12 @@ $(document).ready(function () {
             }
             else {
                 ub.current_material[object_name] = obj;
+            }
+
+            if (object_name === 'patterns') {
+
+                ub.funcs.transformPatterns(obj);
+
             }
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
@@ -2603,7 +2612,9 @@ $(document).ready(function () {
                             var x = ub.dimensions.width * (x_value / 100);
                             var y = ub.dimensions.height * (y_value / 100);
 
-                            container.position = new PIXI.Point(x,y);
+                            container.position = new PIXI.Point(x, y);
+
+                            ub._temp = container;
 
                             // Properties for use when loading pattern from saved designs
 
@@ -2632,6 +2643,8 @@ $(document).ready(function () {
                         if (typeof ub.objects[view]['pattern_' + target] === 'object') {
                             ub[view].removeChild(ub.objects[view]['pattern_' + target]);
                         }
+
+                        container.position.set(container.position.x +  (ub.offset.x * 7), container.position.y + (ub.offset.y * 7));
 
                         ub.objects[view]['pattern_' + target] = container;
                         ub[view].addChild(container);
@@ -3780,11 +3793,13 @@ $(document).ready(function () {
 
                 ub.zoom_off();
 
-                ub.left_view.position.x = ub.dimensions.width;
-                ub.right_view.position.x = ub.dimensions.width;
-                ub.front_view.position.x = ub.dimensions.width;
-                ub.back_view.position.x  = ub.dimensions.width;
-                ub.pattern_view.position.x  = ub.dimensions.width;
+                var _newX = ub.dimensions.width + ub.offset.x;
+
+                ub.left_view.position.x     = _newX;
+                ub.right_view.position.x    = _newX;
+                ub.front_view.position.x    = _newX;
+                ub.back_view.position.x     = _newX;
+                ub.pattern_view.position.x  = _newX;
 
                 ub[view + '_view'].position.set(33.5, 33.5);
 
