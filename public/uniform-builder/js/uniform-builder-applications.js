@@ -2124,10 +2124,12 @@ $(document).ready(function() {
 
         ub.current_part = 1;
 
-        var _next_part      = _.find(_sortedModifierLabels, {index: 2});
+        var _next_part = _.find(_sortedModifierLabels, {index: 2});
 
         if (typeof _next_part !== 'undefined') {
-            var _button_label   = 'Next Part: ' + _next_part.name + '&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>';
+            
+            var _button_label = "<div class='left_side'>" + '<span class="next_label">Next Part:</span><br /><span class="part_label">' + _next_part.name + '</span></div> <div class="right_side"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>';
+
         }
 
         $('button#next_mo').html(_button_label);
@@ -2137,10 +2139,11 @@ $(document).ready(function() {
 
         $('div.pd-dropdown-links').on('click', function () {
 
-            var _group_id = $(this).data('group-id');
-            var _fullname = $(this).data('fullname');
-            var _name = $(this).data('name');
-            var _ht = _name;
+            var _group_id   = $(this).data('group-id');
+            var _fullname   = $(this).data('fullname');
+            var _name       = $(this).data('name');
+            var _ctr        = $(this).data('ctr');
+            var _ht         = _name;
 
             ub.active_part = _fullname;
             
@@ -2149,10 +2152,20 @@ $(document).ready(function() {
                 _group_id = _group_id;
 
                 $("span.part_label").html(_ht.toUpperCase());
-                $("span.nOf").html(_group_id + ' of ' + _moCount); 
+                $("span.nOf").html(_ctr + ' of ' + _moCount);
                 ub.current_group_id = _group_id;   
 
             }
+
+            var _next_part = _.find(_sortedModifierLabels, {index: _ctr + 1});
+
+            if (typeof _next_part !== 'undefined') {
+
+                var _button_label = "<div class='left_side'>" + '<span class="next_label">Next Part:</span><br /><span class="part_label">' + _next_part.name + '</span></div> <div class="right_side"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>';
+
+            }
+
+            $('button#next_mo').html(_button_label);
 
             $pd.hide();
             ub.funcs.match(_fullname);
@@ -2180,12 +2193,16 @@ $(document).ready(function() {
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
 
-        if (_currentPart <= _moCount) {
+        if (_currentPart < _moCount) {
 
             ub.current_part += 1;
-            console.log(_currentPart);
-
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
+
+        }
+        else {
+
+            $('span.next_label').html('Done');
+            $('span.part_label').html('Enter Roster Info');
 
         }
 
@@ -2199,8 +2216,6 @@ $(document).ready(function() {
         if (_currentPart >= 1) {
 
             ub.current_part -= 1;
-            console.log(_currentPart);
-
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
 
         }
