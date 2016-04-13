@@ -6,13 +6,15 @@ $(document).ready(function () {
         var _container           = [];
 
         var _blankPattern = {
-                name: 'None',
-                code: 'none',
-                icon: '/images/sidebar/none.png',
-                category: 'jersey',
-                layers: [
-                  
-                ],
+
+            name: 'None',
+            code: 'none',
+            icon: '/images/sidebar/none.png',
+            category: 'jersey',
+            layers: [
+              
+            ],
+
         };
 
         _container.push(_blankPattern);
@@ -37,6 +39,7 @@ $(document).ready(function () {
                      default_color: ub.funcs.getHexColorByCode(_patternProperty.default_color),
                      layer_no: parseInt(_patternProperty.layer),
                      filename: _patternProperty.file_path,
+                     team_color_id: _patternProperty.team_color_id,
 
                 };
 

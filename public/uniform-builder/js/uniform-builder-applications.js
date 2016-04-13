@@ -2104,16 +2104,34 @@ $(document).ready(function() {
     ub.funcs.drawPartsDrop = function () {
 
         var strBuilder              = '';
-        var _moCount                = _.size(ub.data.modifierLabels)
+        var _moCount                = _.size(ub.data.modifierLabels);
         var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'group_id');
 
         $('span.nOf').html('1 of ' + _moCount);
         
         $pd = $('div#parts_dropdown');
 
+        var _ctr = 1;
+
         _.each(_sortedModifierLabels, function (label){
-            strBuilder += '<div class="pd-dropdown-links" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + label.name + '">' + '<i>' + label.group_id + ' of ' + _moCount + '</i> ' + label.name + '</div>';    
+
+            label.index = _ctr;
+
+            strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + label.name + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + label.name + '</div>';
+            _ctr++;
+
         });
+
+        ub.current_part = 1;
+
+        var _next_part      = _.find(_sortedModifierLabels, {index: 2});
+
+        if (typeof _next_part !== 'undefined') {
+            var _button_label   = 'Next Part: ' + _next_part.name + '&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i>';
+        }
+
+        $('button#next_mo').html(_button_label);
+        
 
         $pd.html(strBuilder);
 
@@ -2156,16 +2174,50 @@ $(document).ready(function() {
 
     /// End Get Modifier Labels
 
-    ub.funcs.moveToNextMaterialOption = function () {
-
-        var _current_group_id = ub.current_group_id;
-
-    };
 
     ub.funcs.moveToNextMaterialOption = function () {
 
+        var _currentPart    = ub.current_part;
+        var _moCount        = _.size(ub.data.modifierLabels);
+
+        if (_currentPart <= _moCount) {
+
+            ub.current_part += 1;
+            console.log(_currentPart);
+
+            $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
+
+        }
 
     };
+
+    ub.funcs.moveToPrevMaterialOption = function () {
+
+        var _currentPart    = ub.current_part;
+        var _moCount        = _.size(ub.data.modifierLabels);
+
+        if (_currentPart >= 1) {
+
+            ub.current_part -= 1;
+            console.log(_currentPart);
+
+            $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
+
+        }
+
+    };
+
+    $('button#prev_mo').on('click', function () {
+
+        ub.funcs.moveToPrevMaterialOption();
+
+    });
+
+    $('button#next_mo').on('click', function () {
+
+        ub.funcs.moveToNextMaterialOption();
+
+    });
 
     ub.funcs.setGroupColor = function (groupID, hexCode) {
 

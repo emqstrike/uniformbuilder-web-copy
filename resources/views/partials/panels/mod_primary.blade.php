@@ -31,13 +31,32 @@
         </div>
 
         <div id="primary_options_patterns" class="mod_primary_panels">
+
             <div></div>
+
         </div>
 
         <div id="primary_options_applications" class="mod_primary_panels">
+
             <div></div>
+
         </div>
 
+    </div>
+
+    <div id="bottom_modifier_tabs">
+        
+        <div></div>
+        <div></div>
+        <div></div>
+
+        <div id="next_container">
+            
+            <button id="prev_mo"><i class="fa fa-arrow-left" aria-hidden="true"></i></button> &nbsp;<button id="next_mo">Shoulder Cowl Insert <br /> Next Part
+            </button>
+
+        </div>
 
     </div>
+
 </div> <!-- End Sizes Panel -->

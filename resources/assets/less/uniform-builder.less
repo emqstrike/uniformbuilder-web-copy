@@ -2204,7 +2204,7 @@ div.header-container.main {
         position: absolute;
         display: none;
         width: 563px;
-        height: 361px;
+        height: 320px;
         background-color: #3d3d3d;
         overflow-y: scroll;
     }
@@ -2246,7 +2246,53 @@ div.header-container.main {
         color: #3d3d3d !important;
         background-color: #ffffff;
 
-
     }
 
 /* End Generic */
+
+/* Bottom Tabs */
+
+    div#primary_options_container {
+
+        border-bottom: none !important;
+
+    }
+
+    div#bottom_modifier_tabs {
+
+        background-color: #ffffff;
+        width: 563px;
+        display: table;
+        height: 40px;
+        border-top: 1px solid #d7d7d7;
+        border-bottom: 1px solid #d7d7d7;
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 65px;
+
+        div#next_container {
+
+            float: right;
+
+            button#next_mo, button#prev_mo {
+
+                border: none;
+
+                background-color: @text_color;
+                color: white;
+                width: 220px;                
+
+            }
+
+            button#prev_mo {
+
+                width: 30px;
+
+            }
+
+        }
+
+    }
+
+/* End Bottom Tabs */
