@@ -1,0 +1,76 @@
+$(document).ready(function () {
+
+    ub.funcs.transformPatterns = function (inputPatternsObject) {
+
+        var _inputPatternsObject = inputPatternsObject;
+        var _container           = [];
+
+        var _blankPattern = {
+                name: 'None',
+                code: 'none',
+                icon: '/images/sidebar/none.png',
+                category: 'jersey',
+                layers: [
+                  
+                ],
+        };
+
+        _container.push(_blankPattern);
+
+        _.each(_inputPatternsObject, function (_object) {
+
+            _newObject = {
+                id: _object.id,
+                active: _object.active,
+                name: _object.name,
+                code: _object.name.toCodeCase(),
+                icon: _object.thumbnail_path,
+                layers: [],
+            };
+
+            var _patternProperties = JSON.parse(_object.pattern_properties);
+
+            _.each(_patternProperties, function (_patternProperty) {
+
+                var _layer = {
+
+                     default_color: ub.funcs.getHexColorByCode(_patternProperty.default_color),
+                     layer_no: parseInt(_patternProperty.layer),
+                     filename: _patternProperty.file_path,
+
+                };
+
+                _newObject.layers.push(_layer);
+
+            });
+
+            _container.push(_newObject);
+
+            ub.data.patterns = {
+                items: _container,
+            }
+
+        });
+
+    };
+
+    ub.funcs.getHexColorByCode = function (code) {
+
+        var _code = code;
+
+        if (ub.data.colors.length < 1) {
+            window.util.error("There's no values loaded on ub.data.colors");
+        }
+
+        var _color = _.find (ub.data.colors, {color_code: _code});
+
+        if (typeof _color == 'undefined') {
+            window.util.error("Code: " + _code + " can't be found");   
+            return undefined;
+        }
+
+        return _color.hex_code;
+
+    };
+
+});
