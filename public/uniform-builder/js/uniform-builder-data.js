@@ -23,6 +23,9 @@ $(document).ready(function(){
     ub.zoom = false;
 
     ub.current_group_id = '1';
+
+    ub.current_part = 1;
+
     ub.active_view = 'front';
     ub.active_part = undefined;
     ub.active_lock = undefined;
