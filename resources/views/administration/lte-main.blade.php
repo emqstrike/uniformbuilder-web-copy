@@ -26,7 +26,6 @@
 @yield('styles')
 </head>
 <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse">
-
 <div class="wrapper">
 
     <header class="main-header">

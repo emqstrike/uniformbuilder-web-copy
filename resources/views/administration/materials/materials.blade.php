@@ -66,7 +66,6 @@
     <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
 </div>
 @endif
-
 <div class="col-md-12"> 
     <h1>
         <small>
