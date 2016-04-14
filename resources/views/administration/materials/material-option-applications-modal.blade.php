@@ -1,5 +1,5 @@
 <!-- Add Material Option Modal -->
-<div class="modal modal-wide fade" id="save-material-option-applications-modal" aria-hidden="false">
+<div class="modal modal-wide fade" id="save-material-option-applications-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/administration/material_option/saveApplications" role="form" method="POST" enctype="multipart/form-data">
