@@ -4400,25 +4400,18 @@ $(document).ready(function () {
                 $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png");
                 $(this).css('border-top-color','#d7d7d7');
 
-                console.log('Off')
-                console.log($(this).find('img').attr('src'));
-
             });
 
         };
 
         ub.funcs.turnOnMTAB = function (type) {
 
-            ub.funcs.turnOffMTAB(type); 
-
             var $tab = $('div.mTab[data-type="' + type + '"]');
-
 
             $tab.find('img').attr('src', "/images/uiV1/modifier_tabs/active/" + type + ".png");
             $tab.css('border-top-color','#ffffff');
 
-            console.log('On')
-            console.log($(this).find('img').attr('src'));
+            ub.funcs.turnOffMTAB(type); 
 
         };
 
