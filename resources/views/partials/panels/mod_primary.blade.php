@@ -22,23 +22,31 @@
 
     <div class="options_panel_section" id="primary_options_container">
         
-        <span id="primary_options_header" class="mod_primary_panels"></span><br />
-
-        <div id="primary_options_colors" class="mod_primary_panels" style='float: left;'>
-        
-            <input type='text' id='primary_text' style="margin-top: -2px;"></input>
+        <div id="primary_options_colors" class="mod_primary_panels" data-type="color" style='float: left; display: none;'>
             
         </div>
 
-        <div id="primary_options_patterns" class="mod_primary_panels">
+        <div id="primary_options_patterns" class="mod_primary_panels" data-type="pattern">
 
-            <div></div>
+            <div class="primary_header">Patterns: </div>
 
         </div>
 
-        <div id="primary_options_applications" class="mod_primary_panels">
+        <div id="primary_options_mascots" class="mod_primary_panels" data-type="mascot" >
 
-            <div></div>
+            <div class="primary_header">Mascots: </div>
+
+        </div>
+
+        <div id="primary_options_names" class="mod_primary_panels" data-type="name" >
+
+            <div class="primary_header">Names: </div>
+
+        </div>
+
+        <div id="primary_options_numbers" class="mod_primary_panels" data-type="number" >
+
+            <div class="primary_header">Numbers: </div>
 
         </div>
 

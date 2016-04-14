@@ -4389,9 +4389,12 @@ $(document).ready(function () {
 
     } 
 
-    // /// End Show Builder Picker
+    // End Show Builder Picker
 
-    /// New Siderbar
+    /// New Sidebar
+
+
+
 
         ub.funcs.turnOffMTAB = function (type) {
 
@@ -4409,6 +4412,20 @@ $(document).ready(function () {
 
             });
 
+            $('div.mod_primary_panels').each(function () {
+
+                var _type = $(this).data('type');
+
+                if (_type === type) { 
+
+                    return; 
+
+                }
+
+                $(this).hide();
+
+            });
+
         };
 
         ub.funcs.turnOnMTAB = function (type) {
@@ -4421,6 +4438,10 @@ $(document).ready(function () {
             $tab.css('margin-left','0px');
             $tab.css('margin-right','0px');
             $tab.css('padding','10px');
+
+            var $tabContainer = $('div.mod_primary_panels[data-type="' + type + '"]');
+            
+            $tabContainer.fadeIn();
             
             ub.funcs.turnOffMTAB(type); 
 

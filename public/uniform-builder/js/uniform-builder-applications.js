@@ -1657,7 +1657,11 @@ $(document).ready(function() {
     
         if (mode === 'single') {
 
-            $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
+            var _str    = '';
+            _str        = '<div class="primary_header">Colors: </div>';
+            _str        += "<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>";
+
+            $('#primary_options_colors').html(_str);
             $('#primary_options_colors_advanced').html('<div></div>');
 
             $('#primary_text').ubColorPickerBasic({
