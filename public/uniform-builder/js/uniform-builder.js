@@ -68,6 +68,11 @@ $(document).ready(function () {
            
         };
 
+        ub.funcs.afterLoad = function () {
+
+            $('div.pd-dropdown-links[data-ctr="1"]').click();
+        };
+
         ub.zoom_off = function () {
 
             _.each(ub.views, function(view){
@@ -634,18 +639,12 @@ $(document).ready(function () {
 
             });
 
-     
             /// Materials
             
             ub.assets.pattern = {};
             ub.assets.pattern.layers = [];
             ub.objects.pattern_view = {};
             
-            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_1.png');
-            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_2.png');
-            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_3.png');
-            ub.assets.pattern.layers.push(ub.assets.folder_name + 'camo/layer_4.png');
-
             /// Begin Rendering after assets are loaded
 
             ub.funcs.load_fonts();
@@ -675,11 +674,18 @@ $(document).ready(function () {
             ub.renderer.render(ub.stage);
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
+
+            // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
+            //     // ub.refresh_thumbnails();
+            // }   
+
             
             var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
             if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
-                ub.refresh_thumbnails();
+            
+                ub.funcs.afterLoad(); 
+
             }   
 
             if (ub.pass < frames_to_refresh) {
@@ -4400,7 +4406,6 @@ $(document).ready(function () {
                 $(this).css('padding-bottom','7px');
                 $(this).css('padding-top','7px');
 
-                
             });
 
         };
@@ -4420,11 +4425,9 @@ $(document).ready(function () {
 
         };
 
-
         $('div.mTab').on('click', function () {
 
             var _type = $(this).data('type');
-
             ub.funcs.turnOnMTAB(_type);
 
         });
