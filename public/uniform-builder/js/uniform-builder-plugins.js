@@ -59,7 +59,7 @@
 
             el_parent.hide();
 
-            _.each(JSON.parse(obj_colors.colors), function(color_obj) {
+            _.each(JSON.parse(obj_colors.colors), function (color_obj) {
 
                 var color = _.find( ub.data.colors, { color_code: color_obj});
 

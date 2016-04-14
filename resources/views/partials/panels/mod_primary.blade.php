@@ -28,25 +28,25 @@
 
         <div id="primary_options_patterns" class="mod_primary_panels" data-type="pattern">
 
-            <div class="primary_header">Patterns: </div>
+            <div class="primary_header">Pattern </div>
 
         </div>
 
         <div id="primary_options_mascots" class="mod_primary_panels" data-type="mascot" >
 
-            <div class="primary_header">Mascots: </div>
+            <div class="primary_header">Mascot </div>
 
         </div>
 
         <div id="primary_options_names" class="mod_primary_panels" data-type="name" >
 
-            <div class="primary_header">Names: </div>
+            <div class="primary_header">Name </div>
 
         </div>
 
         <div id="primary_options_numbers" class="mod_primary_panels" data-type="number" >
 
-            <div class="primary_header">Numbers: </div>
+            <div class="primary_header">Number </div>
 
         </div>
 
