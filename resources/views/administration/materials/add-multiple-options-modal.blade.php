@@ -90,7 +90,7 @@
                                 <input class="check mo-blend layer1" name="mo_blend[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
-                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}" checked>
+                                <input class="check mo-allow-pattern layer1" name="mo_allow_pattern[]" type="checkbox" value="{{ $color->hex_code }}">
                             </td>
                             <td>
                                 <input class="check mo-allow-gradient layer1" name="mo_allow_gradient[]" type="checkbox" value="{{ $color->hex_code }}">
