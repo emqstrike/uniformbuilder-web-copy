@@ -4363,12 +4363,9 @@ $(document).ready(function () {
 
         } 
 
-        
-
     };
 
     $('div#select_part').on('click', function () {
-
 
         ub.funcs.showPartsDropdown();
 
