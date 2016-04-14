@@ -429,7 +429,7 @@
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
-{{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option']) --}}
+@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])
 
