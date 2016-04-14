@@ -46,9 +46,29 @@
 
     <div id="bottom_modifier_tabs">
         
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class='tabs'>
+        
+            <div class="mTab" data-type="color">  
+                <img src="/images/uiV1/modifier_tabs/inactive/color.png">
+            </div>
+            
+            <div class="mTab" data-type="pattern">
+                <img src="/images/uiV1/modifier_tabs/inactive/pattern.png">
+            </div>
+            
+            <div class="mTab" data-type="mascot">
+                <img src="/images/uiV1/modifier_tabs/inactive/mascot.png">
+            </div>
+            
+            <div class="mTab" data-type="name">
+                <img src="/images/uiV1/modifier_tabs/inactive/name.png">
+            </div>
+            
+            <div class="mTab" data-type="number">
+                <img src="/images/uiV1/modifier_tabs/inactive/number.png">
+            </div>
+
+        </div>
 
         <div id="next_container">
             
