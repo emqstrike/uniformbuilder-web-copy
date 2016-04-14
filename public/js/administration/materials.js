@@ -733,8 +733,8 @@ var applicationProperties = {};
             filename = filename[2].split(".");
             var filenamex = filename[0].replace("_", " ");
             filename = filenamex.replace(/[0-9]/g, '');
-            filename = filename.replace("_", " ");
-            filename = filename.replace("_", " ");
+            filename = filename.split("_").join(' ');
+
 
             if( filename.charAt(0) == ' ' ){
                 filename = filename.substr(1);
@@ -2565,8 +2565,7 @@ var appPropJson = "";
         filename = filename[2].split(".");
         var filenamex = filename[0].replace("_", " ");
         filename = filenamex.replace(/[0-9]/g, '');
-        filename = filename.replace("_", " ");
-        filename = filename.replace("_", " ");
+        filename = filename.split("_").join(' ');
 
         if( filename.charAt(0) == ' ' ){
             filename = filename.substr(1);
