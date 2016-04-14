@@ -85,7 +85,7 @@ class MaterialsOptionsController extends Controller
 
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
-        $origin = $request->input('origin');
+        // $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
         $teamColorId = $request->input('team_color_id');
         $groupId = $request->input('group_id');
@@ -106,7 +106,7 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'name' => $materialOptionName,
             'setting_type' => $settingType,
-            'origin' => $origin,
+            // 'origin' => $origin,
             'layer_level' => $layerLevel,
             'team_color_id' => $teamColorId,
             'group_id' => $groupId,

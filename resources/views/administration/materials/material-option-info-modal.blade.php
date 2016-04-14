@@ -29,6 +29,7 @@
                         <option value='static_layer'>Static Layer</option>
                         <option value='highlights'>Highlights</option>
                         <option value='shadows'>Shadows</option>
+                        <option value='body_inside'>Body Inside</option>
                         <option id='saved-setting-type'></option>
                     </select>
                 </div>

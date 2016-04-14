@@ -59,6 +59,7 @@
                                     <option value='static_layer'>Static Layer</option>
                                     <option value='highlights'>Highlights</option>
                                     <option value='shadows'>Shadows</option>
+                                    <option value='body_inside'>Body Inside</option>
                                 </select>
                             </td>
                             <td>

@@ -143,7 +143,6 @@
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
-                                data-material-option-origin="{{ $option->origin }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
@@ -169,6 +168,7 @@
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
+                        <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
                         <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                     </div>
                 @endif
@@ -222,7 +222,6 @@
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
-                                data-material-option-origin="{{ $option->origin }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
@@ -248,6 +247,7 @@
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
+                        <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
                         <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                     </div>
                 @endif
@@ -301,7 +301,6 @@
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
-                                data-material-option-origin="{{ $option->origin }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
@@ -327,6 +326,7 @@
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
+                        <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
                         <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                     </div>
                 @endif
@@ -380,7 +380,6 @@
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
-                                data-material-option-origin="{{ $option->origin }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
@@ -406,6 +405,7 @@
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
+                        <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
                         <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
                     </div>
                 @endif
