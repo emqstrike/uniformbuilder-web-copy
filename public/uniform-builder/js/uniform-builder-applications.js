@@ -2192,6 +2192,15 @@ $(document).ready(function() {
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
+        var _next_label     =   $('span.next_label').html();
+
+        if (_next_label === 'Done') {
+
+            $('div#main-row').fadeOut();
+            return;
+
+        }
+
 
         if (_currentPart < _moCount) {
 
