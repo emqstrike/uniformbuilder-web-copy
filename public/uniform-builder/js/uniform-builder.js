@@ -4394,9 +4394,11 @@ $(document).ready(function () {
 
                 if (_type === type) { return; }
 
-                $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png");
+                $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png?v=0.01");
                 $(this).css('border-top-color','#d7d7d7');
+                $(this).css('padding','7px');
 
+                
             });
 
         };
@@ -4405,9 +4407,13 @@ $(document).ready(function () {
 
             var $tab = $('div.mTab[data-type="' + type + '"]');
 
-            $tab.find('img').attr('src', "/images/uiV1/modifier_tabs/active/" + type + ".png");
+            $tab.find('img').attr('src', "/images/uiV1/modifier_tabs/active/" + type + ".png?v=0.01");
             $tab.css('border-top-color','#ffffff');
-
+            $tab.css('background-color','#ffffff');
+            $tab.css('margin-left','0px');
+            $tab.css('margin-right','0px');
+            $tab.css('padding','10px');
+            
             ub.funcs.turnOffMTAB(type); 
 
         };
