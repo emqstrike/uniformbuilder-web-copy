@@ -4423,9 +4423,6 @@ $(document).ready(function () {
 
             var _type = $(this).data('type');
 
-            console.log('Type');
-            console.log(_type);
-
             ub.funcs.turnOnMTAB(_type);
 
         });
