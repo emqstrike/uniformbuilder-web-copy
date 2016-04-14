@@ -70,7 +70,8 @@ $(document).ready(function () {
 
         ub.funcs.afterLoad = function () {
 
-            $('div.pd-dropdown-links[data-ctr="1"]').click();
+            ub.funcs.activatePartByIndex(1);
+            
         };
 
         ub.zoom_off = function () {
