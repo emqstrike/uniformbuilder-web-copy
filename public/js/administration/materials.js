@@ -196,6 +196,11 @@ $(document).ready(function() {
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
+$('.confirm_no').on('click', function(){
+
+    window.location.reload(true);
+
+});
 
 $('.add-point').on('click', function(){
     // updateApplicationsJSON();
@@ -1952,6 +1957,7 @@ var appPropJson = "";
     });
 
     $('.delete-material-option').on('click', function(){
+        console.log('DELETE');
         var id = $(this).data('material-option-id');
         var name = $(this).data('material-option-name');
         modalConfirm(
