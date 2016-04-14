@@ -49,19 +49,19 @@
         <div class='tabs'>
         
             <div class="mTab" data-type="color">  
-                <img src="/images/uiV1/modifier_tabs/inactive/color.png">
+                <img src="/images/uiV1/modifier_tabs/inactive/color.png{{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="pattern">
-                <img src="/images/uiV1/modifier_tabs/inactive/pattern.png">
+                <img src="/images/uiV1/modifier_tabs/inactive/pattern.png{{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="mascot">
-                <img src="/images/uiV1/modifier_tabs/inactive/mascot.png">
+                <img src="/images/uiV1/modifier_tabs/inactive/mascot.png{{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="name">
-                <img src="/images/uiV1/modifier_tabs/inactive/name.png">
+                <img src="/images/uiV1/modifier_tabs/inactive/name.png{{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="number">
@@ -72,7 +72,7 @@
 
         <div id="next_container">
             
-            <button id="prev_mo"><i class="fa fa-arrow-left" aria-hidden="true"></i></button> &nbsp;<button id="next_mo">Shoulder Cowl Insert <br /> Next Part
+            <button id="prev_mo"><i class="fa fa-arrow-left" aria-hidden="true"></i></button><button id="next_mo">Shoulder Cowl Insert <br /> Next Part
             </button>
 
         </div>

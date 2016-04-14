@@ -4363,12 +4363,9 @@ $(document).ready(function () {
 
         } 
 
-        
-
     };
 
     $('div#select_part').on('click', function () {
-
 
         ub.funcs.showPartsDropdown();
 
@@ -4397,28 +4394,29 @@ $(document).ready(function () {
 
                 if (_type === type) { return; }
 
-                $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png");
+                $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png?v=0.01");
                 $(this).css('border-top-color','#d7d7d7');
 
-                console.log('Off')
-                console.log($(this).find('img').attr('src'));
+                $(this).css('padding-bottom','7px');
+                $(this).css('padding-top','7px');
 
+                
             });
 
         };
 
         ub.funcs.turnOnMTAB = function (type) {
 
-            ub.funcs.turnOffMTAB(type); 
-
             var $tab = $('div.mTab[data-type="' + type + '"]');
 
-
-            $tab.find('img').attr('src', "/images/uiV1/modifier_tabs/active/" + type + ".png");
+            $tab.find('img').attr('src', "/images/uiV1/modifier_tabs/active/" + type + ".png?v=0.01");
             $tab.css('border-top-color','#ffffff');
-
-            console.log('On')
-            console.log($(this).find('img').attr('src'));
+            $tab.css('background-color','#ffffff');
+            $tab.css('margin-left','0px');
+            $tab.css('margin-right','0px');
+            $tab.css('padding','10px');
+            
+            ub.funcs.turnOffMTAB(type); 
 
         };
 
@@ -4426,9 +4424,6 @@ $(document).ready(function () {
         $('div.mTab').on('click', function () {
 
             var _type = $(this).data('type');
-
-            console.log('Type');
-            console.log(_type);
 
             ub.funcs.turnOnMTAB(_type);
 

@@ -2171,6 +2171,8 @@ $(document).ready(function() {
             ub.funcs.match(_fullname);
             // ub.active_lock = true;
 
+            $('div.mTab[data-type="color"]').click();
+
         });
 
         $("div.pd-dropdown-links").hover(
