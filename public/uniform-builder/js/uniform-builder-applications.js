@@ -1657,7 +1657,11 @@ $(document).ready(function() {
     
         if (mode === 'single') {
 
-            $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
+            var _str    = '';
+            _str        = '<div class="primary_header">Color </div>';
+            _str        += "<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>";
+
+            $('#primary_options_colors').html(_str);
             $('#primary_options_colors_advanced').html('<div></div>');
 
             $('#primary_text').ubColorPickerBasic({
@@ -1933,11 +1937,12 @@ $(document).ready(function() {
 
                     var _match = _.first(results).name.toCodeCase();
                     var _result = _match.replace('right_','left_');
+                    var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
 
-                     var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
+                    var _index = ub.funcs.getIndexByName(_result);
+                    ub.funcs.activatePartByIndex(_index);   
+                     
                     
-                     ub.funcs.activatePartByIndex(_obj.index);
-
                     if (ub.active_part !== _match) {
 
                         ub.active_part = _match;
@@ -2034,6 +2039,41 @@ $(document).ready(function() {
         });
 
     }
+
+    ub.funcs.getIndexByName = function (name) {
+
+        var _obj = _.find(ub.data.modifierLabels, {fullname: name});
+        var _index = '';
+
+        if (typeof _obj !== 'undefined') {
+
+            _index = _obj.index;
+
+
+        }
+        else {
+
+            var tempName = '';
+            if (name.indexOf('Left') !== -5) {
+
+                tempName = name.replace('left_','right_');
+
+            }
+            else {
+
+                tempName = name.replace('right_','left_');
+
+            }
+
+            var _obj = _.find(ub.data.modifierLabels, {fullname: tempName});
+
+            _index = _obj.index;
+
+        }
+
+        return _index;
+
+    };
 
     /// End Transformed Boundary Properties
 

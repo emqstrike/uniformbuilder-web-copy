@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     ub.funcs.ui = {};
 
-    ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {;
+    ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
         _teamColorObj[teamColorID - 1] = colorObj;
