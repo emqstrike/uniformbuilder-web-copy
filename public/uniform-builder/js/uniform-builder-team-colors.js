@@ -195,8 +195,8 @@ $(document).ready(function () {
 
             $element.css('background-color', _hex_color);
 
-            if (_color_name === 'White') {
-                
+            if (_color_name === 'White') {                
+
                 $element.css('background-color','#ffffff');
                 $element.css('border', 'solid 1px #d7d7d7');
 
