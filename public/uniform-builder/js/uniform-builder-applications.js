@@ -1941,7 +1941,6 @@ $(document).ready(function() {
 
                     var _index = ub.funcs.getIndexByName(_result);
                     ub.funcs.activatePartByIndex(_index);   
-                     
                     
                     if (ub.active_part !== _match) {
 
@@ -2049,7 +2048,6 @@ $(document).ready(function() {
 
             _index = _obj.index;
 
-
         }
         else {
 
@@ -2107,10 +2105,6 @@ $(document).ready(function() {
 
     ub.funcs.get_modifier_labels = function () {
 
-        if (ub.debug.mode) {
-            ub.funcs.printNames();    
-        }
-        
         var _modifierLabels = ub.data.modifierLabels;
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
@@ -2309,21 +2303,5 @@ $(document).ready(function() {
       });
 
     };
-
-    ub.funcs.printNames = function () {
-
-        _.each(ub.current_material.materials_options, function (_mo) {
-
-            if (_mo.name.indexOf('_') > 3) {
-                console.error('Underscore character used in Name: ' + _mo.name + ' ' + _mo.perspective);
-            }
-
-            if (_mo.name.indexOf(' ') === 0) {
-                console.error('Space in begining of Name: ' + _mo.name + ' ' + _mo.perspective);
-            }
-
-        })
-
-    }
 
 });
