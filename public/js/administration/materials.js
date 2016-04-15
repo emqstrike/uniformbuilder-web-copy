@@ -1402,7 +1402,7 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '';
+        var patterns_dropdown = '<option value='"{}"'>None</option>';
         try{
             $.each(window.patterns, function(i, item) {
 
