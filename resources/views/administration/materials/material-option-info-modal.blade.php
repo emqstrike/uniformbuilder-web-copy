@@ -163,10 +163,10 @@
                     <select class="form-control default-display" name="default_display" id="default_display">
                     </select>
                 </div>
-
+<!-- 
                 <div class="col-md-12" id="pattern_layers_OC">
                     <hr>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
