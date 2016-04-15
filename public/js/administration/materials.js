@@ -736,7 +736,7 @@ var applicationProperties = {};
             var filename = $(this).val();
             filename = filename.split("\\");
             filename = filename[2].split(".");
-            var filenamex = filename[0].replace("_", " ");
+            var filenamex = filename[0].replace("_", "");
             filename = filenamex.replace(/[0-9]/g, '');
             filename = filename.split("_").join(' ');
 
@@ -1299,7 +1299,8 @@ var appPropJson = "";
                 applications_properties: ($(this).data('material-option-applications-properties')),
                 highlights: ($(this).data('material-highlights-path')),
                 pattern_id: ($(this).data('pattern-id')),
-                pattern_properties: ($(this).data('pattern-properties'))
+                pattern_properties: ($(this).data('pattern-properties')),
+                default_display: ($(this).data('default-display'))
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1420,6 +1421,26 @@ var appPropJson = "";
         // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
+
+        var default_displays = ["color", "pattern"];
+        var default_display_options = "";
+
+        default_displays.forEach(function(entry) {
+
+            var cEntry = entry.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                return letter.toUpperCase();
+            });
+
+            if( material.option.default_display == entry ){
+                default_display_options += "<option value="+entry+" selected>"+cEntry+"</option>";
+            } else {
+                default_display_options += "<option value="+entry+">"+cEntry+"</option>";
+            }
+        });
+
+        $('#default_display').html('');
+        $('#default_display').append( default_display_options );
+
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -2569,7 +2590,7 @@ var appPropJson = "";
         var filename = $(this).val();
         filename = filename.split("\\");
         filename = filename[2].split(".");
-        var filenamex = filename[0].replace("_", " ");
+        var filenamex = filename[0].replace("_", "");
         filename = filenamex.replace(/[0-9]/g, '');
         filename = filename.split("_").join(' ');
 

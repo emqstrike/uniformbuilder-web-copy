@@ -60,7 +60,17 @@
                                 </select>
                             </div>
                         </div>
-
+<hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Design Type</label>
+                            <div class="col-md-8">
+                                <select class="form-control material-design-type" name="design_type" id="design_type">
+                                    <option value="style_sheet">Style Sheet</option>
+                                    <option value="block_pattern">Block Pattern</option>
+                                </select>
+                            </div>
+                        </div>
+<hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Code</label>
                             <div class="col-md-8">

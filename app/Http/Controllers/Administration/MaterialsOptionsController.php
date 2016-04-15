@@ -101,6 +101,11 @@ class MaterialsOptionsController extends Controller
         $allow_color = is_null($request->input('allow_color')) ? 0 : 1;
         $boundary_properties = $request->input('boundary_properties');
         $applications_properties = $request->input('applications_properties');
+        $default_display = $request->input('default_display');
+
+        if( is_null($default_display) ){
+            $default_display = "color";
+        }
 
         $data = [
             'material_id' => $materialId,
@@ -123,7 +128,8 @@ class MaterialsOptionsController extends Controller
             'boundary_properties' => $boundary_properties,
             'applications_properties' => $applications_properties,
             'pattern_id' => $patternId,
-            'pattern_properties' => $pattern_properties
+            'pattern_properties' => $pattern_properties,
+            'default_display' => $default_display
         ];
 
         try

@@ -157,6 +157,16 @@
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Color:</label>
                     <input type="checkbox" name="allow_color" id="allow_color" value="1">
                 </div>
+
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Default Display:</label>
+                    <select class="form-control default-display" name="default_display" id="default_display">
+                    </select>
+                </div>
+
+                <div class="col-md-12" id="pattern_layers_OC">
+                    <hr>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
