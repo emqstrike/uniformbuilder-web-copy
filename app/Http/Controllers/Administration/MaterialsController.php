@@ -199,6 +199,8 @@ class MaterialsController extends Controller
 
         $description = $request->input('description');
 
+        $design_type = $request->input('design_type');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -233,7 +235,8 @@ class MaterialsController extends Controller
             'price_item_code' => $price_item_code,
             'sku' => $sku,
             'builder_customizations' => $builder_customizations,
-            'description' => $description
+            'description' => $description,
+            'design_type' => $design_type
         ];
 
         try {

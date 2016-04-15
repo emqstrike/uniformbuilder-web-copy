@@ -59,7 +59,17 @@
                                 </select>
                             </div>
                         </div>
-
+<hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Design Type</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-design-type" name="design_type" id="design_type">
+                                    <option value="style_sheet" @if( $material->design_type == "style_sheet" ) selected="selected"@endif>Style Sheet</option>
+                                    <option value="block_pattern" @if( $material->design_type == "block_pattern" ) selected="selected"@endif>Block Pattern</option>
+                                </select>
+                            </div>
+                        </div>
+<hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Code</label>
                             <div class="col-md-6">
