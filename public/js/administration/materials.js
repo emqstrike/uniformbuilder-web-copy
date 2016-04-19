@@ -24,71 +24,15 @@ $(document).ready(function() {
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
-    window.patterns = null;
-    getPatterns(function(patterns){
-        window.patterns = patterns;
-    });
-
-    function getPatterns(callback){
-        var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                patterns = data['patterns'];
-                if(typeof callback === "function") callback(patterns);
-            }
-        });
-    }
-
-    window.mascots = null;
-    getMascots(function(mascots){
-        window.mascots = mascots;
-    });
-
-    function getMascots(callback){
-        var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                mascots = data['mascots'];
-                if(typeof callback === "function") callback(mascots);
-            }
-        });
-    }
-
     window.colors = null;
-    getColors(function(colors){
-        window.colors = colors;
-    });
+    window.fonts = null;
+    window.mascots = null;
+    window.patterns = null;
 
-    function getColors(callback){
-        var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                colors = data['colors'];
-                if(typeof callback === "function") callback(colors);
-            }
-        });
-    }
+    getColors(function(colors){ window.colors = colors; });
+    getFonts(function(fonts){ window.fonts = fonts; });
+    getMascots(function(mascots){ window.mascots = mascots; });
+    getPatterns(function(patterns){ window.patterns = patterns; });
     
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
@@ -178,11 +122,11 @@ $(document).ready(function() {
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
-$('.confirm_no').on('click', function(){
+    $('.confirm_no').on('click', function(){
 
-    window.location.reload(true);
+        window.location.reload(true);
 
-});
+    });
 
 $('.add-point').on('click', function(){
 
@@ -312,28 +256,6 @@ function addLine(p0, p1, lineIdx) {
     canvas.sendBackwards(new_line);
     return new_line;
 } //addLine()
-
-    window.fonts = null;
-    getFonts(function(fonts){
-        window.fonts = fonts;
-    });
-
-    function getFonts(callback){
-        var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                fonts = data['fonts'];
-                if(typeof callback === "function") callback(fonts);
-            }
-        });
-    }
 
     var controls_state = 0;
     $('#app-controls').hide();
@@ -1756,6 +1678,74 @@ var applicationProperties = {};
     /*
         Helpers
     */
+
+    function getColors(callback){
+        var colors;
+        var url = "//api-dev.qstrike.com/api/colors";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    function getFonts(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/fonts";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fonts = data['fonts'];
+                if(typeof callback === "function") callback(fonts);
+            }
+        });
+    }
+
+    function getMascots(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                mascots = data['mascots'];
+                if(typeof callback === "function") callback(mascots);
+            }
+        });
+    }
+
+    function getPatterns(callback){
+        var patterns;
+        var url = "//api-dev.qstrike.com/api/patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                patterns = data['patterns'];
+                if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
 
     String.prototype.capitalize = function() {
         return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
