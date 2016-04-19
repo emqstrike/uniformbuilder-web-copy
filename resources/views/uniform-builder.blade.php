@@ -247,6 +247,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js{{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 
@@ -262,6 +263,12 @@
     </div>
 
 <!-- End Drop Down Test-->
+
+<!-- QA Tools -->
+
+    @include('partials.panels.qatools')
+
+<!-- End QA Tools -->
 
 </body>
 </html>
