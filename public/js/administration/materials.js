@@ -670,6 +670,14 @@ var applicationProperties = {};
         }
     });
 
+    // var testMessage = "jethro del rosario";
+
+    String.prototype.capitalize = function() {
+        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
+
+    // console.log(testMessage.capitalize());
+
     $('.materials').bootstrapTable();
 
     $(".options-row-source").hide();
@@ -736,9 +744,10 @@ var applicationProperties = {};
             var filename = $(this).val();
             filename = filename.split("\\");
             filename = filename[2].split(".");
-            var filenamex = filename[0].replace("_", "");
+            var filenamex = filename[0].replace("_", " ");
             filename = filenamex.replace(/[0-9]/g, '');
             filename = filename.split("_").join(' ');
+            filename.capitalize();
 
 
             if( filename.charAt(0) == ' ' ){
@@ -746,8 +755,9 @@ var applicationProperties = {};
             }
 
             console.log('FILENAME: '+filename);
+            var fn = filename.capitalize();
 
-            $(this).parent().siblings().find('.mo-name').val(filename);
+            $(this).parent().siblings().find('.mo-name').val(fn);
 
             var files = !!this.files ? this.files : [];
             if (!files.length || !window.FileReader) return;
@@ -2590,17 +2600,20 @@ var appPropJson = "";
         var filename = $(this).val();
         filename = filename.split("\\");
         filename = filename[2].split(".");
-        var filenamex = filename[0].replace("_", "");
+        var filenamex = filename[0].replace("_", " ");
+
         filename = filenamex.replace(/[0-9]/g, '');
+        // filename.capitalize();
+
         filename = filename.split("_").join(' ');
+        // filename.capitalize();
 
         if( filename.charAt(0) == ' ' ){
             filename = filename.substr(1);
         }
 
-        console.log('FILENAME: '+filename);
-
-        $(this).parent().siblings().find('.mo-name').val(filename);
+        var fn = filename.capitalize();
+        $(this).parent().siblings().find('.mo-name').val(fn);
 
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return;

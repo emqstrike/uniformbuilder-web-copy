@@ -115,7 +115,7 @@
                                 <select name='factory_code' class="form-control factory-code">
                                     @foreach ($factories as $factory)
                                         @if ($factory->active)
-                                            <option value='{{ $factory->code }}'@if($factory->code == '{{ $factory->code }}') selected @endif>{{ $factory->name }}</option>
+                                            <option value='{{ $factory->code }}'@if( $material->factory_code == $factory->code ) selected @endif>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
