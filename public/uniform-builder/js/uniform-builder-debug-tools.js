@@ -1,4 +1,4 @@
-$(document).ready( function () {
+$(document).ready(function () {
 
     ub.debug = {};
 
@@ -69,18 +69,6 @@ $(document).ready( function () {
     /// End UI Functions
 
     $('a.navbar-brand').on('click', function (evt) {
-
-        if(evt.altKey) {
-
-            if (ub.debug.mode) {
-                ub.funcs.printNames();    
-            }
-
-            $('div.qa-tools-tab').modal('show');
-
-            return;    
-
-        }
 
         if(ub.debug.UI_VERSION === 1) {
 

@@ -41,8 +41,10 @@ $(document).ready(function () {
             if (typeof ub.qa.colorTable[_default_color] !== 'object')  {
 
                 ub.qa.colorTable[_default_color] = {
+
                     color: _default_color,
                     materialOptions: [],
+
                 };
 
             }
@@ -72,7 +74,7 @@ $(document).ready(function () {
 
         });
 
-        _ctStr += "</table>"
+        _ctStr += "</table>";
         $('div.ct').html(_ctStr);
 
         ub.qa.partNames = {};
