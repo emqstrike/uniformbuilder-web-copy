@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    var material = {};
     var materialOptions = {};
     materialOptions['front'] = {};
     materialOptions['back'] = {};
@@ -13,16 +14,13 @@ $(document).ready(function() {
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
 
-    var topInterval;
+    var topInterval; // Intervals used in moving the applications
     var bottomInterval;
     var leftInterval;
     var rightInterval;
 
     var polyData;
-
     var appPropJson = "";
-
-    var material = {};
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
@@ -30,7 +28,6 @@ $(document).ready(function() {
     getPatterns(function(patterns){
         window.patterns = patterns;
     });
-
 
     function getPatterns(callback){
         var patterns;
@@ -2025,8 +2022,6 @@ var applicationProperties = {};
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
-
-
             // ARRAYS ******************************
 
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
@@ -2048,10 +2043,7 @@ var applicationProperties = {};
             $(this).find('.mo-allow-color').addClass(thisLayer);
             var mo_allow_color_class = ".mo-allow-color.layer" + length;
             $(this).find(mo_allow_color_class).addClass('mo-allow-color');
-
             // END ARRAYS
-
-
 
             $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
             $(this).find('.mo-team-color-id').addClass(thisLayer);
@@ -2084,13 +2076,11 @@ var applicationProperties = {};
                 materialOptions.front[thisLayer]['allow_pattern'] = "0";
             }
 
-
             if($(mo_allow_gradient_class).is(':checked')){
                 materialOptions.front[thisLayer]['allow_gradient'] = "1";
             }else{
                 materialOptions.front[thisLayer]['allow_gradient'] = "0";
             }
-
 
             if($(mo_allow_color_class).is(':checked')){
                 materialOptions.front[thisLayer]['allow_color'] = "1";
@@ -2118,11 +2108,6 @@ var applicationProperties = {};
         console.log("MOS: "+moProperties);
     }
 
-    // *** Update Coordinates if Canvas is Updated
-    // function updateCoordinatesXYR() {
-    //     var cs = 1;
-    //     updateCoordinates(cs);
-    // }
     function updateCoordinatesXYR() {
         var cs = 1;
         updateRXY(cs);
@@ -2160,7 +2145,6 @@ var applicationProperties = {};
             console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
             var groups = canvas.getObjects('group');
-            // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
@@ -2199,14 +2183,6 @@ var applicationProperties = {};
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
-        // if(name == "body"){
-        //     console.log('MATCH');
-        //     $(this).val("Body");
-        //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-        // }
-        // else{
-        //     $(".body-layer-number").remove();
-        // }
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
@@ -2385,9 +2361,7 @@ try {
 
     });
 }
-catch(err) {
-    console.log(err.message);
-}
+catch(err) { console.log(err.message); }
 
     bindColorsSelect2();
     bindGradientsSelect2();
@@ -2535,9 +2509,7 @@ function loadPolygon(data){
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     }
-    catch(err) {
-        console.log(err.message);
-    }
+    catch(err) { console.log(err.message); }
 
     var rect = new fabric.Rect({
         left: 453,
@@ -2553,28 +2525,16 @@ function loadPolygon(data){
         height: 50
     });
 
-    var text = new fabric.Text('Pattern Angle', {
-        fill: 'black',
-        fontSize: 15,
-        left: 453,
-        top: 362
-    });
+    var text = new fabric.Text('Pattern Angle', { fill: 'black', fontSize: 15, left: 453, top: 362 });
 
-    var triangle = new fabric.Triangle({
-        width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180
-    });
+    var triangle = new fabric.Triangle({  width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180 });
 
     if( angle == null || angle == "" ){
         angle = 0;
     }
 
-    var group = new fabric.Group([ rect, triangle, text ], {
-        left: 453,
-        top: 362,
-        angle: angle
-    });
-    // console.log("Load Angle >>> "+data[0].angle);
-    // group.setAngle(angle);
+    var group = new fabric.Group([ rect, triangle, text ], { left: 453, top: 362, angle: angle });
+
     canvas.add(group);
     canvas.renderAll();
     // fixLoadPolygon();
