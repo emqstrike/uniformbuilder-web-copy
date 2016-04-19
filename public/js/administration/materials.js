@@ -20,15 +20,9 @@ $(document).ready(function() {
 
     var polyData;
 
-    $(document).on('change', '#block_pattern', function() {
+    var appPropJson = "";
 
-        console.log('Changed' + $(this).val());
-
-    });
-
-    $(document).on('change', '#mirror_polygon', function() {
-        updateCoordinates();
-    });
+    var material = {};
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
@@ -238,8 +232,10 @@ function distance(p1, p2) {
 function addCircle(name, x, y, style) {
 
     if (style === 'knot') {
-        cfill = 'FireBrick';
-        cstroke = 'FireBrick';
+        // cfill = 'FireBrick';
+        // cstroke = 'FireBrick';
+        cfill = 'red';
+        cstroke = 'red';
         ctype = 'knot';
     } else {
         cfill = '';
@@ -293,11 +289,11 @@ function addLine(p0, p1, lineIdx) {
     var new_line = new fabric.Object();
     new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
         id: lineIdx,
-        fill: "red",
-        stroke: "red",
+        fill: "white",
+        stroke: "white",
         strokeLinejoin: "miter",
         strokeMiterlimit: 1,
-        strokeWidth: 1,
+        strokeWidth: 3,
         strokeDashArray: [5, 5],
         selectable: false,
         hasBorders: false,
@@ -306,6 +302,7 @@ function addLine(p0, p1, lineIdx) {
         opacity: 0.8,
         name: "Line_" + p0.name + p1.name
     });
+    new_line.setShadow("3px 3px 2px rgba(94, 128, 191, 0.5)");
     if (p0.hasOwnProperty('outPath') === false) {
         p0.outPath = [];
     }
@@ -318,7 +315,6 @@ function addLine(p0, p1, lineIdx) {
     canvas.sendBackwards(new_line);
     return new_line;
 } //addLine()
-    // **************************************************************************
 
     window.fonts = null;
     getFonts(function(fonts){
@@ -644,10 +640,6 @@ var applicationProperties = {};
         }
     });
 
-    String.prototype.capitalize = function() {
-        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-    };
-
     $('.materials').bootstrapTable();
 
     $(".options-row-source").hide();
@@ -813,8 +805,6 @@ var applicationProperties = {};
         $('#view-material-modal').modal('show');
     });
 
-var material = {};
-
     $('.add-multiple-material-option').on('click', function(){
         $('#add-multiple-options-modal').modal('show');
     });
@@ -842,7 +832,6 @@ var material = {};
 
     });
 
-var appPropJson = "";
     $('.add-multiple-material-option').on('click', function(){
         material = {
             id: $(this).data('material-id')
@@ -902,8 +891,6 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-
-
         console.log('B prop val >>'+$('.b-prop').val());
 
 
@@ -919,13 +906,6 @@ var appPropJson = "";
             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
             $('.b-prop').prop('value', boundaryProperties);
         }
-
-
-
-
-
-
-
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -1440,96 +1420,6 @@ var appPropJson = "";
         row.fadeIn();
     }
 
-    $(document).on('change', '.app-id', function() {
-        var itemIdx = $(this).data('id');
-        var newId = $(this).val();
-
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-
-        thisGroup.item(1).text = newId;
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $(document).on('change', '.app-def-item', function() {
-
-        var itemIdx = $(this).data('id');
-        var newName = $(this).val();
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-
-        thisGroup.item(2).text = newName;
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $(document).on('change', '.app-rotation', function() {
-        var itemIdx = $(this).data('id');
-        var newName = $(this).val();
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        
-        canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $("#app_template_name").keyup(function() {
-        console.log("Changed template name, length is: "+$(this).val().length);
-        if( $(this).val().length > 2 ){
-            $('#save_app_template').removeAttr('disabled');
-            console.log('IF');
-        } else {
-            $('#save_app_template').attr('disabled', 'disabled');
-            console.log('ELSE');
-        }
-    });
-
-    $("#boundary_template_name").keyup(function() {
-        console.log("Changed template name, length is: "+$(this).val().length);
-        if( $(this).val().length > 2 ){
-            $('#save_boundary_template').removeAttr('disabled');
-            console.log('IF');
-        } else {
-            $('#save_boundary_template').attr('disabled', 'disabled');
-            console.log('ELSE');
-        }
-    });
-
-    $(".load-applications-template").change(function() {
-        canvasFront.clear();
-        application_number = 1;
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-        var va_prop_val = $(this).val();
-
-        if(va_prop_val != "\"{}\""){
-            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-            var app_properties = JSON.parse(ap_out);
-
-            $(".front-applications").remove(".apOpt");
-            clearAppPropOptions();
-            appendApplications(app_properties);
-
-        }
-        // updateCoordinates();
-    });
-
-    $(".load-boundaries-template").change(function() {
-        var va_prop_val = $(this).val();
-
-        if( va_prop_val == '"{}"' || va_prop_val == null ){
-            va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
-        }
-        console.log('VA_PROP_VAL' + va_prop_val);
-        var output = va_prop_val.substring(1, va_prop_val.length-1);
-        polyData = JSON.parse(output);
-        loadPolygon(polyData);
-        updateCoordinates();
-    });
-
     function fixLoadPolygon(){
         var va_prop_val = $('.load-boundaries-template').val();
 
@@ -1639,34 +1529,9 @@ var appPropJson = "";
         
     });
 
-    // *** Active / Disabled toggler
-
-    $('.toggle-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/toggle/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                }
-            }
-        });
-    });
-
-    // *** Confirmation Modals
+    /*
+        Confirmation Modals
+    */
 
     $('.duplicate-material').on('click', function(){
         var id = $(this).data('material-id');
@@ -1678,32 +1543,6 @@ var appPropJson = "";
             'confirm-yes',
             'confirmation-modal-duplicate-material'
         );
-    });
-
-    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/duplicate/"+id;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
     });
 
     $('.delete-material').on('click', function(){
@@ -1740,6 +1579,50 @@ var appPropJson = "";
         );
     });
 
+    $('.delete-multiple-material-option').on('click', function(){
+        var checkedMaterialOptionsIDs = [];
+        $('input[type=checkbox]:checked').each(function () {
+            if($(this).hasClass("delete-multiple-material-options")){
+                checkedMaterialOptionsIDs.push($(this).val());
+            }
+            
+        });
+        console.log(checkedMaterialOptionsIDs);
+        modalConfirm(
+            'Remove Multiple Material Options',
+            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
+            checkedMaterialOptionsIDs,
+            'confirm-yes',
+            'confirmation-modal-multiple-material-option'
+        );
+    });
+
+    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material/duplicate/"+id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    window.location.reload(true);
+                }
+            }
+        });
+    });    
+
     $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/cleanupApp/";
@@ -1768,29 +1651,9 @@ var appPropJson = "";
         });
     });
 
-    $('.delete-multiple-material-option').on('click', function(){
-        var checkedMaterialOptionsIDs = [];
-        $('input[type=checkbox]:checked').each(function () {
-            if($(this).hasClass("delete-multiple-material-options")){
-                checkedMaterialOptionsIDs.push($(this).val());
-            }
-            
-        });
-        console.log(checkedMaterialOptionsIDs);
-        modalConfirm(
-            'Remove Multiple Material Options',
-            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
-            checkedMaterialOptionsIDs,
-            'confirm-yes',
-            'confirmation-modal-multiple-material-option'
-        );
-    });
-
     $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
-        // console.log('DELETE MULTIPLE');
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/deleteMultiple/";
-        // console.log("IDs: " + id);
         $.ajax({
             url: url,
             type: "POST",
@@ -1866,31 +1729,6 @@ var appPropJson = "";
         });
     });
 
-    $('#add-material-option-modal .setting-types').on('change', function(){
-        var key = $(this).val();
-        var items = materialOptionSettings[key];
-    });
-
-    $('#edit-material-option-modal .setting-types').on('change', function(){
-        var key = $(this).val();
-        var items = materialOptionSettings[key];
-    });
-
-    function loadItemsToSettingCodes(items, action) {
-        if (typeof action == 'undefined') action = 'add';
-        $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
-        if (items) {
-            if (items.length > 0) {
-                $.each(items, function(index, item){
-                    $('#' + action + '-material-option-modal .setting-codes')
-                        .append(
-                            $('<option></option>').val(item.code).html(item.value)
-                        );
-                });
-            }
-        }
-    }
-
     $('.delete-material-image').on('click', function(){
         var id = $(this).data('material-id');
         var field = $(this).data('field');
@@ -1918,8 +1756,141 @@ var appPropJson = "";
             }
         });
     });
+    /*
+        Helpers
+    */
 
-    // *** Custom Fabric Functions
+    String.prototype.capitalize = function() {
+        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
+
+    $(document).on('change', '#block_pattern', function() {
+        console.log('Changed' + $(this).val());
+    });
+
+    $(document).on('change', '.app-id', function() {
+        var itemIdx = $(this).data('id');
+        var newId = $(this).val();
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+
+        thisGroup.item(1).text = newId;
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
+
+    $(".load-boundaries-template").change(function() {
+        var va_prop_val = $(this).val();
+
+        if( va_prop_val == '"{}"' || va_prop_val == null ){
+            va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
+        }
+        console.log('VA_PROP_VAL' + va_prop_val);
+        var output = va_prop_val.substring(1, va_prop_val.length-1);
+        polyData = JSON.parse(output);
+        loadPolygon(polyData);
+        updateCoordinates();
+    });
+
+    $(".load-applications-template").change(function() {
+        canvasFront.clear();
+        application_number = 1;
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+        var va_prop_val = $(this).val();
+
+        if(va_prop_val != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
+
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+            appendApplications(app_properties);
+
+        }
+    });
+
+    $('#add-material-option-modal .setting-types').on('change', function(){
+        var key = $(this).val();
+        var items = materialOptionSettings[key];
+    });
+
+    $('#edit-material-option-modal .setting-types').on('change', function(){
+        var key = $(this).val();
+        var items = materialOptionSettings[key];
+    });
+
+    function loadItemsToSettingCodes(items, action) {
+        if (typeof action == 'undefined') action = 'add';
+        $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
+        if (items) {
+            if (items.length > 0) {
+                $.each(items, function(index, item){
+                    $('#' + action + '-material-option-modal .setting-codes')
+                        .append(
+                            $('<option></option>').val(item.code).html(item.value)
+                        );
+                });
+            }
+        }
+    }
+
+    function generateTRow(fields){
+        var tr = '<tr class="application-row">';
+        fields.forEach(function(entry) {
+            tr += '<td>' + entry + '</td>';
+        });
+        tr += '</tr>';
+        return tr;
+    }
+
+    function bindColorsSelect2()
+    {
+        $('.colors').select2({
+            placeholder: "Select colors",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    function bindGradientsSelect2()
+    {
+        $('.gradients').select2({
+            placeholder: "Select gradients",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    $('.toggle-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var url = "//" + api_host + "/api/material/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
+    /*
+        Custom fabric functions
+    */
 
     function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
         var fb_obj = new fabric.Rect({
@@ -1970,37 +1941,6 @@ var appPropJson = "";
         });
 
         return fb_obj;
-    }
-
-    // *** Generate rows when appending applications in canvas
-
-    function generateTRow(fields){
-        var tr = '<tr class="application-row">';
-        fields.forEach(function(entry) {
-            tr += '<td>' + entry + '</td>';
-        });
-        tr += '</tr>';
-        return tr;
-    }
-
-    // *** Bind Color selects
-
-    function bindColorsSelect2()
-    {
-        $('.colors').select2({
-            placeholder: "Select colors",
-            multiple: true,
-            allowClear: true
-        });
-    }
-
-    function bindGradientsSelect2()
-    {
-        $('.gradients').select2({
-            placeholder: "Select gradients",
-            multiple: true,
-            allowClear: true
-        });
     }
 
     function clearAppPropOptions(){
@@ -2225,14 +2165,6 @@ var appPropJson = "";
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
 
-            var mirror_pattern = 0;
-            if( $('#mirror_polygon:checkbox:checked').length > 0 ){
-                console.log('checked');
-                coords[x]['mirror'] = 1;
-            } else {
-                console.log('unchecked');
-                coords[x]['mirror'] = 0;
-            }
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
@@ -2567,7 +2499,6 @@ catch(err) {
 function loadPolygon(data){
     console.log("PolyData >> "+JSON.stringify(data));
     var angle;
-    var mirror;
     canvas.clear();
     var z = 0;
     // console.log('POLY TEST >> '+data[0].angle);
@@ -2577,7 +2508,6 @@ function loadPolygon(data){
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
-            mirror = item.mirror;
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -2601,12 +2531,6 @@ function loadPolygon(data){
     });
     console.log('Line Index: ' + lineIdx);
     loadCase = 1;
-
-    if( mirror == 1 ){
-        $('#mirror_polygon').attr('checked', 'checked');
-    } else {
-        $('#mirror_polygon').attr('checked', 'unchecked');
-    }
 
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));

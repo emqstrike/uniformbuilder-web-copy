@@ -38,9 +38,6 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-6">Pattern Angle: <input type="text" id="pattern_angle" placeholder="Angle..."></td>
-                                    <td class="col-md-6">
-                                        Mirror: <input type="checkbox" id="mirror_polygon" value="1">
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
