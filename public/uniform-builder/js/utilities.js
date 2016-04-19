@@ -2,9 +2,22 @@ $( document ).ready(function() {
 
     window.util = {
 
-        error: function (error){
+        log: function (type, message, object) {
             
-            /// TODO: Add Error Logging here instead of just a plain console error log ...
+            ub.errors.push({
+                type: type,
+                message: message,
+                data: object,
+            });
+
+            console.error('Type: ' + type);
+            console.error('Error: ' + message);
+            console.error('Object: ');
+            console.error(object);
+
+        },
+
+        error: function (error){
 
             console.error(error);
 
