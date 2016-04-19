@@ -41,7 +41,6 @@ $(document).ready(function() {
     function getPatterns(callback){
         var patterns;
         var url = "//api-dev.qstrike.com/api/patterns";
-        // var url = "//localhost:8888/api/patterns";
         $.ajax({
             url: url,
             async: false,
@@ -73,7 +72,6 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 mascots = data['mascots'];
-                // console.log("Mascots: "+items);
                 if(typeof callback === "function") callback(mascots);
             }
         });
@@ -96,7 +94,6 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 colors = data['colors'];
-                // console.log("Mascots: "+items);
                 if(typeof callback === "function") callback(colors);
             }
         });
@@ -115,7 +112,6 @@ $(document).ready(function() {
         return colors_dropdown;
     }
 
-    // **************************************************************************
     var lineIdx = 0;
     var coords = [];
     var loadCase = 0;
@@ -157,7 +153,6 @@ $(document).ready(function() {
             window.current_pattern_properties = pattern_props;
             var x = 1;
             $.each(pattern_props, function(i, item) {
-                // refreshColors();
                 console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
                 var label = 'Layer #' + x;
@@ -172,14 +167,10 @@ $(document).ready(function() {
             console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
-                    // console.log('Item properties' + item.pattern_properties);
                     var pattern_props = JSON.parse( item.pattern_properties );
                     window.current_pattern_properties = pattern_props;
                     var x = 1;
                     $.each(pattern_props, function(i, item) {
-                        // refreshColors();
-                        
-
                         console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var label = 'Layer #' + x;
@@ -203,7 +194,7 @@ $('.confirm_no').on('click', function(){
 });
 
 $('.add-point').on('click', function(){
-    // updateApplicationsJSON();
+
     var pointsCount = canvas.getObjects('circle').length;
     var linesCount = canvas.getObjects('line').length;
     var l = linesCount - 1;
@@ -239,12 +230,10 @@ $('.add-point').on('click', function(){
     }
 });
 
-// ------- points & circles -------
-
 function distance(p1, p2) {
     //Accepts two objects p1 & p2. Returns the distance between p1 & p2
     return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
-} // distance()
+}
 
 function addCircle(name, x, y, style) {
 
@@ -300,9 +289,6 @@ function addPoint(name, x, y, style) {
     return p;
 } // addPoint()
 
-
-// ------- paths -------
-
 function addLine(p0, p1, lineIdx) {
     var new_line = new fabric.Object();
     new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
@@ -330,8 +316,6 @@ function addLine(p0, p1, lineIdx) {
     p1.inPath.push(new_line);
     canvas.add(new_line);
     canvas.sendBackwards(new_line);
-    // canvas.bringToFront(p0);
-    // canvas.bringToFront(p1);
     return new_line;
 } //addLine()
     // **************************************************************************
@@ -353,7 +337,6 @@ function addLine(p0, p1, lineIdx) {
             contentType: 'application/json',
             success: function(data){
                 fonts = data['fonts'];
-                // console.log("Mascots: "+items);
                 if(typeof callback === "function") callback(fonts);
             }
         });
@@ -363,7 +346,6 @@ function addLine(p0, p1, lineIdx) {
     $('#app-controls').hide();
 
     $(document).on('click', '.update-applications-json', function() {
-        // updateCoordinates();
         updateApplicationsJSON();
     });
 
@@ -444,10 +426,6 @@ function addLine(p0, p1, lineIdx) {
     $("#material-option-name").keyup(function() {
         checkNameLength();
     });
-
-    // $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
-    //     updateCoordinates();
-    // });
 
     $(document).on('keyup', '#pattern_angle', function() {
         var groups = canvas.getObjects('group');
@@ -618,9 +596,10 @@ var applicationProperties = {};
         $(this).css('background-color', color);
     });
 
-
+    /*
+        Initialize CANVAS for Bounding Polygon
+    */
     try {
-        // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         fabric.Object.prototype.transparentCorners = false;
         canvas.setWidth( 496 );
@@ -631,11 +610,6 @@ var applicationProperties = {};
         console.log(err.message);
     }
 
-    // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
-    // fabric.Object.prototype.transparentCorners = false;
-    // canvas.setWidth( 496 );
-    // canvas.setHeight( 550 );
-    // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     try {
         canvasFront.on({
             'object:moving': updateCoordinatesXYR,
@@ -670,13 +644,9 @@ var applicationProperties = {};
         }
     });
 
-    // var testMessage = "jethro del rosario";
-
     String.prototype.capitalize = function() {
         return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
     };
-
-    // console.log(testMessage.capitalize());
 
     $('.materials').bootstrapTable();
 
@@ -855,37 +825,6 @@ var material = {};
         $('#cleanup_material_id').val(id);
     });
 
-    // $('.add-material-option').on('click', function(){
-    //     material = {
-    //         id: $(this).data('material-id'),
-    //         name: $(this).data('material-name'),
-    //         front_shape: ($(this).data('material-front-shape')),
-    //         back_shape: ($(this).data('material-back-shape')),
-    //         left_shape: ($(this).data('material-left-shape')),
-    //         right_shape: ($(this).data('material-right-shape'))
-    //     };
-    //     $('#save-material-option-modal .material-id').val(material.id);
-    //     $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-    //     $('#save-material-option-modal').modal('show');
-
-    //     $('.material-id').prop("value", material.id);
-    //     $('.material-option-id').val('');
-    //     $('#material-option-name').val('');
-    //     $('#saved-setting-type').val('');
-    //     $('#saved-setting-type').prop("visible", false);
-    //     $('#saved-perspective').val('');
-    //     $('#saved-perspective').prop("visible", false);
-    //     $('#boundary-properties').val('');
-    //     $('#application-properties').val('');
-    //     $("#material-option-bounding-box").css("background-image", '');
-    //     $("#shape-view-top").css("background-image", "url()");
-    //     $("#material-option-bounding-box-top").css("background-image", "url()");
-    //     checkNameLength();
-    //     canvasFront.clear();
-    //     clearAppPropOptions();
-
-    // });
-
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
         var material_shape;
@@ -912,217 +851,6 @@ var appPropJson = "";
         $('.material-id').prop("value", material.id);
         $('.perspective-multiple-upload').val(perspective);
     });
-
-//     $('.edit-material-option').on('click', function(){
-//         application_number = 0;
-//         material = {
-//             id: $(this).data('material-id'),
-//             name: $(this).data('material-name'),
-//             front_shape: ($(this).data('material-front-shape')),
-//             back_shape: ($(this).data('material-back-shape')),
-//             left_shape: ($(this).data('material-left-shape')),
-//             right_shape: ($(this).data('material-right-shape')),
-//             option: {
-//                 id: $(this).data('material-option-id'),
-//                 name: $(this).data('material-option-name'),
-//                 origin: $(this).data('material-option-origin'),
-//                 layer_level: $(this).data('material-option-layer-level'),
-//                 default_color: $(this).data('material-option-default-color'),
-//                 sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
-//                 default_color_name: $(this).data('material-option-default-color-name'),
-//                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
-//                 type: $(this).data('material-option-setting-type'),
-//                 team_color_id: $(this).data('material-option-team-color-id'),
-//                 group_id: $(this).data('material-option-group-id'),
-//                 code: $(this).data('material-option-setting-code'),
-//                 path: $(this).data('material-option-path'),
-//                 perspective: $(this).data('material-option-perspective'),
-//                 colors: $(this).data('material-option-colors'),
-//                 gradients: $(this).data('material-option-gradients'),
-//                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
-//                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
-//                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
-//                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
-//                 boundary_properties: ($(this).data('material-option-boundary-properties')),
-//                 applications_properties: ($(this).data('material-option-applications-properties')),
-//                 highlights: ($(this).data('material-highlights-path'))
-//             }
-//         };
-
-//         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
-
-//         $('.material-id').prop("value", material.id);
-//         $('.material-option-id').prop("value", material.option.id);
-//         $('#material-option-name').val(material.option.name);
-//         $('#group_id').val(material.option.group_id);
-//         $('#saved-setting-type').val(material.option.type);
-//         $('#saved-setting-type').text(material.option.type);
-//         $('#saved-setting-type').attr('selected','selected');
-//         $('#saved-origin').val(material.option.origin);
-//         $('#saved-origin').text(material.option.origin);
-//         $('#saved-origin').attr('selected','selected');
-
-//         $('.saved-default-color').val(material.option.default_color);
-//         $('.saved-default-color').text(material.option.default_color_name);
-//         $('.saved-default-color').attr('selected','selected');
-
-//         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
-//         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
-//         $('#saved-sublimated-default-color').attr('selected','selected');
-
-//         $('#saved-perspective').val(material.option.perspective);
-//         $('#saved-perspective').text(material.option.perspective + " View");
-//         $('#saved-perspective').attr('selected','selected');
-
-//         if(material.option.blend){
-//             $('#is_blend').prop('checked','checked');
-//         }
-//         if(material.option.allow_pattern){
-//             $('#allow_pattern').prop('checked','checked');
-//         }
-//         if(material.option.allow_gradient){
-//             $('#allow_gradient').prop('checked','checked');
-//         }
-//         if(material.option.allow_color){
-//             $('#allow_color').prop('checked','checked');
-//         }
-        
-//         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-//         var team_color_id_options = "";
-
-//         id_nums.forEach(function(entry) {
-//             id = entry;
-//             if(id == material.option.team_color_id){
-//                 team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
-//             } else {
-//                 team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
-//             }
-//         });
-
-//         $('#team_color_id').append(team_color_id_options);
-
-//         $('.b-prop').prop("value", material.option.boundary_properties);
-//         $('.a-prop').prop("value", material.option.applications_properties);
-//         var va_prop_val = $('.a-prop').val();
-//         if($('.a-prop').val() != "\"{}\""){
-//             va_prop_val = $('.a-prop').val();
-//             $('.a-prop').prop("value", va_prop_val);
-//         }
-
-//         var perspective = material.option.perspective;
-//         var material_option_shape;
-//         if(perspective == 'front') {
-//             material_option_shape = material.front_shape;
-//         } else if(perspective == 'back') {
-//             material_option_shape = material.back_shape;
-//         } else if(perspective == 'left') {
-//             material_option_shape = material.left_shape;
-//         } else if(perspective == 'right') {
-//             material_option_shape = material.right_shape;
-//         }
-
-//         if(material.option.highlights != null){
-//             material_option_shape = material.option.highlights;
-//         }
-
-//         $("#shape-view").css("background-image", "url("+material_option_shape+")");
-//         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
-//         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-//         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
-//         checkNameLength();
-
-//         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
-//         // **************
-//         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-//             canvas.clear();
-//             var jason = $('.b-prop').val();
-//             // var polyData = "'"+jason+"'";
-//             var output = jason.substring(1, jason.length-1);
-//             // var myData = JSON.parse(output);
-//             // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
-
-
-//             // var output = jason.substring(1, jason.length-1);
-//             polyData = JSON.parse(output);
-
-// // console.log('JASON: '+jason);
-//             // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
-//             // bounding_box.oCoords.tl.y = myData.topLeft.y;
-//             // bounding_box.oCoords.tr.x = myData.topRight.x;
-//             // bounding_box.oCoords.tr.y = myData.topRight.y;
-//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-//             // bounding_box.oCoords.br.x = myData.bottomRight.x;
-//             // bounding_box.oCoords.br.y = myData.bottomRight.y;
-//             // bounding_box.centerPoint = myData.pivot; ***
-
-//             // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
-//             // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
-//             // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
-//             // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
-//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
-//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
-//             // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
-//             // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
-//             // bounding_box.centerPoint = myData.pivot;
-//             // bounding_box.setAngle(myData.rotation);
-
-//             // bounding_box.width = myData.boxWidth / 2;
-//             // bounding_box.height = myData.boxHeight / 2;
-//             // box.width = myData.boxWidth / 2;
-//             // box.height = myData.boxHeight / 2;
-//             // bounding_box.left = myData.topLeft.x / 2;
-//             // bounding_box.top = myData.topLeft.y / 2;
-
-
-//             loadPolygon(polyData);
-
-//             // canvas.renderAll();
-//             canvasFront.clear();
-
-//             if($('.a-prop').val() != "\"{}\""){
-//             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-//             var app_properties = JSON.parse(ap_out);
-
-//             $(".front-applications").remove(".apOpt");
-//             clearAppPropOptions();
-
-//             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
-//             appendApplications(app_properties);
-
-//             } // ************************ APP PROP IF END
-
-
-//             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
-//             $('.b-prop').prop('value', boundaryProperties);
-
-//             // var applicationsProperties = JSON.stringify(data);
-//             // $('.a-prop').prop('value', applicationsProperties);
-
-//             // console.log("CONSOLE LOG: " + applicationsProperties);
-
-
-//             $("#file-src").prop("src", material.option.path);
-//             $("#layer-level").prop("value", material.option.layer_level);
-
-//             if (material.option.blend) {
-//                 $('#is-blend').attr('checked', 'checked');
-//             } else {
-//                 $('#is-blend').attr('checked', 'unchecked');
-//             }
-
-//         }
-//         // **************
-
-//         $('#saved-setting-type').attr('selected',true);
-//         $('#saved-perspective').attr('selected',true);
-//         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-//         $('#save-material-option-modal .material-id').val(material.id);
-//         $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-//         $('#save-material-option-modal').modal('show');
-//     });
 
     $('.material-option-boundary').on('click', function(){
         application_number = 0;
@@ -2629,8 +2357,9 @@ var appPropJson = "";
             }
         }
     });
-
-    // *** Fabric Listeners
+    /*
+            Fabric Listeners
+    */
 try {
     fabric.util.addListener(document.getElementById('move-top'), 'mouseenter', function () {
 
@@ -2725,14 +2454,12 @@ try {
     });
 }
 catch(err) {
-    // document.getElementById("demo").innerHTML = err.message;
+    console.log(err.message);
 }
-
-
-    // *** END OF Fabric Listeners
 
     bindColorsSelect2();
     bindGradientsSelect2();
+
 try {
 canvas.observe('object:rotating', function (e) { 
 
@@ -2881,12 +2608,11 @@ function loadPolygon(data){
         $('#mirror_polygon').attr('checked', 'unchecked');
     }
 
-    // $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     }
     catch(err) {
-        // document.getElementById("demo").innerHTML = err.message;
+        console.log(err.message);
     }
 
     var rect = new fabric.Rect({
