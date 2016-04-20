@@ -529,7 +529,6 @@ var applicationProperties = {};
             filename = filename.split("_").join(' ');
             filename.capitalize();
 
-
             if( filename.charAt(0) == ' ' ){
                 filename = filename.substr(1);
             }
