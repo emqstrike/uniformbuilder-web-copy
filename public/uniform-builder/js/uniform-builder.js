@@ -71,6 +71,8 @@ $(document).ready(function () {
         ub.funcs.afterLoad = function () {
 
             ub.funcs.activatePartByIndex(1);
+            $('div.left-pane-column-full').fadeIn();
+            $('div.activate_qa_tools').fadeIn();
             
         };
 
@@ -82,7 +84,7 @@ $(document).ready(function () {
                  
             });
 
-            ub[ub.active_view + '_view'].position.set(33.5, 33.5);
+            ub[ub.active_view + '_view'].position.set(ub.offset.x, ub.offset.y);
 
             ub.zoom = false;
             ub.show_all_views();
@@ -3800,7 +3802,10 @@ $(document).ready(function () {
 
                 ub.zoom_off();
 
-                var _newX = ub.dimensions.width + ub.offset.x;
+                var w = window.innerWidth * 2;
+                var _newX  = w;
+
+                // var _newX = ub.dimensions.width + ub.offset.x;
 
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
@@ -3808,7 +3813,7 @@ $(document).ready(function () {
                 ub.back_view.position.x     = _newX;
                 ub.pattern_view.position.x  = _newX;
 
-                ub[view + '_view'].position.set(33.5, 33.5);
+                ub[view + '_view'].position.set(ub.offset.x, ub.offset.y);
 
                 $('#main_view').fadeIn();
 
@@ -4276,6 +4281,8 @@ $(document).ready(function () {
     ub.funcs.initGenderPicker = function () {
 
         $('body').addClass('pickers-enabled');
+
+        $('.main_viewport').hide();
 
         $('div#main-row').hide();
         $('div.special_modifiers').hide();

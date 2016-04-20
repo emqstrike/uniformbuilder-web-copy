@@ -1511,7 +1511,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point((point.x / 2) + 33.5, (point.y / 2) + 33.5);
+                var p = new PIXI.Point((point.x / 2) + ub.offset.x, (point.y / 2) + ub.offset.y);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1521,7 +1521,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x + 33.5, (point.y / 2) + 33.5 );
+                var p = new PIXI.Point(point.x + ub.offset.x, (point.y / 2) + ub.offset.y );
                 _transformed_boundaries.push(p); 
 
             });   
@@ -1971,7 +1971,7 @@ $(document).ready(function() {
 
             if (ub.zoom) {
 
-                ub[ub.active_view + '_view'].position.set(-current_coodinates.x, -current_coodinates.y);
+                ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
 
                 return;
 

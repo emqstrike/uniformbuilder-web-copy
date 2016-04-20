@@ -20,7 +20,7 @@
     
     </div>
 
-    <div class="options_panel_section" id="primary_options_container">
+    <div class="options_panel_section modifier_main_container" id="primary_options_container">
         
         <div id="primary_options_colors" class="mod_primary_panels" data-type="color" style='float: left; display: none;'>
             

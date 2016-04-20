@@ -38,7 +38,7 @@
 
         <div id="left-main-window" class="pane-main-window">
 
-            <div class="canvas-views" id="main_view" height="583">
+            <div class="canvas-views" id="main_view">
             </div>
 
         </div>
@@ -223,7 +223,7 @@
                     -->
 
                     <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>
-                    
+
                 </div>
 
                 <div id="simple_toggle_container">

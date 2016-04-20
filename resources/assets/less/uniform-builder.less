@@ -1,6 +1,6 @@
 
 @navbar-height: 75px; 
-@main-container-margin: ( @navbar-height + 30px );
+@main-container-margin: ( @navbar-height + 0px );
 @micro_spacer: 2px;
 
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
@@ -27,6 +27,7 @@ html, body {
     
     height: 100%;
     width: 100%;
+    background-color: #eeeeee;
 
 }
 
@@ -150,7 +151,9 @@ div#left-sidebar > a.sidebar-buttons {
         }
 
         #right-pane-column {
-            height: 100%;
+
+            position: absolute;
+
         }
 
         display: none;
@@ -222,10 +225,7 @@ div.pane {
 
         float: right;
         background-color: #fff;
-
-        width: 498px;
-        height: @main_window_pane_height;
-
+        
         border: 1px solid @border_color;
 
     }
@@ -255,9 +255,7 @@ a.active_button {
         text-align: center;
 
         border: none;
-        width: 563px !important;
-        height: 616px !important;
-
+        
     }
 
 }
@@ -284,14 +282,16 @@ a.active_button {
 
 #change-views {
     
-    float: right;
-    text-align: center;
     width: 10%;
     padding: 3px;
     position: absolute;
-    margin-top: 350px;
-    margin-left: 10px !important;
+    margin-top: 330px;
     display: none;
+
+    margin-left: 0px;
+    display: block;
+    height: 300px;
+    width: 30px;
 
     a {
     
@@ -384,17 +384,6 @@ a#view_save_footer {
 }
 
 /* End Camera Views */
-
-/* Right Pane - Property Customizer */
-
-#right-pane {
-
-
-
-}
-
-/* End Right Pane - Property Customizer */
-
 
 /* Options Panel */
 
@@ -604,6 +593,7 @@ div.pattern_panel_container {
     border: 1px solid @border_color;
 
     width: 100%;
+    background-color: white;
 
 }
 
@@ -1735,6 +1725,7 @@ div#left-pane-column {
 div#right-pane-column {
 
     padding-left: 5px !important;
+    width: 550px;        
 
 }
 
@@ -2207,7 +2198,7 @@ div.header-container.main {
     div#parts_dropdown {
         position: absolute;
         display: none;
-        width: 563px;
+        width: 550px;
         height: 290px;
         background-color: #3d3d3d;
         overflow-y: scroll;
@@ -2263,15 +2254,14 @@ div.header-container.main {
     div#bottom_modifier_tabs {
 
         background-color: #ffffff;
-        width: 563px;
+        width: 550px;
         display: table;
         height: 40px;
         border-top: 1px solid #d7d7d7;
         border-bottom: 1px solid #d7d7d7;
         padding: 10px;
         position: absolute;
-        bottom: 0;
-        margin-bottom: 65px;
+        margin-top: 180px;
 
         div#next_container {
 
@@ -2364,6 +2354,7 @@ div.header-container.main {
         width: 100%;
         padding-left: 15px;
         margin-top: 10px;
+        height:75px;
 
     }
 
@@ -2426,16 +2417,60 @@ div.header-container.main {
     }
 
     div.activate_qa_tools {
-
+        display: none;
         cursor: pointer;
-
-        width: 100%;
+        width: 300px;
         text-align: center;
-        margin-top: 30px;
+        margin-top: 7px;
+        position: absolute;
+        margin-left: -250px;
+    }
+
+/* End QA Tools */
+
+/* New UI */
+
+    div.left-pane-column-full {
+        
+        position: absolute;
+        left: 0;
+
+    }
+
+    div.pane-main-window {
 
 
     }
 
+    /* Right Pane - Property Customizer */
 
-/* End QA Tools */
+    #right-pane-column {
+
+        position: absolute;
+        right: 30px;
+        top: 100px;
+
+    }
+
+    #left-main-window {
+        
+        
+
+    }
+
+    /* End Right Pane - Property Customizer */
+
+    div.left-pane-column-full {
+
+        display:none;
+
+    }
+
+    div.modifier_main_container {
+        display: block;
+        height: 248px;
+    }
+
+
+/* End New UI */
 

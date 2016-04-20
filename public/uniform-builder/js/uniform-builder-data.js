@@ -2,8 +2,8 @@ $(document).ready(function() {
 
     ub.errors = [];
 
-    ub.width    =    
-    ub.height   = 
+    ub.uiVersion = "v2";
+    ub.offsetValue = 70;
 
     ub.ui = {};
     ub.ui.drops = {};
@@ -12,7 +12,7 @@ $(document).ready(function() {
     ub.dimensions = {};
     ub.dimensions.width = 563;
     ub.dimensions.height = 616;
-    ub.offset = {x: 33.5, y: 33.5};
+    ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
 
