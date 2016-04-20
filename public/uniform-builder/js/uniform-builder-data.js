@@ -1,4 +1,6 @@
-$(document).ready(function(){
+$(document).ready(function() {
+
+    ub.errors = [];
 
     ub.ui = {};
     ub.ui.drops = {};

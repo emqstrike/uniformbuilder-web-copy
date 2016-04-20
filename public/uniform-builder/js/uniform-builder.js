@@ -2283,7 +2283,7 @@ $(document).ready(function () {
                     path = path + 'highlighter_1.png';
                }
 
-               highlighter = "<img src = '" + path + "'>"
+               highlighter = "<img src = '" + path + "'>";
                
 //             $(this).html(highlighter);
                 
