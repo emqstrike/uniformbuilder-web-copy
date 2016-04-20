@@ -29,11 +29,15 @@ $(document).ready(function() {
     window.mascots = null;
     window.patterns = null;
 
+    var lineIdx = 0;
+    var coords = [];
+    var loadCase = 0;
+
     getColors(function(colors){ window.colors = colors; });
     getFonts(function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(function(patterns){ window.patterns = patterns; });
-    
+
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
         var colors_dropdown = '';
@@ -46,10 +50,6 @@ $(document).ready(function() {
         });
         return colors_dropdown;
     }
-
-    var lineIdx = 0;
-    var coords = [];
-    var loadCase = 0;
 
     $("#default_pattern").change(function() {
         $('#pattern_layers_OC').html('');
@@ -128,134 +128,42 @@ $(document).ready(function() {
 
     });
 
-$('.add-point').on('click', function(){
+    $('.add-point').on('click', function(){
 
-    var pointsCount = canvas.getObjects('circle').length;
-    var linesCount = canvas.getObjects('line').length;
-    var l = linesCount - 1;
-    var lines = canvas.getObjects('line');
-    var circles = canvas.getObjects('circle');
-    var itemsCount = canvas.getObjects().length;
-    var y = pointsCount - 1;
+        var pointsCount = canvas.getObjects('circle').length;
+        var linesCount = canvas.getObjects('line').length;
+        var l = linesCount - 1;
+        var lines = canvas.getObjects('line');
+        var circles = canvas.getObjects('circle');
+        var itemsCount = canvas.getObjects().length;
+        var y = pointsCount - 1;
 
-    if(pointsCount < 50){
-        var z = pointsCount + 1;
-        var j = pointsCount - 1;
+        if(pointsCount < 50){
+            var z = pointsCount + 1;
+            var j = pointsCount - 1;
 
-        lines.forEach(function(entry) {
-            if( entry.id == l ){
-                entry.remove();
-                var a = Math.floor((Math.random() * 5) + 1);
-                var b = Math.floor((Math.random() * 5) + 1);
-                if( loadCase == 0 ){
-                    window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
-                    addLine(window['a'+pointsCount], window['a'+z], lineIdx);
-                    lineIdx++;
-                    addLine(window['a'+z], window['a1'], lineIdx);
-                } else {
-                    window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
-                    addLine(window['a'+j], window['a'+pointsCount], lineIdx);
-                    lineIdx++;
-                    addLine(window['a'+pointsCount], window['a0'], lineIdx);
+            lines.forEach(function(entry) {
+                if( entry.id == l ){
+                    entry.remove();
+                    var a = Math.floor((Math.random() * 5) + 1);
+                    var b = Math.floor((Math.random() * 5) + 1);
+                    if( loadCase == 0 ){
+                        window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
+                        addLine(window['a'+pointsCount], window['a'+z], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+z], window['a1'], lineIdx);
+                    } else {
+                        window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
+                        addLine(window['a'+j], window['a'+pointsCount], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+pointsCount], window['a0'], lineIdx);
+                    }
+
+                    canvas.renderAll();
                 }
-
-                canvas.renderAll();
-            }
-        });
-    }
-});
-
-function distance(p1, p2) {
-    //Accepts two objects p1 & p2. Returns the distance between p1 & p2
-    return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
-}
-
-function addCircle(name, x, y, style) {
-
-    if (style === 'knot') {
-        // cfill = 'FireBrick';
-        // cstroke = 'FireBrick';
-        cfill = 'red';
-        cstroke = 'red';
-        ctype = 'knot';
-    } else {
-        cfill = '';
-        cstroke = 'gray';
-        ctype = 'control';
-    }
-    var c = new fabric.Circle({
-        name: name,
-        left: x,
-        top: y,
-        strokeWidth: 2,
-        radius: 5.8,
-        fill: cfill,
-        stroke: cstroke,
-        hasBorders: false,
-        hasControls: false,
-        lockUniScaling: true,
-        selectable: true,
-        coords: x + ', ' + y,
-        reference: true,
-        ptype: ctype,
-        opacity: 0.3
+            });
+        }
     });
-    return c;
-} // addCircle()
-
-
-function addPoint(name, x, y, style) {
-
-    var p = addCircle(name, x, y, style);
-    p.point = new fabric.Point(x, y);
-    p.text = new fabric.Text(name, {
-        left: x,
-        top: y - 10,
-        name: name + '_text',
-        fill: '#808080',
-        fontSize: 14,
-        hasBorders: false,
-        hasControls: false,
-        lockUniScaling: true,
-        selectable: false,
-        reference: true
-    });
-    // canvas.add(p.text);
-    canvas.add(p);
-    canvas.bringToFront(p);
-    return p;
-} // addPoint()
-
-function addLine(p0, p1, lineIdx) {
-    var new_line = new fabric.Object();
-    new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
-        id: lineIdx,
-        fill: "white",
-        stroke: "white",
-        strokeLinejoin: "miter",
-        strokeMiterlimit: 1,
-        strokeWidth: 3,
-        strokeDashArray: [5, 5],
-        selectable: false,
-        hasBorders: false,
-        hasControls: false,
-        reference: false,
-        opacity: 0.8,
-        name: "Line_" + p0.name + p1.name
-    });
-    new_line.setShadow("3px 3px 2px rgba(94, 128, 191, 0.5)");
-    if (p0.hasOwnProperty('outPath') === false) {
-        p0.outPath = [];
-    }
-    p0.outPath.push(new_line);
-    if (p1.hasOwnProperty('inPath') === false) {
-        p1.inPath = [];
-    }
-    p1.inPath.push(new_line);
-    canvas.add(new_line);
-    canvas.sendBackwards(new_line);
-    return new_line;
-} //addLine()
 
     var controls_state = 0;
     $('#app-controls').hide();
@@ -328,7 +236,7 @@ function addLine(p0, p1, lineIdx) {
                 $(this).find(".layer-number").val('99');
                 $(this).find(".layer-number").text('99');
             }
-            if(type == "shadows"){
+            if(type == "shadows"){ 
                 $(this).find(".layer-number").val('98');
                 $(this).find(".layer-number").text('98');
             }
@@ -538,12 +446,6 @@ var applicationProperties = {};
         console.log(err.message);
     }
 
-    $(".modal").each(function(i) {
-        $(this).draggable({
-            handle: ".modal-header"
-        });
-    });
-
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
     $.ajax({
@@ -596,21 +498,12 @@ var applicationProperties = {};
                     $(this).parent().siblings().find(".layer-number").val('98');
                     $(this).parent().siblings().find(".layer-number").text('98');
                 }
-
             }
         });
 
         $(".mo-name").keyup(function() {
             var elem = $(this).parent().siblings().find('.mo-layer');
             var name = $(this).val().toLowerCase();
-            // if(name == "body"){
-            //     console.log('MATCH');
-            //     $(this).val("Body");
-            //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-            // }
-            // else{
-            //     $(".body-layer-number").remove();
-            // }
         });
 
         $(".mo-group-id").keyup(function() {
@@ -1675,9 +1568,15 @@ var applicationProperties = {};
             }
         });
     });
+
     /*
         Helpers
     */
+
+    function distance(p1, p2) {
+        //Accepts two objects p1 & p2. Returns the distance between p1 & p2
+        return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
+    }
 
     function getColors(callback){
         var colors;
@@ -1879,6 +1778,91 @@ var applicationProperties = {};
         Custom fabric functions
     */
 
+    function addCircle(name, x, y, style) {
+        if (style === 'knot') {
+            // cfill = 'FireBrick';
+            // cstroke = 'FireBrick';
+            cfill = 'red';
+            cstroke = 'red';
+            ctype = 'knot';
+        } else {
+            cfill = '';
+            cstroke = 'gray';
+            ctype = 'control';
+        }
+        var c = new fabric.Circle({
+            name: name,
+            left: x,
+            top: y,
+            strokeWidth: 2,
+            radius: 5.8,
+            fill: cfill,
+            stroke: cstroke,
+            hasBorders: false,
+            hasControls: false,
+            lockUniScaling: true,
+            selectable: true,
+            coords: x + ', ' + y,
+            reference: true,
+            ptype: ctype,
+            opacity: 0.3
+        });
+        return c;
+    } // addCircle()
+
+
+    function addPoint(name, x, y, style) {
+        var p = addCircle(name, x, y, style);
+        p.point = new fabric.Point(x, y);
+        p.text = new fabric.Text(name, {
+            left: x,
+            top: y - 10,
+            name: name + '_text',
+            fill: '#808080',
+            fontSize: 14,
+            hasBorders: false,
+            hasControls: false,
+            lockUniScaling: true,
+            selectable: false,
+            reference: true
+        });
+        // canvas.add(p.text);
+        canvas.add(p);
+        canvas.bringToFront(p);
+        return p;
+    } // addPoint()
+
+    function addLine(p0, p1, lineIdx) {
+        var new_line = new fabric.Object();
+        new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
+            id: lineIdx,
+            fill: "white",
+            stroke: "white",
+            strokeLinejoin: "miter",
+            strokeMiterlimit: 1,
+            strokeWidth: 3,
+            strokeDashArray: [5, 5],
+            selectable: false,
+            hasBorders: false,
+            hasControls: false,
+            reference: false,
+            opacity: 0.8,
+            name: "Line_" + p0.name + p1.name
+        });
+        new_line.setShadow("3px 3px 2px rgba(94, 128, 191, 0.5)");
+        if (p0.hasOwnProperty('outPath') === false) {
+            p0.outPath = [];
+        }
+        p0.outPath.push(new_line);
+        if (p1.hasOwnProperty('inPath') === false) {
+            p1.inPath = [];
+        }
+        p1.inPath.push(new_line);
+        canvas.add(new_line);
+        canvas.sendBackwards(new_line);
+        return new_line;
+    } //addLine()
+
     function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
         var fb_obj = new fabric.Rect({
             id: obj_id,
@@ -2077,7 +2061,6 @@ var applicationProperties = {};
             }else{
                 materialOptions.front[thisLayer]['allow_color'] = "0";
             }
-
 
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
@@ -2384,7 +2367,7 @@ canvas.observe('object:rotating', function (e) {
     $('#pattern_angle').val(parseFloat(groups[0].getAngle().toFixed(2)));
 });
 
-canvas.observe('object:moving', function (e) { 
+canvas.observe('object:moving', function (e) {
     var p = e.target;
     console.log('Moving ' + p.name);
     
@@ -2456,9 +2439,7 @@ canvas.observe('object:moving', function (e) {
     updateCoordinates();
 }); //canvas.observe()
 }
-catch(err) {
-    // document.getElementById("demo").innerHTML = err.message;
-}
+catch(err) { console.log(err.message); }
 
 function loadPolygon(data){
     console.log("PolyData >> "+JSON.stringify(data));
