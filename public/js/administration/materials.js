@@ -202,16 +202,16 @@ $(document).ready(function() {
         stop: function( ) {
             var length = $('.options-row').length;
             $(".options-row").each(function(i) {
-                $(this).find(".layer-number").text(length);
-                $(this).find(".layer-number").val(length);
+                // $(this).find(".layer-number").text(length);
+                $(this).find(".mo-layer").val(length);
                 var type = $(this).find(".mo-setting-type").val();
                 if(type == "highlights"){
-                    $(this).find(".layer-number").val('99');
-                    $(this).find(".layer-number").text('99');
+                    $(this).find(".mo-layer").val('99');
+                    // $(this).find(".layer-number").text('99');
                 }
                 if(type == "shadows"){
-                    $(this).find(".layer-number").val('98');
-                    $(this).find(".layer-number").text('98');
+                    $(this).find(".mo-layer").val('98');
+                    // $(this).find(".layer-number").text('98');
                 }
                 length = length-1;
             });
@@ -229,16 +229,17 @@ $(document).ready(function() {
     function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
-            $(this).find(".layer-number").text(length);
-            $(this).find(".layer-number").val(length);
+            // $(this).find(".layer-number").text(length);
+            // $(this).find(".layer-number").val(length);
+            $(this).find(".mo-layer").val(length);
             var type = $(this).find(".mo-setting-type").val();
             if(type == "highlights"){
-                $(this).find(".layer-number").val('99');
-                $(this).find(".layer-number").text('99');
+                $(this).find(".mo-layer").val('99');
+                // $(this).find(".layer-number").text('99');
             }
             if(type == "shadows"){ 
-                $(this).find(".layer-number").val('98');
-                $(this).find(".layer-number").text('98');
+                $(this).find(".mo-layer").val('98');
+                // $(this).find(".layer-number").text('98');
             }
             length = length-1;
         });
@@ -492,13 +493,18 @@ var applicationProperties = {};
                 elem.val(type);
 
                 if(type_raw == "highlights"){
-                    $(this).parent().siblings().find(".layer-number").val('99');
-                    $(this).parent().siblings().find(".layer-number").text('99');
+                    $(this).parent().siblings().find(".mo-layer").val('99');
+                    // $(this).parent().siblings().find(".layer-number").text('99');
                 } else{
-                    $(this).parent().siblings().find(".layer-number").val('98');
-                    $(this).parent().siblings().find(".layer-number").text('98');
+                    $(this).parent().siblings().find(".mo-layer").val('98');
+                    // $(this).parent().siblings().find(".layer-number").text('98');
                 }
             }
+        });
+
+        $(".mo-layer").keyup(function() {
+            var newLength = $('.options-row').length;
+            renumberRows(newLength);
         });
 
         $(".mo-name").keyup(function() {
@@ -2156,6 +2162,11 @@ var applicationProperties = {};
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
+    });
+
+    $(".mo-layer").keyup(function() {
+        var newLength = $('.options-row').length;
+        renumberRows(newLength);
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
