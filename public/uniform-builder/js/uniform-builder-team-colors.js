@@ -27,12 +27,12 @@ $(document).ready(function () {
         
         if (type === 'sublimated') {
 
-            _colors = JSON.parse(_colorSet.colors);
+            _colors = JSON.parse(_colorSet.sublimated_colors);              
 
         }
         else {
 
-            _colors = JSON.parse(_colorSet.sublimated_colors);              
+            _colors = JSON.parse(_colorSet.colors);
 
         }
 

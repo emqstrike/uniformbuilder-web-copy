@@ -1,6 +1,5 @@
 $(document).ready(function () {
     
-    ub.funcs.ui = {};
     ub.funcs.ui.resize  = function () {
 
         console.clear();
