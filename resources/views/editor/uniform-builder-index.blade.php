@@ -222,8 +222,8 @@
                     <i class="fa fa-pencil-square-o"></i>    
                     -->
 
-                    <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>   
-
+                    <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>
+                    
                 </div>
 
                 <div id="simple_toggle_container">

@@ -186,14 +186,4 @@ $(document).ready( function () {
 
     }
 
-    ub.funcs.setObjectProperty({
-        materialOption: 'Body',
-        propertyType: 'color',
-        propertyValue: {
-            colorName: 'Gold',
-            colorHexValue: '#ffba00',
-            colorIntValue: 16759296,
-        }
-    });
-
 });
