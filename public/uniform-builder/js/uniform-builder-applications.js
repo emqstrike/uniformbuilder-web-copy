@@ -1594,7 +1594,7 @@ $(document).ready(function() {
                         return;
                     }
 
-                    if(object.name.indexOf('objects_') !== -1) {
+                    if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
 
                         var _app_id = object.name.replace('objects_','');
                         var _application_obj = ub.current_material.settings.applications[_app_id];

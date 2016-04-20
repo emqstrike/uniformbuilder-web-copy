@@ -2,6 +2,9 @@ $(document).ready(function() {
 
     ub.errors = [];
 
+    ub.width    =    
+    ub.height   = 
+
     ub.ui = {};
     ub.ui.drops = {};
     ub.modifiers = {};
