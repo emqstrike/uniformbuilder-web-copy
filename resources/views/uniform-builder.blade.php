@@ -53,11 +53,21 @@
     </div>
 
     <!-- MAIN ROW -->
+    <div class="row" class='main_viewport'>
     
+        <div id="left-pane-column" class="left-pane-column-full">
+            
+            <!-- Main Preview Window -->
+            @yield('left-pane')
+
+        </div>    
+
+    </div>
+    
+
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
             <!-- Main Preview Window -->
-            @yield('left-pane')
         </div>
         <div id="right-pane-column" class="col-md-6">
             <!-- Customizer -->
