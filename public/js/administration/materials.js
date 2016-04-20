@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    var material = {};
     var materialOptions = {};
     materialOptions['front'] = {};
     materialOptions['back'] = {};
@@ -13,95 +14,30 @@ $(document).ready(function() {
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
 
-    var topInterval;
+    var topInterval; // Intervals used in moving the applications
     var bottomInterval;
     var leftInterval;
     var rightInterval;
 
     var polyData;
-
-    $(document).on('change', '#block_pattern', function() {
-
-        console.log('Changed' + $(this).val());
-
-    });
-
-    $(document).on('change', '#mirror_polygon', function() {
-        updateCoordinates();
-    });
+    var appPropJson = "";
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
-    window.patterns = null;
-    getPatterns(function(patterns){
-        window.patterns = patterns;
-    });
-
-
-    function getPatterns(callback){
-        var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
-        // var url = "//localhost:8888/api/patterns";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                patterns = data['patterns'];
-                if(typeof callback === "function") callback(patterns);
-            }
-        });
-    }
-
-    window.mascots = null;
-    getMascots(function(mascots){
-        window.mascots = mascots;
-    });
-
-    function getMascots(callback){
-        var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                mascots = data['mascots'];
-                // console.log("Mascots: "+items);
-                if(typeof callback === "function") callback(mascots);
-            }
-        });
-    }
-
     window.colors = null;
-    getColors(function(colors){
-        window.colors = colors;
-    });
+    window.fonts = null;
+    window.mascots = null;
+    window.patterns = null;
 
-    function getColors(callback){
-        var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                colors = data['colors'];
-                // console.log("Mascots: "+items);
-                if(typeof callback === "function") callback(colors);
-            }
-        });
-    }
-    
+    var lineIdx = 0;
+    var coords = [];
+    var loadCase = 0;
+
+    getColors(function(colors){ window.colors = colors; });
+    getFonts(function(fonts){ window.fonts = fonts; });
+    getMascots(function(mascots){ window.mascots = mascots; });
+    getPatterns(function(patterns){ window.patterns = patterns; });
+
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
         var colors_dropdown = '';
@@ -114,11 +50,6 @@ $(document).ready(function() {
         });
         return colors_dropdown;
     }
-
-    // **************************************************************************
-    var lineIdx = 0;
-    var coords = [];
-    var loadCase = 0;
 
     $("#default_pattern").change(function() {
         $('#pattern_layers_OC').html('');
@@ -157,7 +88,6 @@ $(document).ready(function() {
             window.current_pattern_properties = pattern_props;
             var x = 1;
             $.each(pattern_props, function(i, item) {
-                // refreshColors();
                 console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
                 var label = 'Layer #' + x;
@@ -172,14 +102,10 @@ $(document).ready(function() {
             console.log('ELSE');
             $.each(window.patterns, function(i, item) {
                 if( item.id == id ){
-                    // console.log('Item properties' + item.pattern_properties);
                     var pattern_props = JSON.parse( item.pattern_properties );
                     window.current_pattern_properties = pattern_props;
                     var x = 1;
                     $.each(pattern_props, function(i, item) {
-                        // refreshColors();
-                        
-
                         console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
                         var label = 'Layer #' + x;
@@ -196,174 +122,53 @@ $(document).ready(function() {
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
-$('.confirm_no').on('click', function(){
+    $('.confirm_no').on('click', function(){
 
-    window.location.reload(true);
+        window.location.reload(true);
 
-});
+    });
 
-$('.add-point').on('click', function(){
-    // updateApplicationsJSON();
-    var pointsCount = canvas.getObjects('circle').length;
-    var linesCount = canvas.getObjects('line').length;
-    var l = linesCount - 1;
-    var lines = canvas.getObjects('line');
-    var circles = canvas.getObjects('circle');
-    var itemsCount = canvas.getObjects().length;
-    var y = pointsCount - 1;
+    $('.add-point').on('click', function(){
 
-    if(pointsCount < 50){
-        var z = pointsCount + 1;
-        var j = pointsCount - 1;
+        var pointsCount = canvas.getObjects('circle').length;
+        var linesCount = canvas.getObjects('line').length;
+        var l = linesCount - 1;
+        var lines = canvas.getObjects('line');
+        var circles = canvas.getObjects('circle');
+        var itemsCount = canvas.getObjects().length;
+        var y = pointsCount - 1;
 
-        lines.forEach(function(entry) {
-            if( entry.id == l ){
-                entry.remove();
-                var a = Math.floor((Math.random() * 5) + 1);
-                var b = Math.floor((Math.random() * 5) + 1);
-                if( loadCase == 0 ){
-                    window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
-                    addLine(window['a'+pointsCount], window['a'+z], lineIdx);
-                    lineIdx++;
-                    addLine(window['a'+z], window['a1'], lineIdx);
-                } else {
-                    window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
-                    addLine(window['a'+j], window['a'+pointsCount], lineIdx);
-                    lineIdx++;
-                    addLine(window['a'+pointsCount], window['a0'], lineIdx);
+        if(pointsCount < 50){
+            var z = pointsCount + 1;
+            var j = pointsCount - 1;
+
+            lines.forEach(function(entry) {
+                if( entry.id == l ){
+                    entry.remove();
+                    var a = Math.floor((Math.random() * 5) + 1);
+                    var b = Math.floor((Math.random() * 5) + 1);
+                    if( loadCase == 0 ){
+                        window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
+                        addLine(window['a'+pointsCount], window['a'+z], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+z], window['a1'], lineIdx);
+                    } else {
+                        window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
+                        addLine(window['a'+j], window['a'+pointsCount], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+pointsCount], window['a0'], lineIdx);
+                    }
+
+                    canvas.renderAll();
                 }
-
-                canvas.renderAll();
-            }
-        });
-    }
-});
-
-// ------- points & circles -------
-
-function distance(p1, p2) {
-    //Accepts two objects p1 & p2. Returns the distance between p1 & p2
-    return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
-} // distance()
-
-function addCircle(name, x, y, style) {
-
-    if (style === 'knot') {
-        cfill = 'FireBrick';
-        cstroke = 'FireBrick';
-        ctype = 'knot';
-    } else {
-        cfill = '';
-        cstroke = 'gray';
-        ctype = 'control';
-    }
-    var c = new fabric.Circle({
-        name: name,
-        left: x,
-        top: y,
-        strokeWidth: 2,
-        radius: 5.8,
-        fill: cfill,
-        stroke: cstroke,
-        hasBorders: false,
-        hasControls: false,
-        lockUniScaling: true,
-        selectable: true,
-        coords: x + ', ' + y,
-        reference: true,
-        ptype: ctype,
-        opacity: 0.3
+            });
+        }
     });
-    return c;
-} // addCircle()
-
-
-function addPoint(name, x, y, style) {
-
-    var p = addCircle(name, x, y, style);
-    p.point = new fabric.Point(x, y);
-    p.text = new fabric.Text(name, {
-        left: x,
-        top: y - 10,
-        name: name + '_text',
-        fill: '#808080',
-        fontSize: 14,
-        hasBorders: false,
-        hasControls: false,
-        lockUniScaling: true,
-        selectable: false,
-        reference: true
-    });
-    // canvas.add(p.text);
-    canvas.add(p);
-    canvas.bringToFront(p);
-    return p;
-} // addPoint()
-
-
-// ------- paths -------
-
-function addLine(p0, p1, lineIdx) {
-    var new_line = new fabric.Object();
-    new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
-        id: lineIdx,
-        fill: "red",
-        stroke: "red",
-        strokeLinejoin: "miter",
-        strokeMiterlimit: 1,
-        strokeWidth: 1,
-        strokeDashArray: [5, 5],
-        selectable: false,
-        hasBorders: false,
-        hasControls: false,
-        reference: false,
-        opacity: 0.8,
-        name: "Line_" + p0.name + p1.name
-    });
-    if (p0.hasOwnProperty('outPath') === false) {
-        p0.outPath = [];
-    }
-    p0.outPath.push(new_line);
-    if (p1.hasOwnProperty('inPath') === false) {
-        p1.inPath = [];
-    }
-    p1.inPath.push(new_line);
-    canvas.add(new_line);
-    canvas.sendBackwards(new_line);
-    // canvas.bringToFront(p0);
-    // canvas.bringToFront(p1);
-    return new_line;
-} //addLine()
-    // **************************************************************************
-
-    window.fonts = null;
-    getFonts(function(fonts){
-        window.fonts = fonts;
-    });
-
-    function getFonts(callback){
-        var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                fonts = data['fonts'];
-                // console.log("Mascots: "+items);
-                if(typeof callback === "function") callback(fonts);
-            }
-        });
-    }
 
     var controls_state = 0;
     $('#app-controls').hide();
 
     $(document).on('click', '.update-applications-json', function() {
-        // updateCoordinates();
         updateApplicationsJSON();
     });
 
@@ -397,16 +202,16 @@ function addLine(p0, p1, lineIdx) {
         stop: function( ) {
             var length = $('.options-row').length;
             $(".options-row").each(function(i) {
-                $(this).find(".layer-number").text(length);
-                $(this).find(".layer-number").val(length);
+                // $(this).find(".layer-number").text(length);
+                $(this).find(".mo-layer").val(length);
                 var type = $(this).find(".mo-setting-type").val();
                 if(type == "highlights"){
-                    $(this).find(".layer-number").val('99');
-                    $(this).find(".layer-number").text('99');
+                    $(this).find(".mo-layer").val('99');
+                    // $(this).find(".layer-number").text('99');
                 }
                 if(type == "shadows"){
-                    $(this).find(".layer-number").val('98');
-                    $(this).find(".layer-number").text('98');
+                    $(this).find(".mo-layer").val('98');
+                    // $(this).find(".layer-number").text('98');
                 }
                 length = length-1;
             });
@@ -424,16 +229,17 @@ function addLine(p0, p1, lineIdx) {
     function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
-            $(this).find(".layer-number").text(length);
-            $(this).find(".layer-number").val(length);
+            // $(this).find(".layer-number").text(length);
+            // $(this).find(".layer-number").val(length);
+            $(this).find(".mo-layer").val(length);
             var type = $(this).find(".mo-setting-type").val();
             if(type == "highlights"){
-                $(this).find(".layer-number").val('99');
-                $(this).find(".layer-number").text('99');
+                $(this).find(".mo-layer").val('99');
+                // $(this).find(".layer-number").text('99');
             }
-            if(type == "shadows"){
-                $(this).find(".layer-number").val('98');
-                $(this).find(".layer-number").text('98');
+            if(type == "shadows"){ 
+                $(this).find(".mo-layer").val('98');
+                // $(this).find(".layer-number").text('98');
             }
             length = length-1;
         });
@@ -444,10 +250,6 @@ function addLine(p0, p1, lineIdx) {
     $("#material-option-name").keyup(function() {
         checkNameLength();
     });
-
-    // $(document).on('change', '.app-default-number, .app-default-text, .front-applications, .app-id, .app-def-item, .app-def-name, .app-uniform-sizes, .app-font-sizes, .app-number, .app-player-name, .app-team-name, .app-logo, .app-primary, #group_id,#is_blend,#allow_pattern,#allow_gradient,#allow_color,.setting-types,.perspective,#file-src,#layer-level,.gradients,.default-color,.origin,.colors', function() {
-    //     updateCoordinates();
-    // });
 
     $(document).on('keyup', '#pattern_angle', function() {
         var groups = canvas.getObjects('group');
@@ -618,9 +420,10 @@ var applicationProperties = {};
         $(this).css('background-color', color);
     });
 
-
+    /*
+        Initialize CANVAS for Bounding Polygon
+    */
     try {
-        // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
         fabric.Object.prototype.transparentCorners = false;
         canvas.setWidth( 496 );
@@ -631,11 +434,6 @@ var applicationProperties = {};
         console.log(err.message);
     }
 
-    // var canvas = this.__canvas = new fabric.Canvas('bounding-box-canvas');
-    // fabric.Object.prototype.transparentCorners = false;
-    // canvas.setWidth( 496 );
-    // canvas.setHeight( 550 );
-    // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     try {
         canvasFront.on({
             'object:moving': updateCoordinatesXYR,
@@ -648,12 +446,6 @@ var applicationProperties = {};
     catch(err) {
         console.log(err.message);
     }
-
-    $(".modal").each(function(i) {
-        $(this).draggable({
-            handle: ".modal-header"
-        });
-    });
 
     window.materialOptionSettings = null;
     var url = "//" + api_host + "/api/cuts/settings";
@@ -669,14 +461,6 @@ var applicationProperties = {};
             var items = materialOptionSettings[type];
         }
     });
-
-    // var testMessage = "jethro del rosario";
-
-    String.prototype.capitalize = function() {
-        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-    };
-
-    // console.log(testMessage.capitalize());
 
     $('.materials').bootstrapTable();
 
@@ -709,27 +493,23 @@ var applicationProperties = {};
                 elem.val(type);
 
                 if(type_raw == "highlights"){
-                    $(this).parent().siblings().find(".layer-number").val('99');
-                    $(this).parent().siblings().find(".layer-number").text('99');
+                    $(this).parent().siblings().find(".mo-layer").val('99');
+                    // $(this).parent().siblings().find(".layer-number").text('99');
                 } else{
-                    $(this).parent().siblings().find(".layer-number").val('98');
-                    $(this).parent().siblings().find(".layer-number").text('98');
+                    $(this).parent().siblings().find(".mo-layer").val('98');
+                    // $(this).parent().siblings().find(".layer-number").text('98');
                 }
-
             }
+        });
+
+        $(".mo-layer").keyup(function() {
+            var newLength = $('.options-row').length;
+            renumberRows(newLength);
         });
 
         $(".mo-name").keyup(function() {
             var elem = $(this).parent().siblings().find('.mo-layer');
             var name = $(this).val().toLowerCase();
-            // if(name == "body"){
-            //     console.log('MATCH');
-            //     $(this).val("Body");
-            //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-            // }
-            // else{
-            //     $(".body-layer-number").remove();
-            // }
         });
 
         $(".mo-group-id").keyup(function() {
@@ -748,7 +528,6 @@ var applicationProperties = {};
             filename = filenamex.replace(/[0-9]/g, '');
             filename = filename.split("_").join(' ');
             filename.capitalize();
-
 
             if( filename.charAt(0) == ' ' ){
                 filename = filename.substr(1);
@@ -843,8 +622,6 @@ var applicationProperties = {};
         $('#view-material-modal').modal('show');
     });
 
-var material = {};
-
     $('.add-multiple-material-option').on('click', function(){
         $('#add-multiple-options-modal').modal('show');
     });
@@ -854,37 +631,6 @@ var material = {};
         var id = $(this).data('id');
         $('#cleanup_material_id').val(id);
     });
-
-    // $('.add-material-option').on('click', function(){
-    //     material = {
-    //         id: $(this).data('material-id'),
-    //         name: $(this).data('material-name'),
-    //         front_shape: ($(this).data('material-front-shape')),
-    //         back_shape: ($(this).data('material-back-shape')),
-    //         left_shape: ($(this).data('material-left-shape')),
-    //         right_shape: ($(this).data('material-right-shape'))
-    //     };
-    //     $('#save-material-option-modal .material-id').val(material.id);
-    //     $('#save-material-option-modal .modal-title').html("Add Material Options for: " + material.name);
-    //     $('#save-material-option-modal').modal('show');
-
-    //     $('.material-id').prop("value", material.id);
-    //     $('.material-option-id').val('');
-    //     $('#material-option-name').val('');
-    //     $('#saved-setting-type').val('');
-    //     $('#saved-setting-type').prop("visible", false);
-    //     $('#saved-perspective').val('');
-    //     $('#saved-perspective').prop("visible", false);
-    //     $('#boundary-properties').val('');
-    //     $('#application-properties').val('');
-    //     $("#material-option-bounding-box").css("background-image", '');
-    //     $("#shape-view-top").css("background-image", "url()");
-    //     $("#material-option-bounding-box-top").css("background-image", "url()");
-    //     checkNameLength();
-    //     canvasFront.clear();
-    //     clearAppPropOptions();
-
-    // });
 
     $("#select-perspective").on('change', function() {
         var perspective = $(this).val();
@@ -903,7 +649,6 @@ var material = {};
 
     });
 
-var appPropJson = "";
     $('.add-multiple-material-option').on('click', function(){
         material = {
             id: $(this).data('material-id')
@@ -912,217 +657,6 @@ var appPropJson = "";
         $('.material-id').prop("value", material.id);
         $('.perspective-multiple-upload').val(perspective);
     });
-
-//     $('.edit-material-option').on('click', function(){
-//         application_number = 0;
-//         material = {
-//             id: $(this).data('material-id'),
-//             name: $(this).data('material-name'),
-//             front_shape: ($(this).data('material-front-shape')),
-//             back_shape: ($(this).data('material-back-shape')),
-//             left_shape: ($(this).data('material-left-shape')),
-//             right_shape: ($(this).data('material-right-shape')),
-//             option: {
-//                 id: $(this).data('material-option-id'),
-//                 name: $(this).data('material-option-name'),
-//                 origin: $(this).data('material-option-origin'),
-//                 layer_level: $(this).data('material-option-layer-level'),
-//                 default_color: $(this).data('material-option-default-color'),
-//                 sublimated_default_color: $(this).data('material-option-sublimated-default-color'),
-//                 default_color_name: $(this).data('material-option-default-color-name'),
-//                 sublimated_default_color_name: $(this).data('material-option-sublimated-default-color-name'),
-//                 type: $(this).data('material-option-setting-type'),
-//                 team_color_id: $(this).data('material-option-team-color-id'),
-//                 group_id: $(this).data('material-option-group-id'),
-//                 code: $(this).data('material-option-setting-code'),
-//                 path: $(this).data('material-option-path'),
-//                 perspective: $(this).data('material-option-perspective'),
-//                 colors: $(this).data('material-option-colors'),
-//                 gradients: $(this).data('material-option-gradients'),
-//                 blend: ($(this).data('material-option-blend') == 'yes') ? true : false,
-//                 allow_pattern: ($(this).data('material-option-allow-pattern') == 'yes') ? true : false,
-//                 allow_gradient: ($(this).data('material-option-allow-gradient') == 'yes') ? true : false,
-//                 allow_color: ($(this).data('material-option-allow-color') == 'yes') ? true : false,
-//                 boundary_properties: ($(this).data('material-option-boundary-properties')),
-//                 applications_properties: ($(this).data('material-option-applications-properties')),
-//                 highlights: ($(this).data('material-highlights-path'))
-//             }
-//         };
-
-//         // console.log("HIGHLIGHTS PATH: "+material.option.highlights);
-
-//         $('.material-id').prop("value", material.id);
-//         $('.material-option-id').prop("value", material.option.id);
-//         $('#material-option-name').val(material.option.name);
-//         $('#group_id').val(material.option.group_id);
-//         $('#saved-setting-type').val(material.option.type);
-//         $('#saved-setting-type').text(material.option.type);
-//         $('#saved-setting-type').attr('selected','selected');
-//         $('#saved-origin').val(material.option.origin);
-//         $('#saved-origin').text(material.option.origin);
-//         $('#saved-origin').attr('selected','selected');
-
-//         $('.saved-default-color').val(material.option.default_color);
-//         $('.saved-default-color').text(material.option.default_color_name);
-//         $('.saved-default-color').attr('selected','selected');
-
-//         $('#saved-sublimated-default-color').val(material.option.sublimated_default_color);
-//         $('#saved-sublimated-default-color').text(material.option.sublimated_default_color_name);
-//         $('#saved-sublimated-default-color').attr('selected','selected');
-
-//         $('#saved-perspective').val(material.option.perspective);
-//         $('#saved-perspective').text(material.option.perspective + " View");
-//         $('#saved-perspective').attr('selected','selected');
-
-//         if(material.option.blend){
-//             $('#is_blend').prop('checked','checked');
-//         }
-//         if(material.option.allow_pattern){
-//             $('#allow_pattern').prop('checked','checked');
-//         }
-//         if(material.option.allow_gradient){
-//             $('#allow_gradient').prop('checked','checked');
-//         }
-//         if(material.option.allow_color){
-//             $('#allow_color').prop('checked','checked');
-//         }
-        
-//         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-//         var team_color_id_options = "";
-
-//         id_nums.forEach(function(entry) {
-//             id = entry;
-//             if(id == material.option.team_color_id){
-//                 team_color_id_options = team_color_id_options + "<option value="+id+" selected>"+id+"</option>";
-//             } else {
-//                 team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
-//             }
-//         });
-
-//         $('#team_color_id').append(team_color_id_options);
-
-//         $('.b-prop').prop("value", material.option.boundary_properties);
-//         $('.a-prop').prop("value", material.option.applications_properties);
-//         var va_prop_val = $('.a-prop').val();
-//         if($('.a-prop').val() != "\"{}\""){
-//             va_prop_val = $('.a-prop').val();
-//             $('.a-prop').prop("value", va_prop_val);
-//         }
-
-//         var perspective = material.option.perspective;
-//         var material_option_shape;
-//         if(perspective == 'front') {
-//             material_option_shape = material.front_shape;
-//         } else if(perspective == 'back') {
-//             material_option_shape = material.back_shape;
-//         } else if(perspective == 'left') {
-//             material_option_shape = material.left_shape;
-//         } else if(perspective == 'right') {
-//             material_option_shape = material.right_shape;
-//         }
-
-//         if(material.option.highlights != null){
-//             material_option_shape = material.option.highlights;
-//         }
-
-//         $("#shape-view").css("background-image", "url("+material_option_shape+")");
-//         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
-//         $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-//         $("#material-option-bounding-box").css("background-image", "url("+material_option_shape+")");
-//         checkNameLength();
-
-//         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
-//         // **************
-//         if($('.b-prop').val != "" || $('.b-prop').val != "\"\""){
-//             canvas.clear();
-//             var jason = $('.b-prop').val();
-//             // var polyData = "'"+jason+"'";
-//             var output = jason.substring(1, jason.length-1);
-//             // var myData = JSON.parse(output);
-//             // var def_data = [{"x":96.69,"y":37.08},{"x":128.56,"y":20},{"x":173.54,"y":9.04},{"x":183.5,"y":35.09},{"x":199.28,"y":54.95},{"x":171.63,"y":87.05},{"x":130.8,"y":113.8}];
-
-
-//             // var output = jason.substring(1, jason.length-1);
-//             polyData = JSON.parse(output);
-
-// // console.log('JASON: '+jason);
-//             // bounding_box.oCoords.tl.x = myData.topLeft.x; ***
-//             // bounding_box.oCoords.tl.y = myData.topLeft.y;
-//             // bounding_box.oCoords.tr.x = myData.topRight.x;
-//             // bounding_box.oCoords.tr.y = myData.topRight.y;
-//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x;
-//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y;
-//             // bounding_box.oCoords.br.x = myData.bottomRight.x;
-//             // bounding_box.oCoords.br.y = myData.bottomRight.y;
-//             // bounding_box.centerPoint = myData.pivot; ***
-
-//             // bounding_box.oCoords.tl.x = myData.topLeft.x / 2;
-//             // bounding_box.oCoords.tl.y = myData.topLeft.y / 2;
-//             // bounding_box.oCoords.tr.x = myData.topRight.x / 2;
-//             // bounding_box.oCoords.tr.y = myData.topRight.y / 2;
-//             // bounding_box.oCoords.bl.x = myData.bottomLeft.x / 2;
-//             // bounding_box.oCoords.bl.y = myData.bottomLeft.y / 2;
-//             // bounding_box.oCoords.br.x = myData.bottomRight.x / 2;
-//             // bounding_box.oCoords.br.y = myData.bottomRight.y / 2;
-//             // bounding_box.centerPoint = myData.pivot;
-//             // bounding_box.setAngle(myData.rotation);
-
-//             // bounding_box.width = myData.boxWidth / 2;
-//             // bounding_box.height = myData.boxHeight / 2;
-//             // box.width = myData.boxWidth / 2;
-//             // box.height = myData.boxHeight / 2;
-//             // bounding_box.left = myData.topLeft.x / 2;
-//             // bounding_box.top = myData.topLeft.y / 2;
-
-
-//             loadPolygon(polyData);
-
-//             // canvas.renderAll();
-//             canvasFront.clear();
-
-//             if($('.a-prop').val() != "\"{}\""){
-//             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-//             var app_properties = JSON.parse(ap_out);
-
-//             $(".front-applications").remove(".apOpt");
-//             clearAppPropOptions();
-
-//             // ITERATE THROUGH THE JSON, AND INSERT THE APPLICATIONS
-
-//             appendApplications(app_properties);
-
-//             } // ************************ APP PROP IF END
-
-
-//             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
-//             $('.b-prop').prop('value', boundaryProperties);
-
-//             // var applicationsProperties = JSON.stringify(data);
-//             // $('.a-prop').prop('value', applicationsProperties);
-
-//             // console.log("CONSOLE LOG: " + applicationsProperties);
-
-
-//             $("#file-src").prop("src", material.option.path);
-//             $("#layer-level").prop("value", material.option.layer_level);
-
-//             if (material.option.blend) {
-//                 $('#is-blend').attr('checked', 'checked');
-//             } else {
-//                 $('#is-blend').attr('checked', 'unchecked');
-//             }
-
-//         }
-//         // **************
-
-//         $('#saved-setting-type').attr('selected',true);
-//         $('#saved-perspective').attr('selected',true);
-//         $('#edit-material-option-modal .material-option-path').attr('src', material.option.path);
-//         $('#save-material-option-modal .material-id').val(material.id);
-//         $('#save-material-option-modal .modal-title span').html("Edit: " + material.option.name);
-//         $('#save-material-option-modal').modal('show');
-//     });
 
     $('.material-option-boundary').on('click', function(){
         application_number = 0;
@@ -1174,8 +708,6 @@ var appPropJson = "";
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-
-
         console.log('B prop val >>'+$('.b-prop').val());
 
 
@@ -1191,13 +723,6 @@ var appPropJson = "";
             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
             $('.b-prop').prop('value', boundaryProperties);
         }
-
-
-
-
-
-
-
 
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
@@ -1712,96 +1237,6 @@ var appPropJson = "";
         row.fadeIn();
     }
 
-    $(document).on('change', '.app-id', function() {
-        var itemIdx = $(this).data('id');
-        var newId = $(this).val();
-
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-
-        thisGroup.item(1).text = newId;
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $(document).on('change', '.app-def-item', function() {
-
-        var itemIdx = $(this).data('id');
-        var newName = $(this).val();
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        var thisGroup = canvasFront.item(itemIdx);
-
-        thisGroup.item(2).text = newName;
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $(document).on('change', '.app-rotation', function() {
-        var itemIdx = $(this).data('id');
-        var newName = $(this).val();
-        var items = canvasFront.getObjects();
-        var item = items[itemIdx];
-        
-        canvasFront.item(itemIdx).setAngle($(this).val()).setCoords();
-        canvasFront.renderAll();
-        updateCoordinates();
-    });
-
-    $("#app_template_name").keyup(function() {
-        console.log("Changed template name, length is: "+$(this).val().length);
-        if( $(this).val().length > 2 ){
-            $('#save_app_template').removeAttr('disabled');
-            console.log('IF');
-        } else {
-            $('#save_app_template').attr('disabled', 'disabled');
-            console.log('ELSE');
-        }
-    });
-
-    $("#boundary_template_name").keyup(function() {
-        console.log("Changed template name, length is: "+$(this).val().length);
-        if( $(this).val().length > 2 ){
-            $('#save_boundary_template').removeAttr('disabled');
-            console.log('IF');
-        } else {
-            $('#save_boundary_template').attr('disabled', 'disabled');
-            console.log('ELSE');
-        }
-    });
-
-    $(".load-applications-template").change(function() {
-        canvasFront.clear();
-        application_number = 1;
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-        var va_prop_val = $(this).val();
-
-        if(va_prop_val != "\"{}\""){
-            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
-            var app_properties = JSON.parse(ap_out);
-
-            $(".front-applications").remove(".apOpt");
-            clearAppPropOptions();
-            appendApplications(app_properties);
-
-        }
-        // updateCoordinates();
-    });
-
-    $(".load-boundaries-template").change(function() {
-        var va_prop_val = $(this).val();
-
-        if( va_prop_val == '"{}"' || va_prop_val == null ){
-            va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
-        }
-        console.log('VA_PROP_VAL' + va_prop_val);
-        var output = va_prop_val.substring(1, va_prop_val.length-1);
-        polyData = JSON.parse(output);
-        loadPolygon(polyData);
-        updateCoordinates();
-    });
-
     function fixLoadPolygon(){
         var va_prop_val = $('.load-boundaries-template').val();
 
@@ -1911,34 +1346,9 @@ var appPropJson = "";
         
     });
 
-    // *** Active / Disabled toggler
-
-    $('.toggle-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/toggle/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                }
-            }
-        });
-    });
-
-    // *** Confirmation Modals
+    /*
+        Confirmation Modals
+    */
 
     $('.duplicate-material').on('click', function(){
         var id = $(this).data('material-id');
@@ -1950,32 +1360,6 @@ var appPropJson = "";
             'confirm-yes',
             'confirmation-modal-duplicate-material'
         );
-    });
-
-    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/duplicate/"+id;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
     });
 
     $('.delete-material').on('click', function(){
@@ -2012,6 +1396,50 @@ var appPropJson = "";
         );
     });
 
+    $('.delete-multiple-material-option').on('click', function(){
+        var checkedMaterialOptionsIDs = [];
+        $('input[type=checkbox]:checked').each(function () {
+            if($(this).hasClass("delete-multiple-material-options")){
+                checkedMaterialOptionsIDs.push($(this).val());
+            }
+            
+        });
+        console.log(checkedMaterialOptionsIDs);
+        modalConfirm(
+            'Remove Multiple Material Options',
+            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
+            checkedMaterialOptionsIDs,
+            'confirm-yes',
+            'confirmation-modal-multiple-material-option'
+        );
+    });
+
+    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material/duplicate/"+id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    window.location.reload(true);
+                }
+            }
+        });
+    });    
+
     $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/cleanupApp/";
@@ -2040,29 +1468,9 @@ var appPropJson = "";
         });
     });
 
-    $('.delete-multiple-material-option').on('click', function(){
-        var checkedMaterialOptionsIDs = [];
-        $('input[type=checkbox]:checked').each(function () {
-            if($(this).hasClass("delete-multiple-material-options")){
-                checkedMaterialOptionsIDs.push($(this).val());
-            }
-            
-        });
-        console.log(checkedMaterialOptionsIDs);
-        modalConfirm(
-            'Remove Multiple Material Options',
-            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
-            checkedMaterialOptionsIDs,
-            'confirm-yes',
-            'confirmation-modal-multiple-material-option'
-        );
-    });
-
     $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
-        // console.log('DELETE MULTIPLE');
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/deleteMultiple/";
-        // console.log("IDs: " + id);
         $.ajax({
             url: url,
             type: "POST",
@@ -2138,31 +1546,6 @@ var appPropJson = "";
         });
     });
 
-    $('#add-material-option-modal .setting-types').on('change', function(){
-        var key = $(this).val();
-        var items = materialOptionSettings[key];
-    });
-
-    $('#edit-material-option-modal .setting-types').on('change', function(){
-        var key = $(this).val();
-        var items = materialOptionSettings[key];
-    });
-
-    function loadItemsToSettingCodes(items, action) {
-        if (typeof action == 'undefined') action = 'add';
-        $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
-        if (items) {
-            if (items.length > 0) {
-                $.each(items, function(index, item){
-                    $('#' + action + '-material-option-modal .setting-codes')
-                        .append(
-                            $('<option></option>').val(item.code).html(item.value)
-                        );
-                });
-            }
-        }
-    }
-
     $('.delete-material-image').on('click', function(){
         var id = $(this).data('material-id');
         var field = $(this).data('field');
@@ -2191,7 +1574,299 @@ var appPropJson = "";
         });
     });
 
-    // *** Custom Fabric Functions
+    /*
+        Helpers
+    */
+
+    function distance(p1, p2) {
+        //Accepts two objects p1 & p2. Returns the distance between p1 & p2
+        return Math.sqrt(((p2.left - p1.left) * (p2.left - p1.left)) + ((p2.top - p1.top) * (p2.top - p1.top)));
+    }
+
+    function getColors(callback){
+        var colors;
+        var url = "//api-dev.qstrike.com/api/colors";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    function getFonts(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/fonts";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fonts = data['fonts'];
+                if(typeof callback === "function") callback(fonts);
+            }
+        });
+    }
+
+    function getMascots(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                mascots = data['mascots'];
+                if(typeof callback === "function") callback(mascots);
+            }
+        });
+    }
+
+    function getPatterns(callback){
+        var patterns;
+        var url = "//api-dev.qstrike.com/api/patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                patterns = data['patterns'];
+                if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
+
+    String.prototype.capitalize = function() {
+        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
+
+    $(document).on('change', '#block_pattern', function() {
+        console.log('Changed' + $(this).val());
+    });
+
+    $(document).on('change', '.app-id', function() {
+        var itemIdx = $(this).data('id');
+        var newId = $(this).val();
+
+        var items = canvasFront.getObjects();
+        var item = items[itemIdx];
+        var thisGroup = canvasFront.item(itemIdx);
+
+        thisGroup.item(1).text = newId;
+        canvasFront.renderAll();
+        updateCoordinates();
+    });
+
+    $(".load-boundaries-template").change(function() {
+        var va_prop_val = $(this).val();
+
+        if( va_prop_val == '"{}"' || va_prop_val == null ){
+            va_prop_val = '"[{"angle":0,"x":20,"y":60},{"x":20,"y":20},{"x":60,"y":20},{"x":60,"y":60}]"';
+        }
+        console.log('VA_PROP_VAL' + va_prop_val);
+        var output = va_prop_val.substring(1, va_prop_val.length-1);
+        polyData = JSON.parse(output);
+        loadPolygon(polyData);
+        updateCoordinates();
+    });
+
+    $(".load-applications-template").change(function() {
+        canvasFront.clear();
+        application_number = 1;
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+        var va_prop_val = $(this).val();
+
+        if(va_prop_val != "\"{}\""){
+            var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
+            var app_properties = JSON.parse(ap_out);
+
+            $(".front-applications").remove(".apOpt");
+            clearAppPropOptions();
+            appendApplications(app_properties);
+
+        }
+    });
+
+    $('#add-material-option-modal .setting-types').on('change', function(){
+        var key = $(this).val();
+        var items = materialOptionSettings[key];
+    });
+
+    $('#edit-material-option-modal .setting-types').on('change', function(){
+        var key = $(this).val();
+        var items = materialOptionSettings[key];
+    });
+
+    function loadItemsToSettingCodes(items, action) {
+        if (typeof action == 'undefined') action = 'add';
+        $('#' + action + '-material-option-modal .setting-codes').empty(); // clear
+        if (items) {
+            if (items.length > 0) {
+                $.each(items, function(index, item){
+                    $('#' + action + '-material-option-modal .setting-codes')
+                        .append(
+                            $('<option></option>').val(item.code).html(item.value)
+                        );
+                });
+            }
+        }
+    }
+
+    function generateTRow(fields){
+        var tr = '<tr class="application-row">';
+        fields.forEach(function(entry) {
+            tr += '<td>' + entry + '</td>';
+        });
+        tr += '</tr>';
+        return tr;
+    }
+
+    function bindColorsSelect2()
+    {
+        $('.colors').select2({
+            placeholder: "Select colors",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    function bindGradientsSelect2()
+    {
+        $('.gradients').select2({
+            placeholder: "Select gradients",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
+    $('.toggle-material').on('click', function(){
+        var id = $(this).data('material-id');
+        var url = "//" + api_host + "/api/material/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
+    /*
+        Custom fabric functions
+    */
+
+    function addCircle(name, x, y, style) {
+        if (style === 'knot') {
+            // cfill = 'FireBrick';
+            // cstroke = 'FireBrick';
+            cfill = 'red';
+            cstroke = 'red';
+            ctype = 'knot';
+        } else {
+            cfill = '';
+            cstroke = 'gray';
+            ctype = 'control';
+        }
+        var c = new fabric.Circle({
+            name: name,
+            left: x,
+            top: y,
+            strokeWidth: 2,
+            radius: 5.8,
+            fill: cfill,
+            stroke: cstroke,
+            hasBorders: false,
+            hasControls: false,
+            lockUniScaling: true,
+            selectable: true,
+            coords: x + ', ' + y,
+            reference: true,
+            ptype: ctype,
+            opacity: 0.3
+        });
+        return c;
+    } // addCircle()
+
+
+    function addPoint(name, x, y, style) {
+        var p = addCircle(name, x, y, style);
+        p.point = new fabric.Point(x, y);
+        p.text = new fabric.Text(name, {
+            left: x,
+            top: y - 10,
+            name: name + '_text',
+            fill: '#808080',
+            fontSize: 14,
+            hasBorders: false,
+            hasControls: false,
+            lockUniScaling: true,
+            selectable: false,
+            reference: true
+        });
+        // canvas.add(p.text);
+        canvas.add(p);
+        canvas.bringToFront(p);
+        return p;
+    } // addPoint()
+
+    function addLine(p0, p1, lineIdx) {
+        var new_line = new fabric.Object();
+        new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
+            id: lineIdx,
+            fill: "white",
+            stroke: "white",
+            strokeLinejoin: "miter",
+            strokeMiterlimit: 1,
+            strokeWidth: 3,
+            strokeDashArray: [5, 5],
+            selectable: false,
+            hasBorders: false,
+            hasControls: false,
+            reference: false,
+            opacity: 0.8,
+            name: "Line_" + p0.name + p1.name
+        });
+        new_line.setShadow("3px 3px 2px rgba(94, 128, 191, 0.5)");
+        if (p0.hasOwnProperty('outPath') === false) {
+            p0.outPath = [];
+        }
+        p0.outPath.push(new_line);
+        if (p1.hasOwnProperty('inPath') === false) {
+            p1.inPath = [];
+        }
+        p1.inPath.push(new_line);
+        canvas.add(new_line);
+        canvas.sendBackwards(new_line);
+        return new_line;
+    } //addLine()
 
     function fabricAppRectangle(obj_id, fill, obj_height, obj_width, stroke_width, stroke_color, opacity ){
         var fb_obj = new fabric.Rect({
@@ -2242,37 +1917,6 @@ var appPropJson = "";
         });
 
         return fb_obj;
-    }
-
-    // *** Generate rows when appending applications in canvas
-
-    function generateTRow(fields){
-        var tr = '<tr class="application-row">';
-        fields.forEach(function(entry) {
-            tr += '<td>' + entry + '</td>';
-        });
-        tr += '</tr>';
-        return tr;
-    }
-
-    // *** Bind Color selects
-
-    function bindColorsSelect2()
-    {
-        $('.colors').select2({
-            placeholder: "Select colors",
-            multiple: true,
-            allowClear: true
-        });
-    }
-
-    function bindGradientsSelect2()
-    {
-        $('.gradients').select2({
-            placeholder: "Select gradients",
-            multiple: true,
-            allowClear: true
-        });
     }
 
     function clearAppPropOptions(){
@@ -2357,8 +2001,6 @@ var appPropJson = "";
             var sub_def_color_class = ".mo-sublimated-default-color.layer" + length;
             $(this).find(sub_def_color_class).addClass('mo-sublimated-default-color');
 
-
-
             // ARRAYS ******************************
 
             $(this).find('.mo-blend').removeClass().addClass("mo-blend");
@@ -2380,10 +2022,7 @@ var appPropJson = "";
             $(this).find('.mo-allow-color').addClass(thisLayer);
             var mo_allow_color_class = ".mo-allow-color.layer" + length;
             $(this).find(mo_allow_color_class).addClass('mo-allow-color');
-
             // END ARRAYS
-
-
 
             $(this).find('.mo-team-color-id').removeClass().addClass("mo-team-color-id");
             $(this).find('.mo-team-color-id').addClass(thisLayer);
@@ -2416,20 +2055,17 @@ var appPropJson = "";
                 materialOptions.front[thisLayer]['allow_pattern'] = "0";
             }
 
-
             if($(mo_allow_gradient_class).is(':checked')){
                 materialOptions.front[thisLayer]['allow_gradient'] = "1";
             }else{
                 materialOptions.front[thisLayer]['allow_gradient'] = "0";
             }
 
-
             if($(mo_allow_color_class).is(':checked')){
                 materialOptions.front[thisLayer]['allow_color'] = "1";
             }else{
                 materialOptions.front[thisLayer]['allow_color'] = "0";
             }
-
 
             is_blend_arr.push(materialOptions.front[thisLayer]['is_blend']);
             $('#is-blend-array').val(is_blend_arr);
@@ -2450,11 +2086,6 @@ var appPropJson = "";
         console.log("MOS: "+moProperties);
     }
 
-    // *** Update Coordinates if Canvas is Updated
-    // function updateCoordinatesXYR() {
-    //     var cs = 1;
-    //     updateCoordinates(cs);
-    // }
     function updateCoordinatesXYR() {
         var cs = 1;
         updateRXY(cs);
@@ -2492,19 +2123,10 @@ var appPropJson = "";
             console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
             coords[x] = {};
             var groups = canvas.getObjects('group');
-            // coords[x].push({ x : getCenterPoint.x.toFixed(2), y : getCenterPoint.y.toFixed(2) });
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
             }
 
-            var mirror_pattern = 0;
-            if( $('#mirror_polygon:checkbox:checked').length > 0 ){
-                console.log('checked');
-                coords[x]['mirror'] = 1;
-            } else {
-                console.log('unchecked');
-                coords[x]['mirror'] = 0;
-            }
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
             coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
             x++;
@@ -2539,14 +2161,11 @@ var appPropJson = "";
     $(".mo-name").keyup(function() {
         var elem = $(this).parent().siblings().find('.mo-layer');
         var name = $(this).val().toLowerCase();
-        // if(name == "body"){
-        //     console.log('MATCH');
-        //     $(this).val("Body");
-        //     $(elem).append( "<option value=\"-1\" selected class=\"body-layer-number\">-1</option>");
-        // }
-        // else{
-        //     $(".body-layer-number").remove();
-        // }
+    });
+
+    $(".mo-layer").keyup(function() {
+        var newLength = $('.options-row').length;
+        renumberRows(newLength);
     });
 
     // CHANGES BACKGROUNDS OF CANVASES
@@ -2629,8 +2248,9 @@ var appPropJson = "";
             }
         }
     });
-
-    // *** Fabric Listeners
+    /*
+            Fabric Listeners
+    */
 try {
     fabric.util.addListener(document.getElementById('move-top'), 'mouseenter', function () {
 
@@ -2724,15 +2344,11 @@ try {
 
     });
 }
-catch(err) {
-    // document.getElementById("demo").innerHTML = err.message;
-}
-
-
-    // *** END OF Fabric Listeners
+catch(err) { console.log(err.message); }
 
     bindColorsSelect2();
     bindGradientsSelect2();
+
 try {
 canvas.observe('object:rotating', function (e) { 
 
@@ -2761,7 +2377,7 @@ canvas.observe('object:rotating', function (e) {
     $('#pattern_angle').val(parseFloat(groups[0].getAngle().toFixed(2)));
 });
 
-canvas.observe('object:moving', function (e) { 
+canvas.observe('object:moving', function (e) {
     var p = e.target;
     console.log('Moving ' + p.name);
     
@@ -2833,14 +2449,11 @@ canvas.observe('object:moving', function (e) {
     updateCoordinates();
 }); //canvas.observe()
 }
-catch(err) {
-    // document.getElementById("demo").innerHTML = err.message;
-}
+catch(err) { console.log(err.message); }
 
 function loadPolygon(data){
     console.log("PolyData >> "+JSON.stringify(data));
     var angle;
-    var mirror;
     canvas.clear();
     var z = 0;
     // console.log('POLY TEST >> '+data[0].angle);
@@ -2850,7 +2463,6 @@ function loadPolygon(data){
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
-            mirror = item.mirror;
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -2875,19 +2487,10 @@ function loadPolygon(data){
     console.log('Line Index: ' + lineIdx);
     loadCase = 1;
 
-    if( mirror == 1 ){
-        $('#mirror_polygon').attr('checked', 'checked');
-    } else {
-        $('#mirror_polygon').attr('checked', 'unchecked');
-    }
-
-    // $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     try {
         $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
     }
-    catch(err) {
-        // document.getElementById("demo").innerHTML = err.message;
-    }
+    catch(err) { console.log(err.message); }
 
     var rect = new fabric.Rect({
         left: 453,
@@ -2903,28 +2506,16 @@ function loadPolygon(data){
         height: 50
     });
 
-    var text = new fabric.Text('Pattern Angle', {
-        fill: 'black',
-        fontSize: 15,
-        left: 453,
-        top: 362
-    });
+    var text = new fabric.Text('Pattern Angle', { fill: 'black', fontSize: 15, left: 453, top: 362 });
 
-    var triangle = new fabric.Triangle({
-        width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180
-    });
+    var triangle = new fabric.Triangle({  width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180 });
 
     if( angle == null || angle == "" ){
         angle = 0;
     }
 
-    var group = new fabric.Group([ rect, triangle, text ], {
-        left: 453,
-        top: 362,
-        angle: angle
-    });
-    // console.log("Load Angle >>> "+data[0].angle);
-    // group.setAngle(angle);
+    var group = new fabric.Group([ rect, triangle, text ], { left: 453, top: 362, angle: angle });
+
     canvas.add(group);
     canvas.renderAll();
     // fixLoadPolygon();
