@@ -1507,11 +1507,12 @@ $(document).ready(function() {
     ub.funcs.isWithin = function (point, boundaries) {
 
         var _transformed_boundaries = [];
+
         if(ub[ub.active_view + '_view'].scale.x === 0.5) {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point((point.x / 2) + ub.offset.x, (point.y / 2) + ub.offset.y);
+                var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1521,7 +1522,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x + ub.offset.x, (point.y / 2) + ub.offset.y );
+                var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
                 _transformed_boundaries.push(p); 
 
             });   
