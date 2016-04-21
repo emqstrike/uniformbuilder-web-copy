@@ -9,6 +9,10 @@
 @text_color: #3d3d3d;
 @border_color: #d7d7d7;
 
+@customizer_bg: #e6e6e6;
+@customizer_forecolor: #808080;
+@customizer_main_area: #808080;
+
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
 @main_forecolor: @text_color;
@@ -227,8 +231,6 @@ div.pane {
         float: right;
         background-color: #fff;
         
-        border: 1px solid @border_color;
-
     }
 
 
@@ -392,12 +394,13 @@ div.options_panel  {
 
     div.options_panel_header {
      
-        background-color: #ffffff;
+        background-color: @customizer_bg;
         width: 100%;
         display: table;
         height: 40px;
         border-bottom: 1px solid @border_color;
         padding: 10px;
+        color: @customizer_forecolor;
 
         span.default {
 
@@ -443,7 +446,7 @@ div.options_panel  {
             }
 
             span.nOf {
-                color: @border_color;
+                color: @customizer_forecolor;
                 font-size: 1em;
             }
         }
@@ -591,10 +594,9 @@ div.pattern_panel_container {
 
     display: none;
     overflow-y: scroll;
-    border: 1px solid @border_color;
 
     width: 100%;
-    background-color: white;
+    background-color: @customizer_main_area;
 
 }
 
@@ -1697,10 +1699,11 @@ div#design_name_container {
     
     float: right;
     width: 90%;
-    color: @forecolor;
     display: none;
     padding: 10px;
     padding-left: 57px;
+    color: @customizer_forecolor;
+    background-color: @customizer_bg;
 
 }
 
@@ -2185,9 +2188,8 @@ div.header-container.main {
 
         cursor: pointer;
         
-        color: @main_forecolor !important;
-        border: solid 1px #ffffff;
-        background-color: white !important;
+        color: @customizer_forecolor !important;
+        background-color: @customizer_bg !important;
         margin-bottom: 2px;
         width: 100%; 
         border-radius: 0;
@@ -2255,7 +2257,7 @@ div.header-container.main {
 
     div#bottom_modifier_tabs {
 
-        background-color: #ffffff;
+        background-color: @customizer_bg;
         width: 550px;
         display: table;
         height: 40px;
