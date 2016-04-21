@@ -76,62 +76,6 @@ $(document).ready(function () {
             
         };
 
-        ub.zoom_off = function () {
-
-            _.each(ub.views, function(view){
- 
-                 ub[view + '_view'].scale.set(0.5, 0.5);
-                 
-            });
-
-            ub[ub.active_view + '_view'].position.set(ub.offset.x, ub.offset.y);
-
-            ub.zoom = false;
-            ub.show_all_views();
-
-        };
-
-        ub.zoom_on = function () {
-
-            _.each(ub.views, function(view){
- 
-                 ub[view + '_view'].scale.set(1, 1);
-                 
-            });
-
-            ub.zoom = true;
-            ub.hide_all_views();
-
-        };
-
-        ub.hide_all_views = function () {
-
-            _.each(ub.views, function(view){
-
-                var _v = view + '_view'
- 
-                if (view !== ub.active_view) {
-                 ub[_v].alpha = 0;
-                }
-                 
-            });
-
-        };
-
-        ub.show_all_views = function () {
-
-            _.each(ub.views, function(view){
-
-                var _v = view + '_view'
- 
-                if (view !== ub.active_view) {
-                 ub[_v].alpha = 1;
-                }
-                 
-            });
-
-        };
-
         ub.updateLayersOrder = function (container) {
                 
             container.children.sort(function (a,b) {
