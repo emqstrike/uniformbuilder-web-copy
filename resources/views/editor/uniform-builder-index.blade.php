@@ -43,7 +43,7 @@
 
         </div>
 
-        <div id="change-views">
+        <div id="change-views" style="display: none; width:0px; height: 0px; margin-top: 100000px;">
             
             <a class="btn change-view home" data-view="home" id="view_home"><i class="fa fa-home"></i></a>
             <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i></a>    
@@ -206,6 +206,41 @@
             @include('partials.panels.mod_primary')
 
         </div>
+
+        <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
+
+            <a class="footer-buttons schange-view" data-view="front">
+                F
+                <br /><span>Front View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="back">
+                B
+                <br /><span>Back View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="left">
+                L
+                <br /><span>Left View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="right">
+                R
+                <br /><span>Right View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="zoom">
+                <i class="fa fa-search"></i>
+                <br /><span>Zoom</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home"></i>
+                <br /><span>Home</span>
+            </a>
+
+        </div>  
+
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers">        
 
