@@ -209,7 +209,7 @@
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
 
-            <a class="footer-buttons schange-view" data-view="front">
+            <a class="footer-buttons change-view" data-view="front">
                 F
                 <br /><span>Front View</span>
             </a>
