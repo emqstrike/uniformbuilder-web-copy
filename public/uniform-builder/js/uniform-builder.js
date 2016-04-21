@@ -643,12 +643,6 @@ $(document).ready(function () {
 
         /// Render Different Views ///
 
-            window.ub.pixi = {};  // PIXI wrapper methods
-
-            window.ub.pixi.new_sprite = function (filename) {
-                return new PIXI.Sprite(PIXI.Texture.fromImage(filename + '?v=' + (new Date() / 1000)));
-            };
-
             window.ub.setup_views = function () {
 
                 _.each(ub.views, function (view) {
