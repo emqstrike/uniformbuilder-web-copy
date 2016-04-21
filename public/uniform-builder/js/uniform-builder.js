@@ -4351,6 +4351,7 @@ $(document).ready(function () {
 
                 $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png?v=0.01");
                 $(this).css('border-top-color','#d7d7d7');
+                $(this).css('background-color','#e6e6e6');
 
                 $(this).css('padding-bottom','7px');
                 $(this).css('padding-top','7px');
