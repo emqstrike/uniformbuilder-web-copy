@@ -35,6 +35,8 @@ $(document).ready(function () {
         var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
         $sidebar_buttons.hide();
 
+        $('div#change-views').hide();
+
     };
 
     ub.funcs.uiV1 = function () {
@@ -67,6 +69,8 @@ $(document).ready(function () {
 
         $('a.colors').click();
         $(window).trigger('resize');
+
+        $('div#change-views').hide();
 
     };
     
