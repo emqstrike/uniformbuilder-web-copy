@@ -71,63 +71,9 @@ $(document).ready(function () {
         ub.funcs.afterLoad = function () {
 
             ub.funcs.activatePartByIndex(1);
+            $('div.left-pane-column-full').fadeIn();
+            $('div.activate_qa_tools').fadeIn();
             
-        };
-
-        ub.zoom_off = function () {
-
-            _.each(ub.views, function(view){
- 
-                 ub[view + '_view'].scale.set(0.5, 0.5);
-                 
-            });
-
-            ub[ub.active_view + '_view'].position.set(33.5, 33.5);
-
-            ub.zoom = false;
-            ub.show_all_views();
-
-        };
-
-        ub.zoom_on = function () {
-
-            _.each(ub.views, function(view){
- 
-                 ub[view + '_view'].scale.set(1, 1);
-                 
-            });
-
-            ub.zoom = true;
-            ub.hide_all_views();
-
-        };
-
-        ub.hide_all_views = function () {
-
-            _.each(ub.views, function(view){
-
-                var _v = view + '_view'
- 
-                if (view !== ub.active_view) {
-                 ub[_v].alpha = 0;
-                }
-                 
-            });
-
-        };
-
-        ub.show_all_views = function () {
-
-            _.each(ub.views, function(view){
-
-                var _v = view + '_view'
- 
-                if (view !== ub.active_view) {
-                 ub[_v].alpha = 1;
-                }
-                 
-            });
-
         };
 
         ub.updateLayersOrder = function (container) {
@@ -696,12 +642,6 @@ $(document).ready(function () {
         }
 
         /// Render Different Views ///
-
-            window.ub.pixi = {};  // PIXI wrapper methods
-
-            window.ub.pixi.new_sprite = function (filename) {
-                return new PIXI.Sprite(PIXI.Texture.fromImage(filename + '?v=' + (new Date() / 1000)));
-            };
 
             window.ub.setup_views = function () {
 
@@ -3800,7 +3740,10 @@ $(document).ready(function () {
 
                 ub.zoom_off();
 
-                var _newX = ub.dimensions.width + ub.offset.x;
+                var w = window.innerWidth * 2;
+                var _newX  = w;
+
+                // var _newX = ub.dimensions.width + ub.offset.x;
 
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
@@ -3808,7 +3751,7 @@ $(document).ready(function () {
                 ub.back_view.position.x     = _newX;
                 ub.pattern_view.position.x  = _newX;
 
-                ub[view + '_view'].position.set(33.5, 33.5);
+                ub[view + '_view'].position.set(ub.offset.x, ub.offset.y);
 
                 $('#main_view').fadeIn();
 
@@ -4277,6 +4220,8 @@ $(document).ready(function () {
 
         $('body').addClass('pickers-enabled');
 
+        $('.main_viewport').hide();
+
         $('div#main-row').hide();
         $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
@@ -4406,6 +4351,7 @@ $(document).ready(function () {
 
                 $(this).find('img').attr('src', "/images/uiV1/modifier_tabs/inactive/" + _type + ".png?v=0.01");
                 $(this).css('border-top-color','#d7d7d7');
+                $(this).css('background-color','#e6e6e6');
 
                 $(this).css('padding-bottom','7px');
                 $(this).css('padding-top','7px');

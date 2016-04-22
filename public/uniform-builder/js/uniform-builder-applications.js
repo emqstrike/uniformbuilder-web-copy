@@ -1507,11 +1507,12 @@ $(document).ready(function() {
     ub.funcs.isWithin = function (point, boundaries) {
 
         var _transformed_boundaries = [];
+
         if(ub[ub.active_view + '_view'].scale.x === 0.5) {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point((point.x / 2) + 33.5, (point.y / 2) + 33.5);
+                var p = new PIXI.Point((point.x * 0.5) + ub.offset.x, (point.y * 0.5) + ub.offset.y);
                 _transformed_boundaries.push(p); 
 
             });      
@@ -1521,7 +1522,7 @@ $(document).ready(function() {
 
             _.each (boundaries, function(point) {
                 
-                var p = new PIXI.Point(point.x + 33.5, (point.y / 2) + 33.5 );
+                var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
                 _transformed_boundaries.push(p); 
 
             });   
@@ -1594,7 +1595,7 @@ $(document).ready(function() {
                         return;
                     }
 
-                    if(object.name.indexOf('objects_') !== -1) {
+                    if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
 
                         var _app_id = object.name.replace('objects_','');
                         var _application_obj = ub.current_material.settings.applications[_app_id];
@@ -1971,7 +1972,7 @@ $(document).ready(function() {
 
             if (ub.zoom) {
 
-                ub[ub.active_view + '_view'].position.set(-current_coodinates.x, -current_coodinates.y);
+                ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
 
                 return;
 

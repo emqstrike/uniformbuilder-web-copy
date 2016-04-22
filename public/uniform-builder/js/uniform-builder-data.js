@@ -2,6 +2,10 @@ $(document).ready(function() {
 
     ub.errors = [];
 
+    ub.uiVersion = "v2";
+    ub.offsetValue = 70;
+
+    ub.funcs.ui = {};
     ub.ui = {};
     ub.ui.drops = {};
     ub.modifiers = {};
@@ -9,7 +13,7 @@ $(document).ready(function() {
     ub.dimensions = {};
     ub.dimensions.width = 563;
     ub.dimensions.height = 616;
-    ub.offset = {x: 33.5, y: 33.5};
+    ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
 
@@ -47,24 +51,33 @@ $(document).ready(function() {
 
     /// End Interactive Viewport
 
-    ub.container_div = 'main_view';
-    ub.views = ['front', 'back', 'left', 'right'];
-    ub.stage = new PIXI.Container();
-    ub.left_view = new PIXI.Container();
-    ub.front_view = new PIXI.Container();
-    ub.back_view = new PIXI.Container();
-    ub.right_view = new PIXI.Container();
-    ub.pattern_view = new PIXI.Container();
-    ub.gradient_preview = new PIXI.Container();
+    ub.container_div                = 'main_view';
+    ub.views                        = ['front', 'back', 'left', 'right'];
+    ub.stage                        = new PIXI.Container();
+    ub.left_view                    = new PIXI.Container();
+    ub.front_view                   = new PIXI.Container();
+    ub.back_view                    = new PIXI.Container();
+    ub.right_view                   = new PIXI.Container();
+    ub.pattern_view                 = new PIXI.Container();
+    ub.gradient_preview             = new PIXI.Container();
+
+    window.ub.pixi = {};  // PIXI wrapper methods
+    window.ub.pixi.new_sprite       = function (filename) {
+        return new PIXI.Sprite(PIXI.Texture.fromImage(filename + '?v=' + (new Date() / 1000)));
+    };
 
     PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
 
     $('#main_view').hide();
 
-    ub.stage.interactive = true;
-    ub.pCanvas = document.getElementById(ub.container_div);
-    ub.renderer = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
-    ub.renderer.backgroundColor = 0xeeeeee;
+    ub.stage.interactive            = true;
+    ub.pCanvas                      = document.getElementById(ub.container_div);
+    ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
+    ub.renderer.backgroundColor     = 0xeeeeee;
+
+
+    var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.png');
+    ub.stage.addChild(_bg); 
 
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
@@ -74,42 +87,38 @@ $(document).ready(function() {
     ub.stage.addChild(ub.gradient_preview);
     ub.pCanvas.appendChild(ub.renderer.view);
 
-    ub.interactionManager = ub.renderer.plugins.interaction;
-    ub.dragAndDropManager = new PIXI.DragAndDropManager(ub.interactionManager);
+    ub.interactionManager           = ub.renderer.plugins.interaction;
+    ub.dragAndDropManager           = new PIXI.DragAndDropManager(ub.interactionManager);
      
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
-    
-    ub.right_view.position.x = ub.dimensions.width;
-    ub.back_view.position.x = ub.dimensions.width;
-    ub.left_view.position.x = ub.dimensions.width;
-    ub.pattern_view.position.x = ub.dimensions.width;
+    ub.right_view.position.x        = ub.dimensions.width;
+    ub.back_view.position.x         = ub.dimensions.width;
+    ub.left_view.position.x         = ub.dimensions.width;
+    ub.pattern_view.position.x      = ub.dimensions.width;
 
-    ub.current_material = {};
-    ub.current_material.settings = {};
+    ub.current_material             = {};
+    ub.current_material.settings    = {};
 
-    ub.states = {};
-    ub.states.active_application = 'undefined';
+    ub.states                       = {};
+    ub.states.active_application    = 'undefined';
 
-    ub.data = {};
-    ub.data.views = ['front', 'back', 'left', 'right'];
+    ub.data                         = {};
+    ub.data.views                   = ['front', 'back', 'left', 'right'];
 
-    ub.data.design_sets = {};
-    ub.data.materials = {};
-    ub.data.colors = {};
-    ub.data.fonts = {};
+    ub.data.design_sets             = {};
+    ub.data.materials               = {};
+    ub.data.colors                  = {};
+    ub.data.fonts                   = {};
 
-    ub.data.searchSource = {};
+    ub.data.searchSource            = {};
     
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
 
-    ub.data.defaultUniformStyle = {};
-
-    ub.data.modifierLabels = {};
-    
-
+    ub.data.defaultUniformStyle     = {};
+    ub.data.modifierLabels          = {};
     ub.data.boundaries_transformed_one_dimensional = {
 
         front: [],
@@ -119,7 +128,7 @@ $(document).ready(function() {
         
     };
 
-    ub.data.boundaries_transformed = {};
+    ub.data.boundaries_transformed  = {};
 
     ub.data.applications_transformed_one_dimensional = [];
     ub.data.applications_transformed = {};

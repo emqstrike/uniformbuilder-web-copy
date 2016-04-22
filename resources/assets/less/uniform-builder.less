@@ -1,6 +1,6 @@
 
 @navbar-height: 75px; 
-@main-container-margin: ( @navbar-height + 30px );
+@main-container-margin: ( @navbar-height + 0px );
 @micro_spacer: 2px;
 
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
@@ -8,6 +8,10 @@
 @forecolor: #acacac;
 @text_color: #3d3d3d;
 @border_color: #d7d7d7;
+
+@customizer_bg: #e6e6e6;
+@customizer_forecolor: #808080;
+@customizer_main_area: #808080;
 
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
@@ -27,6 +31,8 @@ html, body {
     
     height: 100%;
     width: 100%;
+    background-color: #eeeeee;
+    overflow: hidden;
 
 }
 
@@ -150,7 +156,9 @@ div#left-sidebar > a.sidebar-buttons {
         }
 
         #right-pane-column {
-            height: 100%;
+
+            position: absolute;
+
         }
 
         display: none;
@@ -222,12 +230,7 @@ div.pane {
 
         float: right;
         background-color: #fff;
-
-        width: 498px;
-        height: @main_window_pane_height;
-
-        border: 1px solid @border_color;
-
+        
     }
 
 
@@ -255,9 +258,7 @@ a.active_button {
         text-align: center;
 
         border: none;
-        width: 563px !important;
-        height: 616px !important;
-
+        
     }
 
 }
@@ -284,14 +285,16 @@ a.active_button {
 
 #change-views {
     
-    float: right;
-    text-align: center;
     width: 10%;
     padding: 3px;
     position: absolute;
-    margin-top: 350px;
-    margin-left: 10px !important;
+    margin-top: 330px;
     display: none;
+
+    margin-left: 0px;
+    display: block;
+    height: 300px;
+    width: 30px;
 
     a {
     
@@ -385,29 +388,19 @@ a#view_save_footer {
 
 /* End Camera Views */
 
-/* Right Pane - Property Customizer */
-
-#right-pane {
-
-
-
-}
-
-/* End Right Pane - Property Customizer */
-
-
 /* Options Panel */
 
 div.options_panel  {
 
     div.options_panel_header {
      
-        background-color: #ffffff;
+        background-color: @customizer_bg;
         width: 100%;
         display: table;
         height: 40px;
         border-bottom: 1px solid @border_color;
         padding: 10px;
+        color: @customizer_forecolor;
 
         span.default {
 
@@ -453,7 +446,7 @@ div.options_panel  {
             }
 
             span.nOf {
-                color: @border_color;
+                color: @customizer_forecolor;
                 font-size: 1em;
             }
         }
@@ -601,9 +594,9 @@ div.pattern_panel_container {
 
     display: none;
     overflow-y: scroll;
-    border: 1px solid @border_color;
 
     width: 100%;
+    background-color: @customizer_main_area;
 
 }
 
@@ -1706,10 +1699,11 @@ div#design_name_container {
     
     float: right;
     width: 90%;
-    color: @forecolor;
     display: none;
     padding: 10px;
     padding-left: 57px;
+    color: @customizer_forecolor;
+    background-color: @customizer_bg;
 
 }
 
@@ -1735,6 +1729,7 @@ div#left-pane-column {
 div#right-pane-column {
 
     padding-left: 5px !important;
+    width: 550px;        
 
 }
 
@@ -1974,6 +1969,7 @@ div.back-link {
 }
 
 h2.picker-header {
+
     float: left;
     color: white;
     margin-top: 7px;
@@ -1981,7 +1977,6 @@ h2.picker-header {
     margin-left: 30px;
 
 }
-
 
 div#main-picker-container {
 
@@ -1991,6 +1986,7 @@ div#main-picker-container {
     overflow: hidden;
     position: relative;
     padding-left: 60px;
+    padding-top: 20px;
 
     div.uniform_details {
 
@@ -2192,9 +2188,8 @@ div.header-container.main {
 
         cursor: pointer;
         
-        color: @main_forecolor !important;
-        border: solid 1px #ffffff;
-        background-color: white !important;
+        color: @customizer_forecolor !important;
+        background-color: @customizer_bg !important;
         margin-bottom: 2px;
         width: 100%; 
         border-radius: 0;
@@ -2207,7 +2202,7 @@ div.header-container.main {
     div#parts_dropdown {
         position: absolute;
         display: none;
-        width: 563px;
+        width: 550px;
         height: 290px;
         background-color: #3d3d3d;
         overflow-y: scroll;
@@ -2262,16 +2257,15 @@ div.header-container.main {
 
     div#bottom_modifier_tabs {
 
-        background-color: #ffffff;
-        width: 563px;
+        background-color: @customizer_bg;
+        width: 550px;
         display: table;
         height: 40px;
         border-top: 1px solid #d7d7d7;
         border-bottom: 1px solid #d7d7d7;
         padding: 10px;
         position: absolute;
-        bottom: 0;
-        margin-bottom: 65px;
+        margin-top: 180px;
 
         div#next_container {
 
@@ -2364,6 +2358,7 @@ div.header-container.main {
         width: 100%;
         padding-left: 15px;
         margin-top: 10px;
+        height:75px;
 
     }
 
@@ -2426,16 +2421,90 @@ div.header-container.main {
     }
 
     div.activate_qa_tools {
-
+        display: none;
         cursor: pointer;
-
-        width: 100%;
+        width: 300px;
         text-align: center;
-        margin-top: 30px;
+        margin-top: 7px;
+        position: absolute;
+        margin-left: -250px;
+    }
+
+/* End QA Tools */
+
+/* New UI */
+
+    div.left-pane-column-full {
+        
+        position: absolute;
+        left: 0;
+
+    }
+
+    div.pane-main-window {
 
 
     }
 
+    /* Right Pane - Property Customizer */
 
-/* End QA Tools */
+    #right-pane-column {
+
+        position: absolute;
+        right: 30px;
+        top: 100px;
+
+    }
+
+    #left-main-window {
+        
+        
+
+    }
+
+    /* End Right Pane - Property Customizer */
+
+    div.left-pane-column-full {
+
+        display:none;
+
+    }
+
+    div.modifier_main_container {
+        display: block;
+        height: 248px;
+    }
+
+    .footer_buttons_container {
+
+        background-color: @customizer_bg !important;
+        padding-left: 5px;
+
+        .footer-buttons {
+
+            color: @customizer_forecolor;
+            float: left;
+            width: 90px;
+            height: 90px;
+            text-align: center;
+            padding: 10px;
+
+            cursor: pointer;
+            text-decoration: none;
+
+            span {
+
+                font-size: 0.8em;
+
+            }
+
+        }
+
+        .footer-buttons:hover {
+            color: black;
+        }
+
+    }
+
+/* End New UI */
 

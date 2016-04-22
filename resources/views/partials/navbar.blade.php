@@ -7,6 +7,9 @@
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
         </div>
         <div class='user-profile pull-right'>
+
+            <div class="activate_qa_tools">Activate QA Tools</div>
+
             @if (!Session::get('isLoggedIn'))
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

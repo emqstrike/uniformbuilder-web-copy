@@ -53,11 +53,21 @@
     </div>
 
     <!-- MAIN ROW -->
+    <div class="row main_viewport" class=''>
     
+        <div id="left-pane-column" class="left-pane-column-full">
+            
+            <!-- Main Preview Window -->
+            @yield('left-pane')
+
+        </div>    
+
+    </div>
+    
+
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
             <!-- Main Preview Window -->
-            @yield('left-pane')
         </div>
         <div id="right-pane-column" class="col-md-6">
             <!-- Customizer -->
@@ -243,13 +253,14 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-settings.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui.js{{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js{{$asset_version}}"></script>
+
+
 
 <!-- End Uniform Builder Scripts -->
 
