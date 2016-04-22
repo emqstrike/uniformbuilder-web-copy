@@ -81,12 +81,6 @@
 
 </div>
 
-@include('administration.materials.add-multiple-options-modal')
-
-@include('administration.materials.material-view-modal')
-
-@include('administration.materials.material-option-modal')
-
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
