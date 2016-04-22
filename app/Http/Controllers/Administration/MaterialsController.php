@@ -60,8 +60,8 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
-        $applications = $this->applicationClient->getApplications();
-        $boundaries = $this->boundaryClient->getBoundaries();
+        // $applications = $this->applicationClient->getApplications();
+        // $boundaries = $this->boundaryClient->getBoundaries();
 
         // foreach ($materials as $material)
         // {
@@ -69,15 +69,15 @@ class MaterialsController extends Controller
         //     $material->options = $options;
         // }
 
-        $colors = $this->colorsClient->getColors();
-        $gradients = $this->gradientClient->getGradients();
+        // $colors = $this->colorsClient->getColors();
+        // $gradients = $this->gradientClient->getGradients();
 
         return view('administration.materials.materials', [
             'materials' => $materials,
-            'colors' => $colors,
-            'gradients' => $gradients,
-            'applications' => $applications,
-            'boundaries' => $boundaries
+            // 'colors' => $colors,
+            // 'gradients' => $gradients,
+            // 'applications' => $applications,
+            // 'boundaries' => $boundaries
         ]);
     }
 

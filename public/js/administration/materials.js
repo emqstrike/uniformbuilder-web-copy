@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+
     var material = {};
     var materialOptions = {};
     materialOptions['front'] = {};
@@ -21,6 +23,7 @@ $(document).ready(function() {
 
     var polyData;
     var appPropJson = "";
+    var applicationProperties = {};
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
@@ -30,8 +33,8 @@ $(document).ready(function() {
     window.patterns = null;
 
     var lineIdx = 0;
-    var coords = [];
     var loadCase = 0;
+    var coords = [];
 
     getColors(function(colors){ window.colors = colors; });
     getFonts(function(fonts){ window.fonts = fonts; });
@@ -394,9 +397,7 @@ $(document).ready(function() {
                 $('#mascot').val(data['selectedData']['value']);
             },
         });
-    });
-
-var applicationProperties = {};    
+    });  
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
@@ -533,7 +534,6 @@ var applicationProperties = {};
                 filename = filename.substr(1);
             }
 
-            console.log('FILENAME: '+filename);
             var fn = filename.capitalize();
 
             $(this).parent().siblings().find('.mo-name').val(fn);
@@ -1342,8 +1342,7 @@ var applicationProperties = {};
                 }
             });
         }
-        
-        
+
     });
 
     /*
