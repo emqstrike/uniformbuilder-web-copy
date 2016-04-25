@@ -133,6 +133,21 @@ class MaterialsController extends Controller
         // return View::make('administration.materials.material-options', $options);
     }
 
+    public function materialsOptionsSetup($id)
+    {
+        Log::info('Materials Options QS');
+        // QS - Quick SETUP
+
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+
+        return view('administration.materials.material-options-setup', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+
+    }
+
     public function delete($id)
     {
         return $this->client->deleteMaterial($id);

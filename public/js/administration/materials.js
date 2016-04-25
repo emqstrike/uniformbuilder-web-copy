@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+    // $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
 
     var material = {};
     var materialOptions = {};
@@ -1293,8 +1293,7 @@ $(document).ready(function() {
                 }
             });
         }
-        
-        
+
     });
 
     $('#save_app_template').on('click', function(){

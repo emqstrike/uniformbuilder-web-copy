@@ -65,6 +65,9 @@
                         {{ ($material->active) ? '' : 'disabled' }}>
                         View / Edit Material Options
                     </a>
+                    <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>

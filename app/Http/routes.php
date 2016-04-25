@@ -107,6 +107,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@addMaterialForm']);
     Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editMaterialForm']);
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions']);
+    Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
@@ -135,7 +136,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
     Route::get('preference/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@editPreferenceForm']);
     Route::post('preference/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@store']);
-
 
     // Fonts
     Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@index']);
