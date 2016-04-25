@@ -2143,6 +2143,10 @@ $(document).ready(function() {
 
         var _ctr = 1;
 
+        /// For Team Colors  
+
+        strBuilder += '<div class="pd-dropdown-links" data-ctr="0" data-group-id="0" data-fullname="team-colors" data-name="team-colors">' + '<i>Initialize</i> Team Colors</div>';
+
         _.each(_sortedModifierLabels, function (label){
 
             label.index = _ctr;

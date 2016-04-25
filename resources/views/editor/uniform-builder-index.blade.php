@@ -245,6 +245,7 @@
 
         </div>  
 
+        <!-- 
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers">        
 
@@ -256,11 +257,7 @@
                 
                 <div class="save_box">
 
-                    <!-- 
-                    <label>Save As: </label> <span id="design_name_input"></span> &nbsp;
-                    <i class="fa fa-pencil-square-o"></i>    
-                    -->
-
+                    
                     <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>
 
                 </div>
@@ -275,6 +272,7 @@
      
         </div>
 
+        -->
 
     </div>
 
