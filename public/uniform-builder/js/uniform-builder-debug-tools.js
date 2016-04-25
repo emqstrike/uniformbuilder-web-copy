@@ -19,7 +19,7 @@ $(document).ready(function () {
 
         $('#design_name_container').css({'text-align':'center','width':'100%'});
         $('div.main_steps_bar').show();
-        $('#change-views').css('margin-left', '0px');
+        //$('#change-views').css('margin-left', '0px');
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
@@ -35,7 +35,7 @@ $(document).ready(function () {
         var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
         $sidebar_buttons.hide();
 
-        $('div#change-views').hide();
+        $('div.old-change-views').hide();
 
     };
 
@@ -48,7 +48,7 @@ $(document).ready(function () {
         $('div.special_modifiers').hide();
         $('#design_name_container').css({'float':'right','width':'90%'});
         $('div.main_steps_bar').hide();
-        $('#change-views').css('margin-left', '70px');
+        //$('#change-views').css('margin-left', '70px');
         $('div#right-sidebar > a.sidebar-buttons').show();
         $('div#right-main-window').css('float', 'right');
         $('div#right-main-window').css('width','470px');
@@ -61,7 +61,7 @@ $(document).ready(function () {
         $('div#right-main-window').css('overflow','hidden !important');
         $("div.pane-main-window").css('overflow','scroll');
 
-        $('div#change-views').css('left','710px !important');
+        //$('div#change-views').css('left','710px !important');
 
 
         var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
@@ -70,7 +70,7 @@ $(document).ready(function () {
         $('a.colors').click();
         $(window).trigger('resize');
 
-        $('div#change-views').hide();
+//        $('div#change-views').hide();
 
     };
     

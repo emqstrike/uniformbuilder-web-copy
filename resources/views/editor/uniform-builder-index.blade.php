@@ -43,7 +43,7 @@
 
         </div>
 
-        <div id="change-views" style="display: none; width:0px; height: 0px; margin-top: 100000px !important;">
+        <div id="change-views" style="display: none; width:0px; height: 0px; margin-top: 100000px !important;" class="old-change-views">
             
             <a class="btn change-view home" data-view="home" id="view_home"><i class="fa fa-home"></i></a>
             <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i></a>    
