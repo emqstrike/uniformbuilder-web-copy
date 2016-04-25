@@ -109,6 +109,8 @@
 
         </div>
 
+        <!-- 
+
         <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
             <div class="options_panel_header">
@@ -176,6 +178,8 @@
             </div>
 
         </div> 
+
+        -->
 
         </div>
 
