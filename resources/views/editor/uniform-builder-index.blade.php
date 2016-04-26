@@ -43,7 +43,7 @@
 
         </div>
 
-        <div id="change-views" style="display: none; width:0px; height: 0px; margin-top: 100000px !important;">
+        <div id="change-views" style="display: none; width:0px; height: 0px; margin-top: 100000px !important;" class="old-change-views">
             
             <a class="btn change-view home" data-view="home" id="view_home"><i class="fa fa-home"></i></a>
             <a class="btn change-view zoom" data-view="zoom" id="view_zoom"><i class="fa fa-search"></i></a>    
@@ -108,6 +108,8 @@
             </a>
 
         </div>
+
+        <!-- 
 
         <div id="right-main-window" class="pane-main-window team-color-pane team_color_pane options_panel">        
 
@@ -177,6 +179,8 @@
 
         </div> 
 
+        -->
+
         </div>
 
         <div id="right-main-window" class="pane-main-window">
@@ -241,6 +245,7 @@
 
         </div>  
 
+        <!-- 
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers">        
 
@@ -251,11 +256,6 @@
                 </div>
                 
                 <div class="save_box">
-
-                    <!-- 
-                    <label>Save As: </label> <span id="design_name_input"></span> &nbsp;
-                    <i class="fa fa-pencil-square-o"></i>    
-                    -->
 
                     <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>
 
@@ -271,6 +271,7 @@
      
         </div>
 
+        -->
 
     </div>
 
