@@ -24,9 +24,6 @@
     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
         Edit 
     </a>
-    <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}" style="border: 1px solid #808080; border-radius: 0px;">
-        Reset Properties
-    </a>
     <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
         Delete Selected
     </a>
@@ -37,8 +34,9 @@
 </center>
 </div>
 <?php $highlight_path = null; ?>
-<div class="container-fluid main-content">
-    <table class="col-md-12">
+<div class="container-fluid main-content" style="display: inline;">
+    <div style="display: inline;" class="col-md-3">
+        <table class="table table-bordered" style="display: inline;">
         <thead style="background-color: #fff;">
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
@@ -49,9 +47,36 @@
                 @endif
             @endforeach
                 <center><h3>
-                <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                 FRONT</h3></center>
             </th>
+        </thead>
+        <tbody style="padding-top: 30px;" class="sortable-items">
+            <!-- <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;"> -->
+            @foreach ($options as $option)
+                @if ($option->perspective == "front" )
+                    <tr><td style="vertical-align: text-top; border: 1px solid #000;">
+                    <!-- <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                        class="material-option-{{ $option->id }}  material-option-item"
+                        data-material-option-name="{{ $option->name }}"> -->
+                            <input class="front layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
+                            <input class="front name" type="text " name="name[]" value="{{ $option->name }}" style="width: 160px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
+                            <input class="front" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
+                            <input class="front" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                    <!-- </div> -->
+                    </td></tr>
+                @endif
+            @endforeach
+            <!-- </td> -->
+        </tbody>
+    </table>
+    </div>
+
+    <div style="display: inline;" class="col-md-3">
+        <table class="table table-bordered" style="display: inline;">
+        <thead style="background-color: #fff;">
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
                 @if ($option->perspective == "back")
@@ -61,9 +86,36 @@
                 @endif
             @endforeach
                 <center><h3>
-                <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                 BACK</h3></center>
             </th>
+        </thead>
+        <tbody style="padding-top: 30px;" class="sortable-items">
+            <!-- <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;"> -->
+            @foreach ($options as $option)
+                @if ($option->perspective == "back" )
+                    <tr><td style="vertical-align: text-top; border: 1px solid #000;">
+                    <!-- <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                        class="material-option-{{ $option->id }}  material-option-item"
+                        data-material-option-name="{{ $option->name }}"> -->
+                            <input class="back layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
+                            <input class="back name" type="text" name="name[]" value="{{ $option->name }}" style="width: 160px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
+                            <input class="back" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
+                            <input class="back" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                    <!-- </div> -->
+                    </td></tr>
+                @endif
+            @endforeach
+            <!-- </td> -->
+        </tbody>
+    </table>
+    </div>
+
+    <div style="display: inline;" class="col-md-3">
+        <table class="table table-bordered" style="display: inline;">
+        <thead style="background-color: #fff;">
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
                 @if ($option->perspective == "left")
@@ -73,9 +125,37 @@
                 @endif
             @endforeach
                 <center><h3>
-                <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                 LEFT</h3></center>
             </th>
+        </thead>
+        <tbody style="padding-top: 30px;" class="sortable-items">
+            <!-- <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;"> -->
+            @foreach ($options as $option)
+                @if ($option->perspective == "left" )
+                    <tr><td style="vertical-align: text-top; border: 1px solid #000;">
+                    <!-- <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                        class="material-option-{{ $option->id }}  material-option-item"
+                        data-material-option-name="{{ $option->name }}"> -->
+                            <input class="left layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
+                            <input class="left name" type="text" name="name[]" value="{{ $option->name }}" style="width: 160px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
+                            <input class="left" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
+                            <input class="left" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                    <!-- </div> -->
+                    </td></tr>
+                @endif
+            @endforeach
+            <!-- </td> -->
+        </tbody>
+    </table>
+    </div>
+
+
+    <div style="display: inline; margin-top: -20px;" class="col-md-3">
+        <table class="table table-bordered" style="display: inline;">
+        <thead style="background-color: #fff;">
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
                 @if ($option->perspective == "right")
@@ -85,85 +165,38 @@
                 @endif
             @endforeach
                 <center><h3>
-                <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                 RIGHT</h3></center>
             </th>
         </thead>
-        <tbody style="padding-top: 30px;" id="mo-list">
-            <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
+        <tbody style="padding-top: 30px;" class="sortable-items">
+            <!-- <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;"> -->
             @foreach ($options as $option)
-                @if ($option->perspective == "front")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                @if ($option->perspective == "right" )
+                    <tr><td style="vertical-align: text-top; border: 1px solid #000;">
+                    <!-- <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
                         class="material-option-{{ $option->id }}  material-option-item"
-                        data-material-option-name="{{ $option->name }}">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ $option->layer_level}}</span>
-                            <input type="text" value="{{ $option->name }}" style="width: 172px;">
+                        data-material-option-name="{{ $option->name }}"> -->
+                            <input class="right layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
+                            <input class="right name" type="text " name="name[]" value="{{ $option->name }}" style="width: 160px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' size="2">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Team C. ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' size="2">
+                            <input class="right" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
+                            <input class="right" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                    </div>
+                    <!-- </div> -->
+                    </td></tr>
                 @endif
             @endforeach
-            </td>
-            <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
-            @foreach ($options as $option)
-                @if ($option->perspective == "back")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
-                        class="material-option-{{ $option->id }}  material-option-item"
-                        data-material-option-name="{{ $option->name }}">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ $option->layer_level}}</span>
-                            <input type="text" value="{{ $option->name }}" style="width: 172px;">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' size="2">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Team C. ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' size="2">
-                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                    </div>
-                @endif
-            @endforeach
-            </td>
-            <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
-            @foreach ($options as $option)
-                @if ($option->perspective == "left")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
-                        class="material-option-{{ $option->id }}  material-option-item"
-                        data-material-option-name="{{ $option->name }}">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ $option->layer_level}}</span>
-                            <input type="text" value="{{ $option->name }}" style="width: 172px;">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' size="2">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Team C. ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' size="2">
-                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                    </div>
-                @endif
-            @endforeach
-            </td>
-            <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
-            @foreach ($options as $option)
-                @if ($option->perspective == "right")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
-                        class="material-option-{{ $option->id }}  material-option-item"
-                        data-material-option-name="{{ $option->name }}">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ $option->layer_level}}</span>
-                            <input type="text" value="{{ $option->name }}" style="width: 172px;">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' size="2">
-                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Team C. ID: </span>
-                            <input type="text" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' size="2">
-                            <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                    </div>
-                @endif
-            @endforeach
-            </td>
+            <!-- </td> -->
         </tbody>
     </table>
+    </div>
+
 </div>
 
 @endsection
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/material-options-setup.js"></script>
 @endsection

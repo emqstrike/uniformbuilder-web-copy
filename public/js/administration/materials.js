@@ -1191,9 +1191,8 @@ $(document).ready(function() {
                 thisGroup.left          = (app_properties[l].topLeft.x) / 2;
                 thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
-                
-                canvasFront.renderAll();
 
+                canvasFront.renderAll();
                 application_number++;
             }
             else{
