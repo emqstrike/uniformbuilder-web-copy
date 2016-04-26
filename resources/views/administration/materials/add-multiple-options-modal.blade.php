@@ -46,9 +46,6 @@
                         <tr class="options-row">
                             <td><input type="text" class="mo-name layer1" name="mo_name[]"></td>
                             <td>
-                                <!-- <select class="mo-layer layer1"  name="mo_layer[]">
-                                    <option value = '1' class="layer-number">1</option>
-                                </select> -->
                                 <input type="text" class="mo-layer layer1" name="mo_layer[]" value="1" size="3">
                             </td>
                             <td>

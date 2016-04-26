@@ -38,9 +38,6 @@
     <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
         Delete Selected
     </a>
-    <!-- <a href="#" class='btn btn-xs btn-default update-all-material-option' style="border: 1px solid #808080; border-radius: 0px;">
-        Update Changes
-    </a> -->
     <input type="submit" class='btn btn-xs btn-default update-all-material-option' style="border: 1px solid #808080; border-radius: 0px;" value="Update Changes">
     <a href="#" class='btn btn-xs btn-default format-names' style="border: 1px solid #808080; border-radius: 0px;">
         Format Names

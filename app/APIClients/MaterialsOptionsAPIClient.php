@@ -42,17 +42,14 @@ class MaterialsOptionsAPIClient extends APIClient
     public function updateMaterialOptions($data)
     {
         Log::info('update Material Options - API Client');
-        // $response = $this->post('material_option/updateMaterialOptions', [
-        //     'json' => $data
-        // ]);
+
         $response = $this->post('material_option/updateMaterialOptions', [
             'json' => $data
         ]);
-        // return $this->decoder->decode($response->getBody());
         return [
-                        'success' => true,
-                        'message' => 'Successfully updated material option'
-                    ];
+                'success' => true,
+                'message' => 'Successfully updated material option'
+            ];
     }
 
     public function updateBoundary($data)

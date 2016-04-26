@@ -60,29 +60,15 @@ class MaterialsOptionsController extends Controller
             $data['info'][$item]['name'] = $optionName;
             $ctr++;
         }
-// dd(json_encode($data));
+
         $data['input'] = json_encode($data['info']);
         $response = null;
-        // if (!empty($materialOptionId))
-        // {
-        //     Log::info('Attempts to update MaterialOption#' . $materialOptionId);
-        //     $data['id'] = $materialOptionId;
-        // Log::info('Attempts to update Material Options' . $materialOptionId);
-        $response = $this->client->updateMaterialOptions($data);
-        // }
 
-        // if ($response->success)
-        // {
-            // Log::info('Success');
+        $response = $this->client->updateMaterialOptions($data);
+
             return Redirect::to('/administration/material/materials_options_setup/'.$materialID)
                             ->with('message', 'Update Saved');
-        // }
-        // else
-        // {
-        //     Log::info('Failed');
-        //     return Redirect::to('/administration/materials')
-        //                     ->with('message', 'There was a problem saving your material option');
-        // }
+
     }
 
     public function saveBoundary(Request $request)
@@ -100,7 +86,7 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'boundary_properties' => $boundary_properties
         ];
-// dd($data);
+
         $response = null;
         if (!empty($materialOptionId))
         {
@@ -143,7 +129,6 @@ class MaterialsOptionsController extends Controller
 
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
-        // $origin = $request->input('origin');
         $layerLevel = $request->input('layer_level');
         $teamColorId = $request->input('team_color_id');
         $groupId = $request->input('group_id');
