@@ -257,7 +257,6 @@
                 
                 <div class="save_box">
 
-                    
                     <a class="btn change-view save open-save-design-modal" data-view="save" id="view_save_footer"><i class="fa fa-save"></i> SAVE</a>
 
                 </div>

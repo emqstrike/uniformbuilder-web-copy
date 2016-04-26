@@ -69,7 +69,7 @@ $(document).ready(function () {
 
         ub.funcs.afterLoad = function () {
 
-            ub.funcs.activatePartByIndex(1);
+            ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
             
@@ -764,24 +764,24 @@ $(document).ready(function () {
         var settings = ub.current_material.settings;
 
         settings.team_colors = [
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
         ];
 
         settings.upper = {};
 
         settings.lower = {
-            preview: '',
+            preview: '',  
         };
 
         settings.upper = {
