@@ -10,16 +10,7 @@
 
 @section('content')
 
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
-<div class="col-md-12"> 
+<div class="col-md-12">
     <h1>
         <small>
             <a href="/administration/material/add" class='btn btn-md btn-default materials-add'>
@@ -49,7 +40,7 @@
                         <img src="{{ $material->thumbnail_path }}" alt="{{ $material->slug }}" class="material-thumbnail">
                     </center>
                 </div><hr>
-                <div class="div-inline"><span class="label label-default fs-11">{{ $material->code }}</span></div>
+                <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
                 <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>

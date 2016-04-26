@@ -27,6 +27,64 @@ class MaterialsOptionsController extends Controller
         $this->materialClient = $materialClient;
     }
 
+    public function updateMaterialOptions(Request $request)
+    {
+        $data = [];
+        $optionIds = $request->input('option_id');
+        $optionLayerLevels = $request->input('layer_level');
+        $optionNames = $request->input('name');
+        $materialID = $request->input('cleanup_material_id');
+
+        $ctr = 0;
+        foreach ($optionIds as $optionId) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item] = [
+                'id' => $optionId,
+            ];
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($optionLayerLevels as $optionLayerLevel) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['layer_level'] = $optionLayerLevel;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($optionNames as $optionName) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['name'] = $optionName;
+            $ctr++;
+        }
+// dd(json_encode($data));
+        $data['input'] = json_encode($data['info']);
+        $response = null;
+        // if (!empty($materialOptionId))
+        // {
+        //     Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+        //     $data['id'] = $materialOptionId;
+        // Log::info('Attempts to update Material Options' . $materialOptionId);
+        $response = $this->client->updateMaterialOptions($data);
+        // }
+
+        // if ($response->success)
+        // {
+            // Log::info('Success');
+            return Redirect::to('/administration/material/materials_options_setup/'.$materialID)
+                            ->with('message', 'Update Saved');
+        // }
+        // else
+        // {
+        //     Log::info('Failed');
+        //     return Redirect::to('/administration/materials')
+        //                     ->with('message', 'There was a problem saving your material option');
+        // }
+    }
+
     public function saveBoundary(Request $request)
     {
 

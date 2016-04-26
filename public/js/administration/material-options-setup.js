@@ -7,9 +7,7 @@ $(document).ready(function() {
 
 	$( "tbody" ).disableSelection();
     $( "tbody.sortable-items" ).sortable({
-        start: function( ) {
-            // execute a function here
-        },
+        start: function( ) { },
         stop: function( ) {
             sortLayers();
         }
@@ -28,7 +26,48 @@ $(document).ready(function() {
 	    }
     }
 
-    /* functions */
+	$('.name').focus(function() {
+        var name = $(this).val().toLowerCase();
+        var perspective = $(this).data('perspective');
+    	$(".name").each(function(i) {
+    		if( $(this).data('perspective') != perspective && $(this).val().toLowerCase() == name ){
+    			$(this).fadeOut();
+    			$(this).fadeIn();
+    		}
+		});
+    });
+
+    $('.format-names').on('click', function(){
+    	formatNames();
+    });
+
+    /* functions */     /* */            /* */      /* */            /* */
+    /* */               /* */            /* */      /*   */          /* */
+    /* */               /* */            /* */      /*     */        /* */
+    /* */               /* */            /* */      /*       */      /* */
+    /* helpers */       /* */            /* */      /* */  /*  */    /* */
+    /* */               /* */            /* */      /* */    /*  */  /* */
+    /* */                /* */          /* */       /* */      /*      */
+    /* */                 /*  */      /*  */        /* */        /*    */
+    /* */                   /*          */          /* */          /*  */
+
+    String.prototype.capitalize = function() {
+        return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
+
+    function formatNames(){
+    	$(".name").each(function(i) {
+    		var name = $(this).val();
+    		var new_name = name.split("_").join(' ');
+    		if( new_name.charAt(0) == ' ' ){
+	            new_name = new_name.substr(1);
+	        } else if( new_name.charAt(new_name.length - 1) == ' ' ){
+	        	new_name = new_name.substr(0, new_name.length - 1);
+	        }
+	        name = new_name.capitalize();
+	        $(this).val(name);
+    	});
+    }
 
     function countPerspectiveLayers(){
 		$(".front.layer").each(function(i) {

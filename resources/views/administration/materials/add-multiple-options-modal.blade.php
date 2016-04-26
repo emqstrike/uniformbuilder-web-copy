@@ -7,7 +7,7 @@
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="boundary_properties" id="boundary-properties">
+            <input type="hidden" name="boundary_properties" id="boundary-properties">s
             <input type="hidden" name="applications_properties" id="application-properties">
             <input type="hidden" name="is_blend_array" id="is-blend-array">
             <input type="hidden" name="allow_pattern_array" id="allow-pattern-array">
