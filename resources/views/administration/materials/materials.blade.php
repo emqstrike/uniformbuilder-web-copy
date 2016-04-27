@@ -20,9 +20,15 @@
         <p class="materials-header">Materials</p>
     </h1>
 </div>
-<div class="container-fluid main-content">
+<div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
+<button class="button" data-filter="*">All</button>
+@foreach ($block_patterns as $block_pattern)
+    <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
+@endforeach
+</div>
+<div class="container-fluid main-content isotope" style="margin-top: 120px;">
         @forelse ($materials as $material)
-            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3'>
+            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }}' data-category="{{ $material->block_pattern_id }}">
                 <div class="material-id-div">
                     <span class="label material-label">{{ $material->id }}</span>
                 </div>
@@ -87,7 +93,8 @@
 <!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <!-- <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/materials-main.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="/js/administration/materials-main.js"></script>
 <!-- <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script> -->
 @endsection
