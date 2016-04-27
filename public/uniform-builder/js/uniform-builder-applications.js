@@ -2142,6 +2142,8 @@ $(document).ready(function() {
             var _obj        = _.find(ub.current_material.materials_options, {name: _result.toTitleCase()});
             
             if (typeof _obj === 'undefined') { return; }
+
+            if (_obj.setting_type === 'static_layer') { return; }
             
             var _group_id       = _obj.group_id;
             var _team_color_id  = _obj.team_color_id;            
