@@ -402,7 +402,7 @@ $(document).ready(function () {
                 _.each(_teamColorObj, function (colorObj, index) {
 
                     ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
-                    _strBuilder +=  '<path class="growStroke" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+                    _strBuilder +=  '<path class="growStroke arc-' + modLabel.fullname + '" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
                 });
 
@@ -431,6 +431,9 @@ $(document).ready(function () {
                 document.getElementById(_id).setAttribute("d", describeArc(275, 215, 150, _start, _end));
 
                 $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
+
+                    $("path.arc-" + modLabel.fullname).attr("class", "growStroke arc-" + modLabel.fullname);
+                    $(this).attr("class", "selectedStroke growStroke arc-" + modLabel.fullname);
 
                    var _colorID           = $(this).data('color-id');
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
