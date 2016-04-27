@@ -74,9 +74,9 @@
                             <input class="front layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
                             <input class="front name" data-perspective="front" type="text " name="name[]" value="{{ $option->name }}" style="width: 160px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input class="front" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <input class="front group-id" data-name="{{ $option->name }}" data-perspective="front" data-perspective="front" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
-                            <input class="front" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="front tcid" data-name="{{ $option->name }}" data-perspective="front" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -108,9 +108,9 @@
                             <input class="back layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
                             <input class="back name" data-perspective="back" type="text" name="name[]" value="{{ $option->name }}" style="width: 160px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input class="back" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <input class="back group-id" data-name="{{ $option->name }}" data-perspective="back" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
-                            <input class="back" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="back tcid" data-name="{{ $option->name }}" data-perspective="back" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -142,9 +142,9 @@
                             <input class="left layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
                             <input class="left name" data-perspective="left" type="text" name="name[]" value="{{ $option->name }}" style="width: 160px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input class="left" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <input class="left group-id" data-name="{{ $option->name }}" data-perspective="left" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
-                            <input class="left" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="left tcid" data-name="{{ $option->name }}" data-perspective="left" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -176,9 +176,9 @@
                             <input class="right layer" type="number" name="layer_level[]" value="{{ $option->layer_level }}" style="width: 40px;">
                             <input class="right name"  data-perspective="right" type="text " name="name[]" value="{{ $option->name }}" style="width: 160px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Group ID: </span>
-                            <input class="right" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
+                            <input class="right group-id" data-name="{{ $option->name }}" data-perspective="right" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
-                            <input class="right" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <input class="right tcid" data-name="{{ $option->name }}" data-perspective="right" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
