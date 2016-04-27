@@ -175,7 +175,7 @@
             var panels = util.dataSelector(preamble, { 'option': target_name });
             var color_stop_btn = util.dataSelector('span', { 'target': settings.target, 'type': settings.type, 'index': color_stop_index });
 
-            el_parent.fadeIn();
+            el_parent.show();
 
         });
 

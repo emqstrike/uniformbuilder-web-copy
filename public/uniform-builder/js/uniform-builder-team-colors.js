@@ -99,6 +99,21 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.restoreTeamColorSelections = function () {
+
+        var _teamColorObject    = ub.current_material.settings.team_colors;
+        var _teamColorSize      = _.size(ub.current_material.settings.team_colors);
+
+        if (_teamColorSize === 0) { return; }
+
+        _.each (_teamColorObject, function (teamColor) {
+
+            $('button.change-color[data-target="Team-color-picker"][data-color-id="' + teamColor.id + '"]').click();
+
+        });
+
+    }
+
     ub.funcs.getBaseColors = function () {
 
         var _colorType      = '';
@@ -337,6 +352,10 @@ $(document).ready(function () {
     ub.funcs.addColorToTeamColors = function (colorObj) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
+        var _result       = _.find(_teamColorObj, {color_code: colorObj.color_code});
+
+        if (typeof _result !== "undefined") { return; } // exit if color already exist on _teamColorObj
+
         _teamColorObj.push(colorObj); 
 
         ub.funcs.drawColorPickers();
@@ -486,8 +505,8 @@ $(document).ready(function () {
 
         });
 
-        ub.funcs.clearTeamColors();
         ub.funcs.showTeamColorPicker();
+        ub.funcs.restoreTeamColorSelections();
 
     }
 
