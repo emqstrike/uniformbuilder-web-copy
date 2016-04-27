@@ -1730,7 +1730,6 @@ $(document).ready(function() {
 
         });
 
-
     }
 
     ub.funcs.setAlphaOff = function (_object) {

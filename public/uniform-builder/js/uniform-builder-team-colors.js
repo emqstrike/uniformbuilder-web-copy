@@ -27,17 +27,33 @@ $(document).ready(function () {
 
     };
 
+
+    // Set Color in the Settings Object
+    ub.funcs.setMaterialOptionSettingsColor = function (materialOptionCode, colorObj) {
+
+        var _type                       = ub.current_material.material.type;
+        var _uniformObject              = ub.current_material.settings[_type];
+        var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
+
+        _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
+        _materialOptionObject.colorObj  = colorObj;
+
+    };
+
+    // Set Color of the Actual Sprite in the stage
     ub.funcs.ui.setMaterialOptionColor = function (name, colorObj) {
 
         var _names = ub.funcs.ui.getAllNames(name);
 
         _.each(_names, function (name) {
 
+            ub.funcs.setMaterialOptionSettingsColor(name, colorObj);
             ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
 
         });
 
     };
+
 
     ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {
 
@@ -426,20 +442,6 @@ $(document).ready(function () {
             });
 
         });    
-
-
-
-        // _.each(_teamColorObj, function (colorObj, index) {
-
-        //     var _nth    = index;
-        //     var _start  = _nth * _length;
-        //     var _end    = _start + _length;
-
-        //     document.getElementById("arc" + index).setAttribute("d", describeArc(275, 215, 150, _start, _end));
-
-
-
-        // });
 
         var _sizeOf     = _.size(ub.data.modifierLabels);
         var _widthOfCW  = $('div.color-wheel').first().width();
