@@ -2135,13 +2135,15 @@ $(document).ready(function() {
             
             if (typeof _obj === 'undefined') { return; }
             
-            var _group_id   = _obj.group_id;            
+            var _group_id       = _obj.group_id;
+            var _team_color_id  = _obj.team_color_id;            
 
             _result = _result.prepareModifierLabel();
             
             _modifierLabels[_result] = {
                 name: _result,
                 group_id: _group_id,
+                team_color_id: _team_color_id,
                 fullname: _distinct_name.modifier_label,
             };
 
@@ -2323,26 +2325,15 @@ $(document).ready(function() {
 
     });
 
-    ub.funcs.setGroupColor = function (groupID, hexCode) {
+    ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
 
-      var _group_items = _.filter(ub.current_material.materials_options, {team_color_id: groupID});
+        var _group_items  = _.filter(ub.data.modifierLabels, {team_color_id: groupID});
 
-      _.each (_group_items, function (_item) {
+        _.each(_group_items, function (group_item) {
 
-        var _name = _item.name.toCodeCase();
-        var _perspespective = _item.perspective + "_view"; 
-
-        if (typeof ub.objects[_perspespective][_name] !== 'undefined' ) {
-
-            if (_item.setting_type === 'shape') {
-
-                ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
-
-            }
-            
-        }
-
-      });
+            ub.funcs.ui.setMaterialOptionColor(group_item.name, colorObj);
+          
+        })
 
     };
 

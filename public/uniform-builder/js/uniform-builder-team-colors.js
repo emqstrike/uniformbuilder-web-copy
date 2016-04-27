@@ -60,9 +60,9 @@ $(document).ready(function () {
         var _teamColorObj = ub.current_material.settings.team_colors;
         _teamColorObj[teamColorID - 1] = colorObj;
 
-        var _removedHash =colorObj.hex_code.replace('#', '');
+        var _removedHash  = colorObj.hex_code.replace('#', '');
 
-        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash);
+        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash, colorObj);
 
     };
     
@@ -88,7 +88,7 @@ $(document).ready(function () {
         }
 
         var _newColorSet = [];
-        _.each (_colors, function (_color){
+        _.each (_colors, function (_color) {
 
             var _match = _.find(ub.data.colors, {color_code: _color});
             _newColorSet.push(_match);
@@ -108,7 +108,9 @@ $(document).ready(function () {
 
         _.each (_teamColorObject, function (teamColor) {
 
-            $('button.change-color[data-target="Team-color-picker"][data-color-id="' + teamColor.id + '"]').click();
+            var _selector       ='button.change-color[data-target="Team-color-picker"][data-color-id="' + teamColor.id + '"]';
+
+            $(_selector).click();
 
         });
 
@@ -397,7 +399,7 @@ $(document).ready(function () {
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
-                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code);
+                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
                     _strBuilder +=  '<path class="growStroke" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
                 });
@@ -469,13 +471,51 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.getSettingsByMaterialOptionCode = function (materialOptionCode) {
+
+        var _type                   =  ub.current_material.material.type;
+        var _uniformSettings        =  ub.current_material.settings[_type];
+        var _materialOptionSettings =  _.find(_uniformSettings, {code: materialOptionCode});
+
+        return  _materialOptionSettings;
+
+    };
+
+    ub.funcs.getModifierByIndex = function (index) {
+
+        var _modifier = _.find(ub.data.modifierLabels, {index: index});
+        return _modifier;
+
+    };
+
+    ub.funcs.getColorObjByHexCode = function (hexCode) {
+
+        var _baseColors = ub.funcs.getBaseColors();
+        var _colorObj   = _.find(_baseColors, {hex_code: hexCode});
+
+        return _colorObj;
+
+    };
+
     ub.funcs.moveToColorPickerByIndex = function (index) {
 
         $('div#single_team-color-picker').hide();
         $('div#cw').fadeIn();
 
+        if (index === -1) { return; }
+
+        var _index = index + 1;
+        var _modifier           = ub.funcs.getModifierByIndex(_index);
+        var _materialSettings   = ub.funcs.getSettingsByMaterialOptionCode(_modifier.fullname);
+        var _intColor           = _materialSettings.color;
+        var _hexCode            = (_intColor).toString(16);
+        var colorObj            = ub.funcs.getColorObjByHexCode(_hexCode);
+        var $svgPath = $('svg#svg_cw_' + (_index) + ' > path[data-color-id="' + colorObj.id +'"]');
+        
+        $svgPath.trigger('click');
+
         var _widthOfCW  = $('div.color-wheel').first().width();
-        var _leftMargin = _widthOfCW * index;
+        var _leftMargin = _widthOfCW * (_index - 1);
 
         $('#color-wheel-container').css('margin-left', '-' + _leftMargin + 'px');
 
