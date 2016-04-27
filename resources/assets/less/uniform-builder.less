@@ -393,6 +393,8 @@ a#view_save_footer {
 div.options_panel  {
 
     div.options_panel_header {
+
+        z-index: 300;
      
         background-color: @customizer_bg;
         width: 100%;
@@ -2541,7 +2543,7 @@ div.header-container.main {
     .options_panel_section.ubColorPicker {
 
         padding: 0px !important;
-        margin-top: 0px !important;
+        
 
     }
 
@@ -2557,7 +2559,8 @@ div.header-container.main {
 
     div#color-wheel-container {
 
-        transition: margin-left 1s ease-in-out;
+        transition: margin 1s ease-in-out;
+        z-index: 200;
 
         div.color-wheel {
 

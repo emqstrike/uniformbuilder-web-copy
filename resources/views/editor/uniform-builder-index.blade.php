@@ -220,12 +220,12 @@
                 <br /><span>Show Parts</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="x">
+            <a class="footer-buttons change-view" data-view="colors">
                 <i class="fa fa-tint" aria-hidden="true"></i>
                 <br /><span>Colors</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="x">
+            <a class="footer-buttons change-view" data-view="patterns">
                 <i class="fa fa-th" aria-hidden="true"></i>
                 <br /><span>Patterns</span>
             </a>

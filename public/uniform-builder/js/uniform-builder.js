@@ -3715,9 +3715,17 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'x') {
+                if (view === 'colors') {
 
-                    ub.showModal("Don't");
+                    $('#color-wheel-container').css('margin-top', '0px');
+                    return;
+                    
+                }
+
+
+                if (view === 'patterns') {
+
+                    $('#color-wheel-container').css('margin-top', '570px');
                     return;
                     
                 }
