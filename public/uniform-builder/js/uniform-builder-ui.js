@@ -28,9 +28,21 @@ $(document).ready(function () {
 
     ub.zoom_on = function () {
 
+        var _windowSize = ub.funcs.getWindowSize();
+        
         _.each(ub.views, function(view) {
 
-             ub[view + '_view'].scale.set(1, 1);
+            if (_windowSize.height > 800) {
+
+                ub[view + '_view'].scale.set(1.4, 1.4);
+
+            } else {
+
+                ub[view + '_view'].scale.set(1, 1);
+
+            }
+
+
              
         });
 

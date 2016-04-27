@@ -1924,6 +1924,13 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
+            if (ub.zoom) {
+
+                ub.zoom_off();
+                return;
+
+            }
+
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -1935,16 +1942,6 @@ $(document).ready(function() {
                 var _index  = ub.funcs.getIndexByName(_result);
                 
                 ub.funcs.activatePartByIndex(_index);   
-
-                console.log("Index: ");
-                console.log(_index);
-
-                //ub.active_part = _match;
-                // if (ub.active_part !== _match) {
-                //     ub.active_part = _match;
-                // } else {
-                //     _header_text = ub.funcs.match(_match);
-                // }
 
             }
             else {
@@ -1971,26 +1968,13 @@ $(document).ready(function() {
                     var _index = ub.funcs.getIndexByName(_result);
                     
                     ub.funcs.activatePartByIndex(_index);   
-                    //ub.active_part = _match;
-
-                    // if (ub.active_part !== _match) {
-                    
-                    //     ub.active_part = _match;
-
-                    // } else {
-
-                    //     _header_text = ub.funcs.match(_match);
-
-                    // }
-
+             
                 }
                 else {
 
                     ub.funcs.resetHighlights();
 
                 }
-
-                // ub.active_lock = true;
 
             }
 
