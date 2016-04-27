@@ -4,8 +4,8 @@
 
         <div class='main double-header'>
 
-            <span class='part_label'>BODY</span><br />
-            <span class='nOf'>1 of 7</span> 
+            <span class='part_label'>LOADING</span><br />
+            <span class='nOf'>Please wait...</span> 
             
         </div>
 

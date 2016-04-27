@@ -398,7 +398,6 @@ div.options_panel  {
         width: 100%;
         display: table;
         height: 40px;
-        border-bottom: 1px solid @border_color;
         padding: 10px;
         color: @customizer_forecolor;
 
@@ -464,7 +463,6 @@ div.options_panel  {
         width: 100%;
         display: table;
         height: 40px;
-        border-bottom: 1px solid @border_color;
         padding: 10px;
 
         -moz-transition: all .2s;
@@ -503,7 +501,7 @@ div.options_panel  {
 
         div.color_panel_container {
 
-            margin-left: 23px;
+            margin-left: 20px;
             margin-top: 23px;
 
         }    
@@ -524,11 +522,18 @@ div.options_panel {
 
 div.color_element {
 
-    width: 43px;
-    height: 43px;
-    
+    width: 85px;
+    height: 60px;
     float: left;
     background-repeat: no-repeat;
+    text-align: center;
+
+    span {
+
+        padding-top: 5px;
+        display: block
+
+    }
 
 }
 
@@ -593,7 +598,7 @@ div.pattern_panel_container {
 #right-main-window {
 
     display: none;
-    overflow-y: scroll;
+    overflow-y: hidden;
 
     width: 100%;
     background-color: @customizer_main_area;
@@ -1299,11 +1304,12 @@ div.applications_dropdown {
 
 div.ubColorPicker {
 
-    margin-top: 10px;
+    margin-top: 0px;
 
     .options_panel_section > .color_panel_container_ub_picker {
     
-        margin-top: 10px !important;
+        margin-top: 5px !important;
+        margin-left: 35px;
 
         .color_element {
             background-position: 4px -2px;
@@ -1317,7 +1323,7 @@ div.ubColorPicker {
         margin-top: -2px;
         width: 26px;
         height: 26px;
-        border: solid 1px #acacac;
+        
         padding: 0px;
         border-radius: 0;
         padding: 2px;
@@ -1328,7 +1334,7 @@ div.ubColorPicker {
             background-color: black;
             width: 20px;
             height: 20px;
-            display: block;
+            display: none;
             border: solid 1px #acacac;
 
         }
@@ -1347,8 +1353,7 @@ div.arrow {
 
 div.options_panel_section.ubColorPicker {
 
-  border-top: 1px solid @border_color;
-  border-bottom: 1px solid @border_color;
+  
 
 }
 
@@ -1418,8 +1423,8 @@ div.mascot_color_picker_container {
 }
 
 .rotation_slider {
-        margin: 0 auto;
-        height: 155px;
+    margin: 0 auto;
+    height: 155px;
 }
 
 img.logo-preview {
@@ -1936,6 +1941,9 @@ div.team_color_picker_options > div.scroller {
 .grow {  transform: scale(1.0); transition: all .1s ease-in-out; }
 .grow:hover { transform: scale(1.15); }
 
+.growStroke {  stroke-width: 50; transition: all .1s ease-in-out; }
+.growStroke:hover { stroke-width: 60; }
+
 .disabled { 
     opacity: 0.7;
     -webkit-transition: none !important;
@@ -2203,9 +2211,10 @@ div.header-container.main {
         position: absolute;
         display: none;
         width: 550px;
-        height: 290px;
+        height: 459px;
         background-color: #3d3d3d;
         overflow-y: scroll;
+        z-index: 1000;
     }
 
     i.button_drop {
@@ -2233,7 +2242,8 @@ div.header-container.main {
             color: @border_color;
             font-size: 0.8em;
             margin-right: 20px;
-            width: 100px;
+            width: 80px;
+            display: inline-flex;
         }
 
     }
@@ -2257,6 +2267,7 @@ div.header-container.main {
 
     div#bottom_modifier_tabs {
 
+
         background-color: @customizer_bg;
         width: 550px;
         display: table;
@@ -2264,8 +2275,8 @@ div.header-container.main {
         border-top: 1px solid #d7d7d7;
         border-bottom: 1px solid #d7d7d7;
         padding: 10px;
+        top: 605px;
         position: absolute;
-        margin-top: 180px;
 
         div#next_container {
 
@@ -2505,6 +2516,50 @@ div.header-container.main {
         }
 
     }
+
+    /* Global Team Color Picker */
+
+    .options_panel_section.ubColorPicker {
+
+        padding: 0px !important;
+        margin-top: 0px !important;
+
+    }
+
+    /* End Global Team Picker */
+
+    /* Color Wheel */ 
+
+    div#cw {
+
+        display: none;
+
+    }
+
+    div#color-wheel-container {
+
+        transition: margin-left 1s ease-in-out;
+
+        div.color-wheel {
+
+            float: left;
+            width: 550px;
+            height: 500px;
+            background-color: #808080;
+
+            svg.svg-color-wheel {
+
+                width: 100%;
+                height: 100%;
+
+            }
+
+        }
+
+    }
+
+    /* End Color Wheel */
+
 
 /* End New UI */
 

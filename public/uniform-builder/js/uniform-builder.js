@@ -38,7 +38,6 @@ $(document).ready(function () {
             else{
 
                 $('.open-save-design-modal').hide();
-                $('div#change-views').css('margin-top', '350px');
 
             }
 
@@ -70,7 +69,7 @@ $(document).ready(function () {
 
         ub.funcs.afterLoad = function () {
 
-            ub.funcs.activatePartByIndex(1);
+            ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
             
@@ -608,8 +607,6 @@ $(document).ready(function () {
             
             $('#main-row').fadeIn();
             $('div#design_name_container').fadeIn();
-
-            $('div#change-views').fadeIn();
             
         }
 
@@ -767,24 +764,24 @@ $(document).ready(function () {
         var settings = ub.current_material.settings;
 
         settings.team_colors = [
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
-            {
-                color: '',
-            },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
+            // {
+            //     color: '',
+            // },
         ];
 
         settings.upper = {};
 
         settings.lower = {
-            preview: '',
+            preview: '',  
         };
 
         settings.upper = {
@@ -2019,7 +2016,6 @@ $(document).ready(function () {
 
                         $('#main_view > canvas').hide();
                         $('#right-main-window > .options_panel').hide();
-                        $('div#change-views').hide();
                         $('#right-sidebar > a').hide();
 
                         var div_sports = "<div class='picker_container'></div>"
@@ -2034,7 +2030,6 @@ $(document).ready(function () {
                         $('a.btn-new').data('status','close');
 
                         $('#right-main-window').css('background-color','#f8f8f8');
-
                         ub.display_gender_picker();
 
                     }
@@ -2042,7 +2037,7 @@ $(document).ready(function () {
 
                         $('#main_view > canvas').fadeIn();
                         $('#right-main-window > .options_panel').fadeIn();
-                        $('div#change-views').fadeIn();
+                      
                         $('#right-sidebar > a').fadeIn();
 
                         $('#main_view > div.picker_container').remove();

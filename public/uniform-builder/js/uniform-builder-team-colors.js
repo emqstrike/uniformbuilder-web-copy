@@ -4,6 +4,41 @@ $(document).ready(function () {
 
     ub.funcs.ui = {};
 
+    ub.funcs.ui.getAllNames = function (materialOptionName) {
+
+        var _names      = [];
+        var _obj        = _.find(ub.data.modifierLabels, {name: materialOptionName});
+        var _name       = _obj.fullname;
+        var _otherSide  = '';
+
+        _names.push(_name);
+
+        if (_name.indexOf('left') >-1) {
+            _match      = _name.replace('left', 'right');
+            _names.push(_match);
+        }
+
+        if (_name.indexOf('right') >-1) {
+            _match      = _name.replace('right', 'left');
+            _names.push(_match);
+        }
+
+        return _names;
+
+    };
+
+    ub.funcs.ui.setMaterialOptionColor = function (name, colorObj) {
+
+        var _names = ub.funcs.ui.getAllNames(name);
+
+        _.each(_names, function (name) {
+
+            ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
+
+        });
+
+    };
+
     ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
@@ -20,8 +55,8 @@ $(document).ready(function () {
     
     ub.funcs.ui.getColorSet = function (material_option, type) { 
 
-        var _colorSet = undefined; 
-        var _colors = undefined;
+        var _colorSet   = undefined; 
+        var _colors     = undefined;
 
         _colorSet = _.find(ub.current_material.materials_options, { name: material_option, perspective: 'front'} );
         
@@ -47,6 +82,26 @@ $(document).ready(function () {
         return _newColorSet;
 
     };
+
+    ub.funcs.getBaseColors = function () {
+
+        var _colorType      = '';
+        var _factoryCode    = ub.current_material.material.factory_code;
+
+        if (_factoryCode === 'pmp' ) {
+            _colorType  = 'non-sublimated';
+        }
+        else {
+            _colorType  = 'sublimated';
+        }
+
+        _colorSet   = ub.funcs.ui.getColorSet('Body', _colorType);
+
+        return _colorSet;
+
+    };
+
+
 
     ub.funcs.ui.hideTeamColorPicker = function () {
 
@@ -220,17 +275,218 @@ $(document).ready(function () {
         var _numberOfColors     = $('.color_picker_item').length;
         var _rowsOfColor        = 2;
         var _extra              = 40; // so that options wont be scrolled to the left most
-
         var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
 
         $('.color_items_container').width(_widthOfContainer);
-
         ub.funcs.scrollize ('.team_color_picker_options', '.color_items_container', '.color_picker_item', 30)
-
         $('button.color_picker_item[data-color="White"]').css('background-color','#ffffff !important');
 
     };
 
     /// End UI v1
+
+    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+          
+      var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+      return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+      };
+
+    }
+
+    function describeArc(x, y, radius, startAngle, endAngle){
+
+        var start = polarToCartesian(x, y, radius, endAngle);
+        var end = polarToCartesian(x, y, radius, startAngle);
+
+        var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+
+        var d = [
+            "M", start.x, start.y, 
+            "A", radius, radius, 0, arcSweep, 0, end.x, end.y
+        ].join(" ");
+
+        return d;       
+
+    }
+
+    ub.funcs.clearTeamColors = function () {
+
+        ub.current_material.settings.team_colors = [];
+
+    }
+
+    ub.funcs.addColorToTeamColors = function (colorObj) {
+
+        var _teamColorObj = ub.current_material.settings.team_colors;
+        _teamColorObj.push(colorObj); 
+
+        ub.funcs.drawColorPickers();
+
+    };
+
+    ub.funcs.removeColorFromTeamColors = function (colorObj) {
+
+        var _teamColorObj       = ub.current_material.settings.team_colors;
+        var _indexOfColorObj    = undefined;
+
+        _indexOfColorObj        = _teamColorObj.indexOf(colorObj);
+        _teamColorObj.splice(_indexOfColorObj, 1);
+
+        ub.funcs.drawColorPickers();
+
+    };
+
+    ub.funcs.drawColorPickers = function () {
+
+        var _teamColorObj           = ub.current_material.settings.team_colors;
+        var _strBuilder             = '';
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'index');
+        var _tempIndex              = 1;
+        var _colorSet               = ub.funcs.getBaseColors();
+
+        _strBuilder                 += '<div id="color-wheel-container">';
+        
+            _.each(_sortedModifierLabels, function (modLabel) {
+
+                var fill = 'white';
+
+                _strBuilder     += '<div class="color-wheel" id="cw_' + modLabel.index + '">';
+                _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';
+                _tempIndex      += 1;
+                _strBuilder     += '<circle class="preview" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
+                _strBuilder     += '<text class="previewColorCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
+                _strBuilder     += '<text class="previewColorName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
+
+                _.each(_teamColorObj, function (colorObj, index) {
+
+                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code);
+                    _strBuilder +=  '<path class="growStroke" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+
+                });
+
+                _strBuilder     += '</svg>';
+                _strBuilder     += '</div>';
+
+            });
+
+        _strBuilder         += '</div>';
+
+        $('div#primary_options_container > div#cw').html(_strBuilder);
+
+        _.each(_sortedModifierLabels, function (modLabel) {
+
+            var _elements   = _teamColorObj.length;
+            var _length     = 360 / _elements;
+            var _start      = 0;
+
+            _.each(_teamColorObj, function (colorObj, index) {
+
+                var _nth    = index;
+                var _start  = _nth * _length;
+                var _end    = _start + _length;
+                var _id     = "arc" + index + '-' + modLabel.fullname;
+
+                document.getElementById(_id).setAttribute("d", describeArc(275, 215, 150, _start, _end));
+
+                $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
+
+                   var _colorID           = $(this).data('color-id');
+                   var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
+                   
+                   ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ);
+
+                   var $previewCircle     = $(this).parent().find('circle');
+                   $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
+
+                   if (_colorOBJ.color_code === 'W') {
+                    
+                        $previewCircle.css('fill', '#ffffff');
+
+                   }
+
+                   var fill = "white";
+
+                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
+                        fill = 'black';
+                   }
+
+                   var $previewColorCode = $(this).parent().find('text.previewColorCode');
+                   $previewColorCode.html(_colorOBJ.color_code);
+                   $previewColorCode.css('fill', fill);
+
+                   var $previewColorName = $(this).parent().find('text.previewColorName');
+                   $previewColorName.html(_colorOBJ.name);
+                   $previewColorName.css('fill', fill);
+
+                });
+
+            });
+
+        });    
+
+
+
+        // _.each(_teamColorObj, function (colorObj, index) {
+
+        //     var _nth    = index;
+        //     var _start  = _nth * _length;
+        //     var _end    = _start + _length;
+
+        //     document.getElementById("arc" + index).setAttribute("d", describeArc(275, 215, 150, _start, _end));
+
+
+
+        // });
+
+        var _sizeOf     = _.size(ub.data.modifierLabels);
+        var _widthOfCW  = $('div.color-wheel').first().width();
+
+        $('#color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+
+    };
+
+    ub.funcs.moveToColorPickerByIndex = function (index) {
+
+        $('div#single_team-color-picker').hide();
+        $('div#cw').fadeIn();
+
+        var _widthOfCW  = $('div.color-wheel').first().width();
+        var _leftMargin = _widthOfCW * index;
+
+        $('#color-wheel-container').css('margin-left', '-' + _leftMargin + 'px');
+
+    };
+
+    ub.funcs.showTeamColorPicker = function (index) {
+
+        $('div#single_team-color-picker').fadeIn();
+        $('div#cw').hide();
+
+    };
+
+    ub.funcs.initTeamColors = function () {
+
+        var _colorSet       = '';
+        _colorSet           = ub.funcs.getBaseColors();
+
+        $("span.part_label").html('Team Colors');
+        $("span.nOf").html('Select the Colors you will use for your Uniform');
+        $('div#primary_options_container').html('<div id="team-color-picker"></div><div id="cw"></div>');
+
+        $('#team-color-picker').ubTeamColorPicker({
+        
+            target: 'team-color-picker',
+            type: 'single',
+            colorSet: _colorSet,
+
+        });
+
+        ub.funcs.clearTeamColors();
+        ub.funcs.showTeamColorPicker();
+
+    }
 
 });
