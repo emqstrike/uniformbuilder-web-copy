@@ -37,6 +37,34 @@ $(document).ready(function() {
 		});
     });
 
+    $(document).on('change', '.group-id', function() {
+        console.log('changed gid');
+        var number = $(this).val();
+        var perspective = $(this).data('perspective');
+        var name = $(this).data('name').toLowerCase();
+        $(".group-id").each(function(i) {
+            if( $(this).data('perspective') != perspective && $(this).data('name').toLowerCase() == name ){
+                $(this).fadeOut();
+                $(this).fadeIn();
+                $(this).val(number);
+            }
+        });
+    });
+
+    $(document).on('change', '.tcid', function() {
+        console.log('changed gid');
+        var number = $(this).val();
+        var perspective = $(this).data('perspective');
+        var name = $(this).data('name').toLowerCase();
+        $(".tcid").each(function(i) {
+            if( $(this).data('perspective') != perspective && $(this).data('name').toLowerCase() == name ){
+                $(this).fadeOut();
+                $(this).fadeIn();
+                $(this).val(number);
+            }
+        });
+    });
+
     $('.format-names').on('click', function(){
     	formatNames();
     });
@@ -89,7 +117,7 @@ $(document).ready(function() {
 
     function topLayers(thisObj, length){
     	var name = thisObj.next().val().toLowerCase();
-		console.log( "Name: " + name );
+		// console.log( "Name: " + name );
     	if ( name == "highlights" ) {
 			thisObj.val('99');
 		} else if( name == "shadows" ){
