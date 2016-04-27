@@ -84,10 +84,10 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+<!-- <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/materials.js"></script>
+<script type="text/javascript" src="/js/administration/materials-main.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<!-- <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script> -->
 @endsection

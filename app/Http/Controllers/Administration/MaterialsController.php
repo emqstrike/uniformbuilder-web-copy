@@ -60,24 +60,9 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
         $materials = $this->client->getMaterials();
-        // $applications = $this->applicationClient->getApplications();
-        // $boundaries = $this->boundaryClient->getBoundaries();
-
-        // foreach ($materials as $material)
-        // {
-        //     $options = $this->optionsClient->getByMaterialId($material->id);
-        //     $material->options = $options;
-        // }
-
-        // $colors = $this->colorsClient->getColors();
-        // $gradients = $this->gradientClient->getGradients();
 
         return view('administration.materials.materials', [
             'materials' => $materials,
-            // 'colors' => $colors,
-            // 'gradients' => $gradients,
-            // 'applications' => $applications,
-            // 'boundaries' => $boundaries
         ]);
     }
 
@@ -130,13 +115,11 @@ class MaterialsController extends Controller
             'boundaries' => $boundaries,
             'fonts' => $fonts
         ]);
-        // return View::make('administration.materials.material-options', $options);
     }
 
     public function materialsOptionsSetup($id)
     {
         Log::info('Materials Options QS');
-        // QS - Quick SETUP
 
         $material = $this->client->getMaterialQS($id);
         $options = $this->optionsClient->getByMaterialId($id);

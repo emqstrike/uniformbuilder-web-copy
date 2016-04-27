@@ -27,6 +27,9 @@
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
     Back
 </a>
+<a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+    Materials Options
+</a>
 <center>
 <img src="{{ $material->thumbnail_path }}"
      width="100px"
