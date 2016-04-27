@@ -124,7 +124,7 @@
             </div>
             <hr>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default update-applications-json">Updating ...</a>
+                <a href="#" class="btn btn-primary update-applications-json">Save Changes</a>
                 <!-- <a href="#" class="btn btn-success update-applications-json">Finalize</a>
                 <input type="submit" class="btn btn-primary save-changes" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button> -->

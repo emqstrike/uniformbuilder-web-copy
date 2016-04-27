@@ -1080,16 +1080,9 @@ $(document).ready(function() {
                         font_style = window.fonts[i].name;
                     }
                 }
-                // console.log("Font Style: "+font_style);
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
-
-                // var font_size = 30;
-                // console.log("Font: "+font);
-                // $(this).css('font-family', font);
-                // $(this).css('font-size', font_size);
-                // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -1161,7 +1154,6 @@ $(document).ready(function() {
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
                     var font_size = 30;
-                    // console.log("Font: "+font);
                     $(this).css('font-family', font);
                     $(this).css('font-size', font_size);
                     $(this).css('width', '300px');
@@ -1200,7 +1192,6 @@ $(document).ready(function() {
             }
 
             $(".app-default-font").each(function(i) {
-                // console.log('each: >> ');
                 var font = $('option:selected', this).data('font-family');
                 var font_size = 30;
                 $(this).css('font-family', font);
@@ -2346,7 +2337,7 @@ canvas.observe('object:moving', function (e) {
     // });
     console.log(JSON.stringify(coords));
     updateCoordinates();
-}); //canvas.observe()
+}); //canvas.observe();
 }
 catch(err) { console.log(err.message); }
 
@@ -2422,8 +2413,8 @@ function loadPolygon(data){
 
 function updateApplicationsJSON(){
     var multiplier = 2;
+    applicationProperties = {};
     $(".app-rotation").each(function(i) {
-        // BUILD APPLICATION PROPERTIES JSON
 
         itemIdx = "layer"+$(this).data('id');
         layer = $(this).data('id');
@@ -2431,8 +2422,8 @@ function updateApplicationsJSON(){
         thisGroup = canvasFront.item(layer);
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
-        applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
-
+        applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
+console.log( 'applicationId: ' + applicationId );
         isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
         hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
         hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
@@ -2446,7 +2437,7 @@ function updateApplicationsJSON(){
         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
-        // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+        mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
         // mascotData = "Placeholder";
 
         // window.mascotData = null;
@@ -2498,7 +2489,7 @@ function updateApplicationsJSON(){
         //     });
         // }
 
-        // fontData = window.fontData;
+        fontData = window.fontData;
         
         if(isPrimary.prop( "checked" )){
             isPrimary = 1;
@@ -2581,7 +2572,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
         applicationProperties[itemIdx].id = applicationId;
-        applicationProperties[itemIdx].layerOrder = applicationId;
+        // applicationProperties[itemIdx].layerOrder = applicationId;
         applicationProperties[itemIdx].topLeft.x = topLeftX;
         applicationProperties[itemIdx].topLeft.y = topLeftY;
         applicationProperties[itemIdx].topRight.x = topRightX;
@@ -2602,12 +2593,13 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].defaultFont = applicationFont;
         applicationProperties[itemIdx].defaultText = applicationText;
         applicationProperties[itemIdx].defaultNumber = applicationNumber;
-        try{
-            applicationProperties[itemIdx].mascotData = mascotData;
-            applicationProperties[itemIdx].fontData = fontData;
-        } catch(err){
-            console.log(err.message);
-        }
+
+        // try{
+        //     applicationProperties[itemIdx].mascotData = mascotData;
+        //     applicationProperties[itemIdx].fontData = fontData;
+        // } catch(err){
+        //     console.log(err.message);
+        // }
 
         applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * multiplier;
         applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * multiplier;
@@ -2622,12 +2614,12 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].height = thisGroup.getHeight() * multiplier;
         applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
         applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
-        // thisGroup.left
         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
         applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * multiplier;
         applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * multiplier;
+
         try{
             if(cs == 1){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);

@@ -270,8 +270,8 @@
                                 <th>Default Text</th>
                                 <th>Default Number</th>
                             </thead>
-                            <tbody class="front-applications">
-                            </tbody>
+                            <!-- <tbody class="front-applications">
+                            </tbody> -->
                         </table>
                         <input type="text" id="app_template_name" placeholder="Template Name.">
                         <a href="#"
