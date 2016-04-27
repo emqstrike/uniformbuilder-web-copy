@@ -393,6 +393,8 @@ a#view_save_footer {
 div.options_panel  {
 
     div.options_panel_header {
+
+        z-index: 300;
      
         background-color: @customizer_bg;
         width: 100%;
@@ -433,14 +435,14 @@ div.options_panel  {
 
         div.main {
 
-            text-align: left !important;
+            text-align: center !important;
 
             width: 60%;
             margin-top: 3px;
             padding-left: 15px;
 
             span.part_label {
-                font-size: 1.5em;
+                font-size: 1.3em;
                 font-weight:bold;
             }
 
@@ -451,8 +453,27 @@ div.options_panel  {
         }
 
         div.next {
-            width: 40%;
+            width: 20%;
             padding-left: 10px;
+            cursor: pointer;
+
+            i {
+                font-size: 1.4em;
+                padding-top: 20px;
+            }
+            
+        }
+
+        div.prev {
+            width: 20%;
+            padding-left: 10px;
+            cursor: pointer;
+
+            i {
+                font-size: 1.4em;
+                padding-top: 20px;
+            }
+
         }
 
     }
@@ -2271,7 +2292,7 @@ div.header-container.main {
         background-color: @customizer_bg;
         width: 550px;
         display: table;
-        height: 40px;
+        height: 55px;
         border-top: 1px solid #d7d7d7;
         border-bottom: 1px solid #d7d7d7;
         padding: 10px;
@@ -2522,7 +2543,7 @@ div.header-container.main {
     .options_panel_section.ubColorPicker {
 
         padding: 0px !important;
-        margin-top: 0px !important;
+        
 
     }
 
@@ -2538,7 +2559,8 @@ div.header-container.main {
 
     div#color-wheel-container {
 
-        transition: margin-left 1s ease-in-out;
+        transition: margin 1s ease-in-out;
+        z-index: 200;
 
         div.color-wheel {
 
@@ -2560,6 +2582,9 @@ div.header-container.main {
 
     /* End Color Wheel */
 
+    button#modalButton {
+        display: none;
+    }
 
 /* End New UI */
 

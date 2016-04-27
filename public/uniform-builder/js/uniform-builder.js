@@ -3701,6 +3701,35 @@ $(document).ready(function () {
 
                 var view = $(this).data('view');
 
+                if (view === 'parts') {
+
+                    $('#select_part').click();
+                    return;
+
+                }
+
+                if (view === 'refresh') {
+
+                    window.location.reload();
+                    return;
+                    
+                }
+
+                if (view === 'colors') {
+
+                    $('#color-wheel-container').css('margin-top', '0px');
+                    return;
+                    
+                }
+
+
+                if (view === 'patterns') {
+
+                    $('#color-wheel-container').css('margin-top', '570px');
+                    return;
+                    
+                }
+
                 if (view === 'home') {
 
                     ub.funcs.initGenderPicker();

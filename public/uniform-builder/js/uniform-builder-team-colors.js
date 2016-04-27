@@ -27,26 +27,42 @@ $(document).ready(function () {
 
     };
 
+
+    // Set Color in the Settings Object
+    ub.funcs.setMaterialOptionSettingsColor = function (materialOptionCode, colorObj) {
+
+        var _type                       = ub.current_material.material.type;
+        var _uniformObject              = ub.current_material.settings[_type];
+        var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
+
+        _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
+        _materialOptionObject.colorObj  = colorObj;
+
+    };
+
+    // Set Color of the Actual Sprite in the stage
     ub.funcs.ui.setMaterialOptionColor = function (name, colorObj) {
 
         var _names = ub.funcs.ui.getAllNames(name);
 
         _.each(_names, function (name) {
 
+            ub.funcs.setMaterialOptionSettingsColor(name, colorObj);
             ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
 
         });
 
     };
 
+
     ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
         _teamColorObj[teamColorID - 1] = colorObj;
 
-        var _removedHash =colorObj.hex_code.replace('#', '');
+        var _removedHash  = colorObj.hex_code.replace('#', '');
 
-        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash);
+        ub.funcs.setGroupColor(teamColorID.toString(), _removedHash, colorObj);
 
     };
     
@@ -72,7 +88,7 @@ $(document).ready(function () {
         }
 
         var _newColorSet = [];
-        _.each (_colors, function (_color){
+        _.each (_colors, function (_color) {
 
             var _match = _.find(ub.data.colors, {color_code: _color});
             _newColorSet.push(_match);
@@ -82,6 +98,25 @@ $(document).ready(function () {
         return _newColorSet;
 
     };
+
+    ub.funcs.restoreTeamColorSelections = function () {
+
+        var _teamColorObject    = ub.current_material.settings.team_colors;
+        var _teamColorSize      = _.size(ub.current_material.settings.team_colors);
+
+        if (_teamColorSize === 0) { return; }
+
+        _.each (_teamColorObject, function (teamColor) {
+
+            var _selector       ='button.change-color[data-target="Team-color-picker"][data-color-id="' + teamColor.id + '"]';
+
+            $(_selector).click();
+
+        });
+
+        ub.funcs.drawColorPickers();
+
+    }
 
     ub.funcs.getBaseColors = function () {
 
@@ -321,6 +356,10 @@ $(document).ready(function () {
     ub.funcs.addColorToTeamColors = function (colorObj) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
+        var _result       = _.find(_teamColorObj, {color_code: colorObj.color_code});
+
+        if (typeof _result !== "undefined") { return; } // exit if color already exist on _teamColorObj
+
         _teamColorObj.push(colorObj); 
 
         ub.funcs.drawColorPickers();
@@ -362,7 +401,7 @@ $(document).ready(function () {
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
-                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code);
+                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
                     _strBuilder +=  '<path class="growStroke" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
                 });
@@ -427,24 +466,36 @@ $(document).ready(function () {
 
         });    
 
-
-
-        // _.each(_teamColorObj, function (colorObj, index) {
-
-        //     var _nth    = index;
-        //     var _start  = _nth * _length;
-        //     var _end    = _start + _length;
-
-        //     document.getElementById("arc" + index).setAttribute("d", describeArc(275, 215, 150, _start, _end));
-
-
-
-        // });
-
         var _sizeOf     = _.size(ub.data.modifierLabels);
         var _widthOfCW  = $('div.color-wheel').first().width();
 
         $('#color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+
+    };
+
+    ub.funcs.getSettingsByMaterialOptionCode = function (materialOptionCode) {
+
+        var _type                   =  ub.current_material.material.type;
+        var _uniformSettings        =  ub.current_material.settings[_type];
+        var _materialOptionSettings =  _.find(_uniformSettings, {code: materialOptionCode});
+
+        return  _materialOptionSettings;
+
+    };
+
+    ub.funcs.getModifierByIndex = function (index) {
+
+        var _modifier = _.find(ub.data.modifierLabels, {index: index});
+        return _modifier;
+
+    };
+
+    ub.funcs.getColorObjByHexCode = function (hexCode) {
+
+        var _baseColors = ub.funcs.getBaseColors();
+        var _colorObj   = _.find(_baseColors, {hex_code: hexCode});
+
+        return _colorObj;
 
     };
 
@@ -453,8 +504,20 @@ $(document).ready(function () {
         $('div#single_team-color-picker').hide();
         $('div#cw').fadeIn();
 
+        if (index === -1) { return; }
+
+        var _index = index + 1;
+        var _modifier           = ub.funcs.getModifierByIndex(_index);
+        var _materialSettings   = ub.funcs.getSettingsByMaterialOptionCode(_modifier.fullname);
+        var _intColor           = _materialSettings.color;
+        var _hexCode            = (_intColor).toString(16);
+        var colorObj            = ub.funcs.getColorObjByHexCode(_hexCode);
+        var $svgPath = $('svg#svg_cw_' + (_index) + ' > path[data-color-id="' + colorObj.id +'"]');
+        
+        $svgPath.trigger('click');
+
         var _widthOfCW  = $('div.color-wheel').first().width();
-        var _leftMargin = _widthOfCW * index;
+        var _leftMargin = _widthOfCW * (_index - 1);
 
         $('#color-wheel-container').css('margin-left', '-' + _leftMargin + 'px');
 
@@ -484,8 +547,8 @@ $(document).ready(function () {
 
         });
 
-        ub.funcs.clearTeamColors();
         ub.funcs.showTeamColorPicker();
+        ub.funcs.restoreTeamColorSelections();
 
     }
 

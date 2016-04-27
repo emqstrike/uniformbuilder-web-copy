@@ -2,6 +2,14 @@
 
     <div class="options_panel_header">
 
+        <div  class='prev double-header'>
+            
+            <div id="topPrev">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </div>
+
+        </div>
+
         <div class='main double-header'>
 
             <span class='part_label'>LOADING</span><br />
@@ -10,7 +18,12 @@
         </div>
 
         <div  class='next double-header'>
-            <div id="select_part" >JUMP TO PART <i class="fa fa-arrow-circle-down button_drop" aria-hidden="true"></i>
+
+            <div id="topNext">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </div>
+
+            <div id="select_part" style="display:none !important; ">JUMP TO PART <i class="fa fa-arrow-circle-down button_drop" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -52,7 +65,40 @@
 
     </div>
 
+    <!-- 
+
     <div id="bottom_modifier_tabs">
+
+            <a class="footer-buttons change-view" data-view="front">
+                F
+                <br /><span>Front View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="back">
+                B
+                <br /><span>Back View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="left">
+                L
+                <br /><span>Left View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="right">
+                R
+                <br /><span>Right View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="zoom">
+                <i class="fa fa-search"></i>
+                <br /><span>Zoom</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home"></i>
+                <br /><span>Home</span>
+            </a>
+
         
         <div class='tabs'>
         
@@ -85,6 +131,10 @@
 
         </div>
 
+
     </div>
+
+    -->
+
 
 </div> <!-- End Sizes Panel -->

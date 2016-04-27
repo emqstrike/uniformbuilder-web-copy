@@ -1730,7 +1730,6 @@ $(document).ready(function() {
 
         });
 
-
     }
 
     ub.funcs.setAlphaOff = function (_object) {
@@ -1924,6 +1923,21 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+     
+            if (_sizeOfTeamColors <= 1) { 
+                ub.startModal();
+                return; 
+            }
+
+
+            if (ub.zoom) {
+
+                ub.zoom_off();
+                return;
+
+            }
+
             var current_coodinates = mousedata.data.global;
             var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -1935,16 +1949,6 @@ $(document).ready(function() {
                 var _index  = ub.funcs.getIndexByName(_result);
                 
                 ub.funcs.activatePartByIndex(_index);   
-
-                console.log("Index: ");
-                console.log(_index);
-
-                //ub.active_part = _match;
-                // if (ub.active_part !== _match) {
-                //     ub.active_part = _match;
-                // } else {
-                //     _header_text = ub.funcs.match(_match);
-                // }
 
             }
             else {
@@ -1971,26 +1975,13 @@ $(document).ready(function() {
                     var _index = ub.funcs.getIndexByName(_result);
                     
                     ub.funcs.activatePartByIndex(_index);   
-                    //ub.active_part = _match;
-
-                    // if (ub.active_part !== _match) {
-                    
-                    //     ub.active_part = _match;
-
-                    // } else {
-
-                    //     _header_text = ub.funcs.match(_match);
-
-                    // }
-
+             
                 }
                 else {
 
                     ub.funcs.resetHighlights();
 
                 }
-
-                // ub.active_lock = true;
 
             }
 
@@ -2152,13 +2143,15 @@ $(document).ready(function() {
             
             if (typeof _obj === 'undefined') { return; }
             
-            var _group_id   = _obj.group_id;            
+            var _group_id       = _obj.group_id;
+            var _team_color_id  = _obj.team_color_id;            
 
             _result = _result.prepareModifierLabel();
             
             _modifierLabels[_result] = {
                 name: _result,
                 group_id: _group_id,
+                team_color_id: _team_color_id,
                 fullname: _distinct_name.modifier_label,
             };
 
@@ -2216,10 +2209,12 @@ $(document).ready(function() {
             var _name       = $(this).data('name');
             var _ctr        = $(this).data('ctr');
             var _ht         = _name;
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
-            if (_fullname === 'team-colors') {
+            if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
                 // // if (_calledCtr > 0) {
                 // //     return;
@@ -2235,7 +2230,7 @@ $(document).ready(function() {
             }
 
             ub.active_part = _fullname;
-            
+
             if (typeof _.find(ub.data.modifierLabels, {'name': _ht}) !== 'undefined') {
                 
                 _group_id = _group_id;
@@ -2283,7 +2278,12 @@ $(document).ready(function() {
 
     ub.funcs.moveToNextMaterialOption = function () {
 
-        if (ub.current_material.settings.team_colors.length === 0) { alert('Please Select Your Team Colors First'); return; }
+        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        
+        if (_sizeOfTeamColors <= 1) { 
+            ub.startModal();
+            return; 
+        }
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
@@ -2298,9 +2298,10 @@ $(document).ready(function() {
 
         if (_currentPart < _moCount) {
 
-            ub.current_part += 1;
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
             $('button#next_mo').css('background-color', '#3d3d3d');
+
+            ub.current_part += 1;
 
         }
         else {
@@ -2315,6 +2316,13 @@ $(document).ready(function() {
 
     ub.funcs.moveToPrevMaterialOption = function () {
 
+        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        
+        if (_sizeOfTeamColors <= 1) { 
+            ub.startModal();
+            return; 
+        }
+
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
 
@@ -2326,6 +2334,8 @@ $(document).ready(function() {
 
         }
 
+        if (ub.current_part < 0 ) { ub.current_part = 0} ;
+        
     };
 
     $('button#prev_mo').on('click', function () {
@@ -2340,26 +2350,27 @@ $(document).ready(function() {
 
     });
 
-    ub.funcs.setGroupColor = function (groupID, hexCode) {
+    $('div#topPrev').on('click', function () {
 
-      var _group_items = _.filter(ub.current_material.materials_options, {team_color_id: groupID});
+        ub.funcs.moveToPrevMaterialOption();
 
-      _.each (_group_items, function (_item) {
+    });
 
-        var _name = _item.name.toCodeCase();
-        var _perspespective = _item.perspective + "_view"; 
+    $('div#topNext').on('click', function () {
 
-        if (typeof ub.objects[_perspespective][_name] !== 'undefined' ) {
+        ub.funcs.moveToNextMaterialOption();
 
-            if (_item.setting_type === 'shape') {
+    });
 
-                ub.objects[_item.perspective + "_view"][_name].tint = parseInt(hexCode, 16);    
+    ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
 
-            }
-            
-        }
+        var _group_items  = _.filter(ub.data.modifierLabels, {team_color_id: groupID});
 
-      });
+        _.each(_group_items, function (group_item) {
+
+            ub.funcs.ui.setMaterialOptionColor(group_item.name, colorObj);
+          
+        })
 
     };
 

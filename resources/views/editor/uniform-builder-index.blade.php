@@ -213,6 +213,42 @@
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
 
+            <a class="footer-buttons change-view" data-view="parts">
+
+                <i class="fa fa-th-large" aria-hidden="true"></i>
+
+                <br /><span>Show Parts</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="colors">
+                <i class="fa fa-tint" aria-hidden="true"></i>
+                <br /><span>Colors</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="patterns">
+                <i class="fa fa-th" aria-hidden="true"></i>
+                <br /><span>Patterns</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="x">
+                
+                <br /><span></span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="x">
+                
+                <br /><span></span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="refresh">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+                <br /><span>Reset</span>
+            </a>
+
+        </div>  
+
+        <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
+
             <a class="footer-buttons change-view" data-view="front">
                 F
                 <br /><span>Front View</span>
@@ -261,7 +297,7 @@
 
                 </div>
 
-                <div id="simple_toggle_container">
+                <div id="f">
 
                     <input id="simple_toggle" type="checkbox" checked />
 
