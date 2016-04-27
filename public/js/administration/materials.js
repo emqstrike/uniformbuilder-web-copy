@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    // $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+
     var material = {};
     var materialOptions = {};
     materialOptions['front'] = {};
@@ -21,6 +23,7 @@ $(document).ready(function() {
 
     var polyData;
     var appPropJson = "";
+    var applicationProperties = {};
 
     $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
@@ -30,8 +33,8 @@ $(document).ready(function() {
     window.patterns = null;
 
     var lineIdx = 0;
-    var coords = [];
     var loadCase = 0;
+    var coords = [];
 
     getColors(function(colors){ window.colors = colors; });
     getFonts(function(fonts){ window.fonts = fonts; });
@@ -394,9 +397,7 @@ $(document).ready(function() {
                 $('#mascot').val(data['selectedData']['value']);
             },
         });
-    });
-
-var applicationProperties = {};    
+    });  
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
@@ -533,7 +534,6 @@ var applicationProperties = {};
                 filename = filename.substr(1);
             }
 
-            console.log('FILENAME: '+filename);
             var fn = filename.capitalize();
 
             $(this).parent().siblings().find('.mo-name').val(fn);
@@ -1191,9 +1191,8 @@ var applicationProperties = {};
                 thisGroup.left          = (app_properties[l].topLeft.x) / 2;
                 thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
-                
-                canvasFront.renderAll();
 
+                canvasFront.renderAll();
                 application_number++;
             }
             else{
@@ -1293,8 +1292,7 @@ var applicationProperties = {};
                 }
             });
         }
-        
-        
+
     });
 
     $('#save_app_template').on('click', function(){
@@ -1342,34 +1340,12 @@ var applicationProperties = {};
                 }
             });
         }
-        
-        
+
     });
 
     /*
         Confirmation Modals
     */
-
-    $('.duplicate-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var name = $(this).data('material-name');
-        modalConfirm(
-            'Duplicate Material',
-            'Are you sure you want to duplicate the Material: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-material'
-        );
-    });
-
-    $('.delete-material').on('click', function(){
-        var id = $(this).data('material-id');
-        modalConfirm(
-            'Remove Material',
-            'Are you sure you want to delete the Material?',
-            id
-        );
-    });
 
     $('.delete-material-option').on('click', function(){
         console.log('DELETE');
@@ -1413,32 +1389,6 @@ var applicationProperties = {};
             'confirmation-modal-multiple-material-option'
         );
     });
-
-    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/duplicate/"+id;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
-    });    
 
     $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
         var id = $(this).data('value');
@@ -1515,32 +1465,6 @@ var applicationProperties = {};
                     });
                     $('#confirmation-modal-material-option').modal('hide');
                     $('.material-option-' + id).fadeOut();
-                }
-            }
-        });
-    });
-
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/delete/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    $('.material-' + id).fadeOut();
                 }
             }
         });
@@ -1753,31 +1677,6 @@ var applicationProperties = {};
             allowClear: true
         });
     }
-
-    $('.toggle-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/toggle/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                }
-            }
-        });
-    });
 
     /*
         Custom fabric functions

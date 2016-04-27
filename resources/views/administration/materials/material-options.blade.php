@@ -24,13 +24,16 @@
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
     Back
 </a>
+<a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+    Materials Options (Minified)
+</a>
 <center>
 <img src="{{ $material->thumbnail_path }}"
      width="100px"
      height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 0px; border: 1px solid #808080;">
 <h3>Material Options of: <b>{{ ucfirst($material->name) }}
     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
-        Edit
+        Edit 
     </a>
     <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}" style="border: 1px solid #808080; border-radius: 0px;">
         Reset Properties

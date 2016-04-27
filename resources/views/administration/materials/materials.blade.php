@@ -10,16 +10,7 @@
 
 @section('content')
 
-@if (Session::has('message'))
-<div class="alert alert-info alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
-<div class="col-md-12"> 
+<div class="col-md-12">
     <h1>
         <small>
             <a href="/administration/material/add" class='btn btn-md btn-default materials-add'>
@@ -29,9 +20,15 @@
         <p class="materials-header">Materials</p>
     </h1>
 </div>
-<div class="container-fluid main-content">
+<div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
+<button class="button btn-primary" data-filter="*">All</button>
+@foreach ($block_patterns as $block_pattern)
+    <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
+@endforeach
+</div>
+<div class="container-fluid main-content isotope" style="margin-top: 120px;">
         @forelse ($materials as $material)
-            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3'>
+            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }}' data-category="{{ $material->block_pattern_id }}">
                 <div class="material-id-div">
                     <span class="label material-label">{{ $material->id }}</span>
                 </div>
@@ -49,7 +46,7 @@
                         <img src="{{ $material->thumbnail_path }}" alt="{{ $material->slug }}" class="material-thumbnail">
                     </center>
                 </div><hr>
-                <div class="div-inline"><span class="label label-default fs-11">{{ $material->code }}</span></div>
+                <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
                 <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>
@@ -65,13 +62,16 @@
                         {{ ($material->active) ? '' : 'disabled' }}>
                         View / Edit Material Options
                     </a>
+                    <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                     <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
-                    
+
                 </div>
             </div>
         @empty
@@ -80,12 +80,6 @@
         @endforelse
 
 </div>
-
-@include('administration.materials.add-multiple-options-modal')
-
-@include('administration.materials.material-view-modal')
-
-@include('administration.materials.material-option-modal')
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
 
@@ -96,10 +90,11 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+<!-- <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/materials.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="/js/administration/materials-main.js"></script>
+<!-- <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script> -->
 @endsection
