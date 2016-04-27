@@ -65,7 +65,40 @@
 
     </div>
 
+    <!-- 
+
     <div id="bottom_modifier_tabs">
+
+            <a class="footer-buttons change-view" data-view="front">
+                F
+                <br /><span>Front View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="back">
+                B
+                <br /><span>Back View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="left">
+                L
+                <br /><span>Left View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="right">
+                R
+                <br /><span>Right View</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="zoom">
+                <i class="fa fa-search"></i>
+                <br /><span>Zoom</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home"></i>
+                <br /><span>Home</span>
+            </a>
+
         
         <div class='tabs'>
         
@@ -98,6 +131,10 @@
 
         </div>
 
+
     </div>
+
+    -->
+
 
 </div> <!-- End Sizes Panel -->

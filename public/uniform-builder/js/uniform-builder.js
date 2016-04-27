@@ -3701,6 +3701,27 @@ $(document).ready(function () {
 
                 var view = $(this).data('view');
 
+                if (view === 'parts') {
+
+                    $('#select_part').click();
+                    return;
+
+                }
+
+                if (view === 'refresh') {
+
+                    window.location.reload();
+                    return;
+                    
+                }
+
+                if (view === 'x') {
+
+                    ub.showModal("Don't");
+                    return;
+                    
+                }
+
                 if (view === 'home') {
 
                     ub.funcs.initGenderPicker();
