@@ -221,13 +221,13 @@
             </a>
 
             <a class="footer-buttons change-view" data-view="x">
-                
-                <br /><span></span>
+                <i class="fa fa-tint" aria-hidden="true"></i>
+                <br /><span>Colors</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="x">
-                
-                <br /><span></span>
+                <i class="fa fa-th" aria-hidden="true"></i>
+                <br /><span>Patterns</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="x">
