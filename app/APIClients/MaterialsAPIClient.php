@@ -68,6 +68,20 @@ class MaterialsAPIClient extends APIClient
         return null;
     }
 
+    public function getMaterialQS($id)
+    {
+        $response = $this->get('material/qs/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        
+        if ($result->success)
+        {
+            $material = $result->material;
+            return $material;
+        }
+
+        return null;
+    }
+
     public function getMaterialByName($name)
     {
         $response = $this->get('material/name/' . $name);

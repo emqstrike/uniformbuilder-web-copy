@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+    // $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
 
     var material = {};
     var materialOptions = {};
@@ -1191,9 +1191,8 @@ $(document).ready(function() {
                 thisGroup.left          = (app_properties[l].topLeft.x) / 2;
                 thisGroup.top           = (app_properties[l].topLeft.y) / 2;
                 thisGroup.pivot         = thisGroup.centerPoint;
-                
-                canvasFront.renderAll();
 
+                canvasFront.renderAll();
                 application_number++;
             }
             else{
@@ -1293,8 +1292,7 @@ $(document).ready(function() {
                 }
             });
         }
-        
-        
+
     });
 
     $('#save_app_template').on('click', function(){
@@ -1348,27 +1346,27 @@ $(document).ready(function() {
     /*
         Confirmation Modals
     */
+    // X
+    // $('.duplicate-material').on('click', function(){
+    //     var id = $(this).data('material-id');
+    //     var name = $(this).data('material-name');
+    //     modalConfirm(
+    //         'Duplicate Material',
+    //         'Are you sure you want to duplicate the Material: '+ name +'?',
+    //         id,
+    //         'confirm-yes',
+    //         'confirmation-modal-duplicate-material'
+    //     );
+    // });
 
-    $('.duplicate-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var name = $(this).data('material-name');
-        modalConfirm(
-            'Duplicate Material',
-            'Are you sure you want to duplicate the Material: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-material'
-        );
-    });
-
-    $('.delete-material').on('click', function(){
-        var id = $(this).data('material-id');
-        modalConfirm(
-            'Remove Material',
-            'Are you sure you want to delete the Material?',
-            id
-        );
-    });
+    // $('.delete-material').on('click', function(){
+    //     var id = $(this).data('material-id');
+    //     modalConfirm(
+    //         'Remove Material',
+    //         'Are you sure you want to delete the Material?',
+    //         id
+    //     );
+    // });
 
     $('.delete-material-option').on('click', function(){
         console.log('DELETE');
@@ -1413,31 +1411,32 @@ $(document).ready(function() {
         );
     });
 
-    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/duplicate/"+id;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
-    });    
+    // X
+    // $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
+    //     var id = $(this).data('value');
+    //     var url = "//" + api_host + "/api/material/duplicate/"+id;
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: JSON.stringify({id: id}),
+    //         dataType: "json",
+    //         crossDomain: true,
+    //         contentType: 'application/json',
+    //         headers: {"accessToken": atob(headerValue)},
+    //         success: function(response){
+    //             if (response.success) {
+    //                 new PNotify({
+    //                     title: 'Success',
+    //                     text: response.message,
+    //                     type: 'success',
+    //                     hide: true
+    //                 });
+    //                 $('#confirmation-modal').modal('hide');
+    //                 window.location.reload(true);
+    //             }
+    //         }
+    //     });
+    // });
 
     $('#confirmation-modal-cleanup-material-option .confirm-yes').on('click', function(){
         var id = $(this).data('value');
@@ -1519,31 +1518,31 @@ $(document).ready(function() {
         });
     });
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/delete/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    $('.material-' + id).fadeOut();
-                }
-            }
-        });
-    });
+    // $('#confirmation-modal .confirm-yes').on('click', function(){
+    //     var id = $(this).data('value');
+    //     var url = "//" + api_host + "/api/material/delete/";
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: JSON.stringify({id: id}),
+    //         dataType: "json",
+    //         crossDomain: true,
+    //         contentType: 'application/json',
+    //         headers: {"accessToken": atob(headerValue)},
+    //         success: function(response){
+    //             if (response.success) {
+    //                 new PNotify({
+    //                     title: 'Success',
+    //                     text: response.message,
+    //                     type: 'success',
+    //                     hide: true
+    //                 });
+    //                 $('#confirmation-modal').modal('hide');
+    //                 $('.material-' + id).fadeOut();
+    //             }
+    //         }
+    //     });
+    // });
 
     $('.delete-material-image').on('click', function(){
         var id = $(this).data('material-id');
@@ -1753,30 +1752,31 @@ $(document).ready(function() {
         });
     }
 
-    $('.toggle-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var url = "//" + api_host + "/api/material/toggle/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.material-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                }
-            }
-        });
-    });
+    // X
+    // $('.toggle-material').on('click', function(){
+    //     var id = $(this).data('material-id');
+    //     var url = "//" + api_host + "/api/material/toggle/";
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: JSON.stringify({id: id}),
+    //         dataType: "json",
+    //         crossDomain: true,
+    //         contentType: 'application/json',
+    //         headers: {"accessToken": atob(headerValue)},
+    //         success: function(response){
+    //             if (response.success) {
+    //                 var elem = '.material-' + id;
+    //                 new PNotify({
+    //                     title: 'Success',
+    //                     text: response.message,
+    //                     type: 'success',
+    //                     hide: true
+    //                 });
+    //             }
+    //         }
+    //     });
+    // });
 
     /*
         Custom fabric functions
