@@ -21,7 +21,7 @@
     </h1>
 </div>
 <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button" data-filter="*">All</button>
+<button class="button btn-primary" data-filter="*">All</button>
 @foreach ($block_patterns as $block_pattern)
     <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
 @endforeach
