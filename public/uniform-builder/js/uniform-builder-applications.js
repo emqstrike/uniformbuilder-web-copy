@@ -1923,6 +1923,14 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+     
+            if (_sizeOfTeamColors <= 1) { 
+                ub.startModal();
+                return; 
+            }
+
+
             if (ub.zoom) {
 
                 ub.zoom_off();
@@ -2201,10 +2209,12 @@ $(document).ready(function() {
             var _name       = $(this).data('name');
             var _ctr        = $(this).data('ctr');
             var _ht         = _name;
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
-            if (_fullname === 'team-colors') {
+            if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
                 // // if (_calledCtr > 0) {
                 // //     return;
@@ -2220,7 +2230,7 @@ $(document).ready(function() {
             }
 
             ub.active_part = _fullname;
-            
+
             if (typeof _.find(ub.data.modifierLabels, {'name': _ht}) !== 'undefined') {
                 
                 _group_id = _group_id;
@@ -2268,7 +2278,12 @@ $(document).ready(function() {
 
     ub.funcs.moveToNextMaterialOption = function () {
 
-        if (ub.current_material.settings.team_colors.length === 0) { alert('Please Select Your Team Colors First'); return; }
+        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        
+        if (_sizeOfTeamColors <= 1) { 
+            ub.startModal();
+            return; 
+        }
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
@@ -2283,9 +2298,10 @@ $(document).ready(function() {
 
         if (_currentPart < _moCount) {
 
-            ub.current_part += 1;
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
             $('button#next_mo').css('background-color', '#3d3d3d');
+
+            ub.current_part += 1;
 
         }
         else {
@@ -2300,6 +2316,13 @@ $(document).ready(function() {
 
     ub.funcs.moveToPrevMaterialOption = function () {
 
+        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        
+        if (_sizeOfTeamColors <= 1) { 
+            ub.startModal();
+            return; 
+        }
+
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
 
@@ -2311,6 +2334,8 @@ $(document).ready(function() {
 
         }
 
+        if (ub.current_part < 0 ) { ub.current_part = 0} ;
+        
     };
 
     $('button#prev_mo').on('click', function () {

@@ -1,5 +1,18 @@
 $(document).ready(function () {
 
+    ub.startModal = function () {
+
+        ub.showModal('Please select at least 2 Team Colors')
+
+    }
+
+    ub.showModal = function (message) {
+
+        $('div#messageModal').html(message);
+        $('button#modalButton').trigger('click');
+
+    };
+
     ub.zoom_off = function () {
 
         var _windowSize = ub.funcs.getWindowSize();
@@ -13,7 +26,7 @@ $(document).ready(function () {
 
         }
 
-        _.each(ub.views, function(view){
+        _.each(ub.views, function(view) {
 
              ub[view + '_view'].scale.set(_xScale, _yScale);
              

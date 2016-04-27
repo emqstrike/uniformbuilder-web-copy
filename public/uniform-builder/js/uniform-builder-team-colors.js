@@ -114,6 +114,8 @@ $(document).ready(function () {
 
         });
 
+        ub.funcs.drawColorPickers();
+
     }
 
     ub.funcs.getBaseColors = function () {
