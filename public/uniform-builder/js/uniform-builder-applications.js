@@ -2350,6 +2350,18 @@ $(document).ready(function() {
 
     });
 
+    $('div#topPrev').on('click', function () {
+
+        ub.funcs.moveToPrevMaterialOption();
+
+    });
+
+    $('div#topNext').on('click', function () {
+
+        ub.funcs.moveToNextMaterialOption();
+
+    });
+
     ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
 
         var _group_items  = _.filter(ub.data.modifierLabels, {team_color_id: groupID});
