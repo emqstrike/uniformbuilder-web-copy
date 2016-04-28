@@ -16,7 +16,7 @@ $(document).ready(function() {
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
 
-    var topInterval; // Intervals used in moving the applications
+    var topInterval; // Intervals for moving the applications
     var bottomInterval;
     var leftInterval;
     var rightInterval;
@@ -25,7 +25,7 @@ $(document).ready(function() {
     var appPropJson = "";
     var applicationProperties = {};
 
-    $('#applications_div').animate({ 'zoom': 0.75 }, 400);
+    // $('#applications_div').animate({ 'zoom': 0.75 }, 400);
 
     window.colors = null;
     window.fonts = null;
@@ -54,11 +54,37 @@ $(document).ready(function() {
         return colors_dropdown;
     }
 
+    function generateTeamColorsIDDropdown(id){
+        var team_colors_id_dropdown = '<option value="">None</option>';
+        var ctr = 1;
+        while( ctr <= 10 ){
+            if( ctr == id){
+                team_colors_id_dropdown += '<option value="' + ctr + '" selected>' + ctr + '</option>';
+            } else {
+                team_colors_id_dropdown += '<option value="' + ctr + '">' + ctr + '</option>';
+            }
+            ctr++;
+        }
+        return team_colors_id_dropdown;
+    }
+
     $("#default_pattern").change(function() {
         $('#pattern_layers_OC').html('');
         var id = $(this).val();
         loadPatternLayers(id);
     });
+
+    function refreshTID(){
+        $(".layer-team-color-id").change(function() {
+            var x = 1;
+            $(".layer-team-color-id").each(function(i) {
+                window.current_pattern_properties[x].team_color_id = $(this).val();
+                x++;
+            });
+            console.log( JSON.stringify(window.current_pattern_properties) );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) );
+        });
+    }
 
     function refreshColors(){
         $(".layer-default-color").change(function() {
@@ -84,6 +110,13 @@ $(document).ready(function() {
     function loadPatternLayers(id, loaded_pattern){
         console.log('ID: ' + id + ", LP: " + loaded_pattern);
 
+        var tcids = '<option value="">None</option>';
+        // var tid = 1;
+        // while(tid <= 10){
+        //     tcids += '<option value="' + tid + '">' + tid + '</option>';
+        //     tid++;
+        // }
+
         if(loaded_pattern == 1){
             console.log('IF');
             console.log('VALUE: ' + $('#pattern_properties').val());
@@ -93,11 +126,14 @@ $(document).ready(function() {
             $.each(pattern_props, function(i, item) {
                 console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
-                var label = 'Layer #' + x;
-                var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
-                var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
-                $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                var label = '<b>Layer #<b>' + x;
+                var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
+                $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
                 refreshColors();
+                refreshTID();
                 refreshColorBG();
                 x++;
             });
@@ -111,17 +147,22 @@ $(document).ready(function() {
                     $.each(pattern_props, function(i, item) {
                         console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
-                        var label = 'Layer #' + x;
-                        var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
-                        var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
-                        $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                        var tcid = generateTeamColorsIDDropdown(item.team_color_id);
+                        var label = '<b>Layer #</b>' + x;
+                        var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                        var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                        var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
+                        $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
                         refreshColors();
+                        refreshTID();
                         refreshColorBG();
                         x++;
                     });
                 }
             });
         }
+        console.log('P Props> ' + JSON.stringify(window.current_pattern_properties));
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
@@ -174,6 +215,18 @@ $(document).ready(function() {
     $(document).on('click', '.update-applications-json', function() {
         updateApplicationsJSON();
     });
+
+    // $('#applications_form').submit( function(event) {
+    //     // var formId = this.id,
+    //     var form = $(this);
+    //     // mySpecialFunction(formId);
+
+    //     event.preventDefault();
+
+    //     setTimeout( function () { 
+    //         form.submit();
+    //     }, 3000);
+    // });
 
     $(document).on('click', '#app_controls_button', function() {
         if( controls_state == 0 ){
@@ -397,6 +450,8 @@ $(document).ready(function() {
                 $('#mascot').val(data['selectedData']['value']);
             },
         });
+
+        updateApplicationsJSON();
     });  
 
     $(document).on('click', '.delete-application', function() {
@@ -421,6 +476,11 @@ $(document).ready(function() {
         $(this).css('background-color', color);
     });
 
+    // $('.front-applications').change(function(){
+    //     console.log('form change');
+    //     updateApplicationsJSON();
+    // });
+
     /*
         Initialize CANVAS for Bounding Polygon
     */
@@ -437,7 +497,7 @@ $(document).ready(function() {
 
     try {
         canvasFront.on({
-            'object:moving': updateCoordinatesXYR,
+            'object:moving': updateCoordinatesXYR, // updateCoordinatesXYR
             'object:scaling': updateCoordinatesXYR,
             'object:rotating': updateCoordinatesXYR,
             // 'mouse:up': updateCoordinates,
@@ -732,6 +792,10 @@ $(document).ready(function() {
         $('#save-material-option-boundary-modal').modal('show');
     });
 
+    $('.update-applications-json').on('click', function(){
+        updateApplicationsJSON();
+    });
+
     $('.material-option-applications').on('click', function(){
         application_number = 0;
         material = {
@@ -760,23 +824,31 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
+        
+
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
-
+// console.log('ID' + $(this).data('material-option-id'));
+        $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
 
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications point
         canvasFront.clear();
+
+        var apps = material.option.applications_properties;
+        apps = apps.substring(1, apps.length-1);
+        var app_properties = JSON.parse(apps);
+        appendApplications(app_properties);
+
+        
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
             $(".front-applications").remove(".apOpt");
             clearAppPropOptions();
-
         }
 
         $("#file-src").prop("src", material.option.path);
@@ -952,10 +1024,18 @@ $(document).ready(function() {
         catch(err) {
             // document.getElementById("demo").innerHTML = err.message;
         }
+
+        var team_color_id_dropdown = '<option value="">None</option>';
+        var tid = 1;
+        while(tid <= 10){
+            team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
+            tid++;
+        }
 // console.log(pattern_loaded);
         // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
+        $('#default_pattern').append( team_color_id_dropdown );
 
         var default_displays = ["color", "pattern"];
         var default_display_options = "";
@@ -975,6 +1055,7 @@ $(document).ready(function() {
 
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
+        $('#default_display').append( team_color_id_dropdown );
 
 
         $('#saved-setting-type').attr('selected',true);
@@ -987,6 +1068,7 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
+        var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
@@ -998,23 +1080,27 @@ $(document).ready(function() {
             if(!app_properties[l].id){ break; }
 
             var fill = '#e3e3e3';
-            var height = app_properties[l].height / 2;
-            var width = app_properties[l].width / 2;
+            var height = app_properties[l].height / dividend;
+            var width = app_properties[l].width / dividend;
             var opacity = 0.6;
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 3;
-            var app_type_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 5.2;
-            var group_left = app_properties[l].topLeft.x /2;
-            var group_top = app_properties[l].topLeft.y / 2;
+            var app_id_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 3;
+            var app_type_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 5.2;
+            var group_left = app_properties[l].topLeft.x / dividend;
+            var group_top = app_properties[l].topLeft.y / dividend;
 
             // Generate Fabric objects then add to canvas
             var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
             var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
             var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
+            // if( 
             canvasFront.add(group);
+            //  ){
+            //     console.log('added group');
+            // }
 
             if(app_properties[l].id != null){
 
@@ -1024,8 +1110,8 @@ $(document).ready(function() {
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-                var ix = ( app_properties[l].pivot.x ) / 2;
-                var iy = ( app_properties[l].pivot.y ) / 2;
+                var ix = ( app_properties[l].pivot.x ) / dividend;
+                var iy = ( app_properties[l].pivot.y ) / dividend;
                 var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
                 var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
 
@@ -1080,16 +1166,9 @@ $(document).ready(function() {
                         font_style = window.fonts[i].name;
                     }
                 }
-                // console.log("Font Style: "+font_style);
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
-
-                // var font_size = 30;
-                // console.log("Font: "+font);
-                // $(this).css('font-family', font);
-                // $(this).css('font-size', font_size);
-                // var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '">';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -1126,6 +1205,7 @@ $(document).ready(function() {
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
+
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
@@ -1161,7 +1241,6 @@ $(document).ready(function() {
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
                     var font_size = 30;
-                    // console.log("Font: "+font);
                     $(this).css('font-family', font);
                     $(this).css('font-size', font_size);
                     $(this).css('width', '300px');
@@ -1176,22 +1255,30 @@ $(document).ready(function() {
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
-                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / 2;
-                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / 2;
-                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / 2;
-                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / 2;
-                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / 2;
-                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / 2;
-                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / 2;
-                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / 2;
-                thisGroup.centerPoint   = app_properties[l].pivot;
-                thisGroup.setAngle(app_properties[l].rotation);
-                thisGroup.width         = (app_properties[l].width) / 2;
-                thisGroup.height        = (app_properties[l].height) / 2;
-                thisGroup.left          = (app_properties[l].topLeft.x) / 2;
-                thisGroup.top           = (app_properties[l].topLeft.y) / 2;
-                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
+                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / dividend;
+                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / dividend;
+                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / dividend;
+                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / dividend;
+                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / dividend;
+                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / dividend;
+                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / dividend;
 
+                app_properties[l].pivot.x = app_properties[l].pivot.x / dividend;
+                app_properties[l].pivot.y = app_properties[l].pivot.y / dividend;
+
+                thisGroup.centerPoint   = app_properties[l].pivot;
+                
+                thisGroup.width         = (app_properties[l].width) / dividend;
+                thisGroup.height        = (app_properties[l].height) / dividend;
+                // thisGroup.left          = ((app_properties[l].topLeft.x) / dividend);
+                // thisGroup.top           = ((app_properties[l].topLeft.y) / dividend);
+                thisGroup.left = app_properties[l].pivot.x;
+                thisGroup.top = app_properties[l].pivot.y;
+                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.setAngle(app_properties[l].rotation);
+                // thisGroup.pivot         = app_properties[l].pivot;
+                console.log(JSON.stringify(thisGroup.pivot));
                 canvasFront.renderAll();
                 application_number++;
             }
@@ -1200,7 +1287,6 @@ $(document).ready(function() {
             }
 
             $(".app-default-font").each(function(i) {
-                // console.log('each: >> ');
                 var font = $('option:selected', this).data('font-family');
                 var font_size = 30;
                 $(this).css('font-family', font);
@@ -2346,7 +2432,7 @@ canvas.observe('object:moving', function (e) {
     // });
     console.log(JSON.stringify(coords));
     updateCoordinates();
-}); //canvas.observe()
+}); //canvas.observe();
 }
 catch(err) { console.log(err.message); }
 
@@ -2398,7 +2484,7 @@ function loadPolygon(data){
         stroke: 'red',
         stroke_width: '2px',
         hasBorders: false,
-        lockScalingX: true,
+    lockScalingX: true,
         lockScalingY: true,
         lockUniScaling: true,
         width: 50,
@@ -2420,251 +2506,238 @@ function loadPolygon(data){
     // fixLoadPolygon();
 }
 
-// function updateApplicationsJSON(){
-//     $(".app-rotation").each(function(i) {
-//         // BUILD APPLICATION PROPERTIES JSON
+function updateApplicationsJSON(){
+    var multiplier = 2;
+    applicationProperties = {};
+    $(".app-rotation").each(function(i) {
 
-//         itemIdx = "layer"+$(this).data('id');
-//         layer = $(this).data('id');
+        itemIdx = "layer"+$(this).data('id');
+        layer = $(this).data('id');
 
-//         thisGroup = canvasFront.item(layer);
-//         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
-//         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
-//         applicationId = $(this).parent().siblings('td').find("input[name=application_id]").val();
+        thisGroup = canvasFront.item(layer);
+        applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
+        applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
+        applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
+// console.log( 'applicationId: ' + applicationId );
+        isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
+        hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
+        hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
+        hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
+        hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
+        fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
+        uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
-//         isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
-//         hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
-//         hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
-//         hasPlayerName = $(this).parent().siblings('td').find("input[class=app-player-name]");
-//         hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
-//         fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
-//         uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+        applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+        applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
+        applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
+        applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
-//         applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
-//         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
-//         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
-//         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
+        mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+        // mascotData = "Placeholder";
 
-//         // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
-//         // mascotData = "Placeholder";
+        // window.mascotData = null;
+        // getMascotData(function(mascotData){
+        //     // console.log(items);
+        //     window.mascotData = mascotData;
+        // });
 
-//         // window.mascotData = null;
-//         // getMascotData(function(mascotData){
-//         //     // console.log(items);
-//         //     window.mascotData = mascotData;
-//         // });
+        // function getMascotData(callback){
+        //     var mascotData;
+        //     var url = "//api-dev.qstrike.com/api/mascot/" + applicationMascot;
+        //     $.ajax({
+        //         url: url,
+        //         async: false,
+        //         type: "GET",
+        //         dataType: "json",
+        //         crossDomain: true,
+        //         contentType: 'application/json',
+        //         success: function(data){
+        //             mascotData = data['mascot']['mascot'];
+        //             // console.log("Mascots: "+items);
+        //             if(typeof callback === "function") callback(mascotData);
+        //         }
+        //     });
+        // }
 
-//         // function getMascotData(callback){
-//         //     var mascotData;
-//         //     var url = "//api-dev.qstrike.com/api/mascot/" + applicationMascot;
-//         //     $.ajax({
-//         //         url: url,
-//         //         async: false,
-//         //         type: "GET",
-//         //         dataType: "json",
-//         //         crossDomain: true,
-//         //         contentType: 'application/json',
-//         //         success: function(data){
-//         //             mascotData = data['mascot']['mascot'];
-//         //             // console.log("Mascots: "+items);
-//         //             if(typeof callback === "function") callback(mascotData);
-//         //         }
-//         //     });
-//         // }
+        // mascotData = window.mascotData;
 
-//         // mascotData = window.mascotData;
+        // window.fontData = null;
+        // getfontData(function(fontData){
+        //     window.fontData = fontData;
+        // });
 
-//         // window.fontData = null;
-//         // getfontData(function(fontData){
-//         //     window.fontData = fontData;
-//         // });
+        // function getfontData(callback){
+        //     var fontData;
+        //     var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
+        //     $.ajax({
+        //         url: url,
+        //         async: false,
+        //         type: "GET",
+        //         dataType: "json",
+        //         crossDomain: true,
+        //         contentType: 'application/json',
+        //         success: function(data){
+        //             fontData = data['font'];
+        //             // console.log("Mascots: "+items);
+        //             if(typeof callback === "function") callback(fontData);
+        //         }
+        //     });
+        // }
 
-//         // function getfontData(callback){
-//         //     var fontData;
-//         //     var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
-//         //     $.ajax({
-//         //         url: url,
-//         //         async: false,
-//         //         type: "GET",
-//         //         dataType: "json",
-//         //         crossDomain: true,
-//         //         contentType: 'application/json',
-//         //         success: function(data){
-//         //             fontData = data['font'];
-//         //             // console.log("Mascots: "+items);
-//         //             if(typeof callback === "function") callback(fontData);
-//         //         }
-//         //     });
-//         // }
-
-//         // fontData = window.fontData;
+        fontData = window.fontData;
         
-//         if(isPrimary.prop( "checked" )){
-//             isPrimary = 1;
-//         } else {
-//             isPrimary = 0;
-//         }
+        if(isPrimary.prop( "checked" )){
+            isPrimary = 1;
+        } else {
+            isPrimary = 0;
+        }
 
-//         if(hasLogo.prop( "checked" )){
-//             hasLogo = 1;
-//         } else {
-//             hasLogo = 0;
-//         }
+        if(hasLogo.prop( "checked" )){
+            hasLogo = 1;
+        } else {
+            hasLogo = 0;
+        }
 
-//         if(hasTeamName.prop( "checked" )){
-//             hasTeamName = 1;
-//         } else {
-//             hasTeamName = 0;
-//         }
+        if(hasTeamName.prop( "checked" )){
+            hasTeamName = 1;
+        } else {
+            hasTeamName = 0;
+        }
 
-//         if(hasPlayerName.prop( "checked" )){
-//             hasPlayerName = 1;
-//         } else {
-//             hasPlayerName = 0;
-//         }
+        if(hasPlayerName.prop( "checked" )){
+            hasPlayerName = 1;
+        } else {
+            hasPlayerName = 0;
+        }
 
-//         if(hasNumber.prop( "checked" )){
-//             hasNumber = 1;
-//         } else {
-//             hasNumber = 0;
-//         }
+        if(hasNumber.prop( "checked" )){
+            hasNumber = 1;
+        } else {
+            hasNumber = 0;
+        }
 
-//         // var topLeftX = thisGroup.oCoords.tl.x;
-//         // var topLeftY = thisGroup.oCoords.tl.y;
-//         // var topRightX = thisGroup.oCoords.tr.x;
-//         // var topRightY = thisGroup.oCoords.tr.y;
-//         // var bottomLeftX = thisGroup.oCoords.bl.x;
-//         // var bottomLeftY = thisGroup.oCoords.bl.y;
-//         // var bottomRightX = thisGroup.oCoords.br.x;
-//         // var bottomRightY = thisGroup.oCoords.br.y;
+        var topLeftX = thisGroup.oCoords.tl.x * multiplier;
+        var topLeftY = thisGroup.oCoords.tl.y * multiplier;
+        var topRightX = thisGroup.oCoords.tr.x * multiplier;
+        var topRightY = thisGroup.oCoords.tr.y * multiplier;
+        var bottomLeftX = thisGroup.oCoords.bl.x * multiplier;
+        var bottomLeftY = thisGroup.oCoords.bl.y * multiplier;
+        var bottomRightX = thisGroup.oCoords.br.x * multiplier;
+        var bottomRightY = thisGroup.oCoords.br.y * multiplier;
 
-//         var topLeftX = thisGroup.oCoords.tl.x * 2;
-//         var topLeftY = thisGroup.oCoords.tl.y * 2;
-//         var topRightX = thisGroup.oCoords.tr.x * 2;
-//         var topRightY = thisGroup.oCoords.tr.y * 2;
-//         var bottomLeftX = thisGroup.oCoords.bl.x * 2;
-//         var bottomLeftY = thisGroup.oCoords.bl.y * 2;
-//         var bottomRightX = thisGroup.oCoords.br.x * 2;
-//         var bottomRightY = thisGroup.oCoords.br.y * 2;
+        canvas.renderAll();
 
-//         canvas.renderAll();
+        applicationProperties[itemIdx] = {};
+        applicationProperties[itemIdx]['type'] = {};
+        applicationProperties[itemIdx]['name'] = {};
+        applicationProperties[itemIdx]['id'] = {};
+        applicationProperties[itemIdx]['layerOrder'] = {};
+        applicationProperties[itemIdx]['topLeft'] = {};
+        applicationProperties[itemIdx]['topLeft']['x'] = {};
+        applicationProperties[itemIdx]['topLeft']['y'] = {};
+        applicationProperties[itemIdx]['topRight'] = {};
+        applicationProperties[itemIdx]['topRight']['x'] = {};
+        applicationProperties[itemIdx]['topRight']['y'] = {};
+        applicationProperties[itemIdx]['bottomLeft'] = {};
+        applicationProperties[itemIdx]['bottomLeft']['x'] = {};
+        applicationProperties[itemIdx]['bottomLeft']['y'] = {};
+        applicationProperties[itemIdx]['bottomRight'] = {};
+        applicationProperties[itemIdx]['bottomRight']['x'] = {};
+        applicationProperties[itemIdx]['bottomRight']['y'] = {};
+        applicationProperties[itemIdx]['isPrimary'] = {};
+        applicationProperties[itemIdx]['hasLogo'] = {};
+        applicationProperties[itemIdx]['hasTeamName'] = {};
+        applicationProperties[itemIdx]['hasPlayerName'] = {};
+        applicationProperties[itemIdx]['hasNumber'] = {};
+        applicationProperties[itemIdx]['fontSizes'] = {};
+        applicationProperties[itemIdx]['uniformSizes'] = {};
 
-//         applicationProperties[itemIdx] = {};
-//         applicationProperties[itemIdx]['type'] = {};
-//         applicationProperties[itemIdx]['name'] = {};
-//         applicationProperties[itemIdx]['id'] = {};
-//         applicationProperties[itemIdx]['layerOrder'] = {};
-//         applicationProperties[itemIdx]['topLeft'] = {};
-//         applicationProperties[itemIdx]['topLeft']['x'] = {};
-//         applicationProperties[itemIdx]['topLeft']['y'] = {};
-//         applicationProperties[itemIdx]['topRight'] = {};
-//         applicationProperties[itemIdx]['topRight']['x'] = {};
-//         applicationProperties[itemIdx]['topRight']['y'] = {};
-//         applicationProperties[itemIdx]['bottomLeft'] = {};
-//         applicationProperties[itemIdx]['bottomLeft']['x'] = {};
-//         applicationProperties[itemIdx]['bottomLeft']['y'] = {};
-//         applicationProperties[itemIdx]['bottomRight'] = {};
-//         applicationProperties[itemIdx]['bottomRight']['x'] = {};
-//         applicationProperties[itemIdx]['bottomRight']['y'] = {};
-//         applicationProperties[itemIdx]['isPrimary'] = {};
-//         applicationProperties[itemIdx]['hasLogo'] = {};
-//         applicationProperties[itemIdx]['hasTeamName'] = {};
-//         applicationProperties[itemIdx]['hasPlayerName'] = {};
-//         applicationProperties[itemIdx]['hasNumber'] = {};
-//         applicationProperties[itemIdx]['fontSizes'] = {};
-//         applicationProperties[itemIdx]['uniformSizes'] = {};
+        applicationProperties[itemIdx]['defaultMascot'] = {};
+        applicationProperties[itemIdx]['defaultFont'] = {};
+        applicationProperties[itemIdx]['defaultText'] = {};
+        applicationProperties[itemIdx]['defaultNumber'] = {};
 
-//         applicationProperties[itemIdx]['defaultMascot'] = {};
-//         applicationProperties[itemIdx]['defaultFont'] = {};
-//         applicationProperties[itemIdx]['defaultText'] = {};
-//         applicationProperties[itemIdx]['defaultNumber'] = {};
+        applicationProperties[itemIdx]['mascotData'] = {};
+        applicationProperties[itemIdx]['fontData'] = {};
 
-//         applicationProperties[itemIdx]['mascotData'] = {};
-//         applicationProperties[itemIdx]['fontData'] = {};
+        applicationProperties[itemIdx]['center'] = {};
+        applicationProperties[itemIdx].center['x'] = {};
+        applicationProperties[itemIdx].center['y'] = {};
 
-//         applicationProperties[itemIdx]['center'] = {};
-//         applicationProperties[itemIdx].center['x'] = {};
-//         applicationProperties[itemIdx].center['y'] = {};
+        applicationProperties[itemIdx].type = applicationType;
+        applicationProperties[itemIdx].name = applicationName;
+        applicationProperties[itemIdx].id = applicationId;
+        // applicationProperties[itemIdx].layerOrder = applicationId;
+        applicationProperties[itemIdx].topLeft.x = topLeftX;
+        applicationProperties[itemIdx].topLeft.y = topLeftY;
+        applicationProperties[itemIdx].topRight.x = topRightX;
+        applicationProperties[itemIdx].topRight.y = topRightY;
+        applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
+        applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
+        applicationProperties[itemIdx].bottomRight.x = bottomRightX;
+        applicationProperties[itemIdx].bottomRight.y = bottomRightY;
+        applicationProperties[itemIdx].isPrimary = isPrimary;
+        applicationProperties[itemIdx].hasLogo = hasLogo;
+        applicationProperties[itemIdx].hasTeamName = hasTeamName;
+        applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
+        applicationProperties[itemIdx].hasNumber = hasNumber;
+        applicationProperties[itemIdx].fontSizes = fontSizes;
+        applicationProperties[itemIdx].uniformSizes = uniformSizes;
 
-//         applicationProperties[itemIdx].type = applicationType;
-//         applicationProperties[itemIdx].name = applicationName;
-//         applicationProperties[itemIdx].id = applicationId;
-//         applicationProperties[itemIdx].layerOrder = applicationId;
-//         applicationProperties[itemIdx].topLeft.x = topLeftX;
-//         applicationProperties[itemIdx].topLeft.y = topLeftY;
-//         applicationProperties[itemIdx].topRight.x = topRightX;
-//         applicationProperties[itemIdx].topRight.y = topRightY;
-//         applicationProperties[itemIdx].bottomLeft.x = bottomLeftX;
-//         applicationProperties[itemIdx].bottomLeft.y = bottomLeftY;
-//         applicationProperties[itemIdx].bottomRight.x = bottomRightX;
-//         applicationProperties[itemIdx].bottomRight.y = bottomRightY;
-//         applicationProperties[itemIdx].isPrimary = isPrimary;
-//         applicationProperties[itemIdx].hasLogo = hasLogo;
-//         applicationProperties[itemIdx].hasTeamName = hasTeamName;
-//         applicationProperties[itemIdx].hasPlayerName = hasPlayerName;
-//         applicationProperties[itemIdx].hasNumber = hasNumber;
-//         applicationProperties[itemIdx].fontSizes = fontSizes;
-//         applicationProperties[itemIdx].uniformSizes = uniformSizes;
+        applicationProperties[itemIdx].defaultMascot = applicationMascot;
+        applicationProperties[itemIdx].defaultFont = applicationFont;
+        applicationProperties[itemIdx].defaultText = applicationText;
+        applicationProperties[itemIdx].defaultNumber = applicationNumber;
 
-//         applicationProperties[itemIdx].defaultMascot = applicationMascot;
-//         applicationProperties[itemIdx].defaultFont = applicationFont;
-//         applicationProperties[itemIdx].defaultText = applicationText;
-//         applicationProperties[itemIdx].defaultNumber = applicationNumber;
+        // try{
+        //     applicationProperties[itemIdx].mascotData = mascotData;
+        //     applicationProperties[itemIdx].fontData = fontData;
+        // } catch(err){
+        //     console.log(err.message);
+        // }
 
-//         applicationProperties[itemIdx].mascotData = mascotData;
-//         applicationProperties[itemIdx].fontData = fontData;
+        applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * multiplier;
+        applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * multiplier;
+        applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * multiplier;
+        applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * multiplier;
+        applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * multiplier;
+        applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * multiplier;
+        applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * multiplier;
+        applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * multiplier;
 
-//         // SAVE PERCENTAGES TO ADAPT ON DIFFERENT VIEWPORT SIZES
+        applicationProperties[itemIdx].width = thisGroup.getWidth() * multiplier;
+        applicationProperties[itemIdx].height = thisGroup.getHeight() * multiplier;
+        applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
+        applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
+        applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+        applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-//         // applicationProperties[itemIdx].topLeft.xp = (topLeftX / canvasFront.width) * 100;
-//         // applicationProperties[itemIdx].topLeft.yp = (topLeftY / canvasFront.height) * 100;
-//         // applicationProperties[itemIdx].topRight.xp = (topRightX / canvasFront.width) * 100;
-//         // applicationProperties[itemIdx].topRight.yp = (topRightY / canvasFront.height) * 100;
-//         // applicationProperties[itemIdx].bottomLeft.xp = (bottomLeftX / canvasFront.width) * 100;
-//         // applicationProperties[itemIdx].bottomLeft.yp = (bottomLeftY / canvasFront.height) * 100;
-//         // applicationProperties[itemIdx].bottomRight.xp = (bottomRightX / canvasFront.width) * 100;
-//         // applicationProperties[itemIdx].bottomRight.yp = (bottomRightY / canvasFront.height) * 100;
+        applicationProperties[itemIdx].center.x = applicationProperties[itemIdx].pivot.x * multiplier;
+        applicationProperties[itemIdx].center.y = applicationProperties[itemIdx].pivot.y * multiplier;
 
-//         // applicationProperties[itemIdx].width = thisGroup.getWidth();
-//         // applicationProperties[itemIdx].height = thisGroup.getHeight();
-//         // applicationProperties[itemIdx].widthp = (thisGroup.getWidth() / canvasFront.width) * 100;
-//         // applicationProperties[itemIdx].heightp = (thisGroup.getHeight() / canvasFront.height) * 100;
+        applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
+        applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
+        try{
+            if(cs == 1){
+                $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
+                $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
+                $(this).val(thisGroup.getAngle());
+            }
+        } catch(err){
+            console.log(err.message);
+        }
 
-//         // ************* x2 values
-//         applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * 2;
-//         applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * 2;
-//         applicationProperties[itemIdx].topRight.xp = ((topRightX / canvasFront.width) * 100) * 2;
-//         applicationProperties[itemIdx].topRight.yp = ((topRightY / canvasFront.height) * 100) * 2;
-//         applicationProperties[itemIdx].bottomLeft.xp = ((bottomLeftX / canvasFront.width) * 100) * 2;
-//         applicationProperties[itemIdx].bottomLeft.yp = ((bottomLeftY / canvasFront.height) * 100) * 2;
-//         applicationProperties[itemIdx].bottomRight.xp = ((bottomRightX / canvasFront.width) * 100) * 2;
-//         applicationProperties[itemIdx].bottomRight.yp = ((bottomRightY / canvasFront.height) * 100) * 2;
+        canvasFront.renderAll();
+    });
 
-//         applicationProperties[itemIdx].width = thisGroup.getWidth() * 2;
-//         applicationProperties[itemIdx].height = thisGroup.getHeight() * 2;
-//         applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * 2;
-//         applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * 2;
-//         // thisGroup.left 
-//         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
-//         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
+    var appProperties = JSON.stringify(applicationProperties);
+    console.log(appProperties);
+    appProperties = '"'+appProperties+'"';
+    // $('.a-prop.value').val(appProperties);
+    $('#a-application-properties').val(appProperties);
+    window.ap = appProperties;
 
-//         applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * 2;
-//         applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * 2;
-
-//         if(cs == 1){
-//             $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
-//             $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
-//             $(this).val(thisGroup.getAngle());
-//         }
-
-//         canvasFront.renderAll();
-//     });
-//     var appProperties = JSON.stringify(applicationProperties);
-//     appProperties = "\""+appProperties+"\"";
-//     $('.a-prop').prop('value', appProperties);
-//     window.ap = appProperties;
-
-//     console.log("APP PROPS: "+window.ap);
-// }
+    console.log("APP PROPS: "+window.ap);
+}
 
 });

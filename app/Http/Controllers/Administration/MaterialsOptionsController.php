@@ -72,7 +72,7 @@ class MaterialsOptionsController extends Controller
         }
 
 
-$ctr = 0;
+        $ctr = 0;
         foreach ($teamColorIDs as $teamColorID) {
             $idx = $ctr;
             $item = 'item'.$ctr;
@@ -89,6 +89,43 @@ $ctr = 0;
             return Redirect::to('/administration/material/materials_options_setup/'.$materialID)
                             ->with('message', 'Update Saved');
 
+    }
+
+    public function saveApplications(Request $request)
+    {
+
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('app_material_option_id');
+        $materialObject = null;
+
+        $applications_properties = $request->input('applications_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $materialId,
+            'applications_properties' => $applications_properties
+        ];
+// dd(json_encode($data));
+        $response = null;
+        if (!empty($materialOptionId))
+        {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->updateApplications($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/administration/material/view_material_options/'.$data['material_id'])
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem saving your material option');
+        }
     }
 
     public function saveBoundary(Request $request)

@@ -2,12 +2,12 @@
 <div class="modal modal-wide fade" id="save-material-option-applications-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/administration/material_option/saveApplications" role="form" method="POST" enctype="multipart/form-data">
+            <form action="/administration/material_option/saveApplications" id="applications_form" role="form" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" class="material-id" name="material_id">
-            <input type="hidden" class="material-option-id" name="material_option_id">
+            <input type="hidden" id="app_option_id" class="material-option-id" name="app_material_option_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop-value" value="">
+            <input type="hidden" name="applications_properties" id="a-application-properties" class="a-prop value" value="">
             <input type="hidden" id="app-saved-perspective" value="">
             <input type="hidden" id="app-material-option-name" value="">
             <div class="modal-header">
@@ -92,7 +92,7 @@
                         </select>
                         <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="applications_table">
                             <thead>
                                 <th>App #</th>
                                 <th>Type</th>
@@ -124,7 +124,9 @@
             </div>
             <hr>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default update-applications-json">Updating ...</a>
+                <a href="#" class="btn btn-success update-applications-json">Update Changes</a>
+                <input type="submit" class="btn btn-primary save-applications" value="Save">
+                <!-- <a href="#" class="btn btn-primary update-applications-json">Save Changes</a> -->
                 <!-- <a href="#" class="btn btn-success update-applications-json">Finalize</a>
                 <input type="submit" class="btn btn-primary save-changes" value="Save">
                 <button class="btn btn-danger confirm-no" data-dismiss="modal">Cancel</button> -->
