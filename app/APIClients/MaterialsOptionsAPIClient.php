@@ -61,6 +61,16 @@ class MaterialsOptionsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updateApplications($data)
+    {//dd($data);
+        $response = $this->post('material_option/updateApplications', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+
     public function update($data)
     {
         $response = $this->post('material_option/update', [

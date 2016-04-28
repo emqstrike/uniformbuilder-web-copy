@@ -175,6 +175,18 @@ $(document).ready(function() {
         updateApplicationsJSON();
     });
 
+    // $('#applications_form').submit( function(event) {
+    //     // var formId = this.id,
+    //     var form = $(this);
+    //     // mySpecialFunction(formId);
+
+    //     event.preventDefault();
+
+    //     setTimeout( function () { 
+    //         form.submit();
+    //     }, 3000);
+    // });
+
     $(document).on('click', '#app_controls_button', function() {
         if( controls_state == 0 ){
             $('#app-controls').fadeIn();
@@ -397,6 +409,8 @@ $(document).ready(function() {
                 $('#mascot').val(data['selectedData']['value']);
             },
         });
+
+        updateApplicationsJSON();
     });  
 
     $(document).on('click', '.delete-application', function() {
@@ -421,6 +435,11 @@ $(document).ready(function() {
         $(this).css('background-color', color);
     });
 
+    // $('.front-applications').change(function(){
+    //     console.log('form change');
+    //     updateApplicationsJSON();
+    // });
+
     /*
         Initialize CANVAS for Bounding Polygon
     */
@@ -437,7 +456,7 @@ $(document).ready(function() {
 
     try {
         canvasFront.on({
-            'object:moving': updateCoordinatesXYR,
+            'object:moving': updateCoordinatesXYR, // updateCoordinatesXYR
             'object:scaling': updateCoordinatesXYR,
             'object:rotating': updateCoordinatesXYR,
             // 'mouse:up': updateCoordinates,
@@ -732,6 +751,10 @@ $(document).ready(function() {
         $('#save-material-option-boundary-modal').modal('show');
     });
 
+    $('.update-applications-json').on('click', function(){
+        updateApplicationsJSON();
+    });
+
     $('.material-option-applications').on('click', function(){
         application_number = 0;
         material = {
@@ -760,23 +783,31 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
+        
+
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
-
+// console.log('ID' + $(this).data('material-option-id'));
+        $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
 
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
-
+        $( ".front-applications" ).html(''); // prevents continuous appending of applications point
         canvasFront.clear();
+
+        var apps = material.option.applications_properties;
+        apps = apps.substring(1, apps.length-1);
+        var app_properties = JSON.parse(apps);
+        appendApplications(app_properties);
+
+        
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
             $(".front-applications").remove(".apOpt");
             clearAppPropOptions();
-
         }
 
         $("#file-src").prop("src", material.option.path);
@@ -987,6 +1018,7 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
+        var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
@@ -998,23 +1030,27 @@ $(document).ready(function() {
             if(!app_properties[l].id){ break; }
 
             var fill = '#e3e3e3';
-            var height = app_properties[l].height / 2;
-            var width = app_properties[l].width / 2;
+            var height = app_properties[l].height / dividend;
+            var width = app_properties[l].width / dividend;
             var opacity = 0.6;
             var font_family = 'arial black';
             var stroke_color = 'red';
             var stroke_width = 1;
-            var app_id_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 3;
-            var app_type_font_size = ( ( app_properties[l].topRight.x / 2 ) - ( app_properties[l].topLeft.x / 2 ) ) / 5.2;
-            var group_left = app_properties[l].topLeft.x / 2;
-            var group_top = app_properties[l].topLeft.y / 2;
+            var app_id_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 3;
+            var app_type_font_size = ( ( app_properties[l].topRight.x / dividend ) - ( app_properties[l].topLeft.x / dividend ) ) / 5.2;
+            var group_left = app_properties[l].topLeft.x / dividend;
+            var group_top = app_properties[l].topLeft.y / dividend;
 
             // Generate Fabric objects then add to canvas
             var area = fabricAppRectangle(c, fill, height, width, stroke_width, stroke_color, opacity);
             var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
             var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
+            // if( 
             canvasFront.add(group);
+            //  ){
+            //     console.log('added group');
+            // }
 
             if(app_properties[l].id != null){
 
@@ -1024,8 +1060,8 @@ $(document).ready(function() {
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
-                var ix = ( app_properties[l].pivot.x ) / 2;
-                var iy = ( app_properties[l].pivot.y ) / 2;
+                var ix = ( app_properties[l].pivot.x ) / dividend;
+                var iy = ( app_properties[l].pivot.y ) / dividend;
                 var app_x                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-x" value="'         + ix     + '" size="4">';
                 var app_y                   = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-y" value='          + iy     + ' size="4">';
 
@@ -1119,6 +1155,7 @@ $(document).ready(function() {
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
+
                 var canvasItem = "application"+group.id;
                 var thisGroup = group;
 
@@ -1168,22 +1205,30 @@ $(document).ready(function() {
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
-                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / 2;
-                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / 2;
-                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / 2;
-                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / 2;
-                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / 2;
-                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / 2;
-                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / 2;
-                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / 2;
-                thisGroup.centerPoint   = app_properties[l].pivot;
-                thisGroup.setAngle(app_properties[l].rotation);
-                thisGroup.width         = (app_properties[l].width) / 2;
-                thisGroup.height        = (app_properties[l].height) / 2;
-                thisGroup.left          = (app_properties[l].topLeft.x) / 2;
-                thisGroup.top           = (app_properties[l].topLeft.y) / 2;
-                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
+                thisGroup.oCoords.tl.y  = (app_properties[l].topLeft.y) / dividend;
+                thisGroup.oCoords.tr.x  = (app_properties[l].topRight.x) / dividend;
+                thisGroup.oCoords.tr.y  = (app_properties[l].topRight.y) / dividend;
+                thisGroup.oCoords.bl.x  = (app_properties[l].bottomLeft.x) / dividend;
+                thisGroup.oCoords.bl.y  = (app_properties[l].bottomLeft.y) / dividend;
+                thisGroup.oCoords.br.x  = (app_properties[l].bottomRight.x) / dividend;
+                thisGroup.oCoords.br.y  = (app_properties[l].bottomRight.y) / dividend;
 
+                app_properties[l].pivot.x = app_properties[l].pivot.x / dividend;
+                app_properties[l].pivot.y = app_properties[l].pivot.y / dividend;
+
+                thisGroup.centerPoint   = app_properties[l].pivot;
+                
+                thisGroup.width         = (app_properties[l].width) / dividend;
+                thisGroup.height        = (app_properties[l].height) / dividend;
+                // thisGroup.left          = ((app_properties[l].topLeft.x) / dividend);
+                // thisGroup.top           = ((app_properties[l].topLeft.y) / dividend);
+                thisGroup.left = app_properties[l].pivot.x;
+                thisGroup.top = app_properties[l].pivot.y;
+                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.setAngle(app_properties[l].rotation);
+                // thisGroup.pivot         = app_properties[l].pivot;
+                console.log(JSON.stringify(thisGroup.pivot));
                 canvasFront.renderAll();
                 application_number++;
             }
@@ -2423,7 +2468,7 @@ function updateApplicationsJSON(){
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
         applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
-console.log( 'applicationId: ' + applicationId );
+// console.log( 'applicationId: ' + applicationId );
         isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
         hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
         hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
@@ -2617,9 +2662,11 @@ console.log( 'applicationId: ' + applicationId );
         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-        applicationProperties[itemIdx].center.x = (applicationProperties[itemIdx].pivot.x) * multiplier;
-        applicationProperties[itemIdx].center.y = (applicationProperties[itemIdx].pivot.y) * multiplier;
+        applicationProperties[itemIdx].center.x = applicationProperties[itemIdx].pivot.x * multiplier;
+        applicationProperties[itemIdx].center.y = applicationProperties[itemIdx].pivot.y * multiplier;
 
+        applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
+        applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
         try{
             if(cs == 1){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
@@ -2634,8 +2681,10 @@ console.log( 'applicationId: ' + applicationId );
     });
 
     var appProperties = JSON.stringify(applicationProperties);
-    appProperties = "\""+appProperties+"\"";
-    $('.a-prop').prop('value', appProperties);
+    console.log(appProperties);
+    appProperties = '"'+appProperties+'"';
+    // $('.a-prop.value').val(appProperties);
+    $('#a-application-properties').val(appProperties);
     window.ap = appProperties;
 
     console.log("APP PROPS: "+window.ap);
