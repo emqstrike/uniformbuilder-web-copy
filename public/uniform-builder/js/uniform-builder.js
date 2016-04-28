@@ -45,7 +45,12 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id !== -1) {
 
-                ub.funcs.loadHomePickers();                
+                ub.funcs.loadHomePickers();  
+
+            }
+            else {
+
+                
 
             }
            
@@ -53,7 +58,6 @@ $(document).ready(function () {
 
         ub.funcs.loadHomePickers = function () {
             
-            $('div.header-container.main').fadeIn();
             $('div.backlink').addClass('back-link-on');
 
             ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
@@ -63,6 +67,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
+            $('div.header-container').fadeIn();
             window.ub.refresh_thumbnails();
 
         }
@@ -73,7 +78,9 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
 
+
             $('div#uniform_name').html(ub.current_material.material.name);
+            $('div.header-container').css('display','none !important');
             
         };
 
@@ -4053,6 +4060,9 @@ $(document).ready(function () {
                 $('body').removeClass('pickers-enabled');
 
                 $('#main-picker-container').hide();
+                $('.header-container').removeClass('forceHide');
+
+                console.log('Hidden');
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
@@ -4247,6 +4257,8 @@ $(document).ready(function () {
 
     ub.funcs.initGenderPicker = function () {
 
+        $('.header-container').removeClass('forceHide');
+
         $('body').addClass('pickers-enabled');
 
         $('.main_viewport').hide();
@@ -4317,8 +4329,6 @@ $(document).ready(function () {
     });
 
     ub.funcs.backHome = function () {
-
-        $('div.header-container.main').hide();
 
         ub.funcs.initGenderPicker();
         return;

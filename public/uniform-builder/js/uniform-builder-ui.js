@@ -150,10 +150,7 @@ $(document).ready(function () {
         var _pickerLeft = ( window.innerWidth - $('div#main-picker-scroller').innerWidth() ) / 2;
 
         $('div#main-picker-scroller').css('margin-left', _pickerLeft + 'px');
-
-        console.log('Picker Left');
-        console.log(_pickerLeft);
-          
+  
     });
 
     $(window).trigger('resize');
