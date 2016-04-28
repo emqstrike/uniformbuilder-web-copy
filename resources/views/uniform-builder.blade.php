@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css{{$asset_version}}">
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
+
 </head>
 <body>
 
@@ -81,16 +82,17 @@
 
     @include('partials.panels.texts')
 
-    <div id="main-picker-container">
 
-        <div class='header-container'>
+    <div class='header-container'>
             
-            <div class='back-link' data-destination="gender"></div>
-            <h2 class='picker-header'>CHOOSE A GENDER</h2>
+        <div class='back-link' data-destination="gender"></div>
+        <h2 class='picker-header'>CHOOSE A GENDER</h2>
 
-            <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
+        <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
-        </div>
+    </div>
+
+    <div id="main-picker-container">
 
         <div id="main-picker-scroller">
             

@@ -26,7 +26,7 @@ $(document).ready(function () {
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
-            ub.materials_url = window.ub.config.api_host + '/api/materials/';
+            ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
             ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
             if (typeof ub.user.id !== 'undefined') {
@@ -45,27 +45,27 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id !== -1) {
 
-                $('div.header-container.main').fadeIn();
-                $('div.backlink').addClass('back-link-on');
-
-                ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
-                ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
-
-                ub.loader(ub.current_material.material_url, 'material', ub.callback);
-                ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
-
-                /// Activate Views
-
-                $('#main_view').parent().fadeIn();
-                window.ub.refresh_thumbnails();
-
-                /// End Activate Views
-
-                return;
+                ub.funcs.loadHomePickers();                
 
             }
            
         };
+
+        ub.funcs.loadHomePickers = function () {
+            
+            $('div.header-container.main').fadeIn();
+            $('div.backlink').addClass('back-link-on');
+
+            ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+
+            ub.loader(ub.current_material.material_url, 'material', ub.callback);
+            ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
+
+            $('#main_view').parent().fadeIn();
+            window.ub.refresh_thumbnails();
+
+        }
 
         ub.funcs.afterLoad = function () {
 
@@ -4090,7 +4090,7 @@ $(document).ready(function () {
             function() {
 
                var $caption = $(this).find('span.main-picker-item-caption');
-               $caption.css('margin-top', '-72px');
+               $caption.css('margin-top', '-336px');
 
                if ($(this).data('picker-type') === 'uniforms') {
 
@@ -4118,7 +4118,7 @@ $(document).ready(function () {
 
         );
         
-        ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
+        // ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
 
     };
 
@@ -4240,7 +4240,9 @@ $(document).ready(function () {
         $scrollerElement.fadeIn();
         $pickerHeader.fadeIn();
         ub.funcs.reBindEventsPickers();
-        
+
+        $(window).trigger('resize');
+    
     };
 
     ub.funcs.initGenderPicker = function () {
