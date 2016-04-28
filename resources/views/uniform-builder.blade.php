@@ -83,7 +83,7 @@
     @include('partials.panels.texts')
 
 
-    <div class='header-container'>
+    <div class='header-container forceHide'>
             
         <div class='back-link' data-destination="gender"></div>
         <h2 class='picker-header'>CHOOSE A GENDER</h2>
