@@ -54,11 +54,37 @@ $(document).ready(function() {
         return colors_dropdown;
     }
 
+    function generateTeamColorsIDDropdown(id){
+        var team_colors_id_dropdown = '<option value="">None</option>';
+        var ctr = 1;
+        while( ctr <= 10 ){
+            if( ctr == id){
+                team_colors_id_dropdown += '<option value="' + ctr + '" selected>' + ctr + '</option>';
+            } else {
+                team_colors_id_dropdown += '<option value="' + ctr + '">' + ctr + '</option>';
+            }
+            ctr++;
+        }
+        return team_colors_id_dropdown;
+    }
+
     $("#default_pattern").change(function() {
         $('#pattern_layers_OC').html('');
         var id = $(this).val();
         loadPatternLayers(id);
     });
+
+    function refreshTID(){
+        $(".layer-team-color-id").change(function() {
+            var x = 1;
+            $(".layer-team-color-id").each(function(i) {
+                window.current_pattern_properties[x].team_color_id = $(this).val();
+                x++;
+            });
+            console.log( JSON.stringify(window.current_pattern_properties) );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) );
+        });
+    }
 
     function refreshColors(){
         $(".layer-default-color").change(function() {
@@ -84,6 +110,13 @@ $(document).ready(function() {
     function loadPatternLayers(id, loaded_pattern){
         console.log('ID: ' + id + ", LP: " + loaded_pattern);
 
+        var tcids = '<option value="">None</option>';
+        // var tid = 1;
+        // while(tid <= 10){
+        //     tcids += '<option value="' + tid + '">' + tid + '</option>';
+        //     tid++;
+        // }
+
         if(loaded_pattern == 1){
             console.log('IF');
             console.log('VALUE: ' + $('#pattern_properties').val());
@@ -93,11 +126,14 @@ $(document).ready(function() {
             $.each(pattern_props, function(i, item) {
                 console.log(' Color Code : ' + item.default_color);
                 var colors = generateColorsDropdown(item.default_color);
-                var label = 'Layer #' + x;
-                var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
-                var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
-                $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                var label = '<b>Layer #<b>' + x;
+                var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
+                $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
                 refreshColors();
+                refreshTID();
                 refreshColorBG();
                 x++;
             });
@@ -111,17 +147,22 @@ $(document).ready(function() {
                     $.each(pattern_props, function(i, item) {
                         console.log(' Color Code : ' + item.default_color);
                         var colors = generateColorsDropdown(item.default_color);
-                        var label = 'Layer #' + x;
-                        var select = '<select class="layer-default-color layer' + x + '">' + colors + '</select>';
-                        var preview = '<img src = "' + item.file_path + '" style="width: 150px">'
-                        $('#pattern_layers_OC').append( label + select + preview + '<hr>' );
+                        var tcid = generateTeamColorsIDDropdown(item.team_color_id);
+                        var label = '<b>Layer #</b>' + x;
+                        var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
+                        var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                        var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
+                        $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
                         refreshColors();
+                        refreshTID();
                         refreshColorBG();
                         x++;
                     });
                 }
             });
         }
+        console.log('P Props> ' + JSON.stringify(window.current_pattern_properties));
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
@@ -983,10 +1024,18 @@ $(document).ready(function() {
         catch(err) {
             // document.getElementById("demo").innerHTML = err.message;
         }
+
+        var team_color_id_dropdown = '<option value="">None</option>';
+        var tid = 1;
+        while(tid <= 10){
+            team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
+            tid++;
+        }
 // console.log(pattern_loaded);
         // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
+        $('#default_pattern').append( team_color_id_dropdown );
 
         var default_displays = ["color", "pattern"];
         var default_display_options = "";
@@ -1006,6 +1055,7 @@ $(document).ready(function() {
 
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
+        $('#default_display').append( team_color_id_dropdown );
 
 
         $('#saved-setting-type').attr('selected',true);
