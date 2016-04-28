@@ -3695,7 +3695,7 @@ $(document).ready(function () {
 
         /// End Utilities ///
 
-        /// Camera Views
+        /// Bottom Nav Handlers
             
             $('a.change-view').on('click', function (e) {
 
@@ -3782,9 +3782,10 @@ $(document).ready(function () {
                 ub.active_view = view;
 
             });
+            
             $('a.change-view[data-view="front"]').click();
 
-        /// End Camera Views
+        /// End Bottom Nav Handlers
 
     /// UI Functions ///
    

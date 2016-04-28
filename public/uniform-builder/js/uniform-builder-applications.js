@@ -1923,19 +1923,18 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
-            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-     
-            if (_sizeOfTeamColors <= 1) { 
-                ub.startModal();
-                return; 
-            }
-
-
             if (ub.zoom) {
 
                 ub.zoom_off();
                 return;
 
+            }
+
+            var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+     
+            if (_sizeOfTeamColors <= 1) { 
+                ub.startModal();
+                return; 
             }
 
             var current_coodinates = mousedata.data.global;

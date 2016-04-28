@@ -37,6 +37,8 @@ $(document).ready(function () {
         ub.zoom = false;
         ub.show_all_views();
 
+        $('a.change-view[data-view="zoom"]').removeClass('zoom_on');
+
     };
 
     ub.zoom_on = function () {
@@ -54,13 +56,12 @@ $(document).ready(function () {
                 ub[view + '_view'].scale.set(1, 1);
 
             }
-
-
              
         });
 
         ub.zoom = true;
         ub.hide_all_views();
+        $('a.change-view[data-view="zoom"]').addClass('zoom_on');
 
     };
 

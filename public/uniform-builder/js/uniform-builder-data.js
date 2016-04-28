@@ -76,7 +76,7 @@ $(document).ready(function() {
     ub.renderer.backgroundColor     = 0xeeeeee;
 
 
-    var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.png');
+    var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     ub.stage.addChild(_bg); 
 
     ub.stage.addChild(ub.left_view);
