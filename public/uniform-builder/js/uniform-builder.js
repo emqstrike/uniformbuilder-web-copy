@@ -72,6 +72,8 @@ $(document).ready(function () {
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
+
+            $('div#uniform_name').html(ub.current_material.material.name);
             
         };
 
@@ -3782,7 +3784,7 @@ $(document).ready(function () {
                 ub.active_view = view;
 
             });
-            
+
             $('a.change-view[data-view="front"]').click();
 
         /// End Bottom Nav Handlers
