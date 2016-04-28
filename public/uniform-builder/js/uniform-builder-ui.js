@@ -146,6 +146,13 @@ $(document).ready(function () {
         
         var w = window.innerWidth;
         var _left = w - $('#right-pane-column').width();
+
+        var _pickerLeft = ( window.innerWidth - $('div#main-picker-scroller').innerWidth() ) / 2;
+
+        $('div#main-picker-scroller').css('margin-left', _pickerLeft + 'px');
+
+        console.log('Picker Left');
+        console.log(_pickerLeft);
           
     });
 
