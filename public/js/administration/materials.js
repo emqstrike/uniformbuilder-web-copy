@@ -1036,7 +1036,7 @@ $(document).ready(function() {
         // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
-        $('#default_pattern').append( team_color_id_dropdown );
+        // $('#default_pattern').append( team_color_id_dropdown );
 
         var default_displays = ["color", "pattern"];
         var default_display_options = "";
