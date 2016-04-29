@@ -448,6 +448,7 @@ $(document).ready(function() {
             selectText: "Select Mascot",
             onSelected: function (data) {
                 $('#mascot').val(data['selectedData']['value']);
+                console.log('MAscot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -956,7 +957,7 @@ $(document).ready(function() {
         }
         
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-        var team_color_id_options = "";
+        var team_color_id_options = '<option value="">None</option>';
 
         id_nums.forEach(function(entry) {
             id = entry;
@@ -966,7 +967,7 @@ $(document).ready(function() {
                 team_color_id_options = team_color_id_options + "<option value="+id+">"+id+"</option>";
             }
         });
-
+        $('#team_color_id').html('');
         $('#team_color_id').append(team_color_id_options);
 
         $('.b-prop').prop("value", material.option.boundary_properties);
@@ -1227,6 +1228,8 @@ $(document).ready(function() {
                 var mascot_id = '#default_mascot_'+c;
                 var amv_class = '.amv'+c;
                 var amv_id = '#amv'+c;
+                var id_beta = 'amv'+c;
+                // $(mascot_id).ddslick({
                 $(mascot_id).ddslick({
                     data: mascotsData,
                     width: 250,
@@ -1234,7 +1237,10 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Mascot",
                     onSelected: function (data) {
-                        $(amv_id).val(data['selectedData']['value']);
+                        // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
+                        $(amv_id).val( 'JETHRODEL' );
+                        // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
+                        console.log('DDS CLICK' + data['selectedData']['value']);
                     },
                 });
 
@@ -2534,7 +2540,7 @@ function updateApplicationsJSON(){
 
         mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
         // mascotData = "Placeholder";
-
+console.log('<------- M A S C O T   D A T A ------->' + mascotData);
         // window.mascotData = null;
         // getMascotData(function(mascotData){
         //     // console.log(items);
