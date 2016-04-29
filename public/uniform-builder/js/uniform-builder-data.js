@@ -114,6 +114,7 @@ $(document).ready(function() {
 
     ub.data.searchSource            = {};
     
+    ub.data.colorsUsed              = {};
     // This will contain default uniform settings when loading a uniform style, 
     // when loading a uniform that is not from a customized order
 

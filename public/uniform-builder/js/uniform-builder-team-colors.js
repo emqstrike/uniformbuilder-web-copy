@@ -99,6 +99,17 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors = function () {
+
+        _sorted = _.sortBy(ub.data.colorsUsed, 'teamColorID');
+        _.each(_sorted, function (_color) {
+
+            $('button.change-color[data-color-code="' + _color.hexCode + '"]').click();
+
+        });
+
+    }
+
     ub.funcs.restoreTeamColorSelections = function () {
 
         var _teamColorObject    = ub.current_material.settings.team_colors;

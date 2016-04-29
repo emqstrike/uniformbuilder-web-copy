@@ -78,9 +78,10 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
 
-
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div.header-container').css('display','none !important');
+
+//            ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -701,6 +702,17 @@ $(document).ready(function () {
             }
 
             ub.change_material_option_color16(e.code, e.color);
+            
+            if (typeof e.color !== 'undefined') {
+
+                var _team_color_id =  parseInt(_.find(ub.current_material.materials_options, {name: e.code.toTitleCase()}).team_color_id);
+                e.team_color_id = _team_color_id;
+
+                var _hexCode = (e.color).toString(16);
+                ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: e.color, teamColorID: _team_color_id};    
+
+            }
+            
 
             if(typeof e.gradient !== 'undefined'){
 
