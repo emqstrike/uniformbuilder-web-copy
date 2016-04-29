@@ -1238,6 +1238,7 @@ $(document).ready(function() {
                     selectText: "Select Mascot",
                     onSelected: function (data) {
                         // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
+                        console.log( 'Classes' + $(this).attr('class') );
                         $(amv_id).val( 'JETHRODEL' );
                         // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
                         console.log('DDS CLICK' + data['selectedData']['value']);
@@ -2538,9 +2539,10 @@ function updateApplicationsJSON(){
         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
-        mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+        // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
+        // mascotData = $(this).parent().siblings('td').find("input[class=dd-selected-value]").val();
         // mascotData = "Placeholder";
-console.log('<------- M A S C O T   D A T A ------->' + mascotData);
+console.log('<------- M A S C O T   I D ------->' + applicationMascot);
         // window.mascotData = null;
         // getMascotData(function(mascotData){
         //     // console.log(items);
