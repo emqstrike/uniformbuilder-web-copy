@@ -2068,6 +2068,13 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getModifierByIndex = function (index) {
+
+        var _modifier = _.find(ub.data.modifierLabels, {index: index});
+        return _modifier;
+
+    };
+
     ub.funcs.getIndexByName = function (name) {
 
         var _obj = _.find(ub.data.modifierLabels, {fullname: name});
@@ -2214,6 +2221,11 @@ $(document).ready(function() {
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
 
             ub.current_part = _ctr;
+
+            ub.funcs.activateColorPickers();
+
+            // while ($('#color-wheel-container').css('margin-top') !== "0px") { true; }
+
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
@@ -2369,5 +2381,39 @@ $(document).ready(function() {
         })
 
     };
+
+    ub.funcs.activatePatterns = function () {
+
+        var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names              = ub.funcs.ui.getAllNames(_modifier.name);
+        var _settingsObject     = ub.funcs.getMaterialOptionSettingsObject(_names[0].toTitleCase());
+
+        console.log("Modifier: ");
+        console.log(_modifier);
+
+        console.log('Names: ');
+        console.log(_names);
+
+        console.log('Settings Object: ');
+        console.log(_settingsObject);
+
+        if (_settingsObject.has_pattern === 1) {
+
+            $('#color-wheel-container').css('margin-top', '570px');
+
+        }
+        else {
+
+            ub.showModal("Patterns can't be applied on [" + _modifier.name + "]");
+
+        }
+
+    };
+
+    ub.funcs.activateColorPickers = function () {
+
+        $('#color-wheel-container').css('margin-top', '0px');
+
+    }
 
 });

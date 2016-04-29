@@ -33,11 +33,17 @@ $(document).ready(function () {
 
         var _type                       = ub.current_material.material.type;
         var _uniformObject              = ub.current_material.settings[_type];
+
         var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
 
-        _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
-        _materialOptionObject.colorObj  = colorObj;
+        if (typeof _materialOptionObject !== 'undefined') {
 
+            _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
+            _materialOptionObject.colorObj  = colorObj;
+        
+        }
+
+        
     };
 
     // Set Color of the Actual Sprite in the stage
@@ -507,7 +513,7 @@ $(document).ready(function () {
     ub.funcs.getColorObjByHexCode = function (hexCode) {
 
         var _baseColors = ub.funcs.getBaseColors();
-        var _colorObj   = _.find(_baseColors, {hex_code: hexCode});
+        var _colorObj   = _.find(_baseColors, {hex_code: hexCode.lpad("0",6).toString()});
 
         return _colorObj;
 
@@ -526,6 +532,13 @@ $(document).ready(function () {
         var _intColor           = _materialSettings.color;
         var _hexCode            = (_intColor).toString(16);
         var colorObj            = ub.funcs.getColorObjByHexCode(_hexCode);
+
+        if (typeof colorObj === 'undefined') {
+
+            util.log("Can't find color: "  + _hexCode);
+
+        }
+
         var $svgPath = $('svg#svg_cw_' + (_index) + ' > path[data-color-id="' + colorObj.id +'"]');
         
         $svgPath.trigger('click');
