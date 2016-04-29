@@ -2,7 +2,8 @@ $(document).ready(function () {
 
     ub.startModal = function () {
 
-        ub.showModal('Please select at least 2 Team Colors')
+        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+        ub.showModal('Please select at least ' + _sizeOfColorsUsed + ' Team Colors')
 
     }
 

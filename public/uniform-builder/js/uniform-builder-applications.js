@@ -1931,8 +1931,9 @@ $(document).ready(function() {
             }
 
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors <= 1) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
                 ub.startModal();
                 return; 
             }
@@ -2066,6 +2067,13 @@ $(document).ready(function() {
         }
 
     }
+
+    ub.funcs.getModifierByIndex = function (index) {
+
+        var _modifier = _.find(ub.data.modifierLabels, {index: index});
+        return _modifier;
+
+    };
 
     ub.funcs.getIndexByName = function (name) {
 
@@ -2212,6 +2220,11 @@ $(document).ready(function() {
             var _ht         = _name;
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
 
+            ub.current_part = _ctr;
+
+            ub.funcs.activateColorPickers();
+
+            // while ($('#color-wheel-container').css('margin-top') !== "0px") { true; }
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
@@ -2280,8 +2293,9 @@ $(document).ready(function() {
     ub.funcs.moveToNextMaterialOption = function () {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-        
-        if (_sizeOfTeamColors <= 1) { 
+        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+ 
+        if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
             ub.startModal();
             return; 
         }
@@ -2299,10 +2313,10 @@ $(document).ready(function() {
 
         if (_currentPart < _moCount) {
 
+            ub.current_part += 1;
+
             $('div.pd-dropdown-links[data-ctr=' + ub.current_part + ']').click();
             $('button#next_mo').css('background-color', '#3d3d3d');
-
-            ub.current_part += 1;
 
         }
         else {
@@ -2316,13 +2330,6 @@ $(document).ready(function() {
     };
 
     ub.funcs.moveToPrevMaterialOption = function () {
-
-        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-        
-        if (_sizeOfTeamColors <= 1) { 
-            ub.startModal();
-            return; 
-        }
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
@@ -2374,5 +2381,39 @@ $(document).ready(function() {
         })
 
     };
+
+    ub.funcs.activatePatterns = function () {
+
+        var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names              = ub.funcs.ui.getAllNames(_modifier.name);
+        var _settingsObject     = ub.funcs.getMaterialOptionSettingsObject(_names[0].toTitleCase());
+
+        console.log("Modifier: ");
+        console.log(_modifier);
+
+        console.log('Names: ');
+        console.log(_names);
+
+        console.log('Settings Object: ');
+        console.log(_settingsObject);
+
+        if (_settingsObject.has_pattern === 1) {
+
+            $('#color-wheel-container').css('margin-top', '570px');
+
+        }
+        else {
+
+            ub.showModal("Patterns can't be applied on [" + _modifier.name + "]");
+
+        }
+
+    };
+
+    ub.funcs.activateColorPickers = function () {
+
+        $('#color-wheel-container').css('margin-top', '0px');
+
+    }
 
 });

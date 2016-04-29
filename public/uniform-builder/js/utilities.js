@@ -2,6 +2,28 @@ $( document ).ready(function() {
 
     window.util = {
 
+        decimalToHex: function(d, padding) {
+            var hex = Number(d).toString(16);
+            padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+            while (hex.length < padding) {
+                hex = "0" + hex;
+            }
+
+            return hex;
+        },
+
+        padHex: function(hex, padding) {
+            var hex = Number(d).toString(16);
+            padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+            while (hex.length < padding) {
+                hex = "0" + hex;
+            }
+
+            return hex;
+        },
+
         log: function (type, message, object) {
             
             ub.errors.push({
@@ -98,5 +120,12 @@ $( document ).ready(function() {
         return _result;
 
     };
+
+    String.prototype.lpad = function(padString, length) {
+        var str = this;
+        while (str.length < length)
+            str = padString + str;
+        return str;
+    }
 
 }); 

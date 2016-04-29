@@ -21,7 +21,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
 
-            // ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
 
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
@@ -78,9 +78,11 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
 
-
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div.header-container').css('display','none !important');
+
+            // TODO: Enable This
+            // ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -700,8 +702,27 @@ $(document).ready(function () {
 
             }
 
-            ub.change_material_option_color16(e.code, e.color);
+            if (typeof e.code !== 'undefined') {
 
+                var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
+
+                var _team_color_id =  parseInt(_materialOption.team_color_id);
+                e.team_color_id = _team_color_id;
+
+                var _allowPattern =  parseInt(_materialOption.allow_pattern);
+                e.has_pattern = _allowPattern;
+                
+            }
+            
+            ub.change_material_option_color16(e.code, e.color);
+            
+            if (typeof e.color !== 'undefined') {
+
+                var _hexCode = (e.color).toString(16);
+                ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
+
+            }
+            
             if(typeof e.gradient !== 'undefined'){
 
                 if (typeof e.gradient.gradient_obj !== 'undefined') {
@@ -3726,15 +3747,14 @@ $(document).ready(function () {
 
                 if (view === 'colors') {
 
-                    $('#color-wheel-container').css('margin-top', '0px');
+                    ub.funcs.activateColorPickers();
                     return;
                     
                 }
 
-
                 if (view === 'patterns') {
 
-                    $('#color-wheel-container').css('margin-top', '570px');
+                    ub.funcs.activatePatterns();
                     return;
                     
                 }
