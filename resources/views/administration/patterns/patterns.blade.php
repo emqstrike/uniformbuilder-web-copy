@@ -76,7 +76,7 @@
                                 <th>Layer #</th>
                                 <th>Default Color</th>
                                 <th>Pattern File</th>
-                                <th>Team Color ID</th>
+                                <th>Actions</th>
                                 <th></th>
                             </tr>
                         </thead>

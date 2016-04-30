@@ -54,7 +54,6 @@ $(document).ready(function(){
         },
         stop: function( ) {
             layerNumbers();
-            
         }
     });
 
@@ -282,7 +281,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.delete-pattern-image').on('click', function(){
+    $('.delete-pattern').on('click', function(){
         var id = $(this).data('pattern-id');
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', id);
     });
@@ -438,7 +437,7 @@ $(document).ready(function(){
             var new_file        = '<td><input type="file" class="pattern-layer-file layer' + x + '" name="pattern_layer_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].file_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" class="pattern-source layer' + x + '" value="' + data[x]['file_path'] + '"></td>';
             var team_color_id   =  '<td><select class="pattern-team-color-id layer' + x + '">' + team_color_id_options + '</select></td>';
-            var remove          = '<td><a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a></td>';
+            var remove          = '<td><a class="btn btn-danger btn-xs delete-pattern-layer"><i class="fa fa-remove"></i> Remove</a></td>';
             var close           = '<tr>';
 
             $('#layers-row-container').append( open + layer + default_color + thumbnail + new_file + team_color_id + remove + close );
@@ -447,4 +446,9 @@ $(document).ready(function(){
         }
 
     }
+
+    $(document).on('click', '.delete-pattern-layer', function() {
+        $(this).parent().parent().remove();
+        layerNumbers();
+    });
 });

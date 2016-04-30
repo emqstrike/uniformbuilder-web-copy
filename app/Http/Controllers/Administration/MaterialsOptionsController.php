@@ -130,11 +130,9 @@ class MaterialsOptionsController extends Controller
 
     public function saveBoundary(Request $request)
     {
-
         $materialId = $request->input('material_id');
         $materialOptionId = $request->input('material_option_id');
         $materialObject = null;
-
 
         $boundary_properties = $request->input('boundary_properties');
 
