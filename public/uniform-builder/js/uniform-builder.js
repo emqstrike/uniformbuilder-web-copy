@@ -714,6 +714,8 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
+                    console.log(e);
+
                     if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                         e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
                     }    
