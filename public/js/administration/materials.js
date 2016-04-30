@@ -151,7 +151,7 @@ $(document).ready(function() {
                         var label = '<b>Layer #</b>' + x;
                         var select = ' <select class="layer-default-color layer' + x + '">' + colors + '</select>';
                         var tcids = generateTeamColorsIDDropdown(item.team_color_id);
-                var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                        var tcid = '<select class="layer-team-color-id layer' + x + '">' + tcids + '</select>';
                         var preview = '<div style="border: 1px solid black; background-color: red;"><img src = "' + item.file_path + '" style="width: 150px"></div>';
                         $('#pattern_layers_OC').append( label + select + tcid + preview + '<hr>' );
                         refreshColors();
@@ -1010,7 +1010,7 @@ $(document).ready(function() {
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '<option value=\""{}"\">None</option>';
+        var patterns_dropdown = '<option value="">None</option>';
         try{
             $.each(window.patterns, function(i, item) {
 
@@ -1056,7 +1056,7 @@ $(document).ready(function() {
 
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
-        $('#default_display').append( team_color_id_dropdown );
+        // $('#default_display').append( team_color_id_dropdown );
 
 
         $('#saved-setting-type').attr('selected',true);
