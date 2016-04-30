@@ -2472,7 +2472,7 @@ $(document).ready(function() {
         // console.log(patternPropertiesParsed);
 
         // console.log('Pattern Object: ');
-        // console.log(_patternObject);
+        console.log(_patternObject);
 
         var _materialOption = materialOption;
         var _patternObject = {
