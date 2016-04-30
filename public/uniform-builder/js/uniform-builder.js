@@ -82,7 +82,7 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
-            // ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            //ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -694,7 +694,7 @@ $(document).ready(function () {
         ub.current_material.settings = settings;
         var uniform_type = ub.current_material.material.type;
 
-        _.each(ub.current_material.settings[uniform_type], function(e){
+        _.each(ub.current_material.settings[uniform_type], function (e) {  
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
 
@@ -711,12 +711,20 @@ $(document).ready(function () {
 
                 var _allowPattern =  parseInt(_materialOption.allow_pattern);
                 e.has_pattern = _allowPattern;
+
+                if (e.has_pattern === 1) {
+
+                    if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
+                        e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                    }    
+
+                }
                 
             }
             
-            ub.change_material_option_color16(e.code, e.color);
+            ub.change_material_option_color16(e.code, e.color);;
             
-            if (typeof e.color !== 'undefined') {
+            if (typeof e.color !== 'undefined') {;
 
                 var _hexCode = (e.color).toString(16);
                 ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
@@ -3835,7 +3843,7 @@ $(document).ready(function () {
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
 
         var uniform_type = ub.current_material.material.type;
-        var target_name = target.replace('_', ' ');
+        var target_name = target.toTitleCase();
         var pattern_settings = '';
         var views = ub.data.views;
 

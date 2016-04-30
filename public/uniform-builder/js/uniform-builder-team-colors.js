@@ -33,7 +33,6 @@ $(document).ready(function () {
 
         var _type                       = ub.current_material.material.type;
         var _uniformObject              = ub.current_material.settings[_type];
-
         var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
 
         if (typeof _materialOptionObject !== 'undefined') {
@@ -518,6 +517,13 @@ $(document).ready(function () {
         return _colorObj;
 
     };
+
+    ub.funcs.getColorByColorCode = function (colorCode) {
+
+        var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
+        return _colorObj;
+
+    }
 
     ub.funcs.moveToColorPickerByIndex = function (index) {
 

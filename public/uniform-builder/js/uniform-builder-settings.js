@@ -78,6 +78,15 @@ $(document).ready( function () {
 
         }
 
+        
+
+        ub.funcs.getMaterialOptions = function (materialOptionName) {
+
+            var _materialOptions = _.filter(ub.current_material.materials_options, {name: materialOptionName});
+            return _materialOptions;
+
+        };
+
         ub.funcs.getMaterialOptionSettingsObject = function (materialOptionName) {
 
             var _uniformType    = ub.current_material.material.type;
