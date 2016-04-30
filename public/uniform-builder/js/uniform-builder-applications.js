@@ -2505,8 +2505,8 @@ $(document).ready(function() {
                 filename: _property.file_path,
                 color: parseInt(_defaultColor.hex_code, 16),
                 container_position: {
-                    x: 248 + ub.offset.x * 1.3,
-                    y: 308 + ub.offset.y * 3,
+                    x: 248 + ub.offset.x * 1,
+                    y: 308 + ub.offset.y * 3.9,
                 },
                 container_opacity: 1,
                 container_rotation: 0,
