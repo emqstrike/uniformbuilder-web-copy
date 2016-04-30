@@ -2476,7 +2476,7 @@ $(document).ready(function() {
 
         var _materialOption = materialOption;
         var _patternObject = {
-                pattern_id: _patternObject.code,
+                pattern_id: _patternObject.id,
                 scale: 0,
                 rotation: 0,
                 opacity: 0,
