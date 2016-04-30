@@ -119,9 +119,12 @@ $(document).ready(function() {
 
         if(loaded_pattern == 1){
             console.log('IF');
-            console.log('VALUE: ' + $('#pattern_properties').val());
-            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length) );
+            var pval = $('#pattern_properties').val();
+            console.log('VALUE: ' + pval);
+            // console.log( 'PATTERN_PROPERTIES' + $('#pattern_properties').val() );
+            var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
             window.current_pattern_properties = pattern_props;
+            console.log('PATTERN_PROPS' + pattern_props);
             var x = 1;
             $.each(pattern_props, function(i, item) {
                 console.log(' Color Code : ' + item.default_color);
@@ -448,7 +451,7 @@ $(document).ready(function() {
             selectText: "Select Mascot",
             onSelected: function (data) {
                 $('#mascot').val(data['selectedData']['value']);
-                console.log('MAscot ID: '+data['selectedData']['value']);
+                console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -1010,7 +1013,7 @@ $(document).ready(function() {
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '<option value="">None</option>';
+        var patterns_dropdown = '<option value="0">None</option>';
         try{
             $.each(window.patterns, function(i, item) {
 
@@ -1020,6 +1023,7 @@ $(document).ready(function() {
                     patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
                 }
             });
+            console.log('Material Option Pattern ID: '+material.option.pattern_id);
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
         }
         catch(err) {

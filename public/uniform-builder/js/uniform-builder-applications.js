@@ -2451,32 +2451,33 @@ $(document).ready(function() {
 
         }
 
-
         return _patternProperties;
 
     }
 
     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
-        console.log(materialOption.name);
+        console.log('NAME -->' + JSON.stringify(materialOption));
+        console.log('Pattern ID -->' + materialOption.pattern_id);
+        // console.log('M Option -->' + JSON.stringify(materialOption));
 
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
         var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
 
-        console.log('First Material Option: ');
-        console.log(materialOption);
+        // console.log('Material Option: ');
+        // console.log(materialOption);
 
         // console.log("Pattern Properties: ");
         // console.log(patternPropertiesParsed);
 
         // console.log('Pattern Object: ');
-        console.log(_patternObject);
+        // console.log(_patternObject);
 
         var _materialOption = materialOption;
         var _patternObject = {
-                pattern_id: _patternObject.id,
+                pattern_id: _patternObject.code,
                 scale: 0,
                 rotation: 0,
                 opacity: 0,
