@@ -2457,17 +2457,13 @@ $(document).ready(function() {
 
     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
-        console.log('NAME -->' + JSON.stringify(materialOption));
+        console.log('NAME -->' + materialOption.name);
         console.log('Pattern ID -->' + materialOption.pattern_id);
-        // console.log('M Option -->' + JSON.stringify(materialOption));
 
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
         var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
-
-        // console.log('Material Option: ');
-        // console.log(materialOption);
 
         // console.log("Pattern Properties: ");
         // console.log(patternPropertiesParsed);
