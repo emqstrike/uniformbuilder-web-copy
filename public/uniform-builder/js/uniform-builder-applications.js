@@ -2382,24 +2382,42 @@ $(document).ready(function() {
 
     };
 
+    ub.data.getPatternByID = function (id) {
+
+      var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
+      return _patternObject;
+
+    }
+
     ub.funcs.activatePatterns = function () {
 
-        var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
-        var _names              = ub.funcs.ui.getAllNames(_modifier.name);
-        var _settingsObject     = ub.funcs.getMaterialOptionSettingsObject(_names[0].toTitleCase());
-
-        console.log("Modifier: ");
-        console.log(_modifier);
-
-        console.log('Names: ');
-        console.log(_names);
-
-        console.log('Settings Object: ');
-        console.log(_settingsObject);
+        var _modifier               = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names                  = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial  = _names[0].toTitleCase();
+        var _settingsObject         = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+        var _materialOptions        = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
         if (_settingsObject.has_pattern === 1) {
 
             $('#color-wheel-container').css('margin-top', '570px');
+
+            console.log("Modifier: ");
+            console.log(_modifier);
+
+            console.log('Names: ');
+            console.log(_names);
+
+            console.log('Settings Object: ');
+            console.log(_settingsObject);
+
+            console.log('Material Options: ');
+            console.log(_materialOptions);
+
+            var firstMaterialOption     = _materialOptions[0];
+            var patternObject           = ub.funcs.getPatternObjectFromMaterialOption(firstMaterialOption);
+
+            console.log('----- Output ------');
+            console.log(patternObject);
 
         }
         else {
@@ -2413,6 +2431,95 @@ $(document).ready(function() {
     ub.funcs.activateColorPickers = function () {
 
         $('#color-wheel-container').css('margin-top', '0px');
+
+    }
+
+
+    ub.funcs.cleanPatternProperties = function (patternProperties) {
+
+        var _patternProperties = patternProperties;
+
+        if (_patternProperties.substring(0,1) === '"') {
+
+            _patternProperties = _patternProperties.substring(1, _patternProperties.length);
+
+        }
+
+        if (_patternProperties.substring(_patternProperties.length - 1, _patternProperties.length) === '"') {
+
+            _patternProperties = _patternProperties.substring(0, _patternProperties.length - 1);
+
+        }
+
+
+        return _patternProperties;
+
+    }
+
+    ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
+
+        console.log(materialOption.name);
+
+        var patternProperties           = '';
+        var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
+        var patternPropertiesParsed     = JSON.parse(_patternProperties);
+        var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
+
+        console.log('First Material Option: ');
+        console.log(materialOption);
+
+        // console.log("Pattern Properties: ");
+        // console.log(patternPropertiesParsed);
+
+        // console.log('Pattern Object: ');
+        // console.log(_patternObject);
+
+        var _materialOption = materialOption;
+        var _patternObject = {
+                pattern_id: _patternObject.code,
+                scale: 0,
+                rotation: 0,
+                opacity: 0,
+                position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                pattern_obj : {
+                    pattern_id: _patternObject.id,
+                    active: _patternObject.active,
+                    name: _patternObject.name,
+                    code: _patternObject.code,
+                    icon: _patternObject.icon,
+                    layers: [],
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                }    
+        };
+
+        _.each (patternPropertiesParsed, function (_property) {
+
+            var _defaultColor = ub.funcs.getColorByColorCode(_property.default_color);
+
+            var _layer = { 
+                default_color: _defaultColor.hex_code,
+                layer_no:_property.layer, 
+                filename: _property.file_path,
+                color: parseInt(_defaultColor.hex_code, 16),
+                container_position: {
+                    x: 248 + ub.offset.x * 1.3,
+                    y: 308 + ub.offset.y * 3,
+                },
+                container_opacity: 1,
+                container_rotation: 0,
+                container_scale: { x:1,y:1 },
+            }
+
+            _patternObject.pattern_obj.layers.push(_layer);
+
+        });
+
+        console.log(_patternObject);
+
+        return _patternObject;
 
     }
 
