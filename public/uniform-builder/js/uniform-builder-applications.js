@@ -2401,23 +2401,8 @@ $(document).ready(function() {
 
             $('#color-wheel-container').css('margin-top', '570px');
 
-            console.log("Modifier: ");
-            console.log(_modifier);
-
-            console.log('Names: ');
-            console.log(_names);
-
-            console.log('Settings Object: ');
-            console.log(_settingsObject);
-
-            console.log('Material Options: ');
-            console.log(_materialOptions);
-
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = ub.funcs.getPatternObjectFromMaterialOption(firstMaterialOption);
-
-            console.log('----- Output ------');
-            console.log(patternObject);
 
         }
         else {
@@ -2458,21 +2443,16 @@ $(document).ready(function() {
 
     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
-        console.log(materialOption.name);
-
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
         var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
 
-        console.log('First Material Option: ');
-        console.log(materialOption);
+        if (typeof _patternObject === 'undefined') {
 
-        // console.log("Pattern Properties: ");
-        // console.log(patternPropertiesParsed);
+            return undefined;
 
-        // console.log('Pattern Object: ');
-        // console.log(_patternObject);
+        }
 
         var _materialOption = materialOption;
         var _patternObject = {
@@ -2516,8 +2496,6 @@ $(document).ready(function() {
             _patternObject.pattern_obj.layers.push(_layer);
 
         });
-
-        console.log(_patternObject);
 
         return _patternObject;
 
