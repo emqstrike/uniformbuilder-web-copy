@@ -689,10 +689,10 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
 
-    ub.loadSettings = function (settings) {
+    ub.loadSettings = function (settings) { 
 
-        ub.current_material.settings = settings;
-        var uniform_type = ub.current_material.material.type;
+        ub.current_material.settings    = settings;
+        var uniform_type                = ub.current_material.material.type;
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
@@ -722,7 +722,7 @@ $(document).ready(function () {
                 
             }
             
-            ub.change_material_option_color16(e.code, e.color);;
+            ub.change_material_option_color16(e.code, e.color);
             
             if (typeof e.color !== 'undefined') {
 
