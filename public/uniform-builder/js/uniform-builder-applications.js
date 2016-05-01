@@ -2460,13 +2460,19 @@ $(document).ready(function() {
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
 
-        if (typeof _patternObject === 'undefined' || materialOption.pattern_id === null ) {
+        if (materialOption.pattern_id === null ) {
 
             return undefined;
 
         }
 
         var _patternObject  = ub.data.getPatternByID(materialOption.pattern_id);
+
+        if (typeof _patternObject === 'undefined') {
+
+            return undefined;
+        }
+
         var _materialOption = materialOption;
         var _patternObject  = {
                 pattern_id: _patternObject.code,

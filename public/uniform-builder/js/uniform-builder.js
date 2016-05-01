@@ -690,16 +690,16 @@ $(document).ready(function () {
     // @param JSONObject settings
 
     ub.loadSettings = function (settings) { 
-        
+
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
-                
+
                 return; 
-                
+
             }
 
             if (typeof e.code !== 'undefined') {
@@ -714,17 +714,22 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
-                    if (_materialOption.pattern_properties === null) {
-                        e.pattern = undefined;
-                    }
-                    else {
+                    console.log('Pattern Properties');
+                    console.log(_materialOption);
+                    console.log(_materialOption.pattern_properties);
+
+                    if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
                         if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                             e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
                         }    
 
                     }
+                    else {
 
+                        e.pattern = undefined;
+
+                    }
                     
                 }
                 
