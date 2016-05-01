@@ -724,14 +724,14 @@ $(document).ready(function () {
             
             ub.change_material_option_color16(e.code, e.color);;
             
-            if (typeof e.color !== 'undefined') {;
+            if (typeof e.color !== 'undefined') {
 
                 var _hexCode = (e.color).toString(16);
                 ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
 
             }
             
-            if(typeof e.gradient !== 'undefined'){
+            if(typeof e.gradient !== 'undefined') {
 
                 if (typeof e.gradient.gradient_obj !== 'undefined') {
 
@@ -4089,6 +4089,7 @@ $(document).ready(function () {
 
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
+
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;

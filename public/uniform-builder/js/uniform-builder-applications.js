@@ -1587,7 +1587,7 @@ $(document).ready(function() {
 
             if (object.name !== null) {
 
-                if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
+               if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
                         ub.funcs.setAlphaOn(object);
@@ -2044,12 +2044,20 @@ $(document).ready(function() {
                     var _matching_object = ub.objects[_active_view][_matching_side];
                     ub.funcs.setAlphaOn(_matching_object);
 
+                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                    }
+
                 } else if (_match.indexOf('right_') !== -1){
 
                     _matching_side = _match.replace('right_','left_');
 
                     var _matching_object = ub.objects[_active_view][_matching_side];
                     ub.funcs.setAlphaOn(_matching_object);
+
+                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                    }
 
                 }
                 /// End Matching Side 
