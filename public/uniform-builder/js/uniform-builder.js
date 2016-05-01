@@ -67,12 +67,16 @@ $(document).ready(function () {
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
-            $('div.header-container').fadeIn();
+            $('div.header-container').fadeIn(); 
             window.ub.refresh_thumbnails();
 
         }
 
+        ub.data.afterLoadCalled = 0;
+        
         ub.funcs.afterLoad = function () {
+
+            if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
@@ -82,7 +86,8 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
-            //ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.data.afterLoadCalled = 1;
             
         };
 
@@ -689,10 +694,10 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
 
-    ub.loadSettings = function (settings) {
+    ub.loadSettings = function (settings) { 
 
-        ub.current_material.settings = settings;
-        var uniform_type = ub.current_material.material.type;
+        ub.current_material.settings    = settings;
+        var uniform_type                = ub.current_material.material.type;
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
@@ -714,26 +719,35 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
-                    console.log(e);
+                    if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
-                    if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                        e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                    }    
+                        if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
+                            e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                        }    
 
+                    }
+                    else {
+
+                        e.pattern = undefined;
+
+                    }
+                    
                 }
                 
             }
             
-            ub.change_material_option_color16(e.code, e.color);;
+            ub.change_material_option_color16(e.code, e.color);
             
-            if (typeof e.color !== 'undefined') {;
+            if (typeof e.color !== 'undefined') {
 
                 var _hexCode = (e.color).toString(16);
-                ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
+
+                var _paddedHex = util.padHex(_hexCode, 6);
+                ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
 
             }
             
-            if(typeof e.gradient !== 'undefined'){
+            if(typeof e.gradient !== 'undefined') {
 
                 if (typeof e.gradient.gradient_obj !== 'undefined') {
 
@@ -4092,7 +4106,6 @@ $(document).ready(function () {
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
 
-                console.log('Hidden');
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;

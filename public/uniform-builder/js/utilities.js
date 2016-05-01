@@ -14,7 +14,6 @@ $( document ).ready(function() {
         },
 
         padHex: function(hex, padding) {
-            var hex = Number(d).toString(16);
             padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
 
             while (hex.length < padding) {
@@ -27,16 +26,12 @@ $( document ).ready(function() {
         log: function (type, message, object) {
             
             ub.errors.push({
+                
                 type: type,
                 message: message,
                 data: object,
+
             });
-
-            console.error('Type: ' + type);
-            console.error('Error: ' + message);
-            console.error('Object: ');
-            console.error(object);
-
         },
 
         error: function (error){

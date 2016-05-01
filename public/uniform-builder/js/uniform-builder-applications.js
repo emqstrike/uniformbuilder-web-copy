@@ -3,7 +3,7 @@ $(document).ready(function() {
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
-
+            
         var $mascot_container = $('div.mascot-container');
         var mascots = ub.data.mascots.items;
 
@@ -14,8 +14,10 @@ $(document).ready(function() {
             var template = $('#mascot-list').html();
 
             var data = {
+
                 element_id: $element.data('id'),
                 mascot_set: mascots,
+
             }
             
             var markup = Mustache.render(template, data);
@@ -1467,8 +1469,6 @@ $(document).ready(function() {
 
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
-
-
         var isInside = false;
         var minX = polygon[0].x, maxX = polygon[0].x;
         var minY = polygon[0].y, maxY = polygon[0].y;
@@ -1520,7 +1520,7 @@ $(document).ready(function() {
         }
         else {
 
-            _.each (boundaries, function(point) {
+            _.each (boundaries, function (point) {
                 
                 var p = new PIXI.Point((point.x * 0.7) + ub.offset.x, (point.y * 0.7) + ub.offset.y );
                 _transformed_boundaries.push(p); 
@@ -1574,12 +1574,11 @@ $(document).ready(function() {
 
         _.each(_materialOptions, function (_materialOption) {
 
-            var _name = _materialOption.name.toCodeCase();
-            var _object = ub.objects[ub.active_view + '_view'][_name];
+            var _name       = _materialOption.name.toCodeCase();
+            var _object     = ub.objects[ub.active_view + '_view'][_name];
 
-            _object.alpha = 0.3;
+            _object.alpha   = 0.3;
             ub.funcs.setAlphaOff(_object);
-
 
         });
 
@@ -1587,7 +1586,7 @@ $(document).ready(function() {
 
             if (object.name !== null) {
 
-                if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
+               if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
                         ub.funcs.setAlphaOn(object);
@@ -2031,18 +2030,25 @@ $(document).ready(function() {
             ub.funcs.setAlphaOn(_object);
 
             //var simple_mode = $('input#simple_toggle').is(":checked");
+
             var simple_mode = true; // Turn this on by default
 
-            if (simple_mode === true) {
+            if (simple_mode === true) { 
 
                 /// Matching Side 
                 var _matching_side = '';
 
-                if (_match.indexOf('left_') !== -1){
+                if (_match.indexOf('left_') !== -1) {
 
                     _matching_side = _match.replace('left_','right_');
                     var _matching_object = ub.objects[_active_view][_matching_side];
                     ub.funcs.setAlphaOn(_matching_object);
+
+                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+
+                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+
+                    }
 
                 } else if (_match.indexOf('right_') !== -1){
 
@@ -2051,7 +2057,14 @@ $(document).ready(function() {
                     var _matching_object = ub.objects[_active_view][_matching_side];
                     ub.funcs.setAlphaOn(_matching_object);
 
+                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+
+                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+
+                    }
+
                 }
+
                 /// End Matching Side 
 
             }
@@ -2401,23 +2414,8 @@ $(document).ready(function() {
 
             $('#color-wheel-container').css('margin-top', '570px');
 
-            console.log("Modifier: ");
-            console.log(_modifier);
-
-            console.log('Names: ');
-            console.log(_names);
-
-            console.log('Settings Object: ');
-            console.log(_settingsObject);
-
-            console.log('Material Options: ');
-            console.log(_materialOptions);
-
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = ub.funcs.getPatternObjectFromMaterialOption(firstMaterialOption);
-
-            console.log('----- Output ------');
-            console.log(patternObject);
 
         }
         else {
@@ -2457,22 +2455,25 @@ $(document).ready(function() {
 
     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
-        console.log('NAME -->' + materialOption.name);
-        console.log('Pattern ID -->' + materialOption.pattern_id);
-
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
-        var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
 
-        // console.log("Pattern Properties: ");
-        // console.log(patternPropertiesParsed);
+        if (materialOption.pattern_id === null ) {
 
-        // console.log('Pattern Object: ');
-        // console.log(_patternObject);
+            return undefined;
+
+        }
+
+        var _patternObject  = ub.data.getPatternByID(materialOption.pattern_id);
+
+        if (typeof _patternObject === 'undefined') {
+
+            return undefined;
+        }
 
         var _materialOption = materialOption;
-        var _patternObject = {
+        var _patternObject  = {
                 pattern_id: _patternObject.code,
                 scale: 0,
                 rotation: 0,
@@ -2513,8 +2514,6 @@ $(document).ready(function() {
             _patternObject.pattern_obj.layers.push(_layer);
 
         });
-
-        console.log(_patternObject);
 
         return _patternObject;
 
