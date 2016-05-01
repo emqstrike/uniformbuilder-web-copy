@@ -72,7 +72,11 @@ $(document).ready(function () {
 
         }
 
+        ub.data.afterLoadCalled = 0;
+        
         ub.funcs.afterLoad = function () {
+
+            if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
@@ -83,6 +87,7 @@ $(document).ready(function () {
 
             // TODO: Enable This
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.data.afterLoadCalled = 1;
             
         };
 

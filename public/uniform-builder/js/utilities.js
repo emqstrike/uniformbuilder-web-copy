@@ -26,16 +26,12 @@ $( document ).ready(function() {
         log: function (type, message, object) {
             
             ub.errors.push({
+                
                 type: type,
                 message: message,
                 data: object,
+
             });
-
-            console.error('Type: ' + type);
-            console.error('Error: ' + message);
-            console.error('Object: ');
-            console.error(object);
-
         },
 
         error: function (error){
