@@ -1469,8 +1469,6 @@ $(document).ready(function() {
 
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
-
-
         var isInside = false;
         var minX = polygon[0].x, maxX = polygon[0].x;
         var minY = polygon[0].y, maxY = polygon[0].y;
@@ -2461,16 +2459,16 @@ $(document).ready(function() {
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
-        var _patternObject              = ub.data.getPatternByID(materialOption.pattern_id);
 
-        if (typeof _patternObject === 'undefined') {
+        if (typeof _patternObject === 'undefined' || materialOption.pattern_id === null ) {
 
             return undefined;
 
         }
 
+        var _patternObject  = ub.data.getPatternByID(materialOption.pattern_id);
         var _materialOption = materialOption;
-        var _patternObject = {
+        var _patternObject  = {
                 pattern_id: _patternObject.code,
                 scale: 0,
                 rotation: 0,
