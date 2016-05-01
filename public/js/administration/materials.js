@@ -111,17 +111,14 @@ $(document).ready(function() {
         console.log('ID: ' + id + ", LP: " + loaded_pattern);
 
         var tcids = '<option value="">None</option>';
-        // var tid = 1;
-        // while(tid <= 10){
-        //     tcids += '<option value="' + tid + '">' + tid + '</option>';
-        //     tid++;
-        // }
 
         if(loaded_pattern == 1){
             console.log('IF');
-            console.log('VALUE: ' + $('#pattern_properties').val());
-            var pattern_props = JSON.parse( $('#pattern_properties').val().substring(1, $('#pattern_properties').val().length) );
+            var pval = $('#pattern_properties').val();
+            console.log('VALUE: ' + pval);
+            var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
             window.current_pattern_properties = pattern_props;
+            console.log('PATTERN_PROPS' + pattern_props);
             var x = 1;
             $.each(pattern_props, function(i, item) {
                 console.log(' Color Code : ' + item.default_color);
@@ -215,18 +212,6 @@ $(document).ready(function() {
     $(document).on('click', '.update-applications-json', function() {
         updateApplicationsJSON();
     });
-
-    // $('#applications_form').submit( function(event) {
-    //     // var formId = this.id,
-    //     var form = $(this);
-    //     // mySpecialFunction(formId);
-
-    //     event.preventDefault();
-
-    //     setTimeout( function () { 
-    //         form.submit();
-    //     }, 3000);
-    // });
 
     $(document).on('click', '#app_controls_button', function() {
         if( controls_state == 0 ){
@@ -448,7 +433,7 @@ $(document).ready(function() {
             selectText: "Select Mascot",
             onSelected: function (data) {
                 $('#mascot').val(data['selectedData']['value']);
-                console.log('MAscot ID: '+data['selectedData']['value']);
+                console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -1010,7 +995,7 @@ $(document).ready(function() {
             $('#is-blend').attr('checked', 'unchecked');
         }
 
-        var patterns_dropdown = '<option value="">None</option>';
+        var patterns_dropdown = '<option value="0">None</option>';
         try{
             $.each(window.patterns, function(i, item) {
 
@@ -1020,10 +1005,11 @@ $(document).ready(function() {
                     patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
                 }
             });
+            console.log('Material Option Pattern ID: '+material.option.pattern_id);
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
         }
         catch(err) {
-            // document.getElementById("demo").innerHTML = err.message;
+            console.log(err.message);
         }
 
         var team_color_id_dropdown = '<option value="">None</option>';
@@ -1032,7 +1018,7 @@ $(document).ready(function() {
             team_color_id_dropdown += '<option value="' + tid + '">' + tid + '</option>';
             tid++;
         }
-// console.log(pattern_loaded);
+
         // loadPatternLayers(material.option.pattern_id, pattern_loaded);
         $('#default_pattern').html('');
         $('#default_pattern').append( patterns_dropdown );
@@ -2525,7 +2511,7 @@ function updateApplicationsJSON(){
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
         applicationId = $(this).parent().siblings('td').find("input[class=app-id]").val();
-// console.log( 'applicationId: ' + applicationId );
+
         isPrimary = $(this).parent().siblings('td').find("input[class=app-primary]");
         hasLogo = $(this).parent().siblings('td').find("input[class=app-logo]");
         hasTeamName = $(this).parent().siblings('td').find("input[class=app-team-name]");
@@ -2538,59 +2524,6 @@ function updateApplicationsJSON(){
         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
-
-        // mascotData = $(this).parent().siblings('td').find("input[class=app-mascot-data]").val();
-        // mascotData = $(this).parent().siblings('td').find("input[class=dd-selected-value]").val();
-        // mascotData = "Placeholder";
-console.log('<------- M A S C O T   I D ------->' + applicationMascot);
-        // window.mascotData = null;
-        // getMascotData(function(mascotData){
-        //     // console.log(items);
-        //     window.mascotData = mascotData;
-        // });
-
-        // function getMascotData(callback){
-        //     var mascotData;
-        //     var url = "//api-dev.qstrike.com/api/mascot/" + applicationMascot;
-        //     $.ajax({
-        //         url: url,
-        //         async: false,
-        //         type: "GET",
-        //         dataType: "json",
-        //         crossDomain: true,
-        //         contentType: 'application/json',
-        //         success: function(data){
-        //             mascotData = data['mascot']['mascot'];
-        //             // console.log("Mascots: "+items);
-        //             if(typeof callback === "function") callback(mascotData);
-        //         }
-        //     });
-        // }
-
-        // mascotData = window.mascotData;
-
-        // window.fontData = null;
-        // getfontData(function(fontData){
-        //     window.fontData = fontData;
-        // });
-
-        // function getfontData(callback){
-        //     var fontData;
-        //     var url = "//api-dev.qstrike.com/api/font/"+applicationFont;
-        //     $.ajax({
-        //         url: url,
-        //         async: false,
-        //         type: "GET",
-        //         dataType: "json",
-        //         crossDomain: true,
-        //         contentType: 'application/json',
-        //         success: function(data){
-        //             fontData = data['font'];
-        //             // console.log("Mascots: "+items);
-        //             if(typeof callback === "function") callback(fontData);
-        //         }
-        //     });
-        // }
 
         fontData = window.fontData;
         

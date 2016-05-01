@@ -229,7 +229,7 @@ class MaterialsOptionsController extends Controller
             'pattern_properties' => $pattern_properties,
             'default_display' => $default_display
         ];
-
+// dd($data);
         try
         {
 

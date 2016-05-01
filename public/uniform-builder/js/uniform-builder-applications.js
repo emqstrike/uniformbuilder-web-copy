@@ -2449,7 +2449,6 @@ $(document).ready(function() {
 
         }
 
-
         return _patternProperties;
 
     }
