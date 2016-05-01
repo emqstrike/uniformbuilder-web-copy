@@ -67,7 +67,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
-            $('div.header-container').fadeIn();
+            $('div.header-container').fadeIn(); 
             window.ub.refresh_thumbnails();
 
         }
@@ -82,7 +82,7 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
-            ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -714,10 +714,18 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
-                    if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                        e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                    }    
+                    if (_materialOption.pattern_properties === null) {
+                        e.pattern = undefined;
+                    }
+                    else {
 
+                        if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
+                            e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                        }    
+
+                    }
+
+                    
                 }
                 
             }
