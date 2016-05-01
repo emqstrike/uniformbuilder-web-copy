@@ -1,4 +1,28 @@
 $(document).ready(function() {
+    try{
+        var $container = $('.isotope').isotope({
+            itemSelector: '.mascot-row',
+            getSortData: {
+              category: '[data-category]'
+            }
+        });
+
+        $('#filters').on( 'click', 'button', function() {
+            var filterValue = $( this ).attr('data-filter');
+            $container.isotope({ filter: filterValue });
+        });
+
+        $('.button-group').each( function( i, buttonGroup ) {
+            var $buttonGroup = $( buttonGroup );
+            $buttonGroup.on( 'click', 'button', function() {
+                $buttonGroup.find('.btn-primary').removeClass('btn-primary');
+                $( this ).addClass('btn-primary');
+            });
+        }); 
+    } catch(err){
+        console.log(err.message);
+    }
+    
 
     var layers_properties = {};
     var length = $('.layers-row').length;

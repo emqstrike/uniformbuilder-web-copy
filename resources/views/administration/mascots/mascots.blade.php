@@ -2,59 +2,93 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-<style type="text/css">
-.onoffswitch {
-    position: relative; width: 61px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 9px;
-}
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
-    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "ON";
-    padding-left: 5px;
-    background-color: #02C723; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "OFF";
-    padding-right: 5px;
-    background-color: #BF5050; color: #FFFFFF;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block; width: 18px; margin: 1px;
-    background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
-    right: 37px;
-    border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
 
 @section('content')
 <input type="hidden" name="_token" value="{{ csrf_token() }}" id="x-csrf-token">
 
-@include('administration.mascots.mascots-table')
+
+<section class="content" id="mascots_container_box">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h1>
+                        <span class="glyphicon glyphicon-th-list"></span>
+                        Mascots
+                        <small>
+                            <a href="/administration/mascot/add" class='btn btn-xs btn-success'>
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                Add New Mascot
+                            </a>
+                        </small>
+                    </h1>
+                    <div class="col-md-12">
+                        <h3>Categories</h3>
+                    </div>
+                    <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
+                    <button class="button btn-primary" data-filter="*">All</button>
+                    @foreach ($mascot_categories as $mascot_category)
+                        <button class="button" data-filter=".{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
+                    @endforeach
+                    </div>
+                </div>
+                
+                <div class="box-body isotope" id="box_body">
+                @forelse ($mascots as $mascot)
+                    @if( $mascot->active )
+                        <div class="col-md-2 mascot-row {{ $mascot->category }}" data-category="{{ $mascot->category }}">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="height: 70px;">
+                                <div class="col-md-6">{{ ucfirst($mascot->name) }}</div>
+                                <div class="col-md-6">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-mascot" id="switch-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->active) ? 'checked' : '' }}>
+                                        <label class="onoffswitch-label" for="switch-{{ $mascot->id }}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                </div>
+                                <div class="panel-body">
+                                     @if ($mascot->icon)
+                                        <img src="{{ $mascot->icon }}" width="100px" height="100px">
+                                    @else
+                                        <img src="http://dummyimage.com/100" width="100px" height="100px">
+                                    @endif
+                                    <div>
+                                        <a href="/administration/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs edit-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                            Edit
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-xs show-mascot" role="button"
+                                            data-mascot-name="{{ $mascot->name }}"
+                                            data-mascot-id="{{ $mascot->id }}">
+                                            <li class="glyphicon glyphicon-info-sign"></li>
+                                        </a>
+                                        <a href="#" class="btn btn-default pull-right btn-xs delete-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                @empty
+
+                    <p>No mascot found</p>
+
+                @endforelse
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Information Modal -->
 <div class="modal fade" id="view-mascot-modal" aria-hidden="false">
@@ -91,6 +125,7 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
