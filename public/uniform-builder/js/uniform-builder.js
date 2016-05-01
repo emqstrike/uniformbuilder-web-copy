@@ -689,10 +689,10 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
 
-    ub.loadSettings = function (settings) {
+    ub.loadSettings = function (settings) { 
 
-        ub.current_material.settings = settings;
-        var uniform_type = ub.current_material.material.type;
+        ub.current_material.settings    = settings;
+        var uniform_type                = ub.current_material.material.type;
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
@@ -722,16 +722,16 @@ $(document).ready(function () {
                 
             }
             
-            ub.change_material_option_color16(e.code, e.color);;
+            ub.change_material_option_color16(e.code, e.color);
             
-            if (typeof e.color !== 'undefined') {;
+            if (typeof e.color !== 'undefined') {
 
                 var _hexCode = (e.color).toString(16);
                 ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
 
             }
             
-            if(typeof e.gradient !== 'undefined'){
+            if(typeof e.gradient !== 'undefined') {
 
                 if (typeof e.gradient.gradient_obj !== 'undefined') {
 
@@ -4089,6 +4089,7 @@ $(document).ready(function () {
 
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
+
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
