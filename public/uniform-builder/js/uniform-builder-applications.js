@@ -1469,8 +1469,6 @@ $(document).ready(function() {
 
     ub.funcs.pointIsInPoly = function (p, polygon) {
 
-
-
         var isInside = false;
         var minX = polygon[0].x, maxX = polygon[0].x;
         var minY = polygon[0].y, maxY = polygon[0].y;

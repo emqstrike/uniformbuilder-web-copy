@@ -82,7 +82,7 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
-            //ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -690,16 +690,16 @@ $(document).ready(function () {
     // @param JSONObject settings
 
     ub.loadSettings = function (settings) { 
-
+        
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
-
+                
                 return; 
-
+                
             }
 
             if (typeof e.code !== 'undefined') {
