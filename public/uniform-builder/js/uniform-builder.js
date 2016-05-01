@@ -82,7 +82,7 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
-             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             
         };
 
@@ -714,10 +714,6 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
-                    console.log('Pattern Properties');
-                    console.log(_materialOption);
-                    console.log(_materialOption.pattern_properties);
-
                     if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
                         if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
@@ -740,7 +736,9 @@ $(document).ready(function () {
             if (typeof e.color !== 'undefined') {
 
                 var _hexCode = (e.color).toString(16);
-                ub.data.colorsUsed[_hexCode] = {hexCode: _hexCode, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
+
+                var _paddedHex = util.padHex(_hexCode, 6);
+                ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
 
             }
             
