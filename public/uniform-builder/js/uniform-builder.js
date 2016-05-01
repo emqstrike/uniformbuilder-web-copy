@@ -714,8 +714,6 @@ $(document).ready(function () {
 
                 if (e.has_pattern === 1) {
 
-                    console.log(e);
-
                     if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                         e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
                     }    
@@ -4091,8 +4089,6 @@ $(document).ready(function () {
 
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
-
-                console.log('Hidden');
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
