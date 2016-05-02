@@ -2447,16 +2447,15 @@ function loadPolygon(data){
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
-
-            window.px = item.px / 2;
-            window.py = item.py / 2;
+            if(item.px){
+                window.px = item.px / 2;
+                window.py = item.py / 2;
+            }
             console.log('PX > '+ window.px + 'PY > ' + window.py);
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
     });
-
-    console.log('window PX: '+window.px);
 
     lineIdx = 0;
     var circles = canvas.getObjects('circle');
@@ -2482,7 +2481,7 @@ function loadPolygon(data){
     }
     catch(err) { console.log(err.message); }
 
-    if( window.px == 0 ){
+    if( window.px == 0 || window.px == null ){
         console.log('IF');
         window.px = 453;
         window.py = 362;
