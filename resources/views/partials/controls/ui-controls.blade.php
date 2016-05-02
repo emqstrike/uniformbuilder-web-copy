@@ -401,8 +401,7 @@
 
         @{{/picker_items}}
 
-
-        <div class="main-picker-items grow disabled">
+        <div class="main-picker-items grow disabled" style="display: none;">
 
         </div>
 

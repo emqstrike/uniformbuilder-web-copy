@@ -1882,7 +1882,19 @@ $(document).ready(function() {
         _.each(shapes, function(shape){
 
             var boundary_properties = JSON.parse(shape.boundary_properties.slice(1, -1));
-            
+
+            shape.angle = boundary_properties[0].angle;
+            shape.patternOffsetX = boundary_properties[0].px;
+            shape.patternOffsetY = boundary_properties[0].py;
+
+            // console.log('Shape: ' + shape.name);
+            // console.log(boundary_properties[0].px)
+            // console.log(boundary_properties[0].py)
+
+            // console.log(boundary_properties);
+            // console.log(shape);
+            // console.log('');
+
             if(boundary_properties !== null){
 
                 if (typeof boundaries_transformed[shape.name] === "undefined") {
@@ -2226,11 +2238,11 @@ $(document).ready(function() {
 
         $('div.pd-dropdown-links').on('click', function () {
 
-            var _group_id   = $(this).data('group-id');
-            var _fullname   = $(this).data('fullname');
-            var _name       = $(this).data('name');
-            var _ctr        = $(this).data('ctr');
-            var _ht         = _name;
+            var _group_id         = $(this).data('group-id');
+            var _fullname         = $(this).data('fullname');
+            var _name             = $(this).data('name');
+            var _ctr              = $(this).data('ctr');
+            var _ht               = _name;
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
 
             ub.current_part = _ctr;
@@ -2453,11 +2465,30 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.translateAngle = function (inputAngle) {
+
+        var _outputAngle = inputAngle / 360;
+        _outputAngle = _outputAngle * 619;
+        _outputAngle = _outputAngle / 100;
+
+        return _outputAngle;
+
+    };
+
     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
+        var _rotationAngle              = ub.funcs.translateAngle(materialOption.angle);
+
+        // console.log('Pattern Property: ');
+        // console.log(materialOption.name);
+        // console.log(patternPropertiesParsed);
+        // console.log('Rotation Angle: ');
+        // console.log('Input: ' + materialOption.angle);
+        // console.log('Output: ' + _rotationAngle);
+        // console.log('');
 
         if (materialOption.pattern_id === null ) {
 
@@ -2472,11 +2503,12 @@ $(document).ready(function() {
             return undefined;
         }
 
+
         var _materialOption = materialOption;
         var _patternObject  = {
                 pattern_id: _patternObject.code,
                 scale: 0,
-                rotation: 0,
+                rotation: ub.funcs.translateAngle(_materialOption.angle),
                 opacity: 0,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
                 pattern_obj : {
@@ -2505,9 +2537,11 @@ $(document).ready(function() {
                 container_position: {
                     x: 248 + ub.offset.x * 0.9,
                     y: 308 + ub.offset.y * 3.3,
+                    
+
                 },
                 container_opacity: 1,
-                container_rotation: 0,
+                container_rotation: ub.funcs.translateAngle(_materialOption.angle),
                 container_scale: { x:1,y:1 },
             }
 
