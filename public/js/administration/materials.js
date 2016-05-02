@@ -2103,6 +2103,9 @@ $(document).ready(function() {
             var groups = canvas.getObjects('group');
             if( x == 0 ){
                 coords[x]['angle'] = parseFloat(groups[0].getAngle());
+                var pivot = groups[0].getCenterPoint();
+                coords[x]['px'] = pivot.x * 2;
+                coords[x]['py'] = pivot.y * 2;
             }
 
             coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
@@ -2114,7 +2117,7 @@ $(document).ready(function() {
         var boundaryProperties = JSON.stringify(coords);
         boundaryProperties = '"'+boundaryProperties+'"';
         $('.b-prop').prop('value', boundaryProperties);
-        console.log('BPROP: '+boundaryProperties);
+        console.log('BPROPxs: '+boundaryProperties);
 
         // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
     }
@@ -2438,9 +2441,13 @@ function loadPolygon(data){
     $.each(data, function(i, item) {
         var xcoord = item.x / 2;
         var ycoord = item.y / 2;
+
         if( z == 0 && item.angle != undefined ){
             console.log('ITEM ANGLE: '+item.angle);
             angle = item.angle;
+
+            window.px = item.px / 2;
+            window.py = item.py / 2;
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
@@ -2471,28 +2478,30 @@ function loadPolygon(data){
     catch(err) { console.log(err.message); }
 
     var rect = new fabric.Rect({
-        left: 453,
-        top: 362,
+        left: window.px,
+        top: window.py,
         fill: 'White',
         stroke: 'red',
         stroke_width: '2px',
         hasBorders: false,
-    lockScalingX: true,
+        lockScalingX: true,
         lockScalingY: true,
         lockUniScaling: true,
         width: 50,
         height: 50
     });
 
-    var text = new fabric.Text('Pattern Angle', { fill: 'black', fontSize: 15, left: 453, top: 362 });
+    var text = new fabric.Text('Pattern Angle', { fill: 'black', fontSize: 15, left: window.px, top: window.py });
 
-    var triangle = new fabric.Triangle({  width: 35, height: 20, fill: 'red', left: 453, top: 362, angle: 180 });
+    var triangle = new fabric.Triangle({  width: 35, height: 20, fill: 'red', left: window.px, top: window.py, angle: 180 });
 
     if( angle == null || angle == "" ){
         angle = 0;
     }
+    console.log('PX' + window.px);
+    console.log('PY' + window.py);
 
-    var group = new fabric.Group([ rect, triangle, text ], { left: 453, top: 362, angle: angle });
+    var group = new fabric.Group([ rect, triangle, text ], { left: window.px, top: window.py, angle: angle });
 
     canvas.add(group);
     canvas.renderAll();
