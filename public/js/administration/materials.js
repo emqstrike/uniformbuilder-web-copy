@@ -2477,6 +2477,11 @@ function loadPolygon(data){
     }
     catch(err) { console.log(err.message); }
 
+    if( window.px == null ){
+        window.px = 453;
+        window.py = 362;
+    }
+
     var rect = new fabric.Rect({
         left: window.px,
         top: window.py,
@@ -2502,6 +2507,7 @@ function loadPolygon(data){
     console.log('PY' + window.py);
 
     var group = new fabric.Group([ rect, triangle, text ], { left: window.px, top: window.py, angle: angle });
+
 
     canvas.add(group);
     canvas.renderAll();
