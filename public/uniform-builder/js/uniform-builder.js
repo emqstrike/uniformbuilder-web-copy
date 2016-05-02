@@ -21,8 +21,6 @@ $(document).ready(function () {
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
 
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
@@ -3854,7 +3852,43 @@ $(document).ready(function () {
 
     /// End Reposition All Tethers
 
-    /// Generate Pattern 
+    /// Generate Pattern
+
+    ub.getAngleofPattern = function (view, materialOptionName)  {
+
+        //console.log(materialOptionName);
+        
+        var _materialOption = _.find(ub.current_material.materials_options, {name: materialOptionName, perspective: view});
+
+        if (typeof _materialOption === 'undefined') {
+            util.log("Can't find material option " + materialOptionName);
+            return undefined;
+        }
+
+        // console.log(_materialOption);
+
+        var _patternProperties          = ub.funcs.cleanPatternProperties(_materialOption.pattern_properties);
+        var patternPropertiesParsed     = JSON.parse(_patternProperties);
+
+        var _obj                        = {
+
+            angle: ub.funcs.translateAngle(_materialOption.angle),
+            px: _materialOption.patternOffsetX,
+            py: _materialOption.patternOffsetY,
+
+        }
+
+        // console.log(materialOptionName);
+        // console.log(_materialOption);
+        // console.log("patterProperties");
+        // console.log(patternPropertiesParsed);
+        // console.log("Rotation Angle: " + _rotationAngle);
+        // console.log('');
+
+        return _obj;
+
+    }
+
 
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
 
@@ -3862,14 +3896,125 @@ $(document).ready(function () {
         var target_name = target.toTitleCase();
         var pattern_settings = '';
         var views = ub.data.views;
+        var _rotationAngle = 0;
+        var _extra         = {};
+        var _positiion     = {x: 0, y: 0};
+        var _adjustment    = {x: 0, y: 0};
+
+        console.log('Inside Generate Pattern: ');
+        console.log('Target Name: ' + target_name);
 
         target_name = util.toTitleCase(target_name);
 
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
         pattern_settings.containers = {};
 
-        _.each(views, function (v){
+        _.each(views, function (v) {
 
+           var _adjustment    = {x: 0, y: 0};
+
+            _extra = ub.getAngleofPattern(v, target_name)
+
+            if (typeof _extra !== 'undefined') {
+
+                _rotationAngle = _extra.angle;    
+
+            }
+            else {
+
+                _rotationAngle = 0;
+
+            }
+
+            if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
+
+                _adjustment = {x: 50, y: -40};
+
+            }
+
+            if (v === 'front' && target_name === 'Left Arm Trim' ) {
+
+                _adjustment = {x: 50, y: -40};
+
+            }
+
+
+            if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
+
+                _adjustment = {x: 50, y: -40};
+
+            }
+
+            if (v === 'back' && target_name === 'Right Shoulder Cowl Insert' ) {
+
+                _adjustment = {x: 0, y: -185};
+
+            }
+
+            if (v === 'back' && target_name === 'Right Sleeve Insert' ) {
+
+                _adjustment = {x: 0, y: -18};
+
+            }
+
+            if (v === 'front' && target_name === 'Right Sleeve Insert' ) {
+
+                _adjustment = {x: 10, y: 0};
+
+            }
+
+            if (v === 'back' && target_name === 'Right Sleeve Insert' ) {
+
+                _adjustment = {x: 100, y: 0};
+
+            }
+
+            if (v === 'back' && target_name === 'Right Arm Trim' ) {
+
+                _adjustment = {x: 100, y: 0};
+
+            }
+
+            var _windowSize = ub.funcs.getWindowSize();
+
+            if (_windowSize.height > 800) {
+
+               if (v === 'front' && target_name === 'Right Sleeve Insert' ) {
+
+                    _adjustment = {x: -200, y: 7};
+
+                }
+
+
+               if (v === 'back' && target_name === 'Left Sleeve Insert' ) {
+
+                    _adjustment = {x: -200, y: 7};
+
+                }
+
+
+               if (v === 'front' && target_name === 'Right Arm Trim' ) {
+
+                    _adjustment = {x: -200, y: 0};
+
+                }
+
+                if (v === 'back' && target_name === 'Left Arm Trim' ) {
+
+                    _adjustment = {x: -200, y: 0};
+
+                }
+
+                if (v === 'back' && target_name === 'Left Shoulder Cowl Insert' ) {
+
+                    _adjustment = {x: 0, y: -220};
+
+                }
+
+
+
+            }
+            
             pattern_settings.containers[v] = {};
             
             var namespace = pattern_settings.containers[v];
@@ -3892,14 +4037,32 @@ $(document).ready(function () {
 
                 container.addChild(sprite);
 
-                container.position = layer.container_position;
+                console.log('Container Position: ');
+                console.log(layer.container_position);
+
+                console.log('Adjustment Position: ');
+                console.log(_adjustment);
+
+                var _positionAdjusted = {
+                    x: layer.container_position.x + _adjustment.x,
+                    y: layer.container_position.y + _adjustment.y,
+                };
+
+                container.position = _positionAdjusted;
                 container.alpha = layer.container_opacity;
-                container.rotation = layer.container_rotation;
+                container.rotation = _rotationAngle;
                 container.scale = layer.container_scale;
+
+                var s = '';
+
+
+                console.log('Container Position: ');
+                console.log(layer.container_position);
                 
             });
 
             ub.updateLayersOrder(container);
+
 
             var view = v + '_view';
             var mask = ub.objects[view][target + "_mask"];
@@ -3907,8 +4070,16 @@ $(document).ready(function () {
             if(typeof mask === 'undefined') {
                 return;
             }
+            
+            // if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
 
-            container.mask = mask;
+
+            // }else
+            // {
+                                container.mask = mask;
+
+            //}
+
             container.name = 'pattern_' + target;
 
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {

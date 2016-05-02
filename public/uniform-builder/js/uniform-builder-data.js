@@ -960,8 +960,8 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
-                    code: 'hockey',
-                    name: 'Hockey',
+                    code: 'volleyball',
+                    name: 'Volleyball',
                     active: "1",
                 },
                 {

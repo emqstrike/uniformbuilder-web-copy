@@ -106,8 +106,6 @@ $(document).ready(function () {
 
     ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors = function () {
 
-        console.log('Called');
-
         ub.front_view.alpha = 0;
 
         _sorted = _.sortBy(ub.data.colorsUsed, 'teamColorID');
