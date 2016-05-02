@@ -2437,6 +2437,8 @@ function loadPolygon(data){
     var angle;
     canvas.clear();
     var z = 0;
+    window.px = 0;
+    window.py = 0;
     // console.log('POLY TEST >> '+data[0].angle);
     $.each(data, function(i, item) {
         var xcoord = item.x / 2;
@@ -2448,10 +2450,13 @@ function loadPolygon(data){
 
             window.px = item.px / 2;
             window.py = item.py / 2;
+            console.log('PX > '+ window.px + 'PY > ' + window.py);
         }
         window['a'+z] = addPoint('a'+z, xcoord, ycoord, 'knot');
         z++;
     });
+
+    console.log('window PX: '+window.px);
 
     lineIdx = 0;
     var circles = canvas.getObjects('circle');
@@ -2477,10 +2482,13 @@ function loadPolygon(data){
     }
     catch(err) { console.log(err.message); }
 
-    if( window.px == null ){
+    if( window.px == 0 ){
+        console.log('IF');
         window.px = 453;
         window.py = 362;
     }
+
+    console.log('WIN PX' + window.px);
 
     var rect = new fabric.Rect({
         left: window.px,
@@ -2503,8 +2511,6 @@ function loadPolygon(data){
     if( angle == null || angle == "" ){
         angle = 0;
     }
-    console.log('PX' + window.px);
-    console.log('PY' + window.py);
 
     var group = new fabric.Group([ rect, triangle, text ], { left: window.px, top: window.py, angle: angle });
 
