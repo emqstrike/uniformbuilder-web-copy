@@ -1887,14 +1887,6 @@ $(document).ready(function() {
             shape.patternOffsetX = boundary_properties[0].px;
             shape.patternOffsetY = boundary_properties[0].py;
 
-            // console.log('Shape: ' + shape.name);
-            // console.log(boundary_properties[0].px)
-            // console.log(boundary_properties[0].py)
-
-            // console.log(boundary_properties);
-            // console.log(shape);
-            // console.log('');
-
             if(boundary_properties !== null){
 
                 if (typeof boundaries_transformed[shape.name] === "undefined") {
@@ -2481,14 +2473,6 @@ $(document).ready(function() {
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
         var _rotationAngle              = ub.funcs.translateAngle(materialOption.angle);
-
-        // console.log('Pattern Property: ');
-        // console.log(materialOption.name);
-        // console.log(patternPropertiesParsed);
-        // console.log('Rotation Angle: ');
-        // console.log('Input: ' + materialOption.angle);
-        // console.log('Output: ' + _rotationAngle);
-        // console.log('');
 
         if (materialOption.pattern_id === null ) {
 
