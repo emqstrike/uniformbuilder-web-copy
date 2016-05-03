@@ -3856,16 +3856,12 @@ $(document).ready(function () {
 
     ub.getAngleofPattern = function (view, materialOptionName)  {
 
-        //console.log(materialOptionName);
-        
         var _materialOption = _.find(ub.current_material.materials_options, {name: materialOptionName, perspective: view});
 
         if (typeof _materialOption === 'undefined') {
             util.log("Can't find material option " + materialOptionName);
             return undefined;
         }
-
-        // console.log(_materialOption);
 
         var _patternProperties          = ub.funcs.cleanPatternProperties(_materialOption.pattern_properties);
         var patternPropertiesParsed     = JSON.parse(_patternProperties);
@@ -3878,14 +3874,7 @@ $(document).ready(function () {
 
         }
 
-        // console.log(materialOptionName);
-        // console.log(_materialOption);
-        // console.log("patterProperties");
-        // console.log(patternPropertiesParsed);
-        // console.log("Rotation Angle: " + _rotationAngle);
-        // console.log('');
-
-        return _obj;
+      return _obj;
 
     }
 
@@ -3900,9 +3889,6 @@ $(document).ready(function () {
         var _extra         = {};
         var _positiion     = {x: 0, y: 0};
         var _adjustment    = {x: 0, y: 0};
-
-        console.log('Inside Generate Pattern: ');
-        console.log('Target Name: ' + target_name);
 
         target_name = util.toTitleCase(target_name);
 
@@ -4037,12 +4023,6 @@ $(document).ready(function () {
 
                 container.addChild(sprite);
 
-                console.log('Container Position: ');
-                console.log(layer.container_position);
-
-                console.log('Adjustment Position: ');
-                console.log(_adjustment);
-
                 var _positionAdjusted = {
                     x: layer.container_position.x + _adjustment.x,
                     y: layer.container_position.y + _adjustment.y,
@@ -4054,10 +4034,6 @@ $(document).ready(function () {
                 container.scale = layer.container_scale;
 
                 var s = '';
-
-
-                console.log('Container Position: ');
-                console.log(layer.container_position);
                 
             });
 
@@ -4258,13 +4234,15 @@ $(document).ready(function () {
             var _item        = $(this).data('item');
 
             if (_picker_type === 'gender') {
-
-               ub.funcs.initSportsPicker(_item);
+                
+                if (_item !== "Men") { return; }
+                ub.funcs.initSportsPicker(_item);
 
             }
 
             if (_picker_type === 'sports') {
 
+                if (_item !== "Football") { return; }
                 ub.funcs.initUniformsPicker(_item);
 
             }
