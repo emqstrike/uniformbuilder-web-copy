@@ -2406,20 +2406,467 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.activateColorPickers = function () {
+
+        ub.funcs.clearPatternUI();
+        $('#color-wheel-container').css('margin-top', '0px');
+
+    }
+
+    ub.funcs.deActivateColorPickers = function () {
+
+        $('#color-wheel-container').css('margin-top', '570px');
+
+    }
+
+    ub.funcs.updateColorLabel = function (label) {
+
+        $('div.patternColorNavigator > div.label').html(label);
+
+    }
+
+    ub.funcs.moveToNextPatternColor = function (patternObj) {
+
+        var _layerCount = _.size(patternObj.layers);
+
+        console.log('Pattern Obj: ');
+        console.log(_.size(patternObj.layers));
+        console.log(patternObj);
+
+        console.log('Next...');
+
+        ub.data.currentPatternLayer += 1;
+
+        if (ub.data.currentPatternLayer > _layerCount) { ub.data.currentPatternLayer = _layerCount; }
+
+        if (ub.data.currentPatternLayer > 0) {
+
+            var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+            var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
+
+            $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
+
+            $('div.patternPreviewContainer').hide();
+            $('div.pattern-color-wheel-container').fadeIn();
+
+        }
+
+        var _colorSet       = ub.funcs.getBaseColors();
+        var _activeLayer    = _.find(patternObj.layers, {layer_no: ub.data.currentPatternLayer.toString() });
+
+        var _convertedColor = util.padHex((_activeLayer.color).toString(16), 6);
+        console.log('Converted Color: ' + _convertedColor);
+        var _colorOBJ       = _.find(_colorSet, {hex_code: _convertedColor});
+
+        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer);
+
+        var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
+        $svgPath.trigger('click');
+
+
+    };
+
+    ub.funcs.moveToPreviousPatternColor = function (patternObj) {
+
+        var _layerCount = _.size(patternObj.layers);
+
+        console.log('Pattern Obj: ');
+        console.log(_.size(patternObj.layers));
+        console.log(patternObj);
+        console.log('Prev...');
+
+        ub.data.currentPatternLayer -= 1;
+
+        var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+        var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
+
+        $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
+        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer);
+
+        if (ub.data.currentPatternLayer < 1) {
+
+            ub.data.currentPatternLayer = 0;
+
+            $('div.pattern-color-wheel-container').hide();
+            $('div.patternPreviewContainer').fadeIn();
+
+            ub.funcs.updateColorLabel('EDIT COLORS');
+
+        }
+
+    };
+
+
+    function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+          
+      var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+
+      return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+      };
+
+    }
+
+    function describeArc(x, y, radius, startAngle, endAngle){
+
+        var start = polarToCartesian(x, y, radius, endAngle);
+        var end = polarToCartesian(x, y, radius, startAngle);
+
+        var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+
+        var d = [
+            "M", start.x, start.y, 
+            "A", radius, radius, 0, arcSweep, 0, end.x, end.y
+        ].join(" ");
+
+        return d;       
+
+    }
+
+
+    // Set Color in the Settings Object
+    ub.funcs.setMaterialOptionSettingsPatternColor = function (materialOptionCode, colorObj, layer_no) {
+
+        //// **** name is set to active part when in patterns
+
+        // var _type                       = ub.current_material.material.type;
+        // var _uniformObject              = ub.current_material.settings[_type];
+        // var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
+
+        // if (typeof _materialOptionObject !== 'undefined') {
+
+        //     _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
+        //     _materialOptionObject.colorObj  = colorObj;
+        
+        // }
+
+        
+    };
+
+    // Set Color of the Actual Sprite in the stage
+    //ub.funcs.ui.setMaterialOptionPatternColor = function (ub.active_part, _colorOBJ, layerID, _patternObj) {
+    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
+
+        var _materialOption     = materialOption;
+        var _colorOBJ           = colorOBJ;
+        var _layerID            = layerID;
+        var _patternObj         = patternObj;      
+
+        var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
+
+        console.log('Inside set Material Option Picker: ');
+        console.log('-------');
+
+        console.log('Material Option');
+        console.log(_materialOption);
+
+        console.log("Color OBJ");
+        console.log(_colorOBJ);
+
+        console.log('Layer Object Before Assignment: ');
+        console.log(_layerObj);
+
+        var _tintColor      = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
+        _layerObj.color     = _tintColor;
+
+        console.log("Tint Color ");
+        console.log(_tintColor);
+
+        console.log("Layer ID");
+        console.log(_layerID);
+
+        console.log('Pattern Obj');
+        console.log(_patternObj);
+
+        console.log('After Assignment');
+
+        console.log("Layer Obj");
+        console.log(_layerObj);
+
+        console.log('-------');
+
+        var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+
+        var canvas                      = ub.data.previewCanvas;
+        var oImg                        = ub.data.previewContainer[_layerID];
+        delete oImg.filters[0];
+
+        oImg.filters.push(new fabric.Image.filters.Tint({
+            color: "#" + _colorOBJ.hex_code,
+            opacity: 1,
+        }));
+        oImg.applyFilters(canvas.renderAll.bind(canvas));
+        canvas.renderAll();
+
+        console.log('Fabric Obj: ');
+        console.log(ub.data.previewContainer[_layerID]);
+
+        _.each (_names, function (_name) {
+
+            var titleNameFirstMaterial      = _name.toTitleCase();
+            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+
+            console.log('Settings Object: ');
+            console.log(_settingsObject);
+
+            _settingsObject.color           = _tintColor;
+    
+            //        
+
+            var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+
+            _.each(_materialOptions, function (_materialOption) {
+
+                var _materialOptionName     = _materialOption.name;
+                var _uniformType            = ub.current_material.material.type;
+                var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
+                var views = ['front', 'back', 'left', 'right'];        
+                var c = ub.current_material.containers[_uniformType][_materialOptionName].containers;
+
+                _.each(views, function (v){
+                    c[v].container.children[layerID - 1].tint = _tintColor;
+                });
+
+            })    
+
+        })
+      
+
+        //// **** name is set to active part when in patterns
+
+        // var _names = ub.funcs.ui.getAllNames(name);
+
+        // _.each(_names, function (name) {
+
+        //     ub.funcs.setMaterialOptionSettingsPatternColor(name, colorObj);
+        //     ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
+
+        // });
+
+    };
+
+    ub.funcs.hexCodeToTintColor = function (hexCode) {
+
+        var _hexCode    = hexCode;
+        var _tintColor  = parseInt(hexCode, 16);
+
+        return _tintColor;
+
+    }
+
+    ub.data.currentPatternLayer = 0;
+    ub.funcs.createPatternUI = function (inputPattern, materialOption) {
+
+        var _inputPattern   = inputPattern;
+        var _patternObj     = inputPattern.pattern_obj;
+        var _materialOption = materialOption;
+
+        var _htmlBuilder    = "<div id='patternUI'>";
+        var _patternName    = _patternObj.name;
+        var _thumbnail      = _patternObj.icon;
+
+        var _teamColorObj   = ub.current_material.settings.team_colors;
+        var _colorSet       = ub.funcs.getBaseColors();
+        var _tempIndex      = 1;
+
+        _htmlBuilder        += "<div class='patternName'><glabel>Pattern Name: </label> <span class='value'>" + _patternName + "</span></div>";
+        _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
+        _htmlBuilder        += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
+        _htmlBuilder        += '<div class="pattern-color-wheel-container">';
+
+        _.each(_patternObj.layers, function (layer) {
+
+            var fill        = 'white';
+            var layerID     = layer.layer_no;
+
+            _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
+            _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
+            _tempIndex      += 1;
+
+            _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="#3d3d3d" />';
+            // _htmlBuilder     += '<text class="previewColorCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
+            // _htmlBuilder     += '<text class="previewColorName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
+
+            _.each(_teamColorObj, function (colorObj, index) {
+
+                //ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
+                _htmlBuilder  +=  '<path class="growStroke arc-' + layerID + '" id="arc' + index + '-' + layerID + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+
+            });
+
+            _htmlBuilder     += '</svg>';
+            _htmlBuilder     += '</div>';
+
+        });
+
+        _htmlBuilder     += '</div>';
+
+        _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+        _htmlBuilder     += "</div>";
+
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        _.each(_patternObj.layers, function (layer) {
+
+            var layerID     = layer.layer_no;
+
+            var _elements   = _teamColorObj.length;
+            var _length     = 360 / _elements;
+            var _start      = 0;
+
+            _.each(_teamColorObj, function (colorObj, index) {
+
+                var _nth    = index;
+                var _start  = _nth * _length;
+                var _end    = _start + _length;
+                var _id     = "arc" + index + '-' + layerID;
+
+                document.getElementById(_id).setAttribute("d", describeArc(250, 170, 125, _start, _end));
+
+                $("path#arc" + index + '-' + layerID).on("click", function () {
+
+                    $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
+                    $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
+
+                   var _colorID           = $(this).data('color-id');
+                   var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
+                   
+                   ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
+
+                   var $previewCircle     = $(this).parent().find('circle');
+                   $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
+
+                   if (_colorOBJ.color_code === 'W') {
+                    
+                        $previewCircle.css('fill', '#ffffff');
+
+                   }
+
+                   var fill = "white";
+
+                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
+                        fill = 'black';
+                   }
+
+                   var $previewColorCode = $(this).parent().find('text.previewColorCode');
+                   $previewColorCode.html(_colorOBJ.color_code);
+                   $previewColorCode.css('fill', fill);
+
+                   var $previewColorName = $(this).parent().find('text.previewColorName');
+                   $previewColorName.html(_colorOBJ.name);
+                   $previewColorName.css('fill', fill);
+
+                });
+
+            });
+
+        });    
+
+        var _sizeOf     = _.size(_patternObj.layers);
+        var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+
+        $('div.pattern-color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+
+        $('#patternUI').fadeIn();
+
+        ub.funcs.createPatternPreview(_inputPattern);
+
+    };
+
+    ub.data.previewContainer    = {};
+    ub.data.previewCanvas       = {};
+
+    ub.funcs.createPatternPreview = function (inputPattern) {
+
+        var _inputPattern       = inputPattern;
+        var _patternObj         = inputPattern.pattern_obj;
+        var _patternName        = _patternObj.name;
+
+        console.log('Pattern Name: ');
+        console.log(_patternName);
+
+        var $patternContainer   = $('canvas#patternPreview');
+        var canvas              = new fabric.Canvas('patternPreview');
+        var context             = canvas.getContext("2d");
+        ub.data.previewCanvas   = canvas;
+
+        
+        canvas.setHeight(300);
+        canvas.setWidth(300);
+
+        _.each(_patternObj.layers, function (layer) {
+
+            var _layer_no       = layer.layer_no;
+            var _filename       = layer.filename;
+            var _defaultColor   = layer.color;
+            var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
+            var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
+
+            console.log('Layer Filename: ' + _filename);
+            console.log('Layer Default Color: ' + _defaultColor);
+            console.log("Local Name: " + _localName);
+
+            fabric.Image.fromURL(_localName, function (oImg) {
+                
+                ub.data.previewContainer[_layer_no] = oImg;
+                canvas.add(oImg);
+                oImg.filters.push(new fabric.Image.filters.Tint({
+                    color: _color,
+                    opacity: 1,
+                }));
+                oImg.applyFilters(canvas.renderAll.bind(canvas));
+                canvas.renderAll();
+
+           });
+
+        });
+
+        ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
+
+        $('div.patternColorNavigator > div.left').on('click', function () {
+
+            ub.funcs.moveToPreviousPatternColor(_patternObj);
+
+        });
+
+        $('div.patternColorNavigator > div.right').on('click', function () {
+
+            ub.funcs.moveToNextPatternColor(_patternObj);
+
+        });
+
+    };
+
+    ub.funcs.clearPatternUI = function () {
+
+        $('div#patternUI').remove();
+
+    };
+
     ub.funcs.activatePatterns = function () {
 
-        var _modifier               = ub.funcs.getModifierByIndex(ub.current_part);
-        var _names                  = ub.funcs.ui.getAllNames(_modifier.name);
-        var titleNameFirstMaterial  = _names[0].toTitleCase();
-        var _settingsObject         = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
-        var _materialOptions        = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+        var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+        var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial      = _names[0].toTitleCase();
+        var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+        var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
         if (_settingsObject.has_pattern === 1) {
 
-            $('#color-wheel-container').css('margin-top', '570px');
+            ub.funcs.deActivateColorPickers ();
 
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = ub.funcs.getPatternObjectFromMaterialOption(firstMaterialOption);
+
+            console.log('First Material Option: ');
+            console.log(firstMaterialOption);
+
+            console.log("Pattern Object");
+            console.log(patternObject);
+
+            ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
         }
         else {
@@ -2429,13 +2876,6 @@ $(document).ready(function() {
         }
 
     };
-
-    ub.funcs.activateColorPickers = function () {
-
-        $('#color-wheel-container').css('margin-top', '0px');
-
-    }
-
 
     ub.funcs.cleanPatternProperties = function (patternProperties) {
 
