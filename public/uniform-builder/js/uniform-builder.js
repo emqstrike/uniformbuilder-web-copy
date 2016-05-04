@@ -104,10 +104,14 @@ $(document).ready(function () {
         ub.callback = function (obj, object_name) {
 
             if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts') {
+
                 ub.data[object_name] = obj;
+
             }
             else {
+
                 ub.current_material[object_name] = obj;
+
             }
 
             if (object_name === 'patterns') {
@@ -3776,6 +3780,8 @@ $(document).ready(function () {
 
                 if (view === 'patterns') {
 
+                    if (ub.current_part === 0) { return; }
+
                     ub.funcs.activatePatterns();
                     return;
                     
@@ -4243,6 +4249,13 @@ $(document).ready(function () {
             if (_picker_type === 'sports') {
 
                 if (_item !== "Football") { return; }
+                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') {
+
+                    ub.showModal('Loading Uniforms...');
+                    return; 
+                    
+                }
+
                 ub.funcs.initUniformsPicker(_item);
 
             }

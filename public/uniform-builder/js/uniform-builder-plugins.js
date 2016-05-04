@@ -437,13 +437,17 @@
                     var target = $(this).data('panel');
                     var color = parseInt($(this).data('color-code'), 16);
                     var uniform_type = ub.current_material.material.type;
-                    var views = ['front', 'back', 'left', 'right'];
+
                     
+
+                    var views = ['front', 'back', 'left', 'right'];
                     var c = ub.current_material.containers[uniform_type][target].pattern_containers;
 
                     _.each(views, function (v){
                         c[v].container.children[layer_no].tint = color;
                     });
+
+
 
                     ub.refresh_thumbnails();
 

@@ -1,6 +1,7 @@
 @extends('uniform-builder')
 
 @section('left-pane')
+
     <div id="left-pane" class="pane">
 
         <div id="left-top" class="pane-top">

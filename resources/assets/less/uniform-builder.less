@@ -2587,6 +2587,35 @@ div.header-container.main {
 
     /* End Color Wheel */
 
+
+    /* Pattern Color Wheel Container */
+
+        div.pattern-color-wheel-container {
+
+            transition: margin 1s ease-in-out;
+            z-index: 200;
+            display: none;
+
+            div.color-wheel {
+
+                float: left;
+                width: 500px;
+                height: 360px;
+                background-color: #808080;
+
+                svg.svg-color-wheel {
+
+                    width: 100%;
+                    height: 100%;
+
+                }
+
+            }
+
+        }
+
+    /* End Pattern Color Wheel Container */
+
     button#modalButton {
         display: none;
     }
@@ -2612,6 +2641,93 @@ div.header-container.main {
        display: none !important;
 
     }
+
+    /* Pattern UI */
+
+    div#patternUI {
+
+        position: absolute;
+        top: 60px;
+        width: 550px;
+        height: 500px;
+        padding: 30px;
+        display: none;
+        overflow: hidden;
+
+        div.patternName {
+
+            color: white;
+            text-align: center;
+            font-size: 1.3em;
+
+            label {
+                
+                width: auto;
+                color: white;
+                padding-left: 0px;
+                text-align: left;
+
+            }
+
+            span.value {
+
+                font-weight: bold;
+                text-transform: uppercase;
+
+            }
+
+        }
+
+        div.allPartsContainer {
+
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 0.9em;
+
+        }
+
+        div.patternPreviewContainer {
+
+            padding: 30px;
+            text-align: center;
+            padding-left: 94px;
+
+            svg { 
+
+                background-color: @text_color;
+                width: 300px;
+                height: 300px;
+
+            }
+
+        }
+
+        div.patternColorNavigator {
+
+            div.left {
+                width: 25%;
+                float: left;
+                text-align: right;
+                cursor: pointer;
+            }
+
+            div.label {
+                width: 50%;
+                float: left;
+                text-align: center;
+            }
+
+            div.right {
+                width: 25%;
+                float: left;
+                cursor: pointer            }
+
+        }
+
+    }
+
+    /* End Pattern UI */
 
 /* End New UI */
 
