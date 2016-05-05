@@ -2631,7 +2631,7 @@ $(document).ready(function() {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="0" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href="url.png"></image></pattern></defs>';
+            _htmlBuilder    += '<defs><pattern id="image" x="100" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href="url.png"></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
