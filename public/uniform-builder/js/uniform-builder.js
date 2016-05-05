@@ -71,6 +71,24 @@ $(document).ready(function () {
         }
 
         ub.data.afterLoadCalled = 0;
+
+        ub.funcs.getPrice = function () {
+
+            var _web_price_sale = parseFloat(ub.current_material.material.web_price_sale);
+            var _msrp           = parseFloat(ub.current_material.material.msrp);
+            var _price          = 0;
+
+            if (_web_price_sale < _msrp) {
+                _price          = "$" + _web_price_sale;
+            } else {
+                _price          = "$" + _msrp;
+            }
+
+            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { _price = "Call for Pricing" }
+
+            return _price;
+
+        }
         
         ub.funcs.afterLoad = function () {
 
@@ -81,6 +99,8 @@ $(document).ready(function () {
             $('div.activate_qa_tools').fadeIn();
 
             $('div#uniform_name').html(ub.current_material.material.name);
+            $('div#uniform_price').html(ub.funcs.getPrice());
+
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This

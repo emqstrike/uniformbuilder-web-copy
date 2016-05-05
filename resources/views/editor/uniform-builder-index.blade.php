@@ -47,6 +47,7 @@
         <div id="left-main-window" class="pane-main-window">
 
             <div id="uniform_name">Arkansas 14</div>
+            <div id="uniform_price">$0.00</div>
 
             <div class="canvas-views" id="main_view">
             </div>
