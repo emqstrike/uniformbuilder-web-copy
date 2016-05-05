@@ -2813,7 +2813,10 @@ $(document).ready(function() {
             }
             else {
 
+                if (patternObject.pattern_id === "blank") { return false; }
+
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
+
                 return true;
 
             }
