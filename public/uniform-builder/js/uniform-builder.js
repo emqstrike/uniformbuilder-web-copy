@@ -4249,12 +4249,7 @@ $(document).ready(function () {
             if (_picker_type === 'sports') {
 
                 if (_item !== "Football") { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') {
-
-                    ub.showModal('Loading Uniforms...');
-                    return; 
-                    
-                }
+                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
