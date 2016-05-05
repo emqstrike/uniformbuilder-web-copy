@@ -2239,6 +2239,8 @@ $(document).ready(function() {
 
             ub.current_part = _ctr;
 
+            ub.funcs.clearPatternUI();
+
             if (!ub.funcs.activatePatterns()) {
                 ub.funcs.activateColorPickers();    
             }
