@@ -2635,7 +2635,7 @@ $(document).ready(function() {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="100" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href="url.png"></image></pattern></defs>';
+            _htmlBuilder    += '<defs><pattern id="image" x="100" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
@@ -2681,31 +2681,6 @@ $(document).ready(function() {
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
                    
                    ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
-
-                   // var $previewCircle     = $(this).parent().find('circle');
-                   // $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
-
-
-
-                   if (_colorOBJ.color_code === 'W') {
-                    
-                        $previewCircle.css('fill', '#ffffff');
-
-                   }
-
-                   var fill = "white";
-
-                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
-                        fill = 'black';
-                   }
-
-                   var $previewColorCode = $(this).parent().find('text.previewColorCode');
-                   $previewColorCode.html(_colorOBJ.color_code);
-                   $previewColorCode.css('fill', fill);
-
-                   var $previewColorName = $(this).parent().find('text.previewColorName');
-                   $previewColorName.html(_colorOBJ.name);
-                   $previewColorName.css('fill', fill);
 
                 });
 
