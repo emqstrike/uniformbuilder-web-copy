@@ -164,7 +164,7 @@
                     </select>
                 </div>
 
-<!--            <div class="col-md-12" id="pattern_layers_OC">
+           <!-- <div class="col-md-12" id="pattern_layers_OC">
                     <hr>
                 </div> -->
             </div>

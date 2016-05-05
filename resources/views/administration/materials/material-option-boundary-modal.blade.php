@@ -76,7 +76,7 @@
                                     </td>
                                     <td class="col-md-6">
                                         <a href="#"
-                                           class="btn btn-xs btn-primary" id="save_boundary_template" disabled>
+                                           class="btn btn-xs btn-primary" id="save_boundary_template">
                                         <span class="glyphicon glyphicon-save"></span> Save as Template
                                         </a>
                                     </td>
