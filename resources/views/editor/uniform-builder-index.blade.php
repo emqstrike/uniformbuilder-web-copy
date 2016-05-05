@@ -24,6 +24,13 @@
             </a>
 
             <a class="btn-compare sidebar-buttons compare compare-design"
+    // Set Color of the Actual Sprite in the stage
+    //ub.funcs.ui.setMaterialOptionPatternColor = function (ub.active_part, _colorOBJ, layerID, _patternObj) {
+    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
+
+        var _materialOption     = materialOption;
+        var _colorOBJ           = colorOBJ;
+        var _layerID            = layerID;
                 data-filename='compare'
                 data-option='compare'>
             </a>
@@ -216,13 +223,6 @@
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
 
-            <a class="footer-buttons change-view" data-view="parts">
-
-                <i class="fa fa-th-large" aria-hidden="true"></i>
-
-                <br /><span>Show Parts</span>
-            </a>
-
             <a class="footer-buttons change-view" data-view="colors">
                 <i class="fa fa-tint" aria-hidden="true"></i>
                 <br /><span>Colors</span>
@@ -241,6 +241,12 @@
             <a class="footer-buttons change-view" data-view="x">
                 
                 <br /><span></span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="x">
+                
+                <br /><span></span>
+                
             </a>
 
             <a class="footer-buttons change-view" data-view="refresh">

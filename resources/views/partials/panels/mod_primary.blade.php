@@ -2,6 +2,8 @@
 
     <div class="options_panel_header">
 
+        <div class="drop parts"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+
         <div  class='prev double-header'>
             
             <div id="topPrev">
