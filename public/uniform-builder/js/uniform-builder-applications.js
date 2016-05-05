@@ -2409,13 +2409,13 @@ $(document).ready(function() {
     ub.funcs.activateColorPickers = function () {
 
         ub.funcs.clearPatternUI();
-        $('#color-wheel-container').css('margin-top', '0px');
+        $('#color-wheel-container').fadeIn();
 
     }
 
     ub.funcs.deActivateColorPickers = function () {
 
-        $('#color-wheel-container').css('margin-top', '570px');
+        $('#color-wheel-container').hide();
 
     }
 
@@ -2428,13 +2428,6 @@ $(document).ready(function() {
     ub.funcs.moveToNextPatternColor = function (patternObj) {
 
         var _layerCount = _.size(patternObj.layers);
-
-        console.log('Pattern Obj: ');
-        console.log(_.size(patternObj.layers));
-        console.log(patternObj);
-
-        console.log('Next...');
-
         ub.data.currentPatternLayer += 1;
 
         if (ub.data.currentPatternLayer > _layerCount) { ub.data.currentPatternLayer = _layerCount; }
@@ -2445,7 +2438,6 @@ $(document).ready(function() {
             var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
 
             $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
-
             $('div.patternPreviewContainer').hide();
             $('div.pattern-color-wheel-container').fadeIn();
 
@@ -2453,9 +2445,7 @@ $(document).ready(function() {
 
         var _colorSet       = ub.funcs.getBaseColors();
         var _activeLayer    = _.find(patternObj.layers, {layer_no: ub.data.currentPatternLayer.toString() });
-
         var _convertedColor = util.padHex((_activeLayer.color).toString(16), 6);
-        console.log('Converted Color: ' + _convertedColor);
         var _colorOBJ       = _.find(_colorSet, {hex_code: _convertedColor});
 
         ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer);
@@ -2469,12 +2459,6 @@ $(document).ready(function() {
     ub.funcs.moveToPreviousPatternColor = function (patternObj) {
 
         var _layerCount = _.size(patternObj.layers);
-
-        console.log('Pattern Obj: ');
-        console.log(_.size(patternObj.layers));
-        console.log(patternObj);
-        console.log('Prev...');
-
         ub.data.currentPatternLayer -= 1;
 
         var _widthOfCW  = $('div.pattern-color-wheel').first().width();
@@ -2552,39 +2536,9 @@ $(document).ready(function() {
         var _colorOBJ           = colorOBJ;
         var _layerID            = layerID;
         var _patternObj         = patternObj;      
-
         var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
-
-        console.log('Inside set Material Option Picker: ');
-        console.log('-------');
-
-        console.log('Material Option');
-        console.log(_materialOption);
-
-        console.log("Color OBJ");
-        console.log(_colorOBJ);
-
-        console.log('Layer Object Before Assignment: ');
-        console.log(_layerObj);
-
         var _tintColor      = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
         _layerObj.color     = _tintColor;
-
-        console.log("Tint Color ");
-        console.log(_tintColor);
-
-        console.log("Layer ID");
-        console.log(_layerID);
-
-        console.log('Pattern Obj');
-        console.log(_patternObj);
-
-        console.log('After Assignment');
-
-        console.log("Layer Obj");
-        console.log(_layerObj);
-
-        console.log('-------');
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
@@ -2600,21 +2554,14 @@ $(document).ready(function() {
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
-        console.log('Fabric Obj: ');
-        console.log(ub.data.previewContainer[_layerID]);
-
         _.each (_names, function (_name) {
 
             var titleNameFirstMaterial      = _name.toTitleCase();
             var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+            var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
 
-            console.log('Settings Object: ');
-            console.log(_settingsObject);
-
-            _settingsObject.color           = _tintColor;
-    
-            //        
-
+            layer.color = _tintColor;
+            
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
             _.each(_materialOptions, function (_materialOption) {
@@ -2632,19 +2579,7 @@ $(document).ready(function() {
             })    
 
         })
-      
-
-        //// **** name is set to active part when in patterns
-
-        // var _names = ub.funcs.ui.getAllNames(name);
-
-        // _.each(_names, function (name) {
-
-        //     ub.funcs.setMaterialOptionSettingsPatternColor(name, colorObj);
-        //     ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
-
-        // });
-
+        
     };
 
     ub.funcs.hexCodeToTintColor = function (hexCode) {
@@ -2686,12 +2621,9 @@ $(document).ready(function() {
             _tempIndex      += 1;
 
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="#3d3d3d" />';
-            // _htmlBuilder     += '<text class="previewColorCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
-            // _htmlBuilder     += '<text class="previewColorName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
 
             _.each(_teamColorObj, function (colorObj, index) {
 
-                //ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
                 _htmlBuilder  +=  '<path class="growStroke arc-' + layerID + '" id="arc' + index + '-' + layerID + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
             });
@@ -2702,7 +2634,6 @@ $(document).ready(function() {
         });
 
         _htmlBuilder     += '</div>';
-
         _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
         _htmlBuilder     += "</div>";
 
@@ -2783,15 +2714,10 @@ $(document).ready(function() {
         var _inputPattern       = inputPattern;
         var _patternObj         = inputPattern.pattern_obj;
         var _patternName        = _patternObj.name;
-
-        console.log('Pattern Name: ');
-        console.log(_patternName);
-
         var $patternContainer   = $('canvas#patternPreview');
         var canvas              = new fabric.Canvas('patternPreview');
         var context             = canvas.getContext("2d");
         ub.data.previewCanvas   = canvas;
-
         
         canvas.setHeight(300);
         canvas.setWidth(300);
@@ -2803,10 +2729,6 @@ $(document).ready(function() {
             var _defaultColor   = layer.color;
             var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
             var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
-
-            console.log('Layer Filename: ' + _filename);
-            console.log('Layer Default Color: ' + _defaultColor);
-            console.log("Local Name: " + _localName);
 
             fabric.Image.fromURL(_localName, function (oImg) {
                 
@@ -2858,13 +2780,7 @@ $(document).ready(function() {
             ub.funcs.deActivateColorPickers ();
 
             var firstMaterialOption     = _materialOptions[0];
-            var patternObject           = ub.funcs.getPatternObjectFromMaterialOption(firstMaterialOption);
-
-            console.log('First Material Option: ');
-            console.log(firstMaterialOption);
-
-            console.log("Pattern Object");
-            console.log(patternObject);
+            var patternObject           = _settingsObject.pattern;
 
             ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
