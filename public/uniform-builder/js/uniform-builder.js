@@ -3752,6 +3752,13 @@ $(document).ready(function () {
         /// End Utilities ///
 
         /// Bottom Nav Handlers
+
+            $('div.drop.parts').on('click', function () {
+
+                $('#select_part').click();
+
+            });
+            $('select_part').hide();
             
             $('a.change-view').on('click', function (e) {
 

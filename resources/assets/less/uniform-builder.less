@@ -399,7 +399,7 @@ div.options_panel  {
         background-color: @customizer_bg;
         width: 100%;
         display: table;
-        height: 40px;
+        height: 80px;
         padding: 10px;
         color: @customizer_forecolor;
 
@@ -431,6 +431,38 @@ div.options_panel  {
             text-align: center;
             padding-right: 15px;
 
+        }
+
+        div.double-header:hover {
+
+            color: black;
+
+        }
+
+        div.drop {
+
+            cursor: pointer;
+            position: absolute;
+            text-align: center;
+            padding: 3px;
+            width: 100%;
+            margin-top: 35px;
+
+            i.fa {
+
+                width: 50%;
+                margin-top: 15px;
+                border-top: solid 1px;
+                margin-left: -20px;
+
+            }
+
+            i.fa:hover {
+
+                color: black;
+
+            }
+        
         }
 
         div.main {
@@ -2647,7 +2679,7 @@ div.header-container.main {
     div#patternUI {
 
         position: absolute;
-        top: 60px;
+        top: 65px;
         width: 550px;
         height: 500px;
         padding: 30px;
@@ -2712,6 +2744,10 @@ div.header-container.main {
                 cursor: pointer;
             }
 
+            div.left:hover, div.right:hover {
+                color: #e6e6e6
+            }
+
             div.label {
                 width: 50%;
                 float: left;
@@ -2721,7 +2757,8 @@ div.header-container.main {
             div.right {
                 width: 25%;
                 float: left;
-                cursor: pointer            }
+                cursor: pointer            
+            }
 
         }
 
