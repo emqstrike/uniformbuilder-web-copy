@@ -2239,7 +2239,9 @@ $(document).ready(function() {
 
             ub.current_part = _ctr;
 
-            ub.funcs.activateColorPickers();
+            if (!ub.funcs.activatePatterns()) {
+                ub.funcs.activateColorPickers();    
+            }
 
             // while ($('#color-wheel-container').css('margin-top') !== "0px") { true; }
 
@@ -2784,10 +2786,15 @@ $(document).ready(function() {
     ub.funcs.activatePatterns = function () {
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+
+        if (typeof _modifier === 'undefined') { return false; }
+
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
         var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+
+        var _returnValue                = false;
 
         if (_settingsObject.has_pattern === 1) {
 
@@ -2796,12 +2803,26 @@ $(document).ready(function() {
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = _settingsObject.pattern;
 
-            ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
+            if (typeof patternObject === 'undefined') {
+
+                _returnValue = false;
+                return _returnValue;
+
+            }
+            else {
+
+                ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
+                return true;
+
+            }
 
         }
         else {
 
-            ub.showModal("Patterns can't be applied on [" + _modifier.name + "]");
+            _returnValue = false;
+            return _returnValue;
+
+            // ub.showModal("Patterns can't be applied on [" + _modifier.name + "]");
 
         }
 
