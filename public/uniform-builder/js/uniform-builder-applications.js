@@ -2551,9 +2551,20 @@ $(document).ready(function() {
             color: "#" + _colorOBJ.hex_code,
             opacity: 1,
         }));
+
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
+        setTimeout(function(){ 
+                var _dUrl = canvas.toDataURL();
+            _.each(_patternObj.layers, function (l) {
+                
+                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+
+            });    
+
+        }, 50);
+        
         _.each (_names, function (_name) {
 
             var titleNameFirstMaterial      = _name.toTitleCase();
@@ -2576,7 +2587,7 @@ $(document).ready(function() {
                     c[v].container.children[layerID - 1].tint = _tintColor;
                 });
 
-            })    
+            });
 
         })
         
@@ -2620,7 +2631,8 @@ $(document).ready(function() {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="#3d3d3d" />';
+            _htmlBuilder    += '<defs><pattern id="image" x="0" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href="url.png"></image></pattern></defs>';
+            _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
 
@@ -2666,8 +2678,10 @@ $(document).ready(function() {
                    
                    ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
 
-                   var $previewCircle     = $(this).parent().find('circle');
-                   $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
+                   // var $previewCircle     = $(this).parent().find('circle');
+                   // $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
+
+
 
                    if (_colorOBJ.color_code === 'W') {
                     
