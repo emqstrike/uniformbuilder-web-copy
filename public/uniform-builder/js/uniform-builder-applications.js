@@ -2726,6 +2726,8 @@ $(document).ready(function() {
             fabric.Image.fromURL(_localName, function (oImg) {
                 
                 ub.data.previewContainer[_layer_no] = oImg;
+                oImg.lockMovementX = true;
+                oImg.lockMovementY = true;
                 canvas.add(oImg);
                 oImg.filters.push(new fabric.Image.filters.Tint({
                     color: _color,
