@@ -488,3 +488,44 @@
     </script>
 
 <!-- End Uniforms Pickers -->
+
+<!-- Pattern Picker -->
+    
+    <script type="text/mustache" id="m-pattern-popup">
+
+        <div id="primaryPatternPopup" data-status="hidden">
+
+            <div class="header">
+
+                PATTERNS
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="patternPopupResults">
+
+                    @{{#patterns}}
+
+                        <div class="item grow" style="background-image: url('@{{icon}}')" data-pattern-id="@{{id}}">
+                            <div class="name">@{{name}}</div>
+                        </div>
+
+                    @{{/patterns}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Pattern Picker -->

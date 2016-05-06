@@ -2569,7 +2569,7 @@ $(document).ready(function() {
 
         }, 50);
         
-        _.each (_names, function (_name) {
+        _.each(_names, function (_name) {
 
             var titleNameFirstMaterial      = _name.toTitleCase();
             var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
@@ -2584,10 +2584,10 @@ $(document).ready(function() {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views = ['front', 'back', 'left', 'right'];        
-                var c = ub.current_material.containers[_uniformType][_materialOptionName].containers;
+                var views                   = ['front', 'back', 'left', 'right'];        
+                var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
-                _.each(views, function (v){
+                _.each(views, function (v) {
                     c[v].container.children[layerID - 1].tint = _tintColor;
                 });
 
@@ -2605,6 +2605,126 @@ $(document).ready(function() {
         return _tintColor;
 
     }
+
+    ub.funcs.centerPatternPopup = function () {
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) {
+
+            return;
+
+        } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }) 
+
+    }
+
+    ub.funcs.changePatternFromPopup = function (currentPart, patternID) {
+
+        var _patternID                  = patternID.toString();
+        var _currentPart                = currentPart;
+        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+
+        var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+
+        var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+        var titleNameFirstMaterial      = _names[0].toTitleCase();
+
+        _.each(_names, function (name) {
+
+            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+            var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
+
+            _.each(_materialOptions, function (materialOption){
+
+                outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+                _settingsObject.pattern     = outputPatternObject;
+                e = _settingsObject;
+
+                ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+
+            });
+
+        });
+
+        ub.funcs.clearPatternUI();
+        ub.funcs.activatePatterns();
+
+    }
+
+    ub.funcs.createPatternPopup = function () {
+
+        if ($('div#primaryPatternPopup').length === 0) {
+
+            var data = {
+                label: 'Choose Patterns: ',
+                patterns: ub.data.patterns.items,
+            };
+
+            var template = $('#m-pattern-popup').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+        }
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('pattern-id');
+
+            ub.funcs.changePatternFromPopup(ub.current_part, _id);
+            $popup.remove();
+
+        });
+
+        ub.funcs.centerPatternPopup();
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    };
 
     ub.data.currentPatternLayer = 0;
     ub.funcs.createPatternUI = function (inputPattern, materialOption) {
@@ -2635,7 +2755,7 @@ $(document).ready(function() {
             _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
             _tempIndex      += 1;
 
-            _htmlBuilder    += '<defs><pattern id="image" x="100" y="0" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
+            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
             _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
 
             _.each(_teamColorObj, function (colorObj, index) {
@@ -2701,6 +2821,7 @@ $(document).ready(function() {
 
     ub.data.previewContainer    = {};
     ub.data.previewCanvas       = {};
+    ub.data.patternToolTip      = {};
 
     ub.funcs.createPatternPreview = function (inputPattern) {
 
@@ -2726,19 +2847,62 @@ $(document).ready(function() {
             fabric.Image.fromURL(_localName, function (oImg) {
                 
                 ub.data.previewContainer[_layer_no] = oImg;
-                oImg.lockMovementX = true;
-                oImg.lockMovementY = true;
+
+                oImg.selectable     = true;
+                oImg.lockMovementX  = true;
+                oImg.lockMovementY  = true;
+                oImg.hasControls    = false;
+
                 canvas.add(oImg);
                 oImg.filters.push(new fabric.Image.filters.Tint({
                     color: _color,
                     opacity: 1,
                 }));
                 oImg.applyFilters(canvas.renderAll.bind(canvas));
+                oImg.hoverCursor = 'pointer';
+
                 canvas.renderAll();
+
+                oImg.on('mousedown', function (){
+                    
+                    ub.funcs.createPatternPopup();
+
+                });
+
+                oImg.on('mousemove', function (e){
+                    
+                    ub.data.patternToolTip.opacity = 1;
+                    ub.data.patternToolTip.bringToFront();
+
+                });
 
            });
 
         });
+
+        var bg = new fabric.Rect({
+          fill: '#333333',
+          scaleY: 0.5,
+          originX: 'center',
+          originY: 'center',
+          rx: 5,
+          ry: 5,
+          width: 250,
+          height:60,
+          opacity: 0.5,
+        });
+
+        var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
+        var group   = new fabric.Group([ text, bg ], {
+          left: 28,
+          top: 254,
+        });
+
+        text.bringToFront();
+        ub.data.patternToolTip = group;
+        canvas.add(ub.data.patternToolTip);
+        //ub.data.patternToolTip.selectable = false;
+        ub.data.patternToolTip.bringToFront();
 
         ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
 
@@ -2753,6 +2917,17 @@ $(document).ready(function() {
             ub.funcs.moveToNextPatternColor(_patternObj);
 
         });
+
+        $( "canvas.upper-canvas" ).hover(
+          function() {
+
+          }, function() {
+
+               ub.data.patternToolTip.opacity = 0;
+               ub.data.patternToolTip.sendToBack();
+
+          }
+        );
 
     };
 
@@ -2897,6 +3072,64 @@ $(document).ready(function() {
                     y: 308 + ub.offset.y * 3.3,
                     
 
+                },
+                container_opacity: 1,
+                container_rotation: ub.funcs.translateAngle(_materialOption.angle),
+                container_scale: { x:1,y:1 },
+            }
+
+            _patternObject.pattern_obj.layers.push(_layer);
+
+        });
+
+        return _patternObject;
+
+    }
+
+    ub.funcs.convertPatternObjectForMaterialOption = function (patternObject, materialOption) {
+
+        var patternPropertiesParsed     = patternObject;
+        var _rotationAngle              = ub.funcs.translateAngle(materialOption.angle);
+
+        if (materialOption.pattern_id === null ) {
+
+            return undefined;
+
+        }
+
+        var _materialOption = materialOption;
+        var _patternObject  = {
+                pattern_id: patternObject.code,
+                scale: 0,
+                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                opacity: 0,
+                position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                pattern_obj : {
+                    pattern_id: patternObject.id,
+                    active: patternObject.active,
+                    name: patternObject.name,
+                    code: patternObject.code,
+                    icon: patternObject.icon,
+                    layers: [],
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                }    
+        };
+
+        _.each (patternObject.layers, function (_property) {
+
+            var _defaultColor = _property.default_color;
+            
+            var _layer = { 
+                default_color: _defaultColor,
+                layer_no:_property.layer_no.toString(), 
+                filename: _property.filename,
+                color: parseInt(_defaultColor, 16),
+                container_position: {
+                    x: 248 + ub.offset.x * 0.9,
+                    y: 308 + ub.offset.y * 3.3,
                 },
                 container_opacity: 1,
                 container_rotation: ub.funcs.translateAngle(_materialOption.angle),

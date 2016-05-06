@@ -106,7 +106,8 @@ $(document).ready(function () {
             // TODO: Enable This
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             ub.data.afterLoadCalled = 1;
-            
+
+
         };
 
         ub.updateLayersOrder = function (container) {
