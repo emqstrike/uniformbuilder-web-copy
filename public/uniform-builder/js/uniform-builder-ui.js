@@ -138,6 +138,7 @@ $(document).ready(function () {
         $('#change-views').css('left', _left);
         $('a.change-view[data-view="' + ub.active_view + '"]').click();
         ub.zoom_off();
+        ub.funcs.centerPatternPopup();
 
     };
 
