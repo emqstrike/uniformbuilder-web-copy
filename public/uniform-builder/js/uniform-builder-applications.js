@@ -2901,6 +2901,19 @@ $(document).ready(function() {
           top: 254,
         });
 
+        group.selectable    = true;
+        group.hasControls   = false;
+        group.lockMovementX = true;
+        group.lockMovementY = true;
+        group.hasBorders    = false;
+        group.hoverCursor   = 'pointer';
+
+        group.on('mousedown', function (){
+                    
+            ub.funcs.createPatternPopup();
+
+        });
+
         text.bringToFront();
         ub.data.patternToolTip = group;
         canvas.add(ub.data.patternToolTip);

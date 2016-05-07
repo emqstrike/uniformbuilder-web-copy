@@ -827,6 +827,8 @@ $(document).ready(function () {
                 
         });
 
+        /// 
+
         // Initialize Transformed Applications
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
