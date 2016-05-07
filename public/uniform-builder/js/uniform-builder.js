@@ -3912,61 +3912,45 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.coordinateAdjustments = function (target_name, clone, v) {
 
-    ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
-
-        var uniform_type = ub.current_material.material.type;
-        var target_name = target.toTitleCase();
-        var pattern_settings = '';
-        var views = ub.data.views;
-        var _rotationAngle = 0;
-        var _extra         = {};
-        var _positiion     = {x: 0, y: 0};
-        var _adjustment    = {x: 0, y: 0};
-
-        target_name = util.toTitleCase(target_name);
-
-        pattern_settings = ub.current_material.containers[uniform_type][target_name];
-        pattern_settings.containers = {};
+        var _adjustment = {x: 0, y: 0};
 
         // Recalculate Offset 
 
-        var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
-        var _yDivisor = 3;
+            var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
+            var _yDivisor = 3;
+                
+            if ($(window).height() > 800) {
+
+                _yDivisor = 5;
             
-        if ($(window).height() > 800) {
+            }
 
-            _yDivisor = 5;
-        
-        }
+            var _offsetY = ($(window).height() - 580) / _yDivisor;
 
-        var _offsetY = ($(window).height() - 580) / _yDivisor;
-
-        ub.offset = {x: _offsetX, y: _offsetY};
+            ub.offset = {x: _offsetX, y: _offsetY};
 
         // End Recalculate Offset
 
 
-        _.each(views, function (v) {
+        if (target_name === 'Body' ) {
 
-           var _adjustment    = {x: 0, y: 0};
 
-            _extra = ub.getAngleofPattern(v, target_name)
+                _adjustment = {x: 0, y: ub.front_view.position.y};
 
-            if (typeof _extra !== 'undefined') {
+                if (clone.name === "NK Stripe") {
 
-                _rotationAngle = _extra.angle;    
+                    _adjustment.y += 200;                    
 
-            }
-            else {
+                    if ($(window).height() > 800) {
 
-                _rotationAngle = 0;
+                        _adjustment.y += 50;                    
 
-            }
+                    }
 
-            if (target_name === 'Body' ) {
+                }
 
-                _adjustment = {x: 0, y: 130};
 
             }
 
@@ -4057,6 +4041,47 @@ $(document).ready(function () {
 
             }
             
+
+
+        return _adjustment;
+
+
+
+
+    }
+
+    ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
+
+        var uniform_type = ub.current_material.material.type;
+        var target_name = target.toTitleCase();
+        var pattern_settings = '';
+        var views = ub.data.views;
+        var _rotationAngle = 0;
+        var _extra         = {};
+        var _positiion     = {x: 0, y: 0};
+        target_name        = util.toTitleCase(target_name);
+
+        pattern_settings = ub.current_material.containers[uniform_type][target_name];
+        pattern_settings.containers = {};
+
+        _.each(views, function (v) {
+
+           var _adjustment    = {x: 0, y: 0};
+
+           _adjustment        = ub.funcs.coordinateAdjustments(target_name, clone, v);
+           _extra = ub.getAngleofPattern(v, target_name)
+
+            if (typeof _extra !== 'undefined') {
+
+                _rotationAngle = _extra.angle;    
+
+            }
+            else {
+
+                _rotationAngle = 0;
+
+            }
+
             pattern_settings.containers[v] = {};
             
             var namespace = pattern_settings.containers[v];
@@ -4103,15 +4128,7 @@ $(document).ready(function () {
                 return;
             }
             
-            // if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
-
-
-            // }else
-            // {
-                                container.mask = mask;
-
-            //}
-
+            container.mask = mask;
             container.name = 'pattern_' + target;
 
             if (typeof ub.objects[view]['pattern_' + target] === 'object') {

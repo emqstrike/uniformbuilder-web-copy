@@ -2650,15 +2650,12 @@ $(document).ready(function() {
             var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
             var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
 
-            _.each(_materialOptions, function (materialOption){
+            materialOption = _materialOptions[0];
+            outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+            _settingsObject.pattern     = outputPatternObject;
+            e = _settingsObject;
 
-                outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
-                _settingsObject.pattern     = outputPatternObject;
-                e = _settingsObject;
-
-                ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
-
-            });
+            ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
 
         });
 
