@@ -2707,6 +2707,12 @@ $(document).ready(function() {
 
         ub.funcs.centerPatternPopup();
 
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
         $popup.bind('clickoutside', function () {
 
             var _status = $(this).data('status');
