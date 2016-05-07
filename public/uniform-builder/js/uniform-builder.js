@@ -3929,6 +3929,24 @@ $(document).ready(function () {
         pattern_settings = ub.current_material.containers[uniform_type][target_name];
         pattern_settings.containers = {};
 
+        // Recalculate Offset 
+
+        var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
+        var _yDivisor = 3;
+            
+        if ($(window).height() > 800) {
+
+            _yDivisor = 5;
+        
+        }
+
+        var _offsetY = ($(window).height() - 580) / _yDivisor;
+
+        ub.offset = {x: _offsetX, y: _offsetY};
+
+        // End Recalculate Offset
+
+
         _.each(views, function (v) {
 
            var _adjustment    = {x: 0, y: 0};
@@ -3943,6 +3961,12 @@ $(document).ready(function () {
             else {
 
                 _rotationAngle = 0;
+
+            }
+
+            if (target_name === 'Body' ) {
+
+                _adjustment = {x: 0, y: 130};
 
             }
 
@@ -4030,8 +4054,6 @@ $(document).ready(function () {
                     _adjustment = {x: 0, y: -220};
 
                 }
-
-
 
             }
             

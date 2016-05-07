@@ -498,6 +498,12 @@
             <div class="header">
 
                 PATTERNS
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
              
             </div>
             
