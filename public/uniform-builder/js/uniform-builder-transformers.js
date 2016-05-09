@@ -5,29 +5,16 @@ $(document).ready(function () {
         var _inputPatternsObject = inputPatternsObject;
         var _container           = [];
 
-        var _blankPattern = {
-            id: "111",
-            active: "1",
-            name: 'None',
-            code: 'none',
-            icon: '/images/sidebar/none.png',
-            category: 'jersey',
-            layers: [
-              {
-                default_color: "1e1e1e",
-                filename: "/images/patterns/none.png",
-                layer_no: 1,
-                team_color_id: "1",
-              },
-            ],
+        _.each(_inputPatternsObject, function (_object, index) {
 
-        };
+            var sort_id = index + 1;
 
-        _container.push(_blankPattern);
-
-        _.each(_inputPatternsObject, function (_object) {
+            if (_object.name === 'Blank') {
+                sort_id = 0;
+            }
 
             _newObject = {
+                sortID: sort_id,
                 id: _object.id,
                 active: _object.active,
                 name: _object.name,

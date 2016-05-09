@@ -552,7 +552,7 @@ $(document).ready(function() {
 
                     $angle_slider_logo.find('div.rs-bg-color').css({
                         '-moz-transform': 'scaleX(-1)',
-                        '-o-transform': 'scaleX(-1)', 
+                        '-o-transform': 'scaleX(-1)',
                         'transform': 'scaleX(-1)',
                         'filter': 'FlipH',
                         '-ms-filter': "FlipH",
@@ -671,8 +671,7 @@ $(document).ready(function() {
         };
 
         window.sprite = sprite;
-        
-      
+
     };
 
     ub.funcs.update_application = function(application, logo) {
@@ -2670,7 +2669,7 @@ $(document).ready(function() {
 
             var data = {
                 label: 'Choose Patterns: ',
-                patterns: ub.data.patterns.items,
+                patterns: _.sortBy(ub.data.patterns.items, 'sortID'),
             };
 
             var template = $('#m-pattern-popup').html();
@@ -2773,7 +2772,13 @@ $(document).ready(function() {
         });
 
         _htmlBuilder     += '</div>';
-        _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+
+        if(_inputPattern.pattern_id !== "none" || _inputPattern.pattern_id !== "blank") {
+
+            _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+
+        }
+        
         _htmlBuilder     += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
@@ -2857,11 +2862,17 @@ $(document).ready(function() {
                 oImg.hasControls    = false;
 
                 canvas.add(oImg);
-                oImg.filters.push(new fabric.Image.filters.Tint({
-                    color: _color,
-                    opacity: 1,
-                }));
-                oImg.applyFilters(canvas.renderAll.bind(canvas));
+
+                if(_inputPattern.pattern_id !== "none" && _inputPattern.pattern_id !== "blank") {
+
+                    oImg.filters.push(new fabric.Image.filters.Tint({
+                        color: _color,
+                        opacity: 1,
+                    }));
+                    oImg.applyFilters(canvas.renderAll.bind(canvas));
+
+                }
+
                 oImg.hoverCursor = 'pointer';
 
                 canvas.renderAll();
@@ -2981,9 +2992,10 @@ $(document).ready(function() {
             }
             else {
 
-                if (patternObject.pattern_id === "blank") { return false; }
 
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
+
+                if (patternObject.pattern_id === "blank" || patternObject.pattern_id === "none") { return false; }
 
                 return true;
 
