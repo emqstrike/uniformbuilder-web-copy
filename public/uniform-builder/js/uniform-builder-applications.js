@@ -1389,6 +1389,7 @@ $(document).ready(function() {
                 ub.objects[view_name][marker_name] = point;
                 
                 ub[view_name].addChild(point);
+                ub[view_name].addChild(mask);
                 sprite_collection.push(point);
 
                 //ub.funcs.createClickable(point, view.application, view, 'application');
