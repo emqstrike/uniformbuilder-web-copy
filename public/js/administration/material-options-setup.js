@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    var item_id = $('#item_id').val();
+
+    getQuestions(function(questions){ window.questions = questions; });
+
 	var frontLength = 0;
 	var backLength = 0;
 	var leftLength = 0;
@@ -83,6 +87,22 @@ $(document).ready(function() {
         return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
     };
 
+    buildQuestions();
+
+    function bindQuestions(questions_dropdown){
+        $(".questions-select").each(function(i) {
+            $(this).append(questions_dropdown);
+        });
+    }
+
+    function buildQuestions(){
+        var questions_dropdown = '';
+        $.each(window.questions, function(i, item) {
+            questions_dropdown += '<option value="' + item.QuestionID + '">' + item.Question + '<option>';
+        });console.log(questions_dropdown);
+        bindQuestions(questions_dropdown);
+    }
+
     function formatNames(){
     	$(".name").each(function(i) {
     		var name = $(this).val();
@@ -157,6 +177,23 @@ $(document).ready(function() {
     		topLayers($(this), length);
     		length--;
     	});
+    }
+
+    function getQuestions(callback){
+        var questions;
+        var url = "http://qx.azurewebsites.net/api/itemquestion/getitemquestions/" + item_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                questions = data;
+                if(typeof callback === "function") callback(questions);
+            }
+        });
     }
 
 });

@@ -106,7 +106,8 @@
                                 <th>Player name</th>
                                 <th>Number</th>
                                 <th>Font sizes</th>
-                                <th>Sizes</th>
+                                <th>Colors</th>
+                                <th>Accent</th>
                                 <th>Default Macot</th>
                                 <th>Default Font</th>
                                 <th>Default Text</th>
