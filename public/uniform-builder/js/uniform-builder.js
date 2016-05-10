@@ -903,8 +903,6 @@ $(document).ready(function () {
                       families: [application_obj.font_obj.name],
                     },
                     active: function() {
-                        console.log('Application To Be Created: ');
-                        console.log(application_obj);
 
                         ub.create_application(application_obj);
                     },
