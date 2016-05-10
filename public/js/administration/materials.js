@@ -372,7 +372,9 @@ $(document).ready(function() {
         var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
-        var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
+        // var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
+        var colors                  = '<input type="text" style="' + style + '" class="app-colors" value="">';
+        var accents                 = '<input type="text" style="' + style + '" class="app-accents" value="" size="3">';
         var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
@@ -402,7 +404,9 @@ $(document).ready(function() {
                     app_player_name,
                     app_number,
                     app_font_sizes,
-                    app_sizes,
+                    // app_sizes,
+                    colors,
+                    accents,
                     default_mascot,
                     default_font,
                     default_text,
@@ -1121,9 +1125,11 @@ $(document).ready(function() {
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
                 var app_team_name       = '<input type="checkbox" style="'  + style + '" class="app-team-name" value="1" '      + team_name_checked                 + '>';
                 var app_player_name     = '<input type="checkbox" style="'  + style + '" class="app-player-name" value="1" '    + player_name_checked               + '>';
-                var app_dnumber          = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
+                var app_dnumber         = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
-                var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
+                // var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
+                var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" >';
+                var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
                 var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
         
                 var app_font = "";
@@ -1184,7 +1190,9 @@ $(document).ready(function() {
                     app_player_name,
                     app_dnumber,
                     app_font_sizes,
-                    app_sizes,
+                    // app_sizes,
+                    app_colors,
+                    app_accents,
                     default_mascot,
                     default_font,
                     default_text,
@@ -2546,6 +2554,9 @@ function updateApplicationsJSON(){
         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
+        applicationColors = $(this).parent().siblings('td').find("input[class=app-colors]").val();
+        applicationAccents = $(this).parent().siblings('td').find("input[class=app-accents]").val();
+
         fontData = window.fontData;
         
         if(isPrimary.prop( "checked" )){
@@ -2626,6 +2637,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].center['x'] = {};
         applicationProperties[itemIdx].center['y'] = {};
 
+        applicationProperties[itemIdx]['colors'] = {};
+        applicationProperties[itemIdx]['accents'] = {};
+
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
         applicationProperties[itemIdx].id = applicationId;
@@ -2650,6 +2664,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].defaultFont = applicationFont;
         applicationProperties[itemIdx].defaultText = applicationText;
         applicationProperties[itemIdx].defaultNumber = applicationNumber;
+
+        applicationProperties[itemIdx].colors = applicationColors;
+        applicationProperties[itemIdx].accents = applicationAccents;
 
         // try{
         //     applicationProperties[itemIdx].mascotData = mascotData;
