@@ -764,6 +764,7 @@ $(document).ready(function() {
             polyData = JSON.parse(output);
 
             loadPolygon(polyData);
+            updateCoordinates();
             canvasFront.clear();
 
             var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
