@@ -1,4 +1,20 @@
 $(document).ready(function(){
+    try{
+        bindTypesSelect2();    
+    } catch(err){
+        console.log(err.message);
+    }
+    
+
+    function bindTypesSelect2()
+    {
+        $('.uniform-types').select2({
+            placeholder: "Select uniform types",
+            multiple: true,
+            allowClear: true
+        });
+    }
+
     $('.enable-color').on('click', function(){
         var id = $(this).data('color-id');
         var url = "//" + api_host + "/api/color/enable/";

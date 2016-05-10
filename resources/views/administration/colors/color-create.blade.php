@@ -53,6 +53,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Avaiable to</label>
+                            <div class="col-md-6">
+                                <select name="uniform_types[]" class="form-control uniform-types" style="width: 100%" multiple="multiple">
+                                    <option value="Infused">Infused</option>
+                                    <option value="Sublimated">Sublimated</option>
+                                    <option value="Twill">Twill</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

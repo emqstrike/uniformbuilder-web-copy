@@ -61,6 +61,7 @@ class ColorsController extends Controller
         $colorName = $request->input('name');
         $colorCode = $request->input('color_code');
         $hexCode = $request->input('hex_code');
+        $applicationTypes = $request->input('uniform_types');
 
         $colorId = null;
         if (!empty($request->input('color_id')))
@@ -90,9 +91,10 @@ class ColorsController extends Controller
         $data = [
             'name' => $colorName,
             'color_code' => $colorCode,
-            'hex_code' => $hexCode
+            'hex_code' => $hexCode,
+            'application_types' => $applicationTypes
         ];
-
+// dd($data);
         $response = null;
         if (!empty($colorId))
         {

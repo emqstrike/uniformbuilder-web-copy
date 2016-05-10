@@ -30,6 +30,7 @@
                         <tr>
                             <th>Color</th>
                             <th>Edit</th>
+                            <th>Availability</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -45,6 +46,9 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
+                            </td>
+                            <td>
+                                {{ $color->application_types }}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
