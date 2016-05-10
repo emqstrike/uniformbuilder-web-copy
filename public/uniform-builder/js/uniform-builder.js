@@ -903,7 +903,6 @@ $(document).ready(function () {
                       families: [application_obj.font_obj.name],
                     },
                     active: function() {
-
                         ub.create_application(application_obj);
                     },
 
