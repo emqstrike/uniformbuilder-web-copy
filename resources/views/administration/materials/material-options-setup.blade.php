@@ -22,7 +22,7 @@
 <form action="/administration/material_option/saveUpdates" role="form" method="POST" enctype="multipart/form-data">
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <input type="hidden" name="cleanup_material_id" id="material_id" value="{{ $material->id }}">
-<input type="hidden" id="item_id" value="{{ $material->price_item_code }}">
+
 <input type="hidden" id="material_block_pattern" value="{{ $material->block_pattern }}">
 <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
