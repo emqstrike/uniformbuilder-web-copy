@@ -717,6 +717,86 @@ $(document).ready(function () {
     // Change the uniform customization settings using the passed JSONObject parameter
     // @param JSONObject settings
 
+    ub.data.getTeamColorObjByIndex = function (index) {
+
+        /// Index is zero-based 
+
+        _colorsUsed     = ub.data.colorsUsed;
+        _hexCode        = _.find(_colorsUsed, {teamColorID: index});
+
+        var _colorObj = ub.funcs.getColorObjByHexCode(_hexCode.hexCode)
+
+        if (typeof _colorObj === 'undefined') {
+
+            /// Get Locker Tag Color 
+            var _lockerTag  = ub.funcs.getMaterialOptionSettingsObject('Locker Tag');
+            var _hexCode    = util.decimalToHex(_lockerTag.color);
+
+            _colorObj       = ub.funcs.getColorObjByHexCode(_hexCode);
+
+        }
+
+        return _colorObj;
+
+    };
+
+    ub.data.convertDefaultApplications = function () {
+
+        if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
+
+        var _one_dimensional = ub.data.applications_transformed_one_dimensional;
+
+        _.each (_one_dimensional, function (_application) {
+
+            console.log('Application: ');
+            console.log(_application);
+
+            _.each(_application.views, function (view) {
+
+                var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
+                var _colorArray         = view.application.colors.split(',');
+                var _outputColorArray   = []; 
+                var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
+                var _fontSizesArray     = view.application.fontSizes.split(',')
+
+
+                _.each(_accentObj.layers, function (layer, index) {
+
+                    if (typeof _colorArray[index] === 'undefined') {
+                        return;
+                    }
+
+                    var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index]);
+                    var _color = _resultColorObj.hex_code;
+                    layer.default_color = _color;
+
+                    _outputColorArray.push(_resultColorObj);
+
+                });
+
+                var _output = {
+
+                    accent_obj: _accentObj,
+                    application_type: _application.type,
+                    application: _application,
+                    code: _application.id,
+                    color_array: _outputColorArray,
+                    font_obj: _fontObj,
+                    font_size: parseInt(_fontSizesArray[0]), 
+                    object_type: "text object",
+                    text: view.application.defaultText,
+                    type: _application.type,
+
+                };
+
+                ub.current_material.settings.applications[parseInt(_application.id)] = _output;
+
+            });
+    
+        });
+
+    };
+
     ub.loadSettings = function (settings) { 
 
         ub.current_material.settings    = settings;
@@ -792,6 +872,23 @@ $(document).ready(function () {
 
         });
 
+        /// Transform Applications
+
+
+        if (typeof ub.temp === "undefined") {
+
+            ub.data.convertDefaultApplications();
+
+        }
+        else {
+
+            console.log('Order Detected: ');
+
+        }
+
+        /// End Transform Applications
+
+
         /// Load Applications, Text Type
 
         var font_families = [];
@@ -806,6 +903,9 @@ $(document).ready(function () {
                       families: [application_obj.font_obj.name],
                     },
                     active: function() {
+                        console.log('Application To Be Created: ');
+                        console.log(application_obj);
+
                         ub.create_application(application_obj);
                     },
 

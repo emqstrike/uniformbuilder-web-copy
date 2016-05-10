@@ -1314,7 +1314,7 @@ $(document).ready(function() {
                         zIndex: -1,
                     },
                 ], 
-            },  // End Drop Shadow
+            },  // End Default
             {   // Outlined
                 id: 1,
                 name: 'Outlined',
@@ -1454,7 +1454,7 @@ $(document).ready(function() {
                 layers: [
                     {
                         name: 'Base Color',
-                        default_color: 'acacac',
+                        default_color: 'e6e6e6',
                         layer_no: 1,
                         increment_x: 0, 
                         increment_y: 0,
@@ -1463,7 +1463,7 @@ $(document).ready(function() {
                     },
                     {
                         name: 'Shadow',
-                        default_color: '000000',
+                        default_color: 'bdc4c7',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -1472,8 +1472,8 @@ $(document).ready(function() {
                     },
                     {
                         name: 'Mask',
-                        default_color: 'acacac',
-                        layer_no: 1,
+                        default_color: '1e1e1e',
+                        layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 0, 

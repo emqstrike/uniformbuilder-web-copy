@@ -1313,11 +1313,13 @@
 
                 var array = ub.current_material.settings.applications[application.id].color_array;
                 var color_array_size = _.size(array);
-                var code = ub.current_material.settings.applications[application.id].color_array[index + 1];
+                var code = ub.current_material.settings.applications[application.id].color_array[index];
 
                 if (typeof code !== 'undefined') {
-                    
-                    child.tint = parseInt(code.color_code, 16);
+                    console.log('Child: ');
+                    console.log(child);
+                    console.log(code);
+                    child.tint = parseInt(code.hex_code, 16);
 
                 }
 
