@@ -59,6 +59,7 @@ class FontsController extends Controller
         $fontParent = $request->input('parent_id');
         $fontProperties = $request->input('font_properties');
         $oldFontPath = $request->input('old_font_path');
+        $fontSizeTable = $request->input('font_size_table');
 
         $myJson = json_decode($fontProperties, true);
 
@@ -76,7 +77,8 @@ class FontsController extends Controller
         }
 
         $data = [
-            'name' => $fontName
+            'name' => $fontName,
+            'font_size_table' => $fontSizeTable
         ];
 
         if ($fontType != 'default')

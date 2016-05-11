@@ -33,6 +33,7 @@
                         <input type="hidden" id="existing-fonts-properties" value="{{ $font->font_properties }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
+                        <input type="hidden" name="old_font_size_table" id="old_font_size_table" value="{{ $font->font_size_table }}">
 
                         <div class="form-group">
                             <div class="colr-md-6" align="center">
@@ -84,6 +85,20 @@
                                     <option value='{{ $fontItem->id }}' style="font-family: '{{ $fontItem->name }}'; font-size: 30px;" @if ($font->parent_id == $fontItem->id) selected @endif>{{ $fontItem->name }}</option>
                                 @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <table class="table table-bordered">
+                                    <tr colspan="12"><center><h3>Font Size Table</h3></center></tr>
+                                    <tr class="input-size-header">
+                                    </tr>
+                                    <tr class="output-size-row">
+                                    </tr>
+                                    <tr colspan="12"><center><h4><i>Upload Font first to see preview</i></h4></center></tr>
+                                </table>
+                                <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
 
