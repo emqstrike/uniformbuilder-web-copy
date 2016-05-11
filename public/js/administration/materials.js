@@ -1,5 +1,19 @@
 $(document).ready(function() {
 
+    window.accents = [
+        {"name" : "No-Accent", "id" : "0", "layers" : "2", "thumbnail" : "no-accent.png"},
+        {"name" : "Outlined", "id" : "1", "layers" : "3", "thumbnail" : "outlined.png"},
+        {"name" : "Single Outline with Shadow", "id" : "2", "layers" : "4", "thumbnail" : "single_outline_with_shadow.png"},
+        {"name" : "Double Outline", "id" : "3", "layers" : "4", "thumbnail" : "double_outline.png"},
+        {"name" : "Drop Shadow", "id" : "4", "layers" : "3", "thumbnail" : "drop_shadow.png"},
+        {"name" : "Double Shadow", "id" : "5", "layers" : "4", "thumbnail" : "double_shadow.png"},
+        {"name" : "Shadow", "id" : "6", "layers" : "3", "thumbnail" : "shadow.png"},
+        {"name" : "Double Drop Shadow", "id" : "7", "layers" : "4", "thumbnail" : "double_drop_shadow.png"},
+        {"name" : "Outlined with Drop Shadow", "id" : "8", "layers" : "5", "thumbnail" : "outlined_with_drop_shadow.png"},
+        {"name" : "Center Shadow", "id" : "9", "layers" : "3", "thumbnail" : "center_shadow.png"},
+        {"name" : "Collegiate Drop Shadow", "id" : "10", "layers" : "4", "thumbnail" : "collegiate_drop_shadow.png"}
+    ];
+
     // $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
 
     var material = {};
@@ -374,8 +388,9 @@ $(document).ready(function() {
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         // var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value="">';
-        var accents                 = '<input type="text" style="' + style + '" class="app-accents" value="" size="3">';
-        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        // var accents                 = '<input type="text" style="' + style + '" class="app-accents" value="" size="3">';
+        var accents                 = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_mascot          = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
@@ -418,6 +433,12 @@ $(document).ready(function() {
         var canvasItem = "application"+group.id;
         application_number++;
 
+
+
+
+
+
+
         $.each(window.mascots, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
@@ -440,6 +461,38 @@ $(document).ready(function() {
                 console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
+
+
+
+
+
+        $.each(window.accents, function(i, item) {
+            item['text'] = item.name;
+            item['value'] = item.id;
+            item['selected'] = false;
+            item['description'] = 'Accent';
+            item['imageSrc'] = item.thumbnail;
+        });
+        var accentsData = window.accents;
+        var accent_class = '.app-default-accent';
+        $(accent_class).ddslick({
+            data: accentsData,
+            width: 250,
+            height: 300,
+            imagePosition: "left",
+            selectText: "Select Accent",
+            onSelected: function (data) {
+                $('#accent').val(data['selectedData']['value']);
+                console.log('Accent ID: '+data['selectedData']['value']);
+            },
+        });
+
+
+
+
+
+
+
 
         updateApplicationsJSON();
     });  
