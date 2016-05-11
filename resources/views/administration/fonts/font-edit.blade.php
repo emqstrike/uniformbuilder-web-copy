@@ -122,7 +122,7 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-rows">
                                         <!-- </tr> -->
                                         <tr id="static_row">
                                             <td>
@@ -196,7 +196,7 @@ $(document).ready(function(){
     });
 
     $( "tbody" ).disableSelection();
-    $( "tbody" ).sortable({
+    $( "tbody.sortable-rows" ).sortable({
         start: function( ) {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
