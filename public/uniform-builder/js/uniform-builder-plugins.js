@@ -1316,9 +1316,6 @@
                 var code = ub.current_material.settings.applications[application.id].color_array[index];
 
                 if (typeof code !== 'undefined') {
-                    console.log('Child: ');
-                    console.log(child);
-                    console.log(code);
                     child.tint = parseInt(code.hex_code, 16);
 
                 }

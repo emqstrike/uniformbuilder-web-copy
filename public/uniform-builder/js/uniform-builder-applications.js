@@ -1,4 +1,4 @@
-$(document).ready(function() {
+ $(document).ready(function() {
 
     /// Mascot Utilities
 
@@ -939,8 +939,7 @@ $(document).ready(function() {
 
     /// End MV Functions
 
-
-    /// End Create Interactive UI
+    /// Create Interactive UI
 
     ub.funcs.createInteractiveUI = function (sprite, application, type, ui_handles) {
         
@@ -1117,9 +1116,202 @@ $(document).ready(function() {
 
     }
 
+    /// End  Create Interactive UI 
+
+    /// Create Interactive UI
+
+    ub.funcs.createInteractable = function (sprite, application, type) {
+        
+        // var rotation_point = _.find(ui_handles.children, { ubName: 'rotation_point'});
+        // var move_point = _.find(ui_handles.children, { ubName: 'move_point'});
+
+        // sprite.draggable({
+        //     manager: ub.dragAndDropManager
+        // });
+
+        sprite.mouseover = function(data) {
+
+            var icon = '';
+
+            if (type === 'move') {
+                icon = 'url(' + ub.config.host + '/images/sidebar/move.png) 8 8,move';
+                move_point.tint = 0xff0000;
+            }
+
+            if (type === 'rotate') {
+                icon = 'url(' + ub.config.host + '/images/sidebar/rotate.png) 8 8,auto';
+                rotation_point.tint = 0xff0000;
+            }
+            
+            $('body').css('cursor', icon);
+
+        }
+
+        sprite.mouseout = function(data) {
+
+            if (type === 'move') {
+                move_point.tint = 0xffffff;
+            }
+
+            if (type === 'rotate') {
+                rotation_point.tint = 0xffffff;
+            }
+
+            $('body').css('cursor','auto');
+
+        } 
+
+        sprite.mouseup = sprite.touchend = function(data) {
+
+            if (!sprite.snapped && $('#chkSnap').is(":checked")) {
+
+                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+
+            }
+
+            this.data = data;
+            this.dragging = true;
+
+        };
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            this.data = data;
+
+            sprite.oldX = sprite.x;
+            sprite.oldY = sprite.y;
+
+            sprite.snapped = false;
+            this.dragging = true;
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            this.interactionData = interactionData;
+
+            if (this.dragging) {
+
+                var x = application.position.x * ub.dimensions.width;
+                var y = application.position.y * ub.dimensions.height;
+                var p_app = new PIXI.Point(x, y);
+                var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+                var distance = ub.funcs.lineDistance(p_app, p_sprite);
+                var application_obj = ub.objects[application.perspective + '_view']['objects_' + application.id];
+
+                if(typeof application_obj === 'undefined') {
+                    return;
+                }
+
+                var settings_obj = ub.current_material.settings.applications[application.id];
+
+                if (type === 'move') {
+
+                    original_x = ub.dimensions.width * application.position.x;
+                    original_y = ub.dimensions.height * application.position.y;
+
+                    var original_location = new PIXI.Point(original_x, original_y);
+                    var dist = Math.abs( ub.funcs.lineDistance(original_location, sprite.position) );
+                    var limits = 500;
+
+                    if(ub.config.isFeatureOn('ui','drag_limits')) {
+                        limits = 30;
+                    }
+
+                    if (dist >= limits) {
+                        move_point.position = sprite.position;
+                        return;
+                    }
+
+                    /// Get Sprites and Update
+                    
+                    var _sprites = ub.funcs.getSpritesOfID(application.id);
+
+                    _.each(_sprites, function (_sprite) {
+
+                    });
+
+                    application_obj.position = sprite.position;
+                    settings_obj.position = sprite.position;
+
+                    var r_x = rotation_point.x + (sprite.x - sprite.oldX);
+                    var r_y = rotation_point.y + (sprite.y - sprite.oldY);
+                    rotation_point.position = new PIXI.Point(r_x, r_y);
+
+                    sprite.oldX = sprite.x;
+                    sprite.oldY = sprite.y;
+
+                }
+
+                if (type === 'rotate') {
+
+                    var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+                    application_obj.rotation = angleRadians;
+
+                    settings_obj.rotation = application_obj.rotation;
+
+                    var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
+                    percentage = distance / 100;
+
+                    var application_type = settings_obj.type;
+
+                    if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.
+
+                        config.isFeatureOn('ui','scale_text')) {
+                        application_obj.scale.set(percentage, percentage);
+                        settings_obj.scale = application_obj.scale;
+
+                    }
+
+                }
+
+                if ($('#chkSnap').is(":checked")) {
+
+                    var minimum_distance_to_snap = 50;
+
+                    if (distance < minimum_distance_to_snap) {
+
+                        sprite.position = new PIXI.Point(x,y);
+
+                        sprite.oldX = x;
+                        sprite.oldY = y;
+
+                        sprite.snapped = true;
+                        this.dragging = false;
+
+                        return false; // Exit loop if the logo snapped to an application point
+
+                    } else {
+
+                        sprite.snapped = false;
+
+                    }
+
+                }
+
+            }
+            
+        };
+
+    }
+
     /// End Create Create Interactive UI
 
     /// Create Clickable Applications
+
+    ub.data.applicationAccumulator = 0;
+
+    ub.funcs.setPointer = function () {
+
+        if (ub.data.applicationAccumulator > 0) {
+             icon = 'pointer';
+             $('body').css('cursor', icon);
+        } else {
+             icon = 'auto';
+             $('body').css('cursor', icon);
+        }
+
+    };
 
     ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
@@ -1144,23 +1336,10 @@ $(document).ready(function() {
             
             if (sprite.ubHover) {
 
-                if(!$('a.sidebar-buttons.applications').hasClass('active_button')) {
+                var _id = sprite.name.replace('objects_','');
+                ub.funcs.activateApplications(_id);
 
-                    $('a.sidebar-buttons[data-filename="applications"]').click();
-
-                }
-
-                $element = $('select.application_type_dropdown[data-id=' + application.id + ']');
-
-                var difference = $('div#right-main-window').offset().top - $element.offset().top;
-
-                if ( Math.abs(difference) > 100 || ub.states.active_application !== sprite) {
-
-                    ub.states.active_application = sprite;
-
-                }
-
-            }
+            } 
 
         });
 
@@ -1201,15 +1380,25 @@ $(document).ready(function() {
 
             if (typeof sprite_obj.containsPoint === "function") {
 
+                var _sizeOfApplications = _.size(ub.current_material.settings.applications);
+
                 if (sprite_obj.containsPoint(point)) {
 
-                    //start
-                    sprite.ubHover = true;
-                    
+                    if(ub.zoom) { return; }
+
+                    // start
+                    sprite.ubHover  = true;
+                    sprite.scale.set(1.05,1.05);
+                    ub.data.applicationAccumulator = _sizeOfApplications;
+                    ub.funcs.setPointer();
+                   
                 } else {
 
                     // restore
-                    sprite.ubHover = false;
+                    sprite.ubHover  = false;
+                    sprite.scale.set(1.0,1.0);
+                    ub.data.applicationAccumulator -= 1;
+                    ub.funcs.setPointer();
                     
                 }
                 
@@ -1392,7 +1581,7 @@ $(document).ready(function() {
                 ub[view_name].addChild(mask);
                 sprite_collection.push(point);
 
-                //ub.funcs.createClickable(point, view.application, view, 'application');
+                ub.funcs.createClickable(point, view.application, view, 'application');
 
                 ub.updateLayersOrder(ub[view_name]);
 
@@ -2423,6 +2612,12 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.deActivatePatterns = function () {
+
+        ub.funcs.clearPatternUI();
+
+    }
+
     ub.funcs.updateColorLabel = function (label) {
 
         $('div.patternColorNavigator > div.label').html(label);
@@ -3171,5 +3366,89 @@ $(document).ready(function() {
         return _patternObject;
 
     }
+
+    /// Interactive Applications 
+
+    ub.funcs.deActivateApplications = function () {
+
+        $('div#applicationUI').remove();
+
+    }
+
+    ub.funcs.activateApplications = function (application_id) {
+
+        var _id             = application_id.toString();
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+
+        console.log('ID: ' + _id);
+        console.log(_settingsObject);
+
+        ////
+
+        var _applicationType  = _settingsObject.application_type;
+        var _title            = _applicationType.toTitleCase(); 
+
+        var _fontObj          = _settingsObject.font_obj;
+        var _fontName         = _fontObj.name
+
+        var _accentObj        = _settingsObject.accent_obj;
+        var _accentName       = _accentObj.name;
+
+        var _colorArray       = _settingsObject.color_array;
+        var _colorArrayString = '';
+
+        _.each(_colorArray, function (_color) {
+
+            _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, "; 
+
+        });
+
+        var n =_colorArrayString.lastIndexOf(",");
+        var _colorArrayString = _colorArrayString.substring(0,n)
+
+
+        ////
+
+        var _htmlBuilder = "";
+
+        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        +=      '<div class="header">' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="body">';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Font:</label>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Accent:</label>';                       
+        _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Colors:</label>';                       
+        _htmlBuilder        +=              '<span>' + _colorArrayString + '</span>';                       
+
+        _htmlBuilder        +=          '</div>';
+
+
+        _htmlBuilder        +=      '</div>';
+        _htmlBuilder        += "</div>";
+
+        $('.modifier_main_container').append(_htmlBuilder);
+        $('div#applicationUI').fadeIn();
+
+    }
+
+    /// End Interactive Applications
 
 });
