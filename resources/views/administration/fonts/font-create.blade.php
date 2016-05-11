@@ -68,6 +68,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <table class="table table-bordered">
+                                    <tr colspan="12"><center><h3>Font Size Table</h3></center></tr>
+                                    <tr class="input-size-header">
+                                    </tr>
+                                    <tr class="output-size-row">
+                                    </tr>
+                                    <tr colspan="12"><center><h4><i>Upload Font first to see preview</i></h4></center></tr>
+                                </table>
+                                <input type="hidden" name="font_size_table" id="font_size_table">
+                            </div>
+                        </div>
                         <hr>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Layers
