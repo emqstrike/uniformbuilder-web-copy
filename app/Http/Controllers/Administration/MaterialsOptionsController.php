@@ -384,7 +384,7 @@ class MaterialsOptionsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+dd($data);
         $data['front'] = json_encode($data['input']);
         $data['input'] = "items";
 
