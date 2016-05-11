@@ -89,6 +89,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group" style="border: 1px solid black; padding: 10px;">
+                            <center>
+                            <div style="max-width: 800px; max-height: 800px;">
+                                <p id="p-text" style="font-family: {{ $font->name }}">Test</p>
+                                Text: <input type="text" id="text-source">
+                                Size: <input type="number" id="size-source" size="4">
+                                <a href="#" class="btn btn-success preview-button">Preview</a>
+                            </div>
+                            </center>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-10 col-md-offset-1">
                                 <table class="table table-bordered">
@@ -97,8 +108,8 @@
                                     </tr>
                                     <tr class="output-size-row">
                                     </tr>
-                                    <tr class="output-preview-row">
-                                    </tr>
+                                    <!-- <tr class="output-preview-row">
+                                    </tr> -->
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>

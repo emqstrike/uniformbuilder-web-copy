@@ -2,6 +2,13 @@ $(document).ready(function(){
 
     var fontSizes = [];
 
+    $('.preview-button').on('click', function(){
+        text = $('#text-source').val();
+        size = $('#size-source').val();
+        $('#p-text').text(text);
+        $('#p-text').css('font-size',size+'px');
+    });
+
     for( x = 1; x <= 12; x++ ){
         elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 70px;"></td>';
         $('.input-size-header').append('<th>' + x + '</th>');
