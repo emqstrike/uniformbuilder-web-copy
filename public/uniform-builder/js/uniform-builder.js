@@ -748,9 +748,6 @@ $(document).ready(function () {
 
         _.each (_one_dimensional, function (_application) {
 
-            console.log('Application: ');
-            console.log(_application);
-
             _.each(_application.views, function (view) {
 
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
@@ -804,7 +801,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') {
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { 
 
                 return; 
 
@@ -3391,8 +3388,6 @@ $(document).ready(function () {
                     }
 
                 }
-
-                ub.funcs.identify(input_object.applicationObj.id);
 
             };
 
