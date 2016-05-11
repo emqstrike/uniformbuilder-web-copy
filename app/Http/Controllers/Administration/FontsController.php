@@ -123,22 +123,25 @@ class FontsController extends Controller
         try
         {
             $fontLayerFiles = $request->file('fo_file');
-            $ctr = 1;
-            foreach ($fontLayerFiles as $fontLayerFile) {
-                if (!is_null($fontLayerFile))
-                {
-                    if ($fontLayerFile->isValid())
+            if (!is_null($fontLayerFiles))
+            {
+                $ctr = 1;
+                foreach ($fontLayerFiles as $fontLayerFile) {
+                    if (!is_null($fontLayerFile))
                     {
-                        $fontPropName = $fontName."_".$myJson[(string)$ctr]['name'];
-                        $myJson[(string)$ctr]['font_path'] = FileUploader::upload(
-                                                                            $fontLayerFile,
-                                                                            $fontPropName,
-                                                                            'font',
-                                                                            'fonts'
-                                                                        );
+                        if ($fontLayerFile->isValid())
+                        {
+                            $fontPropName = $fontName."_".$myJson[(string)$ctr]['name'];
+                            $myJson[(string)$ctr]['font_path'] = FileUploader::upload(
+                                                                                $fontLayerFile,
+                                                                                $fontPropName,
+                                                                                'font',
+                                                                                'fonts'
+                                                                            );
+                        }
                     }
+                    $ctr++;
                 }
-                $ctr++;
             }
         }
 

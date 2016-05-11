@@ -6,6 +6,13 @@ $(document).ready(function(){
         elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 70px;"></td>';
         $('.input-size-header').append('<th>' + x + '</th>');
         $('.output-size-row').append(elem);
+        try{
+            font = $('#font_family').val();
+            preview = '<td class="prev-row td-' + x + '" style="font-family: ' + font + '; vertical-align: middle;">Aa</td>';
+            $('.output-preview-row').append(preview);
+        }catch(err){
+            console.log(err.message);
+        }
         if( x == 12 ){ outSizeEvent(); }
     }
 
@@ -30,6 +37,7 @@ $(document).ready(function(){
     function outSizeEvent(){
         $(".output-size").each(function(i) {
             $(this).change(function() {
+
                 console.log('change');
                 updateFontSizes();
                 console.log(JSON.stringify(fontSizes));
@@ -44,10 +52,28 @@ $(document).ready(function(){
             row = {};
             row['inputSize'] = ctr.toString();
             row['outputSize'] = $(this).val();
+
+            tdclass = $(this).attr('class').split(' ');
+            console.log(tdclass[1]);
+            // var class = tdclass[1];
+            $(".prev-row").each(function(i) {
+                console.log('prev row~');
+                if( $(this).hasClass(tdclass[1]) ){
+                    console.log('Match');
+                    $(this).css('font-size', row['outputSize']+'px');
+                }
+            });
+
             fontSizes.push(row);
             ctr++;
         });
         $('#font_size_table').val("'" + JSON.stringify(fontSizes) + "'");
+    }
+
+    try{
+        updateFontSizes();
+    } catch(err){
+        console.log(err.message);
     }
 
     $('.enable-font').on('click', function(){

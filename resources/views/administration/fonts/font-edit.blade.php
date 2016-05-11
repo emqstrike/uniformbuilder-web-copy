@@ -30,6 +30,7 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/font/update" enctype="multipart/form-data" id='edit-font-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
+                        <input type="hidden" id="font_family" value="{{ $font->name }}">
                         <input type="hidden" id="existing-fonts-properties" value="{{ $font->font_properties }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
@@ -96,11 +97,12 @@
                                     </tr>
                                     <tr class="output-size-row">
                                     </tr>
-                                    <tr colspan="12"><center><h4><i>Upload Font first to see preview</i></h4></center></tr>
+                                    <tr class="output-preview-row">
+                                    </tr>
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
-                        </div>
+                        </div>                        
 
                         <div class="form-group">
                             <label class="col-md-2 control-label">Layers
@@ -122,6 +124,39 @@
                                     </thead>
                                     <tbody id="layers-row-container">
                                         <!-- </tr> -->
+                                        <tr id="static_row">
+                                            <td>
+                                                <select class="fo-layer layer1"  name="fo_layer[]" disabled>
+                                                    <option value = '1' class="layer-number">1</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="name" class="form-control fo-name layer1" name="fo_name[]" value="">
+                                            </td>
+                                            <td>
+                                                <input type="file" class="fo-file layer1" name="fo_file[]">
+                                            </td>
+                                            <td>
+                                                <select class="form-control fo-type layer1" name='fo_type[]'>
+                                                    <option value='default'>Default</option>
+                                                    <option value='base'>Base (IN) --- a child of a "default"-type font</option>
+                                                    <option value='outline'>Outline (OUT) --- a child of a "default"-type font</option>
+                                                    <option value='accent'>Accent (3D) --- a child of a "default"-type font</option>
+                                                    <option value='tail sweeps'>Tail Sweep --- a child of a "default"-type font</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control fo-parent layer1" name='fo_parent[]'>
+                                                    <option value='0'>---</option>
+                                                @foreach ($fonts as $font)
+                                                    <option value='{{ $font->id }}' style="font-family: '{{ $font->name }}'; font-size: 30px;">{{ $font->name }}</option>
+                                                @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -153,6 +188,7 @@
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+    $( "#static_row" ).hide();
 
     $(document).on('change', 'input, select', function() {
         var newLength = $('.layers-row').length;
@@ -178,7 +214,26 @@ $(document).ready(function(){
 
     $(document).on('click', '.clone-row', function() {
         console.log('clone');
-        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+        if( $( ".layers-row" ).length ){
+            console.log('IF');
+            try{
+            $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+            } catch(err){
+                console.log(err.message);
+            }
+        } else {
+            console.log('ELSE');
+            try{
+                $( "#static_row" ).show();
+                // var elemx = $( "#static_row" );
+                var elemX = $( "#static_row" ).clone()
+                elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
+                $( "#static_row" ).remove();
+            } catch(err){
+                console.log(err.message);
+            }
+        }
+
 
         var length = $('.layers-row').length;
         $(".layers-row").each(function(i) {
