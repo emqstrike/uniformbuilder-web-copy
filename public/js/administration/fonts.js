@@ -42,7 +42,7 @@ $(document).ready(function(){
         ctr = 1;
         $(".output-size").each(function(i) {
             row = {};
-            row['inputSize'] = ctr;
+            row['inputSize'] = ctr.toString();
             row['outputSize'] = $(this).val();
             fontSizes.push(row);
             ctr++;
