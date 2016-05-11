@@ -14,8 +14,15 @@ $(document).ready(function() {
         start: function( ) { },
         stop: function( ) {
             sortLayers();
+            listLayers();
         }
     });
+
+    function listLayers(){
+        $(".layer").each(function(i) {
+            console.log($(this).val());
+        });
+    }
 
     countPerspectiveLayers();
 
@@ -143,7 +150,7 @@ $(document).ready(function() {
 		} else if( name == "shadows" ){
 			thisObj.val('98');
 		} else {
-			thisObj.val( length );
+			thisObj.val( parseInt(length) );
 		}
     }
 
