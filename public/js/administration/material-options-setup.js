@@ -87,21 +87,21 @@ $(document).ready(function() {
         return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
     };
 
-    buildQuestions();
+    // buildQuestions();
 
-    function bindQuestions(questions_dropdown){
-        $(".questions-select").each(function(i) {
-            $(this).append(questions_dropdown);
-        });
-    }
+    // function bindQuestions(questions_dropdown){
+    //     $(".questions-select").each(function(i) {
+    //         $(this).append(questions_dropdown);
+    //     });
+    // }
 
-    function buildQuestions(){
-        var questions_dropdown = '';
-        $.each(window.questions, function(i, item) {
-            questions_dropdown += '<option value="' + item.QuestionID + '">' + item.Question + '<option>';
-        });console.log(questions_dropdown);
-        bindQuestions(questions_dropdown);
-    }
+    // function buildQuestions(){
+    //     var questions_dropdown = '';
+    //     $.each(window.questions, function(i, item) {
+    //         questions_dropdown += '<option value="' + item.QuestionID + '">' + item.Question + '<option>';
+    //     });console.log(questions_dropdown);
+    //     bindQuestions(questions_dropdown);
+    // }
 
     function formatNames(){
     	$(".name").each(function(i) {
