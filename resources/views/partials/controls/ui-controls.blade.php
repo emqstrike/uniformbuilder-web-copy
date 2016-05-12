@@ -535,3 +535,51 @@
 
 
 <!-- End Pattern Picker -->
+
+<!-- Pattern Picker -->
+    
+    <script type="text/mustache" id="m-font-popup">
+
+        <div id="primaryFontPopup" data-status="hidden">
+
+            <div class="header">
+
+                Font ( <strong>@{{applicationType}}</strong> )
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="fontPopupResults">
+
+                    @{{#fonts}}
+
+                        <div class="item grow" style="font-family: @{{name}}" data-font-id="@{{id}}">
+                            <span class='inside-label'>@{{name}}</span>
+                            <div class="name" style="padding-top:@{{paddingTop}} ;font-size: @{{sampleSize}}">@{{sampleText}}</div>
+                        </div>
+
+                    @{{/fonts}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Pattern Picker -->

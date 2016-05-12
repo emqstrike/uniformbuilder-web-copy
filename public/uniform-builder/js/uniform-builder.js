@@ -740,6 +740,22 @@ $(document).ready(function () {
 
     };
 
+    ub.data.getPixelFontSize = function (fontID, fontSize) {
+
+        var _fontObj = _.find(ub.data.fonts, {id: fontID});
+        var _fontSizeTable  = _fontObj.font_size_table;
+
+        if(_fontSizeTable === null) {
+            _returnFontSize = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+        } else {
+            _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
+            _returnFontSize = _.find(_fontSizeTable, { inputSize: fontSize.toString()}).outputSize;
+        }
+ 
+        return _returnFontSize;
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -779,7 +795,8 @@ $(document).ready(function () {
                     code: _application.id,
                     color_array: _outputColorArray,
                     font_obj: _fontObj,
-                    font_size: parseInt(_fontSizesArray[0]), 
+                    font_size: parseInt(_fontSizesArray[0]),
+                    pixelFontSize: ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]),
                     object_type: "text object",
                     text: view.application.defaultText,
                     type: _application.type,

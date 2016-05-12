@@ -162,6 +162,59 @@ $(document).ready(function() {
 
     };
 
+    ub.data.defaultFontSizes = [
+
+        {
+            size: 1,
+            outputSize: 60,
+        },
+        {
+            size: 2,
+            outputSize: 80,
+        },
+        {
+            size: 3,
+            outputSize: 100,
+        },
+        {
+            size: 4,
+            outputSize: 120,
+        },
+        {
+            size: 5,
+            outputSize: 140,
+        },
+        {
+            size: 6,
+            outputSize: 140,
+        },
+        {
+            size: 7,
+            outputSize: 160,
+        },
+        {
+            size: 8,
+            outputSize: 320,
+        },
+        {
+            size: 9,
+            outputSize: 340,
+        },
+        {
+            size: 10,
+            outputSize: 360,
+        },
+        {
+            size: 11,
+            outputSize: 380,
+        },
+        {
+            size: 12,
+            outputSize: 400,
+        },
+
+    ]
+
     ub.data.mascotSizes = {
         
         items: [

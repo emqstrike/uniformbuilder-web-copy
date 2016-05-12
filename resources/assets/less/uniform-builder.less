@@ -2943,10 +2943,17 @@ div.header-container.main {
                 padding: 30px;
                 font-size: 1.3em;
                 text-align: center;
+                padding-top: 10px;
 
                 .ui-row {
 
-                    margin-bottom: 30px;
+                    margin-bottom: 20px;
+
+                    label {
+
+                        padding-left: 0px !important;
+
+                    }
 
                 }
 
@@ -2958,13 +2965,42 @@ div.header-container.main {
 
                 }
 
+                span.accent:hover {
+
+                    color: white !important;   
+                    
+                }
+
                 span.font_name {
 
                     cursor: pointer;
-                    border-bottom: 1px dashed;
                     padding-bottom: 3px;
                     font-weight: bold;
+                    display: block;
+                    width: 100%;
+                    background-color: white;
 
+                }
+
+                span.font_name:hover {
+
+                    color: @forecolor;
+
+                }
+
+                span.accentThumb {
+
+                    cursor: pointer;
+
+                    img {
+                        cursor: pointer;
+                        width: 100px;
+                        border: 1px solid;
+                    }
+
+                    img:hover {
+                        border: 1px solid white;   
+                    }
                 }
 
                 span.pattern {
@@ -2986,12 +3022,120 @@ div.header-container.main {
 
                 }
 
+                span.color-string:hover {
+
+                    color: white !important;   
+
+                }
+
 
             }
 
         }
 
     /* End applicationUI */
+
+         div#primaryFontPopup {
+
+            padding: 10px;
+
+            display: none;
+            position: absolute;
+
+            width: 930px;
+            height: 550px;
+            top: 300px;
+            left: 300px;
+            z-index: 1000;
+            background-color: @customizer_bg;
+
+            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            div.footer {
+
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 40px;
+                color: white;
+                background-color: #808080;
+                left: 0;
+                padding: 10px;
+
+            }
+
+            div.header {
+                    
+                text-align: center;
+                font-size: 1.3em;
+                padding: 30px;
+
+            }
+
+            div.main-content {
+
+                width: 100%;
+                height: 450px;
+                overflow-y: scroll;
+                padding: 20px;
+                padding-top: 0px;
+                padding-bottom: 50px;
+
+                border-top: solid 1px @customizer_forecolor;
+
+                div.fontPopupResults {
+
+                    div.item {
+
+                        float: left;
+                        width: 260px;
+                        height: 150px;
+                        background-color: white;
+                        margin: 10px;
+                        background-size: cover;
+                        overflow: hidden; 
+                        cursor: pointer;
+                        -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        padding: 10px;
+
+                        span.inside-label {
+
+                            width: 100%;
+                            text-align: center;
+                            font-size: 1.2em;
+                            color: @text_color;
+
+                        }
+
+                        div.name {
+                            
+                            width: 100%;
+                            height: 150px;
+                            margin-top: 150px;
+                            opacity: 0.7;
+                            color: white;
+                            background-color: black;
+                            transition: all 0.1s ease-in-out;
+                            text-align: center;
+                            padding-top: 40px;
+                            font-weight: bold;
+                            font-size: 1.9em;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
 
 /* End New UI */
 

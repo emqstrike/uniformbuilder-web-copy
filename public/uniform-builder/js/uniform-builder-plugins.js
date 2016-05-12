@@ -1204,6 +1204,12 @@
                 font_size = input_object.fontSize;
             }
 
+            ///
+
+            font_size = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize)
+
+            ///
+
             var style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
             if (layer.outline === 1) {

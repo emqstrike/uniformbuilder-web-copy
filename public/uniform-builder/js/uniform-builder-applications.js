@@ -1337,6 +1337,8 @@
             if (sprite.ubHover) {
 
                 var _id = sprite.name.replace('objects_','');
+
+                sprite.ubHover = false;
                 ub.funcs.activateApplications(_id);
 
             } 
@@ -3375,6 +3377,154 @@
 
     }
 
+     ub.funcs.centerFontPopup = function () {
+
+        $popup = $('div#primaryFontPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) {
+
+            return;
+
+        } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }) 
+
+    }
+
+    ub.funcs.removeApplicationByID = function (id) {
+
+        _.each(ub.data.views, function (view) {
+
+            var _viewName = view + '_view';
+
+            var _object = ub.objects[_viewName]['objects_' + id];
+
+            if (typeof _object === "object") {
+                _object.ubHover = false;
+                _object.destroy();
+                ub.front_view.removeChild(_object);
+            }
+
+        });
+
+    }
+
+    ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
+
+        var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.font_obj = _fontObj;
+
+         WebFont.load({
+                
+            custom: {
+              families: [settingsObj.font_obj.name],
+            },
+            active: function() {
+                ub.create_application(settingsObj);
+            },
+
+        });
+
+        $popup = $('div#primaryFontPopup');
+        $popup.remove();
+
+    }
+
+    ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        if (applicationType === 'Player Number') {
+
+            sampleSize = '3.3em';
+            paddingTop = '30px';
+
+        }
+
+        var data = {
+            label: 'Choose Font: ',
+            fonts: _.sortBy(ub.data.fonts, 'sortID'),
+            sampleText: sampleText,
+            applicationType: applicationType,
+            sampleSize: sampleSize,
+            paddingTop: paddingTop,
+        };
+
+        var template = $('#m-font-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryFontPopup');
+        $popup.fadeIn();
+
+          $('div.fontPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.fontPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('font-id');
+
+            ub.funcs.changeFontFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateApplications(settingsObj.code)
+
+        });
+
+        ub.funcs.centerFontPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3386,17 +3536,17 @@
 
         console.log('ID: ' + _id);
         console.log(_settingsObject);
-
-        ////
-
+        
         var _applicationType  = _settingsObject.application_type;
-        var _title            = _applicationType.toTitleCase(); 
+        var _title            = _applicationType.toTitleCase();
+        var _sampleText       = _settingsObject.text; 
 
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name
 
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
+        var _accentFilename   = _accentObj.thumbnail;
 
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
@@ -3409,7 +3559,6 @@
 
         var n =_colorArrayString.lastIndexOf(",");
         var _colorArrayString = _colorArrayString.substring(0,n)
-
 
         ////
 
@@ -3429,6 +3578,7 @@
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<label>Accent:</label><br />';                       
+        _htmlBuilder        +=              '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
         _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
@@ -3440,18 +3590,21 @@
 
         _htmlBuilder        +=          '</div>';
 
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label>Pattern:</label><br />';                       
-        _htmlBuilder        +=              '<span class="pattern">None</span>';                       
-
-        _htmlBuilder        +=          '</div>';
-
-
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
+
+        //// Events  
+
+            $('span.font_name').on('click', function () {
+
+                ub.funcs.createFontPopup(_title, _sampleText, _settingsObject);
+
+            })
+
+        //// End Events 
+
         $('div#applicationUI').fadeIn();
 
     }
