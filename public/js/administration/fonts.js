@@ -10,9 +10,13 @@ $(document).ready(function(){
     });
 
     for( x = 1; x <= 12; x++ ){
-        elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 70px;"></td>';
+        elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 90px;">';
+        
+        x_offset = '<br><br>x: <input type="number" class="output-x-offset td-' + x + '" style="width: 45px;">';
+        y_offset = ' y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;"></td>';
+
         $('.input-size-header').append('<th>' + x + '</th>');
-        $('.output-size-row').append(elem);
+        $('.output-size-row').append(elem + x_offset + y_offset);
         // try{
         //     font = $('#font_family').val();
         //     preview = '<td class="prev-row td-' + x + '" style="font-family: ' + font + '; vertical-align: middle;">Aa</td>';
@@ -39,10 +43,38 @@ $(document).ready(function(){
             $(this).val(old_fst[ctr].outputSize);
             ctr++;
         });
+        ctr = 0;
+        $(".output-x-offset").each(function(i) {
+            $(this).val(old_fst[ctr].xOffset);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-offset").each(function(i) {
+            $(this).val(old_fst[ctr].yOffset);
+            ctr++;
+        });
     }
 
     function outSizeEvent(){
         $(".output-size").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-x-offset").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-y-offset").each(function(i) {
             $(this).change(function() {
 
                 console.log('change');
@@ -72,6 +104,18 @@ $(document).ready(function(){
             // });
 
             fontSizes.push(row);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-x-offset").each(function(i) {
+            fontSizes[ctr]['xOffset'] = {};
+            fontSizes[ctr]['xOffset'] = $(this).val();
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-offset").each(function(i) {
+            fontSizes[ctr]['yOffset'] = {};
+            fontSizes[ctr]['yOffset'] = $(this).val();
             ctr++;
         });
         $('#font_size_table').val("'" + JSON.stringify(fontSizes) + "'");

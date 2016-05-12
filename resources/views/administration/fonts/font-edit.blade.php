@@ -101,7 +101,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="col-md-12">
                                 <table class="table table-bordered">
                                     <tr colspan="12"><center><h3>Font Size Table</h3></center></tr>
                                     <tr class="input-size-header">
