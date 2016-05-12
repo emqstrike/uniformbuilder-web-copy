@@ -3421,22 +3421,29 @@
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Font:</label>';                       
+        _htmlBuilder        +=              '<label>Font:</label><br />';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Accent:</label>';                       
+        _htmlBuilder        +=              '<label>Accent:</label><br />';                       
         _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Colors:</label>';                       
+        _htmlBuilder        +=              '<label>Colors:</label><br />';                       
         _htmlBuilder        +=              '<span>' + _colorArrayString + '</span>';                       
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Pattern:</label><br />';                       
+        _htmlBuilder        +=              '<span class="pattern">None</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
