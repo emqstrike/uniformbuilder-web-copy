@@ -17,8 +17,8 @@ $(document).ready(function(){
         y_offset = ' y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;">';
 
         scale_label = '<br><br><label class="col-md-5 control-label">Scale</label><br>';
-        x_scale = '<br>x: <input type="number" class="output-x-scale td-' + x + '" style="width: 45px;">';
-        y_scale = ' y: <input type="number" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
+        x_scale = '<br>x: <input type="text" class="output-x-scale td-' + x + '" style="width: 45px;">';
+        y_scale = ' y: <input type="text" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
 
         $('.input-size-header').append('<th>' + x + '</th>');
         $('.output-size-row').append(elem +
