@@ -745,17 +745,45 @@ $(document).ready(function () {
         var _fontObj = _.find(ub.data.fonts, {id: fontID});
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
+        var _fontProperties;
+
+        var _xOffset = 0;
+        var _yOffset = 0;
+
+        var _xScale = 0;
+        var _yScale = 0;
+
 
         if(_fontSizeTable === null) {
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
         } else {
+            
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-            _returnFontSize     = _.find(_fontSizeTable, { inputSize: fontSize.toString()}).outputSize;
+            _fontProperties = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+
+            console.log('Font Properties: ');
+            console.log(_fontProperties);
+
+            _returnFontSize     = _fontProperties.outputSize;
+            _xOffset             = _fontProperties.xOffset;
+            _yOffset             = _fontProperties.yOffset;
+            _xScale              = _fontProperties.xScale;
+            _yScale              = _fontProperties.yScale;
+
         }
  
         _fontSizeData =  {
+
             pixelFontSize: _returnFontSize,
+            xOffset: _xOffset,
+            yOffset: _yOffset,
+            xScale: _xScale,
+            yScale: _yScale,
+
         };
+
+        console.log('Return Object: ');
+        console.log(_fontSizeData);
 
         return _fontSizeData;
 
@@ -776,7 +804,6 @@ $(document).ready(function () {
                 var _outputColorArray   = []; 
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',')
-
 
                 _.each(_accentObj.layers, function (layer, index) {
 
@@ -834,8 +861,8 @@ $(document).ready(function () {
             if (typeof e.code !== 'undefined') {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
-
                 var _team_color_id =  parseInt(_materialOption.team_color_id);
+                
                 e.team_color_id = _team_color_id;
 
                 var _allowPattern =  parseInt(_materialOption.allow_pattern);

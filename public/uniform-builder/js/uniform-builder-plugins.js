@@ -1207,6 +1207,8 @@
             ///
 
             var _fontSizeData = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize);
+            container.ubFontSizeData = _fontSizeData;
+
             font_size = _fontSizeData.pixelFontSize;
 
             ///
@@ -1240,7 +1242,7 @@
 
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
-                style.stroke = '#ffffff';0
+                style.stroke = '#ffffff';
                 style.strokeThickness = 12;
 
             }
@@ -1332,7 +1334,8 @@
         });
  
         /// End Set First Three Colors 
- 
+
+
         return container;
         
     }

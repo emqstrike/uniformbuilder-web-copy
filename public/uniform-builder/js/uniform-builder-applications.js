@@ -1313,6 +1313,12 @@
 
     };
 
+    ub.funcs.getBaseSprite = function (sprite) {
+
+        var baseSprite = _.find(sprite.children, {ubName: "Base Color"});
+        return baseSprite;
+
+    }
     ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
         // Check for Feature Flag
@@ -1320,6 +1326,9 @@
         {
             return;
         }
+
+        var baseSprite = ub.funcs.getBaseSprite(sprite);
+        baseSprite.oldTint = baseSprite.tint;
 
         sprite.spriteType = spriteType;
 
@@ -1390,7 +1399,7 @@
 
                     // start
                     sprite.ubHover  = true;
-                    sprite.scale.set(1.05,1.05);
+                    baseSprite.tint = parseInt("3d3d3d",16);
                     ub.data.applicationAccumulator = _sizeOfApplications;
                     ub.funcs.setPointer();
                    
@@ -1398,7 +1407,7 @@
 
                     // restore
                     sprite.ubHover  = false;
-                    sprite.scale.set(1.0,1.0);
+                    baseSprite.tint = baseSprite.oldTint;
                     ub.data.applicationAccumulator -= 1;
                     ub.funcs.setPointer();
                     
@@ -1528,6 +1537,8 @@
                 var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
 
+
+
                 if(_.indexOf(adjustablePositions, app_id) !== -1) {
 
                     //var line = new PIXI.Graphics();
@@ -1583,8 +1594,32 @@
                 ub[view_name].addChild(mask);
                 sprite_collection.push(point);
 
-                ub.funcs.createClickable(point, view.application, view, 'application');
+                if (typeof point.ubFontSizeData === "object") {
 
+                    var _fontSizeData = point.ubFontSizeData;
+
+                    // Scale
+
+                    var _xScale = 1;
+                    var _yScale = 1; 
+
+                    if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
+                    if (_fontSizeData.yScale !== "0"  && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
+                    point.scale.set(_xScale, _yScale);
+
+                    // Offset
+
+                    var _xOffset = 0;
+                    var _yOffset = 0;
+
+                    if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
+                    if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
+                    point.position.x += _xOffset;
+                    point.position.y += _yOffset;
+
+                }
+
+                ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
             });
@@ -3565,7 +3600,7 @@
         var _htmlBuilder = "";
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="header">' + _title + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -3603,11 +3638,109 @@
 
             })
 
+            $('span.cog').on('click', function () {
+
+                var _size           = _settingsObject.font_size;
+                var _pixelFontSize  = _settingsObject.pixelFontSize;
+                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
+
+                console.log("Font Size Data: ");
+                console.log(_fontSizeData);
+
+                var _cogBuilder = '';
+
+                $('#cogPopupContainer').remove();
+
+                _cogBuilder += '<div id="cogPopupContainer">';
+                _cogBuilder +=       '<div id="cogPopup">';
+
+                _cogBuilder +=           '<div class="popupHeader">GA Font Tool</div>';
+                
+                _cogBuilder +=           '<div class="popup-row-top">';
+                _cogBuilder +=               '<label>Inch: </label>';
+                _cogBuilder +=               '<span class="popupValue"> ' + _size + '</span>' + '"';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="offsetX" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset X: </span><input class="offsetX" name="offsetX" value="' + _fontSizeData.xOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset Y: </span><input class="offsetY" name="offsetY" value="' + _fontSizeData.yOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale X: </span><input class="scaleX" name="scaleX" value="' + _fontSizeData.xScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale Y: </span><input class="scaleY" name="scaleY" value="' + _fontSizeData.yScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
+
+                _cogBuilder +=           '<div class="button-row">';
+                _cogBuilder +=              '<span class="resetButton">';
+                _cogBuilder +=                  'Reset';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="cancelButton">';
+                _cogBuilder +=                  'Cancel';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="applyButton">';
+                _cogBuilder +=                  'Apply';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=       '</div>';
+                _cogBuilder += '</div">';
+
+                $('body').append(_cogBuilder);
+
+                $('span.cancelButton').on('click', function () {
+
+                    $('#cogPopupContainer').remove();
+
+                });
+
+                $('#cogPopupContainer').fadeIn();
+
+                ub.funcs.positionGaFontTool();
+
+            });
+
         //// End Events 
 
         $('div#applicationUI').fadeIn();
 
     }
+
+    ub.funcs.positionGaFontTool = function () {
+
+        // window.innerWidth
+        // $('#cogPopupContainer').width()
+
+        var _windowWidth = window.innerWidth;
+        var _popupContainer = $('#cogPopupContainer').width();
+
+        var _left = _windowWidth - ( _popupContainer + 110 );
+        $('#cogPopupContainer').css('left',_left + 'px');
+
+
+    };
 
     /// End Interactive Applications
 

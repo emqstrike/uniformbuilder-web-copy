@@ -2936,6 +2936,13 @@ div.header-container.main {
                 color: @text_color;
                 text-transform: uppercase;
 
+                span.cog {
+
+                    float: right;
+                    cursor: pointer;
+
+                }
+
             }
 
             div.body {
@@ -3132,6 +3139,134 @@ div.header-container.main {
                 }
 
             }
+
+        }
+
+        div#cogPopupContainer {
+
+            padding: 30px;
+            position: absolute;
+
+            width: 500px;
+            height: 400px;
+
+            top: 200px;
+            left: 300px;
+            z-index: 1000;
+            background-color: @customizer_bg;
+
+            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            div#cogPopup {
+
+                div.popupHeader {
+
+                    display: block;
+                    width: 100%;
+                    height: 20px;
+                    border-bottom: dashed 1px;
+                    margin-bottom: 10px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+
+                }
+
+            }
+
+            div.notes {
+
+                font-size: 0.8em;
+
+            }
+
+            div.popup-row-top {
+
+                font-size: 1.3em;
+
+            }
+
+            div.popup-row {
+
+                display: block;
+                height: 70px;
+               
+                div.inputContainer {
+
+                    padding-top: 10px;
+                    
+                    div.inputX {
+                        float: left;
+                    }
+
+                    div.inputY {
+                        float: left;
+                    }
+
+                }
+
+                div.row-header {
+
+                    display: block;
+                    width: 100%;
+                    overflow: auto;
+                    zoom: 1;
+                    margin: 10px;
+
+                }
+
+            }
+
+            div.button-row {
+
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 30px;
+                margin-bottom: 10px;
+                padding-right: 50px;
+
+                span {
+
+                    display: block;
+                    width: 18%;
+                    height: 30px;
+                    cursor: pointer;
+                    background-color: @text_color;
+                    color: white;
+                    text-align: center;
+                    font-weight: bold;
+                    padding: 5px;
+
+                }
+
+                span:hover {
+
+                    background-color: @customizer_forecolor;
+                    
+                }
+
+                span.resetButton {
+                    float: left;
+                }
+
+                span.cancelButton {
+                    float: right;
+                }
+
+                span.applyButton {
+                    float: right;
+                    margin-right: 10px;
+                }
+
+            }
+
+        }
+
+        .inputLabel {
+
+            display: block;
 
         }
 
