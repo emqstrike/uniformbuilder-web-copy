@@ -744,15 +744,20 @@ $(document).ready(function () {
 
         var _fontObj = _.find(ub.data.fonts, {id: fontID});
         var _fontSizeTable  = _fontObj.font_size_table;
+        var _fontSizeData;
 
         if(_fontSizeTable === null) {
-            _returnFontSize = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
         } else {
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-            _returnFontSize = _.find(_fontSizeTable, { inputSize: fontSize.toString()}).outputSize;
+            _returnFontSize     = _.find(_fontSizeTable, { inputSize: fontSize.toString()}).outputSize;
         }
  
-        return _returnFontSize;
+        _fontSizeData =  {
+            pixelFontSize: _returnFontSize,
+        };
+
+        return _fontSizeData;
 
     }
 
@@ -787,6 +792,8 @@ $(document).ready(function () {
 
                 });
 
+                var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
+
                 var _output = {
 
                     accent_obj: _accentObj,
@@ -796,7 +803,7 @@ $(document).ready(function () {
                     color_array: _outputColorArray,
                     font_obj: _fontObj,
                     font_size: parseInt(_fontSizesArray[0]),
-                    pixelFontSize: ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]),
+                    pixelFontSize: _fontSizeData.pixelFontSize,
                     object_type: "text object",
                     text: view.application.defaultText,
                     type: _application.type,

@@ -1206,7 +1206,8 @@
 
             ///
 
-            font_size = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize)
+            var _fontSizeData = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize);
+            font_size = _fontSizeData.pixelFontSize;
 
             ///
 
