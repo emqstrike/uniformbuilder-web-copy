@@ -10,9 +10,24 @@ $(document).ready(function(){
     });
 
     for( x = 1; x <= 12; x++ ){
-        elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 70px;"></td>';
+        elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 90px;">';
+
+        offset_label = '<br><br><label class="col-md-5 control-label">Offset</label><br>';
+        x_offset = '<br>x: <input type="number" class="output-x-offset td-' + x + '" style="width: 45px;">';
+        y_offset = ' y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;">';
+
+        scale_label = '<br><br><label class="col-md-5 control-label">Scale</label><br>';
+        x_scale = '<br>x: <input type="number" class="output-x-scale td-' + x + '" style="width: 45px;">';
+        y_scale = ' y: <input type="number" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
+
         $('.input-size-header').append('<th>' + x + '</th>');
-        $('.output-size-row').append(elem);
+        $('.output-size-row').append(elem +
+                                        offset_label +
+                                        x_offset +
+                                        y_offset +
+                                        scale_label +
+                                        x_scale +
+                                        y_scale);
         // try{
         //     font = $('#font_family').val();
         //     preview = '<td class="prev-row td-' + x + '" style="font-family: ' + font + '; vertical-align: middle;">Aa</td>';
@@ -39,10 +54,66 @@ $(document).ready(function(){
             $(this).val(old_fst[ctr].outputSize);
             ctr++;
         });
+        ctr = 0;
+        $(".output-x-offset").each(function(i) {
+            $(this).val(old_fst[ctr].xOffset);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-offset").each(function(i) {
+            $(this).val(old_fst[ctr].yOffset);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-x-scale").each(function(i) {
+            $(this).val(old_fst[ctr].xScale);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-scale").each(function(i) {
+            $(this).val(old_fst[ctr].yScale);
+            ctr++;
+        });
     }
 
     function outSizeEvent(){
         $(".output-size").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-x-offset").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-y-offset").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-x-scale").each(function(i) {
+            $(this).change(function() {
+
+                console.log('change');
+                updateFontSizes();
+                console.log(JSON.stringify(fontSizes));
+            });
+        });
+
+        $(".output-y-scale").each(function(i) {
             $(this).change(function() {
 
                 console.log('change');
@@ -72,6 +143,46 @@ $(document).ready(function(){
             // });
 
             fontSizes.push(row);
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-x-offset").each(function(i) {
+            fontSizes[ctr]['xOffset'] = {};
+            if( $(this).val() == "" ){
+                fontSizes[ctr]['xOffset'] = "0";
+            } else {
+                fontSizes[ctr]['xOffset'] = $(this).val();
+            }
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-offset").each(function(i) {
+            fontSizes[ctr]['yOffset'] = {};
+            if( $(this).val() == "" ){
+                fontSizes[ctr]['yOffset'] = "0";
+            } else {
+                fontSizes[ctr]['yOffset'] = $(this).val();
+            }
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-x-scale").each(function(i) {
+            fontSizes[ctr]['xScale'] = {};
+            if( $(this).val() == "" ){
+                fontSizes[ctr]['xScale'] = "0";
+            } else {
+                fontSizes[ctr]['xScale'] = $(this).val();
+            }
+            ctr++;
+        });
+        ctr = 0;
+        $(".output-y-scale").each(function(i) {
+            fontSizes[ctr]['yScale'] = {};
+            if( $(this).val() == "" ){
+                fontSizes[ctr]['yScale'] = "0";
+            } else {
+                fontSizes[ctr]['yScale'] = $(this).val();
+            }
             ctr++;
         });
         $('#font_size_table').val("'" + JSON.stringify(fontSizes) + "'");

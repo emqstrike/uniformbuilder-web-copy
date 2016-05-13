@@ -79,7 +79,6 @@
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
                             <input class="front tcid" data-name="{{ $option->name }}" data-perspective="front" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
-                            <select class="questions-select"></select>
                     </td></tr>
                 @endif
             @endforeach
