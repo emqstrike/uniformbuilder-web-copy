@@ -14,11 +14,11 @@ $(document).ready(function(){
 
         offset_label = '<br><br><label class="col-md-5 control-label">Offset</label><br>';
         x_offset = '<br>x: <input type="number" class="output-x-offset td-' + x + '" style="width: 45px;">';
-        y_offset = ' y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;">';
+        y_offset = '<br>y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;">';
 
         scale_label = '<br><br><label class="col-md-5 control-label">Scale</label><br>';
         x_scale = '<br>x: <input type="text" class="output-x-scale td-' + x + '" style="width: 45px;">';
-        y_scale = ' y: <input type="text" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
+        y_scale = '<br>y: <input type="text" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
 
         $('.input-size-header').append('<th>' + x + '</th>');
         $('.output-size-row').append(   elem +
@@ -169,7 +169,7 @@ $(document).ready(function(){
         $(".output-x-scale").each(function(i) {
             fontSizes[ctr]['xScale'] = {};
             if( $(this).val() == "" ){
-                fontSizes[ctr]['xScale'] = "0";
+                fontSizes[ctr]['xScale'] = "1";
             } else {
                 fontSizes[ctr]['xScale'] = $(this).val();
             }
@@ -179,7 +179,7 @@ $(document).ready(function(){
         $(".output-y-scale").each(function(i) {
             fontSizes[ctr]['yScale'] = {};
             if( $(this).val() == "" ){
-                fontSizes[ctr]['yScale'] = "0";
+                fontSizes[ctr]['yScale'] = "1";
             } else {
                 fontSizes[ctr]['yScale'] = $(this).val();
             }

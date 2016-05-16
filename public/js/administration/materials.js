@@ -1636,7 +1636,7 @@ $(document).ready(function() {
                     $('.' + field).fadeOut();
                 }
             }
-        });
+    });
     });
 
     /*
