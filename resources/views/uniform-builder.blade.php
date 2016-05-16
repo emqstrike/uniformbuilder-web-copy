@@ -145,7 +145,7 @@
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js{{$asset_version}}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
 <script src="{{$asset_storage}}/qrcode/jquery.qrcode-0.12.0.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/jspdf.min.js{{$asset_version}}"></script>

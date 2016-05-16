@@ -1868,6 +1868,7 @@ $(document).ready(function() {
             font_builder +=  "@font-face {\n" +
                              "\tfont-family: \"" +  item.name + "\";\n" + 
                              "\tsrc: url('" + item.font_path + "');\n" + 
+                             "\tformat('truetype');\n" + 
                              "}\n";
 
         });
@@ -1880,7 +1881,7 @@ $(document).ready(function() {
         if ( ub.data.fonts.length > 0 ) {
 
             WebFont.load({
-                
+
                 custom: {
                   families: [ub.data.fonts[0].name],
                 },
@@ -1888,10 +1889,14 @@ $(document).ready(function() {
             });
 
         }
+
+        console.log('Font Loaded!');
         
     };
 
     /// End Fonts 
+
+//    ub.funcs.load_fonts();
 
 
 });

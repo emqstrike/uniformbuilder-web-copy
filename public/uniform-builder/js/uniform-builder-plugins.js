@@ -1156,6 +1156,7 @@
         var application = input_object.application;
         var settings = input_object.settingsObject;
         var accent_obj = input_object.accentObj;
+        var overrideSize =  input_object.overrideSize;
 
         // TODO: Create text values must all come from the settings object no values must be read from the controls 
 
@@ -1164,10 +1165,18 @@
         var accent_id;
         var accent_obj;
 
+        console.log('typeofWindowTemp');
+        console.log(input_object.typeofWindowTemp);
+
+        console.log('Input Object, Accent OBJ: ');
+        console.log(input_object.accentObj);
+
         if(input_object.typeofWindowTemp === 'object') {
 
             accent_id = input_object.accentObj.id;
             accent_obj = input_object.accentObj;
+
+            console.log('Using Built In Accent Object');
 
         } 
         else {
@@ -1175,8 +1184,10 @@
             accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
             accent_obj = _.find(ub.data.accents.items, {id: accent_id});
 
+            console.log('Using Accent Object from Data Structure');
+
         }
-        
+
         var $other_color_container = $('div.other_color_container[data-id="' + application.id + '"]');
         $other_color_container.html('');    
 
@@ -1209,7 +1220,13 @@
             var _fontSizeData = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize);
             container.ubFontSizeData = _fontSizeData;
 
-            font_size = _fontSizeData.pixelFontSize;
+            // OverridSize var used by GA Font Tool
+            if (typeof overrideSize !== 'undefined') {
+
+                _fontSizeData.pixelFontSize = overrideSize;
+            }
+
+           font_size =  _fontSizeData.pixelFontSize;
 
             ///
 
@@ -1218,14 +1235,14 @@
             if (layer.outline === 1) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 6;
+                style.strokeThickness = 12;
 
             }
 
             if (layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 12;
+                style.strokeThickness = 24;
 
                 if (typeof layer.type === 'string') {
                     style.stroke = '#ffffff';
@@ -1236,20 +1253,20 @@
             if (layer.type === 'middle_stroke' && layer.outline === 1) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 6;
+                style.strokeThickness = 12;
 
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 12;
+                style.strokeThickness = 24;
 
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {
                 style.stroke = '#ffffff';
-                style.strokeThickness = 6;
+                style.strokeThickness = 12;
             }
 
             if (layer.type === 'shadow' && layer.outline > 0) {

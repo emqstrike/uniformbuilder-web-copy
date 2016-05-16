@@ -583,3 +583,50 @@
 
 
 <!-- End Pattern Picker -->
+
+<!-- Pattern Picker -->
+    
+    <script type="text/mustache" id="m-accent-popup">
+
+        <div id="primaryAccentPopup" data-status="hidden">
+
+            <div class="header">
+
+                ACCENTS
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="accentPopupResults">
+
+                    @{{#accents}}
+
+                        <div class="item grow" style="background-image: url(/images/sidebar/@{{thumbnail}})" data-accent-id="@{{id}}">
+                            <div class="name" style="">@{{name}}</div>
+                        </div>
+
+                    @{{/accents}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Pattern Picker -->

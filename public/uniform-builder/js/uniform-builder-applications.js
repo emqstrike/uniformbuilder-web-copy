@@ -1537,8 +1537,6 @@
                 var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
 
-
-
                 if(_.indexOf(adjustablePositions, app_id) !== -1) {
 
                     //var line = new PIXI.Graphics();
@@ -1618,6 +1616,34 @@
                     point.position.y += _yOffset;
 
                 }
+
+                if (typeof args.overrideOffsetX !== 'undefined') {
+
+                    point.position.x += parseFloat(args.overrideOffsetX);
+
+                }
+
+                if (typeof args.overrideOffsetY !== 'undefined') {
+
+                    point.position.y += parseFloat(args.overrideOffsetY);
+
+                }
+
+                var _scaleX = point.scale.x;;
+                var _scaleY = point.scale.x;;
+
+                if (typeof args.overrideScaleX !== 'undefined') {
+                    _scaleX = parseFloat(args.overrideScaleX);
+                }
+
+                if (typeof args.overrideScaleY !== 'undefined') {
+                    _scaleY = parseFloat(args.overrideScaleY);
+                }
+
+                point.scale.set(_scaleX, _scaleY);
+
+                //                    
+
 
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
@@ -3412,7 +3438,7 @@
 
     }
 
-     ub.funcs.centerFontPopup = function () {
+    ub.funcs.centerFontPopup = function () {
 
         $popup = $('div#primaryFontPopup');
         $popup.fadeIn();
@@ -3438,7 +3464,36 @@
 
         }) 
 
-    }
+    };
+
+    //
+    ub.funcs.centerAccentPopup = function () {
+
+        $popup = $('div#primaryAccentPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) {
+
+            return;
+
+        } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }) 
+
+    };
 
     ub.funcs.removeApplicationByID = function (id) {
 
@@ -3467,18 +3522,48 @@
 
         settingsObj.font_obj = _fontObj;
 
-         WebFont.load({
-                
-            custom: {
-              families: [settingsObj.font_obj.name],
-            },
-            active: function() {
-                ub.create_application(settingsObj);
-            },
+        console.log('settingsObj.font_obj.name');
+        console.log(settingsObj.font_obj.name);
 
-        });
+        ub.create_application(settingsObj, undefined);
 
         $popup = $('div#primaryFontPopup');
+        $popup.remove();
+
+    }
+
+    ub.funcs.changeAccentFromPopup = function (accentID, settingsObj) {
+
+        var _accentObj  = _.find(ub.data.accents.items, {id: parseInt(accentID)});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        /// Set Default Colors 
+
+        var _firstLayer = _.find(_accentObj.layers, {layer_no: 1});
+        _firstLayer.default_color = ub.current_material.settings.team_colors[1].hex_code;
+
+        if (_accentObj.layers.length >= 4) {
+
+            var _secondLayer = _.find(_accentObj.layers, {layer_no: 1});
+            var _color = _color = ub.funcs.getColorByColorCode('B').hex_code;
+
+            if (ub.current_material.settings.team_colors.length >= 3) {
+                _color = ub.current_material.settings.team_colors[2].hex_code;
+            } 
+
+            _secondLayer.default_color = _color;
+
+        }
+
+        /// End Set Default Colors 
+
+        settingsObj.accent_obj = _accentObj
+
+        ub.create_application(settingsObj, undefined);
+
+        $popup = $('div#primaryAccentPopup');
         $popup.remove();
 
     }
@@ -3560,6 +3645,69 @@
 
     }
 
+     ub.funcs.createAccentPopup = function (settingsObj) {
+
+        var data = {
+           accents: ub.data.accents.items,
+       }
+
+        var template = $('#m-accent-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryAccentPopup');
+        $popup.fadeIn();
+
+          $('div.accentPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.accentPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('accent-id');
+
+            ub.funcs.changeAccentFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateApplications(settingsObj.code)
+
+        });
+
+        ub.funcs.centerAccentPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+
+    }
+
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3568,16 +3716,13 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
-        console.log('ID: ' + _id);
-        console.log(_settingsObject);
         
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text; 
 
         var _fontObj          = _settingsObject.font_obj;
-        var _fontName         = _fontObj.name
+        var _fontName         = _fontObj.name;
 
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
@@ -3636,7 +3781,13 @@
 
                 ub.funcs.createFontPopup(_title, _sampleText, _settingsObject);
 
-            })
+            });
+
+            $('span.accentThumb, span.accent').on('click', function () {
+
+                ub.funcs.createAccentPopup(_settingsObject);
+
+            });
 
             $('span.cog').on('click', function () {
 
@@ -3644,8 +3795,16 @@
                 var _pixelFontSize  = _settingsObject.pixelFontSize;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
 
-                console.log("Font Size Data: ");
-                console.log(_fontSizeData);
+
+                var _origSizes       = {
+
+                    pixelFontSize: _settingsObject.pixelFontSize,
+                    offSetX: _fontSizeData.xOffset,
+                    offSetY: _fontSizeData.yOffset,
+                    scaleX: _fontSizeData.xScale,
+                    scaleY: _fontSizeData.yScale,
+
+                }
 
                 var _cogBuilder = '';
 
@@ -3664,7 +3823,7 @@
                 _cogBuilder +=           '<div class="popup-row">';
                 _cogBuilder +=               '<div class="inputContainer">'
                 _cogBuilder +=                   '<div class="inputX">';
-                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="offsetX" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize" name="font-size" value="' +  _pixelFontSize + '" /> px';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
@@ -3698,7 +3857,7 @@
                 _cogBuilder +=                  'Reset';
                 _cogBuilder +=              '</span>';
                 _cogBuilder +=              '<span class="cancelButton">';
-                _cogBuilder +=                  'Cancel';
+                _cogBuilder +=                  'Close';
                 _cogBuilder +=              '</span>';
                 _cogBuilder +=              '<span class="applyButton">';
                 _cogBuilder +=                  'Apply';
@@ -3710,11 +3869,38 @@
 
                 $('body').append(_cogBuilder);
 
-                $('span.cancelButton').on('click', function () {
+                /// Events
 
-                    $('#cogPopupContainer').remove();
+                    $('span.cancelButton').on('click', function () {
 
-                });
+                        $('#cogPopupContainer').remove();
+
+                    });
+
+                    $('span.resetButton').on('click', function () {
+
+                        $('input.pixelFontSize').val(_origSizes.pixelFontSize);
+                        $('input.offsetX').val(_origSizes.offsetX);
+                        $('input.offsetY').val(_origSizes.offsetY)
+                        $('input.scaleX').val(_origSizes.scaleX);
+                        $('input.scaleY').val(_origSizes.scaleY);;
+
+                    });
+
+                    $('span.applyButton').on('click', function () {
+
+                        var _pixelFontSizeApply = $('input.pixelFontSize').val();
+                        var _offsetX = $('input.offsetX').val();
+                        var _offsetY = $('input.offsetY').val();
+                        var _scaleX = $('input.scaleX').val();
+                        var _scaleY = $('input.scaleY').val();
+
+                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
+
+
+                    });
+
+                /// End Events 
 
                 $('#cogPopupContainer').fadeIn();
 
