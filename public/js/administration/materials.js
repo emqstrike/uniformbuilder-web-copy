@@ -96,7 +96,7 @@ $(document).ready(function() {
                 x++;
             });
             console.log( JSON.stringify(window.current_pattern_properties) );
-            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) );
+            $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
 
