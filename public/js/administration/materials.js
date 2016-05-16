@@ -133,23 +133,26 @@ $(document).ready(function() {
             var xstring = "";
             if( pval.charAt(pval.length - 1) === '"' ){
                 console.log('*** IF 1');
-                xstring = pval.substring(0, pval.length - 1)
+                xstring = pval.substring(0, pval.length - 1);
+            } else {
+                xstring = pval;
             }
 
-            if( pval.charAt(pval.length - 1) === '"' ){
+            if( xstring.charAt(0) === '"' ){
+                console.log('*** IF 2');
+                xstring = xstring.substring(1, xstring.length);
+            }
+
+            if( xstring.charAt(xstring.length - 1) === '"' ){
                 console.log('*** IF 1');
-                xstring = pval.substring(0, pval.length - 1)
+                xstring = xstring.substring(0, xstring.length - 1);
             }
 
-            if( pval.charAt(0) === '"' ){
+            if( xstring.charAt(0) === '"' ){
                 console.log('*** IF 2');
-                xstring = pval.substring(1, pval.length)
+                xstring = xstring.substring(1, xstring.length);
             }
 
-            if( pval.charAt(0) === '"' ){
-                console.log('*** IF 2');
-                xstring = pval.substring(1, pval.length)
-            }
 
             console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
