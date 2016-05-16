@@ -138,7 +138,7 @@ $(document).ready(function() {
 
             if( pval.charAt(0) === '"' ){
                 console.log('*** IF 2');
-                xstring = pval.substring(1, pval.length -1)
+                xstring = pval.substring(1, pval.length)
             }
             console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
