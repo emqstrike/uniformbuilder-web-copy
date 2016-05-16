@@ -1313,6 +1313,12 @@
 
     };
 
+    ub.funcs.getBaseSprite = function (sprite) {
+
+        var baseSprite = _.find(sprite.children, {ubName: "Base Color"});
+        return baseSprite;
+
+    }
     ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
         // Check for Feature Flag
@@ -1320,6 +1326,9 @@
         {
             return;
         }
+
+        var baseSprite = ub.funcs.getBaseSprite(sprite);
+        baseSprite.oldTint = baseSprite.tint;
 
         sprite.spriteType = spriteType;
 
@@ -1337,6 +1346,8 @@
             if (sprite.ubHover) {
 
                 var _id = sprite.name.replace('objects_','');
+
+                sprite.ubHover = false;
                 ub.funcs.activateApplications(_id);
 
             } 
@@ -1388,7 +1399,7 @@
 
                     // start
                     sprite.ubHover  = true;
-                    sprite.scale.set(1.05,1.05);
+                    baseSprite.tint = parseInt("3d3d3d",16);
                     ub.data.applicationAccumulator = _sizeOfApplications;
                     ub.funcs.setPointer();
                    
@@ -1396,7 +1407,7 @@
 
                     // restore
                     sprite.ubHover  = false;
-                    sprite.scale.set(1.0,1.0);
+                    baseSprite.tint = baseSprite.oldTint;
                     ub.data.applicationAccumulator -= 1;
                     ub.funcs.setPointer();
                     
@@ -1581,8 +1592,60 @@
                 ub[view_name].addChild(mask);
                 sprite_collection.push(point);
 
-                ub.funcs.createClickable(point, view.application, view, 'application');
+                if (typeof point.ubFontSizeData === "object") {
 
+                    var _fontSizeData = point.ubFontSizeData;
+
+                    // Scale
+
+                    var _xScale = 1;
+                    var _yScale = 1; 
+
+                    if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
+                    if (_fontSizeData.yScale !== "0"  && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
+                    point.scale.set(_xScale, _yScale);
+
+                    // Offset
+
+                    var _xOffset = 0;
+                    var _yOffset = 0;
+
+                    if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
+                    if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
+                    point.position.x += _xOffset;
+                    point.position.y += _yOffset;
+
+                }
+
+                if (typeof args.overrideOffsetX !== 'undefined') {
+
+                    point.position.x += parseFloat(args.overrideOffsetX);
+
+                }
+
+                if (typeof args.overrideOffsetY !== 'undefined') {
+
+                    point.position.y += parseFloat(args.overrideOffsetY);
+
+                }
+
+                var _scaleX = point.scale.x;;
+                var _scaleY = point.scale.x;;
+
+                if (typeof args.overrideScaleX !== 'undefined') {
+                    _scaleX = parseFloat(args.overrideScaleX);
+                }
+
+                if (typeof args.overrideScaleY !== 'undefined') {
+                    _scaleY = parseFloat(args.overrideScaleY);
+                }
+
+                point.scale.set(_scaleX, _scaleY);
+
+                //                    
+
+
+                ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
             });
@@ -3375,6 +3438,276 @@
 
     }
 
+    ub.funcs.centerFontPopup = function () {
+
+        $popup = $('div#primaryFontPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) {
+
+            return;
+
+        } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }) 
+
+    };
+
+    //
+    ub.funcs.centerAccentPopup = function () {
+
+        $popup = $('div#primaryAccentPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) {
+
+            return;
+
+        } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }) 
+
+    };
+
+    ub.funcs.removeApplicationByID = function (id) {
+
+        _.each(ub.data.views, function (view) {
+
+            var _viewName = view + '_view';
+
+            var _object = ub.objects[_viewName]['objects_' + id];
+
+            if (typeof _object === "object") {
+                _object.ubHover = false;
+                _object.destroy();
+                ub.front_view.removeChild(_object);
+            }
+
+        });
+
+    }
+
+    ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
+
+        var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.font_obj = _fontObj;
+
+        console.log('settingsObj.font_obj.name');
+        console.log(settingsObj.font_obj.name);
+
+        ub.create_application(settingsObj, undefined);
+
+        $popup = $('div#primaryFontPopup');
+        $popup.remove();
+
+    }
+
+    ub.funcs.changeAccentFromPopup = function (accentID, settingsObj) {
+
+        var _accentObj  = _.find(ub.data.accents.items, {id: parseInt(accentID)});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        /// Set Default Colors 
+
+        var _firstLayer = _.find(_accentObj.layers, {layer_no: 1});
+        _firstLayer.default_color = ub.current_material.settings.team_colors[1].hex_code;
+
+        if (_accentObj.layers.length >= 4) {
+
+            var _secondLayer = _.find(_accentObj.layers, {layer_no: 1});
+            var _color = _color = ub.funcs.getColorByColorCode('B').hex_code;
+
+            if (ub.current_material.settings.team_colors.length >= 3) {
+                _color = ub.current_material.settings.team_colors[2].hex_code;
+            } 
+
+            _secondLayer.default_color = _color;
+
+        }
+
+        /// End Set Default Colors 
+
+        settingsObj.accent_obj = _accentObj
+
+        ub.create_application(settingsObj, undefined);
+
+        $popup = $('div#primaryAccentPopup');
+        $popup.remove();
+
+    }
+
+    ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        if (applicationType === 'Player Number') {
+
+            sampleSize = '3.3em';
+            paddingTop = '30px';
+
+        }
+
+        var data = {
+            label: 'Choose Font: ',
+            fonts: _.sortBy(ub.data.fonts, 'sortID'),
+            sampleText: sampleText,
+            applicationType: applicationType,
+            sampleSize: sampleSize,
+            paddingTop: paddingTop,
+        };
+
+        var template = $('#m-font-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryFontPopup');
+        $popup.fadeIn();
+
+          $('div.fontPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.fontPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('font-id');
+
+            ub.funcs.changeFontFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateApplications(settingsObj.code)
+
+        });
+
+        ub.funcs.centerFontPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+
+    }
+
+     ub.funcs.createAccentPopup = function (settingsObj) {
+
+        var data = {
+           accents: ub.data.accents.items,
+       }
+
+        var template = $('#m-accent-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryAccentPopup');
+        $popup.fadeIn();
+
+          $('div.accentPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.accentPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('accent-id');
+
+            ub.funcs.changeAccentFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateApplications(settingsObj.code)
+
+        });
+
+        ub.funcs.centerAccentPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+
+    }
+
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3383,20 +3716,17 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
-        console.log('ID: ' + _id);
-        console.log(_settingsObject);
-
-        ////
-
+        
         var _applicationType  = _settingsObject.application_type;
-        var _title            = _applicationType.toTitleCase(); 
+        var _title            = _applicationType.toTitleCase();
+        var _sampleText       = _settingsObject.text; 
 
         var _fontObj          = _settingsObject.font_obj;
-        var _fontName         = _fontObj.name
+        var _fontName         = _fontObj.name;
 
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
+        var _accentFilename   = _accentObj.thumbnail;
 
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
@@ -3410,44 +3740,193 @@
         var n =_colorArrayString.lastIndexOf(",");
         var _colorArrayString = _colorArrayString.substring(0,n)
 
-
         ////
 
         var _htmlBuilder = "";
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="header">' + _title + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Font:</label>';                       
+        _htmlBuilder        +=              '<label>Font:</label><br />';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Accent:</label>';                       
+        _htmlBuilder        +=              '<label>Accent:</label><br />';                       
+        _htmlBuilder        +=              '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
         _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Colors:</label>';                       
+        _htmlBuilder        +=              '<label>Colors:</label><br />';                       
         _htmlBuilder        +=              '<span>' + _colorArrayString + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
-
 
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
+
+        //// Events  
+
+            $('span.font_name').on('click', function () {
+
+                ub.funcs.createFontPopup(_title, _sampleText, _settingsObject);
+
+            });
+
+            $('span.accentThumb, span.accent').on('click', function () {
+
+                ub.funcs.createAccentPopup(_settingsObject);
+
+            });
+
+            $('span.cog').on('click', function () {
+
+                var _size           = _settingsObject.font_size;
+                var _pixelFontSize  = _settingsObject.pixelFontSize;
+                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
+
+
+                var _origSizes       = {
+
+                    pixelFontSize: _settingsObject.pixelFontSize,
+                    offSetX: _fontSizeData.xOffset,
+                    offSetY: _fontSizeData.yOffset,
+                    scaleX: _fontSizeData.xScale,
+                    scaleY: _fontSizeData.yScale,
+
+                }
+
+                var _cogBuilder = '';
+
+                $('#cogPopupContainer').remove();
+
+                _cogBuilder += '<div id="cogPopupContainer">';
+                _cogBuilder +=       '<div id="cogPopup">';
+
+                _cogBuilder +=           '<div class="popupHeader">GA Font Tool</div>';
+                
+                _cogBuilder +=           '<div class="popup-row-top">';
+                _cogBuilder +=               '<label>Inch: </label>';
+                _cogBuilder +=               '<span class="popupValue"> ' + _size + '</span>' + '"';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset X: </span><input class="offsetX" name="offsetX" value="' + _fontSizeData.xOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset Y: </span><input class="offsetY" name="offsetY" value="' + _fontSizeData.yOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale X: </span><input class="scaleX" name="scaleX" value="' + _fontSizeData.xScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Scale Y: </span><input class="scaleY" name="scaleY" value="' + _fontSizeData.yScale + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
+
+                _cogBuilder +=           '<div class="button-row">';
+                _cogBuilder +=              '<span class="resetButton">';
+                _cogBuilder +=                  'Reset';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="cancelButton">';
+                _cogBuilder +=                  'Close';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="applyButton">';
+                _cogBuilder +=                  'Apply';
+                _cogBuilder +=              '</span>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=       '</div>';
+                _cogBuilder += '</div">';
+
+                $('body').append(_cogBuilder);
+
+                /// Events
+
+                    $('span.cancelButton').on('click', function () {
+
+                        $('#cogPopupContainer').remove();
+
+                    });
+
+                    $('span.resetButton').on('click', function () {
+
+                        $('input.pixelFontSize').val(_origSizes.pixelFontSize);
+                        $('input.offsetX').val(_origSizes.offsetX);
+                        $('input.offsetY').val(_origSizes.offsetY)
+                        $('input.scaleX').val(_origSizes.scaleX);
+                        $('input.scaleY').val(_origSizes.scaleY);;
+
+                    });
+
+                    $('span.applyButton').on('click', function () {
+
+                        var _pixelFontSizeApply = $('input.pixelFontSize').val();
+                        var _offsetX = $('input.offsetX').val();
+                        var _offsetY = $('input.offsetY').val();
+                        var _scaleX = $('input.scaleX').val();
+                        var _scaleY = $('input.scaleY').val();
+
+                        ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
+
+
+                    });
+
+                /// End Events 
+
+                $('#cogPopupContainer').fadeIn();
+
+                ub.funcs.positionGaFontTool();
+
+            });
+
+        //// End Events 
+
         $('div#applicationUI').fadeIn();
 
     }
+
+    ub.funcs.positionGaFontTool = function () {
+
+        // window.innerWidth
+        // $('#cogPopupContainer').width()
+
+        var _windowWidth = window.innerWidth;
+        var _popupContainer = $('#cogPopupContainer').width();
+
+        var _left = _windowWidth - ( _popupContainer + 110 );
+        $('#cogPopupContainer').css('left',_left + 'px');
+
+
+    };
 
     /// End Interactive Applications
 

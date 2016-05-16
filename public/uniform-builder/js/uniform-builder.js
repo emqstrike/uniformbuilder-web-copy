@@ -740,7 +740,54 @@ $(document).ready(function () {
 
     };
 
+    ub.data.getPixelFontSize = function (fontID, fontSize) {
+
+        var _fontObj = _.find(ub.data.fonts, {id: fontID});
+        var _fontSizeTable  = _fontObj.font_size_table;
+        var _fontSizeData;
+        var _fontProperties;
+
+        var _xOffset = 0;
+        var _yOffset = 0;
+
+        var _xScale = 0;
+        var _yScale = 0;
+
+
+        if(_fontSizeTable === null) {
+            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+        } else {
+            
+            _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
+            _fontProperties = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+
+            _returnFontSize     = _fontProperties.outputSize;
+            _xOffset             = _fontProperties.xOffset;
+            _yOffset             = _fontProperties.yOffset;
+            _xScale              = _fontProperties.xScale;
+            _yScale              = _fontProperties.yScale;
+
+        }
+ 
+        _fontSizeData =  {
+
+            pixelFontSize: _returnFontSize,
+            xOffset: _xOffset,
+            yOffset: _yOffset,
+            xScale: _xScale,
+            yScale: _yScale,
+
+        };
+
+        return _fontSizeData;
+
+    }
+
     ub.data.convertDefaultApplications = function () {
+
+        console.log('Convert: ');
+        console.log('Team Colors: ');
+        console.log(ub.current_material.settings.team_colors);
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
 
@@ -756,7 +803,6 @@ $(document).ready(function () {
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',')
 
-
                 _.each(_accentObj.layers, function (layer, index) {
 
                     if (typeof _colorArray[index] === 'undefined') {
@@ -771,6 +817,8 @@ $(document).ready(function () {
 
                 });
 
+                var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
+
                 var _output = {
 
                     accent_obj: _accentObj,
@@ -779,7 +827,8 @@ $(document).ready(function () {
                     code: _application.id,
                     color_array: _outputColorArray,
                     font_obj: _fontObj,
-                    font_size: parseInt(_fontSizesArray[0]), 
+                    font_size: parseInt(_fontSizesArray[0]),
+                    pixelFontSize: _fontSizeData.pixelFontSize,
                     object_type: "text object",
                     text: view.application.defaultText,
                     type: _application.type,
@@ -810,8 +859,8 @@ $(document).ready(function () {
             if (typeof e.code !== 'undefined') {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
-
                 var _team_color_id =  parseInt(_materialOption.team_color_id);
+                
                 e.team_color_id = _team_color_id;
 
                 var _allowPattern =  parseInt(_materialOption.allow_pattern);
@@ -894,13 +943,16 @@ $(document).ready(function () {
 
             if (application_obj.type === "player_name" || application_obj.type === "player_number" || application_obj.type === "team_name") {
 
+                console.log('Create Application: ');
+                console.log(application_obj.font_obj.name);
+
                 WebFont.load({
                 
                     custom: {
                       families: [application_obj.font_obj.name],
                     },
                     active: function() {
-                        ub.create_application(application_obj);
+                        ub.create_application(application_obj, undefined);
                     },
 
                 });
@@ -3342,11 +3394,49 @@ $(document).ready(function () {
             };
 
             /// Create Text Type Applications on load ( Player Name, Number and Team Name )
-            ub.create_application = function (application_obj) {
+            ub.create_application = function (application_obj, overrideSize, overrideOffsetX, overrideOffsetY, overrideScaleX, overrideScaleY) {
 
                 if (application_obj.text.length === 0) { return; }
 
                 window.at = application_obj;
+
+                /// Overrides are used by the GA Font Tool
+
+                var _overrideSize = undefined;
+                var _overrideOffsetX = undefined;
+                var _overrideOffsetY = undefined;
+                var _overrideScaleX = 1;
+                var _overrideScaleY = 1;
+
+                if (typeof overrideSize !== 'undefined') {
+
+                    _overrideSize = overrideSize;
+
+                }
+                
+                if (typeof overrideOffsetX !== 'undefined') {
+
+                    _overrideOffsetX = overrideOffsetX;
+
+                }
+
+                if (typeof overrideOffsetY !== 'undefined') {
+
+                    _overrideOffsetY = overrideOffsetY;
+
+                }
+
+                if (typeof overrideScaleX !== 'undefined') {
+
+                    _overrideScaleX = overrideScaleX;
+
+                }
+
+                if (typeof overrideScaleY !== 'undefined') {
+
+                    _overrideScaleY = overrideScaleY;
+
+                }
 
                 var input_object = {
                     text_input: application_obj.text,
@@ -3356,7 +3446,12 @@ $(document).ready(function () {
                     applicationObj: application_obj,
                     fontSize: application_obj.font_size,
                     accentObj: application_obj.accent_obj,
-                    typeofWindowTemp: typeof application_obj.accent_obj,                
+                    typeofWindowTemp: typeof application_obj.accent_obj,
+                    overrideSize: _overrideSize,
+                    overrideOffsetX: _overrideOffsetX,                
+                    overrideOffsetY: _overrideOffsetY,                
+                    overrideScaleX: _overrideScaleX,                
+                    overrideScaleY: _overrideScaleY,                
                 };
 
                 var uniform_type = ub.current_material.material.type;
