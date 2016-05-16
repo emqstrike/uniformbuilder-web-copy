@@ -9,7 +9,7 @@ $(document).ready(function(){
         $('#p-text').css('font-size',size+'px');
     });
 
-    for( x = 1; x <= 12; x++ ){
+    for( x = 1; x <= 12; x++ ){ // column counts
         elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 90px;">';
 
         offset_label = '<br><br><label class="col-md-5 control-label">Offset</label><br>';
@@ -21,7 +21,7 @@ $(document).ready(function(){
         y_scale = ' y: <input type="text" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
 
         $('.input-size-header').append('<th>' + x + '</th>');
-        $('.output-size-row').append(elem +
+        $('.output-size-row').append(   elem +
                                         offset_label +
                                         x_offset +
                                         y_offset +

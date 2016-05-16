@@ -159,6 +159,8 @@ class FontsController extends Controller
             Log::info('Attempts to update Font#' . $fontId);
             $data['id'] = $fontId;
             $response = $this->client->updateFont($data);
+            return Redirect::to('administration/font/edit/' . $data['id'])
+                            ->with('message', $response->message);
         }
         else
         {
