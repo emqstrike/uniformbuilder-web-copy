@@ -136,10 +136,21 @@ $(document).ready(function() {
                 xstring = pval.substring(0, pval.length - 1)
             }
 
+            if( pval.charAt(pval.length - 1) === '"' ){
+                console.log('*** IF 1');
+                xstring = pval.substring(0, pval.length - 1)
+            }
+
             if( pval.charAt(0) === '"' ){
                 console.log('*** IF 2');
                 xstring = pval.substring(1, pval.length)
             }
+
+            if( pval.charAt(0) === '"' ){
+                console.log('*** IF 2');
+                xstring = pval.substring(1, pval.length)
+            }
+
             console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
             // var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
