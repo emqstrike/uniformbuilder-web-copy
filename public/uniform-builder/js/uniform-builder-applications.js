@@ -2643,6 +2643,20 @@
 
     });
 
+    ub.funcs.changeApplicationLayerColor = function (applicationObj, layerNo, colorObj) {
+
+        console.log('Func Chane App Layer Color: ');
+        console.log(applicationObj);
+
+        _.each(applicationObj.views, function (appInView){
+
+            console.log('App In View');
+            console.log(appInView);
+
+        });
+
+    };
+
     ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
 
         var _group_items  = _.filter(ub.data.modifierLabels, {team_color_id: groupID});
@@ -2651,7 +2665,50 @@
 
             ub.funcs.ui.setMaterialOptionColor(group_item.name, colorObj);
           
-        })
+        });
+
+        var _applications = ub.current_material.settings.applications;
+
+        if (groupID === '2') {
+
+            _.each(_applications, function (application) {
+
+                if (application.color_array.length >= 2) {
+
+                    application.color_array[0] = colorObj;
+                    _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
+
+                    if (typeof _base_color != 'undefined') {
+
+                        _base_color.default_color = colorObj.hex_code;
+
+                    }
+
+                    ub.funcs.changeApplicationLayerColor(application, 1, colorObj);
+
+                } 
+
+            });
+
+        }
+
+
+        // if (groupID === '1') {
+
+        //     _.each(_applications, function (application) {
+
+        //         console.log(application);
+
+        //         if (application.color_array.length >= 2) {
+
+        //             application.color_array[0] = colorObj;
+
+        //         }
+
+        //     });
+
+        // }
+
 
     };
 
