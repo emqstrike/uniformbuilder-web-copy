@@ -130,7 +130,20 @@ $(document).ready(function() {
             console.log('IF');
             var pval = $('#pattern_properties').val();
             console.log('VALUE: ' + pval);
-            var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
+            var xstring = "";
+            if( pval.charAt(pval.length - 1) === '"' ){
+                console.log('*** IF 1');
+                xstring = pval.substring(0, pval.length - 1)
+            }
+
+            if( pval.charAt(0) === '"' ){
+                console.log('*** IF 2');
+                xstring = pval.substring(1, pval.length -1)
+            }
+            console.log('STRING >>>>> ' + xstring);
+            var pattern_props = JSON.parse( xstring );
+            // var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
+
             window.current_pattern_properties = pattern_props;
             console.log('PATTERN_PROPS' + pattern_props);
             var x = 1;
