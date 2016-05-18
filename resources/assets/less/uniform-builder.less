@@ -3054,6 +3054,7 @@ div.header-container.main {
                 .ui-row {
 
                     margin-bottom: 20px;
+                    text-align: center;
 
                     label {
 
@@ -3093,6 +3094,35 @@ div.header-container.main {
                     color: @forecolor;
 
                 }
+
+                span.font_size {
+
+                    cursor: pointer;
+                    padding-bottom: 3px;
+                    font-weight: bold;
+                    width: 12%;
+                    background-color: white;
+                    margin-right: 10px;
+                    display: inline-block;
+                    padding: 3px;
+
+                }
+
+                span.font_size:hover {
+
+                    background-color: @main_highlight;
+                    color: white;
+                    
+                }
+
+                span.font_size.active {
+
+                    background-color: @text_color;
+                    color: white;
+                    
+                }
+
+
 
                 span.accentThumb {
 

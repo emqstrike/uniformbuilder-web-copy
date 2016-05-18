@@ -742,7 +742,7 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
-        var _fontObj = _.find(ub.data.fonts, {id: fontID});
+        var _fontObj        = _.find(ub.data.fonts, {id: fontID});
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
@@ -937,7 +937,11 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            if (application_obj.type === "player_name" || application_obj.type === "player_number" || application_obj.type === "team_name") {
+
+            var _textApplicationTypes = ['player_number', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'number_extra'];
+            var _isATextApplication = _.contains(_textApplicationTypes,application_obj.type);
+
+            if (_isATextApplication) {
 
                 WebFont.load({
                 

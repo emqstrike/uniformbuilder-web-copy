@@ -3626,6 +3626,19 @@
 
     }
 
+    ub.funcs.changeSize = function (size, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        /// Set Default Colors 
+
+        settingsObj.font_size = parseInt(size);
+        ub.create_application(settingsObj, undefined);
+
+    }
+
+
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         var sampleSize = '1.9em';
@@ -3777,8 +3790,8 @@
         
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
-        var _sampleText       = _settingsObject.text; 
-
+        var _sampleText       = _settingsObject.text;
+        var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
 
@@ -3808,14 +3821,34 @@
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Font:</label><br />';                       
+        _htmlBuilder        +=              '<label>Font</label><br />';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Accent:</label><br />';                       
+        _htmlBuilder        +=              '<label>Size</label><br />'; 
+
+        _.each(_sizes.sizes, function (size) {
+
+            var _additionalClass = '';
+
+            if (size.size === _settingsObject.font_size) {
+
+                _additionalClass = 'active';
+
+            }
+
+            _htmlBuilder    +=              '<span class="font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+        });                    
+
+        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Accent</label><br />';                       
         _htmlBuilder        +=              '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
         _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
 
@@ -3834,6 +3867,15 @@
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events  
+
+            $('span.font_size').on('click', function () {
+
+                var _selectedSize = $(this).data('size');
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
+                ub.funcs.changeSize(_selectedSize, _settingsObject);
+                
+            });
 
             $('span.font_name').on('click', function () {
 
@@ -3962,10 +4004,6 @@
 
                     $('input.gaFontInput').on('keypress', function (e) {
 
-                        console.log(e.keyCode);
-
-                        console.log('Ctrl Key: ' + e.ctrlKey);
-
                         if (e.ctrlKey && (e.keyCode === 46 || e.keyCode === 44)) {
 
                             var $textBox = $(this);
@@ -4051,6 +4089,30 @@
 
 
     };
+
+    ub.funcs.getApplicationSizes = function (applicationType, gender) {
+
+        var _factory = ub.current_material.material.factory_code;
+        var _sizes;
+        var _gender;
+
+        if (typeof gender === 'undefined') {
+            _gender = 'adult';
+        }
+
+        if (applicationType === 'team_name') {
+            _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
+        } else {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType});            
+        }
+
+        if (typeof _sizes === 'undefined') {
+            util.error('Application Sizes for ' + applicationType + ' is not found!');
+        }
+        
+        return _sizes;
+
+    }
 
     /// End Interactive Applications
 
