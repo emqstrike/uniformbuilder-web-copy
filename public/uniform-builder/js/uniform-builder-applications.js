@@ -4004,7 +4004,7 @@
 
                     $('input.gaFontInput').on('keypress', function (e) {
 
-                        if (e.ctrlKey && (e.keyCode === 46 || e.keyCode === 44)) {
+                        if (e.ctrlKey && (e.which === 46 || e.which === 44)) {
 
                             var $textBox = $(this);
                             var _name = $textBox.attr('name');
@@ -4014,11 +4014,11 @@
 
                                 var _value = parseInt(_currentVal);
 
-                                if(e.keyCode === 44) {
+                                if(e.which === 44) {
                                     _value -= 5;    
                                 }
 
-                                if(e.keyCode === 46) {
+                                if(e.which === 46) {
                                     _value += 5;    
                                 }
 
