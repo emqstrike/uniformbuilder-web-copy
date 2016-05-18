@@ -1603,6 +1603,7 @@
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
                     if (_fontSizeData.yScale !== "0"  && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
+
                     point.scale.set(_xScale, _yScale);
 
                     // Offset
@@ -1629,8 +1630,8 @@
 
                 }
 
-                var _scaleX = point.scale.x;;
-                var _scaleY = point.scale.x;;
+                var _scaleX = point.scale.x;
+                var _scaleY = point.scale.y;
 
                 if (typeof args.overrideScaleX !== 'undefined') {
                     _scaleX = parseFloat(args.overrideScaleX);
@@ -2767,7 +2768,7 @@
         var _convertedColor = util.padHex((_activeLayer.color).toString(16), 6);
         var _colorOBJ       = _.find(_colorSet, {hex_code: _convertedColor});
 
-        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer);
+        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer + ' of ' + patternObj.layers.length);
 
         var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
         $svgPath.trigger('click');
@@ -2784,7 +2785,7 @@
         var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
 
         $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
-        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer);
+        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer  + ' of ' + patternObj.layers.length);
 
         if (ub.data.currentPatternLayer < 1) {
 
@@ -3625,6 +3626,19 @@
 
     }
 
+    ub.funcs.changeSize = function (size, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        /// Set Default Colors 
+
+        settingsObj.font_size = parseInt(size);
+        ub.create_application(settingsObj, undefined);
+
+    }
+
+
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         var sampleSize = '1.9em';
@@ -3776,8 +3790,8 @@
         
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
-        var _sampleText       = _settingsObject.text; 
-
+        var _sampleText       = _settingsObject.text;
+        var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
 
@@ -3807,14 +3821,34 @@
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Font:</label><br />';                       
+        _htmlBuilder        +=              '<label>Font</label><br />';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Accent:</label><br />';                       
+        _htmlBuilder        +=              '<label>Size</label><br />'; 
+
+        _.each(_sizes.sizes, function (size) {
+
+            var _additionalClass = '';
+
+            if (size.size === _settingsObject.font_size) {
+
+                _additionalClass = 'active';
+
+            }
+
+            _htmlBuilder    +=              '<span class="font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+        });                    
+
+        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label>Accent</label><br />';                       
         _htmlBuilder        +=              '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
         _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
 
@@ -3833,6 +3867,15 @@
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events  
+
+            $('span.font_size').on('click', function () {
+
+                var _selectedSize = $(this).data('size');
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
+                ub.funcs.changeSize(_selectedSize, _settingsObject);
+                
+            });
 
             $('span.font_name').on('click', function () {
 
@@ -3880,7 +3923,21 @@
                 _cogBuilder +=           '<div class="popup-row">';
                 _cogBuilder +=               '<div class="inputContainer">'
                 _cogBuilder +=                   '<div class="inputX">';
-                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                       '<span class="inputLabel">Font Size: </span><input class="pixelFontSize gaFontInput" name="font-size" value="' +  _pixelFontSize + '" /> px';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                      '<div class="notes" style="margin-left: 140px;">Keyboard Shortcuts:<br /><br />Increase Value: <strong>ctrl + > </strong><br />Decrease Value: <strong>ctrl + < </strong><br /><br /></div>';
+                _cogBuilder +=                   '</div>';                
+                _cogBuilder +=               '</div>';
+                _cogBuilder +=           '</div>';
+
+                _cogBuilder +=           '<div class="popup-row">';
+                _cogBuilder +=               '<div class="inputContainer">'
+                _cogBuilder +=                   '<div class="inputX">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset X: </span><input class="offsetX gaFontInput" name="offsetX" value="' + _fontSizeData.xOffset + '" />';
+                _cogBuilder +=                   '</div>';
+                _cogBuilder +=                   '<div class="inputY">';
+                _cogBuilder +=                       '<span class="inputLabel">Offset Y: </span><input class="offsetY gaFontInput" name="offsetY" value="' + _fontSizeData.yOffset + '" />';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
@@ -3888,25 +3945,13 @@
                 _cogBuilder +=           '<div class="popup-row">';
                 _cogBuilder +=               '<div class="inputContainer">'
                 _cogBuilder +=                   '<div class="inputX">';
-                _cogBuilder +=                       '<span class="inputLabel">Offset X: </span><input class="offsetX" name="offsetX" value="' + _fontSizeData.xOffset + '" />';
+                _cogBuilder +=                       '<span class="inputLabel">Scale X: </span><input class="scaleX gaFontInput" name="scaleX" value="' + _fontSizeData.xScale + '" />';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=                   '<div class="inputY">';
-                _cogBuilder +=                       '<span class="inputLabel">Offset Y: </span><input class="offsetY" name="offsetY" value="' + _fontSizeData.yOffset + '" />';
+                _cogBuilder +=                       '<span class="inputLabel">Scale Y: </span><input class="scaleY gaFontInput" name="scaleY" value="' + _fontSizeData.yScale + '" />';
                 _cogBuilder +=                   '</div>';
                 _cogBuilder +=               '</div>';
                 _cogBuilder +=           '</div>';
-
-                _cogBuilder +=           '<div class="popup-row">';
-                _cogBuilder +=               '<div class="inputContainer">'
-                _cogBuilder +=                   '<div class="inputX">';
-                _cogBuilder +=                       '<span class="inputLabel">Scale X: </span><input class="scaleX" name="scaleX" value="' + _fontSizeData.xScale + '" />';
-                _cogBuilder +=                   '</div>';
-                _cogBuilder +=                   '<div class="inputY">';
-                _cogBuilder +=                       '<span class="inputLabel">Scale Y: </span><input class="scaleY" name="scaleY" value="' + _fontSizeData.yScale + '" />';
-                _cogBuilder +=                   '</div>';
-                _cogBuilder +=               '</div>';
-                _cogBuilder +=           '</div>';
-
                 _cogBuilder +=           '<div class="notes">* It is important to start with the font size closest to the size you will end up using. Starting with a small font and scaling it too far will affect the quality of the font. (e.g. jagged / pixelated edges)</div>';
 
                 _cogBuilder +=           '<div class="button-row">';
@@ -3957,11 +4002,71 @@
 
                     });
 
+                    $('input.gaFontInput').on('keypress', function (e) {
+
+                        if (e.ctrlKey && (e.keyCode === 46 || e.keyCode === 44)) {
+
+                            var $textBox = $(this);
+                            var _name = $textBox.attr('name');
+                            var _currentVal = $textBox.val();
+
+                            if (_name === 'font-size' || _name === 'offsetX' || _name === 'offsetY') {
+
+                                var _value = parseInt(_currentVal);
+
+                                if(e.keyCode === 44) {
+                                    _value -= 5;    
+                                }
+
+                                if(e.keyCode === 46) {
+                                    _value += 5;    
+                                }
+
+                                $textBox.val(_value);
+
+                                $('span.applyButton').trigger('click');
+                                $(this).focus();
+
+                            }
+
+                            if (_name === 'scaleX' || _name === 'scaleY') {
+
+                                var _value = parseFloat(_currentVal);
+
+                                if(e.keyCode === 44) {
+                                    _value -= 0.05;    
+                                }
+
+                                if(e.keyCode === 46) {
+                                    _value += 0.05;    
+                                }
+
+                                $textBox.val(parseFloat(_value).toFixed(2));
+
+                                $('span.applyButton').trigger('click');
+                                $(this).focus();
+
+                            }
+                            
+                        }
+
+                        if (e.keyCode === 13) {
+
+                            $('span.applyButton').trigger('click');
+                            $(this).focus();
+
+                        }
+
+                    });
+
+
+
                 /// End Events 
 
                 $('#cogPopupContainer').fadeIn();
 
                 ub.funcs.positionGaFontTool();
+                $('input.pixelFontSize').focus();
 
             });
 
@@ -3984,6 +4089,30 @@
 
 
     };
+
+    ub.funcs.getApplicationSizes = function (applicationType, gender) {
+
+        var _factory = ub.current_material.material.factory_code;
+        var _sizes;
+        var _gender;
+
+        if (typeof gender === 'undefined') {
+            _gender = 'adult';
+        }
+
+        if (applicationType === 'team_name') {
+            _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
+        } else {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType});            
+        }
+
+        if (typeof _sizes === 'undefined') {
+            util.error('Application Sizes for ' + applicationType + ' is not found!');
+        }
+        
+        return _sizes;
+
+    }
 
     /// End Interactive Applications
 

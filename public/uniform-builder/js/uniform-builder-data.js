@@ -341,6 +341,23 @@ $(document).ready(function() {
                             ],
                 },
                 {
+                    name: 'numbers_extra',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },                    
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },                
+                {
                     name: 'logo',
                     sizes:  [
                                 {

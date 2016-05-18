@@ -742,7 +742,7 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
-        var _fontObj = _.find(ub.data.fonts, {id: fontID});
+        var _fontObj        = _.find(ub.data.fonts, {id: fontID});
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
@@ -784,10 +784,6 @@ $(document).ready(function () {
     }
 
     ub.data.convertDefaultApplications = function () {
-
-        console.log('Convert: ');
-        console.log('Team Colors: ');
-        console.log(ub.current_material.settings.team_colors);
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
 
@@ -941,10 +937,11 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            if (application_obj.type === "player_name" || application_obj.type === "player_number" || application_obj.type === "team_name") {
 
-                console.log('Create Application: ');
-                console.log(application_obj.font_obj.name);
+            var _textApplicationTypes = ['player_number', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'number_extra'];
+            var _isATextApplication = _.contains(_textApplicationTypes,application_obj.type);
+
+            if (_isATextApplication) {
 
                 WebFont.load({
                 
@@ -3405,8 +3402,8 @@ $(document).ready(function () {
                 var _overrideSize = undefined;
                 var _overrideOffsetX = undefined;
                 var _overrideOffsetY = undefined;
-                var _overrideScaleX = 1;
-                var _overrideScaleY = 1;
+                var _overrideScaleX = undefined;
+                var _overrideScaleY = undefined;
 
                 if (typeof overrideSize !== 'undefined') {
 

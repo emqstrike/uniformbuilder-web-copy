@@ -1165,26 +1165,16 @@
         var accent_id;
         var accent_obj;
 
-        console.log('typeofWindowTemp');
-        console.log(input_object.typeofWindowTemp);
-
-        console.log('Input Object, Accent OBJ: ');
-        console.log(input_object.accentObj);
-
         if(input_object.typeofWindowTemp === 'object') {
 
             accent_id = input_object.accentObj.id;
             accent_obj = input_object.accentObj;
-
-            console.log('Using Built In Accent Object');
 
         } 
         else {
 
             accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
             accent_obj = _.find(ub.data.accents.items, {id: accent_id});
-
-            console.log('Using Accent Object from Data Structure');
 
         }
 
@@ -1522,7 +1512,6 @@
             /// End Color Drop
 
     }
-
 
     function create_color_dropdown (settings) {
 
