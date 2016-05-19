@@ -3686,7 +3686,7 @@
 
         var data = {
             label: 'Choose Font: ',
-            fonts: _.sortBy(ub.data.fonts, 'sortID'),
+            fonts: _.filter(_.sortBy(ub.data.fonts, 'sortID'), {active: '1'}),
             sampleText: sampleText,
             applicationType: applicationType,
             sampleSize: sampleSize,
