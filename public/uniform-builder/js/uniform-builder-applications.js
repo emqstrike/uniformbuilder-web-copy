@@ -2756,6 +2756,8 @@
     ub.funcs.activateColorPickers = function () {
 
         ub.funcs.clearPatternUI();
+        ub.funcs.deActivateApplications();
+
         $('#color-wheel-container').fadeIn();
 
     }
@@ -3330,6 +3332,7 @@
         if (_settingsObject.has_pattern === 1) {
 
             ub.funcs.deActivateColorPickers ();
+            ub.funcs.deActivateApplications();
 
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = _settingsObject.pattern;
