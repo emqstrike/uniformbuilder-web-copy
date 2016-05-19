@@ -274,10 +274,6 @@ $(document).ready(function() {
                     name: 'player_name',
                     sizes:  [
                                 {
-                                    type: 'embroidery',
-                                    size: 1,
-                                },
-                                {
                                     type: 'tackle twill',
                                     size: 2,
                                 },
@@ -288,13 +284,7 @@ $(document).ready(function() {
                     name: 'player_name',
                     sizes:  [
                                 {
-                                    size: 1,
-                                },
-                                {
                                     size: 2,
-                                },
-                                {
-                                    size: 3,
                                 },
                             ],
                     factory: 'BLB',
