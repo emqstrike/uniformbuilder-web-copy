@@ -937,7 +937,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            var _textApplicationTypes = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'number_extra'];
+            var _textApplicationTypes = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
             var _isATextApplication = _.contains(_textApplicationTypes,application_obj.type);
 
             if (_isATextApplication) {
