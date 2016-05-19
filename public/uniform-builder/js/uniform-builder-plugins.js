@@ -1151,7 +1151,15 @@
 
         console.log('Create Text: ');
         console.log(input_object);
-        
+        console.log(input_object.fontSize);
+
+        var _strokeInner = 24;
+        var _strokeOuter = 32;
+
+        if(input_object.fontSize < 5) {
+            _strokeInner = 7;
+            _strokeOuter = 14;
+        }
 
         ub.funcs.removeUIHandles();
     
@@ -1229,14 +1237,14 @@
             if (layer.outline === 1) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 12;
+                style.strokeThickness = _strokeInner;
 
             }
 
             if (layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 24;
+                style.strokeThickness = _strokeOuter;
 
                 if (typeof layer.type === 'string') {
                     style.stroke = '#ffffff';
@@ -1247,20 +1255,20 @@
             if (layer.type === 'middle_stroke' && layer.outline === 1) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 12;
+                style.strokeThickness = _strokeInner;
 
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = 24;
+                style.strokeThickness = _strokeOuter;
 
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {
                 style.stroke = '#ffffff';
-                style.strokeThickness = 12;
+                style.strokeThickness = _strokeInner;
             }
 
             if (layer.type === 'shadow' && layer.outline > 0) {
