@@ -2646,15 +2646,15 @@
 
     ub.funcs.changeApplicationLayerColor = function (applicationObj, layerNo, colorObj) {
 
-        console.log('Func Chane App Layer Color: ');
-        console.log(applicationObj);
+        // console.log('Func Chane App Layer Color: ');
+        // console.log(applicationObj);
 
-        _.each(applicationObj.views, function (appInView){
+        // _.each(applicationObj.views, function (appInView){
 
-            console.log('App In View');
-            console.log(appInView);
+        //     console.log('App In View');
+        //     console.log(appInView);
 
-        });
+        // });
 
     };
 

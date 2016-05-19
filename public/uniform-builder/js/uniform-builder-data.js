@@ -271,6 +271,25 @@ $(document).ready(function() {
                     factory: 'BLB',
                 },
                 {
+                    name: 'player_name',
+                    sizes:  [
+                                {
+                                    type: 'tackle twill',
+                                    size: 2,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'player_name',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
                     name: 'front_number',
                     sizes:  [
                                 {

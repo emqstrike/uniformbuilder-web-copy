@@ -937,11 +937,16 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
+            console.log('Application Types: ');
+            console.log(application_obj);
+            console.log(application_obj.type);
 
-            var _textApplicationTypes = ['player_number', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'number_extra'];
+            var _textApplicationTypes = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'number_extra'];
             var _isATextApplication = _.contains(_textApplicationTypes,application_obj.type);
 
             if (_isATextApplication) {
+
+                console.log('Entered');
 
                 WebFont.load({
                 
@@ -954,6 +959,9 @@ $(document).ready(function () {
 
                 });
 
+            }
+            else {
+                console.log('Failed');
             }
 
             if (application_obj.type === "mascot"){

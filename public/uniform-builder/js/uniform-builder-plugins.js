@@ -1149,6 +1149,10 @@
 
     $.ub.create_text = function (input_object) {
 
+        console.log('Create Text: ');
+        console.log(input_object);
+        
+
         ub.funcs.removeUIHandles();
     
         var text_input = input_object.text_input;
