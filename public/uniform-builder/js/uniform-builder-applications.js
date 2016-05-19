@@ -1630,20 +1630,53 @@
 
                 }
 
-                var _scaleX = point.scale.x;
-                var _scaleY = point.scale.y;
+                //// Process Scale X and Y from the font size field, in the application font size
 
-                if (typeof args.overrideScaleX !== 'undefined') {
-                    _scaleX = parseFloat(args.overrideScaleX);
-                }
+                    var _scaleXOverride = args.applicationObj.scaleXOverride;
+                    var _scaleYOverride = args.applicationObj.scaleYOverride;
 
-                if (typeof args.overrideScaleY !== 'undefined') {
-                    _scaleY = parseFloat(args.overrideScaleY);
-                }
+                    if (!isNaN(_scaleXOverride)) {
 
-                point.scale.set(_scaleX, _scaleY);
+                        _scaleXOverride = parseFloat(_scaleXOverride);
 
-                //                    
+                    }
+                    else {
+                    
+                        _scaleXOverride = point.scale.x;
+                    
+                    }
+
+                    if (!isNaN(_scaleYOverride)) {
+
+                         _scaleYOverride = parseFloat(_scaleYOverride);
+
+                    }
+                    else {
+
+                        _scaleYOverride = point.scale.y;
+
+                    }
+
+                    point.scale.set(_scaleXOverride, _scaleYOverride);
+
+                //// End Process Scale X and Y from the font size field
+
+                //// Process Override ScaleX and ScaleY from GA Font Tool
+
+                    var _scaleX = point.scale.x;
+                    var _scaleY = point.scale.y;
+
+                    if (typeof args.overrideScaleX !== 'undefined') {
+                        _scaleX = parseFloat(args.overrideScaleX);
+                    }
+
+                    if (typeof args.overrideScaleY !== 'undefined') {
+                        _scaleY = parseFloat(args.overrideScaleY);
+                    }
+
+                    point.scale.set(_scaleX, _scaleY);
+
+                //// Process End Override ScaleX and ScaleY from GA Font Tool              
 
 
                 ub.funcs.createClickable(point, view.application, view, 'application');
@@ -3752,7 +3785,7 @@
 
         ub.funcs.centerAccentPopup();
 
-        $('div.close-popup').on('click', function (){
+        $('div.close-popup').on('click', function () {
 
             $popup.remove();
 
@@ -3775,6 +3808,13 @@
 
         });
 
+    }
+
+    ub.funcs.createAssistants = function (applicationObj, modifier) {
+
+        console.log('Create Assistants: ');
+        console.log(applicationObj);
+        console.log(modifier);
 
     }
 
@@ -3798,6 +3838,9 @@
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
         var _accentFilename   = _accentObj.thumbnail;
+
+        var _patternName      = 'None';
+        var _patternFilename  = 'none.png';
 
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
@@ -3848,16 +3891,31 @@
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Accent</label><br />';                       
-        _htmlBuilder        +=              '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
-        _htmlBuilder        +=              '<span class="accent">' + _accentName + '</span>';                       
+        _htmlBuilder        +=              '<div class="column1">'
 
-        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=                  '<label>Accent</label><br />';                       
+        _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
+        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';         
+      
+        _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        +=              '<div class="column2">';
 
-        _htmlBuilder        +=              '<label>Colors:</label><br />';                       
-        _htmlBuilder        +=              '<span>' + _colorArrayString + '</span>';                       
+        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
+        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
+        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
+
+        // _htmlBuilder        +=                  '<div class="colorContainer">';
+
+        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
+        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
+        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
+
+        // _htmlBuilder        +=                  '</div>';
+        
+        _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=          '</div>';
 
@@ -4059,14 +4117,19 @@
 
                     });
 
-
-
                 /// End Events 
 
                 $('#cogPopupContainer').fadeIn();
 
                 ub.funcs.positionGaFontTool();
                 $('input.pixelFontSize').focus();
+
+                $('input.gaFontInput').focus(function (){
+
+                    var _modifier = $(this).attr('name');
+                    ub.funcs.createAssistants(_settingsObject, _modifier);
+
+                });
 
             });
 

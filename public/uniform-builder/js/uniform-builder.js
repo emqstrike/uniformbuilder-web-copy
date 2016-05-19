@@ -824,6 +824,8 @@ $(document).ready(function () {
                     color_array: _outputColorArray,
                     font_obj: _fontObj,
                     font_size: parseInt(_fontSizesArray[0]),
+                    scaleXOverride: parseFloat(_fontSizesArray[1]),
+                    scaleYOverride: parseFloat(_fontSizesArray[2]),
                     pixelFontSize: _fontSizeData.pixelFontSize,
                     object_type: "text object",
                     text: view.application.defaultText,
@@ -937,8 +939,8 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            var _textApplicationTypes = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
-            var _isATextApplication = _.contains(_textApplicationTypes,application_obj.type);
+            var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
+            var _isATextApplication     = _.contains(_textApplicationTypes, application_obj.type);
 
             if (_isATextApplication) {
 
