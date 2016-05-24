@@ -3616,9 +3616,6 @@
 
         settingsObj.font_obj = _fontObj;
 
-        console.log('settingsObj.font_obj.name');
-        console.log(settingsObj.font_obj.name);
-
         ub.create_application(settingsObj, undefined);
 
         $popup = $('div#primaryFontPopup');
@@ -3821,6 +3818,57 @@
 
     }
 
+    ub.funcs.activateColorPickerForApplication = function (settingsObj, layerNo, selectedColorCode) {
+
+        $('#applicationUI').css('margin-left', '-500px');
+        $('.colorItem').hide();
+
+    }
+
+    ub.funcs.getFontAtIndex = function (index) {
+
+        /// Todo: put index in initial load
+
+        var _fontList  = _.filter(ub.data.fonts, {active: "1"});
+        var _fontMatch = undefined;
+
+        _.each(_fontList, function (font, fontIndex){ 
+
+            if (fontIndex === index) {
+
+                _fontMatch = font;
+
+            }
+
+        });
+
+        return _fontMatch;
+
+    } 
+
+    ub.funcs.getFontObj = function (direction, activeFontObject) {
+
+        var _fontList   = _.filter(ub.data.fonts, {active: "1"});
+        var _index      = _.findIndex(_fontList, {name: activeFontObject.name});
+        var _newFontObj;
+        
+        if (typeof _index === "undefined") {
+
+            _newFontObj = _.first(ub.data.fonts);
+
+        } else {
+
+            if (direction === 'next') {
+                _newFontObj = ub.funcs.getFontAtIndex(_index + 1);
+            } else {
+                _newFontObj = ub.funcs.getFontAtIndex(_index - 1);
+            }
+            
+        }
+
+        return _newFontObj;
+
+    } 
 
     ub.funcs.activateApplications = function (application_id) {
 
@@ -3830,7 +3878,8 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-        
+
+        var _sampleText     = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
@@ -3860,21 +3909,39 @@
         ////
 
         var _htmlBuilder = "";
+        var _appActive = 'checked';
+
+        var _maxLength      = 12;
+
+        if (_settingsObject.type.indexOf('number') !== -1) {
+
+            _maxLength = 2;
+
+        }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header">' + _title + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title.replace('Number', '# ') + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Font</label><br />';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + _title.replace('Number', '#: ') + '</label>';                       
+        _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
+
+        _htmlBuilder        +=          '</div>';        
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
+        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
+        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
 
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label>Size</label><br />'; 
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
         _.each(_sizes.sizes, function (size) {
 
@@ -3886,7 +3953,7 @@
 
             }
 
-            _htmlBuilder    +=              '<span class="font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
         });                    
 
@@ -3896,10 +3963,37 @@
 
         _htmlBuilder        +=              '<div class="column1">'
 
+        _htmlBuilder        +=                  '<div class="colorContainer">';
+
+        _.each(_settingsObject.accent_obj.layers, function (layer) {
+
+            var _hexCode = layer.default_color;
+            var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+
+            if (layer.name === 'Mask') { return; }
+
+            if (typeof _color !== 'undefined') {
+
+                _htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
+
+
+
+
+            }
+            else {
+
+                util.error('Hex Code: ' + _hexCode + ' not found!');
+
+            }
+
+        });
+
+        _htmlBuilder        +=                  '</div>';
+      
         _htmlBuilder        +=                  '<label>Accent</label><br />';                       
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
-        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';         
-      
+        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';
+
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=              '<div class="column2">';
@@ -3923,11 +4017,32 @@
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=      '</div>';
+
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events  
+
+            // Font Left and Right
+
+                $('span.fontLeft, span.fontRight').on('click', function (e) {
+
+                    var _direction = $(this).data('direction');
+
+                    var _newFont    =  ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
+
+                    if (typeof _newFont !== 'undefined'){
+
+                        ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
+                        ub.funcs.activateApplications(_settingsObject.code)
+                    
+                    }
+                    
+                });
+
+
+            // End Font Left and Right 
 
             $('span.font_size').on('click', function () {
 
@@ -3947,6 +4062,45 @@
             $('span.accentThumb, span.accent').on('click', function () {
 
                 ub.funcs.createAccentPopup(_settingsObject);
+
+            });
+
+            $('input.sampleText').on('blur', function () {
+
+                var _val = $(this).val();
+
+                _settingsObject.text = _val;
+                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+            });
+
+            $('input.sampleText').on('keypress', function (e) {
+
+                var _val = $(this).val();
+
+                if (e.keyCode === 13){
+
+                    _settingsObject.text = _val;
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+             
+                    /// change text of all others except the active one
+
+                    _.each (ub.current_material.settings.applications, function (_application) {
+
+                        if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
+
+                            if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                            }
+
+                        }
+                        
+                    });
+
+                }
 
             });
 
