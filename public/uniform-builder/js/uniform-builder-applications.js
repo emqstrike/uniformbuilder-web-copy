@@ -4038,6 +4038,25 @@
                         ub.funcs.activateApplications(_settingsObject.code)
                     
                     }
+
+                    if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
+
+                        _.each (ub.current_material.settings.applications, function (_application) {
+
+                            if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
+
+                                if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+
+                                    _application.font_obj = _newFont;
+                                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                                }
+
+                            }
+                            
+                        });
+
+                    }
                     
                 });
 
