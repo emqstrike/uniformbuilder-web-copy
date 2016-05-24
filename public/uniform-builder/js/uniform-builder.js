@@ -888,8 +888,8 @@ $(document).ready(function () {
             if (typeof e.color !== 'undefined') {
 
                 var _hexCode = (e.color).toString(16);
-
                 var _paddedHex = util.padHex(_hexCode, 6);
+
                 ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
 
             }

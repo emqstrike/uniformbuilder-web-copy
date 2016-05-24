@@ -1149,10 +1149,6 @@
 
     $.ub.create_text = function (input_object) {
 
-        console.log('Create Text: ');
-        console.log(input_object);
-        console.log(input_object.fontSize);
-
         var _strokeInner = 24;
         var _strokeOuter = 32;
 
