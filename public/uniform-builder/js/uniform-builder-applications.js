@@ -3719,6 +3719,26 @@
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code)
 
+            if (settingsObj.type === "front_number" || settingsObj.type === "back_number") {
+
+                var _newFont = _.find(ub.data.fonts, {id: _id}); 
+
+                _.each (ub.current_material.settings.applications, function (_application) {
+
+                    if (_application.type !== settingsObj.application_type && _application.type !== "logo" && _application.type !== "mascot") {
+
+                        if (settingsObj.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+
+                            ub.funcs.changeFontFromPopup(_id, _application);
+
+                        }
+
+                    }
+                    
+                });
+
+            }
+
         });
 
         ub.funcs.centerFontPopup();
@@ -3780,6 +3800,7 @@
             ub.funcs.changeAccentFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code)
+
 
         });
 
@@ -3976,9 +3997,6 @@
 
                 _htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
 
-
-
-
             }
             else {
 
@@ -4047,8 +4065,7 @@
 
                                 if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
 
-                                    _application.font_obj = _newFont;
-                                    ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+                                    ub.funcs.changeFontFromPopup(_newFont.id, _application);
 
                                 }
 
