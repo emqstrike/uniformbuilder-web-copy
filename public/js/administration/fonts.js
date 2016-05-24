@@ -9,18 +9,21 @@ $(document).ready(function(){
         $('#p-text').css('font-size',size+'px');
     });
 
-    for( x = 1; x <= 12; x++ ){ // column counts
-        elem = '<td><input type="number" class="output-size td-' + x + '" style="width: 90px;">';
+    var font_sizes = ['1', '2', '2.5', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+
+    // for( x = 1; x <= 12; x++ ){ // column counts
+    $.each(font_sizes, function( i, value ) {
+        elem = '<td><input type="number" class="output-size td-' + font_sizes[i] + '" style="width: 90px;">';
 
         offset_label = '<br><br><label class="col-md-5 control-label">Offset</label><br>';
-        x_offset = '<br>x: <input type="number" class="output-x-offset td-' + x + '" style="width: 45px;">';
-        y_offset = '<br>y: <input type="number" class="output-y-offset td-' + x + '" style="width: 45px;">';
+        x_offset = '<br>x: <input type="number" class="output-x-offset td-' + font_sizes[i] + '" style="width: 45px;">';
+        y_offset = '<br>y: <input type="number" class="output-y-offset td-' + font_sizes[i] + '" style="width: 45px;">';
 
         scale_label = '<br><br><label class="col-md-5 control-label">Scale</label><br>';
-        x_scale = '<br>x: <input type="text" class="output-x-scale td-' + x + '" style="width: 45px;">';
-        y_scale = '<br>y: <input type="text" class="output-y-scale td-' + x + '" style="width: 45px;"></td>';
+        x_scale = '<br>x: <input type="text" class="output-x-scale td-' + font_sizes[i] + '" style="width: 45px;">';
+        y_scale = '<br>y: <input type="text" class="output-y-scale td-' + font_sizes[i] + '" style="width: 45px;"></td>';
 
-        $('.input-size-header').append('<th>' + x + '</th>');
+        $('.input-size-header').append('<th>' + font_sizes[i] + '</th>');
         $('.output-size-row').append(   elem +
                                         offset_label +
                                         x_offset +
@@ -35,8 +38,8 @@ $(document).ready(function(){
         // }catch(err){
         //     console.log(err.message);
         // }
-        if( x == 12 ){ outSizeEvent(); }
-    }
+        if( font_sizes[i] == 12 ){ outSizeEvent(); }
+    });
 
     try{
         old_fst = $('#old_font_size_table').val();
@@ -50,28 +53,59 @@ $(document).ready(function(){
 
     function loadFontSizeTable(old_fst){
         ctr = 0;
+
+        if( old_fst.length == 12 ){
+            row = {};
+            row['inputSize'] = 0;
+            row['outputSize'] = 0;
+            row['xOffset'] = 0;
+            row['yOffset'] = 0;
+            row['xScale'] = 0;
+            row['yScale'] = 0;
+            console.log('missing!');
+            old_fst.splice(2, 0, row);
+        }
         $(".output-size").each(function(i) {
+
             $(this).val(old_fst[ctr].outputSize);
+            console.log(old_fst[ctr].outputSize);
+
             ctr++;
         });
         ctr = 0;
         $(".output-x-offset").each(function(i) {
-            $(this).val(old_fst[ctr].xOffset);
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                $(this).val(old_fst[2].xOffset);
+            } else {
+                $(this).val(old_fst[ctr].xOffset);
+            }
             ctr++;
         });
         ctr = 0;
         $(".output-y-offset").each(function(i) {
-            $(this).val(old_fst[ctr].yOffset);
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                $(this).val(old_fst[2].yOffset);
+            } else {
+                $(this).val(old_fst[ctr].yOffset);
+            }
             ctr++;
         });
         ctr = 0;
         $(".output-x-scale").each(function(i) {
-            $(this).val(old_fst[ctr].xScale);
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                $(this).val(old_fst[2].xScale);
+            } else {
+                $(this).val(old_fst[ctr].xScale);
+            }
             ctr++;
         });
         ctr = 0;
         $(".output-y-scale").each(function(i) {
-            $(this).val(old_fst[ctr].yScale);
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                $(this).val(old_fst[2].yScale);
+            } else {
+                $(this).val(old_fst[ctr].yScale);
+            }
             ctr++;
         });
     }
@@ -128,60 +162,96 @@ $(document).ready(function(){
         ctr = 1;
         $(".output-size").each(function(i) {
             row = {};
-            row['inputSize'] = ctr.toString();
-            row['outputSize'] = $(this).val();
 
-            tdclass = $(this).attr('class').split(' ');
-            console.log(tdclass[1]);
-            // var class = tdclass[1];
-            // $(".prev-row").each(function(i) {
-            //     console.log('prev row~');
-            //     if( $(this).hasClass(tdclass[1]) ){
-            //         console.log('Match');
-            //         $(this).css('font-size', row['outputSize']+'px');
-            //     }
-            // });
-
+            if( $(this).hasClass( "td-2.5" ) ){
+                row['inputSize'] = '2.5';
+                row['outputSize'] = $(this).val();
+            } else {
+                row['inputSize'] = ctr.toString();
+                row['outputSize'] = $(this).val();
+                tdclass = $(this).attr('class').split(' ');
+                console.log(tdclass[1]);
+            }
             fontSizes.push(row);
             ctr++;
         });
         ctr = 0;
         $(".output-x-offset").each(function(i) {
             fontSizes[ctr]['xOffset'] = {};
-            if( $(this).val() == "" ){
-                fontSizes[ctr]['xOffset'] = "0";
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                fontSizes[2]['xOffset'] = {};
+                if( $(this).val() == "" ){
+                    ctrx  = ctr-1;
+                    fontSizes[2]['xOffset'] = '0';
+                } else {
+                    fontSizes[2]['xOffset'] = $(this).val();
+                }
             } else {
-                fontSizes[ctr]['xOffset'] = $(this).val();
+                if( $(this).val() == "" ){
+                    fontSizes[ctr]['xOffset'] = "0";
+                } else {
+                    fontSizes[ctr]['xOffset'] = $(this).val();
+                }
             }
             ctr++;
         });
         ctr = 0;
         $(".output-y-offset").each(function(i) {
             fontSizes[ctr]['yOffset'] = {};
-            if( $(this).val() == "" ){
-                fontSizes[ctr]['yOffset'] = "0";
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                fontSizes[2]['yOffset'] = {};
+                if( $(this).val() == "" ){
+                    ctrx  = ctr-1;
+                    fontSizes[2]['yOffset'] = '0';
+                } else {
+                    fontSizes[2]['yOffset'] = $(this).val();
+                }
             } else {
-                fontSizes[ctr]['yOffset'] = $(this).val();
+                if( $(this).val() == "" ){
+                    fontSizes[ctr]['yOffset'] = "0";
+                } else {
+                    fontSizes[ctr]['yOffset'] = $(this).val();
+                }
             }
             ctr++;
         });
         ctr = 0;
         $(".output-x-scale").each(function(i) {
             fontSizes[ctr]['xScale'] = {};
-            if( $(this).val() == "" ){
-                fontSizes[ctr]['xScale'] = "1";
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                fontSizes[2]['xScale'] = {};
+                if( $(this).val() == "" ){
+                    ctrx  = ctr-1;
+                    fontSizes[2]['xScale'] = '0';
+                } else {
+                    fontSizes[2]['xScale'] = $(this).val();
+                }
             } else {
-                fontSizes[ctr]['xScale'] = $(this).val();
+                if( $(this).val() == "" ){
+                    fontSizes[ctr]['xScale'] = "1";
+                } else {
+                    fontSizes[ctr]['xScale'] = $(this).val();
+                }
             }
             ctr++;
         });
         ctr = 0;
         $(".output-y-scale").each(function(i) {
             fontSizes[ctr]['yScale'] = {};
-            if( $(this).val() == "" ){
-                fontSizes[ctr]['yScale'] = "1";
+            if( $(this).hasClass( "td-2.5" ) ){ // for 2.5"
+                fontSizes[2]['yScale'] = {};
+                if( $(this).val() == "" ){
+                    ctrx  = ctr-1;
+                    fontSizes[2]['yScale'] = '0';
+                } else {
+                    fontSizes[2]['yScale'] = $(this).val();
+                }
             } else {
-                fontSizes[ctr]['yScale'] = $(this).val();
+                if( $(this).val() == "" ){
+                    fontSizes[ctr]['yScale'] = "1";
+                } else {
+                    fontSizes[ctr]['yScale'] = $(this).val();
+                }
             }
             ctr++;
         });
