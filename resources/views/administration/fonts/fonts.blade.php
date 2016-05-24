@@ -31,7 +31,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table table-bordered fonts'>
+                    <table data-toggle='table' class='table table-bordered fonts'>
                     <thead>
                         <tr>
                             <th>Font Name</th>
@@ -110,14 +110,20 @@
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+$("tr").each(function(i) {
+    if( $(this).hasClass( "inactive" ) ){
+        $(this).css('background-color', '#e3e3e3');
+        // console.log('INACTIVE');
+    }
+});
+    // $('.data-table').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": true,
+    //     "autoWidth": false
+    // });
 });
 </script>
 @endsection
