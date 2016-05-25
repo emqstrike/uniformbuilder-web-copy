@@ -1149,8 +1149,8 @@
 
     $.ub.create_text = function (input_object) {
 
-        var _strokeInner = 24;
-        var _strokeOuter = 32;
+        var _strokeInner = 22;
+        var _strokeOuter = 28;
 
         if(input_object.fontSize < 5) {
             _strokeInner = 7;
@@ -1258,7 +1258,7 @@
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = _strokeOuter;
+                style.strokeThickness = _strokeOuter + 14;
 
             }
 

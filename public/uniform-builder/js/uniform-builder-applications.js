@@ -3891,6 +3891,30 @@
 
     } 
 
+    ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name) {
+
+        var _html = "";
+
+        _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
+        _html += '<label class="smallColorPickerLabel">' + layer_name + ' </label>';
+
+        _.each(ub.current_material.settings.team_colors, function (_color) {
+
+            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+
+            console.log('Color Code: ');
+            console.log(_color.color_code);
+
+            _html += '<span style="background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _color.color_code + '</span>';
+
+        });
+
+        _html += '</div>';
+
+        return _html;
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3983,8 +4007,11 @@
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<div class="column1">'
+        
+        _htmlBuilder        +=                  '<label>Accent</label><br />';                       
+        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';
 
-        _htmlBuilder        +=                  '<div class="colorContainer">';
+        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -3995,7 +4022,12 @@
 
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name);
+
+                console.log('Layer: ');
+                console.log(layer);
+
+                //_htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
 
             }
             else {
@@ -4008,9 +4040,6 @@
 
         _htmlBuilder        +=                  '</div>';
       
-        _htmlBuilder        +=                  '<label>Accent</label><br />';                       
-        _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                       
-        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';
 
         _htmlBuilder        +=              '</div>';
 
@@ -4079,6 +4108,37 @@
 
 
             // End Font Left and Right 
+
+            // Small Color Pickers 
+
+                $('span.colorItem').on('click', function () {
+
+                    var _layer_no   = $(this).data('layer-no');
+                    var _color_code = $(this).data('color-code');
+                    var _layer_name = $(this).data('layer-name');
+
+                    var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+
+                    console.log('Color Item Clicked!');
+                    console.log('Layer No: ' + _layer_no);
+                    console.log('Color Code: ' + _color_code);
+                    console.log('Layer Name: ' + _layer_name);
+
+                    console.log('Settings Object: ');
+                    console.log(_settingsObject);
+
+                    var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                    _layer.default_color = _colorObj.hex_code;
+                    _settingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                    ub.funcs.activateApplications(_settingsObject.code)
+                    
+                });
+
+            // End Small Color Pickers
 
             $('span.font_size').on('click', function () {
 

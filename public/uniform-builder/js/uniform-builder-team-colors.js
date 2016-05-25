@@ -525,6 +525,18 @@ $(document).ready(function () {
     ub.funcs.getColorByColorCode = function (colorCode) {
 
         var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
+
+        if (_colorObj.name === "White" || _colorObj.name === "Yellow") {
+
+            _colorObj.forecolor = '3d3d3d';
+
+        }
+        else {
+
+            _colorObj.forecolor = 'ffffff';
+
+        }
+
         return _colorObj;
 
     }
