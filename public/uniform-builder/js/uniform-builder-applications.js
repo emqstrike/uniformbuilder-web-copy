@@ -3901,10 +3901,6 @@
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-
-            console.log('Color Code: ');
-            console.log(_color.color_code);
-
             _html += '<span style="background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _color.color_code + '</span>';
 
         });
@@ -4118,15 +4114,6 @@
                     var _layer_name = $(this).data('layer-name');
 
                     var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-
-
-                    console.log('Color Item Clicked!');
-                    console.log('Layer No: ' + _layer_no);
-                    console.log('Color Code: ' + _color_code);
-                    console.log('Layer Name: ' + _layer_name);
-
-                    console.log('Settings Object: ');
-                    console.log(_settingsObject);
 
                     var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
                     
