@@ -400,7 +400,7 @@ $(document).ready(function() {
         var default_number_label    = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Number:</label>';
         var text                    = $(this).val();
         var style                   = 'margin-right: 5px';
-        var items_arr               = ["logo", "number", "team_name", "player_name"];
+        var items_arr               = ["logo", "number", "team_name", "player_name", "mascot"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
         var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
         var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
@@ -1175,7 +1175,7 @@ $(document).ready(function() {
             if(app_properties[l].id != null){
 
                 var style                   = 'margin-right: 5px';
-                var items_arr               = ["logo", "number", "team_name", "player_name"];
+                var items_arr               = ["logo", "number", "team_name", "player_name", "mascot"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
