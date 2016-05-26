@@ -112,8 +112,8 @@
 $(document).ready(function(){
 $("tr").each(function(i) {
     if( $(this).hasClass( "inactive" ) ){
-        $(this).css('background-color', '#e3e3e3');
-        // console.log('INACTIVE');
+        $(this).css('background-color', '#ff6666');
+        $(this).css('color', '#fff');
     }
 });
     // $('.data-table').DataTable({
