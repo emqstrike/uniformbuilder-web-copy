@@ -633,6 +633,12 @@
 
     ub.funcs.update_application_mascot = function(application, mascot) {
 
+        console.log("Inside ub.funcs.update_application_mascot");
+        console.log("Application: ");
+        console.log(application);
+        console.log('Mascot');
+        console.log(mascot);
+
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
 
@@ -640,13 +646,13 @@
             var scale_settings = settings.applications[application.id].scale;            
         }
 
-        settings.applications[application.id] = {
-            application: application,
-            mascot: mascot,
-            type: 'mascot',
-            scale: scale_settings,
-            color_array: {},
-        };
+        // settings.applications[application.id] = {
+        //     application: application,
+        //     mascot: mascot,
+        //     type: 'mascot',
+        //     scale: scale_settings,
+        //     color_array: {},
+        // };
 
         var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
@@ -658,6 +664,12 @@
             mascot: mascot,
 
         };
+
+        console.log('Settings Object: ');
+        console.log(settings_obj);
+
+        console.log('input object');
+        console.log(input_object);
 
         var sprite_collection = ub.funcs.renderApplication($.ub.create_mascot, input_object, application.id);
         var uniform_type = ub.current_material.material.type;
@@ -1327,8 +1339,18 @@
             return;
         }
 
-        var baseSprite = ub.funcs.getBaseSprite(sprite);
-        baseSprite.oldTint = baseSprite.tint;
+        var basesprite;
+        if (application.type !== "mascot" && application.type !== "logo") {
+
+            baseSprite = ub.funcs.getBaseSprite(sprite);
+            baseSprite.oldTint = baseSprite.tint;
+            
+        } else {
+
+            baseSprite = sprite.children[0];
+            baseSprite.oldTint = baseSprite.tint;
+
+        }
 
         sprite.spriteType = spriteType;
 
@@ -1395,21 +1417,30 @@
 
                 if (sprite_obj.containsPoint(point)) {
 
-                    if(ub.zoom) { return; }
+                    if (application.type !== "mascot" && application.type !== "logo") {
 
-                    // start
-                    sprite.ubHover  = true;
-                    baseSprite.tint = parseInt("3d3d3d",16);
-                    ub.data.applicationAccumulator = _sizeOfApplications;
-                    ub.funcs.setPointer();
+
+                        if(ub.zoom) { return; }
+
+                        // start
+                        sprite.ubHover  = true;
+                        baseSprite.tint = parseInt("3d3d3d",16);
+                        ub.data.applicationAccumulator = _sizeOfApplications;
+                        ub.funcs.setPointer();
+
+                    }
                    
                 } else {
 
-                    // restore
-                    sprite.ubHover  = false;
-                    baseSprite.tint = baseSprite.oldTint;
-                    ub.data.applicationAccumulator -= 1;
-                    ub.funcs.setPointer();
+                    if (application.type !== "mascot" && application.type !== "logo") {
+
+                        // restore
+                        sprite.ubHover  = false;
+                        baseSprite.tint = baseSprite.oldTint;
+                        ub.data.applicationAccumulator -= 1;
+                        ub.funcs.setPointer();
+
+                    }    
                     
                 }
                 
@@ -1632,6 +1663,9 @@
 
                 //// Process Scale X and Y from the font size field, in the application font size
 
+                if (typeof args.applicationObj !== "undefined") {
+
+
                     var _scaleXOverride = args.applicationObj.scaleXOverride;
                     var _scaleYOverride = args.applicationObj.scaleYOverride;
 
@@ -1659,6 +1693,7 @@
 
                     point.scale.set(_scaleXOverride, _scaleYOverride);
 
+
                 //// End Process Scale X and Y from the font size field
 
                 //// Process Override ScaleX and ScaleY from GA Font Tool
@@ -1676,9 +1711,10 @@
 
                     point.scale.set(_scaleX, _scaleY);
 
-                //// Process End Override ScaleX and ScaleY from GA Font Tool              
+                //// Process End Override ScaleX and ScaleY from GA Font Tool   
 
-
+                }
+           
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
@@ -2707,25 +2743,28 @@
 
             _.each(_applications, function (application) {
 
-                if (application.color_array.length >= 2) {
+                if(application.application_type !== "mascot" && application.application_type !== "logo") {
 
-                    application.color_array[0] = colorObj;
-                    _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
+                    if (application.color_array.length >= 2) {
 
-                    if (typeof _base_color != 'undefined') {
+                        application.color_array[0] = colorObj;
+                        _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
 
-                        _base_color.default_color = colorObj.hex_code;
+                        if (typeof _base_color != 'undefined') {
 
-                    }
+                            _base_color.default_color = colorObj.hex_code;
 
-                    ub.funcs.changeApplicationLayerColor(application, 1, colorObj);
+                        }
 
-                } 
+                        ub.funcs.changeApplicationLayerColor(application, 1, colorObj);
+
+                    } 
+
+                }
 
             });
 
         }
-
 
         // if (groupID === '1') {
 
@@ -2835,7 +2874,6 @@
 
     };
 
-
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
           
       var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
@@ -2879,7 +2917,6 @@
         //     _materialOptionObject.colorObj  = colorObj;
         
         // }
-
         
     };
 
@@ -4019,11 +4056,6 @@
             if (typeof _color !== 'undefined') {
 
                 _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name);
-
-                console.log('Layer: ');
-                console.log(layer);
-
-                //_htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
 
             }
             else {

@@ -16,7 +16,9 @@ $(document).ready(function () {
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+            ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
+            ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
@@ -124,7 +126,7 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts') {
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots') {
 
                 ub.data[object_name] = obj;
 
@@ -145,7 +147,8 @@ $(document).ready(function () {
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined' &&
-                     typeof(ub.data.fonts) !== 'undefined';  
+                     typeof(ub.data.fonts) !== 'undefined' && 
+                     typeof(ub.data.mascots) !== 'undefined';  
 
             if (ok) {
 
@@ -797,41 +800,91 @@ $(document).ready(function () {
                 var _colorArray         = view.application.colors.split(',');
                 var _outputColorArray   = []; 
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
-                var _fontSizesArray     = view.application.fontSizes.split(',')
+                var _fontSizesArray     = view.application.fontSizes.split(',');
+                var _output             = {};
 
-                _.each(_accentObj.layers, function (layer, index) {
+                if (_application.type !== "logo" && _application.type !== "mascot") {
 
-                    if (typeof _colorArray[index] === 'undefined') {
-                        return;
-                    }
+                    _.each(_accentObj.layers, function (layer, index) {
 
-                    var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index]);
-                    var _color = _resultColorObj.hex_code;
-                    layer.default_color = _color;
+                        if (typeof _colorArray[index - 1] === 'undefined') {
+                            return;
+                        }
 
-                    _outputColorArray.push(_resultColorObj);
+                        var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
+                        var _color = _resultColorObj.hex_code;
+                        layer.default_color = _color;
 
-                });
+                        _outputColorArray.push(_resultColorObj);
 
-                var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
+                    });
 
-                var _output = {
+                    var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
 
-                    accent_obj: _accentObj,
-                    application_type: _application.type,
-                    application: _application,
-                    code: _application.id,
-                    color_array: _outputColorArray,
-                    font_obj: _fontObj,
-                    font_size: parseInt(_fontSizesArray[0]),
-                    scaleXOverride: parseFloat(_fontSizesArray[1]),
-                    scaleYOverride: parseFloat(_fontSizesArray[2]),
-                    pixelFontSize: _fontSizeData.pixelFontSize,
-                    object_type: "text object",
-                    text: view.application.defaultText,
-                    type: _application.type,
+                    _output = {
 
-                };
+                        accent_obj: _accentObj,
+                        application_type: _application.type,
+                        application: _application,
+                        code: _application.id,
+                        color_array: _outputColorArray,
+                        font_obj: _fontObj,
+                        font_size: parseInt(_fontSizesArray[0]),
+                        scaleXOverride: parseFloat(_fontSizesArray[1]),
+                        scaleYOverride: parseFloat(_fontSizesArray[2]),
+                        pixelFontSize: _fontSizeData.pixelFontSize,
+                        object_type: "text object",
+                        text: view.application.defaultText,
+                        type: _application.type,
+
+                    };
+
+                } 
+
+                if (_application.type === "mascot") {
+
+                    console.log('View.Application');
+                    console.log(view.application);
+
+                    var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+
+                    console.log('Layers Properties: ');
+                    console.log(_mascotObj.layers_properties);
+
+                    _mascotObj.layers_properties = JSON.parse(_mascotObj.layers_properties);
+
+                    _.each(_mascotObj.layers_properties, function (layer, index) {
+
+                        if (typeof _colorArray[index -1] === 'undefined') {
+                            return;
+                        }
+
+                        var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
+                        var _color = _resultColorObj.hex_code;
+                        layer.default_color = _color;
+
+                        _outputColorArray.push(_resultColorObj);
+
+                    });
+
+                    _output = { 
+
+                        application_type: _application.type,
+                        application: _application,
+                        code: _application.id,
+                        color_array: _outputColorArray,
+                        scaleXOverride: parseFloat(_fontSizesArray[1]),
+                        scaleYOverride: parseFloat(_fontSizesArray[2]),
+                        mascot: _mascotObj,
+                        object_type: "mascot",
+                        type: _application.type,
+
+                    };
+
+                    console.log("Output: ");
+                    console.log(_output);
+
+                }
 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
@@ -938,22 +991,27 @@ $(document).ready(function () {
         var font_families = [];
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
+            
+            if (application_obj.type !== "mascot" && application_obj.type !== "logo") {
 
-            var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
-            var _isATextApplication     = _.contains(_textApplicationTypes, application_obj.type);
 
-            if (_isATextApplication) {
+                var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
+                var _isATextApplication     = _.contains(_textApplicationTypes, application_obj.type);
 
-                WebFont.load({
-                
-                    custom: {
-                      families: [application_obj.font_obj.name],
-                    },
-                    active: function() {
-                        ub.create_application(application_obj, undefined);
-                    },
+                if (_isATextApplication) {
 
-                });
+                    WebFont.load({
+                    
+                        custom: {
+                          families: [application_obj.font_obj.name],
+                        },
+                        active: function() {
+                            ub.create_application(application_obj, undefined);
+                        },
+
+                    });
+
+                }
 
             }
             
