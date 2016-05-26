@@ -413,11 +413,9 @@ $(document).ready(function() {
         var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
-        // var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value="">';
-        // var accents                 = '<input type="text" style="' + style + '" class="app-accents" value="" size="3">';
-        var accents                 = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
-        var default_mascot          = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';

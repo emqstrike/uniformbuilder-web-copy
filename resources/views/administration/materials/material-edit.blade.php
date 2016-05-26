@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Neck Option</label>
+                            <label class="col-md-4 control-label">Block Pattern Option</label>
                             <div class="col-md-6">
                             <input type="hidden" id="existing_neck_option" value="{{ $material->neck_option }}">
                                 <select class="form-control material-neck-option" name="neck_option" id="neck_option">
