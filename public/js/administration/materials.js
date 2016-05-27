@@ -549,6 +549,11 @@ $(document).ready(function() {
         $(this).css('background-color', color);
     });
 
+    $('.app-rotation').change(function(){
+        // checkpoint
+        updateRXY();
+    });
+
     // $('.front-applications').change(function(){
     //     console.log('form change');
     //     updateApplicationsJSON();
@@ -1378,6 +1383,10 @@ $(document).ready(function() {
 
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+                });
+
+                $('.app-rotation').change(function(){
+                    updateCoordinates();
                 });
 
                 thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
@@ -2225,6 +2234,10 @@ $(document).ready(function() {
                 $(this).val(thisGroup.getAngle());
 
                 canvasFront.renderAll();
+            });
+        } else {
+            $(".app-rotation").each(function(i) {
+                
             });
         }
     }
