@@ -3961,8 +3961,7 @@
 
         var data = {
             label: 'Choose Mascot: ',
-            //mascots: _.filter(ub.data.mascots, {category: "Badger"}),
-            mascots: ub.data.mascots,
+            mascots: _.filter(ub.data.mascots, {active: "1"}),
             paddingTop: paddingTop,
         };
 
