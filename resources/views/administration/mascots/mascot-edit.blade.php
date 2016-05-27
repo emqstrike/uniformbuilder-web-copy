@@ -172,7 +172,7 @@ $(document).ready(function(){
             // var imgURL = encodeURIComponent(myJson[length]['filename']);
             imgURL = myJson[length]['filename'].replace(" ", "%20");
             // console.log(imgURL);
-            var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
+            var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #000;"><input type="hidden" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
             
             var colors_select="";
             var select_hex_code_bg = "";
