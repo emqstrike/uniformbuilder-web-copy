@@ -3971,10 +3971,10 @@
 
         $('body').append(markup);
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
 
-          $('div.patternPopupResults > div.item').hover(
+          $('div.mascotPopupResults > div.item').hover(
 
           function() {
             $( this ).find('div.name').addClass('pullUp');
@@ -3984,7 +3984,7 @@
 
         );
 
-        $('div.patternPopupResults > div.item').on('click', function () {
+        $('div.mascotPopupResults > div.item').on('click', function () {
 
             var _id = $(this).data('font-id');
 
@@ -4130,6 +4130,37 @@
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
+
+                if (_id === "9") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "10") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "32") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "33") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                
+
                 
             });
 
