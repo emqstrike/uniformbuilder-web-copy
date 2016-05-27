@@ -420,6 +420,8 @@ $(document).ready(function() {
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
+        var flip = "<td><a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a></td>";
+
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
         for(var i = 0; i<items_arr.length; i++) {
@@ -432,6 +434,7 @@ $(document).ready(function() {
         select_append += "</select>";
 
         var fields = [
+                    flip,
                     app_id,
                     select_append,
                     def_name,
@@ -551,7 +554,7 @@ $(document).ready(function() {
 
     $('.app-rotation').change(function(){
         // checkpoint
-        updateRXY();
+        updateRXY(0);
     });
 
     // $('.front-applications').change(function(){
@@ -1265,8 +1268,10 @@ $(document).ready(function() {
                 }
                 select_append += "</select>";
 
+                var flip = "<td><a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a></td>";
                 // contain TDs in an array, obvious?
                 var fields = [
+                    flip,
                     app_id,
                     select_append,
                     def_name,
@@ -1385,8 +1390,15 @@ $(document).ready(function() {
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
                 });
 
+                $('.app-rotation-flip').on('click', function(){
+                    console.log('FLIP CHANGE');
+                    var id = $(this).data('id');
+                    flipApplication(id);
+                });
+
                 $('.app-rotation').change(function(){
-                    updateCoordinates();
+                    console.log('ROTATION');
+                    updateRXY(0);
                 });
 
                 thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
@@ -1875,7 +1887,7 @@ $(document).ready(function() {
         var tr = '<tr class="application-row">';
         var c = 0;
         fields.forEach(function(entry) {
-            if( c === 14 ){
+            if( c === 15 ){
                 tr += '<td class="msc">' + entry + '</td>';
             } else {
                 tr += '<td>' + entry + '</td>';
@@ -2216,6 +2228,24 @@ $(document).ready(function() {
         updateRXY(cs);
     }
 
+    function flipApplication(id){
+        thisGroup = canvasFront.item(id);
+
+        var angle = thisGroup.getAngle();
+        var newAngle = 360 - angle;
+
+console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
+    try{
+        thisGroup.setAngle(newAngle).setCoords();
+        canvasFront.renderAll();
+    } catch( err ){
+        console.log(err.message);
+    }
+            // cs = 0;
+            // updateApplicationsJSON();
+
+    }
+
     function updateRXY(cs){
         applicationProperties = {}
 
@@ -2237,8 +2267,18 @@ $(document).ready(function() {
             });
         } else {
             $(".app-rotation").each(function(i) {
-                
+                itemIdx = "layer"+$(this).data('id');
+                layer = $(this).data('id');
+
+                var val = $(this).val();
+
+                thisGroup = canvasFront.item(layer);
+                thisGroup.setAngle(val).setCoords();
+
+                canvasFront.renderAll();
             });
+            cs = 0;
+            updateApplicationsJSON();
         }
     }
 
@@ -2679,6 +2719,8 @@ function updateApplicationsJSON(){
         itemIdx = "layer"+$(this).data('id');
         layer = $(this).data('id');
 
+        var rotation_val = $(this).val();
+
         thisGroup = canvasFront.item(layer);
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
@@ -2846,6 +2888,9 @@ function updateApplicationsJSON(){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
                 $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
                 $(this).val(thisGroup.getAngle());
+            } else {
+                applicationProperties[itemIdx].rotation = rotation_val;
+                console.log("ROTATION VALUE: >>>> " + rotation_val);
             }
         } catch(err){
             console.log(err.message);

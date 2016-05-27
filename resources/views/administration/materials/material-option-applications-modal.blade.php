@@ -95,6 +95,7 @@
 
                         <table class="table table-bordered" id="applications_table">
                             <thead>
+                                <th></th>
                                 <th>App #</th>
                                 <th>Type</th>
                                 <th>Name</th>
