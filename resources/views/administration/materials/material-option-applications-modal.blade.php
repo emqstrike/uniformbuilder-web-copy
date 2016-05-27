@@ -119,7 +119,7 @@
                         </table>
                         <input type="text" id="app_template_name" placeholder="Template Name.">
                         <a href="#"
-                            class="btn btn-xs btn-primary" id="save_app_template" disabled>
+                            class="btn btn-xs btn-primary" id="save_app_template">
                         <span class="glyphicon glyphicon-save"></span> Save as Template</a><hr>
                     </div>
                 </div>
