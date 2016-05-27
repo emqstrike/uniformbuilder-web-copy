@@ -551,7 +551,7 @@ $(document).ready(function() {
 
     $('.app-rotation').change(function(){
         // checkpoint
-        updateRXY();
+        updateRXY(0);
     });
 
     // $('.front-applications').change(function(){
@@ -1386,7 +1386,7 @@ $(document).ready(function() {
                 });
 
                 $('.app-rotation').change(function(){
-                    updateCoordinates();
+                    updateRXY(0);
                 });
 
                 thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
@@ -2237,8 +2237,18 @@ $(document).ready(function() {
             });
         } else {
             $(".app-rotation").each(function(i) {
-                
+                itemIdx = "layer"+$(this).data('id');
+                layer = $(this).data('id');
+
+                var val = $(this).val();
+
+                thisGroup = canvasFront.item(layer);
+                thisGroup.setAngle(val).setCoords();
+
+                canvasFront.renderAll();
             });
+            cs = 0;
+            updateApplicationsJSON();
         }
     }
 
@@ -2679,6 +2689,8 @@ function updateApplicationsJSON(){
         itemIdx = "layer"+$(this).data('id');
         layer = $(this).data('id');
 
+        var rotation_val = $(this).val();
+
         thisGroup = canvasFront.item(layer);
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
         applicationName = $(this).parent().siblings('td').find("input[class=app-def-name]").val();
@@ -2846,6 +2858,9 @@ function updateApplicationsJSON(){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
                 $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
                 $(this).val(thisGroup.getAngle());
+            } else {
+                applicationProperties[itemIdx].rotation = rotation_val;
+                console.log("ROTATION VALUE: >>>> " + rotation_val);
             }
         } catch(err){
             console.log(err.message);
