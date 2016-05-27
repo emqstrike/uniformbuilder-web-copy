@@ -3971,10 +3971,10 @@
 
         $('body').append(markup);
 
-        $popup = $('div#primaryMascotPopup');
+        $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
 
-          $('div.mascotPopupResults > div.item').hover(
+          $('div.patternPopupResults > div.item').hover(
 
           function() {
             $( this ).find('div.name').addClass('pullUp');
@@ -3984,28 +3984,42 @@
 
         );
 
-        $('div.mascotPopupResults > div.item').on('click', function () {
+        $('div.patternPopupResults > div.item').on('click', function () {
 
-            var _id = $(this).data('font-id');
+            var _id = $(this).data('mascot-id');
 
             ub.funcs.changeMascotFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateMascots(settingsObj.code)
 
-            if (settingsObj.type === "front_number" || settingsObj.type === "back_number") {
+            console.log("IDDD: " + _id);
 
-                var _newMascot = _.find(ub.data.fonts, {id: _id}); 
+            if (settingsObj.code === "9") {
 
-                _.each (ub.current_material.settings.applications, function (_application) {
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
-                    if (_application.type === "mascot") {
+            }
 
-                        ub.funcs.changeMascotFromPopup(_id, _application);
+            if (settingsObj.code === "10") {
 
-                    }
-                    
-                });
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
+            }
+
+            if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+                
             }
 
         });
@@ -4034,6 +4048,21 @@
             $(this).remove();
 
         });
+
+    }
+
+    ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
+
+        var _mascotObj    = _.find(ub.data.mascots, {id: mascotId.toString()});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.mascot = _mascotObj;
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.remove();
 
     }
 
@@ -4159,9 +4188,6 @@
 
                 }
 
-                
-
-                
             });
 
             $('span.font_name').on('click', function () {
