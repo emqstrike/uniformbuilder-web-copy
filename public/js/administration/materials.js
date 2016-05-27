@@ -468,7 +468,12 @@ $(document).ready(function() {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
-            item['description'] = 'Mascot';
+            var c = 1;
+            var xdata = JSON.parse(item.layers_properties);
+            $.each(xdata, function(i, item) {
+                c++;
+            });
+            item['description'] = item.category + ' [ ' + c + ' ]';
             item['imageSrc'] = item.icon;
         });
 
@@ -1291,7 +1296,13 @@ $(document).ready(function() {
                     } else {
                         item['selected'] = false;
                     }
-                    item['description'] = 'Mascot';
+                    // item['description'] = 'Mascot';
+                    var c = 1;
+                    var xdata = JSON.parse(item.layers_properties);
+                    $.each(xdata, function(i, item) {
+                        c++;
+                    });
+                    item['description'] = item.category + ' [ ' + c + ' ]';
                     item['imageSrc'] = item.icon;
                 });
 
