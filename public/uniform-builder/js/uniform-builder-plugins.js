@@ -1079,13 +1079,7 @@
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
         var scale_settings = undefined;
-
-        if(typeof settings.applications[application.id].scale === 'object') {
-            var scale_settings = settings.applications[application.id].scale;
-        }
-        else {
-            var scale_settings = {x: 0.15, y: 0.15};
-        }
+        var scale_settings = {x: 0.15, y: 0.15};
 
         var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
@@ -1093,6 +1087,15 @@
         var view_objects = ub.objects[application.perspective + '_view'];
         var container = new PIXI.Container();
         var elements = "";
+
+        console.log('Settings Object (Inside Create Mascot): ');
+        console.log(settings_obj);
+
+        if (settings_obj.size === 4)   { scale_settings = {x: 0.18, y: 0.18}; }
+        if (settings_obj.size === 3)   { scale_settings = {x: 0.15, y: 0.15}; }
+        if (settings_obj.size === 2)   { scale_settings = {x: 0.12, y: 0.12}; }
+        if (settings_obj.size === 1)   { scale_settings = {x: 0.09, y: 0.09}; }
+        if (settings_obj.size === 0.5) { scale_settings = {x: 0.03, y: 0.03}; }
 
         _.each(mascot.layers_properties, function(layer, index) {
 

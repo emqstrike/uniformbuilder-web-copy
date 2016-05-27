@@ -122,6 +122,16 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.transformMascots = function () {
+
+            _.each(ub.data.mascots, function (mascot) {
+
+                mascot.layers_properties = JSON.parse(mascot.layers_properties);
+
+            });
+
+        }
+
         /// Load Assets 
  
         ub.callback = function (obj, object_name) {
@@ -140,6 +150,12 @@ $(document).ready(function () {
             if (object_name === 'patterns') {
 
                 ub.funcs.transformPatterns(obj);
+
+            }
+
+            if (object_name === 'mascots') {
+
+                ub.funcs.transformMascots();
 
             }
 
@@ -841,17 +857,9 @@ $(document).ready(function () {
 
                 } 
 
-                if (_application.type === "mascot") {
-
-                    console.log('View.Application');
-                    console.log(view.application);
+                if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
                     var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
-
-                    console.log('Layers Properties: ');
-                    console.log(_mascotObj.layers_properties);
-
-                    _mascotObj.layers_properties = JSON.parse(_mascotObj.layers_properties);
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
@@ -873,6 +881,7 @@ $(document).ready(function () {
                         application: _application,
                         code: _application.id,
                         color_array: _outputColorArray,
+                        size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
@@ -880,9 +889,6 @@ $(document).ready(function () {
                         type: _application.type,
 
                     };
-
-                    console.log("Output: ");
-                    console.log(_output);
 
                 }
 

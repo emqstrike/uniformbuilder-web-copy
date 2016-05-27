@@ -1370,7 +1370,12 @@
                 var _id = sprite.name.replace('objects_','');
 
                 sprite.ubHover = false;
-                ub.funcs.activateApplications(_id);
+
+                if (application.type !== "mascot" && application.type !== "logo") {
+                    ub.funcs.activateApplications(_id);
+                } else {
+                    ub.funcs.activateMascots(_id);
+                }
 
             } 
 
@@ -1417,30 +1422,21 @@
 
                 if (sprite_obj.containsPoint(point)) {
 
-                    if (application.type !== "mascot" && application.type !== "logo") {
+                    if(ub.zoom) { return; }
 
-
-                        if(ub.zoom) { return; }
-
-                        // start
-                        sprite.ubHover  = true;
-                        baseSprite.tint = parseInt("3d3d3d",16);
-                        ub.data.applicationAccumulator = _sizeOfApplications;
-                        ub.funcs.setPointer();
-
-                    }
+                    // start
+                    sprite.ubHover  = true;
+                    baseSprite.tint = parseInt("3d3d3d",16);
+                    ub.data.applicationAccumulator = _sizeOfApplications;
+                    ub.funcs.setPointer();
                    
                 } else {
 
-                    if (application.type !== "mascot" && application.type !== "logo") {
-
-                        // restore
-                        sprite.ubHover  = false;
-                        baseSprite.tint = baseSprite.oldTint;
-                        ub.data.applicationAccumulator -= 1;
-                        ub.funcs.setPointer();
-
-                    }    
+                    // restore
+                    sprite.ubHover  = false;
+                    baseSprite.tint = baseSprite.oldTint;
+                    ub.data.applicationAccumulator -= 1;
+                    ub.funcs.setPointer();
                     
                 }
                 
@@ -3948,6 +3944,207 @@
 
     }
 
+    ub.funcs.changeMascotSize = function (size, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.size = parseInt(size);
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+    }
+
+    ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        var data = {
+            label: 'Choose Mascot: ',
+            //mascots: _.filter(ub.data.mascots, {category: "Badger"}),
+            mascots: ub.data.mascots,
+            paddingTop: paddingTop,
+        };
+
+        var template = $('#m-mascot-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+          $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('font-id');
+
+            ub.funcs.changeMascotFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateMascots(settingsObj.code)
+
+            if (settingsObj.type === "front_number" || settingsObj.type === "back_number") {
+
+                var _newMascot = _.find(ub.data.fonts, {id: _id}); 
+
+                _.each (ub.current_material.settings.applications, function (_application) {
+
+                    if (_application.type === "mascot") {
+
+                        ub.funcs.changeMascotFromPopup(_id, _application);
+
+                    }
+                    
+                });
+
+            }
+
+        });
+
+        ub.funcs.centerPatternPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    }
+
+    ub.funcs.activateMascots = function (application_id) {
+
+        var _id                 = application_id.toString();
+        var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
+        var _applicationType    = _settingsObject.application_type;
+        var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
+        var _mascotObj          = _settingsObject.mascot;
+        var _currentSize        = _settingsObject.size;
+        var _colorArray         = _settingsObject.color_array;
+        var _mascotName         = _mascotObj.name;
+        var _title              = _applicationType.toTitleCase();
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+
+        console.log("Settings Object: ");
+        console.log(_settingsObject);
+
+        console.log("id: ");
+        console.log(_id);
+
+        console.log('Mascot: ');
+        console.log(_mascotObj);
+
+        console.log('Sizes: ');
+        console.log(_sizes);
+
+        console.log("Current Size: ");
+        console.log(_currentSize);        
+
+        console.log("Color Array: ");
+        console.log(_colorArray);
+
+               ////
+
+        var _htmlBuilder = "";
+        var _appActive = 'checked';
+
+        var _maxLength      = 12;
+
+        if (_settingsObject.type.indexOf('number') !== -1) {
+
+            _maxLength = 2;
+
+        }
+
+        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="body">';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">Mascot</label>';
+        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
+        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+
+        _.each(_sizes.sizes, function (size) {
+
+            var _additionalClass = '';
+
+            if (size.size === _settingsObject.size) {
+
+                _additionalClass = 'active';
+
+            }
+
+            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+        });                    
+
+        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=      '</div>';
+        _htmlBuilder        +=  '</div>';
+        
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        // Events 
+
+            $('span.font_size').on('click', function () {
+
+                var _selectedSize = $(this).data('size');
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
+                ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
+                
+            });
+
+            $('span.font_name').on('click', function () {
+
+                ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+            });
+
+        // End Events
+
+        $('div#applicationUI').fadeIn();
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3957,7 +4154,7 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
 
-        var _sampleText     = _settingsObject.text;
+        var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;

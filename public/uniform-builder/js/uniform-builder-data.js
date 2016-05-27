@@ -393,6 +393,24 @@ $(document).ready(function() {
                                 }
                             ],
                 },
+                {
+                    name: 'mascot',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                }
+                            ],
+                },
+
             ],
     }
 
