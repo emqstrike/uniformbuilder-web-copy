@@ -1079,21 +1079,7 @@
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
         var scale_settings = undefined;
-
-        if(typeof settings.applications[application.id].scale === 'object') {
-            var scale_settings = settings.applications[application.id].scale ;
-        }
-        else {
-            var scale_settings = {x: 0.15, y: 0.15};
-        }
-
-        settings.applications[application.id] = {
-            application: application,
-            mascot: mascot,
-            type: 'mascot',
-            color_array: {},
-            scale: scale_settings,
-        };
+        var scale_settings = {x: 0.15, y: 0.15};
 
         var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
@@ -1102,12 +1088,21 @@
         var container = new PIXI.Container();
         var elements = "";
 
-        _.each(mascot.layers, function(layer, index){
+        console.log('Settings Object (Inside Create Mascot): ');
+        console.log(settings_obj);
 
-            var mascot_layer = PIXI.Sprite.fromImage(layer.filename);
+        if (settings_obj.size === 4)   { scale_settings = {x: 0.18, y: 0.18}; }
+        if (settings_obj.size === 3)   { scale_settings = {x: 0.15, y: 0.15}; }
+        if (settings_obj.size === 2)   { scale_settings = {x: 0.12, y: 0.12}; }
+        if (settings_obj.size === 1)   { scale_settings = {x: 0.09, y: 0.09}; }
+        if (settings_obj.size === 0.5) { scale_settings = {x: 0.03, y: 0.03}; }
+
+        _.each(mascot.layers_properties, function(layer, index) {
+
+            var mascot_layer = ub.pixi.new_sprite(layer.filename);
 
             mascot_layer.tint = parseInt(layer.default_color,16);
-            mascot_obj.layers[index].color = mascot_layer.tint; 
+            mascot_obj.layers_properties[index].color = mascot_layer.tint; 
             mascot_layer.anchor.set(0.5, 0.5);
             container.addChild(mascot_layer);
 
@@ -1142,6 +1137,38 @@
         sprite.zIndex = layer_order * (-1);
         settings_obj.layer_order = layer_order;
         sprite.scale = scale_settings;
+
+        // Set Colors
+        var children = container.children;
+
+        if(typeof settings.applications[application.id] !== 'undefined') {
+                    
+            color_array = settings.applications[application.id].color_array;
+
+        }    
+
+        children.reverse();
+
+        _.each(children, function (child, index) {
+
+            //child.tint = parseInt(child.ubDefaultColor, 16);
+
+            if(color_array !== ''){
+
+                var array = ub.current_material.settings.applications[application.id].color_array;
+                var color_array_size = _.size(array);
+                var code = ub.current_material.settings.applications[application.id].color_array[index];
+
+                if (typeof code !== 'undefined') {
+                    child.tint = parseInt(code.hex_code, 16);
+
+                }
+
+            }
+
+        });
+ 
+        /// End Set Colors
 
         return sprite;
 
