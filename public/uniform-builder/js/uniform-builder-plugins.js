@@ -1088,14 +1088,11 @@
         var container = new PIXI.Container();
         var elements = "";
 
-        console.log('Settings Object (Inside Create Mascot): ');
-        console.log(settings_obj);
-
         if (settings_obj.size === 4)   { scale_settings = {x: 0.18, y: 0.18}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.15, y: 0.15}; }
         if (settings_obj.size === 2)   { scale_settings = {x: 0.12, y: 0.12}; }
         if (settings_obj.size === 1)   { scale_settings = {x: 0.09, y: 0.09}; }
-        if (settings_obj.size === 0.5) { scale_settings = {x: 0.03, y: 0.03}; }
+        if (settings_obj.size === 0.5) { scale_settings = {x: 0.05, y: 0.05}; }
 
         _.each(mascot.layers_properties, function(layer, index) {
 

@@ -654,7 +654,7 @@
 
                     @{{#mascots}}
 
-                        <div class="item grow" style="background-image: url('@{{icon}}')" data-pattern-id="@{{id}}">
+                        <div class="item grow" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
                             <div class="name">@{{name}}</div>
                         </div>
 
