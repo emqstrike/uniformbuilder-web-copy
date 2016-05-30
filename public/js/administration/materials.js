@@ -220,7 +220,7 @@ $(document).ready(function() {
         var itemsCount = canvas.getObjects().length;
         var y = pointsCount - 1;
 
-        if(pointsCount < 50){
+        if( pointsCount < 50 ){
             var z = pointsCount + 1;
             var j = pointsCount - 1;
 
@@ -364,6 +364,12 @@ $(document).ready(function() {
         content: function(){
             return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #525252;"/>';
         }
+    });
+
+    $('.app-rotation-flip').on('click', function(){
+        console.log('FLIP ADD');
+        var id = $(this).data('id');
+        flipApplication(id);
     });
 
     $('#add_front_application').mousedown(function(){
@@ -520,11 +526,11 @@ $(document).ready(function() {
             },
         });
 
-
-
-
-
-
+        $('.app-rotation-flip').on('click', function(){
+            console.log('FLIP ADD');
+            var id = $(this).data('id');
+            flipApplication(id);
+        });
 
 
         updateApplicationsJSON();
