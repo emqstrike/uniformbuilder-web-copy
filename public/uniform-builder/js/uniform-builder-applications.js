@@ -3742,6 +3742,34 @@
 
             }
 
+           if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
         });
 
         ub.funcs.centerFontPopup();
@@ -3803,6 +3831,35 @@
             ub.funcs.changeAccentFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code)
+
+            if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+            
 
 
         });
@@ -4430,6 +4487,34 @@
                         });
 
                     }
+
+                    if (_settingsObject.code === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
                     
                 });
 
@@ -4445,7 +4530,6 @@
                     var _layer_name = $(this).data('layer-name');
 
                     var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-
                     var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
                     
                     _layer.default_color = _colorObj.hex_code;
@@ -4453,6 +4537,54 @@
     
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
                     ub.funcs.activateApplications(_settingsObject.code)
+
+                    if (_settingsObject.code === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
                     
                 });
 
@@ -4464,6 +4596,34 @@
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
                 ub.funcs.changeSize(_selectedSize, _settingsObject);
+
+                if (_settingsObject.code === "32") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "33") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "9") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "10") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
                 
             });
 
