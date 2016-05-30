@@ -220,7 +220,7 @@ $(document).ready(function() {
         var itemsCount = canvas.getObjects().length;
         var y = pointsCount - 1;
 
-        if(pointsCount < 50){
+        if( pointsCount < 50 ){
             var z = pointsCount + 1;
             var j = pointsCount - 1;
 
@@ -366,6 +366,12 @@ $(document).ready(function() {
         }
     });
 
+    $('.app-rotation-flip').on('click', function(){
+        console.log('FLIP ADD');
+        var id = $(this).data('id');
+        flipApplication(id);
+    });
+
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
@@ -496,9 +502,6 @@ $(document).ready(function() {
         });
 
 
-
-
-
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
@@ -520,11 +523,11 @@ $(document).ready(function() {
             },
         });
 
-
-
-
-
-
+        $('.app-rotation-flip').on('click', function(){
+            console.log('FLIP ADD');
+            var id = $(this).data('id');
+            flipApplication(id);
+        });
 
 
         updateApplicationsJSON();
