@@ -426,7 +426,7 @@ $(document).ready(function() {
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
-        var flip = "<td><a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a></td>";
+        var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -501,7 +501,6 @@ $(document).ready(function() {
             },
         });
 
-
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
@@ -528,7 +527,6 @@ $(document).ready(function() {
             var id = $(this).data('id');
             flipApplication(id);
         });
-
 
         updateApplicationsJSON();
     });  
@@ -1271,7 +1269,7 @@ $(document).ready(function() {
                 }
                 select_append += "</select>";
 
-                var flip = "<td><a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a></td>";
+                var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
                 var fields = [
                     flip,
