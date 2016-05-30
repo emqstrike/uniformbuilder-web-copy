@@ -109,7 +109,7 @@ $(document).ready(function() {
 
     ub.data.design_sets             = undefined;
     ub.data.materials               = undefined;
-    ub.data.colors                  = undefined;
+    ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
 
     ub.data.searchSource            = {};

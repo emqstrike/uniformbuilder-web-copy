@@ -3971,8 +3971,6 @@
             $popup.remove();
             ub.funcs.activateMascots(settingsObj.code)
 
-            console.log("IDDD: " + _id);
-
             if (settingsObj.code === "9") {
 
                 var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
