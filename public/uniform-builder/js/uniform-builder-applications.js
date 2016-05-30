@@ -633,26 +633,12 @@
 
     ub.funcs.update_application_mascot = function(application, mascot) {
 
-        console.log("Inside ub.funcs.update_application_mascot");
-        console.log("Application: ");
-        console.log(application);
-        console.log('Mascot');
-        console.log(mascot);
-
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
 
         if(typeof settings.applications[application.id] !== 'undefined'){
             var scale_settings = settings.applications[application.id].scale;            
         }
-
-        // settings.applications[application.id] = {
-        //     application: application,
-        //     mascot: mascot,
-        //     type: 'mascot',
-        //     scale: scale_settings,
-        //     color_array: {},
-        // };
 
         var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
@@ -664,12 +650,6 @@
             mascot: mascot,
 
         };
-
-        console.log('Settings Object: ');
-        console.log(settings_obj);
-
-        console.log('input object');
-        console.log(input_object);
 
         var sprite_collection = ub.funcs.renderApplication($.ub.create_mascot, input_object, application.id);
         var uniform_type = ub.current_material.material.type;
@@ -4076,36 +4056,14 @@
         var _colorArray         = _settingsObject.color_array;
         var _mascotName         = _mascotObj.name;
         var _title              = _applicationType.toTitleCase();
+        var _htmlBuilder        = "";
+        var _appActive          = 'checked';
+        var _maxLength          = 12;
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
-        console.log("Settings Object: ");
-        console.log(_settingsObject);
-
-        console.log("id: ");
-        console.log(_id);
-
-        console.log('Mascot: ');
-        console.log(_mascotObj);
-
-        console.log('Sizes: ');
-        console.log(_sizes);
-
-        console.log("Current Size: ");
-        console.log(_currentSize);        
-
-        console.log("Color Array: ");
-        console.log(_colorArray);
-
-               ////
-
-        var _htmlBuilder = "";
-        var _appActive = 'checked';
-
-        var _maxLength      = 12;
-
+        
         if (_settingsObject.type.indexOf('number') !== -1) {
 
             _maxLength = 2;
@@ -4145,6 +4103,50 @@
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        += '<div class="column1">'
+        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+
+        _.each(_settingsObject.layers_properties, function (layer) {
+
+            var _hexCode = layer.default_color;
+            var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+            if (typeof _color !== 'undefined') {
+
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.layer_no);
+
+            }
+            else {
+
+                util.error('Hex Code: ' + _hexCode + ' not found!');
+
+            }
+
+        });
+
+        _htmlBuilder        +=                  '</div>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column2">';
+
+        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
+        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
+        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
+
+        // _htmlBuilder        +=                  '<div class="colorContainer">';
+
+        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
+        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
+        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
+
+        // _htmlBuilder        +=                  '</div>';
+        
+        _htmlBuilder        +=              '</div>';
+
+        _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
         
