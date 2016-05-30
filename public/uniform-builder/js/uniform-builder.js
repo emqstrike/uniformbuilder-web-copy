@@ -865,7 +865,7 @@ $(document).ready(function () {
 
                         var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
                         var _color = _resultColorObj.hex_code;
-                        layer.default_color = _color;
+                        layer.default_color = _colorArray[index - 1];
 
                         _outputColorArray.push(_resultColorObj);
 

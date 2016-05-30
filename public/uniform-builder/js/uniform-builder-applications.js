@@ -2691,16 +2691,6 @@
 
     ub.funcs.changeApplicationLayerColor = function (applicationObj, layerNo, colorObj) {
 
-        // console.log('Func Chane App Layer Color: ');
-        // console.log(applicationObj);
-
-        // _.each(applicationObj.views, function (appInView){
-
-        //     console.log('App In View');
-        //     console.log(appInView);
-
-        // });
-
     };
 
     ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
@@ -3934,6 +3924,21 @@
 
     }
 
+    ub.funcs.changeMascotColor = function (colorObj, layer_no, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        var _layer = _.find(settingsObj.mascot.layers_properties, {layer_number: layer_no.toString()});
+        _layer.default_color = colorObj.color_code;
+
+        settingsObj.color_array[layer_no - 1] = colorObj;
+
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+    }
+
+
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
         var sampleSize = '1.9em';
@@ -4106,14 +4111,14 @@
         _htmlBuilder        += '<div class="column1">'
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
-        _.each(_settingsObject.layers_properties, function (layer) {
+        _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
             var _hexCode = layer.default_color;
-            var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+            var _color   = ub.funcs.getColorByColorCode(_hexCode);
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.layer_no);
-
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number);
+ 
             }
             else {
 
@@ -4194,6 +4199,47 @@
                 ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
 
             });
+
+            $('span.colorItem').on('click', function () {
+
+                var _layer_no   = $(this).data('layer-no');
+                var _color_code = $(this).data('color-code');
+                var _layer_name = $(this).data('layer-name');
+                var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+                ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
+                ub.funcs.activateMascots(_settingsObject.code)
+
+                if (_id === "9") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+                }
+
+                if (_id === "10") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+                }
+
+                if (_id === "32") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+
+                }
+
+                if (_id === "33") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+
+                }
+                
+            });
+
+        // End Small Color Pickers
 
         // End Events
 
