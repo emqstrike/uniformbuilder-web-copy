@@ -4359,7 +4359,7 @@
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + _title.replace('Number', '#: ') + '</label>';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
 
         _htmlBuilder        +=          '</div>';        
@@ -4396,11 +4396,12 @@
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<div class="column1">'
-        
-        _htmlBuilder        +=                  '<label>Accent</label><br />';                       
-        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';
-
-        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+        _htmlBuilder        +=                 '<div class="sub1">';
+        _htmlBuilder        +=                    '<br />';        
+        _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer"><br />';
 
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -4427,24 +4428,7 @@
 
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=              '<div class="column2">';
-
-        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
-        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
-        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
-
-        // _htmlBuilder        +=                  '<div class="colorContainer">';
-
-        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
-        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
-        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
-
-        // _htmlBuilder        +=                  '</div>';
         
-        _htmlBuilder        +=              '</div>';
-
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=      '</div>';
