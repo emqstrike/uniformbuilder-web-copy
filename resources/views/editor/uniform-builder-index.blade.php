@@ -24,13 +24,6 @@
             </a>
 
             <a class="btn-compare sidebar-buttons compare compare-design"
-    // Set Color of the Actual Sprite in the stage
-    //ub.funcs.ui.setMaterialOptionPatternColor = function (ub.active_part, _colorOBJ, layerID, _patternObj) {
-    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
-
-        var _materialOption     = materialOption;
-        var _colorOBJ           = colorOBJ;
-        var _layerID            = layerID;
                 data-filename='compare'
                 data-option='compare'>
             </a>
