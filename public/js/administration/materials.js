@@ -502,9 +502,6 @@ $(document).ready(function() {
         });
 
 
-
-
-
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
