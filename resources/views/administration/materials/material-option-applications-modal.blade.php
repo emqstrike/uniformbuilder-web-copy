@@ -89,11 +89,14 @@
                             <option value="number" data-def-name="number">Number</option>
                             <option value="team_name" data-def-name="team_name">Team Name</option>
                             <option value="player_name" data-def-name="player_name">Player Name</option>
+                            <option value="mascot" data-def-name="mascot">Mascot</option>
+                            <option value="free" data-def-name="mascot">Free</option>
                         </select>
                         <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
 
                         <table class="table table-bordered" id="applications_table">
                             <thead>
+                                <th></th>
                                 <th>App #</th>
                                 <th>Type</th>
                                 <th>Name</th>
@@ -118,7 +121,7 @@
                         </table>
                         <input type="text" id="app_template_name" placeholder="Template Name.">
                         <a href="#"
-                            class="btn btn-xs btn-primary" id="save_app_template" disabled>
+                            class="btn btn-xs btn-primary" id="save_app_template">
                         <span class="glyphicon glyphicon-save"></span> Save as Template</a><hr>
                     </div>
                 </div>

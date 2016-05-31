@@ -640,14 +640,6 @@
             var scale_settings = settings.applications[application.id].scale;            
         }
 
-        settings.applications[application.id] = {
-            application: application,
-            mascot: mascot,
-            type: 'mascot',
-            scale: scale_settings,
-            color_array: {},
-        };
-
         var settings_obj = settings.applications[application.id];
         var mascot_obj = settings_obj.mascot;
         var view = ub[application.perspective + '_view'];
@@ -1327,8 +1319,18 @@
             return;
         }
 
-        var baseSprite = ub.funcs.getBaseSprite(sprite);
-        baseSprite.oldTint = baseSprite.tint;
+        var basesprite;
+        if (application.type !== "mascot" && application.type !== "logo") {
+
+            baseSprite = ub.funcs.getBaseSprite(sprite);
+            baseSprite.oldTint = baseSprite.tint;
+            
+        } else {
+
+            baseSprite = sprite.children[0];
+            baseSprite.oldTint = baseSprite.tint;
+
+        }
 
         sprite.spriteType = spriteType;
 
@@ -1348,7 +1350,12 @@
                 var _id = sprite.name.replace('objects_','');
 
                 sprite.ubHover = false;
-                ub.funcs.activateApplications(_id);
+
+                if (application.type !== "mascot" && application.type !== "logo") {
+                    ub.funcs.activateApplications(_id);
+                } else {
+                    ub.funcs.activateMascots(_id);
+                }
 
             } 
 
@@ -1632,6 +1639,9 @@
 
                 //// Process Scale X and Y from the font size field, in the application font size
 
+                if (typeof args.applicationObj !== "undefined") {
+
+
                     var _scaleXOverride = args.applicationObj.scaleXOverride;
                     var _scaleYOverride = args.applicationObj.scaleYOverride;
 
@@ -1659,6 +1669,7 @@
 
                     point.scale.set(_scaleXOverride, _scaleYOverride);
 
+
                 //// End Process Scale X and Y from the font size field
 
                 //// Process Override ScaleX and ScaleY from GA Font Tool
@@ -1676,9 +1687,10 @@
 
                     point.scale.set(_scaleX, _scaleY);
 
-                //// Process End Override ScaleX and ScaleY from GA Font Tool              
+                //// Process End Override ScaleX and ScaleY from GA Font Tool   
 
-
+                }
+           
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
@@ -2679,16 +2691,6 @@
 
     ub.funcs.changeApplicationLayerColor = function (applicationObj, layerNo, colorObj) {
 
-        // console.log('Func Chane App Layer Color: ');
-        // console.log(applicationObj);
-
-        // _.each(applicationObj.views, function (appInView){
-
-        //     console.log('App In View');
-        //     console.log(appInView);
-
-        // });
-
     };
 
     ub.funcs.setGroupColor = function (groupID, hexCode, colorObj) {
@@ -2707,25 +2709,28 @@
 
             _.each(_applications, function (application) {
 
-                if (application.color_array.length >= 2) {
+                if(application.application_type !== "mascot" && application.application_type !== "logo") {
 
-                    application.color_array[0] = colorObj;
-                    _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
+                    if (application.color_array.length >= 2) {
 
-                    if (typeof _base_color != 'undefined') {
+                        application.color_array[0] = colorObj;
+                        _base_color = _.find(application.accent_obj.layers, {name: 'Base Color'});
 
-                        _base_color.default_color = colorObj.hex_code;
+                        if (typeof _base_color != 'undefined') {
 
-                    }
+                            _base_color.default_color = colorObj.hex_code;
 
-                    ub.funcs.changeApplicationLayerColor(application, 1, colorObj);
+                        }
 
-                } 
+                        ub.funcs.changeApplicationLayerColor(application, 1, colorObj);
+
+                    } 
+
+                }
 
             });
 
         }
-
 
         // if (groupID === '1') {
 
@@ -2835,7 +2840,6 @@
 
     };
 
-
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
           
       var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
@@ -2879,7 +2883,6 @@
         //     _materialOptionObject.colorObj  = colorObj;
         
         // }
-
         
     };
 
@@ -3739,6 +3742,34 @@
 
             }
 
+           if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+
+            }
+
         });
 
         ub.funcs.centerFontPopup();
@@ -3800,6 +3831,35 @@
             ub.funcs.changeAccentFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code)
+
+            if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+            
 
 
         });
@@ -3911,6 +3971,339 @@
 
     }
 
+    ub.funcs.changeMascotSize = function (size, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.size = parseInt(size);
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+    }
+
+    ub.funcs.changeMascotColor = function (colorObj, layer_no, settingsObj) {
+
+        var _id         = settingsObj.id;
+        ub.funcs.removeApplicationByID(_id);
+
+        var _layer = _.find(settingsObj.mascot.layers_properties, {layer_number: layer_no.toString()});
+        _layer.default_color = colorObj.color_code;
+
+        settingsObj.color_array[layer_no - 1] = colorObj;
+
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+    }
+
+
+    ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        var data = {
+            label: 'Choose Mascot: ',
+            mascots: _.filter(ub.data.mascots, {active: "1"}),
+            paddingTop: paddingTop,
+        };
+
+        var template = $('#m-mascot-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+          $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('mascot-id');
+
+            ub.funcs.changeMascotFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateMascots(settingsObj.code)
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+                
+            }
+
+        });
+
+        ub.funcs.centerPatternPopup();
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    }
+
+    ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
+
+        var _mascotObj    = _.find(ub.data.mascots, {id: mascotId.toString()});
+        var _id         = settingsObj.id;
+
+        ub.funcs.removeApplicationByID(_id);
+
+        settingsObj.mascot = _mascotObj;
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.remove();
+
+    }
+
+    ub.funcs.activateMascots = function (application_id) {
+
+        var _id                 = application_id.toString();
+        var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
+        var _applicationType    = _settingsObject.application_type;
+        var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
+        var _mascotObj          = _settingsObject.mascot;
+        var _currentSize        = _settingsObject.size;
+        var _colorArray         = _settingsObject.color_array;
+        var _mascotName         = _mascotObj.name;
+        var _title              = _applicationType.toTitleCase();
+        var _htmlBuilder        = "";
+        var _appActive          = 'checked';
+        var _maxLength          = 12;
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        
+        if (_settingsObject.type.indexOf('number') !== -1) {
+
+            _maxLength = 2;
+
+        }
+
+        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="body">';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">Mascot</label>';
+        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
+        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+
+        _.each(_sizes.sizes, function (size) {
+
+            var _additionalClass = '';
+
+            if (size.size === _settingsObject.size) {
+
+                _additionalClass = 'active';
+
+            }
+
+            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+        });                    
+
+        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        += '<div class="column1">'
+        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+
+        _.each(_settingsObject.mascot.layers_properties, function (layer) {
+
+            var _hexCode = layer.default_color;
+            var _color   = ub.funcs.getColorByColorCode(_hexCode);
+            if (typeof _color !== 'undefined') {
+
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number);
+ 
+            }
+            else {
+
+                util.error('Hex Code: ' + _hexCode + ' not found!');
+
+            }
+
+        });
+
+        _htmlBuilder        +=                  '</div>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column2">';
+
+        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
+        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
+        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
+
+        // _htmlBuilder        +=                  '<div class="colorContainer">';
+
+        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
+        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
+        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
+        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
+
+        // _htmlBuilder        +=                  '</div>';
+        
+        _htmlBuilder        +=              '</div>';
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=      '</div>';
+        _htmlBuilder        +=  '</div>';
+        
+        $('.modifier_main_container').append(_htmlBuilder);
+
+        // Events 
+
+            $('span.font_size').on('click', function () {
+
+                var _selectedSize = $(this).data('size');
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
+                ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
+
+                if (_id === "9") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "10") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "32") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+                if (_id === "33") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                }
+
+            });
+
+            $('span.font_name').on('click', function () {
+
+                ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+            });
+
+            $('span.colorItem').on('click', function () {
+
+                var _layer_no   = $(this).data('layer-no');
+                var _color_code = $(this).data('color-code');
+                var _layer_name = $(this).data('layer-name');
+                var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+                ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
+                ub.funcs.activateMascots(_settingsObject.code)
+
+                if (_id === "9") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+                }
+
+                if (_id === "10") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+                }
+
+                if (_id === "32") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+
+                }
+
+                if (_id === "33") {
+
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
+
+                }
+                
+            });
+
+        // End Small Color Pickers
+
+        // End Events
+
+        $('div#applicationUI').fadeIn();
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id             = application_id.toString();
@@ -3920,7 +4313,7 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
 
-        var _sampleText     = _settingsObject.text;
+        var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
@@ -3966,7 +4359,7 @@
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + _title.replace('Number', '#: ') + '</label>';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
 
         _htmlBuilder        +=          '</div>';        
@@ -4003,11 +4396,12 @@
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<div class="column1">'
-        
-        _htmlBuilder        +=                  '<label>Accent</label><br />';                       
-        _htmlBuilder        +=                  '<span class="accent">' + _accentName + '</span>';
-
-        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+        _htmlBuilder        +=                 '<div class="sub1">';
+        _htmlBuilder        +=                    '<br />';        
+        _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer"><br />';
 
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -4019,11 +4413,6 @@
             if (typeof _color !== 'undefined') {
 
                 _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name);
-
-                console.log('Layer: ');
-                console.log(layer);
-
-                //_htmlBuilder += '<span class="colorItem" data-color-code="' + _color.color_code + '" data-layer-no="' + layer.layer_no + '">' + _color.color_code + '</span>';
 
             }
             else {
@@ -4039,24 +4428,7 @@
 
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=              '<div class="column2">';
-
-        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
-        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
-        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
-
-        // _htmlBuilder        +=                  '<div class="colorContainer">';
-
-        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
-        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
-        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
-
-        // _htmlBuilder        +=                  '</div>';
         
-        _htmlBuilder        +=              '</div>';
-
         _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=      '</div>';
@@ -4099,6 +4471,34 @@
                         });
 
                     }
+
+                    if (_settingsObject.code === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
+
+                    }
                     
                 });
 
@@ -4114,7 +4514,6 @@
                     var _layer_name = $(this).data('layer-name');
 
                     var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-
                     var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
                     
                     _layer.default_color = _colorObj.hex_code;
@@ -4122,6 +4521,54 @@
     
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
                     ub.funcs.activateApplications(_settingsObject.code)
+
+                    if (_settingsObject.code === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
+
+                    if (_settingsObject.code === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
+                    
+                        _layer.default_color = _colorObj.hex_code;
+                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
+    
+                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+
+                    }
                     
                 });
 
@@ -4133,6 +4580,34 @@
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
                 ub.funcs.changeSize(_selectedSize, _settingsObject);
+
+                if (_settingsObject.code === "32") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "33") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "9") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
+
+                if (_settingsObject.code === "10") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+
+                }
                 
             });
 

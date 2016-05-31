@@ -628,5 +628,50 @@
 
     </script>
 
-
 <!-- End Pattern Picker -->
+
+<!-- Mascot Picker -->
+    
+    <script type="text/mustache" id="m-mascot-popup">
+
+         <div id="primaryPatternPopup" data-status="hidden">
+
+            <div class="header">
+
+                Mascots
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="patternPopupResults">
+
+                    @{{#mascots}}
+
+                        <div class="item grow" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+                            <div class="name">@{{name}}</div>
+                        </div>
+
+                    @{{/mascots}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+    </script>
+
+
+<!-- End Mascot Picker -->

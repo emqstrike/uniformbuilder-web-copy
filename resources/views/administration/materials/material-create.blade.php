@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Neck Option</label>
+                            <label class="col-md-4 control-label">Block Pattern Option</label>
                             <div class="col-md-8">
                                 <select class="form-control material-neck-option" name="neck_option" id="neck_option">
                                 </select>

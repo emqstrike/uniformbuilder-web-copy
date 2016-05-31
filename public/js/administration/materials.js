@@ -220,7 +220,7 @@ $(document).ready(function() {
         var itemsCount = canvas.getObjects().length;
         var y = pointsCount - 1;
 
-        if(pointsCount < 50){
+        if( pointsCount < 50 ){
             var z = pointsCount + 1;
             var j = pointsCount - 1;
 
@@ -366,6 +366,12 @@ $(document).ready(function() {
         }
     });
 
+    $('.app-rotation-flip').on('click', function(){
+        console.log('FLIP ADD');
+        var id = $(this).data('id');
+        flipApplication(id);
+    });
+
     $('#add_front_application').mousedown(function(){
 
         var default_item = $('#front-default-item').val();
@@ -400,7 +406,7 @@ $(document).ready(function() {
         var default_number_label    = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Number:</label>';
         var text                    = $(this).val();
         var style                   = 'margin-right: 5px';
-        var items_arr               = ["logo", "number", "team_name", "player_name"];
+        var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
         var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
         var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
@@ -413,14 +419,14 @@ $(document).ready(function() {
         var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
-        // var app_sizes               = '<input type="text" style="' + style + '" class="app-uniform-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value="">';
-        // var accents                 = '<input type="text" style="' + style + '" class="app-accents" value="" size="3">';
-        var accents                 = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
-        var default_mascot          = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+
+        var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
         var select_append           = '<select class="app-def-item" style="' + style + '" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         select_append += '<option value="' + default_item + '">' + default_item + '</option>';
@@ -434,6 +440,7 @@ $(document).ready(function() {
         select_append += "</select>";
 
         var fields = [
+                    flip,
                     app_id,
                     select_append,
                     def_name,
@@ -470,7 +477,12 @@ $(document).ready(function() {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
-            item['description'] = 'Mascot';
+            var c = 1;
+            var xdata = JSON.parse(item.layers_properties);
+            $.each(xdata, function(i, item) {
+                c++;
+            });
+            item['description'] = item.category + ' [ ' + c + ' ]';
             item['imageSrc'] = item.icon;
         });
 
@@ -488,10 +500,6 @@ $(document).ready(function() {
                 console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
-
-
-
-
 
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
@@ -514,12 +522,11 @@ $(document).ready(function() {
             },
         });
 
-
-
-
-
-
-
+        $('.app-rotation-flip').on('click', function(){
+            console.log('FLIP ADD');
+            var id = $(this).data('id');
+            flipApplication(id);
+        });
 
         updateApplicationsJSON();
     });  
@@ -544,6 +551,11 @@ $(document).ready(function() {
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
+    });
+
+    $('.app-rotation').change(function(){
+        // checkpoint
+        updateRXY(0);
     });
 
     // $('.front-applications').change(function(){
@@ -1177,7 +1189,7 @@ $(document).ready(function() {
             if(app_properties[l].id != null){
 
                 var style                   = 'margin-right: 5px';
-                var items_arr               = ["logo", "number", "team_name", "player_name"];
+                var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
                 var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
@@ -1209,7 +1221,8 @@ $(document).ready(function() {
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 // var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
                 var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" >';
-                var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
+                // var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
+                var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '">';
                 var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
         
                 var app_font = "";
@@ -1256,8 +1269,10 @@ $(document).ready(function() {
                 }
                 select_append += "</select>";
 
+                var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
                 var fields = [
+                    flip,
                     app_id,
                     select_append,
                     def_name,
@@ -1293,7 +1308,13 @@ $(document).ready(function() {
                     } else {
                         item['selected'] = false;
                     }
-                    item['description'] = 'Mascot';
+                    // item['description'] = 'Mascot';
+                    var c = 1;
+                    var xdata = JSON.parse(item.layers_properties);
+                    $.each(xdata, function(i, item) {
+                        c++;
+                    });
+                    item['description'] = item.category + ' [ ' + c + ' ]';
                     item['imageSrc'] = item.icon;
                 });
 
@@ -1313,12 +1334,45 @@ $(document).ready(function() {
                     selectText: "Select Mascot",
                     onSelected: function (data) {
                         // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
-                        console.log( 'Classes' + $(this).attr('class') );
-                        $(amv_id).val( 'JETHRODEL' );
+                        // console.log( 'Classes' + $(this).attr('class') );
+                        // $(amv_id).val( 'JETHRODEL' );
+                        $('#mascot').val(data['selectedData']['value']);
                         // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
-                        console.log('DDS CLICK' + data['selectedData']['value']);
+                        // console.log('DDS CLICK' + data['selectedData']['value']);
                     },
                 });
+
+
+
+
+                $.each(window.accents, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    if( app_properties[l].accents == item.id ){
+                        item['selected'] = true;
+                    } else {
+                        item['selected'] = false;
+                    }
+                    // item['selected'] = false;
+                    item['description'] = 'Accent';
+                    item['imageSrc'] = item.thumbnail;
+                });
+                var accentsData = window.accents;
+                var accent_class = '.app-default-accent';
+                $(accent_class).ddslick({
+                    data: accentsData,
+                    width: 250,
+                    height: 300,
+                    imagePosition: "left",
+                    selectText: "Select Accent",
+                    onSelected: function (data) {
+                        $('#accent').val(data['selectedData']['value']);
+                        console.log('Accent ID: '+data['selectedData']['value']);
+                    },
+                });
+
+
+
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
@@ -1335,6 +1389,17 @@ $(document).ready(function() {
 
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
                     $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
+                });
+
+                $('.app-rotation-flip').on('click', function(){
+                    console.log('FLIP CHANGE');
+                    var id = $(this).data('id');
+                    flipApplication(id);
+                });
+
+                $('.app-rotation').change(function(){
+                    console.log('ROTATION');
+                    updateRXY(0);
                 });
 
                 thisGroup.oCoords.tl.x  = (app_properties[l].topLeft.x) / dividend;
@@ -1821,8 +1886,14 @@ $(document).ready(function() {
 
     function generateTRow(fields){
         var tr = '<tr class="application-row">';
+        var c = 0;
         fields.forEach(function(entry) {
-            tr += '<td>' + entry + '</td>';
+            if( c === 15 ){
+                tr += '<td class="msc">' + entry + '</td>';
+            } else {
+                tr += '<td>' + entry + '</td>';
+            }
+            c++;
         });
         tr += '</tr>';
         return tr;
@@ -2158,6 +2229,24 @@ $(document).ready(function() {
         updateRXY(cs);
     }
 
+    function flipApplication(id){
+        thisGroup = canvasFront.item(id);
+
+        var angle = thisGroup.getAngle();
+        var newAngle = 360 - angle;
+
+console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
+    try{
+        thisGroup.setAngle(newAngle).setCoords();
+        canvasFront.renderAll();
+    } catch( err ){
+        console.log(err.message);
+    }
+            // cs = 0;
+            // updateApplicationsJSON();
+
+    }
+
     function updateRXY(cs){
         applicationProperties = {}
 
@@ -2177,6 +2266,20 @@ $(document).ready(function() {
 
                 canvasFront.renderAll();
             });
+        } else {
+            $(".app-rotation").each(function(i) {
+                itemIdx = "layer"+$(this).data('id');
+                layer = $(this).data('id');
+
+                var val = $(this).val();
+
+                thisGroup = canvasFront.item(layer);
+                thisGroup.setAngle(val).setCoords();
+
+                canvasFront.renderAll();
+            });
+            cs = 0;
+            updateApplicationsJSON();
         }
     }
 
@@ -2611,10 +2714,13 @@ function loadPolygon(data){
 function updateApplicationsJSON(){
     var multiplier = 2;
     applicationProperties = {};
+    cx = 0;
     $(".app-rotation").each(function(i) {
 
         itemIdx = "layer"+$(this).data('id');
         layer = $(this).data('id');
+
+        var rotation_val = $(this).val();
 
         thisGroup = canvasFront.item(layer);
         applicationType = $(this).parent().siblings('td').find("select[class=app-def-item]").val();
@@ -2629,14 +2735,16 @@ function updateApplicationsJSON(){
         fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
         uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
 
-        applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
+        // applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
         applicationText = $(this).parent().siblings('td').find("input[class=app-default-text]").val();
         applicationNumber = $(this).parent().siblings('td').find("input[class=app-default-number]").val();
 
         applicationColors = $(this).parent().siblings('td').find("input[class=app-colors]").val();
-        applicationAccents = $(this).parent().siblings('td').find("input[class=app-accents]").val();
-
+        applicationAccents = $(this).parent().siblings('td').find(".dd-selected-value").val();
+        applicationMascot = $(this).parent().siblings('td.msc').find(".dd-selected-value").val();
+        console.log('ACCENT >>>>>>' + applicationAccents);
+        console.log('MASCOT >>>>>>' + applicationMascot);
         fontData = window.fontData;
         
         if(isPrimary.prop( "checked" )){
@@ -2781,11 +2889,14 @@ function updateApplicationsJSON(){
                 $(this).parent().siblings('td').find("input[class=app-x]").val(applicationProperties[itemIdx].pivot.x);
                 $(this).parent().siblings('td').find("input[class=app-y]").val(applicationProperties[itemIdx].pivot.y);
                 $(this).val(thisGroup.getAngle());
+            } else {
+                applicationProperties[itemIdx].rotation = rotation_val;
+                console.log("ROTATION VALUE: >>>> " + rotation_val);
             }
         } catch(err){
             console.log(err.message);
         }
-
+        cx++;
         canvasFront.renderAll();
     });
 
