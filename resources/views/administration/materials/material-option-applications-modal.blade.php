@@ -90,6 +90,7 @@
                             <option value="team_name" data-def-name="team_name">Team Name</option>
                             <option value="player_name" data-def-name="player_name">Player Name</option>
                             <option value="mascot" data-def-name="mascot">Mascot</option>
+                            <option value="free" data-def-name="mascot">Free</option>
                         </select>
                         <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
 
