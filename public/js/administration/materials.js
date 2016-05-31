@@ -55,7 +55,7 @@ $(document).ready(function() {
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(function(patterns){ window.patterns = patterns; });
 
-console.log("FONTS: " + window.fonts);
+// console.log("FONTS: " + window.fonts);
 
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
@@ -525,12 +525,18 @@ console.log("FONTS: " + window.fonts);
                 console.log('Accent ID: '+data['selectedData']['value']);
             },
         });
-
-        $('.app-rotation-flip').on('click', function(){
+        $(".app-rotation-flip").each(function(i) {
+            $(this).on('click', function(){
             console.log('FLIP ADD');
             var id = $(this).data('id');
             flipApplication(id);
         });
+        });
+        // $('.app-rotation-flip').on('click', function(){
+        //     console.log('FLIP ADD');
+        //     var id = $(this).data('id');
+        //     flipApplication(id);
+        // });
 
         updateApplicationsJSON();
     });  

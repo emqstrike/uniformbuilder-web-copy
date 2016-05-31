@@ -139,20 +139,46 @@ $(document).ready(function(){
 
     function updateFontSizes(){
         fontSizes = [];
-        ctr = 1;
+        ctr = 0;
         $(".output-size").each(function(i) {
             row = {};
 
             if( $(this).hasClass( "td-2.5" ) ){
                 row['inputSize'] = '2.5';
                 row['outputSize'] = $(this).val();
+                fontSizes.push(row);
             } else {
-                row['inputSize'] = ctr.toString();
+                if( ctr <=2 ){
+                    c = ctr + 1;
+                } else {
+                    c = ctr;
+                }
+
+                row['inputSize'] = c.toString();
                 row['outputSize'] = $(this).val();
                 tdclass = $(this).attr('class').split(' ');
+
+                if( ctr == 3 ){
+                    row['inputSize'] = '3';
+                    row['outputSize'] = $(this).val();
+                    tdclass = $(this).attr('class').split(' ');
+                    fontSizes.push(row);
+                } else {
+                    if( ctr == 4 ){
+                        row['inputSize'] = '4';
+                    } else {
+                        row['inputSize'] = c.toString();
+                    }
+
+                    row['outputSize'] = $(this).val();
+                    tdclass = $(this).attr('class').split(' ');
+                    fontSizes.push(row);
+                }
             }
-            fontSizes.push(row);
+            // fontSizes.push(row);
+
             ctr++;
+
         });
         ctr = 0;
         $(".output-x-offset").each(function(i) {
@@ -234,6 +260,7 @@ $(document).ready(function(){
             }
             ctr++;
         });
+        console.log(fontSizes);
         $('#font_size_table').val("'" + JSON.stringify(fontSizes) + "'");
     }
 
