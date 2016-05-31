@@ -4115,6 +4115,7 @@
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
         var _mascotName         = _mascotObj.name;
+        var _mascotIcon         = _mascotObj.icon;
         var _title              = _applicationType.toTitleCase();
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
@@ -4165,7 +4166,14 @@
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        += '<div class="column1">'
+        _htmlBuilder        +=              '<div class="column1">'
+
+        _htmlBuilder        +=              '<div class="sub1">';
+        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
+        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';        
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
         _.each(_settingsObject.mascot.layers_properties, function (layer) {
@@ -4187,32 +4195,13 @@
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
-        _htmlBuilder        +=              '<div class="column2">';
-
-        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
-        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
-        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
-
-        // _htmlBuilder        +=                  '<div class="colorContainer">';
-
-        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
-        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
-        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
-
-        // _htmlBuilder        +=                  '</div>';
-        
-        _htmlBuilder        +=              '</div>';
-
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
 
-        // Events 
+        // Events
 
             $('span.font_size').on('click', function () {
 
@@ -4256,6 +4245,16 @@
                 ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
 
             });
+
+            
+            $('span.accentThumb, span.accent').on('click', function () {
+
+                console.log('Clicked!');
+
+                ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+            });
+
 
             $('span.colorItem').on('click', function () {
 
