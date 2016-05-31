@@ -1,9 +1,17 @@
 $(document).ready(function () {
 
-    ub.startModal = function () {
+    ub.startModal = function (type) {
 
-        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
-        ub.showModal('Please select at least ' + _sizeOfColorsUsed + ' Team Colors')
+        if (type === 1){
+
+            var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+            ub.showModal('Please select at least ' + _sizeOfColorsUsed + ' Team Colors')
+                
+        } else {
+
+            ub.showModal('Maximum # of Team Colors is 8');
+
+        }
 
     }
 
