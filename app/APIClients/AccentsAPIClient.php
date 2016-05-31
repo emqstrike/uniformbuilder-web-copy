@@ -9,7 +9,7 @@ class AccentsAPIClient extends APIClient
     }
 
     public function createAccent($data)
-    {dd($data);
+    {
         $response = $this->post('accent', [
             'json' => $data
         ]);
