@@ -313,55 +313,55 @@ $(document).on('click', '.accentRemove', function(){
 
 
   });
-$(document).on('click', '.accentName', function(){
+// $(document).on('click', '.accentName', function(){
 
-     var parentAccent = $(this).closest("tr").attr("id");
-     var currentAccent = $("#"+parentAccent).find("td.accentAccent").text();
-     var currentFont = $("#"+parentAccent).find("td.accentSize").text();
-     currentFont = parseInt(currentFont);
-     console.log(currentFont);
-     var data=$(".accentName").index(this);
-    var layers = jQuery.parseJSON( currentAccent );
+    //  var parentAccent = $(this).closest("tr").attr("id");
+    //  var currentAccent = $("#"+parentAccent).find("td.accentAccent").text();
+    //  var currentFont = $("#"+parentAccent).find("td.accentSize").text();
+    //  currentFont = parseInt(currentFont);
+    //  console.log(currentFont);
+    //  var data=$(".accentName").index(this);
+    // var layers = jQuery.parseJSON( currentAccent );
 
 
      
 
-      canvas2.clear();
+      // canvas2.clear();
     
-        jQuery.each(layers, function(index, item) {    
+      //   jQuery.each(layers, function(index, item) {    
              
-            if(item.name != "Mask"){
-                layer2 = new fabric.Text("85",{
+      //       if(item.name != "Mask"){
+      //           layer2 = new fabric.Text("85",{
               
            
-                    name : item.name,
-                    left:item.increment_x,
-                    top: item.increment_y,
-                    fontSize: currentFont,
-                    fill : item.dafault_color,  
-                    id : item.layer_no,
-                    stroke : item.dafault_color,
-                    strokeWidth : (item.outline * 16 ),
-                    fontFamily : $(".selectFont").val(),
+      //               name : item.name,
+      //               left:item.increment_x,
+      //               top: item.increment_y,
+      //               fontSize: currentFont,
+      //               fill : item.dafault_color,  
+      //               id : item.layer_no,
+      //               stroke : item.dafault_color,
+      //               strokeWidth : (item.outline * 16 ),
+      //               fontFamily : $(".selectFont").val(),
 
 
-                });
+      //           });
                
-               canvas2.add(layer2);
-                layer2.set('selectable', false); 
-                canvas2.sendToBack(layer2);
+      //          canvas2.add(layer2);
+      //           layer2.set('selectable', false); 
+      //           canvas2.sendToBack(layer2);
 
-                   canvas2.renderAll();
+      //              canvas2.renderAll();
      
-               console.log(canvas2);
+      //          console.log(canvas2);
 
                     
-               }
-        });
+      //          }
+      //   });
 
 
 
-  });
+  // });
 
 
 $(document).on('click', '.saveAccent', function(){
@@ -398,17 +398,18 @@ $(document).on('click', '.saveAccent', function(){
              totalAccent.push(accent);
 
              $(".accent_properties").val('"' + JSON.stringify(totalAccent) + '"');
+             $(".submitAccent").trigger("click");
     // console.log(JSON.stringify(totalLayers));
 
-    $(".accentTable").append("<tr class='selectAllAccent' id='Accent_"+ accentIndex +"'>"+
-      "<td class='accentFont'>" + $(".selectFont").val() + "</td>"+
-      "<td class='accentName'>" + $("#fName").val() + "</td>"+
-      "<td class='accentCode'>" + $("#fCode").val() + "</td>"+
-      "<td class='accentSize'>" + $("#fSize").val() + "</td>"+
-      "<td ><button type='button' class='btn btn-danger accentRemove'>Remove</button></td>"+
-      "<td class='accentAccent'>" + JSON.stringify(totalLayers)+ "</td>"+
-      "</tr>"
-        );
+    // $(".accentTable").append("<tr class='selectAllAccent' id='Accent_"+ accentIndex +"'>"+
+    //   "<td class='accentFont'>" + $(".selectFont").val() + "</td>"+
+    //   "<td class='accentName'>" + $("#fName").val() + "</td>"+
+    //   "<td class='accentCode'>" + $("#fCode").val() + "</td>"+
+    //   "<td class='accentSize'>" + $("#fSize").val() + "</td>"+
+    //   "<td ><button type='button' class='btn btn-danger accentRemove'>Remove</button></td>"+
+    //   "<td class='accentAccent'>" + JSON.stringify(totalLayers)+ "</td>"+
+    //   "</tr>"
+    //     );
 
 accentIndex++;
   });

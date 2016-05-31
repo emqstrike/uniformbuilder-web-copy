@@ -31,9 +31,9 @@
 
                         </canvas>
 
-                        <canvas id="canvas2" width="400" height="400" style="border:1px solid black"/>
+                     <!--    <canvas id="canvas2" width="400" height="400" style="border:1px solid black"/>
 
-                        </canvas>
+                        </canvas> -->
                     </div>
                     <div class="col-md-7">
                             <form method="POST" action="/administration/accent/add" enctype="multipart/form-data">
@@ -122,17 +122,17 @@
 
                                    
                                
-                                <button class="btn btn-primary">Submit</button>
+                                <button class="btn btn-primary submitAccent" style="display:none">Save Accent</button>
                             </form>
 
-                              <button class="addLayer addShadow" data-action="Shadow">Add Shadow</button>
-                            <button class="addLayer addOutline" data-action="Outline">Add Outline</button>
-                            <button class="saveAccent" >Save Accent</button>
+                            <button class="addLayer addShadow btn btn-primary" data-action="Shadow">Add Shadow</button>
+                            <button class="addLayer addOutline btn btn-primary" data-action="Outline">Add Outline</button>
+                            <button class="saveAccent btn btn-primary" >Save Accent</button>
 
-                                <table class="accentTable table table-bordered">
+                              <!--   <table class="accentTable table table-bordered">
                                 <thead><th>Font</th><th>Name</th><th>Code</th><th>Size</th><th>Remarks</th><th>Accent</th></thead>
                                 </table>
-
+ -->
 
                             
                         
