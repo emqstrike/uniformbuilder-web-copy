@@ -56,7 +56,6 @@ class AccentsController extends Controller
                                                     "materials",
                                                     "{$accentName}/{$filename}.png"
                                                 );
-                    dd($data);
                 }
             }
         }
@@ -69,10 +68,6 @@ class AccentsController extends Controller
 
         $response = $this->client->createAccent($data);
 
-        /**
-         * undocumented constant
-         **/
-        // dd($data);
     }
 
  
