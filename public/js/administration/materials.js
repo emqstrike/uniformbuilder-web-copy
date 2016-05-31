@@ -55,6 +55,8 @@ $(document).ready(function() {
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(function(patterns){ window.patterns = patterns; });
 
+console.log("FONTS: " + window.fonts);
+
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
         var colors_dropdown = '';
@@ -398,7 +400,9 @@ $(document).ready(function() {
 
         var fonts_options = '<option value="">Not Set</option>';
         for(var i = 0; i < window.fonts.length; i++) {
+            if(window.fonts[i].active == 1){
             fonts_options += "<option value=" + window.fonts[i].id + " style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+            }
         }
 
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
@@ -1240,10 +1244,12 @@ $(document).ready(function() {
 
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
                 for(var i = 0; i < window.fonts.length; i++) {
-                    if(app_font == window.fonts[i].id){
-                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
-                    } else {
-                        fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
+                    if(window.fonts[i].active == 1){
+                        if(app_font == window.fonts[i].id){
+                            fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
+                        } else {
+                            fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
+                        }
                     }
                 }
 
