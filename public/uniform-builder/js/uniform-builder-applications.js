@@ -2234,9 +2234,18 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
-                ub.startModal();
-                return; 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
+                
+                if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                    ub.startModal(1);
+                    return;     
+                }
+
+                if(_sizeOfTeamColors > 8){
+                    ub.startModal(2);
+                    return;     
+                }
+                
             }
 
             var current_coodinates = mousedata.data.global;
@@ -3951,17 +3960,27 @@
 
     } 
 
-    ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name) {
+    ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color) {
 
-        var _html = "";
+        var _html       = "";
+        var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
-        _html += '<label class="smallColorPickerLabel">' + layer_name + ' </label>';
+
+        _html += '<label class="smallColorPickerLabel" style="color: #' + _cObj.hex_code + '">' + layer_name + ' (' + activeColorCode + '): ' + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
+            var _checkMark  = '&nbsp;';
+            var _style      = "30px";
+
+            if (activeColorCode === _color.color_code) {
+                _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
+                _style      = "40px";
+            }
+
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-            _html += '<span style="background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _color.color_code + '</span>';
+            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         });
 
@@ -4115,6 +4134,7 @@
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
         var _mascotName         = _mascotObj.name;
+        var _mascotIcon         = _mascotObj.icon;
         var _title              = _applicationType.toTitleCase();
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
@@ -4165,7 +4185,14 @@
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        += '<div class="column1">'
+        _htmlBuilder        +=              '<div class="column1">'
+
+        _htmlBuilder        +=              '<div class="sub1">';
+        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
+        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';        
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
         _.each(_settingsObject.mascot.layers_properties, function (layer) {
@@ -4174,7 +4201,7 @@
             var _color   = ub.funcs.getColorByColorCode(_hexCode);
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number);
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
  
             }
             else {
@@ -4187,32 +4214,13 @@
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
-        _htmlBuilder        +=              '<div class="column2">';
-
-        // _htmlBuilder        +=                  '<label>Pattern</label><br />';                       
-        // _htmlBuilder        +=                  '<span class="accentThumb"><img src="/images/sidebar/' + _patternFilename + '"/></span><br />';                       
-        // _htmlBuilder        +=                  '<span class="accent">' + _patternName + '</span>';                       
-
-        // _htmlBuilder        +=                  '<div class="colorContainer">';
-
-        // _htmlBuilder        +=                      '<span class="colorItem">CG</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">B</span>';                                                    
-        // _htmlBuilder        +=                      '<span class="colorItem">R</span>';                                              
-        // _htmlBuilder        +=                      '<span class="colorItem">W</span>';                                                          
-        // _htmlBuilder        +=                      '<span class="colorItem">G</span>';                                                          
-
-        // _htmlBuilder        +=                  '</div>';
-        
-        _htmlBuilder        +=              '</div>';
-
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
 
-        // Events 
+        // Events
 
             $('span.font_size').on('click', function () {
 
@@ -4256,6 +4264,14 @@
                 ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
 
             });
+
+
+            $('span.accentThumb, span.accent').on('click', function () {
+
+                ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
+
+            });
+
 
             $('span.colorItem').on('click', function () {
 
@@ -4412,7 +4428,7 @@
 
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name);
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color);
 
             }
             else {
@@ -4639,13 +4655,10 @@
                 if (e.keyCode === 13){
 
                     _settingsObject.text = _val;
-                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-             
-                    /// change text of all others except the active one
-
+                    
                     _.each (ub.current_material.settings.applications, function (_application) {
 
-                        if (_application.type !== _settingsObject.application_type && _application.type !== "logo" && _application.type !== "mascot") {
+                        if (_application.type !== "logo" && _application.type !== "mascot") {
 
                             if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
 
