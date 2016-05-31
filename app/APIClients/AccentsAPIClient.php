@@ -13,6 +13,6 @@ class AccentsAPIClient extends APIClient
         $response = $this->post('accent', [
             'json' => $data
         ]);
-        // return $this->decoder->decode($response->getBody());
+        return $this->decoder->decode($response->getBody());
     }
 }
