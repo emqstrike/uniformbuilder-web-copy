@@ -36,7 +36,9 @@
                         </canvas>
                     </div>
                     <div class="col-md-7">
-                            <form>
+                            <form method="POST" action="/administration/accent/add" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Font : </label>
                                     <select class="selectFont" style="font-family: 'Bean Town';">
@@ -45,17 +47,23 @@
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Name : </label>
-                                     <input type="text"  value="Default Name" class="form-control inputText" id="fName" placeholder="">
+                                     <input type="text"  value="Default Name" class="form-control inputText" id="fName" name="name" placeholder="">
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Code : </label>
-                                     <input type="text" value="Default Code" class="form-control" id="fCode" placeholder="">
+                                     <input type="text" value="Default Code" name="code" class="form-control" id="fCode" placeholder="">
                                 </fieldset>
+                                 <fieldset class="form-group">
+                                    <label for="formGroupExampleInput">Thumbnail : </label>
+                                      <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                </fieldset>
+
+                               
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Size : </label>
                                      <input type="number" value="150"  class="form-control fontSize" id="fSize" placeholder="">
                                 </fieldset>
-
+                                <input type="hidden" class="accent_properties" name="accent_properties" >
                                 <table class="layoutTable table table-bordered">
                                     <thead><th>Name</th><th>Color</th><th>Layer</th><th>Z - Index</th><th>x</th><th>y</th><th>Stroke</th><th>Remarks</th></thead>
                                     
@@ -109,13 +117,14 @@
                                             </td>
                                             <td></td>
                                                                                                                   
-
+                                         
                                 </table>
 
                                    
                                
-
+                                <button class="btn btn-primary">Submit</button>
                             </form>
+
                               <button class="addLayer addShadow" data-action="Shadow">Add Shadow</button>
                             <button class="addLayer addOutline" data-action="Outline">Add Outline</button>
                             <button class="saveAccent" >Save Accent</button>

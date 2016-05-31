@@ -396,6 +396,8 @@ $(document).on('click', '.saveAccent', function(){
             layers: totalLayers, 
             };
              totalAccent.push(accent);
+
+             $(".accent_properties").val('"' + JSON.stringify(totalAccent) + '"');
     // console.log(JSON.stringify(totalLayers));
 
     $(".accentTable").append("<tr class='selectAllAccent' id='Accent_"+ accentIndex +"'>"+
