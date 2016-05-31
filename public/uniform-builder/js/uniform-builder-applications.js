@@ -4246,10 +4246,8 @@
 
             });
 
-            
-            $('span.accentThumb, span.accent').on('click', function () {
 
-                console.log('Clicked!');
+            $('span.accentThumb, span.accent').on('click', function () {
 
                 ub.funcs.createMascotPopup(_title, _mascotObj, _settingsObject);
 
