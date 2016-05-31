@@ -9,7 +9,7 @@ $(document).ready(function () {
                 
         } else {
 
-            ub.showModal('Maximum # of Team Colors is 8');
+            ub.showModal('Maximum # of Team Colors is 7');
 
         }
 

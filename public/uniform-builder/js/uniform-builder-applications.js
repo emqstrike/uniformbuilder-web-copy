@@ -3963,17 +3963,16 @@
     ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color) {
 
         var _html       = "";
+        var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
-        _html += '<label class="smallColorPickerLabel">' + layer_name + ' </label>';
+
+        _html += '<label class="smallColorPickerLabel" style="color: #' + _cObj.hex_code + '">' + layer_name + ' (' + activeColorCode + '): ' + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
-            var _checkMark  = _color.color_code;
+            var _checkMark  = '&nbsp;';
             var _style      = "30px";
-
-            console.log('Active Color Code' + activeColorCode);
-            console.log('Active Color' + active_color);
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
