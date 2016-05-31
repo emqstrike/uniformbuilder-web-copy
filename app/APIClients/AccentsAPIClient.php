@@ -15,4 +15,17 @@ class AccentsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
+       public function getAllAccents()
+    {
+        $response = $this->get('accents');
+        $result = $this->decoder->decode($response->getBody());
+
+        $accents = [];
+        if ($result->success)
+        {
+            $accents = $result->accents;
+        }
+        
+        return $accents;
+    }
 }

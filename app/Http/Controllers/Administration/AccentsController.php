@@ -20,10 +20,17 @@ class AccentsController extends Controller
     {
         $this->client = $apiClient;
     }
+    public function index()
+    {
+        $accents = $this->client->getAllAccents();
+     // dd($accents);
+        return view('administration.accents.accents', [
+            'accents' => $accents
+        ]);
 
-    /**
-     * Colors
-     */
+    }
+
+   
     public function create()
     {
         return view("administration.accents.accent-create");
@@ -49,15 +56,17 @@ class AccentsController extends Controller
                 if ($accentThumbnailPath->isValid())
                 {
                     $filename = Random::randomize(12);
-                    $data['thumbnail_path'] = FileUploader::upload(
-                                                    $accentThumbnailPath,
-                                                    $accentName,
-                                                    'material_option',
-                                                    "materials",
-                                                    "{$accentName}/{$filename}.png"
-                                                );
+                    $data['thumbnail_path'] = "qx";
+                    // $data['thumbnail_path'] = FileUploader::upload(
+                    //                                 $accentThumbnailPath,
+                    //                                 $accentName,
+                    //                                 'material_option',
+                    //                                 "materials",
+                    //                                 "{$accentName}/{$filename}.png"
+                    //                             );
                 }
             }
+
         }
         catch (S3Exception $e)
         {
@@ -67,9 +76,21 @@ class AccentsController extends Controller
         }
 
         $response = $this->client->createAccent($data);
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/accents')
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/accents')
+                            ->with('message', 'There was a problem saving the accent');
+        }
 
     }
 
- 
-    
+
+
 }

@@ -53,7 +53,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
      // Accents
     Route::get('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@create']);
+
     Route::post('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
+    Route::get('accents', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@index']);
+
 
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);
