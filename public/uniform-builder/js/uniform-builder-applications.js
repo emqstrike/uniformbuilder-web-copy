@@ -2234,9 +2234,18 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
-                ub.startModal();
-                return; 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
+                
+                if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                    ub.startModal(1);
+                    return;     
+                }
+
+                if(_sizeOfTeamColors > 8){
+                    ub.startModal(2);
+                    return;     
+                }
+                
             }
 
             var current_coodinates = mousedata.data.global;
@@ -3951,17 +3960,28 @@
 
     } 
 
-    ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name) {
+    ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color) {
 
-        var _html = "";
+        var _html       = "";
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
         _html += '<label class="smallColorPickerLabel">' + layer_name + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
+            var _checkMark  = _color.color_code;
+            var _style      = "30px";
+
+            console.log('Active Color Code' + activeColorCode);
+            console.log('Active Color' + active_color);
+
+            if (activeColorCode === _color.color_code) {
+                _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
+                _style      = "40px";
+            }
+
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-            _html += '<span style="background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _color.color_code + '</span>';
+            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         });
 
@@ -4182,7 +4202,7 @@
             var _color   = ub.funcs.getColorByColorCode(_hexCode);
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number);
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
  
             }
             else {
@@ -4409,7 +4429,7 @@
 
             if (typeof _color !== 'undefined') {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name);
+                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color);
 
             }
             else {
