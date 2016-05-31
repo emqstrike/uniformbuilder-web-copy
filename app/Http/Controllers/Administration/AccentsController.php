@@ -56,14 +56,13 @@ class AccentsController extends Controller
                 if ($accentThumbnailPath->isValid())
                 {
                     $filename = Random::randomize(12);
-                    $data['thumbnail_path'] = "qx";
-                    // $data['thumbnail_path'] = FileUploader::upload(
-                    //                                 $accentThumbnailPath,
-                    //                                 $accentName,
-                    //                                 'material_option',
-                    //                                 "materials",
-                    //                                 "{$accentName}/{$filename}.png"
-                    //                             );
+                    $data['thumbnail_path'] = FileUploader::upload(
+                                                    $accentThumbnailPath,
+                                                    $accentName,
+                                                    'material_option',
+                                                    "materials",
+                                                    "{$accentName}/{$filename}.png"
+                                                );
                 }
             }
 
