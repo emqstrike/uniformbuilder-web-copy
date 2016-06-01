@@ -146,6 +146,13 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === 'fonts') { 
+
+                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
+                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+
+            }
+
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
 
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
@@ -761,26 +768,24 @@ $(document).ready(function () {
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
-
-        var _xOffset = 0;
-        var _yOffset = 0;
-
-        var _xScale = 0;
-        var _yScale = 0;
-
+        var _xOffset        = 0;
+        var _yOffset        = 0;
+        var _xScale         = 0;
+        var _yScale         = 0;
 
         if(_fontSizeTable === null) {
+
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+
         } else {
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-            _fontProperties = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
-
+            _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
             _returnFontSize     = _fontProperties.outputSize;
-            _xOffset             = _fontProperties.xOffset;
-            _yOffset             = _fontProperties.yOffset;
-            _xScale              = _fontProperties.xScale;
-            _yScale              = _fontProperties.yScale;
+            _xOffset            = _fontProperties.xOffset;
+            _yOffset            = _fontProperties.yOffset;
+            _xScale             = _fontProperties.xScale;
+            _yScale             = _fontProperties.yScale;
 
         }
  

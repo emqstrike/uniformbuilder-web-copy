@@ -2225,7 +2225,7 @@
         ub.stage.on('mousedown', function (mousedata) {
 
             if (ub.zoom) {
-
+ 
                 ub.zoom_off();
                 return;
 
@@ -2234,14 +2234,14 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
                 
                 if(_sizeOfTeamColors < _sizeOfColorsUsed){
                     ub.startModal(1);
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 8){
+                if(_sizeOfTeamColors > 7){
                     ub.startModal(2);
                     return;     
                 }
@@ -3683,7 +3683,6 @@
 
     }
 
-
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         var sampleSize = '1.9em';
@@ -3698,7 +3697,7 @@
 
         var data = {
             label: 'Choose Font: ',
-            fonts: _.filter(_.sortBy(ub.data.fonts, 'sortID'), {active: '1'}),
+            fonts: ub.data.fonts,
             sampleText: sampleText,
             applicationType: applicationType,
             sampleSize: sampleSize,
@@ -3941,7 +3940,7 @@
         var _fontList   = _.filter(ub.data.fonts, {active: "1"});
         var _index      = _.findIndex(_fontList, {name: activeFontObject.name});
         var _newFontObj;
-        
+
         if (typeof _index === "undefined") {
 
             _newFontObj = _.first(ub.data.fonts);
@@ -4320,10 +4319,25 @@
 
     }
 
+    ub.funcs.changeActiveColorSmallColorPicker = function (_layer_no, _color_code, _colorObj) {
+
+        var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
+        var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
+
+
+        $smallPickerContainer.find('span.colorItem').html('&nbsp;');
+        $smallPickerContainer.find('span.colorItem').css('width','30px');
+
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
+        $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
-        var _id             = application_id.toString();
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+        var _id               = application_id.toString();
+        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
@@ -4336,14 +4350,11 @@
         var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
-
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
         var _accentFilename   = _accentObj.thumbnail;
-
         var _patternName      = 'None';
         var _patternFilename  = 'none.png';
-
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
 
@@ -4360,7 +4371,6 @@
 
         var _htmlBuilder = "";
         var _appActive = 'checked';
-
         var _maxLength      = 12;
 
         if (_settingsObject.type.indexOf('number') !== -1) {
@@ -4372,25 +4382,17 @@
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title.replace('Number', '# ') + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
-
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
-
         _htmlBuilder        +=          '</div>';        
-
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
         _.each(_sizes.sizes, function (size) {
@@ -4410,7 +4412,6 @@
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<div class="column1">'
         _htmlBuilder        +=                 '<div class="sub1">';
         _htmlBuilder        +=                    '<br />';        
@@ -4440,15 +4441,9 @@
         });
 
         _htmlBuilder        +=                  '</div>';
-      
-
         _htmlBuilder        +=              '</div>';
-
-        
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=      '</div>';
-
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
@@ -4459,15 +4454,14 @@
 
                 $('span.fontLeft, span.fontRight').on('click', function (e) {
 
-                    var _direction = $(this).data('direction');
-
+                    var _direction  = $(this).data('direction');
                     var _newFont    =  ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
 
                     if (typeof _newFont !== 'undefined'){
 
                         ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
                         ub.funcs.activateApplications(_settingsObject.code)
-                    
+
                     }
 
                     if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
@@ -4528,7 +4522,6 @@
                     var _layer_no   = $(this).data('layer-no');
                     var _color_code = $(this).data('color-code');
                     var _layer_name = $(this).data('layer-name');
-
                     var _colorObj = ub.funcs.getColorByColorCode(_color_code);
                     var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
                     
@@ -4536,7 +4529,7 @@
                     _settingsObject.color_array[_layer_no - 1] = _colorObj;
     
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-                    ub.funcs.activateApplications(_settingsObject.code)
+                    ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
                     if (_settingsObject.code === "32") {
 
@@ -4869,15 +4862,11 @@
 
     ub.funcs.positionGaFontTool = function () {
 
-        // window.innerWidth
-        // $('#cogPopupContainer').width()
-
         var _windowWidth = window.innerWidth;
         var _popupContainer = $('#cogPopupContainer').width();
-
         var _left = _windowWidth - ( _popupContainer + 110 );
-        $('#cogPopupContainer').css('left',_left + 'px');
 
+        $('#cogPopupContainer').css('left',_left + 'px');
 
     };
 
