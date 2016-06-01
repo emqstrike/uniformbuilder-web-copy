@@ -4280,7 +4280,7 @@
                 var _colorObj = ub.funcs.getColorByColorCode(_color_code);
 
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
-                ub.funcs.activateMascots(_settingsObject.code)
+                ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
                 if (_id === "9") {
 
