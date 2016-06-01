@@ -34,6 +34,7 @@
                     <table data-toggle='table' class='table table-bordered fonts'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Font Name</th>
                             <th>Sample</th>
                             <th>Active Status</th>
@@ -45,6 +46,9 @@
                     @forelse ($fonts as $font)
 
                         <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
+                            <td>
+                                {{ $font->id }}
+                            </td>
                             <td>
                                 {{ $font->name }}<br />
                                 @if ($font->type == 'default')
