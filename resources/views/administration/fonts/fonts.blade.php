@@ -116,8 +116,8 @@
 $(document).ready(function(){
 $("tr").each(function(i) {
     if( $(this).hasClass( "inactive" ) ){
-        $(this).css('background-color', '#ff6666');
-        $(this).css('color', '#fff');
+        $(this).css('background-color', '#e8e8e8');
+        // $(this).css('text-shadow', '1px 1px #000');
     }
 });
     // $('.data-table').DataTable({
