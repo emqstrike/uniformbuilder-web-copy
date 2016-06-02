@@ -4119,14 +4119,8 @@
     ub.funcs.getThumbnailImageMascot = function (ref, id) {
 
         var texture         = new PIXI.RenderTexture(ub.renderer, 512, 512);
-
         texture.render(ref, null, true);         
 
-        console.clear();
-        console.log("Sprite: ");
-        console.log(ref);
-        console.log("Reference X: " + ref.x + " Y: " +  ref.y);
-        
         return texture.getImage().src;
 
     };
