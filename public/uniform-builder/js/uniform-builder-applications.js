@@ -4152,7 +4152,9 @@
         }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -4349,6 +4351,30 @@
 
     }
 
+    ub.funcs.toggleApplication = function (id, state) {
+
+        var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+        var _views = _settingsObj.application.views;
+
+        _.each (_views, function (view){
+
+            var _view = view.perspective + '_view';
+            var _obj  = ub.objects[_view]['objects_' + id];
+
+            if (state === "on") {
+
+                _obj.alpha = 1;
+                
+            } else {
+
+                _obj.alpha = 0;
+
+            }
+
+        });
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id               = application_id.toString();
@@ -4395,8 +4421,11 @@
         }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title.replace('Number', '# ') + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
+        _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
@@ -4464,6 +4493,31 @@
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events  
+
+            $("div.toggleOption").on("click", function () {
+
+                var s = $('div.toggle').data('status');
+
+                if (s === "on") {
+
+                    $('div.valueContainer').css('margin-left', '-100px');
+                    $('div.toggle').data('status', "off");
+                    $('div.cover').fadeIn('fast');
+
+                    ub.funcs.toggleApplication(_id, 'off');
+
+
+                } else {
+
+                    $('div.valueContainer').css('margin-left', '0px');
+                    $('div.toggle').data('status', "on");
+                    $('div.cover').hide();
+
+                    ub.funcs.toggleApplication(_id, 'on');
+
+                }
+
+            });
 
             // Font Left and Right
 
