@@ -820,7 +820,7 @@ $(document).ready(function () {
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
-                if (_application.type !== "logo" && _application.type !== "mascot") {
+                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
 
                     _.each(_accentObj.layers, function (layer, index) {
 
@@ -999,8 +999,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
-            if (application_obj.type !== "mascot" && application_obj.type !== "logo") {
-
+            if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
 
                 var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
                 var _isATextApplication     = _.contains(_textApplicationTypes, application_obj.type);
