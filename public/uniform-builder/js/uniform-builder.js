@@ -803,6 +803,23 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getValidApplicationTypes = function (view) {
+
+        var _set = [];
+        var _app = view.application;
+
+        if (_app.hasLogo === 1) { _set.push ('logo'); }
+        if (_app.hasNumber === 1) { _set.push ('number'); }
+        if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
+        if (_app.hasTeamName === 1) { _set.push ('team_name'); }
+
+        console.log(view.application.id);
+        console.log(_set);
+
+        return _set;
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -853,6 +870,7 @@ $(document).ready(function () {
                         object_type: "text object",
                         text: view.application.defaultText,
                         type: _application.type,
+                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 
@@ -888,6 +906,7 @@ $(document).ready(function () {
                         mascot: _mascotObj,
                         object_type: "mascot",
                         type: _application.type,
+                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 

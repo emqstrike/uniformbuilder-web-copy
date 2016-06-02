@@ -3054,8 +3054,23 @@ div.header-container.main {
 
                 padding: 30px;
                 font-size: 1.3em;
-                padding-top: 10px;
+                padding-top: 30px;
                 padding-left: 10px;
+
+                div.cover {
+
+                    position: absolute;
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #3d3d3d;
+                    z-index: 1000;
+                    opacity: 0.9;
+                    margin-left: -40px;
+                    margin-top: -20px;
+                    height: 372px;
+
+                }
 
                 .ui-row {
 
@@ -3549,6 +3564,70 @@ div.header-container.main {
 
         }
 
+        div.toggle {
+
+            display: inline-block;
+            width: 100px;
+            overflow: hidden;
+            height: 30px;
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+            margin-right: 10px;
+
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+            div.valueContainer {
+
+                -moz-transition: all .2s;
+                -webkit-transition: all .2s;
+                transition: all .2s;
+
+                max-width: 200px;
+                cursor: pointer;
+
+                div.toggleOption {
+
+                    width: 100px;
+                    text-align: center;
+                    display: inline-block;
+
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+
+                }
+
+                div.on {
+
+                    background-color: @text_color;
+                    color: white;
+                    font-weight: bold;
+
+                }
+
+                div.off {
+
+                    background-color: @forecolor;
+                    color: @customizer_bg;
+                    
+                }
+
+            }
+
+        }
+
+        div.applicationType {
+
+            display: inline-block;
+            height: 30px;
+            vertical-align: top;
+
+        }
 
 
 /* End New UI */
