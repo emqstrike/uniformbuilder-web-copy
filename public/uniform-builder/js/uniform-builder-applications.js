@@ -662,7 +662,7 @@
 
         };
 
-        window.sprite = sprite;
+        /// window.sprite = sprite;
 
     };
 
@@ -1546,35 +1546,20 @@
 
                 if(_.indexOf(adjustablePositions, app_id) !== -1) {
 
-                    //var line = new PIXI.Graphics();
-                    //line.lineStyle(1, 0xffffff);
-
                     if(app_id === '1' || app_id === '6'){
 
-                        //line.moveTo(0, view.application.bottomRight.y);
-                        //line.lineTo(550, view.application.bottomRight.y);
-
-                        var point = sprite_function(args);
                         point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
 
                     }
                     
                     if(app_id === '2' || app_id === '5'){
 
-                        var topRightY = view.application.topRight.y;
+                        var topRightY   = view.application.topRight.y;
+                        var y           = (point.height / 4 ) + topRightY;
 
-                        // line.moveTo(0, topRightY);
-                        // line.lineTo(550, topRightY);
-
-                        var point = sprite_function(args);
-                        var y = (point.height / 4 ) + topRightY;
-
-                        point.position = new PIXI.Point(view.application.pivot.x, y);
+                        point.position  = new PIXI.Point(view.application.pivot.x, y);
 
                     }
-
-                    // var view_name = view.perspective + '_view';
-                    // ub[view_name].addChild(line);
 
                 }
 
@@ -4123,6 +4108,23 @@
 
     }
 
+    ub.funcs.getApplicationSettings = function (id) {
+
+        var _id = parseInt(id);
+
+        return ub.current_material.settings.applications[_id];
+
+    }
+
+    ub.funcs.getThumbnailImageMascot = function (ref, id) {
+
+        var texture         = new PIXI.RenderTexture(ub.renderer, 512, 512);
+        texture.render(ref, null, true);         
+
+        return texture.getImage().src;
+
+    };
+
     ub.funcs.activateMascots = function (application_id) {
 
         var _id                 = application_id.toString();
@@ -4219,6 +4221,14 @@
         
         $('.modifier_main_container').append(_htmlBuilder);
 
+            // Generate Thumbnails
+
+            // var _appView = _settingsObject.application.views[0].perspective;
+            // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+            // console.log(_src);
+            // $('span.accentThumb > img').attr('src',_src);
+
+
         // Events
 
             $('span.font_size').on('click', function () {
@@ -4281,6 +4291,11 @@
 
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+                // var _appView = _settingsObject.application.views[0].perspective;
+                // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+                // console.log(_src);
+                // $('span.accentThumb > img').attr('src',_src);
 
                 if (_id === "9") {
 
