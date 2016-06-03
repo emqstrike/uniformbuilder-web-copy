@@ -35,11 +35,11 @@
                     <tbody>
 
                     @forelse ($accents as $accent)
-                      
+
                       <tr class='accent-{{ $accent->id }} '>
 	                      <td>{{ $accent->name }}</td>
 	                      <td>{{ $accent->code }}</td>
-	                      <td>{{ $accent->thumbnail_path }}</td>
+	                      <td><img src="{{ $accent->thumbnail_path }}" height="100" width="100"></td>
 <!-- 	                      <td>{{ $accent->accent_properties }}</td> -->
 	                       <td>
 							<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
