@@ -248,7 +248,7 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $thumbnailFile,
-                                                    $materialName,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
                                                     'thumbnail'
                                                 );
                 }

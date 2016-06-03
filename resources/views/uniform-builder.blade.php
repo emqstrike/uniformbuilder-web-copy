@@ -22,7 +22,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder-plugins.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css{{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/onoff/jquery.onoff.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css{{$asset_version}}">
 
@@ -153,7 +152,6 @@
 <script src="{{$asset_storage}}/jspdf/png.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/zlib.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jspdf/png_support.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/onoff/jquery.onoff.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/dropdown/jquery.dropdown.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>

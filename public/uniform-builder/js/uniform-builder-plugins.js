@@ -1074,6 +1074,7 @@
 
     $.ub.create_mascot = function (input_object) {
 
+        var sprite; 
         var application = input_object.application;
         var mascot = input_object.mascot;
         var settings = ub.current_material.settings;
@@ -1082,7 +1083,7 @@
         var scale_settings = {x: 0.15, y: 0.15};
 
         var settings_obj = settings.applications[application.id];
-        var mascot_obj = settings_obj.mascot;
+        var mascot_obj = mascot;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
         var container = new PIXI.Container();
@@ -1106,65 +1107,46 @@
             var val = layer.default_color;
             var col = layer.default_color;
             var filename = layer.filename;
-            
-            elements += ub.create_mascot_color_picker(index, val, col, application.id, mascot.code); 
 
-        });
-
-        $('div.mascot_color_picker_container[data-id="' + application.id + '"]').html(elements);
-
-        $('input.mascot_' + application.id).ubColorPicker({
-                target: String(application.id),
-                type: 'mascot',
-                application: application,
-                target_name: application.layer,
         });
         
         container.scale = new PIXI.Point(0.15, 0.15);
         
-        var sprite = container;
+        sprite = container;
 
         ub.current_material.containers[application.id] = {};
         ub.current_material.containers[application.id].mascot = sprite;
 
-        var temp = {}
-        var layer_order = ( 10 + application.layer_order );
+        var temp                    = {}
+        var layer_order             = ( 10 + application.layer_order );
 
-        sprite.originalZIndex = layer_order * (-1);
-        sprite.zIndex = layer_order * (-1);
-        settings_obj.layer_order = layer_order;
+        sprite.originalZIndex       = layer_order * (-1);
+        sprite.zIndex               = layer_order * (-1);
+        settings_obj.layer_order    = layer_order;
         sprite.scale = scale_settings;
 
-        // Set Colors
-        var children = container.children;
+        /// Set Colors
 
-        if(typeof settings.applications[application.id] !== 'undefined') {
-                    
-            color_array = settings.applications[application.id].color_array;
+            var children = container.children;
 
-        }    
+            if(typeof settings.applications[application.id] !== 'undefined') { color_array = settings.applications[application.id].color_array; }    
 
-        children.reverse();
+            children.reverse();
 
-        _.each(children, function (child, index) {
+            _.each(children, function (child, index) {
 
-            //child.tint = parseInt(child.ubDefaultColor, 16);
+                if(color_array !== ''){
 
-            if(color_array !== ''){
+                    var array = ub.current_material.settings.applications[application.id].color_array;
+                    var color_array_size = _.size(array);
+                    var code = ub.current_material.settings.applications[application.id].color_array[index];
 
-                var array = ub.current_material.settings.applications[application.id].color_array;
-                var color_array_size = _.size(array);
-                var code = ub.current_material.settings.applications[application.id].color_array[index];
-
-                if (typeof code !== 'undefined') {
-                    child.tint = parseInt(code.hex_code, 16);
+                    if (typeof code !== 'undefined') { child.tint = parseInt(code.hex_code, 16); }
 
                 }
 
-            }
-
-        });
- 
+            });
+     
         /// End Set Colors
 
         return sprite;
@@ -1233,9 +1215,7 @@
 
             var font_size = $('div.font_size_slider[data-id="' + application.id + '"]').limitslider("values")[0];
 
-            if(typeof input_object.fontSize === 'number') {
-                font_size = input_object.fontSize;
-            }
+            if(typeof input_object.fontSize === 'number') { font_size = input_object.fontSize; }
 
             ///
 
@@ -1243,12 +1223,9 @@
             container.ubFontSizeData = _fontSizeData;
 
             // OverridSize var used by GA Font Tool
-            if (typeof overrideSize !== 'undefined') {
-
-                _fontSizeData.pixelFontSize = overrideSize;
-            }
-
-           font_size =  _fontSizeData.pixelFontSize;
+            
+                if (typeof overrideSize !== 'undefined') { _fontSizeData.pixelFontSize = overrideSize; }
+                font_size =  _fontSizeData.pixelFontSize;
 
             ///
 
@@ -1298,7 +1275,7 @@
 
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
             
-            /// Custom Properties
+            /// Custom Properties]
 
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
@@ -1365,6 +1342,14 @@
 
                 if (typeof code !== 'undefined') {
                     child.tint = parseInt(code.hex_code, 16);
+
+                }
+
+                if (child.ubName === "Pseudo Shadow") { 
+                
+                    child.tint = parseInt('000000', 16); 
+
+                    if(input_object.fontSize > 5) { child.alpha = 0; }
 
                 }
 

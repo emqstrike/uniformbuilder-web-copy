@@ -146,6 +146,13 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === 'fonts') { 
+
+                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
+                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+
+            }
+
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
 
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
@@ -761,26 +768,24 @@ $(document).ready(function () {
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
-
-        var _xOffset = 0;
-        var _yOffset = 0;
-
-        var _xScale = 0;
-        var _yScale = 0;
-
+        var _xOffset        = 0;
+        var _yOffset        = 0;
+        var _xScale         = 0;
+        var _yScale         = 0;
 
         if(_fontSizeTable === null) {
+
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+
         } else {
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-            _fontProperties = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
-
+            _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
             _returnFontSize     = _fontProperties.outputSize;
-            _xOffset             = _fontProperties.xOffset;
-            _yOffset             = _fontProperties.yOffset;
-            _xScale              = _fontProperties.xScale;
-            _yScale              = _fontProperties.yScale;
+            _xOffset            = _fontProperties.xOffset;
+            _yOffset            = _fontProperties.yOffset;
+            _xScale             = _fontProperties.xScale;
+            _yScale             = _fontProperties.yScale;
 
         }
  
@@ -795,6 +800,20 @@ $(document).ready(function () {
         };
 
         return _fontSizeData;
+
+    }
+
+    ub.funcs.getValidApplicationTypes = function (view) {
+
+        var _set = [];
+        var _app = view.application;
+
+        if (_app.hasLogo === 1) { _set.push ('logo'); }
+        if (_app.hasNumber === 1) { _set.push ('number'); }
+        if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
+        if (_app.hasTeamName === 1) { _set.push ('team_name'); }
+
+        return _set;
 
     }
 
@@ -815,7 +834,7 @@ $(document).ready(function () {
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
-                if (_application.type !== "logo" && _application.type !== "mascot") {
+                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
 
                     _.each(_accentObj.layers, function (layer, index) {
 
@@ -848,6 +867,7 @@ $(document).ready(function () {
                         object_type: "text object",
                         text: view.application.defaultText,
                         type: _application.type,
+                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 
@@ -883,6 +903,7 @@ $(document).ready(function () {
                         mascot: _mascotObj,
                         object_type: "mascot",
                         type: _application.type,
+                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 
@@ -994,8 +1015,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
-            if (application_obj.type !== "mascot" && application_obj.type !== "logo") {
-
+            if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
 
                 var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];
                 var _isATextApplication     = _.contains(_textApplicationTypes, application_obj.type);

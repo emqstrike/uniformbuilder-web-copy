@@ -662,7 +662,7 @@
 
         };
 
-        window.sprite = sprite;
+        /// window.sprite = sprite;
 
     };
 
@@ -1546,35 +1546,20 @@
 
                 if(_.indexOf(adjustablePositions, app_id) !== -1) {
 
-                    //var line = new PIXI.Graphics();
-                    //line.lineStyle(1, 0xffffff);
-
                     if(app_id === '1' || app_id === '6'){
 
-                        //line.moveTo(0, view.application.bottomRight.y);
-                        //line.lineTo(550, view.application.bottomRight.y);
-
-                        var point = sprite_function(args);
                         point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
 
                     }
                     
                     if(app_id === '2' || app_id === '5'){
 
-                        var topRightY = view.application.topRight.y;
+                        var topRightY   = view.application.topRight.y;
+                        var y           = (point.height / 4 ) + topRightY;
 
-                        // line.moveTo(0, topRightY);
-                        // line.lineTo(550, topRightY);
-
-                        var point = sprite_function(args);
-                        var y = (point.height / 4 ) + topRightY;
-
-                        point.position = new PIXI.Point(view.application.pivot.x, y);
+                        point.position  = new PIXI.Point(view.application.pivot.x, y);
 
                     }
-
-                    // var view_name = view.perspective + '_view';
-                    // ub[view_name].addChild(line);
 
                 }
 
@@ -2225,7 +2210,7 @@
         ub.stage.on('mousedown', function (mousedata) {
 
             if (ub.zoom) {
-
+ 
                 ub.zoom_off();
                 return;
 
@@ -2234,14 +2219,14 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
                 
                 if(_sizeOfTeamColors < _sizeOfColorsUsed){
                     ub.startModal(1);
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 8){
+                if(_sizeOfTeamColors > 7){
                     ub.startModal(2);
                     return;     
                 }
@@ -3683,7 +3668,6 @@
 
     }
 
-
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         var sampleSize = '1.9em';
@@ -3698,7 +3682,7 @@
 
         var data = {
             label: 'Choose Font: ',
-            fonts: _.filter(_.sortBy(ub.data.fonts, 'sortID'), {active: '1'}),
+            fonts: ub.data.fonts,
             sampleText: sampleText,
             applicationType: applicationType,
             sampleSize: sampleSize,
@@ -3941,7 +3925,7 @@
         var _fontList   = _.filter(ub.data.fonts, {active: "1"});
         var _index      = _.findIndex(_fontList, {name: activeFontObject.name});
         var _newFontObj;
-        
+
         if (typeof _index === "undefined") {
 
             _newFontObj = _.first(ub.data.fonts);
@@ -3973,14 +3957,16 @@
 
             var _checkMark  = '&nbsp;';
             var _style      = "30px";
+            var _class      = '';
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
                 _style      = "40px";
+                _class      = 'activeColorItem';
             }
 
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
+            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         });
 
@@ -4124,6 +4110,23 @@
 
     }
 
+    ub.funcs.getApplicationSettings = function (id) {
+
+        var _id = parseInt(id);
+
+        return ub.current_material.settings.applications[_id];
+
+    }
+
+    ub.funcs.getThumbnailImageMascot = function (ref, id) {
+
+        var texture         = new PIXI.RenderTexture(ub.renderer, 512, 512);
+        texture.render(ref, null, true);         
+
+        return texture.getImage().src;
+
+    };
+
     ub.funcs.activateMascots = function (application_id) {
 
         var _id                 = application_id.toString();
@@ -4151,7 +4154,9 @@
         }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title + '</div>';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -4220,6 +4225,14 @@
         
         $('.modifier_main_container').append(_htmlBuilder);
 
+            // Generate Thumbnails
+
+            // var _appView = _settingsObject.application.views[0].perspective;
+            // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+            // console.log(_src);
+            // $('span.accentThumb > img').attr('src',_src);
+
+
         // Events
 
             $('span.font_size').on('click', function () {
@@ -4281,7 +4294,12 @@
                 var _colorObj = ub.funcs.getColorByColorCode(_color_code);
 
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
-                ub.funcs.activateMascots(_settingsObject.code)
+                ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+                // var _appView = _settingsObject.application.views[0].perspective;
+                // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+                // console.log(_src);
+                // $('span.accentThumb > img').attr('src',_src);
 
                 if (_id === "9") {
 
@@ -4320,10 +4338,50 @@
 
     }
 
+    ub.funcs.changeActiveColorSmallColorPicker = function (_layer_no, _color_code, _colorObj) {
+
+        var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
+        var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
+
+        $smallPickerContainer.find('span.colorItem').html('&nbsp;');
+        $smallPickerContainer.find('span.colorItem').css('width','30px');
+        $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
+
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
+        $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
+
+    }
+
+    ub.funcs.toggleApplication = function (id, state) {
+
+        var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+        var _views = _settingsObj.application.views;
+
+        _.each (_views, function (view){
+
+            var _view = view.perspective + '_view';
+            var _obj  = ub.objects[_view]['objects_' + id];
+
+            if (state === "on") {
+
+                _obj.alpha = 1;
+                
+            } else {
+
+                _obj.alpha = 0;
+
+            }
+
+        });
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
-        var _id             = application_id.toString();
-        var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+        var _id               = application_id.toString();
+        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
@@ -4336,14 +4394,11 @@
         var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
-
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.name;
         var _accentFilename   = _accentObj.thumbnail;
-
         var _patternName      = 'None';
         var _patternFilename  = 'none.png';
-
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
 
@@ -4360,7 +4415,6 @@
 
         var _htmlBuilder = "";
         var _appActive = 'checked';
-
         var _maxLength      = 12;
 
         if (_settingsObject.type.indexOf('number') !== -1) {
@@ -4370,27 +4424,22 @@
         }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
-        _htmlBuilder        +=      '<div class="header"><input id="applicationActive" type="checkbox" name="applicationActive" value="applicationActive" ' + _appActive + '>' + _title.replace('Number', '# ') + '<span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
-
+        _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
-
         _htmlBuilder        +=          '</div>';        
-
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
-
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
         _.each(_sizes.sizes, function (size) {
@@ -4410,7 +4459,6 @@
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-
         _htmlBuilder        +=              '<div class="column1">'
         _htmlBuilder        +=                 '<div class="sub1">';
         _htmlBuilder        +=                    '<br />';        
@@ -4424,7 +4472,7 @@
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
 
-            if (layer.name === 'Mask') { return; }
+            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
 
             if (typeof _color !== 'undefined') {
 
@@ -4440,34 +4488,56 @@
         });
 
         _htmlBuilder        +=                  '</div>';
-      
-
         _htmlBuilder        +=              '</div>';
-
-        
         _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=      '</div>';
-
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events  
 
+            $("div.toggleOption").on("click", function () {
+
+                var s = $('div.toggle').data('status');
+
+                if (s === "on") {
+
+                    $('div.valueContainer').css('margin-left', '-100px');
+                    $('div.toggle').data('status', "off");
+                    $('div.cover').fadeIn('fast');
+                    $('div.toggle').removeClass('defaultShadow');
+                    $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
+
+                    ub.funcs.toggleApplication(_id, 'off');
+
+
+                } else {
+
+                    $('div.valueContainer').css('margin-left', '0px');
+                    $('div.toggle').data('status', "on");
+                    $('div.cover').hide();
+                    $('div.toggle').addClass('defaultShadow');
+                    $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
+
+                    ub.funcs.toggleApplication(_id, 'on');
+
+                }
+
+            });
+
             // Font Left and Right
 
                 $('span.fontLeft, span.fontRight').on('click', function (e) {
 
-                    var _direction = $(this).data('direction');
-
+                    var _direction  = $(this).data('direction');
                     var _newFont    =  ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
 
                     if (typeof _newFont !== 'undefined'){
 
                         ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
                         ub.funcs.activateApplications(_settingsObject.code)
-                    
+
                     }
 
                     if (_settingsObject.type === "front_number" || _settingsObject.type === "back_number") {
@@ -4528,7 +4598,6 @@
                     var _layer_no   = $(this).data('layer-no');
                     var _color_code = $(this).data('color-code');
                     var _layer_name = $(this).data('layer-name');
-
                     var _colorObj = ub.funcs.getColorByColorCode(_color_code);
                     var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
                     
@@ -4536,7 +4605,7 @@
                     _settingsObject.color_array[_layer_no - 1] = _colorObj;
     
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
-                    ub.funcs.activateApplications(_settingsObject.code)
+                    ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
                     if (_settingsObject.code === "32") {
 
@@ -4869,15 +4938,11 @@
 
     ub.funcs.positionGaFontTool = function () {
 
-        // window.innerWidth
-        // $('#cogPopupContainer').width()
-
         var _windowWidth = window.innerWidth;
         var _popupContainer = $('#cogPopupContainer').width();
-
         var _left = _windowWidth - ( _popupContainer + 110 );
-        $('#cogPopupContainer').css('left',_left + 'px');
 
+        $('#cogPopupContainer').css('left',_left + 'px');
 
     };
 
