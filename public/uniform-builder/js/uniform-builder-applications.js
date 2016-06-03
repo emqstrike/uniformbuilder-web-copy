@@ -3957,14 +3957,16 @@
 
             var _checkMark  = '&nbsp;';
             var _style      = "30px";
+            var _class      = '';
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
                 _style      = "40px";
+                _class      = 'activeColorItem';
             }
 
             var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
-            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
+            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         });
 
@@ -4341,10 +4343,11 @@
         var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
-
         $smallPickerContainer.find('span.colorItem').html('&nbsp;');
         $smallPickerContainer.find('span.colorItem').css('width','30px');
+        $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
 
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
         $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
@@ -4503,6 +4506,8 @@
                     $('div.valueContainer').css('margin-left', '-100px');
                     $('div.toggle').data('status', "off");
                     $('div.cover').fadeIn('fast');
+                    $('div.toggle').removeClass('defaultShadow');
+                    $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
 
                     ub.funcs.toggleApplication(_id, 'off');
 
@@ -4512,6 +4517,8 @@
                     $('div.valueContainer').css('margin-left', '0px');
                     $('div.toggle').data('status', "on");
                     $('div.cover').hide();
+                    $('div.toggle').addClass('defaultShadow');
+                    $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
 
                     ub.funcs.toggleApplication(_id, 'on');
 

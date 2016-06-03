@@ -3139,13 +3139,21 @@ div.header-container.main {
                                 cursor: pointer;
                                 margin-right: 0px;
 
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
                                 -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 
-                                -moz-transition: all .2s;
-                                -webkit-transition: all .2s;
-                                transition: all .2s;
+                            }
+
+                            span.colorItem.activeColorItem {
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 
                             }
 
@@ -3229,6 +3237,10 @@ div.header-container.main {
                     padding: 3px;
                     text-align: center;
 
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
                 }
 
                 span.font_size:hover {
@@ -3242,6 +3254,10 @@ div.header-container.main {
 
                     background-color: @text_color;
                     color: white;
+
+                    -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                     
                 }
 
@@ -3574,9 +3590,9 @@ div.header-container.main {
             text-overflow: ellipsis;
             margin-right: 10px;
 
-            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
 
             div.valueContainer {
 
@@ -3626,6 +3642,26 @@ div.header-container.main {
             display: inline-block;
             height: 30px;
             vertical-align: top;
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+
+        }
+
+        .defaultShadow {
+
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+        }
+
+        .defaultTransition {
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
 
         }
 
