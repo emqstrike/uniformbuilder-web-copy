@@ -1275,7 +1275,7 @@
 
             text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
             
-            /// Custom Properties
+            /// Custom Properties]
 
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
@@ -1342,6 +1342,14 @@
 
                 if (typeof code !== 'undefined') {
                     child.tint = parseInt(code.hex_code, 16);
+
+                }
+
+                if (child.ubName === "Pseudo Shadow") { 
+                
+                    child.tint = parseInt('000000', 16); 
+
+                    if(input_object.fontSize > 5) { child.alpha = 0; }
 
                 }
 
