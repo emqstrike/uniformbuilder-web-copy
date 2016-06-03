@@ -4404,8 +4404,12 @@
 
         _.each(_colorArray, function (_color) {
 
-            _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, "; 
+            if(typeof _color !== "undefined") {
 
+                _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, "; 
+                
+            }
+            
         });
 
         var n =_colorArrayString.lastIndexOf(",");
