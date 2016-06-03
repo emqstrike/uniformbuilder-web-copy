@@ -23,7 +23,7 @@
 		<link rel="stylesheet" href="{{$asset_storage}}/dropzone/dropzone.css{{$asset_version}}">
 
 		<link rel="stylesheet" href="{{$asset_storage}}/css/custom.css{{$asset_version}}">
-		
+	
 	</head>
 
 	<body>

@@ -18,6 +18,11 @@
     </a>
     <ul class="treeview-menu">
       <li>
+        <a href="/administration/accents">
+          <i class="fa fa-star"></i> <span>Accents</span>
+        </a>
+      </li>
+      <li>
         <a href="/administration/block_patterns">
           <i class="fa fa-star"></i> <span>Block Patterns</span>
         </a>

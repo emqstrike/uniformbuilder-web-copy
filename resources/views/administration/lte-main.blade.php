@@ -23,6 +23,16 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<!-- fabric js -->
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+
+<!-- mustache -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
+
+<!-- webFontLoader -->
+<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+
 @yield('styles')
 </head>
 <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse">

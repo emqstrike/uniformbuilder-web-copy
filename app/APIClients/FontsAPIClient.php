@@ -46,6 +46,7 @@ class FontsAPIClient extends APIClient
 
     public function updateFont($data)
     {
+      
         $response = $this->post('font/update', [
             'json' => $data
         ]);
@@ -100,6 +101,7 @@ class FontsAPIClient extends APIClient
     public function getFont($id)
     {
         $response = $this->get('font/' . $id);
+
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
