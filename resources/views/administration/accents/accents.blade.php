@@ -42,7 +42,7 @@
 	                      <td>{{ $accent->thumbnail_path }}</td>
 <!-- 	                      <td>{{ $accent->accent_properties }}</td> -->
 	                       <td>
-							<a href="#" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
+							<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
 							    <i class="glyphicon glyphicon-edit"></i>
 							    Edit
 							</a>
