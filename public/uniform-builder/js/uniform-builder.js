@@ -813,9 +813,6 @@ $(document).ready(function () {
         if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1) { _set.push ('team_name'); }
 
-        console.log(view.application.id);
-        console.log(_set);
-
         return _set;
 
     }
