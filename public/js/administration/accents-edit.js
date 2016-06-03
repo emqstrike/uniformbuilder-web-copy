@@ -207,11 +207,11 @@ function setStroke(){
     var lastLayer = ($(".sortable-rows tr.selectAllLayer:last td.layerName").text()).replace(/\d+/g,'').replace('_', '').replace(' ', '');
     var secondLastLayer = ($(".sortable-rows tr.selectAllLayer:nth-last-child(2) td.layerName").text()).replace(/\d+/g,'').replace('_', '').replace(' ', '');
     
-    if(lastLayer == "Outline" && secondLastLayer == "Outline"){
-       $(".addOutline").attr("disabled","disabled");
-    }else{
-       $(".addOutline").removeAttr("disabled");
-    }
+    // if(lastLayer == "Outline" && secondLastLayer == "Outline"){
+    //    $(".addOutline").attr("disabled","disabled");
+    // }else{
+    //    $(".addOutline").removeAttr("disabled");
+    // }
   
   reCreateCanvas();
 }
