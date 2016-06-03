@@ -4472,7 +4472,7 @@
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
 
-            if (layer.name === 'Mask') { return; }
+            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
 
             if (typeof _color !== 'undefined') {
 
