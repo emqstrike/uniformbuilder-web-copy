@@ -4357,20 +4357,53 @@
     ub.funcs.toggleApplication = function (id, state) {
 
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
-        var _views = _settingsObj.application.views;
+        var _views       = _settingsObj.application.views;
+
+        ////
+
+        var _state = state;
+
+        if (_state === "off") {
+
+            $('div.toggle').data('status', "off");
+
+            $('div.valueContainer').css('margin-left', '-100px');
+            $('div.cover').fadeIn('fast');
+            $('div.toggle').removeClass('defaultShadow');
+            $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
+            $('span.cog').hide();
+
+        } else {
+
+            $('div.toggle').data('status', "on");
+
+            $('div.valueContainer').css('margin-left', '0px');
+            $('div.cover').hide();
+            $('div.toggle').addClass('defaultShadow');
+            $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
+            $('span.cog').fadeIn();
+
+        }
+
+        ////
 
         _.each (_views, function (view){
 
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
 
-            if (state === "on") {
+            if (_state === "on") {
 
-                _obj.alpha = 1;
+                _obj.zIndex = -30;
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "on";
                 
             } else {
 
-                _obj.alpha = 0;
+                _obj.oldZIndex = _obj.zIndex;
+                _obj.zIndex = 0;
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "off";
 
             }
 
@@ -4412,24 +4445,29 @@
             
         });
 
-        var n =_colorArrayString.lastIndexOf(",");
-        var _colorArrayString = _colorArrayString.substring(0,n)
+        var n                   = _colorArrayString.lastIndexOf(",");
+        var _colorArrayString   = _colorArrayString.substring(0,n)
 
         ////
 
-        var _htmlBuilder = "";
-        var _appActive = 'checked';
-        var _maxLength      = 12;
+        var _htmlBuilder        = "";
+        var _appActive          = 'checked';
+        var _maxLength          = 12;
 
         if (_settingsObject.type.indexOf('number') !== -1) {
 
-            _maxLength = 2;
+            _maxLength          = 2;
 
         }
 
+        var _status = 'on';
+
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+
+
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
@@ -4503,32 +4541,20 @@
 
             $("div.toggleOption").on("click", function () {
 
-                var s = $('div.toggle').data('status');
+                var _currentStatus = $('div.toggle').data('status');
 
-                if (s === "on") {
-
-                    $('div.valueContainer').css('margin-left', '-100px');
-                    $('div.toggle').data('status', "off");
-                    $('div.cover').fadeIn('fast');
-                    $('div.toggle').removeClass('defaultShadow');
-                    $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
-
-                    ub.funcs.toggleApplication(_id, 'off');
-
-
-                } else {
-
-                    $('div.valueContainer').css('margin-left', '0px');
-                    $('div.toggle').data('status', "on");
-                    $('div.cover').hide();
-                    $('div.toggle').addClass('defaultShadow');
-                    $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
-
-                    ub.funcs.toggleApplication(_id, 'on');
-
+                if(_currentStatus === "on") {
+                    var s = 'off';
+                    ub.funcs.toggleApplication(_id,s);    
+                }
+                else {
+                    var s = 'on';
+                    ub.funcs.toggleApplication(_id,s);    
                 }
 
             });
+
+            ub.funcs.toggleApplication(_id, _status);
 
             // Font Left and Right
 
