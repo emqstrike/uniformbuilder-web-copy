@@ -4147,15 +4147,14 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         
-        if (_settingsObject.type.indexOf('number') !== -1) {
+        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
-            _maxLength = 2;
-
-        }
+        var _status = 'on';
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
 
@@ -4234,6 +4233,38 @@
 
 
         // Events
+
+            $("div.toggleOption").on("click", function () {
+
+                console.log('Clicked!');
+
+                var _currentStatus = $('div.toggle').data('status');
+                var s;
+
+                if(_currentStatus === "on") {
+                    s = 'off';
+                }
+                else {
+                    s = 'on';
+                }
+
+                ub.funcs.toggleApplication(_id,s);    
+
+                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+            });
+
+            ub.funcs.toggleApplication(_id, _status);
+            
+            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
 
             $('span.font_size').on('click', function () {
 
@@ -4454,16 +4485,10 @@
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
-        if (_settingsObject.type.indexOf('number') !== -1) {
-
-            _maxLength          = 2;
-
-        }
+        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-
         if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
-
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
@@ -4542,19 +4567,31 @@
             $("div.toggleOption").on("click", function () {
 
                 var _currentStatus = $('div.toggle').data('status');
-
+                var s;
                 if(_currentStatus === "on") {
-                    var s = 'off';
-                    ub.funcs.toggleApplication(_id,s);    
+                    s = 'off';
                 }
                 else {
-                    var s = 'on';
-                    ub.funcs.toggleApplication(_id,s);    
+                    s = 'on';
                 }
+
+                ub.funcs.toggleApplication(_id,s);    
+
+                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
 
             });
 
             ub.funcs.toggleApplication(_id, _status);
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
 
             // Font Left and Right
 
