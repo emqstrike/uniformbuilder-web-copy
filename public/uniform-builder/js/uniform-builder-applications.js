@@ -4157,6 +4157,7 @@
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
+        _htmlBuilder        +=          '<div class="cover"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
