@@ -290,10 +290,8 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
      <div id="messageModal">
-         
-
-
      </div>
+
     </div>
   </div>
 </div>
