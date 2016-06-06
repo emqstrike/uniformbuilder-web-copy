@@ -27,6 +27,7 @@ $(document).ready(function() {
     ub.ALPHA_OFF = 0.1;
 
     ub.zoom = false;
+    ub.showLocation = false;
 
     ub.current_group_id = '1';
 

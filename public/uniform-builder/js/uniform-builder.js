@@ -1035,7 +1035,7 @@ $(document).ready(function () {
                         custom: {
                           families: [application_obj.font_obj.name],
                         },
-                        active: function() {
+                        active: function () {
                             ub.create_application(application_obj, undefined);
                         },
 
@@ -3609,6 +3609,24 @@ $(document).ready(function () {
                 if (view === 'home') {
 
                     ub.funcs.initGenderPicker();
+                    return;
+
+                }
+
+                if (view === 'locations') {
+
+                    if(!ub.showLocation) {
+
+                        ub.funcs.showLocations();
+                        $(this).addClass('zoom_on');
+
+                    }
+                    else {
+
+                        ub.funcs.removeLocations();
+                        $(this).removeClass('zoom_on');
+                    }
+
                     return;
 
                 }

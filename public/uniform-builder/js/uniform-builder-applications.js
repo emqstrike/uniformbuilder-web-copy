@@ -51,6 +51,34 @@
 
     };
 
+    ub.funcs.createLocationSprite = function (code) {
+
+        var _filename               = '/images/main-ui/pin.png';
+        var _sprite                 = ub.pixi.new_sprite(_filename);
+
+        var _filenameCircleSprite   = '/images/main-ui/pinCircle.png';
+        var _circleSprite           = ub.pixi.new_sprite(_filenameCircleSprite);
+
+        var _container              = new PIXI.Container();
+        var _teamColorOne           = ub.current_material.settings.team_colors[0];
+        var _codeSprite;
+
+        _sprite.anchor.set(0.5, 1);
+        _container.addChild(_sprite);
+
+        _circleSprite.anchor.set(0.5, 1);
+        _container.addChild(_circleSprite);
+
+        _circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
+
+        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 32px Arial', fill : parseInt('ffffff', 16), align : 'center'});
+        _codeSprite.anchor.set(0.5, 2.1);
+        _container.addChild(_codeSprite);
+
+        return _container;
+
+    }
+
     ub.funcs.update_mascots_picker = function(application_id, mascot) {
 
         var $container = $('div.mascot-controls[data-id="' + application_id + '"]');
@@ -2704,6 +2732,7 @@
             _.each(_applications, function (application) {
 
                 if(application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
+
                     if (application.color_array.length >= 2) {
 
                         application.color_array[0] = colorObj;
@@ -2725,23 +2754,6 @@
 
         }
 
-        // if (groupID === '1') {
-
-        //     _.each(_applications, function (application) {
-
-        //         console.log(application);
-
-        //         if (application.color_array.length >= 2) {
-
-        //             application.color_array[0] = colorObj;
-
-        //         }
-
-        //     });
-
-        // }
-
-
     };
 
     ub.data.getPatternByID = function (id) {
@@ -2755,6 +2767,13 @@
 
         ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
+
+        if(ub.showLocation) {
+
+            ub.funcs.removeLocations();
+            $('.change-view[data-view="locations"]').removeClass('zoom_on');
+
+        }
 
         $('#color-wheel-container').fadeIn();
 
@@ -4145,6 +4164,13 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
+
+        if(ub.showLocation) {
+
+            ub.funcs.removeLocations();
+            $('.change-view[data-view="locations"]').removeClass('zoom_on');
+
+        }
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
@@ -4450,6 +4476,13 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
+
+        if(ub.showLocation) {
+
+            ub.funcs.removeLocations();
+            $('.change-view[data-view="locations"]').removeClass('zoom_on');
+
+        }
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -5038,5 +5071,73 @@
     }
 
     /// End Interactive Applications
+
+    /// Locations and Free Application Types
+
+
+    ub.data.locationSprites = [];
+
+     ub.funcs.removeLocations = function () {
+
+        var _locations = ub.current_material.settings.applications;  
+
+
+        _.each (_locations, function (location) {
+
+            if (location.type === "free") { console.log('Free Type Detected: ' + location.code); }
+
+            _.each(location.application.views, function (view, index){
+
+                var _perspective    = view.perspective + '_view';
+
+                ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                ub.updateLayersOrder(ub[_perspective]);
+
+            })
+
+        });
+
+        ub.showLocation = false;
+
+    }
+
+    ub.funcs.showLocations = function () {
+
+        var _locations = ub.current_material.settings.applications;  
+
+        _.each (_locations, function (location) {
+
+            if (location.type === "free") { console.log('Free Type Detected: ' + location.code); }
+
+            _.each(location.application.views, function (view, index){
+
+                var _perspective    = view.perspective + '_view';
+                var _x = view.application.pivot.x;
+                var _y = view.application.pivot.y;
+
+                var _sprite = ub.funcs.createLocationSprite(location.code);
+
+                ub.objects[_perspective]['locations_' + location.code] = _sprite;
+
+                _sprite.position.x = _x;
+                _sprite.position.y = _y;
+
+                _sprite.zIndex = -200 + (index * -1);
+
+                ub[_perspective].addChild(_sprite);
+                ub.updateLayersOrder(ub[_perspective]);
+
+            })
+
+        });
+
+        ub.showLocation = true;
+
+    }
+
+
+    /// End Locations and Free Application Types
+
+
 
 });
