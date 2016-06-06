@@ -141,6 +141,11 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@addPatternForm']);
     Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@editPatternForm']);
 
+    // Placeholders
+    Route::get('placeholders', ['middleware' => 'adminAccess', 'uses' => 'Administration\PlaceholdersController@index']);
+    Route::get('placeholder/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PlaceholdersController@addPlaceholderForm']);
+    Route::post('placeholder/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PlaceholdersController@store']);
+
     // Preferences
     Route::get('preferences', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@index']);
     Route::get('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@addPreferenceForm']);
