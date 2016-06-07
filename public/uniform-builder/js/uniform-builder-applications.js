@@ -64,14 +64,18 @@
         var _codeSprite;
 
         _sprite.anchor.set(0.5, 1);
+        _sprite.ubName              = 'Marker';
+        _sprite.alpha               = 0.5;
         _container.addChild(_sprite);
 
         _circleSprite.anchor.set(0.5, 1);
+        _circleSprite.ubName              = 'Circle';
         _container.addChild(_circleSprite);
 
         _circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
 
         _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 32px Arial', fill : parseInt('ffffff', 16), align : 'center'});
+        _codeSprite.ubName = 'Code Sprite';
         _codeSprite.anchor.set(0.5, 2.1);
         _container.addChild(_codeSprite);
 
@@ -1324,11 +1328,15 @@
     ub.funcs.setPointer = function () {
 
         if (ub.data.applicationAccumulator > 0) {
+            
              icon = 'pointer';
              $('body').css('cursor', icon);
+
         } else {
+            
              icon = 'auto';
              $('body').css('cursor', icon);
+
         }
 
     };
@@ -1339,6 +1347,7 @@
         return baseSprite;
 
     }
+
     ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
         // Check for Feature Flag
@@ -1350,17 +1359,17 @@
         var basesprite;
         if (application.type !== "mascot" && application.type !== "logo") {
 
-            baseSprite = ub.funcs.getBaseSprite(sprite);
-            baseSprite.oldTint = baseSprite.tint;
+            baseSprite          = ub.funcs.getBaseSprite(sprite);
+            baseSprite.oldTint  = baseSprite.tint;
             
         } else {
 
-            baseSprite = sprite.children[0];
-            baseSprite.oldTint = baseSprite.tint;
+            baseSprite          = sprite.children[0];
+            baseSprite.oldTint  = baseSprite.tint;
 
         }
 
-        sprite.spriteType = spriteType;
+        sprite.spriteType       = spriteType;
 
         sprite.draggable({
             manager: ub.dragAndDropManager
@@ -1372,6 +1381,13 @@
         };
 
         $('body').mouseup(function() {
+
+            /// If locations is turned on exit
+            if (ub.showLocation) { 
+
+                return;
+
+            }
             
             if (sprite.ubHover) {
 
@@ -1391,6 +1407,9 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+            /// If locations is turned on exit
+            if (ub.showLocation) { return; }
+
             var this_data = this.interactionData.data;
 
             var point = {
@@ -1401,6 +1420,8 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (ub.showLocation) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -2768,12 +2789,7 @@
         ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
 
-        if(ub.showLocation) {
-
-            ub.funcs.removeLocations();
-            $('.change-view[data-view="locations"]').removeClass('zoom_on');
-
-        }
+        ub.funcs.deActivateLocations();
 
         $('#color-wheel-container').fadeIn();
 
@@ -3904,9 +3920,6 @@
 
     ub.funcs.createAssistants = function (applicationObj, modifier) {
 
-        console.log('Create Assistants: ');
-        console.log(applicationObj);
-        console.log(modifier);
 
     }
 
@@ -4164,13 +4177,7 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
-        if(ub.showLocation) {
-
-            ub.funcs.removeLocations();
-            $('.change-view[data-view="locations"]').removeClass('zoom_on');
-
-        }
+        ub.funcs.deActivateLocations();
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
@@ -4262,8 +4269,6 @@
 
             $("div.toggleOption").on("click", function () {
 
-                console.log('Clicked!');
-
                 var _currentStatus = $('div.toggle').data('status');
                 var s;
 
@@ -4353,11 +4358,6 @@
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                // var _appView = _settingsObject.application.views[0].perspective;
-                // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
-                // console.log(_src);
-                // $('span.accentThumb > img').attr('src',_src);
-
                 if (_id === "9") {
 
                     var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
@@ -4408,6 +4408,28 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
         $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
+
+    },
+
+    ub.funcs.highlightMarker = function (code, view) {
+   
+        if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
+
+            var s = _.find(ub.objects[view + '_view']['locations_' + code].children, {ubName: 'Marker'});
+
+            s.alpha = 1;
+
+        }
+        
+    }
+
+    ub.funcs.unHighlightMarker = function (code, view) {
+
+        if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
+
+            ub.objects[view + '_view']['locations_' + code].children[0].alpha = 0.5;
+
+        }
 
     }
 
@@ -4468,6 +4490,28 @@
 
     }
 
+    ub.funcs.deActivateLocations = function () {
+
+        if(ub.showLocation) {
+
+            ub.funcs.removeLocations();
+            $('.change-view[data-view="locations"]').removeClass('zoom_on');
+
+        }
+
+    }
+
+    ub.funcs.deActivateZoom = function () {
+
+        if (ub.zoom) {
+
+            ub.zoom_off();
+            $('.change-view[data-view="zoom"]').removeClass('zoom_on');
+
+        }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         var _id               = application_id.toString();
@@ -4477,12 +4521,6 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
 
-        if(ub.showLocation) {
-
-            ub.funcs.removeLocations();
-            $('.change-view[data-view="locations"]').removeClass('zoom_on');
-
-        }
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -5075,20 +5113,110 @@
     /// Locations and Free Application Types
 
 
-    ub.data.locationSprites = [];
+    ub.data.locationSprites = []; 
+
+    ub.funcs.createClickableMarkers = function (sprite, view, locationCode, viewPerspective) {
+
+        if(!ub.config.isFeatureOn('ui','hotspots')) { return; }
+
+        var basesprite;
+        baseSprite = _.first(sprite.children);
+        baseSprite.oldTint = baseSprite.tint;
+
+        sprite.spriteType = 'Marker';
+        sprite.draggable({ manager: ub.dragAndDropManager });
+        sprite.mouseup = sprite.touchend = function(data) { };
+
+        $('body').mouseup(function() {
+            
+            if (sprite.ubHover) {
+
+            } 
+
+        });
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            var this_data = this.interactionData.data;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            var this_data = interactionData.data;
+            window.sprite = sprite;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+            /// Hotspot
+
+            var sprite_obj; 
+
+            if(sprite.children.length === 0) {
+
+                sprite_obj = sprite
+
+            } else {
+
+                sprite_obj = _.first(sprite.children);
+
+            }
+
+            if (typeof sprite_obj.containsPoint === "function") {
+
+                var _sizeOfApplications = _.size(ub.current_material.settings.applications);
+
+                if (sprite_obj.containsPoint(point)) {
+
+                    if(ub.zoom) { return; }
+
+                    // start
+
+                    sprite.ubHover      = true;
+
+                    ub.funcs.highlightMarker(locationCode, viewPerspective);
+                    ub.data.applicationAccumulator = _sizeOfApplications;
+                    ub.funcs.setPointer();
+                   
+                } else {
+
+                    // restore
+                    
+                    ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
+                    sprite.ubHover  = false;
+                    ub.data.applicationAccumulator -= 1;
+
+                    ub.funcs.setPointer();
+
+                }
+                
+            }
+
+            /// End Hot Spot
+            
+        };
+
+    }
+
+    /// End Create Clickable Application
 
      ub.funcs.removeLocations = function () {
 
         var _locations = ub.current_material.settings.applications;  
 
-
         _.each (_locations, function (location) {
-
-            if (location.type === "free") { console.log('Free Type Detected: ' + location.code); }
 
             _.each(location.application.views, function (view, index){
 
-                var _perspective    = view.perspective + '_view';
+                var _perspective = view.perspective + '_view';
 
                 ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
                 ub.updateLayersOrder(ub[_perspective]);
@@ -5107,27 +5235,33 @@
 
         _.each (_locations, function (location) {
 
-            if (location.type === "free") { console.log('Free Type Detected: ' + location.code); }
+            if (location.type === "free") { 
 
-            _.each(location.application.views, function (view, index){
+                /// Todo: Handle Here ....
+
+            }
+
+            _.each(location.application.views, function (view, index) {
 
                 var _perspective    = view.perspective + '_view';
-                var _x = view.application.pivot.x;
-                var _y = view.application.pivot.y;
+                var _viewObject     = ub.objects[_perspective];
+                var _x              = view.application.pivot.x;
+                var _y              = view.application.pivot.y;
+                var _sprite         = ub.funcs.createLocationSprite(location.code);
 
-                var _sprite = ub.funcs.createLocationSprite(location.code);
+                _viewObject['locations_' + location.code] = _sprite;
 
-                ub.objects[_perspective]['locations_' + location.code] = _sprite;
-
-                _sprite.position.x = _x;
-                _sprite.position.y = _y;
+                _sprite.position.x  = _x;
+                _sprite.position.y  = _y;
 
                 _sprite.zIndex = -200 + (index * -1);
 
                 ub[_perspective].addChild(_sprite);
                 ub.updateLayersOrder(ub[_perspective]);
 
-            })
+                ub.funcs.createClickableMarkers(_sprite, _viewObject, location.code, view.perspective);
+
+            });
 
         });
 
