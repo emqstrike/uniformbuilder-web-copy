@@ -3615,6 +3615,8 @@ $(document).ready(function () {
 
                 if (view === 'locations') {
 
+                    ub.funcs.deActivateZoom();
+
                     if(!ub.showLocation) {
 
                         ub.funcs.showLocations();
@@ -3632,6 +3634,8 @@ $(document).ready(function () {
                 }
 
                 if (view === 'zoom') {
+
+                    ub.funcs.deActivateLocations();
 
                     if (!ub.zoom) {
 

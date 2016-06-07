@@ -128,7 +128,7 @@
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/underscore/underscore-min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/underscore/underscore.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
