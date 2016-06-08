@@ -39,8 +39,8 @@
 
         <div id="left-main-window" class="pane-main-window">
 
-            <div id="uniform_name">Arkansas 14</div>
-            <div id="uniform_price">$0.00</div>
+            <div id="uniform_name"></div>
+            <div id="uniform_price"></div>
 
             <div class="canvas-views" id="main_view">
             </div>
@@ -228,18 +228,19 @@
             </a>
 
             <a class="footer-buttons change-view" data-view="x">
-                
                 <br /><span></span>
             </a>
 
             <a class="footer-buttons change-view" data-view="x">
                 
                 <br /><span></span>
+
             </a>
 
-            <a class="footer-buttons change-view" data-view="x">
-                
-                <br /><span></span>
+            <a class="footer-buttons change-view" data-view="locations">
+
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <br /><span>Locations</span>
                 
             </a>
 

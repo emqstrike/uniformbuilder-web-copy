@@ -25,7 +25,7 @@ $(document).ready(function(){
   layer.set('selectable', false); 
   canvas.sendToBack(layer);
 
-  $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
+$.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
       var data = {
         fonts: result.fonts
         , index: function() {
@@ -33,8 +33,9 @@ $(document).ready(function(){
         }
       }
 
-      $.each(data.fonts, function(i, item) {   
-
+      $.each(data.fonts, function(i, item) {
+      console.log(i);
+        if(item.active == "1"){
           $("#fonts").append("@font-face {"+
               "font-family : '"+ item.name +"';"+
               "src : url("+ item.font_path +");"+
@@ -45,10 +46,16 @@ $(document).ready(function(){
                
                 }
           });
+          $(".selectFont").append("<option value='"+ item.name +"' style='font-family:"+ item.name +"' > "+ item.name +"</option>")
+
+
+        }
+      
       })
-      tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
-      var html = Mustache.to_html(tableTemplate, data);
-      $(".selectFont").append(html);
+
+      // tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
+      // var html = Mustache.to_html(tableTemplate, data);
+      // $(".selectFont").append(html);
       $(".selectFont").css("font-family",$('option:selected', $(".selectedFont").val()).val());
   
   }).always(function() {
@@ -200,11 +207,11 @@ function setStroke(){
     var lastLayer = ($(".sortable-rows tr.selectAllLayer:last td.layerName").text()).replace(/\d+/g,'').replace('_', '').replace(' ', '');
     var secondLastLayer = ($(".sortable-rows tr.selectAllLayer:nth-last-child(2) td.layerName").text()).replace(/\d+/g,'').replace('_', '').replace(' ', '');
     
-    if(lastLayer == "Outline" && secondLastLayer == "Outline"){
-       $(".addOutline").attr("disabled","disabled");
-    }else{
-       $(".addOutline").removeAttr("disabled");
-    }
+    // if(lastLayer == "Outline" && secondLastLayer == "Outline"){
+    //    $(".addOutline").attr("disabled","disabled");
+    // }else{
+    //    $(".addOutline").removeAttr("disabled");
+    // }
   
   reCreateCanvas();
 }

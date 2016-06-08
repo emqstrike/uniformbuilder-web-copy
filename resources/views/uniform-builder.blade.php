@@ -128,7 +128,7 @@
 <!-- Third Party Scripts -->
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-<script src="{{$asset_storage}}/underscore/underscore-min.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/underscore/underscore.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
@@ -290,10 +290,8 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
      <div id="messageModal">
-         
-
-
      </div>
+
     </div>
   </div>
 </div>
@@ -301,4 +299,17 @@
 <!-- End Modal -->
 
 </body>
+
+<script>
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75629672-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 </html>

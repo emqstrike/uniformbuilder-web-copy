@@ -1347,7 +1347,7 @@
 
                 if (child.ubName === "Pseudo Shadow") { 
                 
-                    child.tint = parseInt('1e1e1e', 16); 
+                    child.tint = parseInt('000000', 16); 
 
                     //if(input_object.fontSize > 5) { child.alpha = 0; }
 
