@@ -12,18 +12,34 @@ use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\AccentsAPIClient as APIClient;
 
+
+use App\APIClients\FontsAPIClient;
+use App\APIClients\ColorsAPIClient;
+
 class AccentsController extends Controller
 {
     protected $client;
 
-    public function __construct(APIClient $apiClient)
+    protected $fontClient;
+
+     protected $colorsClient;
+
+    public function __construct(APIClient $apiClient, FontsAPIClient $fontsAPIClient ,ColorsAPIClient $colorsAPIClient)
     {
+
         $this->client = $apiClient;
+
+        $this->fontClient = $fontsAPIClient;
+
+        $this->colorsClient = $colorsAPIClient;
+
+
     }
     public function index()
     {
         $accents = $this->client->getAllAccents();
-  
+
+    
         return view('administration.accents.accents', [
             'accents' => $accents
         ]);
@@ -33,7 +49,16 @@ class AccentsController extends Controller
    
     public function create()
     {
-        return view("administration.accents.accent-create");
+        $fonts = $this->fontClient->getAllFonts();
+        
+        $colors = $this->colorsClient->getColors();
+   
+       
+         return view('administration.accents.accent-create', [
+            'fonts' => $fonts,
+            'colors' => $colors
+        ]);
+
     }
 
     public function store(Request $request){
@@ -126,11 +151,17 @@ class AccentsController extends Controller
     {
 
         $accent = $this->client->getAccent($id);
+        $fonts = $this->fontClient->getAllFonts();
+        $colors = $this->colorsClient->getColors();
 
         return view('administration.accents.accent-edit', [
             'accent' => $accent,
-           
+           'fonts' => $fonts,
+           'colors' => $colors
         ]);
+
+        
+
     }
 
 
