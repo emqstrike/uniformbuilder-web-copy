@@ -8,21 +8,21 @@ class PlaceholdersAPIClient extends APIClient
         parent::__construct();
     }
 
-    // public function getPatterns()
-    // {
-    //     $response = $this->get('patterns');
-    //     $result = $this->decoder->decode($response->getBody());
+    public function getPlaceholders()
+    {
+        $response = $this->get('placeholders');
+        $result = $this->decoder->decode($response->getBody());
 
-    //     $patterns = [];
-    //     if ($result->success)
-    //     {
-    //         $patterns = $result->patterns;
-    //     }
-    //     return $patterns;
-    // }
+        $placeholders = [];
+        if ($result->success)
+        {
+            $placeholders = $result->placeholders;
+        }
+        return $placeholders;
+    }
 
     public function createPlaceholder($data)
-    { // dd($data);
+    {
         $response = $this->post('placeholder', [
             'json' => $data
         ]);

@@ -25,10 +25,9 @@ class PlaceholdersController extends Controller
 
     public function index()
     {
-        // return 'index';
-        // $patterns = $this->client->getPatterns();
+        $placeholders = $this->client->getPlaceholders();
         return view('administration.placeholders.placeholders', [
-            // 'patterns' => $patterns
+            'placeholders' => $placeholders
         ]);
     }
 

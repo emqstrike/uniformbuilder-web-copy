@@ -27,18 +27,47 @@
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' class='table table-bordered fonts'>
-                    <!-- <thead>
+                    <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Font Name</th>
-                            <th>Sample</th>
-                            <th>Active Status</th>
+                            <th>Name</th>
+                            <th>Sport</th>
+                            <th>Type</th>
+                            <th>Front</th>
+                            <th>Back</th>
+                            <th>Left</th>
+                            <th>Right</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                    @forelse ($placeholders as $placeholder)
+                    <tr>
+                        <td>{{ $placeholder->id }}</td>
+                        <td>{{ $placeholder->name }}</td>
+                        <td>{{ $placeholder->sport }}</td>
+                        <td>{{ $placeholder->type }}</td>
+                        <td><img src="{{ $placeholder->thumbnail_front }}" style="height: 200px; width: 200px;"></td>
+                        <td><img src="{{ $placeholder->thumbnail_back }}" style="height: 200px; width: 200px;"></td>
+                        <td><img src="{{ $placeholder->thumbnail_left }}" style="height: 200px; width: 200px;"></td>
+                        <td><img src="{{ $placeholder->thumbnail_right }}" style="height: 200px; width: 200px;"></td>
+                        <td>
+                            <a href="#" class="btn btn-danger pull-right btn-xs delete-placeholder" data-placeholder-id="{{ $placeholder->id }}" role="button">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                    @empty
 
-                    </tbody> -->
+                        <tr>
+                            <td colspan='8'>
+                                No Placeholders
+                            </td>
+                        </tr>
+
+                    @endforelse
+                    </tbody>
                     </table>
                 </div>
             </div>
