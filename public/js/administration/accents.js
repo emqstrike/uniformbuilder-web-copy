@@ -21,7 +21,7 @@ $(document).ready(function(){
       });
 
   canvas.add(layer);
-  layer.set('selectable', false); 
+  layer.set('selectable', false);
   canvas.sendToBack(layer);
 
   $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){

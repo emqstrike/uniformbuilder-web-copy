@@ -73,6 +73,11 @@
         </a>
       </li>
       <li>
+        <a href="/administration/placeholders">
+          <i class="fa fa-table"></i> <span>Placeholders</span>
+        </a>
+      </li>
+      <li>
         <a href="/administration/preferences">
           <i class="glyphicon glyphicon-bookmark"></i> <span>Preferences</span>
         </a>
