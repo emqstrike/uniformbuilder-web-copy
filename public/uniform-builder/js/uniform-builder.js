@@ -879,9 +879,7 @@ $(document).ready(function () {
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
-                        if (typeof _colorArray[index -1] === 'undefined') {
-                            return;
-                        }
+                        if (typeof _colorArray[index -1] === 'undefined') { return; }
 
                         var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
                         var _color = _resultColorObj.hex_code;
@@ -891,7 +889,7 @@ $(document).ready(function () {
 
                     });
 
-                    _output = { 
+                    _output = {
 
                         application_type: _application.type,
                         application: _application,
@@ -902,6 +900,20 @@ $(document).ready(function () {
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
                         object_type: "mascot",
+                        type: _application.type,
+                        validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
+
+                    };
+
+                }
+
+                if (_application.type === "free" && typeof view.application !== "undefined") {
+
+                    _output = {
+
+                        application_type: _application.type,
+                        application: _application,
+                        code: _application.id,
                         type: _application.type,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
@@ -924,11 +936,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {  
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { 
-
-                return; 
-
-            }
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
 
             if (typeof e.code !== 'undefined') {
 
@@ -1027,7 +1035,7 @@ $(document).ready(function () {
                         custom: {
                           families: [application_obj.font_obj.name],
                         },
-                        active: function() {
+                        active: function () {
                             ub.create_application(application_obj, undefined);
                         },
 
@@ -3605,7 +3613,29 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'locations') {
+
+                    ub.funcs.deActivateZoom();
+
+                    if(!ub.showLocation) {
+
+                        ub.funcs.showLocations();
+                        $(this).addClass('zoom_on');
+
+                    }
+                    else {
+
+                        ub.funcs.removeLocations();
+                        $(this).removeClass('zoom_on');
+                    }
+
+                    return;
+
+                }
+
                 if (view === 'zoom') {
+
+                    ub.funcs.deActivateLocations();
 
                     if (!ub.zoom) {
 

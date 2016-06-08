@@ -31,9 +31,11 @@ $(document).ready(function(){
               
       });
 
+
    canvas.add(layer);
    layer.set('selectable', false); 
         layer.set('evented', false); 
+
   canvas.sendToBack(layer);
 
     

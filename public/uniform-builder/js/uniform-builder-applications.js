@@ -51,6 +51,38 @@
 
     };
 
+    ub.funcs.createLocationSprite = function (code) {
+
+        var _filename                     = '/images/main-ui/outer-circle.png';
+        var _sprite                       = ub.pixi.new_sprite(_filename);
+
+        var _filenameCircleSprite         = '/images/main-ui/inner-circle.png';
+        var _circleSprite                 = ub.pixi.new_sprite(_filenameCircleSprite);
+
+        var _container                    = new PIXI.Container();
+        var _teamColorOne                 = ub.current_material.settings.team_colors[0];
+        var _codeSprite;
+
+        _sprite.anchor.set(0.5, 0.5);
+        _sprite.ubName                    = 'Marker';
+        _sprite.alpha                     = 0.5;
+        _container.addChild(_sprite);
+
+        _circleSprite.anchor.set(0.5, 0.5);
+        _circleSprite.ubName              = 'Circle';
+        _container.addChild(_circleSprite);
+
+        //_circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
+
+        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 30px Arial', fill : parseInt('ffffff', 16), align : 'center'});
+        _codeSprite.ubName = 'Code Sprite';
+        _codeSprite.anchor.set(0.5, 0.5);
+        _container.addChild(_codeSprite);
+
+        return _container;
+
+    }
+
     ub.funcs.update_mascots_picker = function(application_id, mascot) {
 
         var $container = $('div.mascot-controls[data-id="' + application_id + '"]');
@@ -1296,11 +1328,15 @@
     ub.funcs.setPointer = function () {
 
         if (ub.data.applicationAccumulator > 0) {
+            
              icon = 'pointer';
              $('body').css('cursor', icon);
+
         } else {
+            
              icon = 'auto';
              $('body').css('cursor', icon);
+
         }
 
     };
@@ -1311,6 +1347,7 @@
         return baseSprite;
 
     }
+
     ub.funcs.createClickable = function (sprite, application, view, spriteType) {
 
         // Check for Feature Flag
@@ -1322,17 +1359,17 @@
         var basesprite;
         if (application.type !== "mascot" && application.type !== "logo") {
 
-            baseSprite = ub.funcs.getBaseSprite(sprite);
-            baseSprite.oldTint = baseSprite.tint;
+            baseSprite          = ub.funcs.getBaseSprite(sprite);
+            baseSprite.oldTint  = baseSprite.tint;
             
         } else {
 
-            baseSprite = sprite.children[0];
-            baseSprite.oldTint = baseSprite.tint;
+            baseSprite          = sprite.children[0];
+            baseSprite.oldTint  = baseSprite.tint;
 
         }
 
-        sprite.spriteType = spriteType;
+        sprite.spriteType       = spriteType;
 
         sprite.draggable({
             manager: ub.dragAndDropManager
@@ -1344,6 +1381,13 @@
         };
 
         $('body').mouseup(function() {
+
+            /// If locations is turned on exit
+            if (ub.showLocation) { 
+
+                return;
+
+            }
             
             if (sprite.ubHover) {
 
@@ -1363,6 +1407,9 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+            /// If locations is turned on exit
+            if (ub.showLocation) { return; }
+
             var this_data = this.interactionData.data;
 
             var point = {
@@ -1373,6 +1420,8 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (ub.showLocation) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -2703,7 +2752,7 @@
 
             _.each(_applications, function (application) {
 
-                if(application.application_type !== "mascot" && application.application_type !== "logo") {
+                if(application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
                     if (application.color_array.length >= 2) {
 
@@ -2726,23 +2775,6 @@
 
         }
 
-        // if (groupID === '1') {
-
-        //     _.each(_applications, function (application) {
-
-        //         console.log(application);
-
-        //         if (application.color_array.length >= 2) {
-
-        //             application.color_array[0] = colorObj;
-
-        //         }
-
-        //     });
-
-        // }
-
-
     };
 
     ub.data.getPatternByID = function (id) {
@@ -2756,6 +2788,8 @@
 
         ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
+
+        ub.funcs.deActivateLocations();
 
         $('#color-wheel-container').fadeIn();
 
@@ -3886,9 +3920,6 @@
 
     ub.funcs.createAssistants = function (applicationObj, modifier) {
 
-        console.log('Create Assistants: ');
-        console.log(applicationObj);
-        console.log(modifier);
 
     }
 
@@ -4146,18 +4177,19 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
         
-        if (_settingsObject.type.indexOf('number') !== -1) {
+        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
-            _maxLength = 2;
-
-        }
+        var _status = 'on';
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
+        _htmlBuilder        +=          '<div class="cover"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
@@ -4235,6 +4267,36 @@
 
         // Events
 
+            $("div.toggleOption").on("click", function () {
+
+                var _currentStatus = $('div.toggle').data('status');
+                var s;
+
+                if(_currentStatus === "on") {
+                    s = 'off';
+                }
+                else {
+                    s = 'on';
+                }
+
+                ub.funcs.toggleApplication(_id,s);    
+
+                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+            });
+
+            ub.funcs.toggleApplication(_id, _status);
+            
+            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
+
             $('span.font_size').on('click', function () {
 
                 var _selectedSize = $(this).data('size');
@@ -4296,11 +4358,6 @@
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                // var _appView = _settingsObject.application.views[0].perspective;
-                // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
-                // console.log(_src);
-                // $('span.accentThumb > img').attr('src',_src);
-
                 if (_id === "9") {
 
                     var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
@@ -4352,29 +4409,106 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
         $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
 
+    },
+
+    ub.funcs.highlightMarker = function (code, view) {
+   
+        if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
+
+            var s = _.find(ub.objects[view + '_view']['locations_' + code].children, {ubName: 'Marker'});
+
+            s.alpha = 1;
+
+        }
+        
+    }
+
+    ub.funcs.unHighlightMarker = function (code, view) {
+
+        if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
+
+            ub.objects[view + '_view']['locations_' + code].children[0].alpha = 0.5;
+
+        }
+
     }
 
     ub.funcs.toggleApplication = function (id, state) {
 
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
-        var _views = _settingsObj.application.views;
+        var _views       = _settingsObj.application.views;
+
+        ////
+
+        var _state = state;
+
+        if (_state === "off") {
+
+            $('div.toggle').data('status', "off");
+
+            $('div.valueContainer').css('margin-left', '-100px');
+            $('div.cover').fadeIn('fast');
+            $('div.toggle').removeClass('defaultShadow');
+            $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
+            $('span.cog').hide();
+
+        } else {
+
+            $('div.toggle').data('status', "on");
+
+            $('div.valueContainer').css('margin-left', '0px');
+            $('div.cover').hide();
+            $('div.toggle').addClass('defaultShadow');
+            $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
+            $('span.cog').fadeIn();
+
+        }
+
+        ////
 
         _.each (_views, function (view){
 
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
 
-            if (state === "on") {
+            if (_state === "on") {
 
-                _obj.alpha = 1;
+                _obj.zIndex = -30;
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "on";
                 
             } else {
 
-                _obj.alpha = 0;
+                _obj.oldZIndex = _obj.zIndex;
+                _obj.zIndex = 0;
+                ub.updateLayersOrder(ub[_view]);
+                _settingsObj.status = "off";
 
             }
 
         });
+
+    }
+
+    ub.funcs.deActivateLocations = function () {
+
+        if(ub.showLocation) {
+
+            ub.funcs.removeLocations();
+            $('.change-view[data-view="locations"]').removeClass('zoom_on');
+
+        }
+
+    }
+
+    ub.funcs.deActivateZoom = function () {
+
+        if (ub.zoom) {
+
+            ub.zoom_off();
+            $('.change-view[data-view="zoom"]').removeClass('zoom_on');
+
+        }
 
     }
 
@@ -4386,6 +4520,7 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -4404,28 +4539,31 @@
 
         _.each(_colorArray, function (_color) {
 
-            _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, "; 
+            if(typeof _color !== "undefined") {
 
+                _colorArrayString += '<span style="color: #' + _color.hex_code + '" class="color-string">' + _color.color_code + "</span>, "; 
+                
+            }
+            
         });
 
-        var n =_colorArrayString.lastIndexOf(",");
-        var _colorArrayString = _colorArrayString.substring(0,n)
+        var n                   = _colorArrayString.lastIndexOf(",");
+        var _colorArrayString   = _colorArrayString.substring(0,n)
 
         ////
 
-        var _htmlBuilder = "";
-        var _appActive = 'checked';
-        var _maxLength      = 12;
+        var _htmlBuilder        = "";
+        var _appActive          = 'checked';
+        var _maxLength          = 12;
 
-        if (_settingsObject.type.indexOf('number') !== -1) {
+        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
-            _maxLength = 2;
-
-        }
+        var _status = 'on';
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="on"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
@@ -4499,32 +4637,32 @@
 
             $("div.toggleOption").on("click", function () {
 
-                var s = $('div.toggle').data('status');
-
-                if (s === "on") {
-
-                    $('div.valueContainer').css('margin-left', '-100px');
-                    $('div.toggle').data('status', "off");
-                    $('div.cover').fadeIn('fast');
-                    $('div.toggle').removeClass('defaultShadow');
-                    $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
-
-                    ub.funcs.toggleApplication(_id, 'off');
-
-
-                } else {
-
-                    $('div.valueContainer').css('margin-left', '0px');
-                    $('div.toggle').data('status', "on");
-                    $('div.cover').hide();
-                    $('div.toggle').addClass('defaultShadow');
-                    $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
-
-                    ub.funcs.toggleApplication(_id, 'on');
-
+                var _currentStatus = $('div.toggle').data('status');
+                var s;
+                if(_currentStatus === "on") {
+                    s = 'off';
+                }
+                else {
+                    s = 'on';
                 }
 
+                ub.funcs.toggleApplication(_id,s);    
+
+                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
             });
+
+            ub.funcs.toggleApplication(_id, _status);
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
 
             // Font Left and Right
 
@@ -4747,13 +4885,12 @@
             $('span.cog').on('click', function () {
 
                 var _size           = _settingsObject.font_size;
-                var _pixelFontSize  = _settingsObject.pixelFontSize;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
-
+                var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
 
-                    pixelFontSize: _settingsObject.pixelFontSize,
+                    pixelFontSize: _pixelFontSize,
                     offSetX: _fontSizeData.xOffset,
                     offSetY: _fontSizeData.yOffset,
                     scaleX: _fontSizeData.xScale,
@@ -4971,5 +5108,240 @@
     }
 
     /// End Interactive Applications
+
+    /// Locations and Free Application Types
+
+
+    ub.data.locationSprites = []; 
+
+    ub.funcs.createClickableMarkers = function (sprite, view, locationCode, viewPerspective) {
+
+        if(!ub.config.isFeatureOn('ui','hotspots')) { return; }
+
+        var basesprite;
+        baseSprite = _.first(sprite.children);
+        baseSprite.oldTint = baseSprite.tint;
+
+        sprite.spriteType = 'Marker';
+        sprite.draggable({ manager: ub.dragAndDropManager });
+        sprite.mouseup = sprite.touchend = function(data) { };
+
+        $('body').mouseup(function() {
+
+            if (sprite.ubHover) {
+
+                if (!ub.showLocation) {
+    
+                    return;
+        
+                } else {
+
+                    var _id               = locationCode;
+                    var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+                    ub.funcs.deActivateLocations();
+                    ub.showLocation = false;
+                    
+                    if (_settingsObject.application_type === "free") {
+
+                        ub.funcs.activateFreeApplication(locationCode);
+
+                    }
+                    else if (_settingsObject.application_type === "mascot") {
+
+                        ub.funcs.activateMascots(locationCode);
+
+                    } else {
+
+                        ub.funcs.activateApplications(locationCode);
+
+                    }
+
+                }
+
+            } 
+
+        });
+
+        sprite.mousedown = sprite.touchstart = function(data) {
+
+            if (!ub.showLocation) {
+    
+                return;
+        
+            } 
+
+            var this_data = this.interactionData.data;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+        };
+
+        sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            var this_data = interactionData.data;
+            window.sprite = sprite;
+
+            var point = {
+                x: this_data.global.x,
+                y: this_data.global.y
+            };
+
+            /// Hotspot
+
+            var sprite_obj; 
+
+            if(sprite.children.length === 0) {
+
+                sprite_obj = sprite
+
+            } else {
+
+                sprite_obj = _.first(sprite.children);
+
+            }
+
+            if (typeof sprite_obj.containsPoint === "function") {
+
+                var _sizeOfApplications = _.size(ub.current_material.settings.applications);
+
+                if (sprite_obj.containsPoint(point)) {
+
+                    if(ub.zoom) { return; }
+
+                    // start
+
+                    sprite.ubHover      = true;
+
+                    ub.funcs.highlightMarker(locationCode, viewPerspective);
+                    ub.data.applicationAccumulator = _sizeOfApplications;
+                    ub.funcs.setPointer();
+                   
+                } else {
+
+                    // restore
+                    
+                    ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
+                    sprite.ubHover  = false;
+                    ub.data.applicationAccumulator -= 1;
+
+                    ub.funcs.setPointer();
+
+                }
+                
+            }
+
+            /// End Hot Spot
+            
+        };
+
+    }
+
+    /// End Create Clickable Application
+
+    ub.funcs.removeLocations = function () {
+
+        var _locations = ub.current_material.settings.applications;  
+
+        _.each (_locations, function (location) {
+
+            _.each(location.application.views, function (view, index){
+
+                var _perspective = view.perspective + '_view';
+
+                // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                ub.objects[_perspective]['locations_' + location.code].zIndex = 1;
+                ub.objects[_perspective]['locations_' + location.code].alpha = 0;
+
+                ub.updateLayersOrder(ub[_perspective]);
+
+            })
+
+        });
+
+        ub.showLocation = false;
+
+    }
+
+    ub.funcs.showLocations = function () {
+
+        var _locations = ub.current_material.settings.applications;  
+
+        ub.showLocation = true;
+
+        if ( typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+
+            _.each (_locations, function (location) {
+
+                _.each(location.application.views, function (view, index){
+
+                    var _perspective = view.perspective + '_view';
+
+                    // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                    ub.objects[_perspective]['locations_' + location.code].zIndex =  -200 + (index * -1);
+                    ub.objects[_perspective]['locations_' + location.code].alpha = 1;
+
+                    ub.updateLayersOrder(ub[_perspective]);
+
+                })
+
+            });
+
+            return;
+
+        }
+
+        _.each (_locations, function (location) {
+
+            if (location.type === "free") { 
+
+                /// Todo: Handle Here ....
+
+            }
+
+            _.each(location.application.views, function (view, index) {
+
+                var _perspective    = view.perspective + '_view';
+                var _viewObject     = ub.objects[_perspective];
+                var _x              = view.application.pivot.x;
+                var _y              = view.application.pivot.y;
+                var _sprite         = ub.funcs.createLocationSprite(location.code);
+
+                _viewObject['locations_' + location.code] = _sprite;
+
+                _sprite.position.x  = _x;
+                _sprite.position.y  = _y;
+
+                _sprite.zIndex = -200 + (index * -1);
+
+                ub[_perspective].addChild(_sprite);
+                ub.updateLayersOrder(ub[_perspective]);
+
+                ub.funcs.createClickableMarkers(_sprite, _viewObject, location.code, view.perspective);
+
+            });
+
+        });
+
+
+    }
+
+
+    ub.funcs.activateFreeApplication = function (application_id) {
+
+
+        var _id               = application_id.toString();
+        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+
+    };
+
+
+    /// End Locations and Free Application Types
+
+
 
 });

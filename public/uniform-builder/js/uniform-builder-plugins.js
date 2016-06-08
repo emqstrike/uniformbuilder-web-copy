@@ -1349,7 +1349,7 @@
                 
                     child.tint = parseInt('000000', 16); 
 
-                    if(input_object.fontSize > 5) { child.alpha = 0; }
+                    //if(input_object.fontSize > 5) { child.alpha = 0; }
 
                 }
 
