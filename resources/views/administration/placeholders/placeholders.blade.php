@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                     @forelse ($placeholders as $placeholder)
-                    <tr>
+                    <tr class='placeholder-{{ $placeholder->id }}'>
                         <td>{{ $placeholder->id }}</td>
                         <td>{{ $placeholder->name }}</td>
                         <td>{{ $placeholder->sport }}</td>
@@ -84,7 +84,40 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-//
+
+
+$('.delete-placeholder').on('click', function(){
+    var id = $(this).data('placeholder-id');
+    modalConfirm('Remove placeholder', 'Are you sure you want to delete the placeholder?', id);
+});
+
+$('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/placeholder/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal').modal('hide');
+                    $('.placeholder-' + id).fadeOut();
+                }
+            }
+        });
+    });
+
+
 });
 </script>
 @endsection
