@@ -10,17 +10,21 @@ use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\PlaceholdersAPIClient as APIClient;
 
 class PlaceholdersController extends Controller
 {
     protected $client;
+    protected $uniformCategoriesClient;
 
     public function __construct(
-        APIClient $apiClient
+        APIClient $apiClient,
+        UniformCategoriesAPIClient $uniformCategoriesAPIClient
     )
     {
         $this->client = $apiClient;
+        $this->uniformCategoriesClient = $uniformCategoriesAPIClient;
     }
 
     public function index()
@@ -33,7 +37,10 @@ class PlaceholdersController extends Controller
 
     public function addPlaceholderForm()
     {
-        return view('administration.placeholders.placeholder-create');
+        $uniform_categories = $this->uniformCategoriesClient->getUniformCategories();
+        return view('administration.placeholders.placeholder-create', [
+            'uniform_categories' => $uniform_categories
+        ]);
     }
 
     public function store(Request $request)
@@ -41,11 +48,13 @@ class PlaceholdersController extends Controller
         $placeholderName = $request->input('name');
         $placeholderItemID = $request->input('item_id');
         $placeholderType = $request->input('type');
+        $placeholderUCId = $request->input('sport');
 
         $data = [
             'name' => $placeholderName,
             'item_id' => $placeholderItemID,
-            'type' => $placeholderType
+            'type' => $placeholderType,
+            'uniform_category_id' => $placeholderUCId
         ];
 
         $placeholderId = null;
