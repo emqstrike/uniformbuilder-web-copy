@@ -76,7 +76,7 @@
 
         _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 30px Arial', fill : parseInt('ffffff', 16), align : 'center'});
         _codeSprite.ubName = 'Code Sprite';
-        _codeSprite.anchor.set(0.5, 0.6);
+        _codeSprite.anchor.set(0.5, 0.5);
         _container.addChild(_codeSprite);
 
         return _container;
@@ -5136,18 +5136,8 @@
         
                 } else {
 
-                    console.log('This is still running....');
-                    console.log('UB Location');
-                    console.log(locationCode);
-
                     var _id               = locationCode;
                     var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
-
-                    console.log('Settings Object: ');
-                    console.log(_settingsObject);
-
-                    console.log('Type: ');
-                    console.log(_settingsObject.type);
 
                     ub.funcs.deActivateLocations();
                     ub.showLocation = false;
