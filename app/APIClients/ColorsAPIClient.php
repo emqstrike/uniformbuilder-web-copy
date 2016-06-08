@@ -64,6 +64,7 @@ class ColorsAPIClient extends APIClient
 
     public function getColors()
     {
+   
         $response = $this->get('colors');
         $result = $this->decoder->decode($response->getBody());
 
