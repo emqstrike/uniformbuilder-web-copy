@@ -53,30 +53,30 @@
 
     ub.funcs.createLocationSprite = function (code) {
 
-        var _filename               = '/images/main-ui/pin.png';
-        var _sprite                 = ub.pixi.new_sprite(_filename);
+        var _filename                     = '/images/main-ui/outer-circle.png';
+        var _sprite                       = ub.pixi.new_sprite(_filename);
 
-        var _filenameCircleSprite   = '/images/main-ui/pinCircle.png';
-        var _circleSprite           = ub.pixi.new_sprite(_filenameCircleSprite);
+        var _filenameCircleSprite         = '/images/main-ui/inner-circle.png';
+        var _circleSprite                 = ub.pixi.new_sprite(_filenameCircleSprite);
 
-        var _container              = new PIXI.Container();
-        var _teamColorOne           = ub.current_material.settings.team_colors[0];
+        var _container                    = new PIXI.Container();
+        var _teamColorOne                 = ub.current_material.settings.team_colors[0];
         var _codeSprite;
 
-        _sprite.anchor.set(0.5, 1);
-        _sprite.ubName              = 'Marker';
-        _sprite.alpha               = 0.5;
+        _sprite.anchor.set(0.5, 0.5);
+        _sprite.ubName                    = 'Marker';
+        _sprite.alpha                     = 0.5;
         _container.addChild(_sprite);
 
-        _circleSprite.anchor.set(0.5, 1);
+        _circleSprite.anchor.set(0.5, 0.5);
         _circleSprite.ubName              = 'Circle';
         _container.addChild(_circleSprite);
 
-        _circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
+        //_circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
 
-        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 32px Arial', fill : parseInt('ffffff', 16), align : 'center'});
+        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 30px Arial', fill : parseInt('ffffff', 16), align : 'center'});
         _codeSprite.ubName = 'Code Sprite';
-        _codeSprite.anchor.set(0.5, 2.1);
+        _codeSprite.anchor.set(0.5, 0.6);
         _container.addChild(_codeSprite);
 
         return _container;
@@ -4520,7 +4520,7 @@
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
+        ub.funcs.deActivateLocations();
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -4885,13 +4885,12 @@
             $('span.cog').on('click', function () {
 
                 var _size           = _settingsObject.font_size;
-                var _pixelFontSize  = _settingsObject.pixelFontSize;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
-
+                var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
 
-                    pixelFontSize: _settingsObject.pixelFontSize,
+                    pixelFontSize: _pixelFontSize,
                     offSetX: _fontSizeData.xOffset,
                     offSetY: _fontSizeData.yOffset,
                     scaleX: _fontSizeData.xScale,
@@ -5128,14 +5127,59 @@
         sprite.mouseup = sprite.touchend = function(data) { };
 
         $('body').mouseup(function() {
-            
+
             if (sprite.ubHover) {
+
+                if (!ub.showLocation) {
+    
+                    return;
+        
+                } else {
+
+                    console.log('This is still running....');
+                    console.log('UB Location');
+                    console.log(locationCode);
+
+                    var _id               = locationCode;
+                    var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+                    console.log('Settings Object: ');
+                    console.log(_settingsObject);
+
+                    console.log('Type: ');
+                    console.log(_settingsObject.type);
+
+                    ub.funcs.deActivateLocations();
+                    ub.showLocation = false;
+                    
+                    if (_settingsObject.application_type === "free") {
+
+                        ub.funcs.activateFreeApplication(locationCode);
+
+                    }
+                    else if (_settingsObject.application_type === "mascot") {
+
+                        ub.funcs.activateMascots(locationCode);
+
+                    } else {
+
+                        ub.funcs.activateApplications(locationCode);
+
+                    }
+
+                }
 
             } 
 
         });
 
         sprite.mousedown = sprite.touchstart = function(data) {
+
+            if (!ub.showLocation) {
+    
+                return;
+        
+            } 
 
             var this_data = this.interactionData.data;
 
@@ -5208,7 +5252,7 @@
 
     /// End Create Clickable Application
 
-     ub.funcs.removeLocations = function () {
+    ub.funcs.removeLocations = function () {
 
         var _locations = ub.current_material.settings.applications;  
 
@@ -5218,7 +5262,10 @@
 
                 var _perspective = view.perspective + '_view';
 
-                ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                ub.objects[_perspective]['locations_' + location.code].zIndex = 1;
+                ub.objects[_perspective]['locations_' + location.code].alpha = 0;
+
                 ub.updateLayersOrder(ub[_perspective]);
 
             })
@@ -5232,6 +5279,30 @@
     ub.funcs.showLocations = function () {
 
         var _locations = ub.current_material.settings.applications;  
+
+        ub.showLocation = true;
+
+        if ( typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+
+            _.each (_locations, function (location) {
+
+                _.each(location.application.views, function (view, index){
+
+                    var _perspective = view.perspective + '_view';
+
+                    // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
+                    ub.objects[_perspective]['locations_' + location.code].zIndex =  -200 + (index * -1);
+                    ub.objects[_perspective]['locations_' + location.code].alpha = 1;
+
+                    ub.updateLayersOrder(ub[_perspective]);
+
+                })
+
+            });
+
+            return;
+
+        }
 
         _.each (_locations, function (location) {
 
@@ -5265,9 +5336,21 @@
 
         });
 
-        ub.showLocation = true;
 
     }
+
+
+    ub.funcs.activateFreeApplication = function (application_id) {
+
+
+        var _id               = application_id.toString();
+        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+        console.log('ID: ' + _id);
+        console.log('Settings Object: ');
+        console.log(_settingsObject);
+
+    };
 
 
     /// End Locations and Free Application Types
