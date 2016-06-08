@@ -5346,9 +5346,6 @@
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-        console.log('ID: ' + _id);
-        console.log('Settings Object: ');
-        console.log(_settingsObject);
 
     };
 
