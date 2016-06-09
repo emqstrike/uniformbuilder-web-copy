@@ -4154,6 +4154,8 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
+        if (ub.funcs.isBitFieldOn()) { return; }
+
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
@@ -4551,6 +4553,8 @@
 
     ub.funcs.activateApplications = function (application_id) {
 
+        if (ub.funcs.isBitFieldOn()) { return; }
+
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
@@ -4558,11 +4562,6 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
-
-        console.log('Inside Activate Application: ');
-        console.log('ID: ' + _id);
-        console.log('Settings Object: ');
-        console.log(_settingsObject);
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -5403,7 +5402,7 @@
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="applicationType">Select Application Type for Location (# ' + _id + ')</div>';
+        _htmlBuilder        +=      '<div class="applicationType">Select Application Type for Location (#' + _id + ')</div>';
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=           '<div class="optionButton">';
