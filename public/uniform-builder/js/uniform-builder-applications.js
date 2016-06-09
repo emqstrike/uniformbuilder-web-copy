@@ -1383,11 +1383,7 @@
         $('body').mouseup(function() {
 
             /// If locations is turned on exit
-            if (ub.showLocation) { 
-
-                return;
-
-            }
+            if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
 
@@ -1401,14 +1397,14 @@
                     ub.funcs.activateMascots(_id);
                 }
 
-            } 
+            }
 
         });
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
-            /// If locations is turned on exit
             if (ub.showLocation) { return; }
+            if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
 
@@ -1420,8 +1416,6 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
-
-            if (ub.showLocation) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -4419,6 +4413,17 @@
 
             s.alpha = 1;
 
+            if (!ub.showLocation) {
+
+                 var _obj = ub.objects[view + '_view']['locations_' + code];
+                 _obj.alpha = 1;
+            //     _obj.zIndex = -500;
+
+            //     ub.updateLayersOrder(ub[view + '_view']);
+                
+            }
+            
+
         }
         
     }
@@ -4428,6 +4433,15 @@
         if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
 
             ub.objects[view + '_view']['locations_' + code].children[0].alpha = 0.5;
+
+            if (!ub.showLocation) {
+            
+                var _obj = ub.objects[view + '_view']['locations_' + code];
+                _obj.alpha = 0;
+                // _obj.zIndex = -1;
+                // ub.updateLayersOrder(ub[view + '_view']);
+
+            }
 
         }
 
@@ -4521,6 +4535,11 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
+
+        console.log('Inside Activate Application: ');
+        console.log('ID: ' + _id);
+        console.log('Settings Object: ');
+        console.log(_settingsObject);
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -4884,6 +4903,9 @@
 
             $('span.cog').on('click', function () {
 
+                console.log('GA Font Tool:');
+                console.log(_settingsObject);
+
                 var _size           = _settingsObject.font_size;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
@@ -5130,11 +5152,18 @@
 
             if (sprite.ubHover) {
 
-                if (!ub.showLocation) {
+                console.log('');
+
+                console.log('Hover Detected on: ' + locationCode);
+                console.log('Show Location:  ' + ub.showLocation);
+                
+                console.log('');
+
+              // - if (!ub.showLocation) {
     
-                    return;
+               // -     return;
         
-                } else {
+               // - } else {
 
                     var _id               = locationCode;
                     var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
@@ -5143,6 +5172,8 @@
                     ub.showLocation = false;
                     
                     if (_settingsObject.application_type === "free") {
+
+                        console.log('Activating Free Application: ');
 
                         ub.funcs.activateFreeApplication(locationCode);
 
@@ -5157,7 +5188,9 @@
 
                     }
 
-                }
+                    sprite.ubHover = false;
+
+               // -  }
 
             } 
 
@@ -5165,11 +5198,7 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
-            if (!ub.showLocation) {
-    
-                return;
-        
-            } 
+            if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
 
@@ -5181,6 +5210,12 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (locationCode === '25') {
+
+                console.log(locationCode);
+                    
+            }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -5252,11 +5287,12 @@
 
                 var _perspective = view.perspective + '_view';
 
-                // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
-                ub.objects[_perspective]['locations_' + location.code].zIndex = 1;
-                ub.objects[_perspective]['locations_' + location.code].alpha = 0;
+                var locationObject = ub.objects[_perspective]['locations_' + location.code];
 
-                ub.updateLayersOrder(ub[_perspective]);
+                //locationObject.zIndex = 1;
+                locationObject.alpha = 0;
+
+                //ub.updateLayersOrder(ub[_perspective]);
 
             })
 
@@ -5266,25 +5302,34 @@
 
     }
 
-    ub.funcs.showLocations = function () {
+    ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
 
         ub.showLocation = true;
 
-        if ( typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+        if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
 
             _.each (_locations, function (location) {
 
                 _.each(location.application.views, function (view, index){
 
                     var _perspective = view.perspective + '_view';
+                    var _locationObj = ub.objects[_perspective]['locations_' + location.code];
 
-                    // ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
-                    ub.objects[_perspective]['locations_' + location.code].zIndex =  -200 + (index * -1);
-                    ub.objects[_perspective]['locations_' + location.code].alpha = 1;
+                   // _locationObj.zIndex =  -200 + (index * -1);
+                   if (typeof alphaOff !== 'undefined') {
 
-                    ub.updateLayersOrder(ub[_perspective]);
+                       _locationObj.alpha = 0;
+
+                   } else {
+
+                        _locationObj.alpha = 1;
+
+                   }
+
+
+                  //  ub.updateLayersOrder(ub[_perspective]);
 
                 })
 
@@ -5326,22 +5371,43 @@
 
         });
 
-
     }
 
-
     ub.funcs.activateFreeApplication = function (application_id) {
-
 
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
+        console.log('Inside Activate Free Application: ');
+        console.log('ID: ' + _id);
+        console.log('Settings Object: ');
+        console.log(_settingsObject);
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
+
+        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="applicationType"></div>';
+        _htmlBuilder        +=      '<div class="body">';
+        _htmlBuilder        +=          'Please select item for this location:';
+        _htmlBuilder        +=      '</div>';
+
+        _htmlBuilder        += "</div>";
+
+        $('.modifier_main_container').append(_htmlBuilder);
+        $('div#applicationUI').fadeIn();
 
     };
 
+    ub.funcs.gotoFirstMaterialOption = function () {
+
+        $('div.pd-dropdown-links[data-fullname="body"]').trigger('click');
+
+    }
 
     /// End Locations and Free Application Types
-
-
 
 });
