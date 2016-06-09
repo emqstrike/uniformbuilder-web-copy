@@ -5239,12 +5239,6 @@
 
             if (viewPerspective !== ub.active_view) { return; }
 
-            if (locationCode === '25') {
-
-                console.log(locationCode);
-                    
-            }
-
             var this_data = interactionData.data;
             window.sprite = sprite;
 
@@ -5402,11 +5396,6 @@
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-        console.log('Inside Activate Free Application: ');
-        console.log('ID: ' + _id);
-        console.log('Settings Object: ');
-        console.log(_settingsObject);
-
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
@@ -5414,11 +5403,32 @@
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="applicationType"></div>';
+        _htmlBuilder        +=      '<div class="applicationType">Select Application Type for Location (# ' + _id + ')</div>';
         _htmlBuilder        +=      '<div class="body">';
-        _htmlBuilder        +=          'Please select item for this location:';
-        _htmlBuilder        +=      '</div>';
 
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + "#" + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + "T" + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<br />';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + "P" + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + "M" + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
 
         $('.modifier_main_container').append(_htmlBuilder);
