@@ -41,10 +41,14 @@
 
 <div class="container-fluid main-content">
     <div class="row">
+
         <div class="col-md-12">
+            
             <div class="panel panel-info">
                <div class="panel-heading">Modify Accent</div>
+               <button class="btn btn-success updateColors" style='margin: 10px 10px 10px 30px'>Update Colors</button>
                 <div class="panel-body">
+
                     <div class="col-md-5 canvasContainer">
                         <canvas id="canvas" width="600" height="600" style="border:1px solid black"/>
 
@@ -64,7 +68,7 @@
                                      @foreach ($fonts as $font)
                                         @if( ($font -> name) == "Full Block") 
                                
-                                        <option selected="selected" value="{{$font -> name}}">{{$font -> name}}</option>
+                                        <option selected="selected" value="{{$font -> name}}" >{{$font -> name}}</option>
                                         @else if
                                         <option value="{{$font -> name}}">{{$font -> name}}</option>
                                        
@@ -95,7 +99,7 @@
                     </div>
                      <select class="colorSelection" data-name_color="base" style="display:none">
                         @foreach ($colors as $color)
-                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}}">{{$color -> name}}</option>
+                            <option value="#{{$color -> hex_code}}" data-color-id="{{$color -> id }}">{{$color -> name}}</option>
                         @endforeach      
                     </select>
                     <div class="col-md-12">
@@ -104,9 +108,9 @@
                             <tr class="selectAllLayer" id = "Base_Color">
                                 <td class="layerName">Base Color</td>
                                 <td class="layerColor">
-                                    <select class="selectColor">
+                                    <select class="selectColor form-control">
                                         @foreach ($colors as $color)
-                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}">{{$color -> name}}</option>
+                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}" data-color-id="{{$color -> id }}" >{{$color -> name}}</option>
                                        
                                         @endforeach    
                                     </select>
@@ -131,9 +135,9 @@
                             <tr class="selectAllLayer" id = "Pseudo_Shadow">
                                 <td class="layerName">Pseudo Shadow</td>
                                 <td class="layerColor">
-                                     <select class="selectColor">
+                                     <select class="selectColor form-control">
                                         @foreach ($colors as $color)
-                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}">{{$color -> name}}</option>
+                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}"  data-color-id="{{$color -> id }}">{{$color -> name}}</option>
                                        
                                         @endforeach    
                                     </select>
@@ -161,9 +165,9 @@
                             <tr class="selectAllLayer" id="Mask">
                                 <td class="layerName">Mask</td>
                                 <td class="layerColor">
-                                     <select class="selectColor" data-name_color="mask">
+                                     <select class="selectColor form-control" data-name_color="mask">
                                         @foreach ($colors as $color)
-                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}}">{{$color -> name}}</option>
+                                            <option value="#{{$color -> hex_code}}" style="font-family:{{$color -> name}}}"  data-color-id="{{$color -> id }}">{{$color -> name}}</option>
                                         @endforeach    
                                     </select>
                                 </td>

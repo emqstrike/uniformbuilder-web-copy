@@ -115,7 +115,7 @@ function populateLayers(){
       				"<tr class='ui-state-default sortable selectAllLayer' id='"+ item.name +"'>"+
       				"<td class='layerName'>"+ ((item.name).replace ('_',' ')) +"</td>"+
       				"<td class='layerColor'>"+
-      				  "<select class='selectColor' value='"+ item.default_color +"' data-name='"+item.name +"'>"+
+      				  "<select class='selectColor form-control'  data-name='"+item.name +"'>"+
       				  "</select>"+
       				"</td>"+
       				"<td class='layerNumber'>"+
@@ -158,28 +158,22 @@ function populateLayers(){
                 }	 
           }
           $("#"+ item.name +" .layerColor select").html($(".colorSelection").html());
-            // , function(){
-          //    $("#"+ item.name +" .layerColor select option").filter(function() { 
-          //     return ($(this).text() == 'Blue'); //To select Blue
-          //    }).prop('selected', true);
-         
+           
 
-          // });
-         
-     
-
-    		 getColors(item.name,item.default_color);
+    		 getColors(item.name,item.default_color_id);
         });
     
    reCreateCanvas();
 }
-function getColors(layerName,defaultColor){
+function getColors(layerName,defaultColorId){
     $("#"+ layerName + " .layerColor select option").filter(function() {
         //may want to use $.trim in here
-        return $(this).val() == defaultColor; 
+        return $(this).data("color-id") == defaultColorId; 
     }).prop('selected', true);
 
-    $("#"+ layerName +" .layerColor select").selectize({});
+      
+
+    // $("#"+ layerName +" .layerColor select").selectize({});
      
 }
 
@@ -388,6 +382,63 @@ function reCreateCanvas(){
     
     $("#fCode").val(($(this).val().toLowerCase()).replace(/ /g,"_"));
   });
+  $(document).on('click', '.updateColors', function(){
+     var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
+     $( ".colorSelection option" ).each(function() {  
+      console.log($(this).data("color-id"));
+
+     });
+    // var layers;
+    // var totalLayers=[];
+    // $( ".selectAllLayer" ).each(function() {  
+    //   var lName=$(this).attr("id");    
+    //   var LColor=$(this).find(".layerColor select").val();
+    //   var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
+    //   var LLayer=$(this).find(".layerNumber input").val();
+    //   var LZIndex=$(this).find(".layerZindex input").val();
+    //   var LX = parseInt($(this).find(".layerX input").val());
+    //   var LY = parseInt($(this).find(".layerY input").val());
+    //   var LStroke = parseInt($(this).find(".layerStroke input").val());
+    //   var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
+    //   console.log(LColor);  
+    //   console.log(LColorId);
+
+    //       var layers = $(".sortable-rows").data("value").slice(1, -1);
+ 
+     // layers =jQuery.parseJSON(layers);
+     //   jQuery.each(layers, function(index, item) {  
+     //    });
+
+    //   if(!LStroke){LStroke=0;}
+    //   if(!LX){LX=0;}
+    //   if(!LY){LY=0;}
+    //   layers = {
+    //           "name" :  lName,
+    //           "default_color": LColor,
+    //           "layer_no" : LLayer,
+    //           "increment_x" : LX,
+    //           "increment_y" : LY,
+    //           "outline": LStroke,
+    //           "zIndex" : LZIndex,
+    //           },
+    //           totalLayers.push(layers);                     
+    // });
+    //   accent = {
+    //           id: accentIndex,
+    //           name: $("#fName").val(),
+    //           code: $("#fCode").val(),
+    //           // thumbnail: 'double_drop_shadow.png',
+    //           layers: totalLayers, 
+    //           };
+    //            totalAccent.push(accent);
+             
+    //            $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+    //            $(".submitAccent").trigger("click");
+    //   accentIndex++;
+
+
+
+  });
 
 
 
@@ -397,19 +448,21 @@ function reCreateCanvas(){
     $( ".selectAllLayer" ).each(function() {  
       var lName=$(this).attr("id");    
       var LColor=$(this).find(".layerColor select").val();
+      var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
       var LLayer=$(this).find(".layerNumber input").val();
       var LZIndex=$(this).find(".layerZindex input").val();
       var LX = parseInt($(this).find(".layerX input").val());
       var LY = parseInt($(this).find(".layerY input").val());
       var LStroke = parseInt($(this).find(".layerStroke input").val());
       var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
-      
+      console.log(LColorId);
       if(!LStroke){LStroke=0;}
       if(!LX){LX=0;}
       if(!LY){LY=0;}
       layers = {
               "name" :  lName,
               "default_color": LColor,
+              "default_color_id": LColorId,
               "layer_no" : LLayer,
               "increment_x" : LX,
               "increment_y" : LY,
@@ -428,6 +481,7 @@ function reCreateCanvas(){
                totalAccent.push(accent);
              
                $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+               console.log(totalLayers);
                $(".submitAccent").trigger("click");
   accentIndex++;
   });
@@ -465,7 +519,7 @@ function reCreateCanvas(){
           "<tr class='ui-state-default sortable selectAllLayer' id='"+ $(this).data("action") +"_"+ numShaOut +"'>"+
           "<td class='layerName'>"+$(this).data("action") +" "+ numShaOut+"</td>"+
           "<td class='layerColor'>"+
-              "<select class='selectColor' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
+              "<select class='selectColor form-control' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
               "</select>"+
           "</td>"+
           "<td class='layerNumber'>"+
@@ -494,8 +548,8 @@ function reCreateCanvas(){
         $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerX input").removeAttr("disabled");
         $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerY input").removeAttr("disabled");
       }
-      $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
-
+      // $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
+      $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html());
       recountZindex();
       reArrangeName();        
       setStroke();

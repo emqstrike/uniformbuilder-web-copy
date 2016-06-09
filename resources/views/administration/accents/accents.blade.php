@@ -50,7 +50,7 @@
         							    <i class="glyphicon glyphicon-edit"></i>
         							    Edit
         							</a>
-                                @if(  $key  > 10)
+                                @if(  $key  > -1)
         							<a href="#" class="btn btn-danger pull-right btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
         							    <i class="glyphicon glyphicon-trash"></i>
         							    Remove
@@ -94,12 +94,42 @@
       confirmButtonClass: 'confirmButtonYes btn-danger',
       cancelButtonClass: 'confirmButtonNo btn-success',
       });
-      console.log($(this).data('accent-id'));
       $(".confirmButtonYes").attr('data-accent-id',$(this).data('accent-id'));
      
 
+     
     });
-</script>>
+      $(document).on('click', '.confirmButtonYes', function(){
+        
+          var id = $(this).data('accent-id');
+          console.log(id);
+          var url = "http://localhost:8888/api/accent/delete";
+                     
+          $.ajax({
+              url: url,
+              type: "POST",
+              data: JSON.stringify({id: id}),
+              dataType: "json",
+              crossDomain: true,
+              contentType: 'application/json',
+              headers: {"accessToken": atob(headerValue)},
+              success: function(response){
+                  if (response.success) {
+                      new PNotify({
+                          title: 'Success',
+                          text: response.message,
+                          type: 'success',
+                          hide: true
+                      });
+                      // $('#confirmation-modal').modal('hide');
+                      $('.font-' + id).fadeOut();
+                       $( ".accents" ).load( location+" .accents" );  
+
+                  }
+              }
+          });
+       });
+</script>
 <!-- <script type="text/javascript" src="/js/administration/accents.js"></script> -->
 
 @endsection
