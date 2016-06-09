@@ -916,6 +916,7 @@ $(document).ready(function () {
                         code: _application.id,
                         type: _application.type,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
+                        status: 'off',
 
                     };
 
@@ -1013,6 +1014,8 @@ $(document).ready(function () {
             console.log('Order Detected: ');
 
         }
+
+        ub.funcs.showLocations();
 
         /// End Transform Applications
 
@@ -3618,6 +3621,8 @@ $(document).ready(function () {
                     ub.funcs.deActivateZoom();
 
                     if(!ub.showLocation) {
+
+                        ub.funcs.gotoFirstMaterialOption();
 
                         ub.funcs.showLocations();
                         $(this).addClass('zoom_on');
