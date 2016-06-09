@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 
 
-   $('.selectFont, .selectColor').selectize({});
+  $('.selectFont').selectize({});
 
   $(".selectFont div.selectize-input .item").css("font-family",$("select.selectFont").val());
 
@@ -308,36 +308,6 @@ function reCreateCanvas(){
   });
 
 
-   $(document).on('click', '.confirmButtonYes', function(){
-    
-      var id = $(this).data('accent-id');
-      console.log(id);
-      var url = "http://localhost:8888/api/accent/delete";
-                 
-      $.ajax({
-          url: url,
-          type: "POST",
-          data: JSON.stringify({id: id}),
-          dataType: "json",
-          crossDomain: true,
-          contentType: 'application/json',
-          headers: {"accessToken": atob(headerValue)},
-          success: function(response){
-              if (response.success) {
-                  new PNotify({
-                      title: 'Success',
-                      text: response.message,
-                      type: 'success',
-                      hide: true
-                  });
-                  // $('#confirmation-modal').modal('hide');
-                  $('.font-' + id).fadeOut();
-                   $( ".accents" ).load( location+" .accents" );  
-
-              }
-          }
-      });
-   });
 
 
 
@@ -349,6 +319,7 @@ function reCreateCanvas(){
       var lName=$(this).attr("id");    
       var LColor=$(this).find(".layerColor select").val();
       var LLayer=$(this).find(".layerNumber input").val();
+      var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
       var LZIndex=$(this).find(".layerZindex input").val();
       var LX = parseInt($(this).find(".layerX input").val());
       var LY = parseInt($(this).find(".layerY input").val());
@@ -361,6 +332,7 @@ function reCreateCanvas(){
       layers = {
               "name" :  lName,
               "default_color": LColor,
+              "default_color_id": LColorId,
               "layer_no" : LLayer,
               "increment_x" : LX,
               "increment_y" : LY,
@@ -379,6 +351,7 @@ function reCreateCanvas(){
                totalAccent.push(accent);
              
                $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+               console.log(totalLayers);
                $(".submitAccent").trigger("click");
   accentIndex++;
   });
@@ -415,7 +388,7 @@ function reCreateCanvas(){
           "<tr class='ui-state-default sortable selectAllLayer' id='"+ $(this).data("action") +"_"+ numShaOut +"'>"+
           "<td class='layerName'>"+$(this).data("action") +" "+ numShaOut+"</td>"+
           "<td class='layerColor'>"+
-              "<select class='selectColor' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
+              "<select class='selectColor form-control' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
               
               "</select>"+
           "</td>"+
@@ -446,8 +419,8 @@ function reCreateCanvas(){
       }
 
 
-      $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
-     
+      // $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
+     $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html());
 
 
       recountZindex();
