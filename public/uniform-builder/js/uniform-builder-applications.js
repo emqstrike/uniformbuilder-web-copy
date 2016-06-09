@@ -4154,8 +4154,16 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
-        if (ub.funcs.isBitFieldOn()) { return; }
+        if (ub.funcs.isBitFieldOn()) { 
 
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;     
+            }
+
+        }
+        
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
@@ -4553,7 +4561,15 @@
 
     ub.funcs.activateApplications = function (application_id) {
 
-        if (ub.funcs.isBitFieldOn()) { return; }
+        if (ub.funcs.isBitFieldOn()) { 
+
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;     
+            }
+
+        }
 
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
