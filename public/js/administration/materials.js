@@ -24,6 +24,42 @@ $(document).ready(function() {
     materialOptions['right'] = {};
 
     var canvasFront = this.__canvas = new fabric.Canvas('applications-front-canvas');
+
+    canvasFront.customiseControls({
+        tl: {
+            action: 'rotate',
+            cursor: 'http://findicons.com/files/icons/2625/google_plus_interface_icons/128/rotate.png'
+        },
+        // tr: {
+        //     action: 'scale'
+        // },
+        // bl: {
+        //     action: 'remove',
+        //     cursor: 'pointer'
+        // },
+        // br: {
+        //     action: 'moveUp',
+        //     cursor: 'pointer'
+        // },
+        // mb: {
+        //     action: 'moveDown',
+        //     cursor: 'pointer'
+        // },
+        // mt: {
+        //     action: {
+        //         'rotateByDegrees': 45
+        //     }
+        // },
+        mr: {
+            action: function( e, target ) {
+                target.set( {
+                    left: 200
+                } );
+                canvas.renderAll();
+            }
+         }
+    });
+
     canvasFront.setWidth( 496 );
     canvasFront.setHeight( 550 );
     var IN = 20;
@@ -381,8 +417,8 @@ $(document).ready(function() {
         var default_name = default_name_raw.replace(/(^\s+|[^a-zA-Z0-9 ]+|\s+$)/g,"");
 
         var fill = '#e3e3e3';
-        var height = 30;
-        var width = 30;
+        var height = 25;
+        var width = 25;
         var opacity = 0.6;
         var font_family = 'arial black';
         var stroke_color = 'red';
@@ -396,6 +432,32 @@ $(document).ready(function() {
         var app_id = fabricAppID( application_number.toString(), font_family, opacity, app_id_font_size);
         var app_type = fabricAppType( default_item.toString(), font_family, opacity, app_type_font_size);
         var group = fabricAppGroup( application_number, group_left, group_top, area, app_id, app_type, default_item);
+        group.lockUniScaling = true;
+        group.lockScalingX = true;
+        group.lockScalingY = true;
+        group.customiseCornerIcons({
+            settings: {
+                borderColor: 'blue',
+                cornerSize: 15,
+                cornerShape: 'rect',
+                cornerBackgroundColor: 'blue'
+                // cornerPadding: 5
+            },
+            tl: {
+                icon: 'http://52.39.10.209/rotate.svg'
+            }
+        });
+        group.setControlsVisibility({
+            mt: false,
+            mb: false,
+            ml: false,
+            mr: false,
+            tr: false,
+            // tl: false,
+            br: false,
+            bl: false
+        });
+        group.hasRotatingPoint = false;
         canvasFront.add(group);
 
         var fonts_options = '<option value="">Not Set</option>';
@@ -1167,6 +1229,7 @@ $(document).ready(function() {
         for(c = 0; c < Object.keys(app_properties).length; c++){
 
             var l = 'layer'+c;
+            var mascot_offset = 4;
             var app_prop_id = app_properties[l].id;
             var app_prop_type = app_properties[l].type;
 
@@ -1191,6 +1254,32 @@ $(document).ready(function() {
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
             var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
             // if( 
+            group.lockUniScaling = true;
+            group.lockScalingX = true;
+            group.lockScalingY = true;
+            group.customiseCornerIcons({
+                settings: {
+                    borderColor: 'blue',
+                    cornerSize: 15,
+                    cornerShape: 'rect',
+                    cornerBackgroundColor: 'blue'
+                    // cornerPadding: 5
+                },
+                tl: {
+                    icon: 'http://52.39.10.209/rotate.svg'
+                }
+            });
+            group.setControlsVisibility({
+                mt: false,
+                mb: false,
+                ml: false,
+                mr: false,
+                tr: false,
+                // tl: false,
+                br: false,
+                bl: false
+            });
+            group.hasRotatingPoint = false;
             canvasFront.add(group);
             //  ){
             //     console.log('added group');
@@ -1426,7 +1515,12 @@ $(document).ready(function() {
                 app_properties[l].pivot.x = app_properties[l].pivot.x / dividend;
                 app_properties[l].pivot.y = app_properties[l].pivot.y / dividend;
 
-                thisGroup.centerPoint   = app_properties[l].pivot;
+                app_properties[l]['temp'] = {};
+
+                app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 4;
+                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
+
+                thisGroup.centerPoint   = app_properties[l].temp;
                 
                 thisGroup.width         = (app_properties[l].width) / dividend;
                 thisGroup.height        = (app_properties[l].height) / dividend;
@@ -2797,6 +2891,7 @@ function updateApplicationsJSON(){
         var bottomLeftY = thisGroup.oCoords.bl.y * multiplier;
         var bottomRightX = thisGroup.oCoords.br.x * multiplier;
         var bottomRightY = thisGroup.oCoords.br.y * multiplier;
+        var mascot_offset = 4;
 
         canvas.renderAll();
 
@@ -2891,8 +2986,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-        applicationProperties[itemIdx].center.x = applicationProperties[itemIdx].pivot.x * multiplier;
-        applicationProperties[itemIdx].center.y = applicationProperties[itemIdx].pivot.y * multiplier;
+        applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
+        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
 
         applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
         applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;

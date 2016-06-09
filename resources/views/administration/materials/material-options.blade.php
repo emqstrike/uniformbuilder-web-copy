@@ -449,6 +449,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/ddslick.min.js"></script>
 @if (Session::has('message'))
