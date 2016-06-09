@@ -4405,24 +4405,25 @@
 
     },
 
+    ub.data.markerBitField = {};
     ub.funcs.highlightMarker = function (code, view) {
+
+        if (view !== ub.active_view) { return; }
    
         if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
 
             var s = _.find(ub.objects[view + '_view']['locations_' + code].children, {ubName: 'Marker'});
-
             s.alpha = 1;
+
+            ub.data.markerBitField[code] = { value: true, code: code }
+            $('body').css('cursor', 'pointer');
 
             if (!ub.showLocation) {
 
-                 var _obj = ub.objects[view + '_view']['locations_' + code];
-                 _obj.alpha = 1;
-            //     _obj.zIndex = -500;
-
-            //     ub.updateLayersOrder(ub[view + '_view']);
-                
+                var _obj = ub.objects[view + '_view']['locations_' + code];
+                _obj.alpha = 1;
+        
             }
-            
 
         }
         
@@ -4433,17 +4434,39 @@
         if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
 
             ub.objects[view + '_view']['locations_' + code].children[0].alpha = 0.5;
+            
+            ub.data.markerBitField[code] = { value: false, code: code }
 
+            if (!ub.funcs.isBitFieldOn()) {
+                $('body').css('cursor', 'auto');
+            }
+            
             if (!ub.showLocation) {
             
                 var _obj = ub.objects[view + '_view']['locations_' + code];
                 _obj.alpha = 0;
-                // _obj.zIndex = -1;
-                // ub.updateLayersOrder(ub[view + '_view']);
 
             }
 
         }
+
+    }
+
+    ub.funcs.isBitFieldOn = function () {
+
+        var _returnValue = false;
+
+        _.each(ub.data.markerBitField, function (bitField) {
+
+            if (bitField.value) {
+
+                _returnValue = true;
+
+            }
+
+        });
+
+        return _returnValue;
 
     }
 
@@ -5150,6 +5173,8 @@
 
         $('body').mouseup(function() {
 
+            if (viewPerspective !== ub.active_view) { return; }
+
             if (sprite.ubHover) {
 
                 console.log('');
@@ -5198,6 +5223,7 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+            if (viewPerspective !== ub.active_view) { return; }
             if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
@@ -5210,6 +5236,8 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (viewPerspective !== ub.active_view) { return; }
 
             if (locationCode === '25') {
 
@@ -5250,10 +5278,8 @@
                     // start
 
                     sprite.ubHover      = true;
-
                     ub.funcs.highlightMarker(locationCode, viewPerspective);
                     ub.data.applicationAccumulator = _sizeOfApplications;
-                    ub.funcs.setPointer();
                    
                 } else {
 
@@ -5262,8 +5288,6 @@
                     ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
                     sprite.ubHover  = false;
                     ub.data.applicationAccumulator -= 1;
-
-                    ub.funcs.setPointer();
 
                 }
                 
