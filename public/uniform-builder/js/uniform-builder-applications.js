@@ -4192,7 +4192,7 @@
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + _title + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -4644,7 +4644,7 @@
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '</div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -5416,8 +5416,9 @@
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
-        var _id               = application_id.toString();
-        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+        var _id                     = application_id.toString();
+        var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+        var _validApplicationTypes  = _settingsObject.validApplicationTypes;
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
@@ -5430,30 +5431,44 @@
         _htmlBuilder        +=      '<div class="applicationType">Select Application Type for Location (#' + _id + ')</div>';
         _htmlBuilder        +=      '<div class="body">';
 
-        _htmlBuilder        +=           '<div class="optionButton">';
+        var _deactivated ='';
+
+        if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
+
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
         _htmlBuilder        +=           '</div>';
+        _deactivated ='';
 
-        _htmlBuilder        +=           '<div class="optionButton">';
+        if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
+
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=           '<br />';
+        _deactivated ='';
 
-        _htmlBuilder        +=           '<div class="optionButton">';
+        if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
+
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
         _htmlBuilder        +=           '</div>';
+        _deactivated ='';
 
-        _htmlBuilder        +=           '<div class="optionButton">';
+        if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
+        _deactivated ='';
 
         $('.modifier_main_container').append(_htmlBuilder);
         $('div#applicationUI').fadeIn();
