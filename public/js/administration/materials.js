@@ -1516,8 +1516,9 @@ $(document).ready(function() {
 
                 app_properties[l]['temp'] = {};
 
-                app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 4;
-                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
+                app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 3;
+                // app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
+                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ;
 
                 thisGroup.centerPoint   = app_properties[l].temp;
                 
@@ -2914,7 +2915,7 @@ function updateApplicationsJSON(){
         var bottomLeftY = thisGroup.oCoords.bl.y * multiplier;
         var bottomRightX = thisGroup.oCoords.br.x * multiplier;
         var bottomRightY = thisGroup.oCoords.br.y * multiplier;
-        var mascot_offset = 4;
+        var mascot_offset = 3;
 
         canvas.renderAll();
 
@@ -3010,7 +3011,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
         applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
-        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
+        // applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
+        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y ) * multiplier;
 
         applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
         applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
