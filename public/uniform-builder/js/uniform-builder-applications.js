@@ -5466,6 +5466,33 @@
 
     }
 
+    ub.funcs.showCrossHair = function (x, y) {
+
+            ub.funcs.removeCrossHair();
+
+        var _sprite = ub.pixi.new_sprite('/images/main-ui/ch.png');
+
+        ub.ch = _sprite;
+
+        _sprite.anchor.set(0.5,0.5);
+
+        _sprite.position.x = x;
+        _sprite.position.y = y;
+        _sprite.zIndex = -1000;
+
+        ub[ub.active_view + "_view"].addChild(_sprite);
+        ub.objects[ub.active_view + "_view"]['ch'] = _sprite;
+
+        ub.updateLayersOrder(ub[ub.active_view + "_view"]);
+
+    }
+
+    ub.funcs.removeCrossHair = function () {
+
+        ub[ub.active_view + '_view'].removeChild(ub.ch)
+
+    }
+
     /// End Locations and Free Application Types
 
 });
