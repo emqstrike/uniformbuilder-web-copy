@@ -119,6 +119,8 @@ $(document).ready(function () {
         var w           = windowSize.width;
         var h           = windowSize.height;
 
+        $('div.debugPanel').css('top', (h) + "px")
+
         ub.renderer.resize(w,h);
         ub.renderer.view.style.width = w + "px";
         ub.renderer.view.style.height = h + "px";
