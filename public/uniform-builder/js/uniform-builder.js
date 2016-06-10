@@ -4539,6 +4539,13 @@ $(document).ready(function () {
 
         $('div.mTab[data-type="color"]').click();
 
+        $("body").dblclick(function() {
+            
+            ub.zoom_on();
+            $(this).addClass('zoom_on');
+
+        });
+
     /// End Sidebar 
 
 

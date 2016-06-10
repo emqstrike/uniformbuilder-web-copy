@@ -68,9 +68,9 @@ $(document).ready(function () {
              
         });
 
-        ub.zoom = true;
         ub.hide_all_views();
         $('a.change-view[data-view="zoom"]').addClass('zoom_on');
+        ub.zoom = true;
 
     };
 

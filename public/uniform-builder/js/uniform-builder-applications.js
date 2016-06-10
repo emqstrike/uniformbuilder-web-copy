@@ -5207,7 +5207,7 @@
 
         sprite.spriteType = 'Marker';
         sprite.draggable({ manager: ub.dragAndDropManager });
-        sprite.mouseup = sprite.touchend = function(data) { };
+        sprite.mouseup = sprite.touchend = function (data) { };
 
         $('body').mouseup(function() {
 
