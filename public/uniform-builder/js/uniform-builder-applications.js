@@ -1585,13 +1585,13 @@
             _.each(views, function(view){
 
                 var point = sprite_function(args);
-                point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
+                point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
                 if(_.indexOf(adjustablePositions, app_id) !== -1) {
 
                     if(app_id === '1' || app_id === '6'){
 
-                        point.position = new PIXI.Point(view.application.pivot.x, view.application.pivot.y);
+                        point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
                     }
                     
@@ -1600,7 +1600,7 @@
                         var topRightY   = view.application.topRight.y;
                         var y           = (point.height / 4 ) + topRightY;
 
-                        point.position  = new PIXI.Point(view.application.pivot.x, y);
+                        point.position  = new PIXI.Point(view.application.center.x, y);
 
                     }
 
@@ -5384,8 +5384,8 @@
 
                 var _perspective    = view.perspective + '_view';
                 var _viewObject     = ub.objects[_perspective];
-                var _x              = view.application.pivot.x;
-                var _y              = view.application.pivot.y;
+                var _x              = view.application.center.x;
+                var _y              = view.application.center.y;
                 var _sprite         = ub.funcs.createLocationSprite(location.code);
 
                 _viewObject['locations_' + location.code] = _sprite;
