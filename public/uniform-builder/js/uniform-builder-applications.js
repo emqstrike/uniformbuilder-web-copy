@@ -5207,26 +5207,13 @@
 
         sprite.spriteType = 'Marker';
         sprite.draggable({ manager: ub.dragAndDropManager });
-        sprite.mouseup = sprite.touchend = function(data) { };
+        sprite.mouseup = sprite.touchend = function (data) { };
 
         $('body').mouseup(function() {
 
             if (viewPerspective !== ub.active_view) { return; }
 
             if (sprite.ubHover) {
-
-                console.log('');
-
-                console.log('Hover Detected on: ' + locationCode);
-                console.log('Show Location:  ' + ub.showLocation);
-                
-                console.log('');
-
-              // - if (!ub.showLocation) {
-    
-               // -     return;
-        
-               // - } else {
 
                     var _id               = locationCode;
                     var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
@@ -5235,8 +5222,6 @@
                     ub.showLocation = false;
                     
                     if (_settingsObject.application_type === "free") {
-
-                        console.log('Activating Free Application: ');
 
                         ub.funcs.activateFreeApplication(locationCode);
 

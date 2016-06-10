@@ -3563,6 +3563,19 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.setActiveIcon = function (view) {
+
+            _.each(ub.views, function (_view) {
+
+                if (_view !== view) { $('a.change-view[data-view="' + _view + '"]').removeClass('active-icon'); }
+
+            });
+
+            $('a.change-view[data-view="' + view + '"]').addClass('active-icon');
+
+        }
+
+
         /// End Utilities ///
 
         /// Bottom Nav Handlers
@@ -3678,6 +3691,7 @@ $(document).ready(function () {
                 ub.pattern_view.position.x  = _newX;
 
                 ub[view + '_view'].position.set(ub.offset.x, ub.offset.y);
+                ub.funcs.setActiveIcon(view);
 
                 $('#main_view').fadeIn();
 
@@ -4524,6 +4538,13 @@ $(document).ready(function () {
         });
 
         $('div.mTab[data-type="color"]').click();
+
+        $("body").dblclick(function() {
+            
+            ub.zoom_on();
+            $(this).addClass('zoom_on');
+
+        });
 
     /// End Sidebar 
 
