@@ -5422,24 +5422,24 @@
         _htmlBuilder        +=      '<div class="body">';
 
         _htmlBuilder        +=           '<div class="optionButton">';
-        _htmlBuilder        +=                 '<div class="icon">' + "#" + '</div>';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=           '<div class="optionButton">';
-        _htmlBuilder        +=                 '<div class="icon">' + "T" + '</div>';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=           '<br />';
 
         _htmlBuilder        +=           '<div class="optionButton">';
-        _htmlBuilder        +=                 '<div class="icon">' + "P" + '</div>';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=           '<div class="optionButton">';
-        _htmlBuilder        +=                 '<div class="icon">' + "M" + '</div>';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
