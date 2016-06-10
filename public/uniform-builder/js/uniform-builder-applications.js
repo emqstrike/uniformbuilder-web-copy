@@ -4182,6 +4182,7 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
+        ub.funcs.preProcessApplication(application_id);
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
@@ -4559,6 +4560,27 @@
 
     }
 
+    ub.funcs.preProcessApplication = function (applicationID) {
+
+        var _front          = [4,1,2,3,11,31,29,27,25,30,28,26,24,37,13,38,12];
+        var _back           = [34,7,6,5,51,8,15,14,40,22,39,23];
+        var _left           = [32,48,50,10,44,42,20,18,16,36];
+        var _right          = [33,47,49,9,43,41,21,19,17,35];
+
+        var _id = parseInt(applicationID);
+
+        var _frontResult    = _.contains(_front, _id);
+        var _backResult     = _.contains(_back, _id);
+        var _leftResult     = _.contains(_left, _id);
+        var _rightResult    = _.contains(_right, _id);
+
+        if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
+        if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
+        if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
+        if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if (ub.funcs.isBitFieldOn()) { 
@@ -4578,6 +4600,7 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
+        ub.funcs.preProcessApplication(application_id);
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -5415,6 +5438,7 @@
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
+        ub.funcs.preProcessApplication(application_id);
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
