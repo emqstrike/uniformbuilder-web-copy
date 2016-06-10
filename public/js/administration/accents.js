@@ -2,6 +2,14 @@
 
 
 $(document).ready(function(){
+
+
+
+  $('.selectFont').selectize({});
+
+  $(".selectFont div.selectize-input .item").css("font-family",$("select.selectFont").val());
+
+
   var accentIndex=0;
   var totalAccent=[];
   var shadowNum="1";
@@ -11,81 +19,89 @@ $(document).ready(function(){
   var canvas = new fabric.Canvas('canvas');  
   var canvas2 = new fabric.Canvas('canvas2');  
   var layer = new fabric.Text("85",{
+         fontFamily: $(".selectFont").val(),
               name : "Base_Color",
               fill : '#1e1e1e',
               left : 120,
-              top : 110,                                  
-              fontSize: $(".fontSize").val(),
-              fontFamily : $(".selectFont").val(),
+              top : 110,       
+
+              fontSize: $(".fontSize").val()
+
+              
               
       });
 
-  canvas.add(layer);
-  layer.set('selectable', false);
+
+   canvas.add(layer);
+   layer.set('selectable', false); 
+        layer.set('evented', false); 
+
   canvas.sendToBack(layer);
 
-  $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
-      var data = {
-        fonts: result.fonts
-        , index: function() {
-            return ++window['INDEX']||(window['INDEX']=0);
-        }
-      }
-
-      $.each(data.fonts, function(i, item) {
-      console.log(i);
-        if(item.active == "1"){
-          $("#fonts").append("@font-face {"+
-              "font-family : '"+ item.name +"';"+
-              "src : url("+ item.font_path +");"+
-              "}");
-              WebFont.load({
-                custom: {
-                  families: [item.name]
-               
-                }
-          });
-          $(".selectFont").append("<option value='"+ item.name +"' style='font-family:"+ item.name +"' > "+ item.name +"</option>")
-
-
-        }
-      
-      })
-
-      // tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
-      // var html = Mustache.to_html(tableTemplate, data);
-      // $(".selectFont").append(html);
-      $(".selectFont").css("font-family",$('option:selected', $(".selectedFont").val()).val());
-  
-  }).always(function() {
     
-  });
-  getColors("once");
-  
- function getColors(layerName){
-  console.log(layerName);
-  console.log("//");
-  $.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
-      var data = {
-        colors: result.colors
-        , index: function() {
-            return ++window['INDEX']||(window['INDEX']=0);
-        }
-      }
-      tableTemplate = "{{#colors}}<option value='#{{hex_code}}'>{{name}}</option>{{/colors}}";
-      var html = Mustache.to_html(tableTemplate, data);
-      if(layerName=="once"){
-      $(".selectColor").append(html);
-      }else{
-      $("#"+layerName+" .selectColor").append(html);
-      }
+
+  // $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
+  //     var data = {
+  //       fonts: result.fonts
+  //       , index: function() {
+  //           return ++window['INDEX']||(window['INDEX']=0);
+  //       }
+  //     }
+
+  //     $.each(data.fonts, function(i, item) {
+  //     console.log(i);
+  //       if(item.active == "1"){
+  //         $("#fonts").append("@font-face {"+
+  //             "font-family : '"+ item.name +"';"+
+  //             "src : url("+ item.font_path +");"+
+  //             "}");
+  //             WebFont.load({
+  //               custom: {
+  //                 families: [item.name]
+               
+  //               }
+  //         });
+  //         $(".selectFont").append("<option value='"+ item.name +"' style='font-family:"+ item.name +"' > "+ item.name +"</option>")
+
+
+  //       }
       
-  }).always(function() {
+  //     })
+
+  //     // tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
+  //     // var html = Mustache.to_html(tableTemplate, data);
+  //     // $(".selectFont").append(html);
+  //     $(".selectFont").css("font-family",$('option:selected', $(".selectedFont").val()).val());
   
-});
-}
+  // }).always(function() {
+    
+  // });
+//   getColors("once");
+  
+//  function getColors(layerName){
+//   console.log(layerName);
+//   console.log("//");
+//   $.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
+//       var data = {
+//         colors: result.colors
+//         , index: function() {
+//             return ++window['INDEX']||(window['INDEX']=0);
+//         }
+//       }
+//       tableTemplate = "{{#colors}}<option value='#{{hex_code}}'>{{name}}</option>{{/colors}}";
+//       var html = Mustache.to_html(tableTemplate, data);
+//       if(layerName=="once"){
+//       $(".selectColor").append(html);
+//       }else{
+//       $("#"+layerName+" .selectColor").append(html);
+//       }
+      
+//   }).always(function() {
+  
+// });
+// }
 recountZindex();
-  function recountZindex(){
+function recountZindex(){
     ctr = -1-$(".selectAllLayer").length+1;
     ctr2 = 1;
  
@@ -203,11 +219,13 @@ function layerRemove(t){
 };
 
 
-
+//reCreateCanvas();
 function reCreateCanvas(){
+
     canvas.clear($(this).attr("id")); 
+
     $( ".selectAllLayer" ).each(function() {
-      
+       
       var lName=$(this).attr("id");    
       var LColor=$(this).find(".layerColor select").val();
       var LLayer;
@@ -216,7 +234,7 @@ function reCreateCanvas(){
       var LY = parseInt($(this).find(".layerY input").val());
       var LStroke = parseInt($(this).find(".layerStroke input").val() * 16);
       var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
-
+     
       if(!LColor){LColor = "#1e1e1e";}
 
     if(!LStroke || LStroke=="" ){LStroke=0};
@@ -229,15 +247,18 @@ function reCreateCanvas(){
         fontSize: $(".fontSize").val(),
         strokeWidth : LStroke,
         stroke : LColor ,
-        fontFamily : $(".selectFont").val(),
+       fontFamily: $(".selectFont").val(),
         
       });
       canvas.add(layer);
         layer.set('hasControls', false);
-      if( lName == "Base_Color" || remInt =="Outline"){ 
+      
+      if( lName == "Base_Color" || remInt =="Outline" || lName =="Pseudo_Shadow"){  
+
 
         layer.set('selectable', false); 
-        layer.set('selectable', false); 
+        layer.set('evented', false); 
+  
 
       } 
       canvas.sendToBack(layer);
@@ -249,7 +270,7 @@ function reCreateCanvas(){
   
   }
 
-  $(document.body).on('change', '.selectFont', function(){            
+  $(document.body).on('change', '.selectFont', function(){   
     canvas.forEachObject(function(key,obj){    
     canvas.item(obj).fontFamily=$(".selectFont").val();         
     });
@@ -269,10 +290,10 @@ function reCreateCanvas(){
   
   });
   $(document).on('change', '.layerX input', function(){
-    reCreateCanvas();
+    setStroke();
   });
   $(document).on('change', '.layerY input', function(){
-    reCreateCanvas();
+    setStroke();
   });
   $(document).on('click', '.layerRemove', function(){
     layerRemove(this);
@@ -280,37 +301,16 @@ function reCreateCanvas(){
   $(document).on('click', '.accentRemove', function(){
     accentRemove(this);
   });
-    $(document).on('click', '.delete-accent', function(){
+
+  $(document).on('keyup','#fName',function(){
+    
+    $("#fCode").val(($(this).val().toLowerCase()).replace(/ /g,"_"));
+  });
 
 
-        var id = $(this).data('accent-id');
-      console.log(id);
-          var url = "http://localhost:8888/api/accent/delete";
-                     
-          $.ajax({
-              url: url,
-              type: "POST",
-              data: JSON.stringify({id: id}),
-              dataType: "json",
-              crossDomain: true,
-              contentType: 'application/json',
-              headers: {"accessToken": atob(headerValue)},
-              success: function(response){
-                  if (response.success) {
-                      new PNotify({
-                          title: 'Success',
-                          text: response.message,
-                          type: 'success',
-                          hide: true
-                      });
-                      // $('#confirmation-modal').modal('hide');
-                      $('.font-' + id).fadeOut();
-                       $( ".accents" ).load( location+" .accents" );  
 
-                  }
-              }
-          });
-    });
+
+
 
   $(document).on('click', '.saveAccent', function(){
     var layers;
@@ -319,6 +319,7 @@ function reCreateCanvas(){
       var lName=$(this).attr("id");    
       var LColor=$(this).find(".layerColor select").val();
       var LLayer=$(this).find(".layerNumber input").val();
+      var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
       var LZIndex=$(this).find(".layerZindex input").val();
       var LX = parseInt($(this).find(".layerX input").val());
       var LY = parseInt($(this).find(".layerY input").val());
@@ -331,6 +332,7 @@ function reCreateCanvas(){
       layers = {
               "name" :  lName,
               "default_color": LColor,
+              "default_color_id": LColorId,
               "layer_no" : LLayer,
               "increment_x" : LX,
               "increment_y" : LY,
@@ -349,6 +351,7 @@ function reCreateCanvas(){
                totalAccent.push(accent);
              
                $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+               console.log(totalLayers);
                $(".submitAccent").trigger("click");
   accentIndex++;
   });
@@ -370,6 +373,7 @@ function reCreateCanvas(){
             top : 30,                                  
             fontSize: $(".fontSize").val(),
             fontFamily : $(".selectFont").val(),
+
             
         });
       
@@ -384,7 +388,8 @@ function reCreateCanvas(){
           "<tr class='ui-state-default sortable selectAllLayer' id='"+ $(this).data("action") +"_"+ numShaOut +"'>"+
           "<td class='layerName'>"+$(this).data("action") +" "+ numShaOut+"</td>"+
           "<td class='layerColor'>"+
-              "<select class='selectColor' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
+              "<select class='selectColor form-control' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
+              
               "</select>"+
           "</td>"+
           "<td class='layerNumber'>"+
@@ -393,11 +398,11 @@ function reCreateCanvas(){
           "<td class='layerZindex' >"+
               "<input type='number' disabled='disabled'>"+
           "</td>"+
-          "<td class='layerX'>"+
-              "<input type='text' value=''>"+
+          "<td class='layerX' >"+
+              "<input type='number' value='' disabled='disabled'>"+
           "</td>"+
-          "<td class='layerY'>"+
-             "<input type='text' value=''>"+
+          "<td class='layerY' >"+
+             "<input type='number' value='' disabled='disabled'>"+
           "</td>"+
            "<td class='layerStroke'>"+
              "<input type='number' disabled='disabled'>"+
@@ -407,12 +412,19 @@ function reCreateCanvas(){
           "</td>"+
           "");
 
-      if($(this).data("action") == "Outline"){
-        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerStroke input").removeAttr("disabled");
+      if($(this).data("action") == "Shadow"){
+        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerX input").removeAttr("disabled");
+        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerY input").removeAttr("disabled");
+     
       }
-      getColors($(this).data("action") +"_"+ numShaOut);
+
+
+      // $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
+     $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html());
+
+
       recountZindex();
-      reArrangeName();        
+      reArrangeName();
       setStroke();
       numLayer++;
   });
@@ -429,4 +441,18 @@ $( "tbody.sortable-rows" ).disableSelection();
          
         }
     });
+
+  //   var ctr=0;
+
+  //  var intervalId =window.setInterval(function() {
+  //   reCreateCanvas();
+
+  //     console.log(ctr);
+  //     if(IsLoadedFonts('Angels')){window.clearInterval(intervalId);}
+      
+  //     ctr++;
+  // }, 1);
+
+
 });
+

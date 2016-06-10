@@ -137,6 +137,9 @@
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
+
+
+
 @yield('scripts')
 <script type="text/javascript">
 $(document).ready(function(){

@@ -67,7 +67,8 @@
 		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
 		<script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
-			
+
+	
 		@yield('additional-scripts')
 
 		

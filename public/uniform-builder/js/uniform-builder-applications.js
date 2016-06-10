@@ -53,30 +53,30 @@
 
     ub.funcs.createLocationSprite = function (code) {
 
-        var _filename               = '/images/main-ui/pin.png';
-        var _sprite                 = ub.pixi.new_sprite(_filename);
+        var _filename                     = '/images/main-ui/outer-circle.png';
+        var _sprite                       = ub.pixi.new_sprite(_filename);
 
-        var _filenameCircleSprite   = '/images/main-ui/pinCircle.png';
-        var _circleSprite           = ub.pixi.new_sprite(_filenameCircleSprite);
+        var _filenameCircleSprite         = '/images/main-ui/inner-circle.png';
+        var _circleSprite                 = ub.pixi.new_sprite(_filenameCircleSprite);
 
-        var _container              = new PIXI.Container();
-        var _teamColorOne           = ub.current_material.settings.team_colors[0];
+        var _container                    = new PIXI.Container();
+        var _teamColorOne                 = ub.current_material.settings.team_colors[0];
         var _codeSprite;
 
-        _sprite.anchor.set(0.5, 1);
-        _sprite.ubName              = 'Marker';
-        _sprite.alpha               = 0.5;
+        _sprite.anchor.set(0.5, 0.5);
+        _sprite.ubName                    = 'Marker';
+        _sprite.alpha                     = 0.5;
         _container.addChild(_sprite);
 
-        _circleSprite.anchor.set(0.5, 1);
+        _circleSprite.anchor.set(0.5, 0.5);
         _circleSprite.ubName              = 'Circle';
         _container.addChild(_circleSprite);
 
-        _circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
+        //_circleSprite.tint = parseInt(_teamColorOne.hex_code, 16);
 
-        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 32px Arial', fill : parseInt('ffffff', 16), align : 'center'});
+        _codeSprite = new PIXI.Text(code.toString(),{font: 'bold 30px Arial', fill : parseInt('ffffff', 16), align : 'center'});
         _codeSprite.ubName = 'Code Sprite';
-        _codeSprite.anchor.set(0.5, 2.1);
+        _codeSprite.anchor.set(0.5, 0.5);
         _container.addChild(_codeSprite);
 
         return _container;
@@ -1383,11 +1383,7 @@
         $('body').mouseup(function() {
 
             /// If locations is turned on exit
-            if (ub.showLocation) { 
-
-                return;
-
-            }
+            if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
 
@@ -1401,14 +1397,14 @@
                     ub.funcs.activateMascots(_id);
                 }
 
-            } 
+            }
 
         });
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
-            /// If locations is turned on exit
             if (ub.showLocation) { return; }
+            if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
 
@@ -1420,8 +1416,6 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
-
-            if (ub.showLocation) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -4160,6 +4154,16 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
+        if (ub.funcs.isBitFieldOn()) { 
+
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;     
+            }
+
+        }
+        
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
@@ -4411,13 +4415,25 @@
 
     },
 
+    ub.data.markerBitField = {};
     ub.funcs.highlightMarker = function (code, view) {
+
+        if (view !== ub.active_view) { return; }
    
         if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
 
             var s = _.find(ub.objects[view + '_view']['locations_' + code].children, {ubName: 'Marker'});
-
             s.alpha = 1;
+
+            ub.data.markerBitField[code] = { value: true, code: code }
+            $('body').css('cursor', 'pointer');
+
+            if (!ub.showLocation) {
+
+                var _obj = ub.objects[view + '_view']['locations_' + code];
+                _obj.alpha = 1;
+        
+            }
 
         }
         
@@ -4428,8 +4444,39 @@
         if (typeof ub.objects[view + '_view']['locations_' + code] !== 'undefined') {
 
             ub.objects[view + '_view']['locations_' + code].children[0].alpha = 0.5;
+            
+            ub.data.markerBitField[code] = { value: false, code: code }
+
+            if (!ub.funcs.isBitFieldOn()) {
+                $('body').css('cursor', 'auto');
+            }
+            
+            if (!ub.showLocation) {
+            
+                var _obj = ub.objects[view + '_view']['locations_' + code];
+                _obj.alpha = 0;
+
+            }
 
         }
+
+    }
+
+    ub.funcs.isBitFieldOn = function () {
+
+        var _returnValue = false;
+
+        _.each(ub.data.markerBitField, function (bitField) {
+
+            if (bitField.value) {
+
+                _returnValue = true;
+
+            }
+
+        });
+
+        return _returnValue;
 
     }
 
@@ -4514,13 +4561,23 @@
 
     ub.funcs.activateApplications = function (application_id) {
 
+        if (ub.funcs.isBitFieldOn()) { 
+
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;     
+            }
+
+        }
+
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
         ub.funcs.deActivatePatterns();
-
+        ub.funcs.deActivateLocations();
 
         var _sampleText       = _settingsObject.text;
         var _applicationType  = _settingsObject.application_type;
@@ -4884,14 +4941,16 @@
 
             $('span.cog').on('click', function () {
 
-                var _size           = _settingsObject.font_size;
-                var _pixelFontSize  = _settingsObject.pixelFontSize;
-                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
+                console.log('GA Font Tool:');
+                console.log(_settingsObject);
 
+                var _size           = _settingsObject.font_size;
+                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
+                var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
 
-                    pixelFontSize: _settingsObject.pixelFontSize,
+                    pixelFontSize: _pixelFontSize,
                     offSetX: _fontSizeData.xOffset,
                     offSetY: _fontSizeData.yOffset,
                     scaleX: _fontSizeData.xScale,
@@ -5128,14 +5187,59 @@
         sprite.mouseup = sprite.touchend = function(data) { };
 
         $('body').mouseup(function() {
-            
+
+            if (viewPerspective !== ub.active_view) { return; }
+
             if (sprite.ubHover) {
+
+                console.log('');
+
+                console.log('Hover Detected on: ' + locationCode);
+                console.log('Show Location:  ' + ub.showLocation);
+                
+                console.log('');
+
+              // - if (!ub.showLocation) {
+    
+               // -     return;
+        
+               // - } else {
+
+                    var _id               = locationCode;
+                    var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+                    ub.funcs.deActivateLocations();
+                    ub.showLocation = false;
+                    
+                    if (_settingsObject.application_type === "free") {
+
+                        console.log('Activating Free Application: ');
+
+                        ub.funcs.activateFreeApplication(locationCode);
+
+                    }
+                    else if (_settingsObject.application_type === "mascot") {
+
+                        ub.funcs.activateMascots(locationCode);
+
+                    } else {
+
+                        ub.funcs.activateApplications(locationCode);
+
+                    }
+
+                    sprite.ubHover = false;
+
+               // -  }
 
             } 
 
         });
 
         sprite.mousedown = sprite.touchstart = function(data) {
+
+            if (viewPerspective !== ub.active_view) { return; }
+            if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
 
@@ -5147,6 +5251,8 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (viewPerspective !== ub.active_view) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -5181,10 +5287,8 @@
                     // start
 
                     sprite.ubHover      = true;
-
                     ub.funcs.highlightMarker(locationCode, viewPerspective);
                     ub.data.applicationAccumulator = _sizeOfApplications;
-                    ub.funcs.setPointer();
                    
                 } else {
 
@@ -5193,8 +5297,6 @@
                     ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
                     sprite.ubHover  = false;
                     ub.data.applicationAccumulator -= 1;
-
-                    ub.funcs.setPointer();
 
                 }
                 
@@ -5208,7 +5310,7 @@
 
     /// End Create Clickable Application
 
-     ub.funcs.removeLocations = function () {
+    ub.funcs.removeLocations = function () {
 
         var _locations = ub.current_material.settings.applications;  
 
@@ -5218,8 +5320,12 @@
 
                 var _perspective = view.perspective + '_view';
 
-                ub[_perspective].removeChild(ub.objects[_perspective]['locations_' + location.code] );
-                ub.updateLayersOrder(ub[_perspective]);
+                var locationObject = ub.objects[_perspective]['locations_' + location.code];
+
+                //locationObject.zIndex = 1;
+                locationObject.alpha = 0;
+
+                //ub.updateLayersOrder(ub[_perspective]);
 
             })
 
@@ -5229,9 +5335,42 @@
 
     }
 
-    ub.funcs.showLocations = function () {
+    ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
+
+        ub.showLocation = true;
+
+        if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+
+            _.each (_locations, function (location) {
+
+                _.each(location.application.views, function (view, index){
+
+                    var _perspective = view.perspective + '_view';
+                    var _locationObj = ub.objects[_perspective]['locations_' + location.code];
+
+                   // _locationObj.zIndex =  -200 + (index * -1);
+                   if (typeof alphaOff !== 'undefined') {
+
+                       _locationObj.alpha = 0;
+
+                   } else {
+
+                        _locationObj.alpha = 1;
+
+                   }
+
+
+                  //  ub.updateLayersOrder(ub[_perspective]);
+
+                })
+
+            });
+
+            return;
+
+        }
 
         _.each (_locations, function (location) {
 
@@ -5265,13 +5404,59 @@
 
         });
 
-        ub.showLocation = true;
+    }
+
+    ub.funcs.activateFreeApplication = function (application_id) {
+
+        var _id               = application_id.toString();
+        var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
+
+        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="applicationType">Select Application Type for Location (#' + _id + ')</div>';
+        _htmlBuilder        +=      '<div class="body">';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<br />';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=           '<div class="optionButton">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
+        _htmlBuilder        +=           '</div>';
+
+        _htmlBuilder        +=      '</div>';
+        _htmlBuilder        += "</div>";
+
+        $('.modifier_main_container').append(_htmlBuilder);
+        $('div#applicationUI').fadeIn();
+
+    };
+
+    ub.funcs.gotoFirstMaterialOption = function () {
+
+        $('div.pd-dropdown-links[data-fullname="body"]').trigger('click');
 
     }
 
-
     /// End Locations and Free Application Types
-
-
 
 });

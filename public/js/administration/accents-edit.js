@@ -2,6 +2,9 @@
 
 
 $(document).ready(function(){
+$('.selectFont').selectize({});
+$(".selectFont div.selectize-input .item").css("font-family",$("select.selectFont").val());
+
   var accentIndex=0;
   var totalAccent=[];
   var shadowNum="1";
@@ -25,140 +28,156 @@ $(document).ready(function(){
   layer.set('selectable', false); 
   canvas.sendToBack(layer);
 
-$.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
-      var data = {
-        fonts: result.fonts
-        , index: function() {
-            return ++window['INDEX']||(window['INDEX']=0);
-        }
-      }
+// $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
+//       var data = {
+//         fonts: result.fonts
+//         , index: function() {
+//             return ++window['INDEX']||(window['INDEX']=0);
+//         }
+//       }
 
-      $.each(data.fonts, function(i, item) {
-      console.log(i);
-        if(item.active == "1"){
-          $("#fonts").append("@font-face {"+
-              "font-family : '"+ item.name +"';"+
-              "src : url("+ item.font_path +");"+
-              "}");
-              WebFont.load({
-                custom: {
-                  families: [item.name]
+//       $.each(data.fonts, function(i, item) {
+//       console.log(i);
+//         if(item.active == "1"){
+//           $("#fonts").append("@font-face {"+
+//               "font-family : '"+ item.name +"';"+
+//               "src : url("+ item.font_path +");"+
+//               "}");
+//               WebFont.load({
+//                 custom: {
+//                   families: [item.name]
                
-                }
-          });
-          $(".selectFont").append("<option value='"+ item.name +"' style='font-family:"+ item.name +"' > "+ item.name +"</option>")
+//                 }
+//           });
+//           $(".selectFont").append("<option value='"+ item.name +"' style='font-family:"+ item.name +"' > "+ item.name +"</option>")
 
 
-        }
+//         }
       
-      })
+//       })
 
-      // tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
-      // var html = Mustache.to_html(tableTemplate, data);
-      // $(".selectFont").append(html);
-      $(".selectFont").css("font-family",$('option:selected', $(".selectedFont").val()).val());
+//       // tableTemplate = "{{#fonts}}<option value='{{name}}' style='font-family:{{name}}' >{{name}}</option>{{/fonts}}";
+//       // var html = Mustache.to_html(tableTemplate, data);
+//       // $(".selectFont").append(html);
+//       $(".selectFont").css("font-family",$('option:selected', $(".selectedFont").val()).val());
   
-  }).always(function() {
+//   }).always(function() {
     
-  });
+//   });
 
- function getColors(layerName,defaultColor){
+//  function getColors(layerName,defaultColor){
 
 
- 	$.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
-      var data = {
-        colors: result.colors
-        , index: function() {
-            return ++window['INDEX']||(window['INDEX']=0);
-        }
-      }
-      tableTemplate = "{{#colors}}<option value='#{{hex_code}}'>{{name}}</option>{{/colors}}";
-      var html = Mustache.to_html(tableTemplate, data);
+//  	$.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
+//       var data = {
+//         colors: result.colors
+//         , index: function() {
+//             return ++window['INDEX']||(window['INDEX']=0);
+//         }
+//       }
+//       tableTemplate = "{{#colors}}<option value='#{{hex_code}}'>{{name}}</option>{{/colors}}";
+//       var html = Mustache.to_html(tableTemplate, data);
 
-      $("#"+layerName+" .selectColor").append(html);
+//       $("#"+layerName+" .selectColor").append(html);
       
       
- 	}).always(function() {
-  		reLoadColor(layerName,defaultColor);
+//  	}).always(function() {
+//   		reLoadColor(layerName,defaultColor);
   
-	}).always(function() {
-		reCreateCanvas();
+// 	}).always(function() {
+// 		reCreateCanvas();
   		
   
-	});
-}
+// 	});
+// }
 
 populateLayers();
 
 function populateLayers(){
 
     var layers = $(".sortable-rows").data("value").slice(1, -1);
+ 
      layers =jQuery.parseJSON(layers);
     //var layers = $.parseJSON($(".sortable-rows").data("value")) ;
 
       
        jQuery.each(layers, function(index, item) {    
 
-           if(item.name=="Base_Color"){         
-            $("#"+item.name).find(".layerName").text("Base Color");  
-           }else if(item.name=="Mask"){
+           if(item.name=="Base_Color" || item.name=="Pseudo_Shadow" || item.name=="Mask" ){         
+            $("#"+item.name).find(".layerZindex input").val(item.zIndex);  
+            $("#"+item.name).find(".layerX input").val(item.increment_x);  
+            $("#"+item.name).find(".layerY input").val(item.increment_y);  
+
+          
 
            }else{
+      				$(".sortable-rows").append(""+
+      				"<tr class='ui-state-default sortable selectAllLayer' id='"+ item.name +"'>"+
+      				"<td class='layerName'>"+ ((item.name).replace ('_',' ')) +"</td>"+
+      				"<td class='layerColor'>"+
+      				  "<select class='selectColor form-control'  data-name='"+item.name +"'>"+
+      				  "</select>"+
+      				"</td>"+
+      				"<td class='layerNumber'>"+
+      				  "<input type='number' value='"+ item.layer_no +"' disabled='disabled'>"+
+      				"</td>"+
+      				"<td class='layerZindex' >"+
+      				  "<input type='number' value='"+ item.zIndex +"' disabled='disabled'>"+
+      				"</td>"+
+      				"<td class='layerX'  >"+
+      				  "<input type='number' value='"+ item.increment_x +"' disabled='disabled'>"+
+      				"</td>"+
+      				"<td class='layerY'>"+
+      				 "<input type='number' value='"+ item.increment_y +"' disabled='disabled'>"+
+      				"</td>"+
+      				"<td class='layerStroke'>"+
+      				 "<input type='number' value="+item.outline +" disabled='disabled'>"+
+      				"</td>"+
+      				"<td class='layerStatus'>"+
+      				 "<button type='button' class='btn btn-danger layerRemove'>Remove</button>"+
+      				"</td>"+
+      				"");
+
+      				 var numShaOut = item.name.replace (/\d+/g,'').replace('_', '');  
+      		
+      			    if(numShaOut == "Shadow"){
+      			      
+      			      shadowNum++;
+      			    
+      			    }else{
+      			      
+      			      outlineNum++;
+      			    }					
 
 
-				$(".sortable-rows").append(""+
-				"<tr class='ui-state-default sortable selectAllLayer' id='"+ item.name +"'>"+
-				"<td class='layerName'>"+ ((item.name).replace ('_',' ')) +"</td>"+
-				"<td class='layerColor'>"+
-				  "<select class='selectColor' value='"+ item.default_color +"' data-name='"+item.name +"'>"+
-				  "</select>"+
-				"</td>"+
-				"<td class='layerNumber'>"+
-				  "<input type='number' value='"+ item.layer_no +"' disabled='disabled'>"+
-				"</td>"+
-				"<td class='layerZindex' >"+
-				  "<input type='number' value='"+ item.zIndex +"' disabled='disabled'>"+
-				"</td>"+
-				"<td class='layerX'  >"+
-				  "<input type='text' value='"+ item.increment_x +"'>"+
-				"</td>"+
-				"<td class='layerY'>"+
-				 "<input type='text' value='"+ item.increment_y +"'>"+
-				"</td>"+
-				"<td class='layerStroke'>"+
-				 "<input type='number' value="+item.outline +" disabled='disabled'>"+
-				"</td>"+
-				"<td class='layerStatus'>"+
-				 "<button type='button' class='btn btn-danger layerRemove'>Remove</button>"+
-				"</td>"+
-				"");
 
-				 var numShaOut = item.name.replace (/\d+/g,'').replace('_', '');  
-		
-			    if(numShaOut == "Shadow"){
-			      
-			      shadowNum++;
-			    
-			    }else{
-			      
-			      outlineNum++;
-			    }
-							 
-           }
-         	 
-    		getColors(item.name,item.default_color);
+                if(numShaOut == "Shadow"){
+                  // $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerStroke input").removeAttr("disabled");
+                  $("#"+ item.name +" td.layerX input").removeAttr("disabled");
+                  $("#"+ item.name +" td.layerY input").removeAttr("disabled");
+                }	 
+          }
+          $("#"+ item.name +" .layerColor select").html($(".colorSelection").html());
+           
+
+    		 getColors(item.name,item.default_color_id);
         });
-    // reCreateCanvas();
-
+    
+   reCreateCanvas();
 }
-function reLoadColor(layerName,defaultColor){
+function getColors(layerName,defaultColorId){
     $("#"+ layerName + " .layerColor select option").filter(function() {
         //may want to use $.trim in here
-        return $(this).val() == defaultColor; 
+        return $(this).data("color-id") == defaultColorId; 
     }).prop('selected', true);
+
+      
+
+    // $("#"+ layerName +" .layerColor select").selectize({});
+     
 }
 
-recountZindex();
+
 function recountZindex(){
     ctr = -1-$(".selectAllLayer").length+1;
     ctr2 = 1;
@@ -280,6 +299,7 @@ function layerRemove(t){
 
 
 function reCreateCanvas(){
+
     canvas.clear($(this).attr("id")); 
     $( ".selectAllLayer" ).each(function() {
       
@@ -291,6 +311,8 @@ function reCreateCanvas(){
       var LY = parseInt($(this).find(".layerY input").val());
       var LStroke = parseInt($(this).find(".layerStroke input").val() * 16);
       var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
+        console.log(LX+"xxxx");
+
 
       if(!LColor){LColor = "#1e1e1e";}
 
@@ -309,10 +331,11 @@ function reCreateCanvas(){
       });
       canvas.add(layer);
         layer.set('hasControls', false);
-      if( lName == "Base_Color" || remInt =="Outline"){ 
+     
+      if( lName == "Base_Color" || remInt =="Outline" || lName =="Pseudo_Shadow"){ 
 
         layer.set('selectable', false); 
-        layer.set('selectable', false); 
+        layer.set('evented', false); 
 
       } 
       canvas.sendToBack(layer);
@@ -355,6 +378,68 @@ function reCreateCanvas(){
   $(document).on('click', '.accentRemove', function(){
     accentRemove(this);
   });
+    $(document).on('keyup','#fName',function(){
+    
+    $("#fCode").val(($(this).val().toLowerCase()).replace(/ /g,"_"));
+  });
+  $(document).on('click', '.updateColors', function(){
+     var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
+     $( ".colorSelection option" ).each(function() {  
+      console.log($(this).data("color-id"));
+
+     });
+    // var layers;
+    // var totalLayers=[];
+    // $( ".selectAllLayer" ).each(function() {  
+    //   var lName=$(this).attr("id");    
+    //   var LColor=$(this).find(".layerColor select").val();
+    //   var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
+    //   var LLayer=$(this).find(".layerNumber input").val();
+    //   var LZIndex=$(this).find(".layerZindex input").val();
+    //   var LX = parseInt($(this).find(".layerX input").val());
+    //   var LY = parseInt($(this).find(".layerY input").val());
+    //   var LStroke = parseInt($(this).find(".layerStroke input").val());
+    //   var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
+    //   console.log(LColor);  
+    //   console.log(LColorId);
+
+    //       var layers = $(".sortable-rows").data("value").slice(1, -1);
+ 
+     // layers =jQuery.parseJSON(layers);
+     //   jQuery.each(layers, function(index, item) {  
+     //    });
+
+    //   if(!LStroke){LStroke=0;}
+    //   if(!LX){LX=0;}
+    //   if(!LY){LY=0;}
+    //   layers = {
+    //           "name" :  lName,
+    //           "default_color": LColor,
+    //           "layer_no" : LLayer,
+    //           "increment_x" : LX,
+    //           "increment_y" : LY,
+    //           "outline": LStroke,
+    //           "zIndex" : LZIndex,
+    //           },
+    //           totalLayers.push(layers);                     
+    // });
+    //   accent = {
+    //           id: accentIndex,
+    //           name: $("#fName").val(),
+    //           code: $("#fCode").val(),
+    //           // thumbnail: 'double_drop_shadow.png',
+    //           layers: totalLayers, 
+    //           };
+    //            totalAccent.push(accent);
+             
+    //            $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+    //            $(".submitAccent").trigger("click");
+    //   accentIndex++;
+
+
+
+  });
+
 
 
   $(document).on('click', '.saveAccent', function(){
@@ -363,19 +448,21 @@ function reCreateCanvas(){
     $( ".selectAllLayer" ).each(function() {  
       var lName=$(this).attr("id");    
       var LColor=$(this).find(".layerColor select").val();
+      var LColorId=$(this).find(".layerColor select").find(":selected").data("color-id");
       var LLayer=$(this).find(".layerNumber input").val();
       var LZIndex=$(this).find(".layerZindex input").val();
       var LX = parseInt($(this).find(".layerX input").val());
       var LY = parseInt($(this).find(".layerY input").val());
       var LStroke = parseInt($(this).find(".layerStroke input").val());
       var remInt=$(this).attr("id").replace (/\d+/g,'').replace('_', '');
-      
+      console.log(LColorId);
       if(!LStroke){LStroke=0;}
       if(!LX){LX=0;}
       if(!LY){LY=0;}
       layers = {
               "name" :  lName,
               "default_color": LColor,
+              "default_color_id": LColorId,
               "layer_no" : LLayer,
               "increment_x" : LX,
               "increment_y" : LY,
@@ -394,6 +481,7 @@ function reCreateCanvas(){
                totalAccent.push(accent);
              
                $(".accent_properties").val('"' + JSON.stringify(totalLayers) + '"');
+               console.log(totalLayers);
                $(".submitAccent").trigger("click");
   accentIndex++;
   });
@@ -431,7 +519,7 @@ function reCreateCanvas(){
           "<tr class='ui-state-default sortable selectAllLayer' id='"+ $(this).data("action") +"_"+ numShaOut +"'>"+
           "<td class='layerName'>"+$(this).data("action") +" "+ numShaOut+"</td>"+
           "<td class='layerColor'>"+
-              "<select class='selectColor' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
+              "<select class='selectColor form-control' data-name='"+$(this).data("action") +" "+ numShaOut+"'>"+
               "</select>"+
           "</td>"+
           "<td class='layerNumber'>"+
@@ -441,10 +529,10 @@ function reCreateCanvas(){
               "<input type='number' disabled='disabled'>"+
           "</td>"+
           "<td class='layerX'>"+
-              "<input type='text' value=''>"+
+              "<input type='number' value='' disabled='disabled'>"+
           "</td>"+
           "<td class='layerY'>"+
-             "<input type='text' value=''>"+
+             "<input type='number' value='' disabled='disabled'>"+
           "</td>"+
            "<td class='layerStroke'>"+
              "<input type='number' disabled='disabled'>"+
@@ -455,10 +543,13 @@ function reCreateCanvas(){
           "");
 
 
-      if($(this).data("action") == "Outline"){
-        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerStroke input").removeAttr("disabled");
+      if($(this).data("action") == "Shadow"){
+        // $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerStroke input").removeAttr("disabled");
+        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerX input").removeAttr("disabled");
+        $("#"+ $(this).data("action") +"_"+ numShaOut +" td.layerY input").removeAttr("disabled");
       }
-      getColors($(this).data("action") +"_"+ numShaOut);
+      // $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html()).selectize({});
+      $("#"+$(this).data("action") +"_"+ numShaOut +" .layerColor select").html($(".colorSelection").html());
       recountZindex();
       reArrangeName();        
       setStroke();
@@ -473,13 +564,11 @@ $( "tbody.sortable-rows" ).disableSelection();
         stop: function(evt, ui) {         
          reArrangeName();
          recountZindex();
-         setStroke();         
+         setStroke();   
+         console.log("stop");      
          
         }
+
     });
 
-
-
-
 });
-
