@@ -2281,6 +2281,13 @@
 
             if (results.length > 0) {
 
+                var _originalName = _.first(results).name;
+
+                if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+                if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+                if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+                if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+
                 var _match  = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_','left_');
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
@@ -2580,17 +2587,10 @@
                 ub.funcs.activateColorPickers();    
             }
 
-            // while ($('#color-wheel-container').css('margin-top') !== "0px") { true; }
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
-
-                // // if (_calledCtr > 0) {
-                // //     return;
-                // // }
-
-                // _calledCtr += 1;
 
                 ub.funcs.initTeamColors();
                 $pd.hide();
