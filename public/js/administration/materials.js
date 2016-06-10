@@ -191,7 +191,6 @@ $(document).ready(function() {
                 xstring = xstring.substring(1, xstring.length);
             }
 
-
             console.log('STRING >>>>> ' + xstring);
             var pattern_props = JSON.parse( xstring );
             // var pattern_props = JSON.parse( pval.substring(1, pval.length - 1) );
@@ -2153,7 +2152,31 @@ $(document).ready(function() {
     }
 
     function fabricAppGroup( obj_id, obj_left, obj_top, rectangle, app_id, app_type, default_item ){
-        var fb_obj = new fabric.Group([ rectangle, app_id, app_type ], {
+        var line1 = new fabric.Line([0, 0, 25, 0], {
+            fill: 'red',
+            stroke: 'red',
+            strokeWidth: 1,
+            hasControls: true,
+            hasRotatingPoint: true,
+            padding: 0,
+            left: 0,
+            top: 0
+            // scaleX: 3,
+            // scaleY: 3
+        });
+        var line2 = new fabric.Line([0, 0, 0, 25], {
+            fill: 'red',
+            stroke: 'red',
+            strokeWidth: 1,
+            hasControls: true,
+            hasRotatingPoint: true,
+            padding: 0,
+            left: 0,
+            top: 0
+            // scaleX: 3,
+            // scaleY: 3
+        });
+        var fb_obj = new fabric.Group([ rectangle, app_id, app_type, line1, line2 ], {
             id: obj_id,
             left: obj_left,
             top: obj_top,
