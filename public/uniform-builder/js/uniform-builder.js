@@ -4542,7 +4542,7 @@ $(document).ready(function () {
         $("body").dblclick(function() {
             
             ub.zoom_on();
-            $(this).addClass('zoom_on');
+            $('a.change-view[data-view="zoom"]').addClass('zoom_on');
 
         });
 
