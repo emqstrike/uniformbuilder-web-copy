@@ -1518,7 +1518,7 @@ $(document).ready(function() {
 
                 app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 3;
                 // app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
-                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ;
+                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend );
 
                 thisGroup.centerPoint   = app_properties[l].temp;
                 
