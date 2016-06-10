@@ -1517,7 +1517,7 @@ $(document).ready(function() {
                 app_properties[l]['temp'] = {};
 
                 app_properties[l].temp['x'] = ( app_properties[l].pivot.x / dividend ) - 4;
-                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 4;
+                app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend ) - 2;
 
                 thisGroup.centerPoint   = app_properties[l].temp;
                 
@@ -3010,7 +3010,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
         applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
-        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
+        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + 2 ) * multiplier;
 
         applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
         applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
