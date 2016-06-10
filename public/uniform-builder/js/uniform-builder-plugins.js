@@ -941,7 +941,7 @@
 
             var view = "";
             view = ub.funcs.getPrimaryView(application);
-            var _position = view.application.pivot;
+            var _position = view.application.center;
 
             $('div.y_slider[data-id="' + application.id + '"]').limitslider({
 
