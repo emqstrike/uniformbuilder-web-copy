@@ -1524,8 +1524,7 @@ $(document).ready(function() {
                 
                 thisGroup.width         = (app_properties[l].width) / dividend;
                 thisGroup.height        = (app_properties[l].height) / dividend;
-                // thisGroup.left          = ((app_properties[l].topLeft.x) / dividend);
-                // thisGroup.top           = ((app_properties[l].topLeft.y) / dividend);
+
                 thisGroup.left = app_properties[l].pivot.x;
                 thisGroup.top = app_properties[l].pivot.y;
                 thisGroup.pivot         = thisGroup.centerPoint;
