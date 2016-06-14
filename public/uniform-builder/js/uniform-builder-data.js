@@ -1213,6 +1213,18 @@ $(document).ready(function() {
 
     /// END PATTERNS
 
+    // Pseudo Shadow Settings 
+    // {
+    //     name: 'Pseudo Shadow',
+    //     default_color: '1e1e1e',
+    //     layer_no: 2,
+    //     increment_x: 0.005, 
+    //     increment_y: 0.0,
+    //     outline: 0,
+    //     type: 'fill',
+    //     zIndex: -3,
+    // },
+
     ub.data.accents = {
         items: [
             {   // Default
@@ -1255,22 +1267,12 @@ $(document).ready(function() {
                         increment_y: 0,
                         outline: 0,
                         type: 'fill',
-                        zIndex: -4,
+                        zIndex: -3,
                     },
-                    // {
-                    //     name: 'Pseudo Shadow',
-                    //     default_color: '1e1e1e',
-                    //     layer_no: 2,
-                    //     increment_x: 0.005, 
-                    //     increment_y: 0.0,
-                    //     outline: 0,
-                    //     type: 'fill',
-                    //     zIndex: -3,
-                    // },
                     {
                         name: 'Outline 1',
                         default_color: '1e1e1e',
-                        layer_no: 3,
+                        layer_no: 2,
                         increment_x: 0,
                         increment_y: 0,
                         outline: 1,
@@ -1280,7 +1282,7 @@ $(document).ready(function() {
                     {
                         name: 'Mask',
                         default_color: 'bdc4c7',
-                        layer_no: 4,
+                        layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 0, 
@@ -1302,22 +1304,12 @@ $(document).ready(function() {
                         increment_y: 0,
                         outline: 0,
                         type: 'fill',
-                        zIndex: -5,
+                        zIndex: -4,
                     },
-                    // {
-                    //     name: 'Pseudo Shadow',
-                    //     default_color: '1e1e1e',
-                    //     layer_no: 2,
-                    //     increment_x: 0.005, 
-                    //     increment_y: 0.0,
-                    //     outline: 0,
-                    //     type: 'fill',
-                    //     zIndex: -4,
-                    // },
                     {
                         name: 'Outline 1',
                         default_color: 'bdc4c7',
-                        layer_no: 3,
+                        layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 1,
@@ -1327,7 +1319,7 @@ $(document).ready(function() {
                     {
                         name: 'Shadow',
                         default_color: '1e1e1e',
-                        layer_no: 4,
+                        layer_no: 3,
                         increment_x: 0.06, 
                         increment_y: 0.06,
                         outline: 1,
@@ -1337,7 +1329,7 @@ $(document).ready(function() {
                     {
                         name: 'Mask',
                         default_color: 'bdc4c7',
-                        layer_no: 5,
+                        layer_no: 4,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 0, 
@@ -1359,22 +1351,12 @@ $(document).ready(function() {
                         increment_y: 0,
                         outline: 0,
                         type: 'fill',
-                        zIndex: -5,
+                        zIndex: -4,
                     },
-                    // {
-                    //     name: 'Pseudo Shadow',
-                    //     default_color: '1e1e1e',
-                    //     layer_no: 2,
-                    //     increment_x: 0.005, 
-                    //     increment_y: 0.0,
-                    //     outline: 0,
-                    //     type: 'fill',
-                    //     zIndex: -4,
-                    // },
                     {
                         name: 'Outline 1',
                         default_color: 'e6e6e6',
-                        layer_no: 3,
+                        layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 1,
@@ -1384,7 +1366,7 @@ $(document).ready(function() {
                     {
                         name: 'Outline 2',
                         default_color: '1e1e1e',
-                        layer_no: 4,
+                        layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 2,
@@ -1394,7 +1376,7 @@ $(document).ready(function() {
                     {
                         name: 'Mask',
                         default_color: 'bdc4c7',
-                        layer_no: 5,
+                        layer_no: 4,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 0, 
@@ -1574,22 +1556,12 @@ $(document).ready(function() {
                         increment_y: 0,
                         outline: 0,
                         type: 'fill',
-                        zIndex: -6,
+                        zIndex: -5,
                     },
-                    // {
-                    //     name: 'Pseudo Shadow',
-                    //     default_color: '1e1e1e',
-                    //     layer_no: 2,
-                    //     increment_x: 0.005, 
-                    //     increment_y: 0.0,
-                    //     outline: 0,
-                    //     type: 'fill',
-                    //     zIndex: -5,
-                    // },
                     {
                         name: 'Outline 1',
                         default_color: 'e6e6e6',
-                        layer_no: 3,
+                        layer_no: 2,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 1,
@@ -1599,7 +1571,7 @@ $(document).ready(function() {
                     {
                         name: 'Outline 2',
                         default_color: '1e1e1e',
-                        layer_no: 4,
+                        layer_no: 3,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 2,
@@ -1609,7 +1581,7 @@ $(document).ready(function() {
                     {
                         name: 'Shadow',
                         default_color: '1e1e1e',
-                        layer_no: 5,
+                        layer_no: 4,
                         increment_x: 0.06, 
                         increment_y: 0.06,
                         outline: 2,
@@ -1620,7 +1592,7 @@ $(document).ready(function() {
                     {
                         name: 'Mask',
                         default_color: 'bdc4c7',
-                        layer_no: 6,
+                        layer_no: 5,
                         increment_x: 0, 
                         increment_y: 0,
                         outline: 0, 
