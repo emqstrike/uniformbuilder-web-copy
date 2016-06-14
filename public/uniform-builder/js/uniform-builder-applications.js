@@ -1637,7 +1637,7 @@
                     var _yScale = 1; 
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
-                    if (_fontSizeData.yScale !== "0"  && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
+                    if (_fontSizeData.yScale !== "0" && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
 
                     point.scale.set(_xScale, _yScale);
 
@@ -1668,7 +1668,6 @@
                 //// Process Scale X and Y from the font size field, in the application font size
 
                 if (typeof args.applicationObj !== "undefined") {
-
 
                     var _scaleXOverride = args.applicationObj.scaleXOverride;
                     var _scaleYOverride = args.applicationObj.scaleYOverride;
@@ -4268,7 +4267,6 @@
             // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
             // console.log(_src);
             // $('span.accentThumb > img').attr('src',_src);
-
 
         // Events
 

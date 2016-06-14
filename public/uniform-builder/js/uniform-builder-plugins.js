@@ -1346,6 +1346,8 @@
                 }
 
                 if (child.ubName === "Pseudo Shadow") { 
+
+                    child.alpha = 0;
                 
                     child.tint = parseInt('000000', 16); 
 

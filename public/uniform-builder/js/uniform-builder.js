@@ -841,9 +841,9 @@ $(document).ready(function () {
                             return;
                         }
 
-                        var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
-                        var _color = _resultColorObj.hex_code;
-                        layer.default_color = _color;
+                        var _resultColorObj     = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
+                        var _color              = _resultColorObj.hex_code;
+                        layer.default_color     = _color;
 
                         _outputColorArray.push(_resultColorObj);
 
@@ -870,6 +870,21 @@ $(document).ready(function () {
 
                     };
 
+                    if ( (_application.id === '32' || _application.id === '33') && view.perspective === "front") {
+
+                        // console.log('');
+                        // console.log('-------');
+
+                        // console.log(_application.id + ' / ' + view.perspective);
+
+                        // console.log('Scale Override: ');
+                        // console.log(parseFloat('x: ' + _fontSizesArray[1] + ' y: ' + _fontSizesArray[2]));
+
+                        // console.log('-------');
+                        // console.log('');
+                    
+                    }
+                    
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
