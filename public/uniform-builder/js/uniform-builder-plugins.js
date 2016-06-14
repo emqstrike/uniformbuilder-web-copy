@@ -1219,8 +1219,8 @@
 
             ///
 
-            var _fontSizeData = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize);
-            container.ubFontSizeData = _fontSizeData;
+            var _fontSizeData           = ub.data.getPixelFontSize(input_object.applicationObj.font_obj.id, input_object.fontSize);
+            container.ubFontSizeData    = _fontSizeData;
 
             // OverridSize var used by GA Font Tool
             

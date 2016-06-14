@@ -1582,7 +1582,7 @@
 
             var adjustablePositions = ['1','2','6','5'];
 
-            _.each(views, function(view){
+            _.each(views, function(view) {
 
                 var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
@@ -1630,7 +1630,7 @@
                 if (typeof point.ubFontSizeData === "object") {
 
                     var _fontSizeData = point.ubFontSizeData;
-
+                    
                     // Scale
 
                     var _xScale = 1;
@@ -1669,8 +1669,8 @@
 
                 if (typeof args.applicationObj !== "undefined") {
 
-                    var _scaleXOverride = args.applicationObj.scaleXOverride;
-                    var _scaleYOverride = args.applicationObj.scaleYOverride;
+                    var _scaleXOverride = view.application.fontSizes.split(',')[1];
+                    var _scaleYOverride = view.application.fontSizes.split(',')[2];
 
                     if (!isNaN(_scaleXOverride)) {
 
@@ -1745,16 +1745,16 @@
 
             ub.data.applications_transformed = {};
 
-            var material_options = ub.current_material.materials_options;
-            var shapes = _.filter(material_options, {setting_type: 'shape'});
-            var apps_transformed = ub.data.applications_transformed;
-            var apps_one_dimensional = ub.data.applications_transformed_one_dimensional;
+            var material_options        = ub.current_material.materials_options;
+            var shapes                  = _.filter(material_options, {setting_type: 'shape'});
+            var apps_transformed        = ub.data.applications_transformed;
+            var apps_one_dimensional    = ub.data.applications_transformed_one_dimensional;
 
             _.each(shapes, function(shape){
 
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
-                if(app_properties !== null){
+                if (app_properties !== null) {
 
                     _.each(app_properties, function (obj) {
 
@@ -5071,7 +5071,6 @@
                         var _scaleY = $('input.scaleY').val();
 
                         ub.create_application(_settingsObject, _pixelFontSizeApply, _offsetX, _offsetY, _scaleX, _scaleY);
-
 
                     });
 

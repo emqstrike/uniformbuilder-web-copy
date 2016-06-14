@@ -869,21 +869,6 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-
-                    if ( (_application.id === '32' || _application.id === '33') && view.perspective === "front") {
-
-                        // console.log('');
-                        // console.log('-------');
-
-                        // console.log(_application.id + ' / ' + view.perspective);
-
-                        // console.log('Scale Override: ');
-                        // console.log(parseFloat('x: ' + _fontSizesArray[1] + ' y: ' + _fontSizesArray[2]));
-
-                        // console.log('-------');
-                        // console.log('');
-                    
-                    }
                     
                 } 
 
