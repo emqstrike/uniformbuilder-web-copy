@@ -52,6 +52,8 @@ $(document).ready(function () {
 
     ub.zoom_on = function () {
 
+        if (ub.status.onText) { return; }
+
         var _windowSize = ub.funcs.getWindowSize();
         
         _.each(ub.views, function(view) {

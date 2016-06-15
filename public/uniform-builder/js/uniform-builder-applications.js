@@ -4924,9 +4924,22 @@
 
             });
 
+            ub.status.onText = false;
+
+            $('input.sampleText').on('focus', function () {
+
+                var _val = $(this).val();
+                ub.status.onText = true;
+
+                _settingsObject.text = _val;
+                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+            });
+
             $('input.sampleText').on('blur', function () {
 
                 var _val = $(this).val();
+                ub.status.onText = false;
 
                 _settingsObject.text = _val;
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
@@ -4945,7 +4958,7 @@
 
                         if (_application.type !== "logo" && _application.type !== "mascot") {
 
-                            if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
+                            if (_settingsObject.type.indexOf('number') !== -1 || _application.type.indexOf('name') !== -1) {
 
                                 _application.text = _val;
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
