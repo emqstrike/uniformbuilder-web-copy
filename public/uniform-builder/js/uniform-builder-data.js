@@ -887,11 +887,6 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
-                    code: 'volleyball',
-                    name: 'Volleyball',
-                    active: "1",
-                },
-                {
                     code: 'lacrosse',
                     name: 'Lacrosse',
                     active: "1",
