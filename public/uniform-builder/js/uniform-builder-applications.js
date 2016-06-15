@@ -2175,7 +2175,6 @@
         var _object = ub.objects[ub.active_view + '_view'][_match];
 
         ub.funcs.setAlphaOn(_object);
-
         ub.same_here_once = false;
 
         return _header_text;
@@ -3837,9 +3836,9 @@
           $('div.accentPopupResults > div.item').hover(
 
           function() {
-            $( this ).find('div.name').addClass('pullUp');
+            // $( this ).find('div.name').addClass('pullUp');
           }, function() {
-            $( this ).find('div.name').removeClass('pullUp');
+            // $( this ).find('div.name').removeClass('pullUp');
           }
 
         );
