@@ -103,8 +103,7 @@
         
           var id = $(this).data('accent-id');
           console.log(id);
-          // var url = "http://localhost:8888/api/accent/delete";
-          var url = "//" + api_host + "/api/accent/delete/";
+          var url = "http://localhost:8888/api/accent/delete";
                      
           $.ajax({
               url: url,
