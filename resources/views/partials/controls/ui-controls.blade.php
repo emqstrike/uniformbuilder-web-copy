@@ -444,7 +444,7 @@
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
-                    <img src='images/main-ui/shadow.png' /> <br />
+                    <img src='/images/main-ui/shadow.png' /> <br />
                     @{{name}}
                 </span>
 
