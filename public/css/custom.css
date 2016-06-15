@@ -236,3 +236,9 @@ tr.center-table-heads > th{
 /*body.modal-open {
     overflow: visible !important;
 }*/ 
+/*mycss*/
+
+select.accentLayerColors.form-control option, select.accentLayerColors.form-control{
+    color: white !important;
+
+}

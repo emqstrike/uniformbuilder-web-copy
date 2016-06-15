@@ -46,7 +46,7 @@
             
             <div class="panel panel-info">
                <div class="panel-heading">Modify Accent</div>
-               <button class="btn btn-success updateColors" style='margin: 10px 10px 10px 30px'>Update Colors</button>
+               
                 <div class="panel-body">
 
                     <div class="col-md-5 canvasContainer">
