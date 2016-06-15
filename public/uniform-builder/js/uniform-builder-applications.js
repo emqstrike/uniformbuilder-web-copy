@@ -4950,15 +4950,16 @@
 
                 var _val = $(this).val();
 
-                if (e.keyCode === 13){
+                if (e.keyCode === 13) {
 
                     _settingsObject.text = _val;
-                    
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+                
                     _.each (ub.current_material.settings.applications, function (_application) {
 
                         if (_application.type !== "logo" && _application.type !== "mascot") {
 
-                            if (_settingsObject.type.indexOf('number') !== -1 || _application.type.indexOf('name') !== -1) {
+                            if (_settingsObject.type.indexOf('number') !== -1) {
 
                                 _application.text = _val;
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
