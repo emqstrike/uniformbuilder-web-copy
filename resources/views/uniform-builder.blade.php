@@ -92,6 +92,14 @@
     </div>
 
     <div id="main-picker-container">
+        
+        <div id="topbar">
+            <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i>
+</span>
+            <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
+            <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
+            <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
+        </div>
 
         <div id="main-picker-scroller">
             

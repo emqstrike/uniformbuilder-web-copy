@@ -4130,7 +4130,7 @@ $(document).ready(function () {
 
     ub.funcs.reBindEventsPickers = function () {
 
-        $('div.main-picker-items').on('click', function () {
+        $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
 
@@ -4138,6 +4138,13 @@ $(document).ready(function () {
             var _item        = $(this).data('item');
 
             if (_picker_type === 'gender') {
+
+                if (_item === "Home") {
+
+                    ub.funcs.initGenderPicker();
+                    return; 
+
+                }
                 
                 if (_item !== "Men") { return; }
                 ub.funcs.initSportsPicker(_item);
@@ -4240,8 +4247,6 @@ $(document).ready(function () {
 
         var $searchField = $('input#search_field');
         $searchField.show();
-
-        $('#main-picker-scroller').css('marginLeft', '0px');
 
         if (typeof ub.data.intervalFunction === 'number') {
 
@@ -4355,7 +4360,9 @@ $(document).ready(function () {
 
     ub.funcs.initGenderPicker = function () {
 
-        $('.header-container').removeClass('forceHide');
+        $('div#main-picker-container').css('background-image','url(/images/main-ui/unleash.png)');
+
+        // $('.header-container').removeClass('forceHide');
 
         $('body').addClass('pickers-enabled');
 
@@ -4365,17 +4372,16 @@ $(document).ready(function () {
         $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
-        var $searchField = $('input#search_field');
-        $searchField.fadeIn();
-        $searchField.focus();
-
         var items = ub.data.genders;
 
         ub.funcs.initScroller('gender', items);
+        $('div.main-picker-items').hide();
 
     };
 
     ub.funcs.initSportsPicker = function (sport) {
+
+        $('div#main-picker-container').css('background-image','none');
 
         $('body').addClass('pickers-enabled');
 
@@ -4540,6 +4546,8 @@ $(document).ready(function () {
         $('div.mTab[data-type="color"]').click();
 
         $("body").dblclick(function() {
+
+            if(ub.status.onText) { return; }
             
             ub.zoom_on();
             $('a.change-view[data-view="zoom"]').addClass('zoom_on');

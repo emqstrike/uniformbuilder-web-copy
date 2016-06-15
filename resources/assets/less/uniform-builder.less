@@ -30,7 +30,7 @@ html, body {
     
     width: 100%;
     background-color: #eeeeee;
-    background-image: url('/images/uiV1/bg.jpg');
+    /* background-image: url('/images/uiV1/bg.jpg'); */
     background-attachment:fixed;
     
 }
@@ -2042,11 +2042,44 @@ h2.picker-header {
 div#main-picker-container {
 
     display: none;
-    background-size: cover;
+    background-size: contain;
     position: relative;
-    padding-left: 60px;
-    padding-top: 20px;
-    width: 80%;
+    width: 100%;
+    background-image: url(/images/main-ui/unleash.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+
+    div#topbar {
+
+        text-align: center;
+
+        width: 100%;
+        height: 50px;
+        background-color: #ffffff;
+        font-size: 1.4em;
+        padding-top: 10px;
+        color: @text_color;
+
+        span.slink {
+
+            cursor: pointer;
+            width: 80px;
+            display: inline-block;
+
+        }
+
+        span.slink:hover {
+
+            color: @main_highlight;
+            cursor: pointer;
+
+        }
+
+    }
 
     div.uniform_details {
 
@@ -2072,26 +2105,24 @@ div#main-picker-container {
     div#main-picker-scroller {
 
         display: block;
-        width: 1181px;
-        top: 13%;
         position: absolute;
         margin-top: 100px;
+        width: 75%;
+        margin: 30px auto;
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
 
         div.main-picker-items {
 
            overflow: hidden; 
-           background-image: url('/images/main-ui/bg-picker-item.png');
            display: block;
            width: 224px;
            height: 336px;
-           margin-right: 30px;
            float: left;
            cursor: pointer;
            margin-bottom: 30px;
-
-            -webkit-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-            -moz-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-            box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
 
             img {
                 width: 100%;
