@@ -97,6 +97,11 @@
           <i class="fa fa-cubes"></i> <span>Linings</span>
         </a>
       </li>
+      <li>
+        <a href="/administration/splash_images">
+          <i class="fa fa-cubes"></i> <span>Splash Image</span>
+        </a>
+      </li>
     </ul>
   </li>
   <li>
