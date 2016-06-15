@@ -99,6 +99,8 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
 
+            var uni
+
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div#uniform_price').html(ub.funcs.getPrice());
 
@@ -4205,7 +4207,7 @@ $(document).ready(function () {
             function() {
 
                var $caption = $(this).find('span.main-picker-item-caption');
-               $caption.css('margin-top', '-336px');
+               //$caption.css('margin-top', '-336px');
 
                if ($(this).data('picker-type') === 'uniforms') {
 
