@@ -38,7 +38,8 @@ class AccentsController extends Controller
     public function index()
     {
         $accents = $this->client->getAllAccents();
-       
+
+    
         return view('administration.accents.accents', [
             'accents' => $accents
         ]);
