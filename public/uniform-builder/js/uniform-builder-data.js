@@ -16,6 +16,7 @@ $(document).ready(function() {
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
+    ub.status = {};
 
     /// Search
 
