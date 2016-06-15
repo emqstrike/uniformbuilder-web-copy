@@ -159,11 +159,28 @@ $(document).ready(function () {
         ub.funcs.resize();
         
         var w = window.innerWidth;
+        var h = window.innerHeight;
         var _left = w - $('#right-pane-column').width();
+
+        if (window.innerWidth <= 1440) {
+
+            $('div#main-picker-scroller').css('width', '94%');
+        }
+        else {
+
+            $('div#main-picker-scroller').css('width', '75%');
+            
+        }
 
         var _pickerLeft = ( window.innerWidth - $('div#main-picker-scroller').innerWidth() ) / 2;
 
+
+
         $('div#main-picker-scroller').css('margin-left', _pickerLeft + 'px');
+        $('div#main-picker-container').css('height', (h - 75) + 'px');
+
+
+        $('div#main-picker-container').css('width', '100%');
   
     });
 
