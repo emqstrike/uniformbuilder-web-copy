@@ -4959,7 +4959,7 @@
 
                         if (_application.type !== "logo" && _application.type !== "mascot") {
 
-                            if (_settingsObject.type.indexOf('number') !== -1) {
+                            if (_settingsObject.type.indexOf('number') !== -1 && _application.type.indexOf('number') !== -1) {
 
                                 _application.text = _val;
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
