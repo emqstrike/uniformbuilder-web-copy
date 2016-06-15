@@ -1155,8 +1155,8 @@
 
     $.ub.create_text = function (input_object) {
 
-        var _strokeInner = 22;
-        var _strokeOuter = 28;
+        var _strokeInner = 11;
+        var _strokeOuter = 14;
 
         if(input_object.fontSize < 5) {
             _strokeInner = 7;
