@@ -4235,11 +4235,23 @@
 
         _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
-        _.each(_sizes.sizes, function (size) {
+        var _inputSizes;
+
+        if (_id === '4') {
+
+            _inputSizes = [{size: '0.5', }];
+
+        } else {
+
+            _inputSizes = size.sizes;
+
+        }
+
+        _.each(_inputSizes, function (size) {
 
             var _additionalClass = '';
 
-            if (size.size === _settingsObject.size) {
+            if (_inputSizes === _settingsObject.size || _id === '4' ) {
 
                 _additionalClass = 'active';
 
@@ -4328,6 +4340,8 @@
             if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
 
             $('span.font_size').on('click', function () {
+
+                if (_id === '4') { return; }
 
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
