@@ -4754,11 +4754,82 @@
 
         //// Events
 
-            $('span.changeApplicationType').on('click', function () {
+            $('div.applicationType').on('click', function () {
 
-                console.log('Change Application Click: ');
+                if ($('div#changeApplicationUI').length > 1) {
 
-            })
+                    var _status = $('div#changeApplicationUI').data('status');
+
+                    if (_status === 'visible') {
+
+                        $('div#changeApplicationUI').fadeOut().data('status', 'hidden');
+                        $('div.applicationType').removeClass('toggledApplicationType');
+                        
+                    } else {
+
+                        $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                        $('div.applicationType').addClass('toggledApplicationType');
+
+                    }
+
+                    return;
+
+                }
+
+                var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+                var _validApplicationTypes  = _settingsObject.validApplicationTypes;
+
+                _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+                _htmlBuilder        +=      '<div class="header">';
+                _htmlBuilder        +=      '<div class="">Select Application Type for Location (#' + _id + ')</div>';
+                _htmlBuilder        +=      '<div class="body">';
+
+                var _deactivated ='';
+
+                if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
+                _htmlBuilder        +=           '</div>';
+                _deactivated ='';
+
+                if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
+                _htmlBuilder        +=           '</div>';
+
+                _htmlBuilder        +=           '<br />';
+                _deactivated ='';
+
+                if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
+                _htmlBuilder        +=           '</div>';
+                _deactivated ='';
+
+                if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
+                _htmlBuilder        +=           '</div>';
+
+                _htmlBuilder        +=      '</div>';
+                _htmlBuilder        += "</div>";
+                _deactivated ='';
+
+                $('.modifier_main_container').append(_htmlBuilder);
+
+                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('div.applicationType').addClass('toggledApplicationType');
+
+
+            });
 
 
             $("div.toggleOption").on("click", function () {
@@ -5496,6 +5567,8 @@
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
         var _validApplicationTypes  = _settingsObject.validApplicationTypes;
+
+        var _htmlBuilder;
 
         ub.funcs.deActivateApplications();
         ub.funcs.deActivateColorPickers();
