@@ -1383,6 +1383,8 @@
         $('body').mouseup(function() {
 
             /// If locations is turned on exit
+            if (ub.status.fontPopupVisible) { return; }
+            if (ub.status.accentPopupVisible) { return; }
             if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
@@ -1403,7 +1405,10 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+            if (ub.status.fontPopupVisible) { return; }
+            if (ub.status.accentPopupVisible) { return; }
             if (ub.showLocation) { return; }
+
             if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
@@ -1416,6 +1421,9 @@
         };
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
+
+            if (ub.status.fontPopupVisible) { return; }
+            if (ub.status.accentPopupVisible) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -3636,13 +3644,12 @@
         var _id         = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
-
         settingsObj.font_obj = _fontObj;
-
         ub.create_application(settingsObj, undefined);
 
         $popup = $('div#primaryFontPopup');
         $popup.remove();
+        ub.status.fontPopupVisible = false;
 
     }
 
@@ -3679,6 +3686,7 @@
 
         $popup = $('div#primaryAccentPopup');
         $popup.remove();
+        ub.status.accentPopupVisible = false;
 
     }
 
@@ -3694,7 +3702,11 @@
 
     }
 
+    ub.status.fontPopupVisible = false;
+
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
+
+        ub.status.fontPopupVisible = true;
 
         var sampleSize = '1.9em';
         var paddingTop = '40px';
@@ -3796,6 +3808,7 @@
         $('div.close-popup').on('click', function (){
 
             $popup.remove();
+            ub.status.fontPopupVisible = false;
 
         });
 
@@ -3813,17 +3826,21 @@
             $(this).data('status', 'hidden');
             $(this).hide();
             $(this).remove();
+            ub.status.fontPopupVisible = false;
 
         });
 
 
     }
 
-     ub.funcs.createAccentPopup = function (settingsObj) {
+    ub.status.accentPopupVisible = false;
+    ub.funcs.createAccentPopup = function (settingsObj) {
 
         var data = {
            accents: ub.data.accents.items,
        }
+
+       ub.status.accentPopupVisible = true;
 
         var template = $('#m-accent-popup').html();
         var markup = Mustache.render(template, data);
@@ -3888,6 +3905,7 @@
         $('div.close-popup').on('click', function () {
 
             $popup.remove();
+            ub.status.accentPopupVisible = false;
 
         });
 
@@ -3905,6 +3923,7 @@
             $(this).data('status', 'hidden');
             $(this).hide();
             $(this).remove();
+            ub.status.accentPopupVisible = false;
 
         });
 
@@ -5237,6 +5256,7 @@
         $('body').mouseup(function() {
 
             if (viewPerspective !== ub.active_view) { return; }
+            if (ub.status.fontPopupVisible) { return; }
 
             if (sprite.ubHover) {
 
@@ -5272,6 +5292,7 @@
         sprite.mousedown = sprite.touchstart = function(data) {
 
             if (viewPerspective !== ub.active_view) { return; }
+            if (ub.status.fontPopupVisible) { return; }
             if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
@@ -5285,6 +5306,7 @@
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
 
+            if (ub.status.fontPopupVisible) { return; }
             if (viewPerspective !== ub.active_view) { return; }
 
             var this_data = interactionData.data;
