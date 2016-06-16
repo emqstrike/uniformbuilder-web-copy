@@ -35,7 +35,7 @@ class SplashImagesController extends Controller
       public function store(Request $request){        
    
         try {
-   
+    $accentName="splashImage";
         $data = [
         'thumbnail_path' => null,
 
@@ -50,6 +50,7 @@ class SplashImagesController extends Controller
                    
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $flashImageThumbnailPath,
+                                                    $accentName,
                                                     'material_option',
                                                     "materials",
                                                     "{$filename}.png"

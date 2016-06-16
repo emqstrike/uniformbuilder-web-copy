@@ -24,6 +24,7 @@
                 <div class="box-body">
                 	@forelse ($splash_images as  $splash_image)
                 	<td>{{ $splash_image->thumbnail_path }}</td>
+                	<img src="{{ $splash_image->thumbnail_path }}">
 
 
                     @empty
