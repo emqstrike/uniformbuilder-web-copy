@@ -91,6 +91,9 @@
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                                     View Order Details
                                 </button>
+                                <a href="#"
+                                   class="btn btn-primary btn-xs send-to-factory"
+                                   data-order-id-"{{ $order->id }}">Send to Factory</a>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove

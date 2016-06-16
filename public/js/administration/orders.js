@@ -111,5 +111,11 @@ $('.view-builder-customization').on('click', function(){
     var trimmed_str = builder_customization.substring(1, builder_customization.length-1);
     var json = JSON.parse(trimmed_str);
     console.dir(json);
-    });
+});
+
+$('.send-to-factory').on('click', function(){
+    var data = $(this).data('order-id');
+    console.log(data);
+});
+
 });
