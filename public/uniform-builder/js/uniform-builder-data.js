@@ -277,7 +277,7 @@ $(document).ready(function() {
                     sizes:  [
                                 {
                                     type: 'tackle twill',
-                                    size: 2,
+                                    size: 2.5,
                                 },
                             ],
                     factory: 'PMP'
