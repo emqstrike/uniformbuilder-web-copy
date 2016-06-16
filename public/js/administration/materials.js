@@ -755,7 +755,21 @@ $(document).ready(function() {
         canvasFront.renderAll();
         updateCoordinates();
         application_number--;
+        reIndexRowsDataID();
     });
+
+    function reIndexRowsDataID(){
+        var ctr = 0;
+        $(".app-rotation").each(function(i) {
+            $(this).data('id', ctr);
+            ctr++;
+        });
+        ctr = 0;
+        $(".delete-application").each(function(i) {
+            $(this).data('id', ctr);
+            ctr++;
+        });
+    }
 
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
         var color = $('option:selected', this).data('color');
