@@ -92,7 +92,6 @@ $(document).ready(function() {
     getPatterns(function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
 
-// console.log("FONTS: " + window.fonts);
     var accentObject= [];
     jQuery.each(accents, function(index, item) {  
     var layers = (item.accent_properties).slice(1, -1);
@@ -617,15 +616,17 @@ $(document).ready(function() {
 
         $.each(window.accents, function(i, item) {
             item['text'] = item.name;
-            item['value'] = item.secondary_id;
+            item['value'] = item.id;
             item['selected'] = false;
             item['description'] = 'Accent';
             item['imageSrc'] = item.thumbnail;
+            console.log(item.secondary_id);
         });
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
         // $(".app-default-accent").
-
+        console.log("-----------");
+        console.log(window.accents);
 
         $(accent_class).ddslick({
 
@@ -2114,6 +2115,7 @@ $(document).ready(function() {
         function getAccents(callback){
         var mascots;
         var url = "//api-dev.qstrike.com/api/accents";
+        // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
             async: false,
