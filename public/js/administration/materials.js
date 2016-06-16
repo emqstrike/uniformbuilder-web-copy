@@ -669,7 +669,7 @@ $(document).ready(function() {
                     console.log("loop:"+intIndex);
                     $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
                     jQuery.each(window.colors, function(index, item) {                
-                        $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+                        $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.secondary_id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
 
                     }); 
                     $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
@@ -1652,7 +1652,7 @@ $(document).ready(function() {
                       
                             $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
                             jQuery.each(window.colors, function(index, item) {                
-                                $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+                                $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.secondary_id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
 
                             }); 
                             $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {

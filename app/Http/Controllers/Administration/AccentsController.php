@@ -61,11 +61,13 @@ class AccentsController extends Controller
     }
 
     public function store(Request $request){
+
            
         $accentName = $request->input('name');
         $accentCode = $request->input('code');
         $thumbnail_path = $request->input('thumbnail_path');
         $accentProperties = $request->input('accent_properties');
+        $secondary_id = $request->input('secondary_id');
           $accentId = null;
         if (!empty($request->input('accent_id')))
         {
@@ -76,7 +78,8 @@ class AccentsController extends Controller
             'name' => $accentName,
             'code' => $accentCode,
             'thumbnail_path' => $thumbnail_path,
-            'accent_properties' => $accentProperties
+            'accent_properties' => $accentProperties,
+            'secondary_id' => $secondary_id
         ];
 
         $materialFolder = $accentName;
@@ -149,12 +152,16 @@ class AccentsController extends Controller
       public function editAccentForm($id)
     {
 
+
         $accent = $this->client->getAccent($id);
+
+     
+
         $fonts = $this->fontClient->getAllFonts();
         $colors = $this->colorsClient->getColors();
 
         return view('administration.accents.accent-edit', [
-            'accent' => $accent,
+        'accent' => $accent,
            'fonts' => $fonts,
            'colors' => $colors
         ]);
