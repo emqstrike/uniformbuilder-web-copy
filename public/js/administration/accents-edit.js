@@ -385,6 +385,7 @@ function reCreateCanvas(){
 
 
 
+
   $(document).on('click', '.saveAccent', function(){
     var layers;
     var totalLayers=[];
