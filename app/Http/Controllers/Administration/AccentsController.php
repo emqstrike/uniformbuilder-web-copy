@@ -62,12 +62,16 @@ class AccentsController extends Controller
 
     public function store(Request $request){
 
-           
         $accentName = $request->input('name');
         $accentCode = $request->input('code');
         $thumbnail_path = $request->input('thumbnail_path');
         $accentProperties = $request->input('accent_properties');
         $secondary_id = $request->input('secondary_id');
+           if(!isset($secondary_id)){
+            $secondary_id = 0;
+
+           }
+        
           $accentId = null;
         if (!empty($request->input('accent_id')))
         {

@@ -625,9 +625,7 @@ $(document).ready(function() {
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
         // $(".app-default-accent").
-        console.log("-----------");
-        console.log(window.accents);
-
+   
         $(accent_class).ddslick({
 
             data: accentsData,
@@ -2114,8 +2112,8 @@ $(document).ready(function() {
 
         function getAccents(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/accents";
-        // var url = "//localhost:8888/api/accents";
+      //  var url = "//api-dev.qstrike.com/api/accents";
+        var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
             async: false,
@@ -2124,7 +2122,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                accents = data['accents'];
+                    accents = $(data['accents']).filter(function (i,n){return n.active===1 });
                 if(typeof callback === "function") callback(accents);
             }
         });

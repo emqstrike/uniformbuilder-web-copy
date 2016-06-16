@@ -28,7 +28,6 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Thumbnail</th>
-                            <!-- <th>Accent Properties</th> -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -42,19 +41,26 @@
 	                      <td>
                           <!-- <img src="{{ $accent->thumbnail_path }}" height="100" width="100"> -->
                           </td>
-<!-- 	                      <td>{{ $accent->accent_properties }}</td> -->
 	                       <td>
-                             
-                                
-        							<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
-        							    <i class="glyphicon glyphicon-edit"></i>
-        							    Edit
-        							</a>
-                                @if(  $key  > -1)
-        							<a href="#" class="btn btn-danger pull-right btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
-        							    <i class="glyphicon glyphicon-trash"></i>
-        							    Remove
-        							</a>
+                      
+                          <a href="#" class="btn btn-default btn-xs disable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? : 'disabled="disabled"' }}>
+                              <i class="glyphicon glyphicon-eye-close"></i>
+                              Disable
+                          </a>
+                          <a href="#" class="btn btn-info btn-xs enable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? 'disabled="disabled"' : '' }}>
+                              <i class="glyphicon glyphicon-eye-open"></i>
+                              Enable
+                          </a>       
+                                    
+            							<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
+            							    <i class="glyphicon glyphicon-edit"></i>
+            							    Edit
+            							</a>
+                                    @if(  $key  > -1)
+            							<a href="#" class="btn btn-danger pull-right btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
+            							    <i class="glyphicon glyphicon-trash"></i>
+            							    Remove
+            							</a>
                                 @endif
                             </td>
                                
@@ -99,37 +105,95 @@
 
      
     });
-      $(document).on('click', '.confirmButtonYes', function(){
-        
-          var id = $(this).data('accent-id');
-          console.log(id);
-          // var url = "http://localhost:8888/api/accent/delete";
-          var url = "//" + api_host + "/api/accent/delete/";
-                     
-          $.ajax({
-              url: url,
-              type: "POST",
-              data: JSON.stringify({id: id}),
-              dataType: "json",
-              crossDomain: true,
-              contentType: 'application/json',
-              headers: {"accessToken": atob(headerValue)},
-              success: function(response){
-                  if (response.success) {
-                      new PNotify({
-                          title: 'Success',
-                          text: response.message,
-                          type: 'success',
-                          hide: true
-                      });
-                      // $('#confirmation-modal').modal('hide');
-                      $('.font-' + id).fadeOut();
-                       $( ".accents" ).load( location+" .accents" );  
+    $('.enable-accent').on('click', function(){
+      console.log("enable-accent");
+        var id = $(this).data('accent-id');
+        // var url = "//" + api_host + "/api/accent/disable/";
+        var url = "//localhost:8888/api/accent/enable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.accent-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .disable-accent').removeAttr('disabled');
+                    $(elem + ' .enable-accent').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }
+            }
+        });
+    });
 
-                  }
-              }
-          });
-       });
+    $('.disable-accent').on('click', function(){
+        var id = $(this).data('accent-id');
+        // var url = "//" + api_host + "/api/accent/disable/";
+        var url = "//localhost:8888/api/accent/disable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.accent-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .enable-accent').removeAttr('disabled');
+                    $(elem + ' .disable-accent').attr('disabled', 'disabled');
+                    $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+    $(document).on('click', '.confirmButtonYes', function(){
+      
+        var id = $(this).data('accent-id');
+        console.log(id);
+        // var url = "http://localhost:8888/api/accent/delete";
+        var url = "//" + api_host + "/api/accent/delete/";
+                   
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    // $('#confirmation-modal').modal('hide');
+                    $('.font-' + id).fadeOut();
+                     $( ".accents" ).load( location+" .accents" );  
+
+                }
+            }
+        });
+     });
 </script>
 <!-- <script type="text/javascript" src="/js/administration/accents.js"></script> -->
 
