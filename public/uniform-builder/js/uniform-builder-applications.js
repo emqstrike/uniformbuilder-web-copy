@@ -1385,6 +1385,8 @@
             /// If locations is turned on exit
             if (ub.status.fontPopupVisible) { return; }
             if (ub.status.accentPopupVisible) { return; }
+            if (ub.status.mascotPopupVisible) { return; }
+
             if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
@@ -1407,6 +1409,8 @@
 
             if (ub.status.fontPopupVisible) { return; }
             if (ub.status.accentPopupVisible) { return; }
+            if (ub.status.mascotPopupVisible) { return; }
+
             if (ub.showLocation) { return; }
 
             if (typeof this.interactionData === 'undefined') { return; }
@@ -1424,6 +1428,7 @@
 
             if (ub.status.fontPopupVisible) { return; }
             if (ub.status.accentPopupVisible) { return; }
+            if (ub.status.mascotPopupVisible) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -3703,7 +3708,6 @@
     }
 
     ub.status.fontPopupVisible = false;
-
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         ub.status.fontPopupVisible = true;
@@ -4042,8 +4046,10 @@
 
     }
 
-
+    ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
+
+        ub.status.mascotPopupVisible = true;
 
         var sampleSize = '1.9em';
         var paddingTop = '40px';
@@ -4115,6 +4121,7 @@
         $('div.close-popup').on('click', function (){
 
             $popup.remove();
+            ub.status.mascotPopupVisible = false;
 
         });
 
@@ -4132,6 +4139,7 @@
             $(this).data('status', 'hidden');
             $(this).hide();
             $(this).remove();
+            ub.status.mascotPopupVisible = false;
 
         });
 
@@ -4149,6 +4157,7 @@
 
         $popup = $('div#primaryPatternPopup');
         $popup.remove();
+        ub.status.mascotPopupVisible = false;
 
     }
 
