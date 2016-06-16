@@ -2112,8 +2112,8 @@ $(document).ready(function() {
 
         function getAccents(callback){
         var mascots;
-      //  var url = "//api-dev.qstrike.com/api/accents";
-        var url = "//localhost:8888/api/accents";
+       var url = "//api-dev.qstrike.com/api/accents";
+        // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
             async: false,
