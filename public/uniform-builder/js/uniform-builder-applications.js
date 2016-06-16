@@ -4752,7 +4752,14 @@
 
         $('.modifier_main_container').append(_htmlBuilder);
 
-        //// Events  
+        //// Events
+
+            $('span.changeApplicationType').on('click', function () {
+
+                console.log('Change Application Click: ');
+
+            })
+
 
             $("div.toggleOption").on("click", function () {
 

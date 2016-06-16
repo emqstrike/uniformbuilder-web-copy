@@ -4362,7 +4362,8 @@ $(document).ready(function () {
 
     ub.funcs.initGenderPicker = function () {
 
-        $('div#main-picker-container').css('background-image','url(/images/main-ui/unleash.png)');
+        $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
+        $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
         // $('.header-container').removeClass('forceHide');
 
@@ -4384,6 +4385,7 @@ $(document).ready(function () {
     ub.funcs.initSportsPicker = function (sport) {
 
         $('div#main-picker-container').css('background-image','none');
+        $('body').css('background-image','none');
 
         $('body').addClass('pickers-enabled');
 
