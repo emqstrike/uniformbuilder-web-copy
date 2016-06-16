@@ -302,7 +302,7 @@ function reCreateCanvas(){
     accentRemove(this);
   });
 
-  $(document).on('keyup','#fName',function(){
+  $(document).on('keyup change click','#fName',function(){
     
     $("#fCode").val(($(this).val().toLowerCase()).replace(/ /g,"_"));
   });
