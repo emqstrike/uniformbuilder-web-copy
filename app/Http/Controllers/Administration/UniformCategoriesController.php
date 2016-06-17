@@ -67,7 +67,7 @@ class UniformCategoriesController extends Controller
                                                     $thumbnaleMale,
                                                     $name,
                                                     'thumbnail',
-                                                    "categories/{name}/thumbnail_male.png"
+                                                    "categories/{$name}/thumbnail_male.png"
                                                 );
                 }
             }
@@ -81,7 +81,7 @@ class UniformCategoriesController extends Controller
                                                     $thumbnaleFemale,
                                                     $name,
                                                     'thumbnail',
-                                                    "categories/{name}/thumbnail_female.png"
+                                                    "categories/{$name}/thumbnail_female.png"
                                                 );
                 }
             }
@@ -95,7 +95,7 @@ class UniformCategoriesController extends Controller
                                                     $thumbnaleYouth,
                                                     $name,
                                                     'thumbnail',
-                                                    "categories/{name}/thumbnail_youth.png"
+                                                    "categories/{$name}/thumbnail_youth.png"
                                                 );
                 }
             }
