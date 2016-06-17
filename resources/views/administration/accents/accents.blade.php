@@ -108,7 +108,7 @@
     $('.enable-accent').on('click', function(){
       console.log("enable-accent");
         var id = $(this).data('accent-id');
-         var url = "//" + api_host + "/api/accent/disable/";
+         var url = "//" + api_host + "/api/accent/enable/";
         //var url = "//localhost:8888/api/accent/enable/";
         $.ajax({
             url: url,
