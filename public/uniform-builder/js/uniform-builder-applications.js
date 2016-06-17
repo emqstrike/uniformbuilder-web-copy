@@ -1622,7 +1622,7 @@
                 }
 
                 point.rotation = (view.application.rotation * Math.PI) / 180;
-                point.zIndex = -30;
+                point.zIndex = -50;
 
                 /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
 
