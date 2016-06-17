@@ -1694,7 +1694,7 @@
                     }
                     else {
                     
-                        _scaleXOverride = point.scale.x;
+                        _scaleXOverride = 1;
                     
                     }
 
@@ -1705,7 +1705,7 @@
                     }
                     else {
 
-                        _scaleYOverride = point.scale.y;
+                        _scaleYOverride = 1;
 
                     }
 

@@ -1118,7 +1118,7 @@
         ub.current_material.containers[application.id].mascot = sprite;
 
         var temp                    = {}
-        var layer_order             = ( 10 + application.layer_order );
+        var layer_order             = ( 50 + application.layer_order );
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
