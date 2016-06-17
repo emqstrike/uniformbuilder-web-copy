@@ -1693,8 +1693,9 @@
 
                     }
                     else {
+
                     
-                        _scaleXOverride = 1;
+                        _scaleXOverride = point.scale.x;
                     
                     }
 
@@ -1705,14 +1706,14 @@
                     }
                     else {
 
-                        _scaleYOverride = 1;
+                        _scaleYOverride = point.scale.y;
 
                     }
 
                     if (_applicationObj.type === "mascot") {
 
-                        point.scale.x = point.scale.x * (_scaleXOverride);
-                        point.scale.y = point.scale.y * (_scaleYOverride);
+                        point.scale.x = 1 * (_scaleXOverride);
+                        point.scale.y = 1 * (_scaleYOverride);
 
                     } else {
 
