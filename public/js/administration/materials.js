@@ -2122,7 +2122,8 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                    accents = $(data['accents']).filter(function (i,n){return n.active===1 });
+                    accents = $(data['accents']).filter(function (i,n){return n.active==="1" });
+
                 if(typeof callback === "function") callback(accents);
             }
         });
