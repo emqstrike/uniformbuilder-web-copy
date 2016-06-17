@@ -1622,7 +1622,7 @@
                 }
 
                 point.rotation = (view.application.rotation * Math.PI) / 180;
-                point.zIndex = -30;
+                point.zIndex = -50;
 
                 /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
 
@@ -1682,24 +1682,10 @@
 
                 //// Process Scale X and Y from the font size field, in the application font size
 
-                if (app_id === '32' || app_id === '33') {
-
-                    var _scaleXOverride = view.application.fontSizes.split(',')[1];
-                    var _scaleYOverride = view.application.fontSizes.split(',')[2];
-
-                }
-
                 if (typeof args.applicationObj !== "undefined" || _applicationObj.type === 'mascot' ) {
 
                     var _scaleXOverride = view.application.fontSizes.split(',')[1];
                     var _scaleYOverride = view.application.fontSizes.split(',')[2];
-
-                    if (app_id === 32) {
-
-                        console.log('Scale X Override: ' + _scaleXOverride);
-                        console.log('Scale Y Override: ' + _scaleYOverride);
-
-                    }
 
                     if (!isNaN(_scaleXOverride)) {
 
@@ -1734,8 +1720,6 @@
 
                     }
                     
-
-
                 //// End Process Scale X and Y from the font size field
 
                 //// Process Override ScaleX and ScaleY from GA Font Tool
