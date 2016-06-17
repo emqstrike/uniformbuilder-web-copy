@@ -1583,6 +1583,8 @@
             var marker_name = "objects_" + app_id;
             var views = ub.data.applications_transformed[mat_option][app_id].views;
 
+            var _applicationObj = ub.data.applications_transformed[mat_option][app_id];
+
             _.each(ub.views, function(_view){
 
                 var _view_name = _view + '_view';
@@ -1680,10 +1682,31 @@
 
                 //// Process Scale X and Y from the font size field, in the application font size
 
-                if (typeof args.applicationObj !== "undefined") {
+                if (app_id === '32' || app_id === '33') {
 
                     var _scaleXOverride = view.application.fontSizes.split(',')[1];
                     var _scaleYOverride = view.application.fontSizes.split(',')[2];
+
+                    console.log(_applicationObj);
+
+                    console.log('Perspective: ' + view.perspective)
+
+                    console.log('Scale X Override: ' + _scaleXOverride);
+                    console.log('Scale Y Override: ' + _scaleYOverride);
+
+                }
+
+                if (typeof args.applicationObj !== "undefined" || _applicationObj.type === 'mascot' ) {
+
+                    var _scaleXOverride = view.application.fontSizes.split(',')[1];
+                    var _scaleYOverride = view.application.fontSizes.split(',')[2];
+
+                    if (app_id === 32) {
+
+                        console.log('Scale X Override: ' + _scaleXOverride);
+                        console.log('Scale Y Override: ' + _scaleYOverride);
+
+                    }
 
                     if (!isNaN(_scaleXOverride)) {
 
@@ -1707,7 +1730,17 @@
 
                     }
 
-                    point.scale.set(_scaleXOverride, _scaleYOverride);
+                    if (_applicationObj.type === "mascot") {
+
+                        point.scale.x = point.scale.x * (_scaleXOverride);
+                        point.scale.y = point.scale.y * (_scaleYOverride);
+
+                    } else {
+
+                        point.scale.set(_scaleXOverride, _scaleYOverride);
+
+                    }
+                    
 
 
                 //// End Process Scale X and Y from the font size field
@@ -1725,7 +1758,9 @@
                         _scaleY = parseFloat(args.overrideScaleY);
                     }
 
-                    point.scale.set(_scaleX, _scaleY);
+                    if (_applicationObj.type !== "mascot") {
+                        point.scale.set(_scaleX, _scaleY);
+                    }    
 
                 //// Process End Override ScaleX and ScaleY from GA Font Tool   
 
@@ -4683,7 +4718,7 @@
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -4781,14 +4816,14 @@
 
                 _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
                 _htmlBuilder        +=      '<div class="header">';
-                _htmlBuilder        +=      '<div class="">Select Application Type for Location (#' + _id + ')</div>';
+                _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
                 _htmlBuilder        +=      '<div class="body">';
 
                 var _deactivated ='';
 
                 if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
 
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
                 _htmlBuilder        +=           '</div>';
@@ -4796,7 +4831,7 @@
 
                 if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
 
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
                 _htmlBuilder        +=           '</div>';
@@ -4806,7 +4841,7 @@
 
                 if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
 
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
                 _htmlBuilder        +=           '</div>';
@@ -4814,7 +4849,7 @@
 
                 if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
 
-                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
                 _htmlBuilder        +=           '</div>';
@@ -4828,6 +4863,14 @@
                 $('div#changeApplicationUI').fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
+                $('div.optionButton').on('click', function () {
+
+                    if ($(this).hasClass('deactivatedOptionButton')) { return; }
+
+                    var _type = $(this).data('type');
+                    console.log('Type: ' + _type);
+
+                })
 
             });
 
