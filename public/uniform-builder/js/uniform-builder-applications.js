@@ -4778,7 +4778,7 @@
 
                     if (_status === 'visible') {
 
-                        $('div#changeApplicationUI').fadeOut().data('status', 'hidden');
+                        $('div#changeApplicationUI').hide().data('status', 'hidden');
                         $('div.applicationType').removeClass('toggledApplicationType');
                         
                     } else {
@@ -4798,12 +4798,13 @@
                 _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
                 _htmlBuilder        +=      '<div class="header">';
                 _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+                _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
                 _htmlBuilder        +=      '<div class="body">';
 
                 var _deactivated ='';
 
-                if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
-
+                if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
+                
                 _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
@@ -4815,6 +4816,7 @@
                 _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
+                _htmlBuilder        +=                 '<div class="currentOptionButton"><i class="fa fa-check" aria-hidden="true"></i></div>';
                 _htmlBuilder        +=           '</div>';
 
                 _htmlBuilder        +=           '<br />';
@@ -4851,7 +4853,14 @@
                     var _type = $(this).data('type');
                     console.log('Type: ' + _type);
 
-                })
+                });
+
+                $('div.closeApplicationChanger').on('click', function () {
+
+                    $('div#changeApplicationUI').hide().data('status', 'hidden');
+                    $('div.applicationType').removeClass('toggledApplicationType');
+
+                });
 
             });
 
