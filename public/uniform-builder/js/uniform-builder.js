@@ -99,8 +99,6 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('div.activate_qa_tools').fadeIn();
 
-            var uni
-
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div#uniform_price').html(ub.funcs.getPrice());
 
@@ -108,10 +106,45 @@ $(document).ready(function () {
 
             // TODO: Enable This
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+            ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
 
 
         };
+
+        ub.showFontGuides = function () {
+
+            _.each (ub.views, function (view) {
+
+                if (typeof ub.objects[view + '_view']['guide'] === "object") {
+
+                    ub.objects[view + '_view']['guide'].alpha = 1;
+                    ub.objects[view + '_view']['guide'].zIndex = -29;
+
+                }
+
+                ub.updateLayersOrder(ub[view + '_view']);
+
+            });
+
+        };
+
+        ub.hideFontGuides = function () {
+
+            _.each (ub.views, function (view) {
+
+                if (typeof ub.objects[view + '_view']['guide'] === "object") {
+
+                    ub.objects[view + '_view']['guide'].alpha = 0;
+                    ub.objects[view + '_view']['guide'].zIndex = -29;
+
+                }
+
+                ub.updateLayersOrder(ub[view + '_view']);
+
+            });
+
+        }
 
         ub.updateLayersOrder = function (container) {
                 

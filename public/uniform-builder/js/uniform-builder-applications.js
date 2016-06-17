@@ -4797,9 +4797,6 @@
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 var _validApplicationTypes  = _settingsObject.validApplicationTypes;
 
-                console.log('Application Type: ');
-                console.log(_applicationType);
-
                 _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
                 _htmlBuilder        +=      '<div class="header">';
                 _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
@@ -4811,7 +4808,7 @@
                 var _selected = ''
 
                 if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
-                if (_applicationType === 'player_number') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+                if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
                 _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
@@ -4869,7 +4866,7 @@
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
 
                     var _type = $(this).data('type');
-                    console.log('Type: ' + _type);
+                    // console.log('Type: ' + _type);
 
                 });
 
@@ -5230,6 +5227,9 @@
                 _cogBuilder +=              '<span class="resetButton">';
                 _cogBuilder +=                  'Reset';
                 _cogBuilder +=              '</span>';
+                _cogBuilder +=              '<span class="showFontGuide" data-status="hidden">';
+                _cogBuilder +=                  'Font Guide';
+                _cogBuilder +=              '</span>';
                 _cogBuilder +=              '<span class="cancelButton">';
                 _cogBuilder +=                  'Close';
                 _cogBuilder +=              '</span>';
@@ -5243,11 +5243,33 @@
 
                 $('body').append(_cogBuilder);
 
-                /// Events
 
+                /// Events
+                    $('span.showFontGuide').on('click', function () {
+
+                        var _status = $(this).data('status');
+
+                        if (_status === 'hidden') {
+                            
+                            ub.showFontGuides();
+                            $(this).data('status', 'visible');
+                            $(this).addClass('guideActive');
+
+                        } else {
+
+                            ub.hideFontGuides();
+                            $(this).data('status', 'hidden');
+                            $(this).removeClass('guideActive');
+
+                        }
+
+                    });
+                
                     $('span.cancelButton').on('click', function () {
 
+                        ub.hideFontGuides();
                         $('#cogPopupContainer').remove();
+
 
                     });
 
