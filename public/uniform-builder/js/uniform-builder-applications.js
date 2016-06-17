@@ -1687,13 +1687,6 @@
                     var _scaleXOverride = view.application.fontSizes.split(',')[1];
                     var _scaleYOverride = view.application.fontSizes.split(',')[2];
 
-                    console.log(_applicationObj);
-
-                    console.log('Perspective: ' + view.perspective)
-
-                    console.log('Scale X Override: ' + _scaleXOverride);
-                    console.log('Scale Y Override: ' + _scaleYOverride);
-
                 }
 
                 if (typeof args.applicationObj !== "undefined" || _applicationObj.type === 'mascot' ) {
