@@ -242,3 +242,7 @@ select.accentLayerColors.form-control option, select.accentLayerColors.form-cont
     color: white !important;
 
 }
+.disabledElement {
+    pointer-events: none;
+    opacity: 0.4;
+}

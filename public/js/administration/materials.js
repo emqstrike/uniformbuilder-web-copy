@@ -411,6 +411,9 @@ $(document).ready(function() {
         updateCoordinates();
     });
 
+
+
+
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
         var font_size = 30;
@@ -603,14 +606,26 @@ $(document).ready(function() {
         var mascot_class = '.app-default-mascot';
         $(mascot_class).ddslick({
 
+
             data: mascotsData,
             width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
             onSelected: function (data) {
-                $('#mascot').val(data['selectedData']['value']);
-                console.log('Mascot ID: '+data['selectedData']['value']);
+
+                     var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
+
+                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
+                        accentMascotSelect(data,"mascot",rowIndex);
+                    }
+
+
+
+                // $('#mascot').val(data['selectedData']['value']);
+                // console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -634,67 +649,19 @@ $(document).ready(function() {
             imagePosition: "left",
             selectText: "Select Accent",
             onSelected: function (data) {
-       
-              var indexAccent=data.original[0].outerHTML;
-              indexAccent = $.parseHTML(indexAccent);
-              indexAccent = $(indexAccent).data("id");
-              var colorCode = $(".app-colors").eq(indexAccent).val().split(',');
-              var colorCodeField="";
-                for (var i = 0; i < (((data.selectedData).layers)-2); i++) {                           
-                    if(colorCode[i]){
-                        if(colorCodeField){
-                            colorCodeField = colorCodeField +","+colorCode[i]; 
-                        }else{
-                            colorCodeField = colorCode[i]; 
-                        }
-                        
-                    }else{
-                        
-                        if(colorCodeField){
-                            colorCodeField = colorCodeField +","+window.colors[0].color_code; 
-                        }else{
-                            colorCodeField = window.colors[0].color_code; 
-                        }
-                    }
+               
+                var rowIndex = data.original[0].outerHTML;
+                rowIndex = $.parseHTML(rowIndex);
+                rowIndex = $(rowIndex).data("id");
+
+                console.log("//////accent");
+                console.log($('.app-def-item').eq(rowIndex).val());
+
+                if($('.app-def-item').eq(rowIndex).val()!="mascot"){
+
+                    accentMascotSelect(data,"accent",rowIndex);
                 }
-
-                        
-                $(".app-colors").eq(indexAccent).val(colorCodeField);
-                $(".colorSelection").eq(indexAccent).empty();
-                
-                $(".colorSelection").eq(indexAccent).empty();
-                $.each(colorCodeField.split(','), function (intIndex, objValue) {
-                    console.log(colorCode);
-                    console.log("loop:"+intIndex);
-                    $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
-                    jQuery.each(window.colors, function(index, item) {                
-                        $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
-
-                    }); 
-                    $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
-                        //may want to use $.trim in here
-                        return $(this).data("color-code") == objValue; 
-                    }).prop('selected', true);
-                    $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).val())
-
-                })
-                       
-
-
-
-
-           // $(".colorSelection").eq(indexAccent).empty();
-           //      for (var i = 0; i < ((data.selectedData).layers)-2; i++) {
-           //              $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
-           //          jQuery.each(window.colors, function(index, item) {                
-           //                  $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
-
-           //          }); 
-           //          // colorCodeField = colorCodeField +","+colorCode; 
-                
-           //      }             
-
-           //       updateColorField($(".colorSelection").eq(indexAccent).find(".accentLayerColors"));
+                 
             
 
             },
@@ -1374,6 +1341,8 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
+        console.log(app_properties);
+
         var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
@@ -1470,12 +1439,11 @@ $(document).ready(function() {
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 // var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
                 var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" ><div class="colorSelection"></div>';
-                
+
                 // var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
-                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
-        
-                var app_font = "";
+                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+             var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
                 }
@@ -1568,6 +1536,8 @@ $(document).ready(function() {
                     });
                     item['description'] = item.category + ' [ ' + c + ' ]';
                     item['imageSrc'] = item.icon;
+                    item['layers'] = c ;
+
                 });
 
                 var mascotsData = window.mascots;
@@ -1585,19 +1555,30 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Mascot",
                     onSelected: function (data) {
+
+                    var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
+
+                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
+                        accentMascotSelect(data,"mascot",rowIndex);
+                    }
+                
+                                       
                         // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
                         // console.log( 'Classes' + $(this).attr('class') );
                         // $(amv_id).val( 'JETHRODEL' );
-                        $('#mascot').val(data['selectedData']['value']);
+                       // $('#mascot').val(data['selectedData']['value']);
                         // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
                         // console.log('DDS CLICK' + data['selectedData']['value']);
-                    },
+                    }
                 });
 
 
 
 
                 $.each(window.accents, function(i, item) {
+
                     item['text'] = item.name;
                     item['value'] = item.id;
                     if( app_properties[l].accents == item.id ){
@@ -1618,84 +1599,21 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
-     
-                    var indexAccent=data.original[0].outerHTML;
-                      indexAccent = $.parseHTML(indexAccent);
-                      indexAccent = $(indexAccent).data("id");   
-                        var colorCode = $(".app-colors").eq(indexAccent).val().split(',');
-                        var colorCodeField="";
-                        for (var i = 0; i < (((data.selectedData).layers)-2); i++) {
-                            if(colorCode[i]){
-                                if(colorCodeField){
-                                    colorCodeField = colorCodeField +","+colorCode[i]; 
-                                }else{
-                                    colorCodeField = colorCode[i]; 
-                                }
-                                
-                            }else{
-                               
-                                if(colorCodeField){
-                                    colorCodeField = colorCodeField +","+window.colors[0].color_code; 
-                             
-                                }else{
-                                    colorCodeField = window.colors[0].color_code; 
-                                }
-                            }
-                          
 
-                        }
-                        $(".app-colors").eq(indexAccent).val(colorCodeField);
-                        
-                        $(".colorSelection").eq(indexAccent).empty();
-                        $.each(colorCodeField.split(','), function (intIndex, objValue) {
-                      
-                            $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
-                            jQuery.each(window.colors, function(index, item) {                
-                                $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+                    var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
 
-                            }); 
-                            $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
-                                //may want to use $.trim in here
-                                return $(this).data("color-code") == objValue; 
-                            }).prop('selected', true);
-                            $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(intIndex).val())
+                    console.log("//////accent");
+                    console.log($('.app-def-item').eq(rowIndex).val());
 
-                        })
+                    if($('.app-def-item').eq(rowIndex).val()!="mascot"){
+
+                        accentMascotSelect(data,"accent",rowIndex);
+                    }
+                 
                        
-                       // $(".colorSelection").eq(indexAccent).empty();
-             
-                            // for (var i = 0; i < ((data.selectedData).layers)-2; i++) {
-                            //     $(".colorSelection").eq(indexAccent).append( "<select class='accentLayerColors form-control' ></select>");
-                            //     jQuery.each(window.colors, function(index, item) {                
-                            //             $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
-
-                            //     }); 
-
-                            //     var colorCode = $(".app-colors").val().split(',');
-                          
-     
-                            //     $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(i).find("option").filter(function() {
-                            //      // $(".accentLayerColors").find("option").filter(function() {
-                            //         // console.log($(this).data("color-code"));
-                            //         // console.log("process");
-                                     
-                            //         //may want to use $.trim in here
-                            //         return $(this).data("color-code") == colorCode[i]; 
-                            //     }).prop('selected', true);
-                            //     $(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(i).css("background","#"+$(".colorSelection").eq(indexAccent).find("select.accentLayerColors").eq(i).val())
-                             
-                                
-
-                            // }             
-               
-                            
-
-                            // $.each(arrValues, function (intIndex, objValue) {
-                            //    console.log(objValue);
-                            // })
-                            // updateColorField($(".colorSelection").eq(indexAccent).find(".accentLayerColors"));                                         
-                        // $('#accent').val(data['selectedData']['value']);
-                        // console.log('Accent ID: '+data['selectedData']['value']);
+                     
                     },
                 });
 
@@ -1719,8 +1637,34 @@ $(document).ready(function() {
                     }
 
 
+    // dd-container  
+    
+                //  $(document).on('click', '.app-default-mascot', function() {
+                //     console.log("licaklsjdlksajkld");
+                //     // validateTypeSelection(this);
+
+                // });
+                 
+                $(document).on('change', '.app-def-item', function() {
+
+                    validateTypeSelection(this);
 
 
+                });
+                $( ".app-def-item" ).each(function( index ) {
+                    validateTypeSelection(this);
+                
+                });
+                function validateTypeSelection(t){
+
+                    if($(t).val() == "mascot"){
+                    $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").addClass("disabledElement");
+                     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").removeClass("disabledElement");
+                    }else{
+                    $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").addClass("disabledElement");
+                     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").removeClass("disabledElement");
+                    }
+                }
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
@@ -3118,6 +3062,10 @@ $(".dd-selected-value").click(function(){
     console.log(sampleAccents);
 });
 
+
+
+
+
 function updateApplicationsJSON(){
     var multiplier = 2;
     applicationProperties = {};
@@ -3320,6 +3268,67 @@ function updateApplicationsJSON(){
 
     console.log("APP PROPS: "+window.ap);
 }
+
+
+function accentMascotSelect(data,accentMascot,rowIndex){
+    console.log(data);
+    console.log(accentMascot);
+    console.log(rowIndex);
+
+    var layers;
+    var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
+    var colorCodeField="";
+    if(accentMascot == "accent"){
+
+        layers = ((data.selectedData).layers)-2;
+console.log("accent:"+layers);
+    }else{
+        layers = data.selectedData.layers;
+        console.log("mascot:"+layers);
+    }
+    for (var i = 0; i < layers; i++) { 
+    console.log("is:"+i);                          
+        if(colorCode[i]){
+            if(colorCodeField){
+                colorCodeField = colorCodeField +","+colorCode[i]; 
+            }else{
+                colorCodeField = colorCode[i]; 
+            }
+            
+        }else{
+            
+            if(colorCodeField){
+                colorCodeField = colorCodeField +","+window.colors[0].color_code; 
+            }else{
+                colorCodeField = window.colors[0].color_code; 
+            }
+        }
+    }
+    $(".app-colors").eq(rowIndex).val(colorCodeField);
+    $(".colorSelection").eq(rowIndex).empty();
+    
+    $(".colorSelection").eq(rowIndex).empty();
+    $.each(colorCodeField.split(','), function (intIndex, objValue) {
+        console.log(colorCode);
+        console.log("loop:"+intIndex);
+        $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
+        jQuery.each(window.colors, function(index, item) {                
+            $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+
+        }); 
+        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
+            //may want to use $.trim in here
+            return $(this).data("color-code") == objValue; 
+        }).prop('selected', true);
+        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).val())
+
+    })
+
+
+}
+
+   
+
 
 
 });
