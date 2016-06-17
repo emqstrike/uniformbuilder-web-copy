@@ -1622,7 +1622,7 @@
                 }
 
                 point.rotation = (view.application.rotation * Math.PI) / 180;
-                point.zIndex = -50;
+                point.zIndex = -30;
 
                 /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
 
@@ -1693,9 +1693,10 @@
 
                     }
                     else {
-
                     
                         _scaleXOverride = point.scale.x;
+
+                        if (_applicationObj.type === "mascot") { _scaleXOverride = 1; }
                     
                     }
 
@@ -1707,13 +1708,15 @@
                     else {
 
                         _scaleYOverride = point.scale.y;
+                        if (_applicationObj.type === "mascot") { _scaleYOverride = 1; }
 
                     }
 
                     if (_applicationObj.type === "mascot") {
 
-                        point.scale.x = 1 * (_scaleXOverride);
-                        point.scale.y = 1 * (_scaleYOverride);
+                        point.scale.x = point.scale.x * (_scaleXOverride);
+                        point.scale.y = point.scale.y * (_scaleYOverride);
+
 
                     } else {
 
