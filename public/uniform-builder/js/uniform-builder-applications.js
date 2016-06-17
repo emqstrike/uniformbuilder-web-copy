@@ -4648,6 +4648,8 @@
 
         }
 
+        $('div#changeApplicationUI').remove();
+
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
@@ -4795,6 +4797,9 @@
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
                 var _validApplicationTypes  = _settingsObject.validApplicationTypes;
 
+                console.log('Application Type: ');
+                console.log(_applicationType);
+
                 _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
                 _htmlBuilder        +=      '<div class="header">';
                 _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
@@ -4802,44 +4807,57 @@
                 _htmlBuilder        +=      '<div class="body">';
 
                 var _deactivated ='';
+                var _currentlySelectedType = '';
+                var _selected = ''
 
                 if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
-                
-                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + '">';
+                if (_applicationType === 'player_number') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
                 _deactivated ='';
+                _currentlySelectedType = '';
+                _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
+                if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
-                _htmlBuilder        +=                 '<div class="currentOptionButton"><i class="fa fa-check" aria-hidden="true"></i></div>';
+                _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
                 _htmlBuilder        +=           '</div>';
 
                 _htmlBuilder        +=           '<br />';
-                _deactivated ='';
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
+                if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
-                _deactivated ='';
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
 
                 if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+                if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
 
-                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + '">';
+                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
+                _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
                 _htmlBuilder        +=      '</div>';
                 _htmlBuilder        += "</div>";
-                _deactivated ='';
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
 
                 $('.modifier_main_container').append(_htmlBuilder);
 
