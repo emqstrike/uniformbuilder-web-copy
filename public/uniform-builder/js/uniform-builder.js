@@ -109,7 +109,6 @@ $(document).ready(function () {
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
 
-
         };
 
         ub.showFontGuides = function () {
