@@ -1360,8 +1360,13 @@
         if (application.type !== "mascot" && application.type !== "logo") {
 
             baseSprite          = ub.funcs.getBaseSprite(sprite);
-            baseSprite.oldTint  = baseSprite.tint;
-            
+
+            if (typeof basesprite === 'object') {
+
+                baseSprite.oldTint  = baseSprite.tint;
+
+            }
+
         } else {
 
             baseSprite          = sprite.children[0];
@@ -1376,6 +1381,7 @@
         });
 
         sprite.mouseup = sprite.touchend = function(data) {
+
 
 
         };
@@ -1458,6 +1464,8 @@
 
                 if (sprite_obj.containsPoint(point)) {
 
+                    if (typeof baseSprite !== 'object') { return; }
+
                     if(ub.zoom) { return; }
 
                     // start
@@ -1468,12 +1476,14 @@
                    
                 } else {
 
+                    if (typeof baseSprite !== 'object') { return; }
+
                     // restore
                     sprite.ubHover  = false;
                     baseSprite.tint = baseSprite.oldTint;
                     ub.data.applicationAccumulator -= 1;
                     ub.funcs.setPointer();
-                    
+
                 }
                 
             }
@@ -4210,6 +4220,14 @@
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
         var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
+
+        if (_id === '2' && _applicationType === 'mascot') {
+            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+        }
+        if (_id === '5' && _applicationType === 'mascot') {
+            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+        }
+
         var _mascotObj          = _settingsObject.mascot;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
@@ -4259,7 +4277,7 @@
 
         } else {
 
-            _inputSizes = size.sizes;
+            _inputSizes = _sizes.sizes;
 
         }
 
@@ -4636,6 +4654,44 @@
 
     }
 
+    ub.funcs.getMascotObj = function () {
+
+
+
+
+
+    }
+
+    ub.funcs.changeApplicationType = function (settingsObject,type) {
+
+        var _settingsObject = settingsObject;
+        var _type           = type;
+        var _id = parseInt(_settingsObject.code);
+
+       if (_type === 'mascot') {
+
+            ub.funcs.deActivateApplications();
+
+            _settingsObject.application_type = 'mascot';
+            _settingsObject.type = 'mascot';
+            _settingsObject.object_type = 'mascot';
+            _settingsObject.mascot = _.find(ub.data.mascots, {id: '52'});
+
+            _settingsObject.application.name = 'Mascot';
+            _settingsObject.application.type = 'mascot';
+
+            if (_id === 2) {  _settingsObject.size = 8; }
+            if (_id === 5) {  _settingsObject.size = 10; }
+
+            ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
+            ub.funcs.activateMascots(_settingsObject.code);
+
+            ub.current_material.settings.applications[_id] = _settingsObject;
+
+       }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if (ub.funcs.isBitFieldOn()) { 
@@ -4664,6 +4720,14 @@
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
         var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
+
+        if (_id === 2 && _applicationType === 'mascot') {
+            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+        }
+        if (_id === 5 && _applicationType === 'mascot') {
+            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+        }
+
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
         var _accentObj        = _settingsObject.accent_obj;
@@ -4857,7 +4921,6 @@
                 _selected = '';
 
                 $('.modifier_main_container').append(_htmlBuilder);
-
                 $('div#changeApplicationUI').fadeIn().data('status', 'visible');
                 $('div.applicationType').addClass('toggledApplicationType');
 
@@ -4866,7 +4929,9 @@
                     if ($(this).hasClass('deactivatedOptionButton')) { return; }
 
                     var _type = $(this).data('type');
-                    // console.log('Type: ' + _type);
+
+                    ub.funcs.changeApplicationType(_settingsObject, _type);
+                    $('div#changeApplicationUI').remove();
 
                 });
 
