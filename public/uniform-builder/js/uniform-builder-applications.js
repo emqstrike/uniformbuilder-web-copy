@@ -1625,7 +1625,9 @@
                         var topRightY   = view.application.topRight.y;
                         var y           = (point.height / 4 ) + topRightY;
 
-                        point.position  = new PIXI.Point(view.application.center.x, y);
+                        // point.position  = new PIXI.Point(view.application.center.x, y);
+                        point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
+
 
                     }
 
@@ -1759,6 +1761,15 @@
            
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
+
+                var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
+                
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)  { point.position.y += 75; }
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 10) { point.position.y += 85; }
+
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y += 85; }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12) { point.position.y += 95; }
+
 
             });
 
