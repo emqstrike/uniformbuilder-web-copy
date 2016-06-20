@@ -412,6 +412,30 @@ $(document).ready(function() {
                                 }
                             ],
                 },
+                {
+                    name: 'mascot_2',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                },
+                {
+                    name: 'mascot_5',
+                    sizes:  [
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
+                                },
+                            ],
+                },
+                
+
 
             ],
     }

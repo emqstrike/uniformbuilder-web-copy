@@ -1089,6 +1089,9 @@
         var container = new PIXI.Container();
         var elements = "";
 
+        if (settings_obj.size === 12)   { scale_settings = {x: 1.08, y: 1.08}; }
+        if (settings_obj.size === 10)   { scale_settings = {x: 0.9, y: 0.9}; }
+        if (settings_obj.size === 8)   { scale_settings = {x: 0.72, y: 0.72}; }
         if (settings_obj.size === 4)   { scale_settings = {x: 0.18, y: 0.18}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.15, y: 0.15}; }
         if (settings_obj.size === 2)   { scale_settings = {x: 0.12, y: 0.12}; }
