@@ -4296,7 +4296,7 @@
 
             var _additionalClass = '';
 
-            if (_inputSizes === _settingsObject.size || _id === '4' ) {
+            if (size.size === _settingsObject.size || _id === '4' ) {
 
                 _additionalClass = 'active';
 
