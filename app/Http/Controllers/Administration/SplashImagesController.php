@@ -35,40 +35,43 @@ class SplashImagesController extends Controller
       public function store(Request $request){        
    
         try {
-    $accentName="splashImage";
+    // $accentName="splashImage";
         $data = [
-        'thumbnail_path' => null,
+        // 'thumbnail_path' => null,
 
         ];
-    
+
             $flashImageThumbnailPath = $request->file('thumbnail_path');
             if (isset($flashImageThumbnailPath))
             {
+                
                 if ($flashImageThumbnailPath->isValid())
                 {
                     $filename = Random::randomize(12);
                    
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $flashImageThumbnailPath,
-                                                    $accentName,
+                                                    "splash_img",
                                                     'material_option',
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                      // $data['thumbnail_path'] = "qx";
+                      
                 }
             }
-                
+
+
+
 
 
         }
         catch (S3Exception $e)
-        {
+        {     
             $message = $e->getMessage();
             return Redirect::to('/administration/splash_images')
                             ->with('message', 'There was a problem uploading your files');
         }
-  
+
            $response = null;
 
     
