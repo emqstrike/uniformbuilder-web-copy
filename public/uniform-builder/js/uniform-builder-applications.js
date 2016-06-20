@@ -1729,7 +1729,6 @@
                         point.scale.x = point.scale.x * (_scaleXOverride);
                         point.scale.y = point.scale.y * (_scaleYOverride);
 
-
                     } else {
 
                         point.scale.set(_scaleXOverride, _scaleYOverride);
@@ -1761,15 +1760,6 @@
            
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
-
-                var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
-                
-                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)  { point.position.y += 55; }
-                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 10) { point.position.y += 65; }
-
-                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y += 65; }
-                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12) { point.position.y += 75; }
-
 
             });
 
@@ -4226,7 +4216,9 @@
             }
 
         }
-        
+
+        $('div#changeApplicationUI').remove();
+
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
@@ -4235,6 +4227,7 @@
         if (_id === '2' && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
         }
+
         if (_id === '5' && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
         }
@@ -4353,6 +4346,114 @@
             // $('span.accentThumb > img').attr('src',_src);
 
         // Events
+
+            $('div.applicationType').on('click', function () {
+
+                if ($('div#changeApplicationUI').length > 1) {
+
+                    var _status = $('div#changeApplicationUI').data('status');
+
+                    if (_status === 'visible') {
+
+                        $('div#changeApplicationUI').hide().data('status', 'hidden');
+                        $('div.applicationType').removeClass('toggledApplicationType');
+                        
+                    } else {
+
+                        $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                        $('div.applicationType').addClass('toggledApplicationType');
+
+                    }
+
+                    return;
+
+                }
+
+                var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+                var _validApplicationTypes  = _settingsObject.validApplicationTypes;
+
+                _htmlBuilder        =  '<div id="changeApplicationUI" data-status="hidden" data-application-id="' + _id + '">';
+                _htmlBuilder        +=      '<div class="header">';
+                _htmlBuilder        +=      '<div class="">Select Application Type for Location <strong>#' + _id + '</strong></div>';
+                _htmlBuilder        +=      '<div class="close-popup closeApplicationChanger"><i class="fa fa-times" aria-hidden="true"></i></div>';
+                _htmlBuilder        +=      '<div class="body">';
+
+                var _deactivated ='';
+                var _currentlySelectedType = '';
+                var _selected = ''
+
+                if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; }
+                if (_applicationType === 'front_number' || _applicationType === 'back_number' ) { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+                _htmlBuilder        +=           '<div data-type="player_number" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Number ' + _selected + '</div>';
+                _htmlBuilder        +=           '</div>';
+                _deactivated ='';
+                _currentlySelectedType = '';
+                _selected = '';
+
+                if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
+                if (_applicationType === 'team_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+                _htmlBuilder        +=           '<div data-type="team_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Team Name ' + _selected + '</div>';                
+                _htmlBuilder        +=           '</div>';
+
+                _htmlBuilder        +=           '<br />';
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
+
+                if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
+                if (_applicationType === 'player_name') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+                _htmlBuilder        +=           '<div data-type="player_name" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Player Name ' + _selected + '</div>';
+                _htmlBuilder        +=           '</div>';
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
+
+                if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
+                if (_applicationType === 'mascot') { _currentlySelectedType = 'currentlySelectedType'; _selected = '(current)'; }
+
+                _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
+                _htmlBuilder        +=           '</div>';
+
+                _htmlBuilder        +=      '</div>';
+                _htmlBuilder        += "</div>";
+                _deactivated = '';
+                _currentlySelectedType = '';
+                _selected = '';
+
+                $('.modifier_main_container').append(_htmlBuilder);
+                $('div#changeApplicationUI').fadeIn().data('status', 'visible');
+                $('div.applicationType').addClass('toggledApplicationType');
+
+                $('div.optionButton').on('click', function () {
+
+                    if ($(this).hasClass('deactivatedOptionButton')) { return; }
+
+                    var _type = $(this).data('type');
+
+                    ub.funcs.changeApplicationType(_settingsObject, _type);
+                    $('div#changeApplicationUI').remove();
+
+                });
+
+                $('div.closeApplicationChanger').on('click', function () {
+
+                    $('div#changeApplicationUI').hide().data('status', 'hidden');
+                    $('div.applicationType').removeClass('toggledApplicationType');
+
+                });
+
+            });
 
             $("div.toggleOption").on("click", function () {
 
@@ -4735,6 +4836,7 @@
         if (_id === 2 && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
         }
+        
         if (_id === 5 && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
         }
