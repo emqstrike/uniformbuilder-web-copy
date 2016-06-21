@@ -12,23 +12,32 @@ use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\SplashImageAPIClient as APIClient;
 
+use App\APIClients\UniformCategoriesAPIClient;
+
 
 class SplashImagesController extends Controller
 {
     protected $client;
-    public function __construct(APIClient $apiClient)
+
+    protected $uniformCategoryClient;
+
+    public function __construct(APIClient $apiClient, UniformCategoriesAPIClient $uniformCategoryAPIClient) 
     {
 
         $this->client = $apiClient;
+
+        $this->uniformCategoryClient = $uniformCategoryAPIClient;
 
     }
     public function index()
     {
         $splash_images = $this->client->getAllSplashImages();
-
+        $categories = $this->uniformCategoryClient->getUniformCategories();
+        
        
         return view('administration.splash-images.splash-images', [
-            'splash_images' => $splash_images
+            'splash_images' => $splash_images,
+            'categories' => $categories
         ]);
 
     }
