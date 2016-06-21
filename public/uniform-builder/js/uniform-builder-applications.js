@@ -1761,6 +1761,14 @@
                 ub.funcs.createClickable(point, view.application, view, 'application');
                 ub.updateLayersOrder(ub[view_name]);
 
+                var _size = ub.current_material.settings.applications[parseInt(app_id)].size;
+                
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 8)   { point.position.y  -= 5;  }
+                if (app_id === '2' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y  -= 5;  }
+
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y  -= 30; }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)  { point.position.y  -= 30; }
+
             });
 
             ub.funcs.identify(app_id);
@@ -4770,8 +4778,6 @@
 
 
 
-
-
     }
 
     ub.funcs.changeApplicationType = function (settingsObject,type) {
@@ -4780,7 +4786,7 @@
         var _type           = type;
         var _id = parseInt(_settingsObject.code);
 
-       if (_type === 'mascot') {
+        if (_type === 'mascot') {
 
             ub.funcs.deActivateApplications();
 
@@ -4800,7 +4806,41 @@
 
             ub.current_material.settings.applications[_id] = _settingsObject;
 
-       }
+        }
+
+        if (_type === 'player_name') {
+
+            console.log('Player Name');
+
+        }
+
+        if (_type === 'player_number') {
+
+            ub.funcs.deActivateApplications();
+
+            _settingsObject.application_type = 'mascot';
+            _settingsObject.type = 'mascot';
+            _settingsObject.object_type = 'mascot';
+            _settingsObject.mascot = _.find(ub.data.mascots, {id: '52'});
+
+            _settingsObject.application.name = 'Mascot';
+            _settingsObject.application.type = 'mascot';
+
+            if (_id === 2) {  _settingsObject.size = 8; }
+            if (_id === 5) {  _settingsObject.size = 10; }
+
+            ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
+            ub.funcs.activateMascots(_settingsObject.code);
+
+            ub.current_material.settings.applications[_id] = _settingsObject;
+
+        }
+
+        if (_type === 'team_name') {
+
+            console.log('Team Name');              
+
+        }
 
     }
 
