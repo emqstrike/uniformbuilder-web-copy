@@ -31,9 +31,17 @@
                                       <input type="text" class="form-control" name="name" >
                                 </fieldset>
                                 <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Category : </label>
-                                      <input type="text" class="form-control" name="category" >
+                                    <label for="formGroupExampleInput">Category : </label>                               
+                                    <select class="form-control selectCategory">
+                                        @foreach ($categories as $category)
+
+                                            <option value="{{$category -> name}}">{{$category -> name}}</option>
+                                           
+
+                                        @endforeach    
+                                    </select>                                       
                                 </fieldset>
+
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Show Time : </label>
                                       <input type="date" class="form-control" name="show_time" >
