@@ -32,7 +32,7 @@
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Category : </label>                               
-                                    <select class="form-control selectCategory">
+                                    <select class="form-control selectCategory" name="category'" >
                                         @foreach ($categories as $category)
 
                                             <option value="{{$category -> name}}">{{$category -> name}}</option>
@@ -103,7 +103,7 @@
         </div>
     </div>
 </section>
-	
+    
 @endsection
 
 @section('custom-scripts')
