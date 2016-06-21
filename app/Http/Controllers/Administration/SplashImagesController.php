@@ -51,6 +51,8 @@ class SplashImagesController extends Controller
         $splashShowTime = $request->input('show_time');
         $splashFrontImagePath = $request->file('front_image');
         $splashBackImagePath = $request->file('back_image');
+
+        dd($request);
         $data = [
         'name' => $splashName,
         'category' => $splashCategory,
