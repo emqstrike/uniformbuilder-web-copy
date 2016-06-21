@@ -8,7 +8,8 @@ class SplashImageAPIClient extends APIClient
         parent::__construct();
     }
       public function createSplashImage($data)
-    {//dd($data);
+    {
+  
         $response = $this->post('splash_image', [
             'json' => $data
         ]);

@@ -25,6 +25,7 @@ class SplashImagesController extends Controller
     public function index()
     {
         $splash_images = $this->client->getAllSplashImages();
+
        
         return view('administration.splash-images.splash-images', [
             'splash_images' => $splash_images
@@ -32,46 +33,82 @@ class SplashImagesController extends Controller
 
     }
 
-      public function store(Request $request){        
-   
-        try {
-    // $accentName="splashImage";
+      public function store(Request $request){
+
+          
+    
+        $splashName = $request->input('name');
+        $splashCategory= $request->input('category');
+        $splashShowTime = $request->input('show_time');
+        $splashFrontImagePath = $request->file('front_image');
+        $splashBackImagePath = $request->file('back_image');
         $data = [
-        // 'thumbnail_path' => null,
+        'name' => $splashName,
+        'category' => $splashCategory,
+        'show_time' => $splashShowTime,
+        'front_image' => $splashFrontImagePath,
+        'back_image' => $splashBackImagePath
+     
 
         ];
 
-            $flashImageThumbnailPath = $request->file('thumbnail_path');
-            if (isset($flashImageThumbnailPath))
-            {
-                
-                if ($flashImageThumbnailPath->isValid())
+       
+        try {
+    // $accentName="splashImage";
+     
+        
+         
+            if (isset($splashFrontImagePath))
+            {                
+                if ($splashFrontImagePath->isValid())
                 {
                     $filename = Random::randomize(12);
                    
-                    $data['thumbnail_path'] = FileUploader::upload(
-                                                    $flashImageThumbnailPath,
-                                                    "splash_img",
+                    $data['front_image'] = FileUploader::upload(
+                                                    $splashFrontImagePath,
+                                                    "splash_front",
+                                                    "material_option",
+                                                    "materials",
+                                                    "{$filename}.png"
+                                                );
+                    //$data['front_image'] = "image1";
+                      
+                }
+            }
+            if (isset($splashBackImagePath))
+            {    
+                if ($splashBackImagePath->isValid())
+                {
+                    $filename = Random::randomize(12);
+                   
+                    $data['back_image'] = FileUploader::upload(
+                                                    $splashBackImagePath,
+                                                    "splash_back",
                                                     'material_option',
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
+                   // $data['back_image'] = "image2";
+                    
                       
                 }
             }
 
+            
 
-
-
+           
 
         }
         catch (S3Exception $e)
         {     
+
+       
+   
             $message = $e->getMessage();
             return Redirect::to('/administration/splash_images')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+          
            $response = null;
 
     
@@ -81,6 +118,7 @@ class SplashImagesController extends Controller
 
             if ($response->success)
             {
+           
                 Log::info('Success');
                 return Redirect::to('administration/splash_images')
                                 ->with('message', $response->message);
