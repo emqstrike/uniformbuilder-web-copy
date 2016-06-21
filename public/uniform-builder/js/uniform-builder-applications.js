@@ -4805,8 +4805,6 @@
 
     }
 
-
-
     ub.funcs.getAccentByName = function (name) {
 
         var _accent = _.find(ub.data.accents.items, {name: name});
@@ -4872,7 +4870,7 @@
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
-            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '52'});
+            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '182'});
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
@@ -5079,6 +5077,13 @@
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
         var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
+
+        if (_applicationType === 'mascot') {
+
+            ub.funcs.activateMascots(_id);
+            return;
+
+        }
 
         if (_id === 2 && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
@@ -5547,6 +5552,20 @@
 
                         }
 
+                        if (_settingsObject.type.indexOf('team_name') !== -1 && _application.type.indexOf('team_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                        }
+
+                        if (_settingsObject.type.indexOf('player_name') !== -1 && _application.type.indexOf('player_name') !== -1) {
+
+                            _application.text = _val;
+                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                        }
+
                     }
                         
                 });
@@ -5572,6 +5591,21 @@
                                 ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
 
                             }
+
+                            if (_settingsObject.type.indexOf('team_name') !== -1 && _application.type.indexOf('team_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                            }
+
+                            if (_settingsObject.type.indexOf('player_name') !== -1 && _application.type.indexOf('player_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                            }
+
 
                         }
                         
