@@ -4896,7 +4896,7 @@
                 _matchingSide.type              = _applicationType;
                 _matchingSide.object_type       = _applicationType;
                 _matchingSide.color_array       = ub.funcs.getDefaultColors();
-                _matchingSide.mascot            = _.find(ub.data.mascots, {id: '52'});
+                _matchingSide.mascot            = _.find(ub.data.mascots, {id: '182'});
 
                 if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
 
