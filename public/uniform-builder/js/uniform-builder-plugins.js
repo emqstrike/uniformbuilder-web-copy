@@ -1345,6 +1345,7 @@
 
                 if (typeof code !== 'undefined') {
                     child.tint = parseInt(code.hex_code, 16);
+                    child.oldTint = child.tint;
 
                 }
 
