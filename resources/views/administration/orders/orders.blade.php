@@ -93,7 +93,22 @@
                                 </button>
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"
-                                   data-order-id-"{{ $order->id }}">Send to Factory</a>
+                                   data-order-id="{{ $order->id }}"
+                                   data-client="{{ $order->client }}"
+                                   data-ship-contact="{{ $order->ship_contact }}"
+                                   data-ship-address="{{ $order->ship_address }}"
+                                   data-ship-city="{{ $order->ship_city }}"
+                                   data-ship-state="{{ $order->ship_state }}"
+                                   data-ship-zip="{{ $order->ship_address }}"
+                                   data-ship-phone="{{ $order->ship_phone }}"
+                                   data-bill-contact="{{ $order->bill_contact }}"
+                                   data-bill-city="{{ $order->bill_city }}"
+                                   data-bill-state="{{ $order->bill_state }}"
+                                   data-bill-zip="{{ $order->bill_zip }}"
+                                   data-bill-email="{{ $order->bill_email }}"
+                                   data-bill-phone="{{ $order->bill_phone }}"
+                                   data-bill-address="{{ $order->bill_address }}"
+                                   >Send to Factory</a>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
