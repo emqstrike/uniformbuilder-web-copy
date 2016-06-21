@@ -52,7 +52,7 @@ class SplashImagesController extends Controller
         $splashFrontImagePath = $request->file('front_image');
         $splashBackImagePath = $request->file('back_image');
 
-        dd($request);
+    
         $data = [
         'name' => $splashName,
         'category' => $splashCategory,
