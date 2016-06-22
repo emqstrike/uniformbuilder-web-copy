@@ -4151,7 +4151,7 @@
 
         $('input.mascot_search').on('change', function (){
 
-            var _term = $(this).val();
+            var _term = $(this).val().toTitleCase();
 
             if (_term !== '') {
                 $('.patternPopupResults').isotope({ filter: function() {
