@@ -171,6 +171,13 @@ $(document).ready(function () {
 
             ub.data[object_name] = obj;
 
+            if (object_name === 'fonts') { 
+
+                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
+                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+
+            }
+
         }
  
         ub.callback = function (obj, object_name) {
