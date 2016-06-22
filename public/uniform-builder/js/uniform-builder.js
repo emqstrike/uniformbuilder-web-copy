@@ -166,6 +166,12 @@ $(document).ready(function () {
         }
 
         /// Load Assets 
+
+        ub.callback_update = function (obj, object_name) { 
+
+            ub.data[object_name] = obj;
+
+        }
  
         ub.callback = function (obj, object_name) {
 

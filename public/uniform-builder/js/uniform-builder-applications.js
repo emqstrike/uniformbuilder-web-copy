@@ -5070,7 +5070,10 @@
             crossDomain: true,
             contentType: 'application/json',
             success: function (response){
+
                 ub.showModal(response.message);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback_update);
+
             }
             
         });
