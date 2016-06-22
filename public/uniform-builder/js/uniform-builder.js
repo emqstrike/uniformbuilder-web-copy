@@ -801,6 +801,7 @@ $(document).ready(function () {
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
+        var _inputFontSize  = '0';
         var _xOffset        = 0;
         var _yOffset        = 0;
         var _xScale         = 0;
@@ -814,6 +815,7 @@ $(document).ready(function () {
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
             _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+            _inputFontSize      = _fontProperties.inputSize;
             _returnFontSize     = _fontProperties.outputSize;
             _xOffset            = _fontProperties.xOffset;
             _yOffset            = _fontProperties.yOffset;
@@ -824,6 +826,7 @@ $(document).ready(function () {
  
         _fontSizeData =  {
 
+            inputSize: _inputFontSize,
             pixelFontSize: _returnFontSize,
             xOffset: _xOffset,
             yOffset: _yOffset,
@@ -4584,6 +4587,7 @@ $(document).ready(function () {
         $("body").dblclick(function() {
 
             if(ub.status.onText) { return; }
+            if($('div#cogPopupContainer').is(':visible')) { return; }
             
             ub.zoom_on();
             $('a.change-view[data-view="zoom"]').addClass('zoom_on');
