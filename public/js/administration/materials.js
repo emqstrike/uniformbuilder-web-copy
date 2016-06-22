@@ -543,7 +543,7 @@ $(document).ready(function() {
         select_append += "</select>";
 
         var fields = [
-                    flip + delete_application,
+                    delete_application,
                     app_id,
                     select_append,
                     def_name,
@@ -563,7 +563,7 @@ $(document).ready(function() {
                     default_font,
                     default_text,
                     default_number,
-                    delete_application
+                    flip
                 ];
 
         $( ".front-applications" ).append(generateTRow(fields));
@@ -1345,23 +1345,6 @@ $(document).ready(function() {
         var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
-            $(document).on('click', '.delete-application', function() {
-                var itemIdx = $(this).data('id');
-                var items = canvasFront.getObjects();
-                var item = items[itemIdx];
-
-                var thisGroup = canvasFront.item(itemIdx);
-
-                canvasFront.setActiveObject(canvasFront.item(itemIdx));
-                activeObject = canvasFront.getActiveObject();
-                canvasFront.remove(activeObject);
-                $(this).parent().parent().remove();
-
-                canvasFront.renderAll();
-                updateCoordinates();
-                application_number--;
-                reIndexRowsDataID();
-            });
 
             var l = 'layer'+c;
             var mascot_offset = 4;
@@ -1507,9 +1490,8 @@ $(document).ready(function() {
 
                 var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
-
                 var fields = [
-                    flip + delete_application,
+                    delete_application,
                     app_id,
                     select_append,
                     def_name,
@@ -1529,7 +1511,7 @@ $(document).ready(function() {
                     default_font,
                     default_text,
                     default_number,
-                    delete_application
+                    flip
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
