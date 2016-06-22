@@ -543,7 +543,7 @@ $(document).ready(function() {
         select_append += "</select>";
 
         var fields = [
-                    flip,
+                    flip + delete_application,
                     app_id,
                     select_append,
                     def_name,
@@ -1491,7 +1491,7 @@ $(document).ready(function() {
                 var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
                 var fields = [
-                    flip,
+                    flip + delete_application,
                     app_id,
                     select_append,
                     def_name,
