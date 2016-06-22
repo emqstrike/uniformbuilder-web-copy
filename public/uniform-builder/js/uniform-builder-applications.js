@@ -4151,13 +4151,13 @@
 
         $('input.mascot_search').on('change', function (){
 
-            var _term = $(this).val().toTitleCase();
+            var _term = $(this).val().toLowerCase();
 
             if (_term !== '') {
                 $('.patternPopupResults').isotope({ filter: function() {
 
                     var name = $(this).find('.name').text();
-                    return name.indexOf(_term) > -1;
+                    return name.toLowerCase().indexOf(_term) > -1;
 
                     } 
                 });
