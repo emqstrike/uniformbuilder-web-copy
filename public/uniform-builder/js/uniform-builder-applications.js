@@ -4081,6 +4081,28 @@
 
     }
 
+    ub.funcs.substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substringRegex;
+
+        // an array that will be populated with substring matches
+        matches = [];
+
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+
+        cb(matches);
+      };
+    };
+
     ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
@@ -4092,8 +4114,10 @@
         var data = {
             label: 'Choose Mascot: ',
             mascots: _.filter(ub.data.mascots, {active: "1"}),
+            categories: _.sortBy(_.uniq(_.pluck(ub.data.mascots, 'category'))),
             paddingTop: paddingTop,
         };
+
 
         var template = $('#m-mascot-popup').html();
         var markup = Mustache.render(template, data);
@@ -4102,6 +4126,62 @@
 
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
+
+        /// Type Ahead
+
+        // var _mascotNames = _.pluck(ub.data.mascots, "name");
+
+        // $('input.mascot_search').typeahead({
+        //   hint: true,
+        //   highlight: true,
+        //   minLength: 1
+        // },
+        // {
+        //   name: 'Mascots',
+        //   source: ub.funcs.substringMatcher(_mascotNames),
+        // });
+
+        $('.patternPopupResults').isotope({
+          // options
+          itemSelector: '.item',
+          layoutMode: 'fitRows'
+        });
+
+        $('.patternPopupResults').isotope({ filter: '.all' });
+
+        $('input.mascot_search').on('change', function (){
+
+            var _term = $(this).val();
+
+            if (_term !== '') {
+                $('.patternPopupResults').isotope({ filter: function() {
+
+                    var name = $(this).find('.name').text();
+                    return name.indexOf(_term) > -1;
+
+                    } 
+                });
+            } else {
+               
+                $('.patternPopupResults').isotope({ filter: '.all' });
+
+            }
+
+        });
+
+        $('span.category_item').on('click', function (){
+
+            var _dataCategory = $(this).data('category');
+            console.log(_dataCategory);
+            
+            $('.patternPopupResults').isotope({ filter: "." + _dataCategory });
+
+            $('span.category_item').removeClass('active_category');
+            $(this).addClass('active_category');
+
+        });
+
+        /// End Type Ahead
 
           $('div.patternPopupResults > div.item').hover(
 
@@ -5975,6 +6055,8 @@
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
+
+            if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
 

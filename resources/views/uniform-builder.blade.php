@@ -164,6 +164,7 @@
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/typeahead/typeahead.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/isotope/isotope.pkgd.min.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
