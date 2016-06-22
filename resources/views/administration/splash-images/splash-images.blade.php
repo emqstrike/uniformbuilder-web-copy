@@ -113,8 +113,8 @@ $(document).ready(function(){
     $('.enable-splash-image').bind('click', function(){
     console.log("enable");
         var id = $(this).data('splash-image-id');
-         //var url = "//" + api_host + "/api/splash-image/enable/";
-        var url = "//localhost:8888/api/splash_image/enable";
+        var url = "//" + api_host + "/api/splash-image/enable/";
+        //var url = "//localhost:8888/api/splash_image/enable";
         console.log(JSON.stringify({id: id}));
         $.ajax({
             url: url,
@@ -148,8 +148,8 @@ $(document).ready(function(){
         var id = $(this).data('splash-image-id');
 
         console.log(id );
-        //var url = "//" + api_host + "/api/splash-image/disable/";
-        var url = "//localhost:8888/api/splash_image/disable";
+        var url = "//" + api_host + "/api/splash-image/disable/";
+        //var url = "//localhost:8888/api/splash_image/disable";
         $.ajax({
             url: url,
             type: "POST",
@@ -177,8 +177,8 @@ $(document).ready(function(){
     $(document).on('click', '.confirmButtonYes', function(){
       
         var id = $(this).data('splash-image-id');
-        var url = "http://localhost:8888/api/splash_image/delete";
-        //var url = "//" + api_host + "/api/splash_image/delete/";
+        //var url = "http://localhost:8888/api/splash_image/delete";
+        var url = "//" + api_host + "/api/splash_image/delete/";
                    
         $.ajax({
             url: url,
