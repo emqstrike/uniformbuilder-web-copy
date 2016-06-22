@@ -4819,6 +4819,13 @@
 
     }
 
+    ub.funcs.getFontByID = function (id) {
+
+        var _font = _.find(ub.data.fonts, {id: id});
+        return _font;
+
+    }
+
     ub.funcs.getSampleAccent = function () {
 
         var _accent = ub.funcs.getAccentByName('Outlined');
@@ -5046,6 +5053,73 @@
             ub.current_material.settings.applications[_id] = _settingsObject;          
 
         }
+
+    }
+
+    ub.funcs.postData = function (data, url) {
+
+        var _postData   = data;
+        var _url        = url;
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function (response){
+                ub.showModal(response.message);
+            }
+            
+        });
+
+    };
+
+    ub.funcs.saveFontData = function (fontID, size) {
+
+        var _newFontSizeTable       = [];
+        
+        var _fontID                 = fontID;
+        var _fontSize               = size;
+        var _fontObject             = ub.funcs.getFontByID(_fontID);
+        var _fontSizeTable          = JSON.parse(_fontObject.font_size_table.slice(1,-1));
+        var _fontSizeData           = ub.data.getPixelFontSize(_fontID, _fontSize);
+
+        var _inputSize              = $('input[name="font-size"]').val();
+        var _offsetX                = $('input[name="offsetX"]').val();
+        var _offsetY                = $('input[name="offsetY"]').val();
+        var _scaleX                 = $('input[name="scaleX"]').val();
+        var _scaleY                 = $('input[name="scaleY"]').val();
+
+        _fontSizeData.outputSize    = _inputSize;
+        _fontSizeData.xOffset       = _offsetX;
+        _fontSizeData.yOffset       = _offsetY;
+        _fontSizeData.xScale        = _scaleX;
+        _fontSizeData.yScale        = _scaleY;
+
+        _.each (_fontSizeTable, function (fontSizeData){
+
+            if (fontSizeData.inputSize === _fontSizeData.inputSize) {
+
+                _newFontSizeTable.push(_fontSizeData);    
+                return;
+
+            }
+            
+            _newFontSizeTable.push(fontSizeData);
+            
+        });
+
+        var _url = 'http://api-dev.qstrike.com/api/font/dupdate'
+        var _postData = {
+            name: _fontObject.name,
+            id: fontID,
+            font_size_table: _newFontSizeTable,
+        }
+
+        ub.funcs.postData(_postData, _url);
 
     }
 
@@ -5617,6 +5691,7 @@
 
             $('span.cog').on('click', function () {
 
+                var _fontID         = _settingsObject.font_obj.id;
                 var _size           = _settingsObject.font_size;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
@@ -5638,7 +5713,7 @@
                 _cogBuilder += '<div id="cogPopupContainer">';
                 _cogBuilder +=       '<div id="cogPopup">';
 
-                _cogBuilder +=           '<div class="popupHeader">GA Font Tool</div>';
+                _cogBuilder +=           '<div class="popupHeader">GA Font Tool <i class="fa fa-floppy-o save-font-data" aria-hidden="true"></i></div>';
                 
                 _cogBuilder +=           '<div class="popup-row-top">';
                 _cogBuilder +=               '<label>Inch: </label>';
@@ -5699,8 +5774,18 @@
 
                 $('body').append(_cogBuilder);
 
-
                 /// Events
+
+                    $('i.save-font-data').on('click', function (evt){
+
+                        if (evt.altKey) {
+                            
+                            ub.funcs.saveFontData(_fontID, _size);
+
+                        }
+
+                    });
+
                     $('span.showFontGuide').on('click', function () {
 
                         var _status = $(this).data('status');

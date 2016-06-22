@@ -641,6 +641,12 @@
 
                 Mascots
 
+                <div class="mascot_search">
+
+                    <input class="search" type="text" />
+
+                </div>
+
                 <div class="close-popup">
                         
                     <i class="fa fa-times" aria-hidden="true"></i>
