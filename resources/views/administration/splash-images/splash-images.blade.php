@@ -10,7 +10,7 @@
       table.table.table-bordered.splash_images td:nth-child(1) {
         width: 15%;
     }
-</style>>
+</style>
 <script src="">
     
 
@@ -24,44 +24,17 @@
                     <h1>                       
                         Splash Image
                     </h1>
-                      <form method="POST" action="/administration/splash_image/add" enctype="multipart/form-data">
-                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Name : </label>
-                                      <input type="text" class="form-control" name="name" >
-                                </fieldset>
-                                <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Category : </label>                               
-                                    <select class="form-control selectCategory" name="category" >
-                                        @foreach ($categories as $category)
-
-                                            <option value="{{$category -> name}}">{{$category -> name}}</option>
-                                           
-
-                                        @endforeach    
-                                    </select>                                       
-                                </fieldset>
-
-                                <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Show Time : </label>
-                                      <input type="date" class="form-control" name="show_time" >
-                                </fieldset>
-                               <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Front Image : </label>
-                                      <input type="file" class="form-control" name="front_image" accept="image/*">
-                                </fieldset> 
-                                <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Back Image : </label>
-                                      <input type="file" class="form-control" name="back_image" accept="image/*">
-                                </fieldset> 
-                                <fieldset class="form-group">
-                                <button class="btn btn-dafault">Add Flash Image</button>
-                                </fieldset> 
-                            </form>
+                     <small>
+                            <a href="/administration/splash_image/add" class='btn btn-xs btn-success'>
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                Add  Splash Image
+                            </a>
+                    </small>
+                      
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered splash_images'>
+                    <table data-toggle='table' class='table table-bordered splash-images'>
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -75,13 +48,26 @@
                         </thead>
                         <tbody>
                             @forelse ($splash_images as $key => $splash_image)
-                                <tr>
+                                <tr class='splash-image-{{ $splash_image -> id }} '>
                                     <td>{{ $splash_image -> name  }}</td>
                                     <td>{{ $splash_image -> category  }}</td>
                                     <td>{{ $splash_image -> show_time  }}</td>
-                                    <td><img src="{{ $splash_image -> front_image  }}" height="200" width="200"></td>
-                                    <td><img src="{{ $splash_image -> back_image  }}" height="200" width="200"></td>
                                     <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a href="#" class="btn btn-default btn-xs disable-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? : 'disabled="disabled"' }}>
+                                            <i class="glyphicon glyphicon-eye-close"></i>
+                                              Disable
+                                        </a>
+                                        <a href="#" class="btn btn-info btn-xs enable-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? 'disabled="disabled"' : '' }}>
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                              Enable
+                                        </a>   
+                                        <a href="#" class="btn btn-danger pull-right btn-xs delete-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            Remove
+                                        </a>
+                                    </td>
                                 </tr>
                             
                             @empty
@@ -109,7 +95,116 @@
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript">
-  
+$(document).ready(function(){
+    $(document).on('click', '.delete-splash-image', function(){
+      $.confirm({
+      title: 'Accent',
+      content: 'Are you want to delete splash-image?',
+      confirmButton: 'YES',
+      cancelButton: 'NO',
+      confirmButtonClass: 'confirmButtonYes btn-danger',
+      cancelButtonClass: 'confirmButtonNo btn-success',
+      });
+      $(".confirmButtonYes").attr('data-splash-image-id',$(this).data('splash-image-id'));
+     
+
+     
+    });
+    $('.enable-splash-image').bind('click', function(){
+    console.log("enable");
+        var id = $(this).data('splash-image-id');
+        var url = "//" + api_host + "/api/splash-image/enable/";
+        //var url = "//localhost:8888/api/splash_image/enable";
+        console.log(JSON.stringify({id: id}));
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.splash-image-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .disable-splash-image').removeAttr('disabled');
+                    $(elem + ' .enable-splash-image').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }else{
+                    console.log("failed");
+                }
+
+            }
+        });
+    });
+
+    $('.disable-splash-image').bind('click', function(){
+        var id = $(this).data('splash-image-id');
+
+        console.log(id );
+        var url = "//" + api_host + "/api/splash-image/disable/";
+        //var url = "//localhost:8888/api/splash_image/disable";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.splash-image-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .enable-splash-image').removeAttr('disabled');
+                    $(elem + ' .disable-splash-image').attr('disabled', 'disabled');
+                    $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+    $(document).on('click', '.confirmButtonYes', function(){
+      
+        var id = $(this).data('splash-image-id');
+        //var url = "http://localhost:8888/api/splash_image/delete";
+        var url = "//" + api_host + "/api/splash_image/delete/";
+                   
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    // $('#confirmation-modal').modal('hide');
+                    $('.font-' + id).fadeOut();
+                     $( ".splash-images" ).load( location+" .splash-images" );  
+
+                }
+            }
+        });
+     });
+  });
 </script>
 <!-- <script type="text/javascript" src="/js/administration/accents.js"></script> -->
 
