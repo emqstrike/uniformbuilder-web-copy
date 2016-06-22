@@ -32,17 +32,28 @@ class SplashImagesController extends Controller
     public function index()
     {
         $splash_images = $this->client->getAllSplashImages();
-        $categories = $this->uniformCategoryClient->getUniformCategories();
+     
         
        
         return view('administration.splash-images.splash-images', [
-            'splash_images' => $splash_images,
-            'categories' => $categories
+            'splash_images' => $splash_images
+           
+        ]);
+
+    }
+        
+    public function create()
+    {
+        $categories = $this->uniformCategoryClient->getUniformCategories();
+   
+       
+         return view('administration.splash-images.splash-image-create', [
+             'categories' => $categories
         ]);
 
     }
 
-      public function store(Request $request){
+    public function store(Request $request){
 
           
     
@@ -82,7 +93,7 @@ class SplashImagesController extends Controller
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                    //$data['front_image'] = "image1";
+                    $data['front_image'] = "image1";
                       
                 }
             }
@@ -99,7 +110,7 @@ class SplashImagesController extends Controller
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                   // $data['back_image'] = "image2";
+                    $data['back_image'] = "image2";
                     
                       
                 }
