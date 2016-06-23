@@ -105,7 +105,8 @@
 
      
     });
-    $('.enable-accent').on('click', function(){
+     $(document).on('click', '.enable-accent', function(){
+
       console.log("enable-accent");
         var id = $(this).data('accent-id');
          var url = "//" + api_host + "/api/accent/enable/";
@@ -135,7 +136,8 @@
         });
     });
 
-    $('.disable-accent').on('click', function(){
+    $(document).on('click', '.disable-accent', function(){
+   
         var id = $(this).data('accent-id');
         var url = "//" + api_host + "/api/accent/disable/";
         //var url = "//localhost:8888/api/accent/disable/";
