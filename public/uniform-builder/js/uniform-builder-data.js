@@ -286,7 +286,7 @@ $(document).ready(function() {
                     name: 'player_name',
                     sizes:  [
                                 {
-                                    size: 2,
+                                    size: 2.5,
                                 },
                             ],
                     factory: 'BLB',
