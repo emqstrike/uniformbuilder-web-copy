@@ -5891,7 +5891,7 @@
                 
                     $('span.cancelButton').on('click', function () {
 
-                        ub.hideFontGuides();
+                        //ub.hideFontGuides();
                         $('#cogPopupContainer').remove();
 
 

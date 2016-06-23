@@ -2078,6 +2078,14 @@ div#main-picker-container {
 
         }
 
+        span.slink-search {
+
+            position: absolute;
+            right: 0px;
+            margin-top: -3px;
+
+        }
+
     }
 
     div.uniform_details {
@@ -2147,17 +2155,15 @@ div#main-picker-container {
 input#search_field {
 
     float: right;
-    font-size: 1em;
-
-    -webkit-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+    font-size: 0.7em;
+    border: 1px solid white;
+    border-bottom: 1px dashed @forecolor;
 
 }
 
 span.twitter-typeahead { 
     float: right;
-    margin-right: 0px;
+    margin-right: 10px;
     font-size: 1em;
 }
 
@@ -2180,10 +2186,10 @@ div.header-container.main {
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 396px;
+  width: 370px;
   height: 30px;
   padding: 8px 12px;
-  font-size: 1em;
+  font-size: 0.7em;
   line-height: 30px;
   border: 1px solid #ccc;
   outline: none;
@@ -2198,9 +2204,7 @@ div.header-container.main {
 }
 
 .tt-query {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
 }
 
 .tt-hint {
@@ -2208,7 +2212,7 @@ div.header-container.main {
 }
 
 .tt-menu {
-  width: 500px;
+  width: 370px;
   margin: 12px 0;
   padding: 8px;
   background-color: #fff;
@@ -2217,9 +2221,7 @@ div.header-container.main {
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
 }
 
 .tt-suggestion {

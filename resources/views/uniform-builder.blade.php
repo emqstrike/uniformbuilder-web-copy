@@ -87,8 +87,6 @@
         <div class='back-link' data-destination="gender"></div>
         <h2 class='picker-header'>CHOOSE A GENDER</h2>
 
-        <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
-
     </div>
 
     <div id="main-picker-container">
@@ -99,6 +97,13 @@
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
+
+            <span class="slink-search">
+                
+                <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
+
+            </span>
+
         </div>
 
         <div id="main-picker-scroller">
