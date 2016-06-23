@@ -1676,9 +1676,6 @@
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    console.log('xOffset: ' + _xOffset);
-                    console.log('yOffset: ' + _yOffset);
-
                     point.position.x += _xOffset;
                     point.position.y += _yOffset;
 
@@ -4178,7 +4175,6 @@
         $('span.category_item').on('click', function (){
 
             var _dataCategory = $(this).data('category');
-            console.log(_dataCategory);
             
             $('.patternPopupResults').isotope({ filter: "." + _dataCategory });
 

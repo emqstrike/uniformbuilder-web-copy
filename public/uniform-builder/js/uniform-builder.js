@@ -830,7 +830,7 @@ $(document).ready(function () {
 
         if(_fontSizeTable === null) {
 
-            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
 
         } else {
             
@@ -891,6 +891,8 @@ $(document).ready(function () {
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
+
+
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
 
                     _.each(_accentObj.layers, function (layer, index) {
@@ -917,7 +919,7 @@ $(document).ready(function () {
                         code: _application.id,
                         color_array: _outputColorArray,
                         font_obj: _fontObj,
-                        font_size: parseInt(_fontSizesArray[0]),
+                        font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         pixelFontSize: _fontSizeData.pixelFontSize,
