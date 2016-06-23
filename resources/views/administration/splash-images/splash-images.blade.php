@@ -115,7 +115,7 @@ $(document).ready(function(){
   
     console.log("enable");
         var id = $(this).data('splash-image-id');
-         var url = "//" + api_host + "/api/splash-image/enable/";
+         var url = "//" + api_host + "/api/splash_image/enable/";
         //var url = "//localhost:8888/api/splash_image/enable";
         console.log(JSON.stringify({id: id}));
         $.ajax({
@@ -150,7 +150,7 @@ $(document).ready(function(){
         var id = $(this).data('splash-image-id');
 
         console.log(id );
-        var url = "//" + api_host + "/api/splash-image/disable/";
+        var url = "//" + api_host + "/api/splash_image/disable/";
         //var url = "//localhost:8888/api/splash_image/disable";
         $.ajax({
             url: url,
