@@ -647,7 +647,7 @@
 
                 <div class="mascot_search">
 
-                    <input class="mascot_search" type="text" />
+                    <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
 
                 </div>
 

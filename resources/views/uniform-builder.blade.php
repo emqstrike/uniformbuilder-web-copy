@@ -100,7 +100,8 @@
 
             <span class="slink-search">
                 
-                <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
+                <i class="fa fa-search fa-search-icon" aria-hidden="true"></i>
+<input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
             </span>
 

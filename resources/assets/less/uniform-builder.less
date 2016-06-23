@@ -13,6 +13,8 @@
 @customizer_forecolor: #808080;
 @customizer_main_area: #808080;
 
+@light-border: #f2f2f2;
+
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
 @main_forecolor: @text_color;
@@ -2154,10 +2156,29 @@ div#main-picker-container {
 
 input#search_field {
 
+    color: @light-border;
     float: right;
     font-size: 0.7em;
     border: 1px solid white;
-    border-bottom: 1px dashed @forecolor;
+    border-bottom: 1px dashed @light-border;
+
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+
+}
+
+input#search_field:focus {
+
+    color: black;
+
+    border-bottom: 1px dashed black;
+
+}
+
+.fa-search-icon {
+
+    font-size: 0.7em;
 
 }
 
