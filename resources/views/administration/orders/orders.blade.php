@@ -2,13 +2,9 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-<?php 
-// header("Access-Control-Allow-Origin: *");
-?>
 @endsection
 
 @section('content')
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
