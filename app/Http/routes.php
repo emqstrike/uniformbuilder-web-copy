@@ -210,6 +210,11 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
     Route::get('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@create']);
     
+    Route::get('splash_image/edit/{id}', 'Administration\SplashImagesController@editSplashImageForm');
+
+    Route::post('splash_image/update', 'Administration\SplashImagesController@store');
+  
+    
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);

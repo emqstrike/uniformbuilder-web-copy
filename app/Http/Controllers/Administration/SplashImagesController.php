@@ -56,13 +56,22 @@ class SplashImagesController extends Controller
     public function store(Request $request){
 
           
-    
+
         $splashName = $request->input('name');
         $splashCategory= $request->input('category');
         $splashShowTime = $request->input('show_time');
         $splashFrontImagePath = $request->file('front_image');
         $splashBackImagePath = $request->file('back_image');
 
+
+
+
+         if (!empty($request->input('splash_image_id')))
+
+        {
+
+            $splashId = $request->input('splash_image_id');
+        }
     
         $data = [
         'name' => $splashName,
@@ -97,6 +106,7 @@ class SplashImagesController extends Controller
                       
                 }
             }
+
             if (isset($splashBackImagePath))
             {    
                 if ($splashBackImagePath->isValid())
@@ -110,7 +120,7 @@ class SplashImagesController extends Controller
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                    // $data['back_image'] = "image2";
+                     // $data['back_image'] = "image2";
                     
                       
                 }
@@ -130,14 +140,42 @@ class SplashImagesController extends Controller
             return Redirect::to('/administration/splash_images')
                             ->with('message', 'There was a problem uploading your files');
         }
-          
+    
            $response = null;
 
-    
-            Log::info('Attempts to create a new splashImage ' . json_encode($data));
-       
-            $response = $this->client->createSplashImage($data);
+            if (!empty($splashId))
+            {
 
+
+                
+     
+                if(empty($splashFrontImagePath)){
+                    $splashFrontImagePath2 = $request->input('front_image2');
+                    $data['front_image'] = $splashFrontImagePath2;
+                }
+                if(empty($splashBackImagePath)){
+                    $splashBackImagePath2 = $request->input('back_image2');
+                    $data['back_image'] = $splashBackImagePath2;
+                }
+
+                Log::info('Attempts to update splash image#' . $splashId);
+
+                $data['id'] = $splashId;
+           
+                $response = $this->client->updateSplashImage($data);
+                return Redirect::to('administration/splash_image/edit/' . $data['id'])
+                                ->with('message', $response->message);
+            }
+            else
+            {
+                Log::info('Attempts to create a new splashImage ' . json_encode($data));
+       
+                $response = $this->client->createSplashImage($data);
+
+            }
+
+    
+            
             if ($response->success)
             {
            
@@ -149,11 +187,27 @@ class SplashImagesController extends Controller
             {
                 Log::info('Failed');
                 return Redirect::to('administration/splash_images')
-                                ->with('message', 'There was a problem saving the accent');
+                                ->with('message', 'There was a problem saving the Splash Image');
             }
             
 
 
+
+    }
+    public function editSplashImageForm($id)
+    {
+
+        $categories = $this->uniformCategoryClient->getUniformCategories();
+
+        $splash_image= $this->client->getSplashImage($id);
+
+
+        return view('administration.splash-images.splash-image-edit', [
+         'splash_image' => $splash_image,
+         'categories' => $categories
+        ]);
+
+        
 
     }
 

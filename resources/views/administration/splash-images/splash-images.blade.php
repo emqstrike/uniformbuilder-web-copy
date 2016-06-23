@@ -52,8 +52,8 @@
                                     <td>{{ $splash_image -> name  }}</td>
                                     <td>{{ $splash_image -> category  }}</td>
                                     <td>{{ $splash_image -> show_time  }}</td>
-                                    <td><img src="{{ $splash_image -> front_image  }}"></td>
-                                    <td><img src="{{ $splash_image -> back_image  }}"></td>
+                                    <td><img src="{{ $splash_image -> front_image  }}" height="100" width="100"></td>
+                                    <td><img src="{{ $splash_image -> back_image  }}" height="100" width="100"></td>
                                     <td>
                                         <a href="#" class="btn btn-default btn-xs disable-splash-image hello" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? : 'disabled="disabled"' }}>
                                             <i class="glyphicon glyphicon-eye-close"></i>
@@ -63,6 +63,10 @@
                                             <i class="glyphicon glyphicon-eye-open"></i>
                                               Enable
                                         </a>   
+                                        <a href="/administration/splash_image/edit/{{ $splash_image->id }}" class="btn btn-primary btn-xs edit-splash_image" data-splash_image-id="{{ $splash_image->id }}" role="button">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                            Edit
+                                        </a>
                                         <a href="#" class="btn btn-danger pull-right btn-xs delete-splash-image " data-splash-image-id="{{ $splash_image->id }}" role="button">
                                             <i class="glyphicon glyphicon-trash"></i>
                                             Remove
@@ -210,6 +214,5 @@ $(document).ready(function(){
      });
   });
 </script>
-<!-- <script type="text/javascript" src="/js/administration/accents.js"></script> -->
 
 @endsection
