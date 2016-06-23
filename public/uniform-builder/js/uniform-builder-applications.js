@@ -4114,10 +4114,9 @@
         var data = {
             label: 'Choose Mascot: ',
             mascots: _.filter(ub.data.mascots, {active: "1"}),
-            categories: _.sortBy(_.uniq(_.pluck(ub.data.mascots, 'category'))),
+            categories: _.sortBy(ub.data.mascotsCategories, 'name'),
             paddingTop: paddingTop,
         };
-
 
         var template = $('#m-mascot-popup').html();
         var markup = Mustache.render(template, data);
