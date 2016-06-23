@@ -155,11 +155,19 @@ $(document).ready(function () {
 
         };
 
+
+        ub.data.mascotsCategories = {};
+
         ub.funcs.transformMascots = function () {
 
             _.each(ub.data.mascots, function (mascot) {
 
                 mascot.layers_properties = JSON.parse(mascot.layers_properties);
+
+                ub.data.mascotsCategories[mascot.category] = {
+                    name: mascot.category,
+                    id: mascot.mascot_category_id,
+                };
 
             });
 
@@ -4483,7 +4491,6 @@ $(document).ready(function () {
     };
 
     $('input#search_field').on('keypress', function (evt) {
-
 
         if (evt.which !== 13) { return; }
 
