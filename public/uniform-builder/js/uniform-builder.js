@@ -4430,10 +4430,16 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initSportsPicker = function (sport) {
+    ub.funcs.fadeOutBackgrounds = function () {
 
         $('div#main-picker-container').css('background-image','none');
         $('body').css('background-image','none');
+    
+    };
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        ub.funcs.fadeOutBackgrounds();
 
         $('body').addClass('pickers-enabled');
 
@@ -4463,6 +4469,8 @@ $(document).ready(function () {
 
     ub.funcs.initSearchPicker = function (term, items) {
 
+        ub.funcs.fadeOutBackgrounds();
+
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
@@ -4474,7 +4482,10 @@ $(document).ready(function () {
 
     };
 
-    $('input#search_field').on('input', function () {
+    $('input#search_field').on('keypress', function (evt) {
+
+
+        if (evt.which !== 13) { return; }
 
         var _input = $(this).val();
 
