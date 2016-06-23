@@ -1675,6 +1675,10 @@
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
+
+                    console.log('xOffset: ' + _xOffset);
+                    console.log('yOffset: ' + _yOffset);
+
                     point.position.x += _xOffset;
                     point.position.y += _yOffset;
 
@@ -1682,12 +1686,15 @@
 
                 if (typeof args.overrideOffsetX !== 'undefined') {
 
+                    point.position.x -= _xOffset;
+
                     point.position.x += parseFloat(args.overrideOffsetX);
 
                 }
 
                 if (typeof args.overrideOffsetY !== 'undefined') {
 
+                    point.position.y -= _yOffset;
                     point.position.y += parseFloat(args.overrideOffsetY);
 
                 }
