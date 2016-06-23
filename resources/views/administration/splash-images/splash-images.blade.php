@@ -52,8 +52,8 @@
                                     <td>{{ $splash_image -> name  }}</td>
                                     <td>{{ $splash_image -> category  }}</td>
                                     <td>{{ $splash_image -> show_time  }}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><img src="{{ $splash_image -> front_image  }}"></td>
+                                    <td><img src="{{ $splash_image -> back_image  }}"></td>
                                     <td>
                                         <a href="#" class="btn btn-default btn-xs disable-splash-image hello" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? : 'disabled="disabled"' }}>
                                             <i class="glyphicon glyphicon-eye-close"></i>
