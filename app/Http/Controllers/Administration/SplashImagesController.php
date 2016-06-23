@@ -93,7 +93,7 @@ class SplashImagesController extends Controller
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                    $data['front_image'] = "image1";
+                    // $data['front_image'] = "image1";
                       
                 }
             }
@@ -110,7 +110,7 @@ class SplashImagesController extends Controller
                                                     "materials",
                                                     "{$filename}.png"
                                                 );
-                    $data['back_image'] = "image2";
+                    // $data['back_image'] = "image2";
                     
                       
                 }
