@@ -55,15 +55,15 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <a href="#" class="btn btn-default btn-xs disable-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? : 'disabled="disabled"' }}>
+                                        <a href="#" class="btn btn-default btn-xs disable-splash-image hello" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? : 'disabled="disabled"' }}>
                                             <i class="glyphicon glyphicon-eye-close"></i>
                                               Disable
                                         </a>
-                                        <a href="#" class="btn btn-info btn-xs enable-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? 'disabled="disabled"' : '' }}>
+                                        <a href="#" class="btn btn-info btn-xs enable-splash-image hello" data-splash-image-id="{{ $splash_image->id }}" role="button" {{ ($splash_image -> active) ? 'disabled="disabled"' : '' }}>
                                             <i class="glyphicon glyphicon-eye-open"></i>
                                               Enable
                                         </a>   
-                                        <a href="#" class="btn btn-danger pull-right btn-xs delete-splash-image" data-splash-image-id="{{ $splash_image->id }}" role="button">
+                                        <a href="#" class="btn btn-danger pull-right btn-xs delete-splash-image " data-splash-image-id="{{ $splash_image->id }}" role="button">
                                             <i class="glyphicon glyphicon-trash"></i>
                                             Remove
                                         </a>
@@ -94,7 +94,8 @@
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript">
+
+<script type="text/javascript" class="loadScript">
 $(document).ready(function(){
     $(document).on('click', '.delete-splash-image', function(){
       $.confirm({
@@ -110,10 +111,11 @@ $(document).ready(function(){
 
      
     });
-    $('.enable-splash-image').bind('click', function(){
+    $(document).on('click', '.enable-splash-image', function(){
+  
     console.log("enable");
         var id = $(this).data('splash-image-id');
-        var url = "//" + api_host + "/api/splash-image/enable/";
+         var url = "//" + api_host + "/api/splash-image/enable/";
         //var url = "//localhost:8888/api/splash_image/enable";
         console.log(JSON.stringify({id: id}));
         $.ajax({
@@ -143,8 +145,8 @@ $(document).ready(function(){
             }
         });
     });
+    $(document).on('click', '.disable-splash-image', function(){
 
-    $('.disable-splash-image').bind('click', function(){
         var id = $(this).data('splash-image-id');
 
         console.log(id );
@@ -174,10 +176,11 @@ $(document).ready(function(){
             }
         });
     });
+
     $(document).on('click', '.confirmButtonYes', function(){
       
         var id = $(this).data('splash-image-id');
-        //var url = "http://localhost:8888/api/splash_image/delete";
+       // var url = "http://localhost:8888/api/splash_image/delete";
         var url = "//" + api_host + "/api/splash_image/delete/";
                    
         $.ajax({
@@ -197,8 +200,9 @@ $(document).ready(function(){
                         hide: true
                     });
                     // $('#confirmation-modal').modal('hide');
-                    $('.font-' + id).fadeOut();
-                     $( ".splash-images" ).load( location+" .splash-images" );  
+                    $('.font-' + id).fadeOut();   
+
+                    $(".splash-images").load(location+" .splash-images");
 
                 }
             }
