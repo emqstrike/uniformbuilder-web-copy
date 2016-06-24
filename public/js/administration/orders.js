@@ -113,6 +113,31 @@ $('.view-builder-customization').on('click', function(){
     console.dir(json);
 });
 
+$('.update-from-factory').on('click', function(e){
+    var data = {
+        "factory_order_id": '2016-34I',
+        "status" : "pending"
+    };
+
+    var url = '//api-dev.qstrike.com/api/order/updateStatusFromFactory';
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert('Worked!');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error Code Here
+        }
+    });
+});
+
+$('.factory-oid').on('click', function(e){
+    e.preventDefault();
+});
+
 $('.send-to-factory').on('click', function(e){
 
     e.preventDefault();
@@ -194,7 +219,14 @@ $('.send-to-factory').on('click', function(e){
             "Name" : "Brown",
             "LastNameApplication": "Directly to Jersey",
             "Sample": 0     
-        }];
+            },{
+            "Size" : "XS",
+            "Number" : "11",
+            "Name" : "Del Rosario",
+            "LastNameApplication": "Directly to Jersey",
+            "Sample": 0     
+            }
+        ];
 
 
 
@@ -213,22 +245,22 @@ $('.send-to-factory').on('click', function(e){
 
 
     strResult = JSON.stringify(orderEntire);
-console.log(strResult);
-    // $.ajax({
-    //     url: url,
-    //     type: "POST",
-    //     data: JSON.stringify(orderEntire),
-    //     contentType: 'application/json;',
-    //     success: function (data) {
-    //         alert('worked');
-    //         var factory_order_id = data[0].OrderID;
-    //         updateFOID(order_id, factory_order_id);
-    //         // console.log(data[0].OrderID);
-    //     },
-    //     error: function (xhr, ajaxOptions, thrownError) {
-    //         //Error Code Here
-    //     }
-    // });
+// console.log(strResult);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(orderEntire),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert('worked');
+            var factory_order_id = data[0].OrderID;
+            updateFOID(order_id, factory_order_id);
+            // console.log(data[0].OrderID);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error Code Here
+        }
+    });
 
 });
 
@@ -244,6 +276,7 @@ function updateFOID(id, factory_order_id){
         success: function(response){
             if (response.success) {
                 console.log("Success! Factory ID is updated.");
+                document.location.reload();
             }
         }
     });
