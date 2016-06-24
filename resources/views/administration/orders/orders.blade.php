@@ -6,6 +6,7 @@
 
 @section('content')
 <section class="content">
+<!-- <a href="#" class="btn btn-success update-from-factory">TEST</a> -->
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -22,6 +23,7 @@
                             <th>Lower Uniform</th>
                             <th>Status</th>
                             <th>Actions</th>
+                            <th>FOID</th>
                             <th>JSON</th>
                         </tr>
                     </thead>
@@ -72,6 +74,7 @@
                             </td>
                             <td>
                                 <button class='btn btn-default btn-xs btn-primary view-oder-details'
+                                    style="color: #fff;"
                                     data-order-id="{{ $order->id }}"
                                     data-client="{{ $order->client }}"
                                     data-email="{{ $order->email }}"
@@ -109,15 +112,16 @@
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
                                    >Send to Edit</a>
-                                @else
-                                    <a href="#" class="btn btn-success">{{ $order->factory_order_id }}</a>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $order->factory_order_id }}
+                            </td>
+                            <td>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
-                            </td>
-                            <td>
                                 <button class='btn btn-warning btn-xs view-builder-customization'
                                     data-builder-customization="{{ $order->builder_customizations }}">
                                     View JSON
