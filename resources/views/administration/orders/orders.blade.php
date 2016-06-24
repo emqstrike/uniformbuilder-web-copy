@@ -90,6 +90,7 @@
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                                     View Order Details
                                 </button>
+                                @if (!$order->factory_order_id)
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"
                                    data-order-id="{{ $order->id }}"
@@ -107,7 +108,10 @@
                                    data-bill-email="{{ $order->bill_email }}"
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
-                                   >Send to Factory</a>
+                                   >Send to Edit</a>
+                                @else
+                                    <a href="#" class="btn btn-success">{{ $order->factory_order_id }}</a>
+                                @endif
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
