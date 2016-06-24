@@ -119,7 +119,7 @@ $('.send-to-factory').on('click', function(e){
 
     // PostOrder();
 
-    data = $(this).data('order-id');
+    order_id = $(this).data('order-id');
     client = $(this).data('client');
 
     ship_contact = $(this).data('ship-contact');
@@ -173,7 +173,7 @@ $('.send-to-factory').on('click', function(e){
 
         var orderQuestionValue = [{
             "QuestionID": 16,
-            "Value": "Dazzle"
+            "Value": "Dazzle (DA)"
         }];
 
         var orderQuestions = {
@@ -213,137 +213,40 @@ $('.send-to-factory').on('click', function(e){
 
 
     strResult = JSON.stringify(orderEntire);
-
-    // console.log(orderEntire);
-    // $("#divResult").html(strResult);
-
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('worked');
-            console.log(data);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
-
-    // // # -----------------------------------------------
-
-    // var url = 'http://qx.azurewebsites.net/api/Order';
-
-    // var order = {
-    //     "RepID": 1355,
-    //     "RepIDEnteredBy": 0,
-    //     "Sport": "All",
-    //     "Gender": 0,
-    //     "Client": "Jethro Test",
-    //     "TeamName": "Wildcats",
-    //     "HowDidTheyHearAboutProLook": "google search"
-    // };
-
+console.log(strResult);
     // $.ajax({
     //     url: url,
     //     type: "POST",
-    //     data: JSON.stringify(order),
+    //     data: JSON.stringify(orderEntire),
     //     contentType: 'application/json;',
     //     success: function (data) {
     //         alert('worked');
+    //         var factory_order_id = data[0].OrderID;
+    //         updateFOID(order_id, factory_order_id);
+    //         // console.log(data[0].OrderID);
     //     },
     //     error: function (xhr, ajaxOptions, thrownError) {
     //         //Error Code Here
     //     }
     // });
 
-    // // # -----------------------------------------------
-
-//     orderData = {};
-
-//     data = $(this).data('order-id');
-//     client = $(this).data('client');
-
-//     ship_contact = $(this).data('ship-contact');
-//     ship_address = $(this).data('ship-address');
-//     ship_phone = $(this).data('ship-phone');
-//     ship_city = $(this).data('ship-city');
-//     ship_state = $(this).data('ship-state');
-//     ship_zip = $(this).data('ship-zip');
-
-//     billing_contact = $(this).data('bill-contact');
-//     billing_address = $(this).data('bill-address');
-//     billing_city = $(this).data('bill-city');
-//     billing_state = $(this).data('bill-state');
-//     billing_zip = $(this).data('bill-zip');
-//     billing_email = $(this).data('bill-email');
-//     billing_phone = $(this).data('bill-phone');
-
-//     orderData['Client'] = client;
-//     orderData['ShippingAttention'] = ship_contact;
-//     orderData['ShippingAddress'] = ship_address;
-//     orderData['ShippingPhone'] = ship_phone;
-//     orderData['ShippingCity'] = ship_city;
-//     orderData['ShippingState'] = ship_state;
-//     orderData['ShippingZipCode'] = ship_zip;
-
-//     orderData['BillingAttention'] = billing_contact;
-//     orderData['BillingAddress'] = billing_address;
-//     orderData['BillingCity'] = billing_city;
-//     orderData['BillingState'] = billing_state;
-//     orderData['BillingZipCode'] = billing_zip;
-//     orderData['BillingEmail'] = billing_email;
-//     orderData['BillingPhone'] = billing_phone;
-
-//     orderData['APICode'] = 1;
-//     orderData['Gender'] = 0;
-//     orderData['RepID'] = 1355;
-//     orderData['RepIDEnteredBy'] = 0;
-//     orderData['Sport'] = "All";
-
-//     orderParts = {};
-//     orderParts['orderPart'] = {};
-//     orderParts['orderPart']['ItemID'] = 455;
-//     orderParts['orderPart']['Description'] = "Arizona Jersey";
-//     orderParts['orderPart']['DesignSheet'] = "designsheet.jpg";
-
-//     orderParts['orderItems'] = [];
-//     orderParts['orderItems'][0] = {
-//         "Size" : "2XL",
-//         "Number" : "22",
-//         "Name" : "Lee",
-//         "LastNameApplication": "Directly to Jersey",
-//         "Sample": 0     
-//     };
-//     orderParts['orderItems'][1] = {
-//         "Size" : "XL",
-//         "Number" : "21",
-//         "Name" : "Brown",
-//         "LastNameApplication": "Directly to Jersey",
-//         "Sample": 0     
-//     };
-
-//     order = {};
-//     order['order'] = orderData;
-//     order['orderParts'] = {};
-//     order['orderParts']['orderPart'] = orderParts['orderPart'];
-//     order['orderParts']['orderItems'] = orderParts['orderItems'];
-// console.log(JSON.stringify(order));
-//     var url = "//qx.azurewebsites.net/api/Order/PostOrderDetails";
-//     $.ajax({
-//         url: url,
-//         type: "POST",
-//         data: JSON.stringify(order),
-//         dataType: "json",
-//         crossDomain: true,
-//         contentType: 'application/json',
-//         success: function(response){
-//             if (response.success) {
-//                 console.log("Order posted to Factory!");
-//             }
-//         }
-//     });
 });
+
+function updateFOID(id, factory_order_id){
+    $.ajax({
+        url: '//' + api_host + '/api/order/updateFOID',
+        type: "POST",
+        data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+                console.log("Success! Factory ID is updated.");
+            }
+        }
+    });
+}
 
 });
