@@ -650,11 +650,10 @@ $(document).ready(function() {
             imagePosition: "left",
             selectText: "Select Accent",
             onSelected: function (data) {
-               
+               console.log(data);
                 var rowIndex = data.original[0].outerHTML;
                 rowIndex = $.parseHTML(rowIndex);
                 rowIndex = $(rowIndex).data("id");
-
 
                 if($('.app-def-item').eq(rowIndex).val()!="mascot"){
 
@@ -1607,7 +1606,7 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
-
+                        console.log(data);
                     var rowIndex = data.original[0].outerHTML;
                     rowIndex = $.parseHTML(rowIndex);
                     rowIndex = $(rowIndex).data("id");
@@ -2275,7 +2274,7 @@ $(document).ready(function() {
 
     $(".load-applications-template").change(function() {
         canvasFront.clear();
-        application_number = 1;
+        application_number = 0;
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
         var va_prop_val = $(this).val();
 
@@ -3386,6 +3385,10 @@ function updateApplicationsJSON(){
 
 
 function accentMascotSelect(data,accentMascot,rowIndex){
+    console.log("/////////////////////");
+    console.log(rowIndex);
+
+    console.log("/////////////////////");
     var layers;
     var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
     var colorCodeField="";
