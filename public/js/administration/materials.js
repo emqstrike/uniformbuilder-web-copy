@@ -1887,34 +1887,30 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-             console.log("--------------------------------------------------");
+         
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
-console.log(myData);
-            console.log(applications_properties);
-            
-             console.log("----------------------------///----------------------");
-            // $.ajax({
-            //     url: url,
-            //     type: "POST",
-            //     data: JSON.stringify(myData),
-            //     dataType: "json",
-            //     crossDomain: true,
-            //     contentType: 'application/json',
-            //     headers: {"accessToken": atob(headerValue)},
-            //     success: function(response){
-            //         if (response.success) {
-            //             var elem = '.material-' + id;
-            //             new PNotify({
-            //                 title: 'Success',
-            //                 text: response.message,
-            //                 type: 'success',
-            //                 hide: true
-            //             });
-            //         }
-            //     }
-            // });
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(myData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
         }
 
     });
@@ -1946,8 +1942,8 @@ console.log(myData);
 
         var description = "Lorem Ipsum Yaddah";
 
-      //  var url = "//" + api_host + "/api/application";
-        var url = "//localhost:8888/api/application";
+        var url = "//" + api_host + "/api/application";
+       // var url = "//localhost:8888/api/application";
         var name = "App-"+applications_properties['id'];
         var myData={
             "name":name,
@@ -1961,13 +1957,13 @@ console.log(myData);
         console.log(applications_properties);
         console.log("data"+data);
         if($(this).attr('disabled') != 'disabled'){
-            console.log("--------------------------------------------------");
+      
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
             console.log(myData);
             console.log('"'+JSON.stringify(data)+'"');
-             console.log("-------------------//-------------------------------");
+         
             $.ajax({
                 url: url,
                 type: "POST",
