@@ -20,6 +20,7 @@
                     <!-- <div>
                         <a href="#" class="btn btn-primary update-applications-json">Save</a>
                     </div> -->
+                    <div id="shape-crosshair" style="border: 1px solid #e3e3e3; z-index: 1; position: absolute; float: left; opacity: 0.45;"></div>
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px; opacity: 0.45;">
                         <canvas id="applications-front-canvas"></canvas>
