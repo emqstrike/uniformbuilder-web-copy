@@ -1110,6 +1110,7 @@ $(document).ready(function() {
         $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
+        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
 
@@ -1121,7 +1122,7 @@ $(document).ready(function() {
         var app_properties = JSON.parse(apps);
         appendApplications(app_properties);
 
-        
+
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);

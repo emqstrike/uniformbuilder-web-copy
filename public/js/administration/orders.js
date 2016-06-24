@@ -113,26 +113,7 @@ $('.view-builder-customization').on('click', function(){
     console.dir(json);
 });
 
-$('.update-from-factory').on('click', function(e){
-    var data = {
-        "factory_order_id": '2016-34I',
-        "status" : "pending"
-    };
 
-    var url = '//api-dev.qstrike.com/api/order/updateStatusFromFactory';
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(data),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('Worked!');
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
-});
 
 $('.factory-oid').on('click', function(e){
     e.preventDefault();
