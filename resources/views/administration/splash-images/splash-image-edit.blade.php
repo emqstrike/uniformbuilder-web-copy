@@ -40,14 +40,14 @@
                                       <input type="date" class="form-control" name="show_time" value="{{ $splash_image->show_time }}">
                                 </fieldset>
                                <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Front Image : {{ $splash_image -> front_image  }}</label>
+                                    <label for="formGroupExampleInput">Front Image : </label>
                                     <img src="{{ $splash_image -> front_image  }}" height="100" width="100">
                                     <input type="file" class="form-control" name="front_image" accept="image/*">
                                     <input type="hidden" name="front_image2" value="{{ $splash_image -> front_image  }}">
 
                                 </fieldset> 
                                 <fieldset class="form-group">
-                                    <label for="formGroupExampleInput">Back Image : {{ $splash_image -> back_image  }}</label>
+                                    <label for="formGroupExampleInput">Back Image : </label>
                                       <img src="{{ $splash_image -> back_image  }}" height="100" width="100">
                                    
                                       <input type="file" class="form-control" name="back_image" accept="image/*">

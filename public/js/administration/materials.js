@@ -511,7 +511,7 @@ $(document).ready(function() {
         var style                   = 'margin-right: 5px';
         var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
-        var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
         var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
@@ -1067,6 +1067,14 @@ $(document).ready(function() {
         updateApplicationsJSON();
     });
 
+    $('.save-applications-button').on('click', function(){
+        updateApplicationsJSON();
+
+        $(".save-applications").trigger("click");
+    });
+
+    
+
     $('.material-option-applications').on('click', function(){
         application_number = 0;
         material = {
@@ -1409,7 +1417,7 @@ $(document).ready(function() {
                 var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
-                var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
+                var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
                 var ix = ( app_properties[l].pivot.x ) / dividend;
                 var iy = ( app_properties[l].pivot.y ) / dividend;
@@ -1858,6 +1866,7 @@ $(document).ready(function() {
     });
 
     $('#save_app_template').on('click', function(){
+            updateApplicationsJSON();
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
         var perspective = $('#app-saved-perspective').val();
@@ -1878,9 +1887,87 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
+             console.log("--------------------------------------------------");
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
+console.log(myData);
+            console.log(applications_properties);
+            
+             console.log("----------------------------///----------------------");
+            // $.ajax({
+            //     url: url,
+            //     type: "POST",
+            //     data: JSON.stringify(myData),
+            //     dataType: "json",
+            //     crossDomain: true,
+            //     contentType: 'application/json',
+            //     headers: {"accessToken": atob(headerValue)},
+            //     success: function(response){
+            //         if (response.success) {
+            //             var elem = '.material-' + id;
+            //             new PNotify({
+            //                 title: 'Success',
+            //                 text: response.message,
+            //                 type: 'success',
+            //                 hide: true
+            //             });
+            //         }
+            //     }
+            // });
+        }
+
+    });
+    $(document).on('click', '.save_app_row_template', function(){
+
+        updateApplicationsJSON();
+        var block_pattern = $('#material_block_pattern').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
+        var applications_properties = $('.a-prop').val();
+        applications_properties = jQuery.parseJSON(applications_properties.slice(1, -1));
+        
+         layer = "layer"+$(".save_app_row_template").index(this);
+
+
+        for (var key in applications_properties) {
+      
+         if(key == layer){
+
+               applications_properties = applications_properties[key];
+         }
+
+        }
+        data={
+         layer0 : applications_properties
+
+        }
+
+
+        var description = "Lorem Ipsum Yaddah";
+
+      //  var url = "//" + api_host + "/api/application";
+        var url = "//localhost:8888/api/application";
+        var name = "App-"+applications_properties['id'];
+        var myData={
+            "name":name,
+            "block_pattern":block_pattern,
+            "perspective":perspective,
+            "part":part,
+            "description":description,
+            "applications_properties": '"'+JSON.stringify(data)+'"'
+        };
+
+        console.log(applications_properties);
+        console.log("data"+data);
+        if($(this).attr('disabled') != 'disabled'){
+            console.log("--------------------------------------------------");
+            console.log('SAVE TEMPLATE!');
+            console.log('myData: '+JSON.stringify(myData));
+
+            console.log(myData);
+            console.log('"'+JSON.stringify(data)+'"');
+             console.log("-------------------//-------------------------------");
             $.ajax({
                 url: url,
                 type: "POST",
