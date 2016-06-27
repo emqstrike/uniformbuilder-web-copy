@@ -1675,6 +1675,7 @@
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
+
                     point.position.x += _xOffset;
                     point.position.y += _yOffset;
 
@@ -1682,12 +1683,15 @@
 
                 if (typeof args.overrideOffsetX !== 'undefined') {
 
+                    point.position.x -= _xOffset;
+
                     point.position.x += parseFloat(args.overrideOffsetX);
 
                 }
 
                 if (typeof args.overrideOffsetY !== 'undefined') {
 
+                    point.position.y -= _yOffset;
                     point.position.y += parseFloat(args.overrideOffsetY);
 
                 }
@@ -4081,6 +4085,28 @@
 
     }
 
+    ub.funcs.substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substringRegex;
+
+        // an array that will be populated with substring matches
+        matches = [];
+
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+
+        cb(matches);
+      };
+    };
+
     ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
@@ -4092,6 +4118,7 @@
         var data = {
             label: 'Choose Mascot: ',
             mascots: _.filter(ub.data.mascots, {active: "1"}),
+            categories: _.sortBy(ub.data.mascotsCategories, 'name'),
             paddingTop: paddingTop,
         };
 
@@ -4102,6 +4129,61 @@
 
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
+
+        /// Type Ahead
+
+        // var _mascotNames = _.pluck(ub.data.mascots, "name");
+
+        // $('input.mascot_search').typeahead({
+        //   hint: true,
+        //   highlight: true,
+        //   minLength: 1
+        // },
+        // {
+        //   name: 'Mascots',
+        //   source: ub.funcs.substringMatcher(_mascotNames),
+        // });
+
+        $('.patternPopupResults').isotope({
+          // options
+          itemSelector: '.item',
+          layoutMode: 'fitRows'
+        });
+
+        $('.patternPopupResults').isotope({ filter: '.all' });
+
+        $('input.mascot_search').on('change', function (){
+
+            var _term = $(this).val().toLowerCase();
+
+            if (_term !== '') {
+                $('.patternPopupResults').isotope({ filter: function() {
+
+                    var name = $(this).find('.name').text();
+                    return name.toLowerCase().indexOf(_term) > -1;
+
+                    } 
+                });
+            } else {
+               
+                $('.patternPopupResults').isotope({ filter: '.all' });
+
+            }
+
+        });
+
+        $('span.category_item').on('click', function (){
+
+            var _dataCategory = $(this).data('category');
+            
+            $('.patternPopupResults').isotope({ filter: "." + _dataCategory });
+
+            $('span.category_item').removeClass('active_category');
+            $(this).addClass('active_category');
+
+        });
+
+        /// End Type Ahead
 
           $('div.patternPopupResults > div.item').hover(
 
@@ -4183,11 +4265,12 @@
     ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
 
         var _mascotObj    = _.find(ub.data.mascots, {id: mascotId.toString()});
-        var _id         = settingsObj.id;
+        var _id           = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
 
         settingsObj.mascot = _mascotObj;
+        settingsObj.color_array = ub.funcs.getDefaultColors();
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
         $popup = $('div#primaryPatternPopup');
@@ -4210,6 +4293,30 @@
         texture.render(ref, null, true);         
 
         return texture.getImage().src;
+
+    };
+
+    ub.funcs.getDefaultColors = function () {
+
+        var _colors = [];
+        var _color;
+
+         _colors.push(ub.current_material.settings.team_colors[1]);
+
+         if (ub.current_material.settings.team_colors.length > 2) {
+
+            _color = ub.current_material.settings.team_colors[2]
+            
+         }
+         else {
+
+            _color = ub.current_material.settings.team_colors[0]
+
+         }
+
+         _colors.push(_color);
+
+         return _colors;
 
     };
 
@@ -4271,9 +4378,9 @@
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Mascot</label>';
-        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
+        _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
-        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
+        _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
 
         _htmlBuilder        +=          '</div>';
 
@@ -4780,26 +4887,114 @@
 
     }
 
+    ub.funcs.getAccentByName = function (name) {
+
+        var _accent = _.find(ub.data.accents.items, {name: name});
+        return _accent;
+
+    }
+
+    ub.funcs.getFontByName = function (name) {
+
+        var _font = _.find(ub.data.fonts, {name: name});
+        return _font;
+
+    }
+
+    ub.funcs.getFontByID = function (id) {
+
+        var _font = _.find(ub.data.fonts, {id: id});
+        return _font;
+
+    }
+
+    ub.funcs.getSampleAccent = function () {
+
+        var _accent = ub.funcs.getAccentByName('Outlined');
+        return _accent;
+
+    }
+
+    ub.funcs.getSampleTeamName = function () {
+
+        var _sampleTeamName = 'Mustangs';
+        return _sampleTeamName;
+
+    }
+
+    ub.funcs.getSamplePlayerName = function () {
+
+        var _samplePlayerName = 'Grizzlies';
+        return _samplePlayerName;
+
+    }
+
+    ub.funcs.getSampleNumber = function () {
+
+        var _sampleNumber = 85;
+        return _sampleNumber;
+
+    }
+
+    ub.funcs.getSampleFont = function () {
+
+        var _sampleFontName = 'Badgers';
+
+        return ub.funcs.getFontByName(_sampleFontName);
+
+    }
+
     ub.funcs.changeApplicationType = function (settingsObject,type) {
 
         var _settingsObject = settingsObject;
         var _type           = type;
-        var _id = parseInt(_settingsObject.code);
+        var _id             = parseInt(_settingsObject.code);
 
         if (_type === 'mascot') {
 
+            var _applicationType = 'mascot';
+
             ub.funcs.deActivateApplications();
 
-            _settingsObject.application_type = 'mascot';
-            _settingsObject.type = 'mascot';
-            _settingsObject.object_type = 'mascot';
-            _settingsObject.mascot = _.find(ub.data.mascots, {id: '52'});
+            _settingsObject.application_type    = _applicationType;
+            _settingsObject.type                = _applicationType;
+            _settingsObject.object_type         = _applicationType;
+            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '182'});
+            _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
-            _settingsObject.application.name = 'Mascot';
-            _settingsObject.application.type = 'mascot';
+            _settingsObject.application.name    = _applicationType.toTitleCase();
+            _settingsObject.application.type    = _applicationType;
 
-            if (_id === 2) {  _settingsObject.size = 8; }
-            if (_id === 5) {  _settingsObject.size = 10; }
+            if (_id === 1) { _settingsObject.size = 2;  }
+            if (_id === 2) { _settingsObject.size = 8;  }
+            if (_id === 5) { _settingsObject.size = 10; }
+
+            var _matchingID;
+            var _matchingSide;
+            
+            if (_id === 33) { _matchingID = 32; }
+            if (_id === 32) { _matchingID = 33; }
+            if (_id === 9)  { _matchingID = 10; }
+            if (_id === 10) { _matchingID = 9;  }
+
+            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+
+                _matchingSide = ub.current_material.settings.applications[_matchingID];
+
+                _matchingSide.application_type  = _applicationType;
+                _matchingSide.type              = _applicationType;
+                _matchingSide.object_type       = _applicationType;
+                _matchingSide.color_array       = ub.funcs.getDefaultColors();
+                _matchingSide.mascot            = _.find(ub.data.mascots, {id: '182'});
+
+                if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+                _matchingSide.application.name  = _applicationType.toTitleCase();
+                _matchingSide.application.type  = _applicationType;
+
+                ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+
+            }
 
             ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
             ub.funcs.activateMascots(_settingsObject.code);
@@ -4810,7 +5005,26 @@
 
         if (_type === 'player_name') {
 
-            console.log('Player Name');
+            ub.funcs.deActivateApplications();
+
+            var _applicationType             = 'player_name';
+            _settingsObject.size             = 2.5;
+            _settingsObject.font_size        = 2.5;
+
+            _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
+            _settingsObject.text             = ub.funcs.getSamplePlayerName();
+            _settingsObject.application_type = _applicationType;
+            _settingsObject.type             = _applicationType;
+            _settingsObject.object_type      = 'text object';
+            _settingsObject.font_obj         = ub.funcs.getSampleFont();
+            _settingsObject.color_array      = ub.funcs.getDefaultColors();
+
+            _settingsObject.application.name = _applicationType.toTitleCase();
+            _settingsObject.application.type = _applicationType;
+
+            ub.create_application(_settingsObject, undefined);
+            ub.funcs.activateApplications(_settingsObject.code);
+            ub.current_material.settings.applications[_id] = _settingsObject;          
 
         }
 
@@ -4818,29 +5032,179 @@
 
             ub.funcs.deActivateApplications();
 
-            _settingsObject.application_type = 'mascot';
-            _settingsObject.type = 'mascot';
-            _settingsObject.object_type = 'mascot';
-            _settingsObject.mascot = _.find(ub.data.mascots, {id: '52'});
+            var _applicationType = '';
 
-            _settingsObject.application.name = 'Mascot';
-            _settingsObject.application.type = 'mascot';
+            if (_id === 2) {
 
-            if (_id === 2) {  _settingsObject.size = 8; }
-            if (_id === 5) {  _settingsObject.size = 10; }
+                _applicationType = 'front_number';
+                _settingsObject.size = 8;
 
-            ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
-            ub.funcs.activateMascots(_settingsObject.code);
+            } else if (_id === 5) {
 
+                _applicationType = 'back_number';
+                _settingsObject.size = 8;
+
+            } else if (_id === 32 || _id === 33) {
+
+                _applicationType = 'shoulder_number';
+                _settingsObject.size = 2;
+
+            } else if (_id === 9 || _id === 10) {
+
+                _applicationType = 'sleeve_number';
+                _settingsObject.size = 2;
+
+            } else {
+
+                _applicationType = 'sleeve_number';
+                _settingsObject.size = 2;
+
+            }
+
+            _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
+            _settingsObject.text                = ub.funcs.getSampleNumber();
+            _settingsObject.application_type    = _applicationType;
+            _settingsObject.type                = _applicationType;
+            _settingsObject.object_type         = 'text object';
+            _settingsObject.font_obj            = ub.funcs.getSampleFont();
+            _settingsObject.color_array         = ub.funcs.getDefaultColors();
+
+            if (typeof _settingsObject.color_array === 'undefined') { _settingsObject.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+            _settingsObject.application.name    = _applicationType.toTitleCase();
+            _settingsObject.application.type    = _applicationType;
+
+            if (_id === 2) { _settingsObject.size = 8; }
+            if (_id === 5) { _settingsObject.size = 10; }
+
+            var _matchingID;
+            var _matchingSide;
+            
+            if (_id === 33) { _matchingID = 32; }
+            if (_id === 32) { _matchingID = 33; }
+            if (_id === 9)  { _matchingID = 10; }
+            if (_id === 10) { _matchingID = 9;  }
+
+            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+
+                _matchingSide                   = ub.current_material.settings.applications[_matchingID];
+
+                _matchingSide.accent_obj        = ub.funcs.getSampleAccent();
+                _matchingSide.text              = ub.funcs.getSampleNumber();
+                _matchingSide.application_type  = _applicationType;
+                _matchingSide.type              = _applicationType;
+                _matchingSide.object_type       = 'text object';
+                _matchingSide.font_obj          = ub.funcs.getSampleFont();
+                _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                _matchingSide.application.name  = _applicationType.toTitleCase();
+                _matchingSide.application.type  = _applicationType;
+
+                ub.create_application(_matchingSide, undefined);
+
+            }
+
+            ub.create_application(_settingsObject, undefined);
+            ub.funcs.activateApplications(_settingsObject.code);
             ub.current_material.settings.applications[_id] = _settingsObject;
 
         }
 
         if (_type === 'team_name') {
 
-            console.log('Team Name');              
+            ub.funcs.deActivateApplications();
+
+            var _applicationType             = 'team_name';
+            _settingsObject.size             = 2;
+            _settingsObject.font_size        = 2;
+
+            _settingsObject.text             = ub.funcs.getSampleTeamName();
+            
+            _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
+            _settingsObject.application_type = _applicationType;
+            _settingsObject.type             = _applicationType;
+            _settingsObject.object_type      = 'text object';
+            _settingsObject.font_obj         = ub.funcs.getSampleFont();
+            _settingsObject.color_array      = ub.funcs.getDefaultColors();
+
+            _settingsObject.application.name = _applicationType.toTitleCase();
+            _settingsObject.application.type = _applicationType;
+
+            ub.create_application(_settingsObject, undefined);
+            ub.funcs.activateApplications(_settingsObject.code);
+            ub.current_material.settings.applications[_id] = _settingsObject;          
 
         }
+
+    }
+
+    ub.funcs.postData = function (data, url) {
+
+        var _postData   = data;
+        var _url        = url;
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function (response){
+
+                ub.showModal(response.message);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback_update);
+
+            }
+            
+        });
+
+    };
+
+    ub.funcs.saveFontData = function (fontID, size) {
+
+        var _newFontSizeTable       = [];
+        
+        var _fontID                 = fontID;
+        var _fontSize               = size;
+        var _fontObject             = ub.funcs.getFontByID(_fontID);
+        var _fontSizeTable          = JSON.parse(_fontObject.font_size_table.slice(1,-1));
+        var _fontSizeData           = ub.data.getPixelFontSize(_fontID, _fontSize);
+
+        var _inputSize              = $('input[name="font-size"]').val();
+        var _offsetX                = $('input[name="offsetX"]').val();
+        var _offsetY                = $('input[name="offsetY"]').val();
+        var _scaleX                 = $('input[name="scaleX"]').val();
+        var _scaleY                 = $('input[name="scaleY"]').val();
+
+        _fontSizeData.outputSize    = _inputSize;
+        _fontSizeData.xOffset       = _offsetX;
+        _fontSizeData.yOffset       = _offsetY;
+        _fontSizeData.xScale        = _scaleX;
+        _fontSizeData.yScale        = _scaleY;
+
+        _.each (_fontSizeTable, function (fontSizeData){
+
+            if (fontSizeData.inputSize === _fontSizeData.inputSize) {
+
+                _newFontSizeTable.push(_fontSizeData);    
+                return;
+
+            }
+            
+            _newFontSizeTable.push(fontSizeData);
+            
+        });
+
+        var _url = 'http://api-dev.qstrike.com/api/font/dupdate'
+        var _postData = {
+            name: _fontObject.name,
+            id: fontID,
+            font_size_table: _newFontSizeTable,
+        }
+
+        ub.funcs.postData(_postData, _url);
 
     }
 
@@ -4872,6 +5236,13 @@
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
         var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
+
+        if (_applicationType === 'mascot') {
+
+            ub.funcs.activateMascots(_id);
+            return;
+
+        }
 
         if (_id === 2 && _applicationType === 'mascot') {
             _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
@@ -5340,6 +5711,20 @@
 
                         }
 
+                        if (_settingsObject.type.indexOf('team_name') !== -1 && _application.type.indexOf('team_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                        }
+
+                        if (_settingsObject.type.indexOf('player_name') !== -1 && _application.type.indexOf('player_name') !== -1) {
+
+                            _application.text = _val;
+                            ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                        }
+
                     }
                         
                 });
@@ -5366,6 +5751,21 @@
 
                             }
 
+                            if (_settingsObject.type.indexOf('team_name') !== -1 && _application.type.indexOf('team_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                            }
+
+                            if (_settingsObject.type.indexOf('player_name') !== -1 && _application.type.indexOf('player_name') !== -1) {
+
+                                _application.text = _val;
+                                ub.funcs.changeFontFromPopup(_application.font_obj.id, _application);
+
+                            }
+
+
                         }
                         
                     });
@@ -5376,9 +5776,7 @@
 
             $('span.cog').on('click', function () {
 
-                console.log('GA Font Tool:');
-                console.log(_settingsObject);
-
+                var _fontID         = _settingsObject.font_obj.id;
                 var _size           = _settingsObject.font_size;
                 var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
@@ -5400,7 +5798,7 @@
                 _cogBuilder += '<div id="cogPopupContainer">';
                 _cogBuilder +=       '<div id="cogPopup">';
 
-                _cogBuilder +=           '<div class="popupHeader">GA Font Tool</div>';
+                _cogBuilder +=           '<div class="popupHeader">GA Font Tool <i class="fa fa-floppy-o save-font-data" aria-hidden="true"></i></div>';
                 
                 _cogBuilder +=           '<div class="popup-row-top">';
                 _cogBuilder +=               '<label>Inch: </label>';
@@ -5461,8 +5859,18 @@
 
                 $('body').append(_cogBuilder);
 
-
                 /// Events
+
+                    $('i.save-font-data').on('click', function (evt){
+
+                        if (evt.altKey) {
+                            
+                            ub.funcs.saveFontData(_fontID, _size);
+
+                        }
+
+                    });
+
                     $('span.showFontGuide').on('click', function () {
 
                         var _status = $(this).data('status');
@@ -5485,7 +5893,7 @@
                 
                     $('span.cancelButton').on('click', function () {
 
-                        ub.hideFontGuides();
+                        //ub.hideFontGuides();
                         $('#cogPopupContainer').remove();
 
 
@@ -5649,6 +6057,8 @@
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
+
+            if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
 
@@ -5876,7 +6286,7 @@
 
         if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
 
-        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="player_number">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-number-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Number</div>';
         _htmlBuilder        +=           '</div>';
@@ -5884,7 +6294,7 @@
 
         if (!_.contains(_validApplicationTypes, 'team_name')) { _deactivated = 'deactivatedOptionButton'; } 
 
-        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="team_name">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Team Name</div>';
         _htmlBuilder        +=           '</div>';
@@ -5894,7 +6304,7 @@
 
         if (!_.contains(_validApplicationTypes, 'player_name')) { _deactivated = 'deactivatedOptionButton'; } 
 
-        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="player_name">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-text-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Player Name</div>';
         _htmlBuilder        +=           '</div>';
@@ -5902,7 +6312,7 @@
 
         if (!_.contains(_validApplicationTypes, 'logo')) { _deactivated = 'deactivatedOptionButton'; }
 
-        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '">';
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="mascot">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
         _htmlBuilder        +=           '</div>';
@@ -5914,6 +6324,19 @@
         $('.modifier_main_container').append(_htmlBuilder);
         $('div#applicationUI').fadeIn();
 
+        $('div.optionButton').on('click', function () {
+
+            if ($(this).hasClass('deactivatedOptionButton')) { return; }
+
+            var _type = $(this).data('type');
+
+            _settingsObject.status = 'on';
+
+            ub.funcs.changeApplicationType(_settingsObject, _type);
+            $('div#changeApplicationUI').remove();
+
+        });
+
     };
 
     ub.funcs.gotoFirstMaterialOption = function () {
@@ -5924,7 +6347,7 @@
 
     ub.funcs.showCrossHair = function (x, y) {
 
-            ub.funcs.removeCrossHair();
+        ub.funcs.removeCrossHair();
 
         var _sprite = ub.pixi.new_sprite('/images/main-ui/ch.png');
 

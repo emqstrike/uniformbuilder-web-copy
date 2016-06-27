@@ -13,6 +13,8 @@
 @customizer_forecolor: #808080;
 @customizer_main_area: #808080;
 
+@light-border: #f2f2f2;
+
 @main_highlight: #acacac;
 @main_highlight_off: #e7e7e7;
 @main_forecolor: @text_color;
@@ -2078,6 +2080,14 @@ div#main-picker-container {
 
         }
 
+        span.slink-search {
+
+            position: absolute;
+            right: 0px;
+            margin-top: -3px;
+
+        }
+
     }
 
     div.uniform_details {
@@ -2146,18 +2156,35 @@ div#main-picker-container {
 
 input#search_field {
 
+    color: @light-border;
     float: right;
-    font-size: 1em;
+    font-size: 0.7em;
+    border: 1px solid white;
+    border-bottom: 1px dashed @light-border;
 
-    -webkit-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
-    box-shadow: 0px 2px 47px -1px rgba(0,0,0,0.75);
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+
+}
+
+input#search_field:focus {
+
+    color: black;
+
+    border-bottom: 1px dashed black;
+
+}
+
+.fa-search-icon {
+
+    font-size: 0.7em;
 
 }
 
 span.twitter-typeahead { 
     float: right;
-    margin-right: 0px;
+    margin-right: 10px;
     font-size: 1em;
 }
 
@@ -2180,10 +2207,10 @@ div.header-container.main {
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 396px;
+  width: 370px;
   height: 30px;
   padding: 8px 12px;
-  font-size: 1em;
+  font-size: 0.7em;
   line-height: 30px;
   border: 1px solid #ccc;
   outline: none;
@@ -2198,9 +2225,7 @@ div.header-container.main {
 }
 
 .tt-query {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
 }
 
 .tt-hint {
@@ -2208,7 +2233,7 @@ div.header-container.main {
 }
 
 .tt-menu {
-  width: 500px;
+  width: 370px;
   margin: 12px 0;
   padding: 8px;
   background-color: #fff;
@@ -2217,9 +2242,7 @@ div.header-container.main {
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
 }
 
 .tt-suggestion {
@@ -2865,14 +2888,15 @@ div.header-container.main {
                     
                 text-align: center;
                 font-size: 1.3em;
-                padding: 30px;
+                padding: 20px;
+                margin-top: 20px;
 
             }
 
             div.main-content {
 
                 width: 100%;
-                height: 450px;
+                height: 430px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
@@ -2890,23 +2914,17 @@ div.header-container.main {
                         background-color: white;
                         margin: 10px;
                         background-size: cover;
-                        overflow: hidden; 
                         cursor: pointer;
-                        -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
-                        -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
-                        box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
-
+                        margin-bottom: 30px;
+                        
                         div.name {
                             
                             width: 100%;
-                            height: 150px;
-                            margin-top: 150px;
-                            opacity: 0.7;
-                            color: white;
-                            background-color: black;
+                            height: 50px;
+                            margin-top: 160px;
+                            color: black;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
-                            padding-top: 70px;
                             font-weight: bold;
 
                         }
@@ -2921,7 +2939,6 @@ div.header-container.main {
 
         .pullUp {
 
-            margin-top: 0px !important;
 
         }
 
@@ -2936,7 +2953,7 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
+            width: 950px;
             height: 550px;
             top: 300px;
             left: 300px;
@@ -3165,6 +3182,7 @@ div.header-container.main {
                     margin-left: 30px;
                     margin-bottom: 30px;
                     padding: 10px;
+                    cursor: pointer;
 
                     -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
                     -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
@@ -3214,7 +3232,7 @@ div.header-container.main {
 
                     .column1, .column2 {
 
-                        margin-top: 30px;
+                        margin-top: 10px;
                         border-top: dashed 1px #3d3d3d;
 
                         div.sub1 {
@@ -3304,7 +3322,7 @@ div.header-container.main {
                     cursor: pointer;
                     border-bottom: 1px dashed;
                     /* font-weight: bold; */
-                    font-size: 0.8em;
+                    font-size: 0.7em;
 
                 }
 
@@ -3484,7 +3502,7 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
+            width: 940px;
             height: 550px;
             top: 300px;
             left: 300px;
@@ -3606,6 +3624,12 @@ div.header-container.main {
                     margin-bottom: 10px;
                     font-weight: bold;
                     text-transform: uppercase;
+
+                    i.save-font-data {
+
+                        cursor: pointer;
+
+                    }
 
                 }
 
@@ -3870,6 +3894,76 @@ div.header-container.main {
 
             border: 2px solid @text_color !important;
             cursor: auto !important;
+
+        }
+
+        i.save-font-data {
+
+            float: right;
+            font-size: strong;
+
+        }
+
+        div.popup_header {
+
+            float: left;
+
+        }
+
+        input.mascot_search {
+
+            float: right;
+            margin-bottom: 20px;
+
+        }
+
+        div.categories {
+
+            width: 15%;
+            float: left;
+            height: 400px;
+            overflow-y: scroll;
+            position: fixed;
+
+            margin-top: 10px;
+            border-right: solid 1px;
+
+        }
+
+        div.patternPopupResults {
+            width: 75%;
+            float: right;
+
+        }
+
+        span.category_item {
+
+            display: block;
+            cursor: pointer;
+            height: 30px;
+            padding: 4px;
+            font-weight: bold;
+
+        }
+
+        span.category_item:hover {
+
+            background-color: @forecolor;
+            color: white;
+
+        }
+
+        span.active_category {
+            
+            background-color: @customizer_bg;
+            color: white;
+            border-bottom: dashed 1px black;
+
+        }
+
+        div#primaryPatternPopup {
+
+            width: 1000px;
 
         }
 

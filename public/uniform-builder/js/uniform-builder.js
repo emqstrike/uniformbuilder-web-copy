@@ -155,17 +155,38 @@ $(document).ready(function () {
 
         };
 
+
+        ub.data.mascotsCategories = {};
+
         ub.funcs.transformMascots = function () {
 
             _.each(ub.data.mascots, function (mascot) {
 
                 mascot.layers_properties = JSON.parse(mascot.layers_properties);
 
+                ub.data.mascotsCategories[mascot.category] = {
+                    name: mascot.category,
+                    id: mascot.mascot_category_id,
+                };
+
             });
 
         }
 
         /// Load Assets 
+
+        ub.callback_update = function (obj, object_name) { 
+
+            ub.data[object_name] = obj;
+
+            if (object_name === 'fonts') { 
+
+                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
+                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+
+            }
+
+        }
  
         ub.callback = function (obj, object_name) {
 
@@ -801,6 +822,7 @@ $(document).ready(function () {
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
+        var _inputFontSize  = '0';
         var _xOffset        = 0;
         var _yOffset        = 0;
         var _xScale         = 0;
@@ -808,12 +830,13 @@ $(document).ready(function () {
 
         if(_fontSizeTable === null) {
 
-            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseInt(fontSize)}).outputSize;    
+            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
 
         } else {
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
             _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+            _inputFontSize      = _fontProperties.inputSize;
             _returnFontSize     = _fontProperties.outputSize;
             _xOffset            = _fontProperties.xOffset;
             _yOffset            = _fontProperties.yOffset;
@@ -824,6 +847,7 @@ $(document).ready(function () {
  
         _fontSizeData =  {
 
+            inputSize: _inputFontSize,
             pixelFontSize: _returnFontSize,
             xOffset: _xOffset,
             yOffset: _yOffset,
@@ -867,6 +891,8 @@ $(document).ready(function () {
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
+
+
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
 
                     _.each(_accentObj.layers, function (layer, index) {
@@ -893,7 +919,7 @@ $(document).ready(function () {
                         code: _application.id,
                         color_array: _outputColorArray,
                         font_obj: _fontObj,
-                        font_size: parseInt(_fontSizesArray[0]),
+                        font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         pixelFontSize: _fontSizeData.pixelFontSize,
@@ -4414,10 +4440,16 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initSportsPicker = function (sport) {
+    ub.funcs.fadeOutBackgrounds = function () {
 
         $('div#main-picker-container').css('background-image','none');
         $('body').css('background-image','none');
+    
+    };
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        ub.funcs.fadeOutBackgrounds();
 
         $('body').addClass('pickers-enabled');
 
@@ -4447,6 +4479,8 @@ $(document).ready(function () {
 
     ub.funcs.initSearchPicker = function (term, items) {
 
+        ub.funcs.fadeOutBackgrounds();
+
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
@@ -4458,7 +4492,9 @@ $(document).ready(function () {
 
     };
 
-    $('input#search_field').on('input', function () {
+    $('input#search_field').on('keypress', function (evt) {
+
+        if (evt.which !== 13) { return; }
 
         var _input = $(this).val();
 
@@ -4584,6 +4620,7 @@ $(document).ready(function () {
         $("body").dblclick(function() {
 
             if(ub.status.onText) { return; }
+            if($('div#cogPopupContainer').is(':visible')) { return; }
             
             ub.zoom_on();
             $('a.change-view[data-view="zoom"]').addClass('zoom_on');

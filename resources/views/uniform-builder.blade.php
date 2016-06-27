@@ -87,8 +87,6 @@
         <div class='back-link' data-destination="gender"></div>
         <h2 class='picker-header'>CHOOSE A GENDER</h2>
 
-        <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
-
     </div>
 
     <div id="main-picker-container">
@@ -99,6 +97,14 @@
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
+
+            <span class="slink-search">
+                
+                <i class="fa fa-search fa-search-icon" aria-hidden="true"></i>
+<input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
+
+            </span>
+
         </div>
 
         <div id="main-picker-scroller">
@@ -164,6 +170,7 @@
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/typeahead/typeahead.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/isotope/isotope.pkgd.min.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 

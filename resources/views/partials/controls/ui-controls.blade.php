@@ -639,7 +639,17 @@
 
             <div class="header">
 
-                Mascots
+                <div class="popup_header">
+
+                    Mascots
+
+                </div>
+
+                <div class="mascot_search">
+
+                    <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+
+                </div>
 
                 <div class="close-popup">
                         
@@ -650,12 +660,20 @@
             </div>
             
             <div class="main-content">
+
+                <div class="categories">
+                    <span class="category_item" data-category="all">All</span>
+
+                    @{{#categories}}
+                    <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
+                    @{{/categories}}
+                </div>
                 
                 <div class="patternPopupResults">
 
                     @{{#mascots}}
 
-                        <div class="item grow" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+                        <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
                             <div class="name">@{{name}}</div>
                         </div>
 

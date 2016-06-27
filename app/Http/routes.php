@@ -204,10 +204,17 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('lining/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@store']);
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
+    
      // Splash
     Route::get('splash_images', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@index']);
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
+    Route::get('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@create']);
+    
+    Route::get('splash_image/edit/{id}', 'Administration\SplashImagesController@editSplashImageForm');
 
+    Route::post('splash_image/update', 'Administration\SplashImagesController@store');
+  
+    
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
