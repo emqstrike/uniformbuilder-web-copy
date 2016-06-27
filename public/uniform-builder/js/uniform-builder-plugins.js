@@ -1092,7 +1092,7 @@
         if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
         if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
         if (settings_obj.size === 8)   { scale_settings = {x: 0.79, y: 0.79}; }
-        if (settings_obj.size === 4)   { scale_settings = {x: 0.36, y: 0.36}; }
+        if (settings_obj.size === 4)   { scale_settings = {x: 0.24, y: 0.24}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.19, y: 0.19}; }
         if (settings_obj.size === 2)   { scale_settings = {x: 0.14, y: 0.14}; }
         if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
