@@ -244,9 +244,9 @@
                 
             </a>
 
-            <a class="footer-buttons change-view" data-view="refresh">
-                <i class="fa fa-refresh" aria-hidden="true"></i>
-                <br /><span>Reset</span>
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home"></i>
+                <br /><span>Home</span>
             </a>
 
         </div>  
@@ -278,9 +278,9 @@
                 <br /><span>Zoom</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="home">
-                <i class="fa fa-home"></i>
-                <br /><span>Home</span>
+            <a class="footer-buttons change-view" data-view="team-info">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                <br /><span>Team Info</span>
             </a>
 
         </div>  
