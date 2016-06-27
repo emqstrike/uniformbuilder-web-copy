@@ -26,8 +26,7 @@ $(document).ready(function() {
 
             ub.funcs.fadeInCustomizer();
 
-        })
-
+        });
         
     }
 

@@ -1089,14 +1089,14 @@
         var container = new PIXI.Container();
         var elements = "";
 
-        if (settings_obj.size === 12)  { scale_settings = {x: 1.03, y: 1.03}; }
-        if (settings_obj.size === 10)  { scale_settings = {x: 1.03, y: 1.03}; }
-        if (settings_obj.size === 8)   { scale_settings = {x: 0.91, y: 0.91}; }
+        if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
+        if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
+        if (settings_obj.size === 8)   { scale_settings = {x: 0.79, y: 0.79}; }
         if (settings_obj.size === 4)   { scale_settings = {x: 0.36, y: 0.36}; }
-        if (settings_obj.size === 3)   { scale_settings = {x: 0.28, y: 0.28}; }
-        if (settings_obj.size === 2)   { scale_settings = {x: 0.20, y: 0.20}; }
-        if (settings_obj.size === 1)   { scale_settings = {x: 0.13, y: 0.13}; }
-        if (settings_obj.size === 0.5) { scale_settings = {x: 0.07, y: 0.07}; }
+        if (settings_obj.size === 3)   { scale_settings = {x: 0.19, y: 0.19}; }
+        if (settings_obj.size === 2)   { scale_settings = {x: 0.14, y: 0.14}; }
+        if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
+        if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
 
         _.each(mascot.layers_properties, function(layer, index) {
 
