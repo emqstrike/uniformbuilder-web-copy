@@ -1684,7 +1684,6 @@
                 if (typeof args.overrideOffsetX !== 'undefined') {
 
                     point.position.x -= _xOffset;
-
                     point.position.x += parseFloat(args.overrideOffsetX);
 
                 }
