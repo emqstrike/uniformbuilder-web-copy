@@ -1784,6 +1784,14 @@
                 if ((app_id === '5' || app_id === '2' ) && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
+                /// Rotation Overrides 
+
+                if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
+
+                    point.scale.x = point.scale.x * -1;
+
+                }
+
             });
 
             ub.funcs.identify(app_id);

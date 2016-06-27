@@ -1126,7 +1126,7 @@
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
         settings_obj.layer_order    = layer_order;
-        sprite.scale = scale_settings;
+        sprite.scale                = scale_settings;
 
         /// Set Colors
 

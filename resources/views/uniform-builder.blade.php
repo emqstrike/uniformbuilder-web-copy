@@ -132,7 +132,10 @@
 
         <div id="sizes">
             
-            <span class="size">YXS</span> <span class="size">YS</span> <span class="size">YM</span> <span class="size">YL</span> <span class="size">YXL</span> <span class="size">Y2XL</span> <span class="size">YXXL</span>
+            <span class="size">YXS</span> <span class="size">YS</span> <span class="size">YM</span> <span class="size">YL</span> <span class="size">YXL</span> <span class="size">Y2XL</span> <span class="size">YXXL</span> 
+
+            <br />
+
             <span class="size">XS</span> <span class="size">S</span> <span class="size">M</span> <span class="size">L</span> <span class="size">XL</span> <span class="size">2XL</span> <span class="size">XL</span>
 
         </div>
