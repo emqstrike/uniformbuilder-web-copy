@@ -1095,7 +1095,7 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
-        
+
 
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
