@@ -1778,10 +1778,10 @@
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)    { point.position.y   += 40;  }
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)    { point.position.y   += 30;  }
 
-                if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
-                if (_applicationObj.type === 'mascot' && _size === 3)    { point.position.y   += 11;    }
-                if (_applicationObj.type === 'mascot' && _size === 2)    { point.position.y   += 13;   }
-                if (_applicationObj.type === 'mascot' && _size === 1)    { point.position.y   += 13;   }
+                // if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
+                if ((app_id === '5' || app_id === '2' ) && _applicationObj.type === 'mascot' && _size === 3) { point.position.y   += 11; }
+                if ((app_id === '5' || app_id === '2' ) && _applicationObj.type === 'mascot' && _size === 2) { point.position.y   += 13; }
+                if ((app_id === '5' || app_id === '2' ) && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
             });
