@@ -92,8 +92,7 @@
     <div id="main-picker-container">
         
         <div id="topbar">
-            <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i>
-</span>
+            <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
@@ -101,7 +100,7 @@
             <span class="slink-search">
                 
                 <i class="fa fa-search fa-search-icon" aria-hidden="true"></i>
-<input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
+                <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
             </span>
 
@@ -117,7 +116,32 @@
 
     <!-- End Scrolling Pickers -->
 
+    <div id="roster-input">
+        
+        <div id="description">
+
+            <span class="back-to-customizer-button">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Customizer
+            </span>
+
+            <br />
+
+            <span class='size_header'>ADD SIZES</span>
+            
+        </div>
+
+        <div id="sizes">
+            
+        </div>
+
+        <div id="tabs">
+            
+        </div>
+
+    </div>
+
 </div>
+
 
 <!--
 <div class="container-fluid uniform-suggestions">
@@ -264,6 +288,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js{{$asset_version}}"></script>

@@ -2727,9 +2727,11 @@
         }
         else {
 
-            $('span.next_label').html('Done');
-            $('span.part_label').html('Enter Roster Info');
-            $('button#next_mo').css('background-color', '#000000');
+            // $('span.next_label').html('Done');
+            // $('span.part_label').html('Enter Roster Info');
+            // $('button#next_mo').css('background-color', '#000000');
+
+            ub.funcs.initRoster();
 
         }
 
@@ -3741,7 +3743,7 @@
 
         /// Set Default Colors 
 
-        settingsObj.font_size = parseInt(size);
+        settingsObj.font_size = parseFloat(size);
         ub.create_application(settingsObj, undefined);
 
     }
@@ -5244,13 +5246,13 @@
 
         }
 
-        if (_id === 2 && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
-        }
+        // if (_id === 2 && _applicationType === 'mascot') {
+        //     _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+        // }
         
-        if (_id === 5 && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
-        }
+        // if (_id === 5 && _applicationType === 'mascot') {
+        //     _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+        // }
 
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
@@ -5467,7 +5469,6 @@
                 });
 
             });
-
 
             $("div.toggleOption").on("click", function () {
 

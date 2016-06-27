@@ -1089,14 +1089,14 @@
         var container = new PIXI.Container();
         var elements = "";
 
-        if (settings_obj.size === 12)  { scale_settings = {x: 0.68, y: 0.68}; }
-        if (settings_obj.size === 10)  { scale_settings = {x: 0.62, y: 0.62}; }
-        if (settings_obj.size === 8)   { scale_settings = {x: 0.58, y: 0.58}; }
-        if (settings_obj.size === 4)   { scale_settings = {x: 0.18, y: 0.18}; }
-        if (settings_obj.size === 3)   { scale_settings = {x: 0.15, y: 0.15}; }
-        if (settings_obj.size === 2)   { scale_settings = {x: 0.12, y: 0.12}; }
-        if (settings_obj.size === 1)   { scale_settings = {x: 0.09, y: 0.09}; }
-        if (settings_obj.size === 0.5) { scale_settings = {x: 0.03, y: 0.03}; }
+        if (settings_obj.size === 12)  { scale_settings = {x: 1.03, y: 1.03}; }
+        if (settings_obj.size === 10)  { scale_settings = {x: 0.91, y: 0.91}; }
+        if (settings_obj.size === 8)   { scale_settings = {x: 0.91, y: 0.91}; }
+        if (settings_obj.size === 4)   { scale_settings = {x: 0.36, y: 0.36}; }
+        if (settings_obj.size === 3)   { scale_settings = {x: 0.28, y: 0.28}; }
+        if (settings_obj.size === 2)   { scale_settings = {x: 0.20, y: 0.20}; }
+        if (settings_obj.size === 1)   { scale_settings = {x: 0.13, y: 0.13}; }
+        if (settings_obj.size === 0.5) { scale_settings = {x: 0.07, y: 0.07}; }
 
         _.each(mascot.layers_properties, function(layer, index) {
 
@@ -1363,7 +1363,7 @@
  
         /// End Set First Three Colors 
 
-
+        container.zIndex = -50;
         return container;
         
     }
