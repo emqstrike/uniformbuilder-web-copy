@@ -27,6 +27,32 @@ $(document).ready(function() {
             ub.funcs.fadeInCustomizer();
 
         });
+
+        $('span.size').on('click', function () {
+
+            var _status = $(this).data('status');
+            var _size   = $(this).data('size');
+
+            if (_status === 'off') {
+
+                $(this).addClass('active');
+                $(this).data('status', 'on');
+
+            }
+            else {
+
+                $(this).removeClass('active');
+                $(this).data('status', 'off');
+
+            }
+
+            console.log('Size: ');
+            console.log(_size);
+
+            console.log('Status: ');
+            console.log(_status);
+
+        });
         
     }
 
