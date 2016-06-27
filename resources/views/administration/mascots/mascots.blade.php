@@ -37,7 +37,7 @@
                 
                 <div class="box-body isotope" id="box_body">
                 @forelse ($mascots as $mascot)
-                    @if( $mascot->active )
+
                         <div class="col-md-2 mascot-row {{ $mascot->category }}" data-category="{{ $mascot->category }}">
                             <div class="panel panel-default">
                                 <div class="panel-heading" style="height: 70px;">
@@ -46,6 +46,16 @@
                                     <div class="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-mascot" id="switch-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->active) ? 'checked' : '' }}>
                                         <label class="onoffswitch-label" for="switch-{{ $mascot->id }}">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">typographic</div>
+                                <div class="col-md-6">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox toggle-mascot-typographic" id="switch-typographic-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->typographic) ? 'checked' : '' }}>
+                                        <label class="onoffswitch-label" for="switch-typographic-{{ $mascot->id }}">
                                             <span class="onoffswitch-inner"></span>
                                             <span class="onoffswitch-switch"></span>
                                         </label>
@@ -76,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+
 
                 @empty
 

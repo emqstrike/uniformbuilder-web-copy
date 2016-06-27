@@ -35,6 +35,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Sublimation Only</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name='sublimation_only'>
+                                    <option value='0' @if ($color->sublimation_only == '0') selected @endif>No</option>
+                                    <option value='1' @if ($color->sublimation_only == '1') selected @endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Color Code</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control color-code" name="color_code" value="{{ $color->color_code }}">

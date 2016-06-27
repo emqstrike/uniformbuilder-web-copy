@@ -28,7 +28,9 @@
                     <table class='data-table table table-bordered'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Color</th>
+                            <th>Sublimation Only</th>
                             <th>Edit</th>
                             <th>Actions</th>
                         </tr>
@@ -37,7 +39,15 @@
                     @forelse ($colors as $color)
                         <tr class='color-{{ $color->id }} {{ (!$color->active) ? ' inactive' : '' }}'>
                             <td>
+                                {{ $color->id }}
+                            </td>
+                            <td>
                                 {{ $color->name }}
+                            </td>
+                            <td>
+                            @if( $color->sublimation_only )
+                                Yes
+                            @endif                                
                             </td>
                             <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
                                 <span class='badge'>{{ $color->color_code }}</span>

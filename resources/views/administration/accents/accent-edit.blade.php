@@ -46,7 +46,7 @@
             
             <div class="panel panel-info">
                <div class="panel-heading">Modify Accent</div>
-               <button class="btn btn-success updateColors" style='margin: 10px 10px 10px 30px'>Update Colors</button>
+               
                 <div class="panel-body">
 
                     <div class="col-md-5 canvasContainer">
@@ -76,6 +76,10 @@
                                     @endforeach  
                                 </select>
                             </fieldset>
+                              <fieldset class="form-group">
+                                <label for="formGroupExampleInput">Secondary Id : </label>
+                                 <input type="text"  value="{{ $accent->secondary_id }}" class="form-control inputText" id="fsecondary_id" name="secondary_id" placeholder="">
+                            </fieldset>
                             <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Name : </label>
                                  <input type="text"  value="{{ $accent->name }}" class="form-control inputText" id="fName" name="name" placeholder="">
@@ -92,6 +96,7 @@
                                 <label for="formGroupExampleInput">Size : </label>
                                  <input type="number" value="300"  class="form-control fontSize" id="fSize" placeholder="">
                             </fieldset>
+                       
                             <input type="hidden" class="accent_properties" name="accent_properties" >
                                                                                  
                             <button class="btn btn-primary submitAccent" style="display:none">Update Accent</button>

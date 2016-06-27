@@ -1,20 +1,20 @@
 $(document).ready(function() {
 
-    window.accents = [
-        {"name" : "No-Accent", "id" : "0", "layers" : "2", "thumbnail" : "no-accent.png"},
-        {"name" : "Outlined", "id" : "1", "layers" : "3", "thumbnail" : "outlined.png"},
-        {"name" : "Single Outline with Shadow", "id" : "2", "layers" : "4", "thumbnail" : "single_outline_with_shadow.png"},
-        {"name" : "Double Outline", "id" : "3", "layers" : "4", "thumbnail" : "double_outline.png"},
-        {"name" : "Drop Shadow", "id" : "4", "layers" : "3", "thumbnail" : "drop_shadow.png"},
-        {"name" : "Double Shadow", "id" : "5", "layers" : "4", "thumbnail" : "double_shadow.png"},
-        {"name" : "Shadow", "id" : "6", "layers" : "3", "thumbnail" : "shadow.png"},
-        {"name" : "Double Drop Shadow", "id" : "7", "layers" : "4", "thumbnail" : "double_drop_shadow.png"},
-        {"name" : "Outlined with Drop Shadow", "id" : "8", "layers" : "5", "thumbnail" : "outlined_with_drop_shadow.png"},
-        {"name" : "Center Shadow", "id" : "9", "layers" : "3", "thumbnail" : "center_shadow.png"},
-        {"name" : "Collegiate Drop Shadow", "id" : "10", "layers" : "4", "thumbnail" : "collegiate_drop_shadow.png"}
-    ];
+    // window.accents = [
+    //     {"name" : "No-Accent", "id" : "0", "layers" : "2", "thumbnail" : "no-accent.png"},
+    //     {"name" : "Outlined", "id" : "1", "layers" : "3", "thumbnail" : "outlined.png"},
+    //     {"name" : "Single Outline with Shadow", "id" : "2", "layers" : "4", "thumbnail" : "single_outline_with_shadow.png"},
+    //     {"name" : "Double Outline", "id" : "3", "layers" : "4", "thumbnail" : "double_outline.png"},
+    //     {"name" : "Drop Shadow", "id" : "4", "layers" : "3", "thumbnail" : "drop_shadow.png"},
+    //     {"name" : "Double Shadow", "id" : "5", "layers" : "4", "thumbnail" : "double_shadow.png"},
+    //     {"name" : "Shadow", "id" : "6", "layers" : "3", "thumbnail" : "shadow.png"},
+    //     {"name" : "Double Drop Shadow", "id" : "7", "layers" : "4", "thumbnail" : "double_drop_shadow.png"},
+    //     {"name" : "Outlined with Drop Shadow", "id" : "8", "layers" : "5", "thumbnail" : "outlined_with_drop_shadow.png"},
+    //     {"name" : "Center Shadow", "id" : "9", "layers" : "3", "thumbnail" : "center_shadow.png"},
+    //     {"name" : "Collegiate Drop Shadow", "id" : "10", "layers" : "4", "thumbnail" : "collegiate_drop_shadow.png"}
+    // ];
 
-    // $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
+    $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
 
     var material = {};
     var materialOptions = {};
@@ -90,8 +90,42 @@ $(document).ready(function() {
     getFonts(function(fonts){ window.fonts = fonts; });
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(function(patterns){ window.patterns = patterns; });
+    getAccents(function(accents){ window.accents = accents; });
 
-// console.log("FONTS: " + window.fonts);
+    var accentObject= [];
+    jQuery.each(accents, function(index, item) {  
+    var layers = (item.accent_properties).slice(1, -1);
+    layers =jQuery.parseJSON(layers);
+    accent = {
+              "name" : item.name,
+              "id": item.secondary_id,
+              "layers": layers.length,
+              "thumbnail" : item.thumbnail_path,          
+              }
+
+
+     accentObject.push(accent);
+    // console.log(accent);
+
+    // console.log(item.name);  
+    // console.log(item.id);  
+    // console.log(item.thumbnail_path);  
+    // console.log(layers.length);
+
+        // jQuery.each(layers, function(index2, item2) {
+        //     // console.log(item2.name.length );  
+
+        // });
+    
+
+
+
+    });
+    window.accents=accentObject;
+
+
+
+
 
     var colors_dropdown = generateColorsDropdown();
     function generateColorsDropdown(color_code){
@@ -377,6 +411,9 @@ $(document).ready(function() {
         updateCoordinates();
     });
 
+
+
+
     $(document).on('change', '.app-default-font', function() {
         var font = $('option:selected', this).data('font-family');
         var font_size = 30;
@@ -410,6 +447,7 @@ $(document).ready(function() {
     });
 
     $('#add_front_application').mousedown(function(){
+
 
         var default_item = $('#front-default-item').val();
         var default_name_raw = $('#application_name').val();
@@ -473,7 +511,7 @@ $(document).ready(function() {
         var style                   = 'margin-right: 5px';
         var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
         var app_id                  = '<input type="text" style="' + style + '" class="app-id" name="application_id" data-id="' + group.id + '" value="' + group.id + '" size="3">';
-        var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
+        var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + canvasFront.getObjects().indexOf(group) + '">Delete</a>';
         var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px;" data-id="' + application_number + '" class="app-def-name" value="'+default_name+'">';
         var application_rotation    = '<input type="text" data-id="' + canvasFront.getObjects().indexOf(group) + '" style="' + style + '" class="app-rotation" value="0" size="3">';
         var app_x                   = '<input type="text" style="' + style + '" class="app-x" value="' +canvasFront.width / 2+ '" size="4">';
@@ -484,7 +522,7 @@ $(document).ready(function() {
         var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
-        var colors                  = '<input type="text" style="' + style + '" class="app-colors" value="">';
+        var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
         var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
         var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
@@ -505,7 +543,7 @@ $(document).ready(function() {
         select_append += "</select>";
 
         var fields = [
-                    flip,
+                    delete_application,
                     app_id,
                     select_append,
                     def_name,
@@ -525,17 +563,29 @@ $(document).ready(function() {
                     default_font,
                     default_text,
                     default_number,
-                    delete_application
+                    flip
                 ];
 
         $( ".front-applications" ).append(generateTRow(fields));
         var canvasItem = "application"+group.id;
         application_number++;
 
+        
 
 
 
 
+
+        // $(".dd-pointer ").has("dd-pointer-up",function(){
+        //     console.log(this);
+        //     console.log("yes");
+
+
+        // });
+        // $(document).on("click change",".app-default-accent",function(){
+
+        //     coonsole.log("li lil is");
+        // });
 
 
         $.each(window.mascots, function(i, item) {
@@ -555,14 +605,28 @@ $(document).ready(function() {
 
         var mascot_class = '.app-default-mascot';
         $(mascot_class).ddslick({
+
+
             data: mascotsData,
             width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Mascot",
             onSelected: function (data) {
-                $('#mascot').val(data['selectedData']['value']);
-                console.log('Mascot ID: '+data['selectedData']['value']);
+   
+
+                    var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
+
+                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
+                        accentMascotSelect(data,"mascot",rowIndex);
+                    }
+
+
+
+                // $('#mascot').val(data['selectedData']['value']);
+                // console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -572,20 +636,57 @@ $(document).ready(function() {
             item['selected'] = false;
             item['description'] = 'Accent';
             item['imageSrc'] = item.thumbnail;
+            console.log(item.secondary_id);
         });
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
+        // $(".app-default-accent").
+   
         $(accent_class).ddslick({
+
             data: accentsData,
             width: 250,
             height: 300,
             imagePosition: "left",
             selectText: "Select Accent",
             onSelected: function (data) {
-                $('#accent').val(data['selectedData']['value']);
-                console.log('Accent ID: '+data['selectedData']['value']);
+               console.log(data);
+                var rowIndex = data.original[0].outerHTML;
+                rowIndex = $.parseHTML(rowIndex);
+                rowIndex = $(rowIndex).data("id");
+
+                if($('.app-def-item').eq(rowIndex).val()!="mascot"){
+
+                    accentMascotSelect(data,"accent",rowIndex);
+                }
+                 
+            
+
             },
+
         });
+
+        $(document).on("change",".accentLayerColors",function(){         
+            updateColorField(this);
+        });
+        function updateColorField(t){
+        var colorCodeField="";
+           $(t).parent(".colorSelection").find("select").each(function() {
+
+                var colorCode = ($(this).find(":selected"))[0].outerHTML;
+                 
+                colorCode =  $.parseHTML(colorCode);
+                colorCode = $(colorCode).data("color-code");
+                colorCodeField = colorCodeField +","+colorCode;      
+                $(this).css("background","#"+$(this).find(":selected").val());
+
+            });
+           $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
+
+        }
+
+       
+
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
             console.log('FLIP ADD');
@@ -600,6 +701,7 @@ $(document).ready(function() {
         // });
 
         updateApplicationsJSON();
+
     });  
 
     $(document).on('click', '.delete-application', function() {
@@ -617,7 +719,21 @@ $(document).ready(function() {
         canvasFront.renderAll();
         updateCoordinates();
         application_number--;
+        reIndexRowsDataID();
     });
+
+    function reIndexRowsDataID(){
+        var ctr = 0;
+        $(".app-rotation").each(function(i) {
+            $(this).data('id', ctr);
+            ctr++;
+        });
+        ctr = 0;
+        $(".delete-application").each(function(i) {
+            $(this).data('id', ctr);
+            ctr++;
+        });
+    }
 
     $('.mo-default-color, .mo-sublimated-default-color').change(function(){
         var color = $('option:selected', this).data('color');
@@ -950,6 +1066,14 @@ $(document).ready(function() {
         updateApplicationsJSON();
     });
 
+    $('.save-applications-button').on('click', function(){
+        updateApplicationsJSON();
+
+        $(".save-applications").trigger("click");
+    });
+
+    
+
     $('.material-option-applications').on('click', function(){
         application_number = 0;
         material = {
@@ -978,7 +1102,7 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
-        
+
 
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
@@ -986,6 +1110,7 @@ $(document).ready(function() {
         $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
+        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
 
@@ -997,7 +1122,7 @@ $(document).ready(function() {
         var app_properties = JSON.parse(apps);
         appendApplications(app_properties);
 
-        
+
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
@@ -1223,6 +1348,8 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
+        console.log(app_properties);
+
         var dividend = 2;
 
         for(c = 0; c < Object.keys(app_properties).length; c++){
@@ -1290,7 +1417,7 @@ $(document).ready(function() {
                 var items_arr               = ["logo", "number", "team_name", "player_name", "mascot", "free"];
                 var app_id                  = '<input type="text" style="' + style + '" class="app-id" data-id="'   + c + '" name="application_id" value="'  + app_properties[l].id + '" size="3">';
                 var def_name                = '<input type="text" style="' + style + '; float: left; width: 300px" data-id="'                  + c + '"class="app-def-name" value="'    + app_properties[l].name + '">';
-                var delete_application      = '<a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
+                var delete_application      = '<a href="#" class="btn btn-xs btn-primary save_app_row_template" ><span class="glyphicon glyphicon-save"></span> Save Row Template</a> <a class="btn btn-xs btn-danger delete-application" data-id="' + c + '">Delete</a>';
                 var application_rotation    = '<input type="text" data-id="' + c + '" style="' + style + '" class="app-rotation" value="'  + app_properties[l].rotation    + '" size="3">';
                 var ix = ( app_properties[l].pivot.x ) / dividend;
                 var iy = ( app_properties[l].pivot.y ) / dividend;
@@ -1318,12 +1445,12 @@ $(document).ready(function() {
                 var app_dnumber         = '<input type="checkbox" style="'  + style + '" class="app-number" value="1" '         + number_checked                    + '>';
                 var app_font_sizes      = '<input type="text" style="'      + style + '" class="app-font-sizes" value="'        + app_properties[l].fontSizes       + '" size="3">';
                 // var app_sizes           = '<input type="text" style="'      + style + '" class="app-uniform-sizes" value="'     + app_properties[l].uniformSizes    + '" size="3">';
-                var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" >';
+                var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" ><div class="colorSelection"></div>';
+
                 // var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
-                var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '">';
-                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
-        
-                var app_font = "";
+                var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
+                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+             var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
                 }
@@ -1372,7 +1499,7 @@ $(document).ready(function() {
                 var flip = "<a href='#' data-id='" + c + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
                 // contain TDs in an array, obvious?
                 var fields = [
-                    flip,
+                    delete_application,
                     app_id,
                     select_append,
                     def_name,
@@ -1392,7 +1519,7 @@ $(document).ready(function() {
                     default_font,
                     default_text,
                     default_number,
-                    delete_application
+                    flip
                 ];
 
                 $( ".front-applications" ).append(generateTRow(fields));
@@ -1416,6 +1543,8 @@ $(document).ready(function() {
                     });
                     item['description'] = item.category + ' [ ' + c + ' ]';
                     item['imageSrc'] = item.icon;
+                    item['layers'] = c ;
+
                 });
 
                 var mascotsData = window.mascots;
@@ -1433,19 +1562,31 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Mascot",
                     onSelected: function (data) {
+
+
+                    var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
+
+                    if($('.app-def-item').eq(rowIndex).val()=="mascot"){
+                        accentMascotSelect(data,"mascot",rowIndex);
+                    }
+                
+                                       
                         // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
                         // console.log( 'Classes' + $(this).attr('class') );
                         // $(amv_id).val( 'JETHRODEL' );
-                        $('#mascot').val(data['selectedData']['value']);
+                       // $('#mascot').val(data['selectedData']['value']);
                         // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
                         // console.log('DDS CLICK' + data['selectedData']['value']);
-                    },
+                    }
                 });
 
 
 
 
                 $.each(window.accents, function(i, item) {
+
                     item['text'] = item.name;
                     item['value'] = item.id;
                     if( app_properties[l].accents == item.id ){
@@ -1459,20 +1600,111 @@ $(document).ready(function() {
                 });
                 var accentsData = window.accents;
                 var accent_class = '.app-default-accent';
-                $(accent_class).ddslick({
+                $(accent_class).ddslick({                   
                     data: accentsData,
                     width: 250,
                     height: 300,
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
-                        $('#accent').val(data['selectedData']['value']);
-                        console.log('Accent ID: '+data['selectedData']['value']);
+                        console.log(data);
+                    var rowIndex = data.original[0].outerHTML;
+                    rowIndex = $.parseHTML(rowIndex);
+                    rowIndex = $(rowIndex).data("id");
+
+                    // console.log("//////accent");
+                    // console.log($('.app-def-item').eq(rowIndex).val());
+
+                    if($('.app-def-item').eq(rowIndex).val()!="mascot"){
+
+                        accentMascotSelect(data,"accent",rowIndex);
+                    }
+                 
+                       
+                     
                     },
                 });
 
+                    $(document).on("change",".accentLayerColors",function(){         
+                        updateColorField(this);
+                    });
+                    function updateColorField(t){
+                    var colorCodeField="";
+                       $(t).parent(".colorSelection").find("select").each(function() {
+
+                            var colorCode = ($(this).find(":selected"))[0].outerHTML;
+                             
+                            colorCode =  $.parseHTML(colorCode);
+                            colorCode = $(colorCode).data("color-code");
+                            colorCodeField = colorCodeField +","+colorCode;      
+                            $(this).css("background","#"+$(this).find(":selected").val());
+
+                        });
+                       $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
+
+                    }
 
 
+    // dd-container  
+    
+                //  $(document).on('click', '.app-default-mascot', function() {
+                //     console.log("licaklsjdlksajkld");
+                //     // validateTypeSelection(this);
+
+                // });
+                 
+                $(document).on('change', '.app-def-item', function() {
+                         
+                    if($(this).val() == "mascot"){
+                        var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
+                        if(selectedMascot == -1){
+                           
+                        $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
+                        $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
+                  
+                        }               
+                        selectedMascot = selectedMascot.toString();  
+                        $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
+                 
+                    }else{
+                        
+                        var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
+
+                        if(selectedAccent == -1){
+                            $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
+                            $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
+                  
+                        }
+                        selectedAccent = selectedAccent.toString();
+                        $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent });
+                     }       
+            
+
+                });
+                // $(document).on('ddslick', '.app-default-mascot', function() {
+
+  
+
+
+                // });
+                // $( ".app-def-item" ).each(function( index ) {
+                //     validateTypeSelection(this);
+                
+                // });
+
+                
+
+
+                // function validateTypeSelection(t){
+
+                //     if($(t).val() == "mascot"){
+                //     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").addClass("disabledElement");
+                //      $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").removeClass("disabledElement");
+                //     }else{
+                //     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").addClass("disabledElement");
+                //      $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").removeClass("disabledElement");
+                //     }
+                // }
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
@@ -1492,13 +1724,13 @@ $(document).ready(function() {
                 });
 
                 $('.app-rotation-flip').on('click', function(){
-                    console.log('FLIP CHANGE');
+                    // console.log('FLIP CHANGE');
                     var id = $(this).data('id');
                     flipApplication(id);
                 });
 
                 $('.app-rotation').change(function(){
-                    console.log('ROTATION');
+                    // console.log('ROTATION');
                     updateRXY(0);
                 });
 
@@ -1634,6 +1866,7 @@ $(document).ready(function() {
     });
 
     $('#save_app_template').on('click', function(){
+            updateApplicationsJSON();
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
         var perspective = $('#app-saved-perspective').val();
@@ -1654,9 +1887,83 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
+         
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(myData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
+        }
+
+    });
+    $(document).on('click', '.save_app_row_template', function(){
+
+        updateApplicationsJSON();
+        var block_pattern = $('#material_block_pattern').val();
+        var perspective = $('#app-saved-perspective').val();
+        var part = $('#app-material-option-name').val();
+        var applications_properties = $('.a-prop').val();
+        applications_properties = jQuery.parseJSON(applications_properties.slice(1, -1));
+        
+         layer = "layer"+$(".save_app_row_template").index(this);
+
+
+        for (var key in applications_properties) {
+      
+         if(key == layer){
+
+               applications_properties = applications_properties[key];
+         }
+
+        }
+        data={
+         layer0 : applications_properties
+
+        }
+
+
+        var description = "Lorem Ipsum Yaddah";
+
+        var url = "//" + api_host + "/api/application";
+       // var url = "//localhost:8888/api/application";
+        var name = "App-"+applications_properties['id'];
+        var myData={
+            "name":name,
+            "block_pattern":block_pattern,
+            "perspective":perspective,
+            "part":part,
+            "description":description,
+            "applications_properties": '"'+JSON.stringify(data)+'"'
+        };
+
+        console.log(applications_properties);
+        console.log("data"+data);
+        if($(this).attr('disabled') != 'disabled'){
+      
+            console.log('SAVE TEMPLATE!');
+            console.log('myData: '+JSON.stringify(myData));
+
+            console.log(myData);
+            console.log('"'+JSON.stringify(data)+'"');
+         
             $.ajax({
                 url: url,
                 type: "POST",
@@ -1862,6 +2169,25 @@ $(document).ready(function() {
         });
     }
 
+        function getAccents(callback){
+        var mascots;
+       var url = "//api-dev.qstrike.com/api/accents";
+        // var url = "//localhost:8888/api/accents";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                    accents = $(data['accents']).filter(function (i,n){return n.active==="1" });
+
+                if(typeof callback === "function") callback(accents);
+            }
+        });
+    }
+
     function getFonts(callback){
         var mascots;
         var url = "//api-dev.qstrike.com/api/fonts";
@@ -1949,7 +2275,7 @@ $(document).ready(function() {
 
     $(".load-applications-template").change(function() {
         canvasFront.clear();
-        application_number = 1;
+        application_number = 0;
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
         var va_prop_val = $(this).val();
 
@@ -2840,6 +3166,21 @@ function loadPolygon(data){
     // fixLoadPolygon();
 }
 
+$(".app-rotation").click(function(){
+
+    sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
+    console.log(sampleAccents);
+});
+$(".dd-selected-value").click(function(){
+
+    sampleAccents = $(".app-rotation").parent().siblings('td').find(".dd-selected-value").val();
+    console.log(sampleAccents);
+});
+
+
+
+
+
 function updateApplicationsJSON(){
     var multiplier = 2;
     applicationProperties = {};
@@ -2978,7 +3319,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].fontSizes = fontSizes;
         applicationProperties[itemIdx].uniformSizes = uniformSizes;
 
+        // applicationProperties[itemIdx].defaultAccent = applicationAccent;
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
+
         applicationProperties[itemIdx].defaultFont = applicationFont;
         applicationProperties[itemIdx].defaultText = applicationText;
         applicationProperties[itemIdx].defaultNumber = applicationNumber;
@@ -3040,5 +3383,65 @@ function updateApplicationsJSON(){
 
     console.log("APP PROPS: "+window.ap);
 }
+
+
+function accentMascotSelect(data,accentMascot,rowIndex){
+    console.log("/////////////////////");
+    console.log(rowIndex);
+
+    console.log("/////////////////////");
+    var layers;
+    var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
+    var colorCodeField="";
+    if(accentMascot == "accent"){
+
+        layers = ((data.selectedData).layers)-2;
+
+    }else{
+        layers = data.selectedData.layers;
+
+    }
+    for (var i = 0; i < layers; i++) { 
+                       
+        if(colorCode[i]){
+            if(colorCodeField){
+                colorCodeField = colorCodeField +","+colorCode[i]; 
+            }else{
+                colorCodeField = colorCode[i]; 
+            }
+            
+        }else{
+            
+            if(colorCodeField){
+                colorCodeField = colorCodeField +","+window.colors[0].color_code; 
+            }else{
+                colorCodeField = window.colors[0].color_code; 
+            }
+        }
+    }
+    $(".app-colors").eq(rowIndex).val(colorCodeField);
+    $(".colorSelection").eq(rowIndex).empty();
+    
+    $.each(colorCodeField.split(','), function (intIndex, objValue) {
+
+        $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
+        jQuery.each(window.colors, function(index, item) {                
+            $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
+
+        }); 
+        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
+            //may want to use $.trim in here
+            return $(this).data("color-code") == objValue; 
+        }).prop('selected', true);
+        $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).val())
+
+    })
+
+
+}
+
+   
+
+
 
 });

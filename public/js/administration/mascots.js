@@ -96,6 +96,34 @@ $(document).ready(function() {
                 }
             });
         }); 
+        $('.toggle-mascot-typographic').on('click', function(){
+            
+            var id = $(this).data('mascot-id');
+            console.log(id);
+             var url = "//" + api_host + "/api/mascot/toggle_typographic/";
+            //  var url = "//localhost:8888/api/mascot/toggle_typographic/";
+          
+             $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
+        }); 
     }
 
     $('.delete-mascot').on('click', function(){

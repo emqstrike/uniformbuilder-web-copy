@@ -111,5 +111,155 @@ $('.view-builder-customization').on('click', function(){
     var trimmed_str = builder_customization.substring(1, builder_customization.length-1);
     var json = JSON.parse(trimmed_str);
     console.dir(json);
+});
+
+
+
+$('.factory-oid').on('click', function(e){
+    e.preventDefault();
+});
+
+$('.send-to-factory').on('click', function(e){
+
+    e.preventDefault();
+
+    // PostOrder();
+
+    order_id = $(this).data('order-id');
+    client = $(this).data('client');
+
+    ship_contact = $(this).data('ship-contact');
+    ship_address = $(this).data('ship-address');
+    ship_phone = $(this).data('ship-phone');
+    ship_city = $(this).data('ship-city');
+    ship_state = $(this).data('ship-state');
+    ship_zip = $(this).data('ship-zip');
+
+    billing_contact = $(this).data('bill-contact');
+    billing_address = $(this).data('bill-address');
+    billing_city = $(this).data('bill-city');
+    billing_state = $(this).data('bill-state');
+    billing_zip = $(this).data('bill-zip');
+    billing_email = $(this).data('bill-email');
+    billing_phone = $(this).data('bill-phone');
+
+    // function PostOrder() {
+
+        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+
+
+        var order = {
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
+            "APICode": 1,
+            "Gender": 0,
+            "RepID": 1355,
+            "RepIDEnteredBy": 0,
+            "Sport": "All"
+        };
+
+        var orderPart = {
+            "ItemID": 455,
+            "Description": "Arizona Jersey",
+            "DesignSheet": "test.png"
+        };
+
+
+        var orderQuestionValue = [{
+            "QuestionID": 16,
+            "Value": "Dazzle (DA)"
+        }];
+
+        var orderQuestions = {
+            "orderQuestion": orderQuestionValue
+        };
+
+
+
+        var orderItems = [{
+            "Size": "2XL",
+            "Number": "22",
+            "Name": "Lee",
+            "LastNameApplication": "Directly to Jersey",
+            "Sample": 0
+            },{
+            "Size" : "1XL",
+            "Number" : "21",
+            "Name" : "Brown",
+            "LastNameApplication": "Directly to Jersey",
+            "Sample": 0     
+            },{
+            "Size" : "XS",
+            "Number" : "11",
+            "Name" : "Del Rosario",
+            "LastNameApplication": "Directly to Jersey",
+            "Sample": 0     
+            }
+        ];
+
+
+
+        var orderPartsEntire = [{
+            "orderPart": orderPart,
+            "orderQuestions": orderQuestions,
+            "orderItems": orderItems
+        }];
+
+
+        var orderEntire =
+        {
+            "Order": order,
+            "orderParts": orderPartsEntire
+        };
+
+    strResult = JSON.stringify(orderEntire);
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(orderEntire),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert('worked');
+            var factory_order_id = data[0].OrderID;
+            updateFOID(order_id, factory_order_id);
+            // console.log(data[0].OrderID);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error Code Here
+        }
     });
+
+});
+
+function updateFOID(id, factory_order_id){
+    $.ajax({
+        url: '//' + api_host + '/api/order/updateFOID',
+        type: "POST",
+        data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+                console.log("Success! Factory ID is updated.");
+                document.location.reload();
+            }
+        }
+    });
+}
+
 });

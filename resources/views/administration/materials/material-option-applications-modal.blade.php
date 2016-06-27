@@ -20,6 +20,7 @@
                     <!-- <div>
                         <a href="#" class="btn btn-primary update-applications-json">Save</a>
                     </div> -->
+                    <div id="shape-crosshair" style="border: 1px solid #e3e3e3; z-index: 1; position: absolute; float: left; opacity: 0.45;"></div>
                     <div id="shape-view" style="border: 1px solid #e3e3e3;"></div>
                     <div id="shape-view-top" style="border: 1px solid #e3e3e3; z-index: 2; position: relative; float: left; margin-top: -550px; opacity: 0.45;">
                         <canvas id="applications-front-canvas"></canvas>
@@ -128,8 +129,9 @@
             </div>
             <hr>
             <div class="modal-footer">
-                <a href="#" class="btn btn-success update-applications-json">Update Changes</a>
-                <input type="submit" class="btn btn-primary save-applications" value="Save">
+                <a href="#" class="btn btn-success update-applications-json" style="display:none">Update Changes</a>
+                <input type="submit" class="btn btn-primary save-applications-button" value="Save">
+                <input type="submit" class="btn btn-primary save-applications" value="Save" style="display:none">
                 <!-- <a href="#" class="btn btn-primary update-applications-json">Save Changes</a> -->
                 <!-- <a href="#" class="btn btn-success update-applications-json">Finalize</a>
                 <input type="submit" class="btn btn-primary save-changes" value="Save">
@@ -138,4 +140,4 @@
             </form>
         </div>
     </div>
-</div>
+</div>a
