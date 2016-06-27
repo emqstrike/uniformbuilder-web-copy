@@ -61,6 +61,7 @@ class ColorsController extends Controller
         $colorName = $request->input('name');
         $colorCode = $request->input('color_code');
         $hexCode = $request->input('hex_code');
+        $sublimationOnly = $request->input('sublimation_only');
 
         $colorId = null;
         if (!empty($request->input('color_id')))
@@ -90,7 +91,8 @@ class ColorsController extends Controller
         $data = [
             'name' => $colorName,
             'color_code' => $colorCode,
-            'hex_code' => $hexCode
+            'hex_code' => $hexCode,
+            'sublimation_only' => $sublimationOnly
         ];
 
         $response = null;

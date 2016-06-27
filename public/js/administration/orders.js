@@ -224,9 +224,8 @@ $('.send-to-factory').on('click', function(e){
             "orderParts": orderPartsEntire
         };
 
-
     strResult = JSON.stringify(orderEntire);
-// console.log(strResult);
+
     $.ajax({
         url: url,
         type: "POST",
