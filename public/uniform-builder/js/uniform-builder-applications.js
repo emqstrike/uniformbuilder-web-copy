@@ -1586,15 +1586,20 @@
 
         };
 
+        ub.funcs.getSettingsObject = function (applicationID) {
+
+            return ub.current_material.settings.applications[applicationID];
+
+        }
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
-            var sprite_collection = [];
-            var mat_option = ub.funcs.getApplicationMatOption(app_id);
-            var marker_name = "objects_" + app_id;
-            var views = ub.data.applications_transformed[mat_option][app_id].views;
-
-            var _applicationObj = ub.data.applications_transformed[mat_option][app_id];
-
+            var sprite_collection   = [];
+            var mat_option          = ub.funcs.getApplicationMatOption(app_id);
+            var marker_name         = "objects_" + app_id;
+            var views               = ub.data.applications_transformed[mat_option][app_id].views;
+            var _applicationObj     = ub.data.applications_transformed[mat_option][app_id];
+            
             _.each(ub.views, function(_view){
 
                 var _view_name = _view + '_view';
@@ -1788,7 +1793,9 @@
 
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
 
-                    point.scale.x = point.scale.x * -1;
+                    if (args.mascot.typographic === "0") {
+                        point.scale.x = point.scale.x * -1;
+                    }
 
                 }
 
