@@ -1090,7 +1090,7 @@
         var elements = "";
 
         if (settings_obj.size === 12)  { scale_settings = {x: 1.03, y: 1.03}; }
-        if (settings_obj.size === 10)  { scale_settings = {x: 1.03, y: 0.03}; }
+        if (settings_obj.size === 10)  { scale_settings = {x: 1.03, y: 1.03}; }
         if (settings_obj.size === 8)   { scale_settings = {x: 0.91, y: 0.91}; }
         if (settings_obj.size === 4)   { scale_settings = {x: 0.36, y: 0.36}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.28, y: 0.28}; }
