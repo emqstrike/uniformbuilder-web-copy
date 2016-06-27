@@ -1772,6 +1772,18 @@
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y  -= 30; }
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)  { point.position.y  -= 30; }
 
+                /// New Overrrides (After Mascots are resized)
+
+                if (app_id === '4' && _applicationObj.type === 'mascot' && _size === 0.5)   { point.position.y   += 3;   }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)    { point.position.y   += 40;  }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)    { point.position.y   += 30;  }
+
+                if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
+                if (_applicationObj.type === 'mascot' && _size === 3)    { point.position.y   -= 2;    }
+                if (_applicationObj.type === 'mascot' && _size === 2)    { point.position.y   += 13;   }
+                if (_applicationObj.type === 'mascot' && _size === 1)    { point.position.y   += 13;   }
+                if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
+
             });
 
             ub.funcs.identify(app_id);
