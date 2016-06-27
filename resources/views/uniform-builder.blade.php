@@ -132,11 +132,11 @@
 
         <div id="sizes">
             
-            <span class="size">YXS</span> <span class="size">YS</span> <span class="size">YM</span> <span class="size">YL</span> <span class="size">YXL</span> <span class="size">Y2XL</span> <span class="size">YXXL</span> 
+            <span data-status="off" data-size="YXS" class="size">YXS</span> <span data-status="off" data-size="YS" class="size">YS</span> <span data-status="off" data-size="YM" class="size">YM</span> <span data-status="off" data-size="YL" class="size">YL</span> <span data-status="off" data-size="YXL" class="size">YXL</span> <span data-status="off" data-size="Y2XL" class="size">Y2XL</span> <span data-status="off" data-size="YXXL" class="size">YXXL</span> 
 
             <br />
 
-            <span class="size">XS</span> <span class="size">S</span> <span class="size">M</span> <span class="size">L</span> <span class="size">XL</span> <span class="size">2XL</span> <span class="size">XL</span>
+            <span data-status="off" data-size="XS" class="size">XS</span> <span data-status="off" data-size="S" class="size">S</span> <span data-status="off" data-size="M" class="size">M</span> <span data-status="off" data-size="L" class="size">L</span> <span data-status="off" data-size="XL" class="size">XL</span> <span data-status="off" data-size="2XL" class="size">2XL</span> <span data-status="off" data-size="XL" class="size">XL</span>
 
         </div>
 
