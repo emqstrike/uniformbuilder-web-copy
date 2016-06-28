@@ -59,7 +59,7 @@
                             </td>
                             <td>
                                 @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs">{{ $item->description }}</a></br>
+                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a></br>
                                 @endforeach
                             </td>
                             <!-- <td>

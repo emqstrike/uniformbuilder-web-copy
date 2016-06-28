@@ -268,10 +268,10 @@ $(document).ready(function() {
             length++;
         });
 
-        if(length > 1){
-            $(this).closest('tr').remove();
-            length--;
-        }
+        // if(length > 1){
+        $(this).closest('tr').remove();
+        length--;
+        // }
 
 
         var ctr = length;
