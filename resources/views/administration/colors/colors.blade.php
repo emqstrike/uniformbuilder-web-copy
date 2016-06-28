@@ -17,12 +17,12 @@
                             </a>
                         </small>
                     </h1>
-                    <small>
+                    <!-- <small>
                         <a href="/administration/colors/updateAll" class='btn btn-xs btn-primary'>
                             <span class="glyphicon glyphicon-refresh"></span>
                             Update Colors
                         </a>
-                    </small>
+                    </small> -->
                 </div>
                 <div class="box-body">
                     <table class='data-table table table-bordered'>

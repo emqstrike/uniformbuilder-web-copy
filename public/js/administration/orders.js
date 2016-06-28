@@ -113,8 +113,6 @@ $('.view-builder-customization').on('click', function(){
     console.dir(json);
 });
 
-
-
 $('.factory-oid').on('click', function(e){
     e.preventDefault();
 });
@@ -125,6 +123,7 @@ $('.send-to-factory').on('click', function(e){
 
     // PostOrder();
 
+    api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
 
@@ -143,10 +142,51 @@ $('.send-to-factory').on('click', function(e){
     billing_email = $(this).data('bill-email');
     billing_phone = $(this).data('bill-phone');
 
-    // function PostOrder() {
+console.log(order_id);
 
+    window.order_parts = null;
+    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+
+
+
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//localhost:8888/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+
+    window.order_parts.forEach(function(entry) {
+        entry.orderPart = {
+            "ItemID" : entry.item_id,
+            "Description" : entry.description,
+            "DesignSheet" : entry.design_sheet
+        };
+
+        entry.orderQuestions = {};
+        entry.orderItems = JSON.parse(entry.roster);
+
+        delete entry.builder_customizations;
+        delete entry.description;
+        delete entry.factory_order_id;
+        delete entry.id;
+        delete entry.item_id;
+        delete entry.oid;
+        delete entry.roster;
+        // entry.roster = 
+    });
+// console.log(window.order_parts);
         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
-
 
         var order = {
             "Client": client,
@@ -170,61 +210,63 @@ $('.send-to-factory').on('click', function(e){
             "Sport": "All"
         };
 
-        var orderPart = {
-            "ItemID": 455,
-            "Description": "Arizona Jersey",
-            "DesignSheet": "test.png"
-        };
+        // var orderPart = {
+        //     "ItemID": 455,
+        //     "Description": "Arizona Jersey",
+        //     "DesignSheet": "test.png"
+        // };
 
 
-        var orderQuestionValue = [{
-            "QuestionID": 16,
-            "Value": "Dazzle (DA)"
-        }];
+        // var orderQuestionValue = [{
+        //     "QuestionID": 16,
+        //     "Value": "Dazzle (DA)"
+        // }];
 
-        var orderQuestions = {
-            "orderQuestion": orderQuestionValue
-        };
-
-
-
-        var orderItems = [{
-            "Size": "2XL",
-            "Number": "22",
-            "Name": "Lee",
-            "LastNameApplication": "Directly to Jersey",
-            "Sample": 0
-            },{
-            "Size" : "1XL",
-            "Number" : "21",
-            "Name" : "Brown",
-            "LastNameApplication": "Directly to Jersey",
-            "Sample": 0     
-            },{
-            "Size" : "XS",
-            "Number" : "11",
-            "Name" : "Del Rosario",
-            "LastNameApplication": "Directly to Jersey",
-            "Sample": 0     
-            }
-        ];
+        // var orderQuestions = {
+        //     "orderQuestion": orderQuestionValue
+        // };
 
 
 
-        var orderPartsEntire = [{
-            "orderPart": orderPart,
-            "orderQuestions": orderQuestions,
-            "orderItems": orderItems
-        }];
+        // var orderItems = [{
+        //     "Size": "2XL",
+        //     "Number": "22",
+        //     "Name": "Lee",
+        //     "LastNameApplication": "Directly to Jersey",
+        //     "Sample": 0
+        //     },{
+        //     "Size" : "1XL",
+        //     "Number" : "21",
+        //     "Name" : "Brown",
+        //     "LastNameApplication": "Directly to Jersey",
+        //     "Sample": 0     
+        //     },{
+        //     "Size" : "XS",
+        //     "Number" : "11",
+        //     "Name" : "Del Rosario",
+        //     "LastNameApplication": "Directly to Jersey",
+        //     "Sample": 0     
+        //     }
+        // ];
+
+
+
+        // var orderPartsEntire = [{
+        //     "orderPart": orderPart,
+        //     "orderQuestions": orderQuestions,
+        //     "orderItems": orderItems
+        // }];
 
 
         var orderEntire =
         {
             "Order": order,
-            "orderParts": orderPartsEntire
+            // "orderParts": orderPartsEntire
+            "orderParts" : window.order_parts
         };
 
     strResult = JSON.stringify(orderEntire);
+    console.log(strResult);
 
     $.ajax({
         url: url,

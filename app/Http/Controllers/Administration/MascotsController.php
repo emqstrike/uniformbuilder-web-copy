@@ -166,7 +166,7 @@ class MascotsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-
+dd($data);
         // Upload images from the layers
         try
         {
@@ -194,7 +194,7 @@ class MascotsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/materials')
+            return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
