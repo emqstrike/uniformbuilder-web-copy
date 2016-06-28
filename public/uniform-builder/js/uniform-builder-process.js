@@ -65,16 +65,52 @@ $(document).ready(function() {
 
         ub.funcs.fadeOutCustomizer();
 
+        var data = {
+            tabs: ub.data.uniformSizes[0].sizes,
+        };
+
+        var template = $('#m-roster-table').html();
+        var markup = Mustache.render(template, data);
+
+        $('div.tabsContainer').append(markup);
+
+        $('span.add-player').on('click', function () {
+
+            var _size = $(this).data('size');
+            var $rosterTable = $('table.roster-table[data-size="' + _size + '"]');
+            var _length = $rosterTable.find('tr').length;
+            
             var data = {
-                tabs: ub.data.uniformSizes[0].sizes,
+                index: _length,
+                size: _size,
             };
 
-            var template = $('#m-roster-table').html();
-            var markup = Mustache.render(template, data);
+            var template = $('#m-roster-table-field').html();
+            var markup = Mustache.render(template, data)
 
-            $('div.tabsContainer').append(markup);
+            $rosterTable.append(markup);
 
-    
+            $('span.clear-row[data-size="' + _size + '"]').unbind('click');
+            $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
+
+                var $rosterTable = $('table.roster-table[data-size="' + _size + '"]');
+
+                var _index  = $(this).data('index');
+                var _size   = $(this).data('size');
+                var $row = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+
+                $row.remove();
+
+                $rosterTable.find('tr').each(function (index){
+
+                    // This is not working
+
+                });
+
+            });
+
+        });
+
         $('span.back-to-customizer-button').on('click', function (){
 
             ub.funcs.fadeInCustomizer();
