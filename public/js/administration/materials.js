@@ -1692,14 +1692,14 @@ $(document).ready(function() {
                    
                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
                         jQuery.each(filteredMascots, function(index, item) {
-                            console.log(item);
+                            
                             $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
                         });
                     }else{
                          $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
                     }
                  
-           
+               console.log(filteredMascots);
                 });
                 
 
