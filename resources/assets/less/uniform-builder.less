@@ -3981,11 +3981,208 @@ div.header-container.main {
         display: none;
 
         width: 80%;
-        height: 100%;
+        height: 1500px;
         background-color: white;
         padding: 30px;
         margin: 0 auto;
         margin-top: 30px;
+
+        span.header {
+        
+           font-size: 1.3em;
+
+        }
+
+        div#size-tabs { 
+
+            text-align: center;
+
+            span.youth-header, span.adult-header {
+
+                display: none;
+
+            }
+
+            span.header {
+
+                font-weight: bold;
+                margin: 10px;
+
+            }
+
+            div.tabButtonsContainer {
+
+                margin-top: 30px;
+                text-align: center;
+
+                span.adult-header, span.youth-header {
+
+                    margin-right: 7px;
+                    margin-left: 7px;
+
+
+                }
+
+                span.buttonSeparator {
+
+                    display: none;
+
+                }
+
+                span.tabButton {
+
+                    display: none;
+                    width: 50px;
+                    height: 30px;
+                    text-align: center;
+                    padding-top: 7px;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    color: white;
+                    background-color: @forecolor;
+                    cursor: pointer;
+
+                    i.fa {
+                        float: right;
+                    }
+
+                }
+
+                span.tabButton:hover, span.tabButton.active {
+
+                    background-color: @text_color;
+
+                }
+
+                span.tabButton.active {
+
+                    text-decoration: underline;
+
+                }
+
+            }
+
+            div.tabsContainer {
+
+                width: 100%;
+                border: solid 1px #3d3d3d;
+                height: 700px;
+
+                div.tab {
+
+                    display:none;
+                    padding: 30px;
+
+                    span.add-player {
+
+                        background-color: @forecolor;
+                        width: 120px;
+                        height: 35px;
+                        display: inline-block;
+                        padding: 7px;
+                        cursor: pointer;
+                        color: white;
+
+                    }
+
+                    span.add-player:hover {
+
+                        background-color: @text_color;
+                       
+                    }
+
+                    table.roster-table {
+
+                        tr {
+
+                            height: 40px;
+
+                            td {
+
+                                span.clear-row {
+
+                                    cursor: pointer;
+
+                                }
+
+                                input.size {
+
+                                    width: 70px;
+                                    text-align: center;
+
+                                }
+
+                                input.lastname {
+
+                                    width: 210px;
+                                    text-align: center;
+
+                                }
+
+                                input.number {
+
+                                    width: 70px;
+                                    text-align: center;
+
+                                }
+
+                                input.quantity {
+
+                                    width: 70px;
+                                    text-align: center;
+
+                                }
+
+                                select.sleeve-type {
+
+                                    width: 210px;
+
+                                }
+
+                                select.lastname-application {
+
+                                    width: 210px;
+
+                                }
+
+                            }
+
+                        }
+
+                        thead {
+
+                            th.wide {
+
+                                width: 230px;
+
+                            }
+
+                            th.thnumber {
+                                width: 80px;
+                            }
+
+                            th.action, th.count {
+
+                                width: 30px;
+
+                            }
+
+                            th {
+
+                                width: 160px;
+                                text-align: center;
+
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+        }
 
         span.back-to-customizer-button {
 
@@ -4027,10 +4224,11 @@ div.header-container.main {
                 text-align: center;
                 border: solid 1px @text_color;
                 border-radius: 25px 25px 25px 25px;
-                margin: 10px;
+                margin: 3px;
                 font-weight: bold;
                 padding-top: 15px;
                 font-size: 0.9em;
+                cursor: pointer;
 
             }
 
