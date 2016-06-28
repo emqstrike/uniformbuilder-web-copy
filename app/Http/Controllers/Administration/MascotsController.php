@@ -166,7 +166,7 @@ class MascotsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-dd($data);
+// dd($data);
         // Upload images from the layers
         try
         {
