@@ -85,7 +85,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Neck Options</th>
+                                <th>Options</th>
                                 <th>Thumbnail</th>
                                 <th>Sport</th>
                                 <th>Active</th>

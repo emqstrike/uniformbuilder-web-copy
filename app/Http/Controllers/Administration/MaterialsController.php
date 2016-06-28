@@ -183,6 +183,7 @@ class MaterialsController extends Controller
         $uniformCategoryId = $request->input('uniform_category_id');
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
+        $uniformApplicationType = $request->input('uniform_application_type');
         $slug = FileUploader::makeSlug($materialName);
 
         $block_pattern_id = $request->input('block_pattern_id');
@@ -236,7 +237,8 @@ class MaterialsController extends Controller
             'sku' => $sku,
             'builder_customizations' => $builder_customizations,
             'description' => $description,
-            'design_type' => $design_type
+            'design_type' => $design_type,
+            'uniform_application_type' => $uniformApplicationType
         ];
 
         try {
