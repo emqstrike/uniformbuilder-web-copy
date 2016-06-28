@@ -1678,7 +1678,7 @@ $(document).ready(function() {
 
                      jQuery.each(mascots, function(index, item) {    
                       
-                        if((item.name).indexOf(mascotValue) > -1)
+                        if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
                         {
                             filteredMascots.push( index );
 
@@ -1686,7 +1686,7 @@ $(document).ready(function() {
 
                     });
            
-
+// a
                 var mascotFilterIndex=$(".mascotFilter").index(this);
                     if($(this).val()){             
                    

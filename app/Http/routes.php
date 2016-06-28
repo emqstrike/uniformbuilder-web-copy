@@ -38,6 +38,14 @@ Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 // Save Logo 
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
 
+// help Routes
+Route::group(array('prefix' => 'help'), function() {
+
+    Route::get('getting_started', 'Help\HelpController@getting_started');
+
+});
+
+
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
     
