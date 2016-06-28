@@ -523,7 +523,7 @@ $(document).ready(function() {
         var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
-        var default_mascot          = '<select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
+        var default_mascot          = '<input type="textbox" class="mascotFilter"><select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
         var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
@@ -601,7 +601,7 @@ $(document).ready(function() {
             item['imageSrc'] = item.icon;
         });
 
-        var mascotsData = window.mascots;
+         mascotsData = window.mascots;
 
         var mascot_class = '.app-default-mascot';
         $(mascot_class).ddslick({
@@ -1449,7 +1449,7 @@ $(document).ready(function() {
 
                 // var app_accents         = '<input type="text" style="'      + style + '" class="app-accents" value="'     + app_properties[l].accents    + '" size="3">';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
-                var default_mascot      = '<select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
+                var default_mascot      = '<input type="textbox" class="mascotFilter"><select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
              var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
@@ -1643,18 +1643,8 @@ $(document).ready(function() {
                        $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
                     }
-
-
-    // dd-container  
-    
-                //  $(document).on('click', '.app-default-mascot', function() {
-                //     console.log("licaklsjdlksajkld");
-                //     // validateTypeSelection(this);
-
-                // });
                  
-                $(document).on('change', '.app-def-item', function() {
-                         
+                $(document).on('change', '.app-def-item', function() {                       
                     if($(this).val() == "mascot"){
                         var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
                         if(selectedMascot == -1){
@@ -1666,10 +1656,8 @@ $(document).ready(function() {
                         selectedMascot = selectedMascot.toString();  
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
                  
-                    }else{
-                        
+                    }else{              
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
-
                         if(selectedAccent == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
@@ -1681,30 +1669,39 @@ $(document).ready(function() {
             
 
                 });
-                // $(document).on('ddslick', '.app-default-mascot', function() {
+                $(document).on('change', '.mascotFilter', function() {
 
-  
+                  
+                var filteredMascots=[];        
+                var mascotValue = $(this).val();
+             
 
+                     jQuery.each(mascots, function(index, item) {    
+                      
+                        if((item.name).indexOf(mascotValue) > -1)
+                        {
+                            filteredMascots.push( index );
 
-                // });
-                // $( ".app-def-item" ).each(function( index ) {
-                //     validateTypeSelection(this);
+                        }
+
+                    });
+           
+
+                var mascotFilterIndex=$(".mascotFilter").index(this);
+                    if($(this).val()){             
+                   
+                        $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
+                        jQuery.each(filteredMascots, function(index, item) {
+                            console.log(item);
+                            $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
+                        });
+                    }else{
+                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
+                    }
+                 
+              
+                });
                 
-                // });
-
-                
-
-
-                // function validateTypeSelection(t){
-
-                //     if($(t).val() == "mascot"){
-                //     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").addClass("disabledElement");
-                //      $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").removeClass("disabledElement");
-                //     }else{
-                //     $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:odd").addClass("disabledElement");
-                //      $(".application-row").eq($(".app-def-item").index(t)).find(".dd-container:even").removeClass("disabledElement");
-                //     }
-                // }
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
