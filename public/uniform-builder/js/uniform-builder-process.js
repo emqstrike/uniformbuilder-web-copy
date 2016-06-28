@@ -18,6 +18,18 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.addSizesTabs = function (size) {
+
+        console.log('Add Sizes Tabs....');
+
+    }
+
+    ub.funcs.removeSizesTabs = function (size) {
+
+        console.log('Remove Sizes Tabs....');
+
+    }
+
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
@@ -25,6 +37,34 @@ $(document).ready(function() {
         $('span.back-to-customizer-button').on('click', function (){
 
             ub.funcs.fadeInCustomizer();
+
+        });
+
+        $('span.size').on('click', function () {
+
+            var _status = $(this).data('status');
+            var _size   = $(this).data('size');
+
+            if (_status === 'off') {
+
+                $(this).addClass('active');
+                $(this).data('status', 'on');
+                ub.funcs.addSizesTabs(_size);
+
+            }
+            else {
+
+                $(this).removeClass('active');
+                $(this).data('status', 'off');
+                ub.funcs.removeSizesTabs(_size);
+
+            }
+
+            console.log('Size: ');
+            console.log(_size);
+
+            console.log('Status: ');
+            console.log(_status);
 
         });
         
