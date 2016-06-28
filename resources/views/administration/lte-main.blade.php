@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Administration | {{ env('APP_TITLE') }}</title>
@@ -18,6 +19,7 @@
 <link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <link rel="stylesheet" type="text/css" href="/js/libs/pnotify/pnotify.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
+<link rel="stylesheet" type="text/css" href="/css/introjs.css">
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,6 +38,23 @@
 <!-- webFontLoader -->
 <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
 
+
+
+<style type="text/css">
+/*intro css*/
+.introTrigger{
+    font-size: 31px;
+    padding: 10px;
+    
+}
+.introStart{
+    display: none;
+}
+
+
+</style>>
+
+
 @yield('styles')
 </head>
 <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse">
@@ -52,10 +71,15 @@
         </a>
 
         <nav class="navbar navbar-static-top" role="navigation">
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <a href="#" data-step="1" data-intro="This is a tooltip!" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
+
             </a>
-            <div class="navbar-custom-menu">
+            <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i>
+
+        <a class="btn btn-large btn-success introStart"   >Show me how</a>
+
+            <div class="navbar-custom-menu" >
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -157,6 +181,7 @@
 <script type="text/javascript" src="/js/libs/pnotify/pnotify.js"></script>
 <script src="/dist/js/app.min.js"></script>
 <script src="/js/administration/jquery-confirm.js"></script>
+<script src="/intro-js/intro.js"></script>
 
 
 
@@ -164,6 +189,88 @@
 
 @yield('scripts')
 @yield('custom-scripts')
+    
+     <script>
 
+
+      $(function(){
+        $(".introTrigger").click(function() {
+
+
+
+
+            $(".sidebar-toggle").trigger("click");
+            
+        });
+        $(".sidebar-toggle").click(function(){
+            setTimeout(function () {
+                jQuery(".introStart").trigger("click"); 
+            }, 1000);
+         
+        });
+
+    $(".introStart").click(function() {
+
+
+
+            introJs().oncomplete(function(targetElement) {
+
+              console.log('complete');
+            }).onexit(function(targetElement) {
+              console.log('exit');
+            }).onchange(function(targetElement) {
+              console.log('change');
+            }).onbeforechange(function(targetElement) {
+              
+            
+          switch($(targetElement).attr("data-step")) {
+            case "2":
+               
+              break;
+            case "3":
+                $(".treeview a").trigger("click");   
+            //     setTimeout(function () {
+            //     jQuery(".introStart").trigger("click"); 
+            // }, 1000);
+              break;
+            case "4":
+              
+              break;
+            case "5":
+             
+              break;
+          }
+        }).start();
+          });
+ });
+    </script>
+    <script>
+      $("#flexi_form_start").click(function() {
+
+        introJs().onbeforechange(function(targetElement) {
+              
+            
+          switch($(targetElement).attr("data-step")) {
+            case "2":
+          $( ".sidebar-toggle" ).trigger('click');
+            
+             
+              break;
+            case "3":
+              $("input").addClass("error");
+              $(targetElement).show();
+              break;
+            case "4":
+              $(".left").css("float", "none");
+              $(targetElement).show();
+              break;
+            case "5":
+              $(".right").show();
+              $(targetElement).show();
+              break;
+          }
+        }).start();
+      });
+    </script>
   </body>
 </html>

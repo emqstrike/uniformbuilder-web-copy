@@ -1586,15 +1586,20 @@
 
         };
 
+        ub.funcs.getSettingsObject = function (applicationID) {
+
+            return ub.current_material.settings.applications[applicationID];
+
+        }
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
-            var sprite_collection = [];
-            var mat_option = ub.funcs.getApplicationMatOption(app_id);
-            var marker_name = "objects_" + app_id;
-            var views = ub.data.applications_transformed[mat_option][app_id].views;
-
-            var _applicationObj = ub.data.applications_transformed[mat_option][app_id];
-
+            var sprite_collection   = [];
+            var mat_option          = ub.funcs.getApplicationMatOption(app_id);
+            var marker_name         = "objects_" + app_id;
+            var views               = ub.data.applications_transformed[mat_option][app_id].views;
+            var _applicationObj     = ub.data.applications_transformed[mat_option][app_id];
+            
             _.each(ub.views, function(_view){
 
                 var _view_name = _view + '_view';
@@ -1684,7 +1689,6 @@
                 if (typeof args.overrideOffsetX !== 'undefined') {
 
                     point.position.x -= _xOffset;
-
                     point.position.x += parseFloat(args.overrideOffsetX);
 
                 }
@@ -1772,6 +1776,28 @@
 
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)  { point.position.y  -= 30; }
                 if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)  { point.position.y  -= 30; }
+
+                /// New Overrrides (After Mascots are resized)
+
+                if (app_id === '4' && _applicationObj.type === 'mascot' && _size === 0.5)   { point.position.y   += 3;   }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 12)    { point.position.y   += 40;  }
+                if (app_id === '5' && _applicationObj.type === 'mascot' && _size === 10)    { point.position.y   += 30;  }
+
+                // if (_applicationObj.type === 'mascot' && _size === 4)    { point.position.y   += 13;   }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 3) { point.position.y   += 11; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 2) { point.position.y   += 13; }
+                if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
+                if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
+
+                /// Rotation Overrides 
+
+                if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
+
+                    if (args.mascot.typographic === "0") {
+                        point.scale.x = point.scale.x * -1;
+                    }
+
+                }
 
             });
 
@@ -2727,9 +2753,11 @@
         }
         else {
 
-            $('span.next_label').html('Done');
-            $('span.part_label').html('Enter Roster Info');
-            $('button#next_mo').css('background-color', '#000000');
+            // $('span.next_label').html('Done');
+            // $('span.part_label').html('Enter Roster Info');
+            // $('button#next_mo').css('background-color', '#000000');
+
+            ub.funcs.initRoster();
 
         }
 
@@ -3741,7 +3769,7 @@
 
         /// Set Default Colors 
 
-        settingsObj.font_size = parseInt(size);
+        settingsObj.font_size = parseFloat(size);
         ub.create_application(settingsObj, undefined);
 
     }
@@ -5244,13 +5272,13 @@
 
         }
 
-        if (_id === 2 && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
-        }
+        // if (_id === 2 && _applicationType === 'mascot') {
+        //     _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+        // }
         
-        if (_id === 5 && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
-        }
+        // if (_id === 5 && _applicationType === 'mascot') {
+        //     _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+        // }
 
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
@@ -5467,7 +5495,6 @@
                 });
 
             });
-
 
             $("div.toggleOption").on("click", function () {
 

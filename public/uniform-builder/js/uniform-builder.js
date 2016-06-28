@@ -3731,6 +3731,13 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'team-info') {
+
+                    ub.funcs.initRoster();
+                    return;
+
+                }
+
                 if (view === 'save') {
 
                     return;

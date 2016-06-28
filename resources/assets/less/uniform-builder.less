@@ -2865,7 +2865,7 @@ div.header-container.main {
             top: 300px;
             left: 300px;
             z-index: 1000;
-            background-color: @customizer_bg;
+            background-color: white;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -2911,7 +2911,6 @@ div.header-container.main {
                         float: left;
                         width: 150px;
                         height: 150px;
-                        background-color: white;
                         margin: 10px;
                         background-size: cover;
                         cursor: pointer;
@@ -3418,11 +3417,11 @@ div.header-container.main {
                     img {
                         cursor: pointer;
                         width: 125px;
-                        border: 1px solid;
+                        
                     }
 
                     img:hover {
-                        border: 1px solid white;   
+                        
                     }
                 }
 
@@ -3907,6 +3906,8 @@ div.header-container.main {
         div.popup_header {
 
             float: left;
+            font-weight: bold;
+            text-transform: uppercase;
 
         }
 
@@ -3914,6 +3915,10 @@ div.header-container.main {
 
             float: right;
             margin-bottom: 20px;
+            font-size: 0.8em;
+            width: 250px;
+            height: 30px;
+            padding: 7px;
 
         }
 
@@ -3955,7 +3960,7 @@ div.header-container.main {
 
         span.active_category {
             
-            background-color: @customizer_bg;
+            background-color: @customizer_main_area;
             color: white;
             border-bottom: dashed 1px black;
 
@@ -3969,5 +3974,107 @@ div.header-container.main {
 
 /* End New UI */
 
+/* Process */
+
+    div#roster-input {
+
+        display: none;
+
+        width: 80%;
+        height: 100%;
+        background-color: white;
+        padding: 30px;
+        margin: 0 auto;
+        margin-top: 30px;
+
+        span.back-to-customizer-button {
+
+            display: block;
+            background-color: #3d3d3d;
+            width: 200px;
+            color: white;
+            box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+            padding: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-weight: bold;
 
 
+        }
+
+        span.back-to-customizer-button:hover {
+
+            background-color: @forecolor;
+            color: @customizer_bg;
+
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+        }
+
+        div#sizes {
+
+            text-align: center;
+
+            span.size {
+
+                display: inline-block;
+                width: 50px;
+                height: 50px;
+                vertical-align: middle;
+                text-align: center;
+                border: solid 1px @text_color;
+                border-radius: 25px 25px 25px 25px;
+                margin: 10px;
+                font-weight: bold;
+                padding-top: 15px;
+                font-size: 0.9em;
+
+            }
+
+            span.size:hover {
+
+                color: white;
+                background-color: @forecolor;
+
+            }
+
+            .active {
+
+                color: white;
+                background-color: @text_color;
+                text-decoration: underline;
+
+            }
+
+            .active:hover {
+
+                color: white;
+                background-color: @text_color !important;
+                text-decoration: underline;
+
+            }
+
+
+        }
+
+        div#description {
+
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+
+            span.size_header {
+
+                width: 100%;
+                text-align: center;
+
+            }
+
+        }
+
+    }
+
+/* End Process */
