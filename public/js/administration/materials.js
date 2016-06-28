@@ -1699,7 +1699,7 @@ $(document).ready(function() {
                          $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
                     }
                  
-              
+           
                 });
                 
 
