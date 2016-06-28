@@ -18,9 +18,10 @@
                         <tr>
                             <th>Order</th>
                             <th>Client</th>
-                            <th>Uniform Type</th>
-                            <th>Upper Uniform</th>
-                            <th>Lower Uniform</th>
+                            <th>Items</th>
+                            <!-- <th>Uniform Type</th> -->
+                            <!-- <th>Upper Uniform</th>
+                            <th>Lower Uniform</th> -->
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
@@ -57,14 +58,19 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $order->uniform_type }}
+                                @foreach( $order->items as $item )
+                                <a href="#" class="btn btn-default btn-xs">{{ $item->description }}</a></br>
+                                @endforeach
                             </td>
-                            <td>
+                            <!-- <td>
+                                {{ $order->uniform_type }}
+                            </td> -->
+                            <!-- <td>
                                 {{ $order->total_upper_uniforms }}
                             </td>
                             <td>
                                 {{ $order->total_lower_uniforms }}
-                            </td>
+                            </td> -->
                             <td>
                                 <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
                                 @foreach ($order_statuses as $status)
@@ -93,10 +99,11 @@
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                                     View Order Details
                                 </button>
-                                @if (!$order->factory_order_id)
+                                @if ($order->factory_order_id)
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"
                                    data-order-id="{{ $order->id }}"
+                                   data-api-order-id="{{ $order->order_id }}"
                                    data-client="{{ $order->client }}"
                                    data-ship-contact="{{ $order->ship_contact }}"
                                    data-ship-address="{{ $order->ship_address }}"

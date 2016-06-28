@@ -77,7 +77,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Layers
                             <div>
-                                <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
+                                <a class="btn btn-primary clone-row-mascot btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
                             </div>
                             </label>
                             <div class="col-md-6">
@@ -93,7 +93,45 @@
                                         </tr>
                                     </thead>
                                     <tbody id="layers-row-container">
-                                        <!-- </tr> -->
+                                        <tr id="static_row">
+                                            <td>
+                                                <select class="ma-layer layer1"  name="ma_layer[]" disabled>
+                                                    <option value = '1' class="layer-number">1</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="ma-team-color-id layer1" name="ma_team_color_id[]">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="file" class="ma-options-src layer1" name="ma_image[]">
+                                            </td>
+                                            <td>
+                                                <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
+                                                @foreach ($colors as $color)
+                                                    @if ($color->active)
+                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                        {{ $color->name }}
+                                                    </option>
+                                                    @endif
+                                                @endforeach
+                                                <option data-color="" value="" id="saved-default-color"></option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -126,6 +164,54 @@
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $( "#static_row" ).hide();
+
+    $(document).on('click', '.clone-row-mascot', function() {
+
+        // $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+
+        console.log('clone');
+        if( $( ".layers-row" ).length ){
+            console.log('IF');
+            try{
+            $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+            } catch(err){
+                console.log(err.message);
+            }
+        } else {
+            console.log('ELSE');
+            try{
+                $( "#static_row" ).show();
+                // var elemx = $( "#static_row" );
+                var elemX = $( "#static_row" ).clone()
+                elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
+                $( "#static_row" ).remove();
+            } catch(err){
+                console.log(err.message);
+            }
+        }
+
+        var length = $('.layers-row').length;
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(length);
+            $(this).find(".layer-number").val(length);
+            length--;
+        });
+
+        $('.ma-default-color').change(function(){
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+        });
+
+        var length = $('.layers-row').length;
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(length);
+            $(this).find(".layer-number").val(length);
+            length--;
+        });
+        var newLength = $('.layers-row').length;
+    });
 
     var test;
     var colors_array = $('#colors_textarea').text();
