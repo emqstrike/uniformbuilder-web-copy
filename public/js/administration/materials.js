@@ -1669,39 +1669,7 @@ $(document).ready(function() {
             
 
                 });
-                $(document).on('change', '.mascotFilter', function() {
-
-                  
-                var filteredMascots=[];        
-                var mascotValue = $(this).val();
-             
-
-                     jQuery.each(mascots, function(index, item) {    
-                      
-                        if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
-                        {
-                            filteredMascots.push( index );
-
-                        }
-
-                    });
-           
-// a
-                var mascotFilterIndex=$(".mascotFilter").index(this);
-                    if($(this).val()){             
-                   
-                        $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
-                        jQuery.each(filteredMascots, function(index, item) {
-                            
-                            $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
-                        });
-                    }else{
-                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
-                    }
-                 
-               console.log(filteredMascots);
-                });
-                
+          
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
@@ -3436,6 +3404,40 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
 
 }
+
+      $(document).on('change', '.mascotFilter', function() {
+
+                  
+                var filteredMascots=[];        
+                var mascotValue = $(this).val();
+             
+
+                     jQuery.each(mascots, function(index, item) {    
+                      
+                        if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
+                        {
+                            filteredMascots.push( index );
+
+                        }
+
+                    });
+           
+// a
+                var mascotFilterIndex=$(".mascotFilter").index(this);
+                    if($(this).val()){             
+                   
+                        $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
+                        jQuery.each(filteredMascots, function(index, item) {
+                            
+                            $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
+                        });
+                    }else{
+                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
+                    }
+                 
+               console.log(filteredMascots);
+                });
+                
 
    
 
