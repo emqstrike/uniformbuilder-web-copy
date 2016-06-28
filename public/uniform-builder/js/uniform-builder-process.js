@@ -18,6 +18,18 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.addSizesTabs = function (size) {
+
+        console.log('Add Sizes Tabs....');
+
+    }
+
+    ub.funcs.removeSizesTabs = function (size) {
+
+        console.log('Remove Sizes Tabs....');
+
+    }
+
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
@@ -37,12 +49,14 @@ $(document).ready(function() {
 
                 $(this).addClass('active');
                 $(this).data('status', 'on');
+                ub.funcs.addSizesTabs(_size);
 
             }
             else {
 
                 $(this).removeClass('active');
                 $(this).data('status', 'off');
+                ub.funcs.removeSizesTabs(_size);
 
             }
 

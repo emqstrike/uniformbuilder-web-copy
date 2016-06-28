@@ -140,7 +140,7 @@
 
         </div>
 
-        <div id="tabs">
+        <div id="size-tabs">
             
         </div>
 
