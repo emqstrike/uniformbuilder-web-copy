@@ -694,3 +694,456 @@
 
 
 <!-- End Mascot Picker -->
+
+<!-- Roster Table -->
+    
+    <script type="text/mustache" id="m-roster-table">
+
+        @{{#tabs}}
+        <div class="tab" data-size="@{{.}}">
+
+            <table class="roster-table" align="center">
+                            
+                <thead>
+                    
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Lastname</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Lastname Application</th><th class="action"></th>
+
+                </thead>
+
+                <tr>
+                    
+                    <td>1.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>2.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>3.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>4.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>5.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>6.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>7.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>8.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>9.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+
+                <td>10.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+                
+            </table>
+
+            <br />
+
+            <span class="add-player">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
+            </span>
+
+            </div>
+            @{{/tabs}}
+
+    </script>
+
+
+<!-- End Roster Table -->
