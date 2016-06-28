@@ -592,7 +592,7 @@ $(document).ready(function() {
             item['text'] = item.name;
             item['value'] = item.id;
             item['selected'] = false;
-            var c = 1;
+            var c = 0;
             var xdata = JSON.parse(item.layers_properties);
             $.each(xdata, function(i, item) {
                 c++;
@@ -1536,7 +1536,7 @@ $(document).ready(function() {
                         item['selected'] = false;
                     }
                     // item['description'] = 'Mascot';
-                    var c = 1;
+                    var c = 0;
                     var xdata = JSON.parse(item.layers_properties);
                     $.each(xdata, function(i, item) {
                         c++;
