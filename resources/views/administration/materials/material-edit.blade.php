@@ -123,6 +123,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Application Type</label>
+                            <div class="col-md-6">
+                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                    <option value='none'@if( $material->uniform_application_type == "none" ) selected @endif>None</option>
+                                    <option value='infused'@if( $material->uniform_application_type == "infused" ) selected @endif>Infused</option>
+                                    <option value='sublimated'@if( $material->uniform_application_type == "sublimated" ) selected @endif>Sublimated</option>
+                                    <option value='tackle_twill'@if( $material->uniform_application_type == "tackle_twill" ) selected @endif>Tackle Twill</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">SKU</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control material-code" name="sku" value="{{ $material->sku }}">
