@@ -4276,8 +4276,96 @@ div.header-container.main {
     }
 
     .row-hover {
+    
         background-color: @button_secondary_color !important; 
 
-                        }
+    }
+
+    div#numbersPopup {
+
+        position: absolute;
+        z-index: 1000;
+        display: none;
+        width: 400px;
+        height: 520px;
+        background-color: #e6e6e6;
+        color: #3d3d3d;
+        text-align: center;
+        padding: 30px;
+    
+        -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+        -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+        box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+        div.header {
+
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+
+        }
+
+        span.number {
+
+            width: 30px;
+            height: 30px;
+            border: solid 1px #3d3d3d;
+            border-radius: 15px 15px 15px 15px;
+            display: inline-block;
+            padding: 4px;
+            margin: 3px;
+            background-color: white;
+
+        }
+
+        span.number.selected {
+
+            text-decoration: underline;
+            background-color: #3d3d3d;
+            color: white;
+            font-weight: bold;
+
+        }
+
+        span.number.used {
+
+            background-color: #acacac;
+
+        }
+
+        span.number.free:hover {
+
+            width: 30px;
+            height: 30px;
+            border: solid 1px;
+            border-radius: 15px 15px 15px 15px;
+            display: inline-block;
+            padding: 4px;
+            margin: 3px;
+            background-color: #acacac;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        span.number.selected:hover {
+
+            width: 30px;
+            height: 30px;
+            border: solid 1px;
+            border-radius: 15px 15px 15px 15px;
+            display: inline-block;
+            padding: 4px;
+            margin: 3px;
+            background-color: #3d3d3d;
+            color: white;
+            cursor: pointer;
+
+        }
+
+
+    }
+
+
 
 /* End Process */

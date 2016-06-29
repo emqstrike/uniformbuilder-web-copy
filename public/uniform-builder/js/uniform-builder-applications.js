@@ -1670,7 +1670,7 @@
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
                     if (_fontSizeData.yScale !== "0" && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
-
+                    
                     point.scale.set(_xScale, _yScale);
 
                     // Offset
@@ -1738,6 +1738,14 @@
                         point.scale.y = point.scale.y * (_scaleYOverride);
 
                     } else {
+
+                        if (_scaleXOverride === 1) {
+                            _scaleXOverride = point.scale.x;
+                        }
+
+                        if (_scaleYOverride === 1) {
+                            _scaleYOverride = point.scale.y;
+                        }
 
                         point.scale.set(_scaleXOverride, _scaleYOverride);
 

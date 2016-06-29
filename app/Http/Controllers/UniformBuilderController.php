@@ -133,6 +133,42 @@ class UniformBuilderController extends Controller
     }
 
     /**
+     * Show the order item in the builder editor
+     * @param String $orderItemId
+     */
+    public function loadOrderItem($orderId, $orderItemId)
+    {
+
+        $order = $this->ordersClient->getOrderByOrderId($orderId);
+
+        Session::put('order', [
+            'id' => $order->id,
+            'order_id' => $orderId,
+            'order_item_id' => $orderItemId,
+        ]);
+
+        if (!is_null($order))
+        {
+            // Check whether the upper body or the lower body has something in it
+            $material = $this->materialsClient->getMaterialByCode($order->upper_body_uniform);
+            if (is_null($material))
+            {
+                $material = $this->materialsClient->getMaterialByCode($order->lower_body_uniform);
+            }
+
+            if (!is_null($material))
+            {
+                $config = [
+                    'material_id' => $material->id,
+                    'order_id' => $orderId
+                ];
+                return $this->showBuilder($config);
+            }
+        }
+        return redirect('index');
+    }
+
+    /**
      * Show the order in the builder editor
      * @param String $orderId
      */
