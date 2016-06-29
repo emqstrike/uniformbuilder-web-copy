@@ -39,16 +39,16 @@
             </div>
             <div id="login">
                 <h1>Login</h1> 
-                <p>Just click the login button on the top right side of our Customizer beside the Sign Up</p> <img src="/images/help/getting-started/image2.png">       
+                <p>Just click the login button on the top right side of our Customizer beside the Sign Up</p> <img src="/images/help/getting-started/image2.PNG">       
             </div>
             <div id="navigationBar">
                 <h1>Navigation bar</h1> 
                 <p>On the top center of our Customizer you can choose your sport and sizes to start customizing</p>     
-                <img src="/images/help/getting-started/image3.png"> 
+                <img src="/images/help/getting-started/image3.PNG"> 
 
 
                 <p>Sizes available: Men, Women, Youth Sports: Football, Baseball, Basketball, Lacrosse, Soccer, Wrestling </p>    
-                <img src="/images/help/getting-started/image4.png"> 
+                <img src="/images/help/getting-started/image4.PNG"> 
             </div>
              <div id="search">
                 <h1>Search</h1> 
