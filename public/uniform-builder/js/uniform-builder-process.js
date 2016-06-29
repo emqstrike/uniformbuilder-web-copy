@@ -131,7 +131,7 @@ $(document).ready(function() {
         });
 
         _htmlBuilder += '<br />';
-        _htmlBuilder += '<span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
+        _htmlBuilder += '<span class="preview">Preview: </span> <span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
 
         _htmlBuilder += '</div>';
 
@@ -157,6 +157,22 @@ $(document).ready(function() {
                 $(this).addClass('selected');
 
             }
+
+        });
+
+        $('span.number.used').hover(function() {
+            
+            var _number     = $(this).data('number');
+            var $tr         = $('input[name="number"][value="' + _number + '"]').parent().parent();
+            var _size       = $tr.find('input[name="size"]').val();
+            var _lastname   = $tr.find('input[name="lastname"]').val();
+            var _index      = $tr.data('index');
+
+            $('span.preview').html(_index + '. ' +_size + ' - ' + _lastname);
+
+        }, function() {
+        
+            $('span.preview').html('Preview');
 
         });
 
