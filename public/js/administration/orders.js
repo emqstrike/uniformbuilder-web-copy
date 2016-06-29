@@ -177,7 +177,7 @@ console.log(order_id);
 
     function getOrderParts(callback){
         var order_parts;
-        var url = "//localhost:8888/api/order/items/"+api_order_id;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,
