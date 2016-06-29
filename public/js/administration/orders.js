@@ -117,6 +117,32 @@ $('.factory-oid').on('click', function(e){
     e.preventDefault();
 });
 
+$('.updatePart').on('click', function(e){
+
+    var questions = [{
+            "QuestionID": 16,
+            "Value": "Dazzle (DA)"
+        }];
+
+    var data = {
+        "pid" : 68675,
+        "" : questions
+    };
+    $.ajax({
+        url: '//api-dev.qstrike.com/api/order/updatePartFromFactory',
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert('worked');
+            //Success
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error Code Here
+        }
+    });
+});
+
 $('.send-to-factory').on('click', function(e){
 
     e.preventDefault();
@@ -168,6 +194,7 @@ console.log(order_id);
 
     window.order_parts.forEach(function(entry) {
         entry.orderPart = {
+            "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
             "DesignSheet" : entry.design_sheet
@@ -266,7 +293,9 @@ console.log(order_id);
         };
 
     strResult = JSON.stringify(orderEntire);
-    console.log(strResult);
+    // console.log(strResult);
+
+    // console.log(orderEntire['orderParts']);
 
     $.ajax({
         url: url,
@@ -275,8 +304,16 @@ console.log(order_id);
         contentType: 'application/json;',
         success: function (data) {
             alert('worked');
+            console.log('return data: ' + JSON.stringify(data));
             var factory_order_id = data[0].OrderID;
-            updateFOID(order_id, factory_order_id);
+            var parts = [];
+            $.each(data, function( index, value ) {
+                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                console.log(JSON.stringify(orderEntire));
+                parts.push(orderEntire['orderParts'][index]['orderPart']);
+            });
+            console.log(JSON.stringify(parts));
+            updateFOID(order_id, factory_order_id, parts);
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -286,7 +323,7 @@ console.log(order_id);
 
 });
 
-function updateFOID(id, factory_order_id){
+function updateFOID(id, factory_order_id, parts){
     $.ajax({
         url: '//' + api_host + '/api/order/updateFOID',
         type: "POST",
@@ -297,7 +334,33 @@ function updateFOID(id, factory_order_id){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
+                $.each(parts, function( index, value ) {
+                    value['factory_order_id'] = factory_order_id;
+                });
+                updateItemsPID(parts);
                 console.log("Success! Factory ID is updated.");
+                // document.location.reload();
+            }
+        }
+    });
+}
+
+function updateItemsPID(parts){
+    $.ajax({
+        url: '//' + api_host + '/api/order/updatePID',
+        type: "POST",
+        data: JSON.stringify(parts),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+                // $.each(parts, function( index, value ) {
+                //     value['PID'] = factory_order_id;
+                // });
+                // updateItemsPID(parts);
+                console.log("Success! Items PID is updated.");
                 document.location.reload();
             }
         }
