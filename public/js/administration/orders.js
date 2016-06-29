@@ -126,7 +126,7 @@ $('.updatePart').on('click', function(e){
 
     var data = {
         "pid" : 68678,
-        "" : questions
+        "questions" : questions
     };
     $.ajax({
         url: '//api-dev.qstrike.com/api/order/updatePartFromFactory',
