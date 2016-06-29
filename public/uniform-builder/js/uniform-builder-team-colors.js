@@ -579,6 +579,7 @@ $(document).ready(function () {
 
     };
 
+    ub.data.initialized = false;
     ub.funcs.initTeamColors = function () {
 
         var _colorSet       = '';
@@ -597,8 +598,51 @@ $(document).ready(function () {
         });
 
         ub.funcs.showTeamColorPicker();
-        ub.funcs.restoreTeamColorSelections();
 
+        if (!ub.data.initialized) {
+            ub.funcs.restoreTeamColorSelections();
+            ub.data.initialized = true;
+        }
+        else {
+
+            var colors_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker' });
+
+            console.log(colors_btn);
+
+            _.each(ub.current_material.settings.team_colors, function(color, index){
+
+                console.log(color.color_code);
+                var color_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker', 'color-label': color.color_code });
+                color_btn.attr('data-status','selected');
+
+            });
+
+            var s = 1;
+            colors_btn.each(function(){
+                
+                if ($(this).data('status') === 'selected'){
+                    $(this).first().html(s);
+                    s+=1;
+                }
+
+            });
+
+            // colors_btn.each(function(index){
+
+            //     var _color_code = $(this).data('color-label');
+            //     var _match = typeof _.find(ub.current_material.settings.team_colors, {color_code: _color_code}) === 'object'
+                
+            //     if (_match){
+                    
+            //         $(this).first().data('status','unselected');
+            //         $(this).first().html(s);
+            //         s += 1;
+
+            //     }
+
+            // });
+
+        }
     }
 
 });
