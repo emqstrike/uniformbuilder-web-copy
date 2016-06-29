@@ -100,7 +100,7 @@
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                                     View Order Details
                                 </button>
-                                @if ($order->factory_order_id)
+
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"
                                    data-order-id="{{ $order->id }}"
@@ -120,7 +120,7 @@
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
                                    >Send to Edit</a>
-                                @endif
+
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}
