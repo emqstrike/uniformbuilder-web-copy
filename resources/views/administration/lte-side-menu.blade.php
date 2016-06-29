@@ -10,6 +10,11 @@
       <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
     </a>
   </li>
+  <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
+    <a href="/administration/price_items" >
+        <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
+    </a>
+  </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-gear"></i>
