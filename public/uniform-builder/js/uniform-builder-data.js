@@ -2166,19 +2166,19 @@ $(document).ready(function() {
          },
          {
              number: "97",
-             status: "used",
+             status: "free",
          },
          {
              number: "98",
-             status: "selected",
+             status: "free",
          },
          {
              number: "99",
-             status: "used",
+             status: "free",
          },        
          {
              number: "00",
-             status: "used",
+             status: "free",
          },        
 
     ];

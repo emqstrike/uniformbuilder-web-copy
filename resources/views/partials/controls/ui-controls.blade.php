@@ -706,7 +706,7 @@
                             
                 <tr class="thead">
                     
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Lastname</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Lastname Application</th><th class="action"></th>
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Last Name Application</th><th class="action"></th>
 
                 </tr>
 
@@ -743,11 +743,11 @@
                     </td>
 
                     <td>
-                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                        <input type="text" name="number" value="@{{number}}" class="number" maxlength="5" />
                     </td>
 
                     <td>
-                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                       <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />  
                     </td>
 
                     <td>

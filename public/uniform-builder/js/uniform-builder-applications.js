@@ -1670,6 +1670,8 @@
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
                     if (_fontSizeData.yScale !== "0" && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
+
+
                     
                     point.scale.set(_xScale, _yScale);
 
