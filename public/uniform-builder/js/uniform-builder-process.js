@@ -23,6 +23,13 @@ $(document).ready(function() {
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
 
+        if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
+
+            $('span.add-player[data-size="' + size + '"]').trigger('click');
+            $('span.add-player[data-size="' + size + '"]').trigger('click');
+
+        }
+
         if ($('span.tabButton[data-category="youth"]:visible').length > 0) {
             $('span.youth-header').show();
         }
@@ -97,20 +104,27 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.createNumbersSelectionPopup = function () {
+    ub.funcs.setNumberStatus = function (number, status) {
+
+        var _numberObj = _.find(ub.data.playerNumbers, { number: number.toString() });
+        _numberObj.status = status;
+
+    }
+
+    ub.funcs.createNumbersSelectionPopup = function (_size) {
 
         $('div#numbersPopup').remove();
 
         var _htmlBuilder = "";
 
-        _htmlBuilder += '<div id="numbersPopup">';
+        _htmlBuilder += '<div id="numbersPopup" data-status="visible">';
         _htmlBuilder +=     '<div class="header">';
         _htmlBuilder +=         'SELECT PLAYER NUMBERS';
         _htmlBuilder +=     '</div>';
 
         _.each (ub.data.playerNumbers, function (_number){
 
-            _htmlBuilder +=     '<span class="number ' + _number.status + '">'
+            _htmlBuilder +=     '<span class="number ' + _number.status + '" data-status="' + _number.status + '" data-number="' + _number.number + '">'
             _htmlBuilder +=        _number.number;
             _htmlBuilder +=     '</span>';            
 
@@ -124,6 +138,102 @@ $(document).ready(function() {
         $('body').append(_htmlBuilder);
         ub.funcs.centerNumberSelectionPopup();
         $('div#numbersPopup').fadeIn();
+
+        $('span.number.free, span.number.selected').on('click', function () {
+
+            var _number = $(this).data('number');
+            var _status = $(this).data('status');
+
+            if (_status === 'selected') {
+
+                $(this).data('status','free');
+                $(this).removeClass('selected');
+                $(this).addClass('free');
+
+            } else if (_status === 'free' ) {
+
+                $(this).data('status','selected');
+                $(this).removeClass('free');
+                $(this).addClass('selected');
+
+            }
+
+        });
+
+        $('span.btn-cancel').on('click', function () {
+
+            $('div#numbersPopup').remove();
+    
+        });
+
+        $('span.btn-ok').on('click', function () {
+
+            var _returnValue = [];
+
+            $('span.number').each(function(){
+
+                if ($(this).data('status') === 'selected') {
+
+                    var _number = $(this).data('number');
+                    ub.funcs.setNumberStatus(_number,'used');
+                    _returnValue.push(_number);
+
+                }
+
+            });
+
+            numbers = _returnValue;
+
+            var _markup         = '';
+            var $rosterTable    = $('table.roster-table[data-size="' + _size + '"] > tbody');
+            var _length         = $rosterTable.find('tr').length;
+
+            _.each (numbers, function (number){
+
+                data = {
+                    index: _length,
+                    size: _size,
+                    number: number,
+                };
+
+                template = $('#m-roster-table-field').html();
+                markup = Mustache.render(template, data);
+
+                $rosterTable.append(markup);
+
+                _length += 1;
+
+            });
+
+            $('span.clear-row[data-size="' + _size + '"]').unbind('click');
+            $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
+
+                var _index          = $(this).data('index');
+                var _size           = $(this).data('size');
+                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
+                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+                var _number = $row.find('input[name="number"]').val();
+
+                ub.funcs.setNumberStatus(_number, 'free');
+
+                $row.remove();
+
+                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+                    var index = indexVar + 1;
+
+                    $(this).find('td').first().html(index);
+                    $(this).find('span.clear-row').attr('data-index', index);
+                    $(this).attr('data-index', index)
+
+                });
+
+            });
+
+            ub.funcs.reInitHover();
+            $('div#numbersPopup').remove();
+
+        });
 
     };
 
@@ -143,46 +253,7 @@ $(document).ready(function() {
         $('span.add-player').on('click', function () {
 
             var _size           = $(this).data('size');
-            var $rosterTable    = $('table.roster-table[data-size="' + _size + '"] > tbody');
-            var _length         = $rosterTable.find('tr').length;
-
-            var numbers         = ub.funcs.createNumbersSelectionPopup();
-            
-            var data = {
-                index: _length,
-                size: _size,
-            };
-
-            var template = $('#m-roster-table-field').html();
-            var markup = Mustache.render(template, data);
-
-            $rosterTable.append(markup);
-
-            $('span.clear-row[data-size="' + _size + '"]').unbind('click');
-            $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
-
-                var _index          = $(this).data('index');
-                var _size           = $(this).data('size');
-                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
-                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
-
-                $row.remove();
-
-                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
-
-                    var index = indexVar + 1;
-
-                    $(this).find('td').first().html(index);
-                    $(this).find('span.clear-row').attr('data-index', index);
-                    $(this).attr('data-index', index)
-                    
-                    console.log($(this));
-
-                });
-
-            });
-
-            ub.funcs.reInitHover();
+            var numbers         = ub.funcs.createNumbersSelectionPopup(_size);
 
         });
 
