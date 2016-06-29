@@ -7,6 +7,7 @@
 @section('content')
 <section class="content">
 <!-- <a href="#" class="btn btn-success update-from-factory">TEST</a> -->
+<a href="#" class="btn btn-success updatePart">Update Part</a>
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
