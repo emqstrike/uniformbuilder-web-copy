@@ -159,6 +159,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('placeholder/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PlaceholdersController@addPlaceholderForm']);
     Route::post('placeholder/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PlaceholdersController@store']);
 
+    // Price Items
+    Route::get('price_items', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@index']);
+
     // Preferences
     Route::get('preferences', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@index']);
     Route::get('preference/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@addPreferenceForm']);
