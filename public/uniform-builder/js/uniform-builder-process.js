@@ -25,7 +25,7 @@ $(document).ready(function() {
 
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
-            $('span.add-player[data-size="' + size + '"]').trigger('click');
+            $('span.tabButton[data-size="' + size + '"]').trigger('click');
             $('span.add-player[data-size="' + size + '"]').trigger('click');
 
         }
