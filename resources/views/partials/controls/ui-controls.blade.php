@@ -710,49 +710,7 @@
 
                 </tr>
 
-                <tr class="roster-row" data-size="@{{.}}" data-index="1">
-                    
-                    <td>1.</td>
-                    
-                    <td>
-                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
-                    </td>
-                    
-                    <td>
-                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
-                    </td>
-
-                    <td>
-                        <input type="text" name="number" value="" class="number" maxlength="5" />
-                    </td>
-
-                    <td>
-                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
-                    </td>
-
-                    <td>
-                        <select class="sleeve-type">
-                            <option>Quarterback Cut</option>
-                            <option>Motion Cut</option>
-                            <option>Lineman Cut</option>
-                            <option>Lineman Cut</option>
-                        </select>
-                    </td>
-
-                    <td>
-                        <select class="lastname-application">
-                            <option>None</option>
-                            <option>Directly To Jersey</option>
-                            <option>Nameplate</option>
-                        </select>
-                    </td>
-                    <td>
-                        <span class="clear-row" data-index="1" data-size="@{{.}}">
-                            <i class="fa fa-times-circle" aria-hidden="true"></i>
-                        </span>
-                    </td>
-
-                </tr>
+                
  
             </table>
 

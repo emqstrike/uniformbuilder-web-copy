@@ -73,6 +73,60 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.centerNumberSelectionPopup = function () {
+
+        $popup = $('div#numbersPopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) { return; } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        }); 
+
+    };
+
+    ub.funcs.createNumbersSelectionPopup = function () {
+
+        $('div#numbersPopup').remove();
+
+        var _htmlBuilder = "";
+
+        _htmlBuilder += '<div id="numbersPopup">';
+        _htmlBuilder +=     '<div class="header">';
+        _htmlBuilder +=         'SELECT PLAYER NUMBERS';
+        _htmlBuilder +=     '</div>';
+
+        _.each (ub.data.playerNumbers, function (_number){
+
+            _htmlBuilder +=     '<span class="number ' + _number.status + '">'
+            _htmlBuilder +=        _number.number;
+            _htmlBuilder +=     '</span>';            
+
+        });
+
+        _htmlBuilder += '<br />';
+        _htmlBuilder += '<span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
+
+        _htmlBuilder += '</div>';
+
+        $('body').append(_htmlBuilder);
+        ub.funcs.centerNumberSelectionPopup();
+        $('div#numbersPopup').fadeIn();
+
+    };
+
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
@@ -88,9 +142,11 @@ $(document).ready(function() {
 
         $('span.add-player').on('click', function () {
 
-            var _size = $(this).data('size');
-            var $rosterTable = $('table.roster-table[data-size="' + _size + '"] > tbody');
-            var _length = $rosterTable.find('tr').length;
+            var _size           = $(this).data('size');
+            var $rosterTable    = $('table.roster-table[data-size="' + _size + '"] > tbody');
+            var _length         = $rosterTable.find('tr').length;
+
+            var numbers         = ub.funcs.createNumbersSelectionPopup();
             
             var data = {
                 index: _length,

@@ -1778,6 +1778,411 @@ $(document).ready(function() {
         }
     };
 
+    ub.data.playerNumbers = [
+
+        {
+             number: "1",
+             status: "free",
+         },
+         {
+             number: "2",
+             status: "free",
+         },
+         {
+             number: "3",
+             status: "free",
+         },
+         {
+             number: "4",
+             status: "free",
+         },
+         {
+             number: "5",
+             status: "free",
+         },
+         {
+             number: "6",
+             status: "free",
+         },
+         {
+             number: "7",
+             status: "free",
+         },
+         {
+             number: "8",
+             status: "free",
+         },
+         {
+             number: "9",
+             status: "free",
+         },
+         {
+             number: "10",
+             status: "free",
+         },
+         {
+             number: "11",
+             status: "free",
+         },
+         {
+             number: "12",
+             status: "free",
+         },
+         {
+             number: "13",
+             status: "free",
+         },
+         {
+             number: "14",
+             status: "free",
+         },
+         {
+             number: "15",
+             status: "free",
+         },
+         {
+             number: "16",
+             status: "free",
+         },
+         {
+             number: "17",
+             status: "free",
+         },
+         {
+             number: "18",
+             status: "free",
+         },
+         {
+             number: "19",
+             status: "free",
+         },
+         {
+             number: "20",
+             status: "free",
+         },
+         {
+             number: "21",
+             status: "free",
+         },
+         {
+             number: "22",
+             status: "free",
+         },
+         {
+             number: "23",
+             status: "free",
+         },
+         {
+             number: "24",
+             status: "free",
+         },
+         {
+             number: "25",
+             status: "free",
+         },
+         {
+             number: "26",
+             status: "free",
+         },
+         {
+             number: "27",
+             status: "free",
+         },
+         {
+             number: "28",
+             status: "free",
+         },
+         {
+             number: "29",
+             status: "free",
+         },
+         {
+             number: "30",
+             status: "free",
+         },
+         {
+             number: "31",
+             status: "free",
+         },
+         {
+             number: "32",
+             status: "free",
+         },
+         {
+             number: "33",
+             status: "free",
+         },
+         {
+             number: "34",
+             status: "free",
+         },
+         {
+             number: "35",
+             status: "free",
+         },
+         {
+             number: "36",
+             status: "free",
+         },
+         {
+             number: "37",
+             status: "free",
+         },
+         {
+             number: "38",
+             status: "free",
+         },
+         {
+             number: "39",
+             status: "free",
+         },
+         {
+             number: "40",
+             status: "free",
+         },
+         {
+             number: "41",
+             status: "free",
+         },
+         {
+             number: "42",
+             status: "free",
+         },
+         {
+             number: "43",
+             status: "free",
+         },
+         {
+             number: "44",
+             status: "free",
+         },
+         {
+             number: "45",
+             status: "free",
+         },
+         {
+             number: "46",
+             status: "free",
+         },
+         {
+             number: "47",
+             status: "free",
+         },
+         {
+             number: "48",
+             status: "free",
+         },
+         {
+             number: "49",
+             status: "free",
+         },
+         {
+             number: "50",
+             status: "free",
+         },
+         {
+             number: "51",
+             status: "free",
+         },
+         {
+             number: "52",
+             status: "free",
+         },
+         {
+             number: "53",
+             status: "free",
+         },
+         {
+             number: "54",
+             status: "free",
+         },
+         {
+             number: "55",
+             status: "free",
+         },
+         {
+             number: "56",
+             status: "free",
+         },
+         {
+             number: "57",
+             status: "free",
+         },
+         {
+             number: "58",
+             status: "free",
+         },
+         {
+             number: "59",
+             status: "free",
+         },
+         {
+             number: "60",
+             status: "free",
+         },
+         {
+             number: "61",
+             status: "free",
+         },
+         {
+             number: "62",
+             status: "free",
+         },
+         {
+             number: "63",
+             status: "free",
+         },
+         {
+             number: "64",
+             status: "free",
+         },
+         {
+             number: "65",
+             status: "free",
+         },
+         {
+             number: "66",
+             status: "free",
+         },
+         {
+             number: "67",
+             status: "free",
+         },
+         {
+             number: "68",
+             status: "free",
+         },
+         {
+             number: "69",
+             status: "free",
+         },
+         {
+             number: "70",
+             status: "free",
+         },
+         {
+             number: "71",
+             status: "free",
+         },
+         {
+             number: "72",
+             status: "free",
+         },
+         {
+             number: "73",
+             status: "free",
+         },
+         {
+             number: "74",
+             status: "free",
+         },
+         {
+             number: "75",
+             status: "free",
+         },
+         {
+             number: "76",
+             status: "free",
+         },
+         {
+             number: "77",
+             status: "free",
+         },
+         {
+             number: "78",
+             status: "free",
+         },
+         {
+             number: "79",
+             status: "free",
+         },
+         {
+             number: "80",
+             status: "free",
+         },
+         {
+             number: "81",
+             status: "free",
+         },
+         {
+             number: "82",
+             status: "free",
+         },
+         {
+             number: "83",
+             status: "free",
+         },
+         {
+             number: "84",
+             status: "free",
+         },
+         {
+             number: "85",
+             status: "free",
+         },
+         {
+             number: "86",
+             status: "free",
+         },
+         {
+             number: "87",
+             status: "free",
+         },
+         {
+             number: "88",
+             status: "free",
+         },
+         {
+             number: "89",
+             status: "free",
+         },
+         {
+             number: "90",
+             status: "free",
+         },
+         {
+             number: "91",
+             status: "free",
+         },
+         {
+             number: "92",
+             status: "free",
+         },
+         {
+             number: "93",
+             status: "free",
+         },
+         {
+             number: "94",
+             status: "free",
+         },
+         {
+             number: "95",
+             status: "free",
+         },
+         {
+             number: "96",
+             status: "free",
+         },
+         {
+             number: "97",
+             status: "used",
+         },
+         {
+             number: "98",
+             status: "selected",
+         },
+         {
+             number: "99",
+             status: "used",
+         },        
+         {
+             number: "00",
+             status: "used",
+         },        
+
+    ];
+
     ub.funcs.load_fonts = function () {
 
         var font_builder = '';
