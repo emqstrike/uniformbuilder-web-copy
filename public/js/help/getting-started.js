@@ -2,24 +2,22 @@
        
   
 $(document).ready(function() {
-  $('a[href*=#]').each(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
-    && location.hostname == this.hostname
-    && this.hash.replace(/#/,'') ) {
-      var $targetId = $(this.hash), $targetAnchor = $('[name=' + this.hash.slice(1) +']');
-      var $target = $targetId.length ? $targetId : $targetAnchor.length ? $targetAnchor : false;
-       if ($target) {
-         var targetOffset = $target.offset().top;
+   $('a[href^="#"]').on('click', function (e) {
+        e.preventDefault();
 
+        var target = this.hash,
+            $target = $(target);
 
-         $(this).click(function() {
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top - 80
+        }, 900, 'swing', function () {
+            window.location.hash = target;
+        });
+
             $("#nav li a").removeClass("active");
             $(this).addClass('active');
-           $('html, body').animate({scrollTop: targetOffset}, 1000);
-           return false;
-         });
-      }
-    }
-  });
+        
+    });
+
 
 });
