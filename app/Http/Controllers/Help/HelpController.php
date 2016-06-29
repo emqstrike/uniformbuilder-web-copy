@@ -19,7 +19,7 @@ class HelpController extends Controller
      */
     public function index()
     {
-        return "index";
+  
         //
     }
     public function getting_started()

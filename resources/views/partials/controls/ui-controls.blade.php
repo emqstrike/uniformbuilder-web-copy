@@ -694,3 +694,130 @@
 
 
 <!-- End Mascot Picker -->
+
+<!-- Roster Table -->
+    
+    <script type="text/mustache" id="m-roster-table">
+
+        @{{#tabs}}
+        <div class="tab" data-size="@{{.}}">
+
+            <table class="roster-table" align="center" data-size="@{{.}}">
+                            
+                <tr class="thead">
+                    
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Lastname</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Lastname Application</th><th class="action"></th>
+
+                </tr>
+
+                <tr class="roster-row" data-size="@{{.}}" data-index="1">
+                    
+                    <td>1.</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{.}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row" data-index="1" data-size="@{{.}}">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+ 
+            </table>
+
+            <br />
+
+            <span class="add-player" data-size="@{{.}}">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
+            </span>
+
+            </div>
+            @{{/tabs}}
+
+    </script>
+
+<!-- End Roster Table -->
+
+<!-- Roster Table Field -->
+
+    <script type="text/mustache" id="m-roster-table-field">
+
+                <tr class="roster-row" data-size="@{{size}}" data-index="@{{index}}">
+                    <td>@{{index}}</td>
+                    
+                    <td>
+                        <input type="text" name="size" value="@{{size}}" class="size" disabled />
+                    </td>
+                    
+                    <td>
+                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="number" value="" class="number" maxlength="5" />
+                    </td>
+
+                    <td>
+                       <input type="text" name="quantity" value="" class="quantity" maxlength="5" />  
+                    </td>
+
+                    <td>
+                        <select class="sleeve-type">
+                            <option>Quarterback Cut</option>
+                            <option>Motion Cut</option>
+                            <option>Lineman Cut</option>
+                            <option>Lineman Cut</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="lastname-application">
+                            <option>None</option>
+                            <option>Directly To Jersey</option>
+                            <option>Nameplate</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span class="clear-row" data-index="@{{index}}" data-size="@{{size}}">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                    </td>
+
+                </tr>
+                
+
+    </script>   
+
+<!-- End Roster Table Field -->
+

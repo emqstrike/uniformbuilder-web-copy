@@ -246,7 +246,7 @@ $(document).ready(function() {
             if(hexString.replace('#','')){
                 hexString = hexString.replace('#','');
             }
-            
+
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
             layers_properties[length]['filename'] = $(this).find(src_class).val();
@@ -261,17 +261,17 @@ $(document).ready(function() {
     }
 
     $(document).on("click", "a.btn-remove-layer", function(){
-        
+
         var length = 0;
-        
+
         $(".layers-row").each(function(i) {
             length++;
         });
 
-        if(length > 1){
-            $(this).closest('tr').remove();
-            length--;
-        }
+        // if(length > 1){
+        $(this).closest('tr').remove();
+        length--;
+        // }
 
 
         var ctr = length;

@@ -198,12 +198,12 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
+// dd($data);
         $response = null;
         if (!empty($id))
         {
             Log::info('Attempts to update Mascot#' . $id);
-            $response = $this->client->updateMascot($data);
+            $response = $this->client->updateMascot($data);// dd($response);
         }
         else
         {

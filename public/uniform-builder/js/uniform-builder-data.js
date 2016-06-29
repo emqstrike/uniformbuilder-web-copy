@@ -102,6 +102,7 @@ $(document).ready(function() {
 
     ub.current_material             = {};
     ub.current_material.settings    = {};
+    ub.current_material.settings.roster = {};
 
     ub.states                       = {};
     ub.states.active_application    = 'undefined';
@@ -163,6 +164,21 @@ $(document).ready(function() {
         }
 
     };
+
+    ub.data.uniformSizes = [
+
+        {
+            sport: 'football',
+            category: 'adult',
+            sizes: ['3XS','2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
+        }, 
+        {
+            sport: 'football',
+            category: 'youth',
+            sizes: ['YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL',]
+        }, 
+
+    ];
 
     ub.data.defaultFontSizes = [
 

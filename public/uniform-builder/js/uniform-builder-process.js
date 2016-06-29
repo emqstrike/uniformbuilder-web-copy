@@ -14,26 +14,122 @@ $(document).ready(function() {
         $('div#roster-input').fadeOut();
 
         $('div#right-pane-column').fadeIn();        
-        $('div#left-pane-column').fadeIn();
+        $('div#left-pane-column').fadeIn(); 
 
     }
 
     ub.funcs.addSizesTabs = function (size) {
 
-        console.log('Add Sizes Tabs....');
+        $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
+        $('span.tabButton:visible').first().trigger('click');
+
+        if ($('span.tabButton[data-category="youth"]:visible').length > 0) {
+            $('span.youth-header').show();
+        }
+        else {
+            $('span.youth-header').hide();
+        }
+
+        if ($('span.tabButton[data-category="adult"]:visible').length > 0) {
+            $('span.adult-header').show();
+        }
+        else {
+            $('span.adult-header').hide();
+        }
 
     }
 
     ub.funcs.removeSizesTabs = function (size) {
 
-        console.log('Remove Sizes Tabs....');
+        $('span.tabButton[data-size="' + size + '"]').hide();
+        $('span.tabButton:visible').first().trigger('click');
+        $('div.tab[data-size="' + size + '"]').hide();
+
+        if ($('span.tabButton[data-category="youth"]:visible').length > 0) {
+            $('span.youth-header').show();
+        }
+        else {
+            $('span.youth-header').hide();
+        }
+
+        if ($('span.tabButton[data-category="adult"]:visible').length > 0) {
+            $('span.adult-header').show();
+        }
+        else {
+            $('span.adult-header').hide();
+        }
+
+    }
+
+    ub.funcs.reInitHover = function () {
+
+        $('tr.roster-row').hover(
+            function() {
+                $(this).addClass("row-hover");
+            }, function() {
+                $(this).removeClass("row-hover");
+            }
+        );
 
     }
 
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
-    
+
+        var data = {
+            tabs: ub.data.uniformSizes[0].sizes,
+        };
+
+        var template = $('#m-roster-table').html();
+        var markup = Mustache.render(template, data);
+
+        $('div.tabsContainer').append(markup);
+
+        $('span.add-player').on('click', function () {
+
+            var _size = $(this).data('size');
+            var $rosterTable = $('table.roster-table[data-size="' + _size + '"] > tbody');
+            var _length = $rosterTable.find('tr').length;
+            
+            var data = {
+                index: _length,
+                size: _size,
+            };
+
+            var template = $('#m-roster-table-field').html();
+            var markup = Mustache.render(template, data);
+
+            $rosterTable.append(markup);
+
+            $('span.clear-row[data-size="' + _size + '"]').unbind('click');
+            $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
+
+                var _index          = $(this).data('index');
+                var _size           = $(this).data('size');
+                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
+                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+
+                $row.remove();
+
+                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+                    var index = indexVar + 1;
+
+                    $(this).find('td').first().html(index);
+                    $(this).find('span.clear-row').attr('data-index', index);
+                    $(this).attr('data-index', index)
+                    
+                    console.log($(this));
+
+                });
+
+            });
+
+            ub.funcs.reInitHover();
+
+        });
+
         $('span.back-to-customizer-button').on('click', function (){
 
             ub.funcs.fadeInCustomizer();
@@ -60,13 +156,21 @@ $(document).ready(function() {
 
             }
 
-            console.log('Size: ');
-            console.log(_size);
+        });
 
-            console.log('Status: ');
-            console.log(_status);
+        $('span.tabButton').on('click', function () {
+
+            var _size = $(this).data('size');
+
+            $('span.tabButton').removeClass('active');
+            $(this).addClass('active');
+
+            $('div.tabsContainer > div.tab').hide();
+            $('div.tab[data-size="' + _size + '"]').fadeIn();
 
         });
+
+        ub.funcs.reInitHover();
         
     }
 
