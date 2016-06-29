@@ -19,7 +19,7 @@ class HelpController extends Controller
      */
     public function index()
     {
-        return "index";
+  
         //
     }
     public function getting_started()
@@ -40,8 +40,8 @@ class HelpController extends Controller
     {
         //
     }
-
-    /**
+  
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

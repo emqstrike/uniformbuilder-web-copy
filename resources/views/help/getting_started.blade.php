@@ -61,7 +61,7 @@
 
 
 
-        </div>
+        </div> 
          <div class="col-md-4">
             <ul class="section-list stick" id="nav_list" style="top: 140px;">
                 <li>
