@@ -48,7 +48,7 @@ min-width: 20%;
     position: fixed;
     width: 23%;
 }
-@media (max-width: 768px){
+/*@media (max-width: 760px){
 
 
     .mobileMenu{
@@ -60,8 +60,43 @@ min-width: 20%;
     z-index: 1030;
 
     }
-}
 
+
+
+}
+*/
+@media (max-width: 990px) {
+
+      .mobileMenu{
+            top: 0;
+    border-width: 0 0 1px;
+    position: fixed;    
+    right: 0;
+    left: 0;
+    z-index: 1030;
+
+    }
+
+    
+    .navbar-header {
+  float: none;
+}
+.navbar-toggle {
+  display: block;
+}
+.navbar-collapse.collapse {
+  display: none!important;
+}
+.navbar-nav {
+  float: none!important;
+}
+.navbar-nav>li {
+  float: none;
+}
+.navbar-collapse.collapse.in{
+  display:block !important;
+}
+}
      
 </style>
 <div class="page-header banner">
