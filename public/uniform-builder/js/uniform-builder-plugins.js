@@ -105,6 +105,7 @@
             el_parent.append(popup_picker);
 
             var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
+            
 
             colors_btn.on('click', function () {
 
@@ -117,8 +118,17 @@
 
                 if (colorStatus === 'unselected') {
 
+                    if (ub.current_material.settings.team_colors.length + 1 > 7) {
+
+                        ub.startModal('Maximum # of Team Colors is 7');
+                        return;
+
+                    }
+
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
+                    //ub.current_material.settings.team_colors.length
+                    $(this).first().html(ub.current_material.settings.team_colors.length + 1);
 
                     if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
                         
@@ -135,6 +145,15 @@
                     $(this).first().html('');
 
                     ub.funcs.removeColorFromTeamColors(_colorObj);
+                    var s = 1;
+                    colors_btn.each(function(){
+                        
+                        if ($(this).data('status') === 'selected'){
+                            $(this).first().html(s);
+                            s+=1;
+                        }
+
+                    });
 
                 }
 

@@ -61,6 +61,18 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.reInitHover = function () {
+
+        $('tr.roster-row').hover(
+            function() {
+                $(this).addClass("row-hover");
+            }, function() {
+                $(this).removeClass("row-hover");
+            }
+        );
+
+    }
+
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
@@ -77,7 +89,7 @@ $(document).ready(function() {
         $('span.add-player').on('click', function () {
 
             var _size = $(this).data('size');
-            var $rosterTable = $('table.roster-table[data-size="' + _size + '"]');
+            var $rosterTable = $('table.roster-table[data-size="' + _size + '"] > tbody');
             var _length = $rosterTable.find('tr').length;
             
             var data = {
@@ -86,28 +98,35 @@ $(document).ready(function() {
             };
 
             var template = $('#m-roster-table-field').html();
-            var markup = Mustache.render(template, data)
+            var markup = Mustache.render(template, data);
 
             $rosterTable.append(markup);
 
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
-                var $rosterTable = $('table.roster-table[data-size="' + _size + '"]');
-
-                var _index  = $(this).data('index');
-                var _size   = $(this).data('size');
-                var $row = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+                var _index          = $(this).data('index');
+                var _size           = $(this).data('size');
+                var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
+                var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
 
                 $row.remove();
 
-                $rosterTable.find('tr').each(function (index){
+                $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
 
-                    // This is not working
+                    var index = indexVar + 1;
+
+                    $(this).find('td').first().html(index);
+                    $(this).find('span.clear-row').attr('data-index', index);
+                    $(this).attr('data-index', index)
+                    
+                    console.log($(this));
 
                 });
 
             });
+
+            ub.funcs.reInitHover();
 
         });
 
@@ -150,6 +169,8 @@ $(document).ready(function() {
             $('div.tab[data-size="' + _size + '"]').fadeIn();
 
         });
+
+        ub.funcs.reInitHover();
         
     }
 

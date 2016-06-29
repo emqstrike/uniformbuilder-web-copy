@@ -704,13 +704,13 @@
 
             <table class="roster-table" align="center" data-size="@{{.}}">
                             
-                <thead>
+                <tr class="thead">
                     
                     <th class='count'></th><th class="thnumber">Size</th><th class="wide">Lastname</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Lastname Application</th><th class="action"></th>
 
-                </thead>
+                </tr>
 
-                <tr data-size="@{{.}}" data-index="1">
+                <tr class="roster-row" data-size="@{{.}}" data-index="1">
                     
                     <td>1.</td>
                     
@@ -773,7 +773,7 @@
 
     <script type="text/mustache" id="m-roster-table-field">
 
-                <tr data-size="@{{size}}" data-index="@{{index}}">
+                <tr class="roster-row" data-size="@{{size}}" data-index="@{{index}}">
                     <td>@{{index}}</td>
                     
                     <td>
