@@ -132,7 +132,10 @@ $('.updatePart').on('click', function(e){
         url: '//api-dev.qstrike.com/api/order/updatePartFromFactory',
         type: "POST",
         data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
         contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
         success: function (data) {
             alert('worked');
             //Success
