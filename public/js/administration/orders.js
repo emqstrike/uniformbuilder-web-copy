@@ -125,7 +125,7 @@ $('.updatePart').on('click', function(e){
         }];
 
     var data = {
-        "pid" : 68675,
+        "pid" : 68678,
         "" : questions
     };
     $.ajax({
