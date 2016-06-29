@@ -52,7 +52,7 @@
 }
 
 
-</style>>
+</style>
 
 
 @yield('styles')

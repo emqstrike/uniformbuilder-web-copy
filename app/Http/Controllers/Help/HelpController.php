@@ -24,7 +24,9 @@ class HelpController extends Controller
     }
     public function getting_started()
     {
-        return "asdsad";
+         return view('help.getting_started', [
+            
+        ]);
         //
     }
     
