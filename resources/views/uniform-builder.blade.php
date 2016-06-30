@@ -229,6 +229,18 @@
                 
             </div>
 
+            <br /><br />
+
+            <span class="header">
+                3. Add Uniform To Order
+            </span>
+
+            <br /><br />
+            
+            <span class="add-item-to-order">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Item To Order
+            </span>
+
         </div>
 
     </div>
@@ -420,7 +432,7 @@
 <button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
 
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-md">
     <div class="modal-content">
      <div id="messageModal">
      </div>

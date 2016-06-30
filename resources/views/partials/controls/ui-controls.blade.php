@@ -714,11 +714,12 @@
  
             </table>
 
-            <br />
+                <br />
 
-            <span class="add-player" data-size="@{{.}}">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
-            </span>
+                <span class="add-player" data-size="@{{.}}">
+
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
+                </span>
 
             </div>
             @{{/tabs}}
@@ -752,18 +753,17 @@
 
                     <td>
                         <select class="sleeve-type">
-                            <option>Quarterback Cut</option>
-                            <option>Motion Cut</option>
-                            <option>Lineman Cut</option>
-                            <option>Lineman Cut</option>
+                            <option value="Quarterback Cut">Quarterback Cut</option>
+                            <option value="Motion Cut">Motion Cut</option>
+                            <option value="Lineman Cut">Lineman Cut</option>
                         </select>
                     </td>
 
                     <td>
                         <select class="lastname-application">
-                            <option>None</option>
-                            <option>Directly To Jersey</option>
-                            <option>Nameplate</option>
+                            <option value="None">None</option>
+                            <option value="Directly To Jersey">Directly To Jersey</option>
+                            <option value="Nameplate">Nameplate</option>
                         </select>
                     </td>
                     <td>

@@ -253,6 +253,124 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.extractFields = function (row) {
+
+        var _index              = row.data('index');
+        var _size               = row.find('input.size').val();
+        var _lastname           = row.find('input.lastname').val();
+        var _number             = row.find('input.number').val();
+        var _quantity           = row.find('input.quantity').val();
+        var _sleeveType         = row.find('select.sleeve-type').val();
+        var _lastNameApplcation = row.find('select.lastname-application').val();
+
+        return {
+
+            index: _index,
+            lastname: _lastname,
+            size: _size,
+            number: _number,
+            quantity: _quantity,
+            sleeveType: _sleeveType,
+            lastNameApplcation: _lastNameApplcation,
+
+        }
+
+    }
+
+    ub.funcs.validName = function (value) {
+
+        var _valid = true;
+        
+        if (!value.trim().length > 0) {
+
+            _valid = false;
+
+        }
+
+        return _valid;
+
+    }
+
+    ub.funcs.validQuantity = function (value) {
+
+        var _valid = true;
+
+        console.log('Value: ');
+        console.log(value);
+        
+        if (!parseInt(value) > 0) {
+
+            _valid = false;
+
+        }
+
+        return _valid;
+
+    }
+
+    ub.funcs.rosterValid = function () {
+
+        var _valid          = true;
+        var _messages       = [];
+
+        $('tr.roster-row').each (function () {
+
+            var $row            = $(this);
+            var _values         = ub.funcs.extractFields($row);
+            var _message        = '';
+            var _validName      = ub.funcs.validName(_values.lastname);
+            var _validQuantity  = ub.funcs.validQuantity(_values.quantity);
+            var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
+
+            _valid              = true;
+
+            if (!_validName) {
+
+                _valid = false;
+                _message = _indexLabel + ' - ' + 'Invalid Last Name' + '<br />';
+                _messages.push(_message);
+
+            }
+
+            if (!_validQuantity) {
+
+                _valid = false;
+                _message = _indexLabel + ' - ' + 'Invalid Quantity' + '<br />';
+                _messages.push(_message);
+
+            }
+
+            if (!_valid) {
+
+                $row.css('background-color', 'red');
+
+            } else {
+
+                $row.css('background-color', 'white');
+
+            }
+
+        });
+
+        return { valid: _valid, messages: _messages }
+
+    }
+
+    ub.funcs.submitUniform = function () {
+
+        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); }
+
+        var _validate = ub.funcs.rosterValid();
+
+        if (!_validate.valid) {
+
+            ub.showModal(_validate.messages);
+            return;
+
+        }
+
+    };
+
     ub.funcs.initRoster = function () {
 
         ub.funcs.fadeOutCustomizer();
@@ -276,6 +394,12 @@ $(document).ready(function() {
         $('span.back-to-customizer-button').on('click', function (){
 
             ub.funcs.fadeInCustomizer();
+
+        });
+
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform();
 
         });
 
