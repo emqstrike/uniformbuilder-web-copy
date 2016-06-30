@@ -97,7 +97,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
-            $('div.activate_qa_tools').fadeIn();
+            //$('div.activate_qa_tools').fadeIn();
 
             $('div#uniform_name').html(ub.current_material.material.name);
             $('div#uniform_price').html(ub.funcs.getPrice());

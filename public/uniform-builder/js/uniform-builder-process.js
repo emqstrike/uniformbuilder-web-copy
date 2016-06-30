@@ -351,7 +351,7 @@ $(document).ready(function() {
 
     ub.funcs.submitUniform = function () {
 
-        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); }
+        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); return; }
 
         var _validate = ub.funcs.rosterValid();
 

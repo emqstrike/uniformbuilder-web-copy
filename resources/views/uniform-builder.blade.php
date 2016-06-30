@@ -11,7 +11,7 @@
 
 <title>{{ $page_title }}</title>
 
-<link rel="icon" type="image/png" href="/images/branding/brand.png" />
+<link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
