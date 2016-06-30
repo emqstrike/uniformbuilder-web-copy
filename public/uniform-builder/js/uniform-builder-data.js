@@ -100,9 +100,10 @@ $(document).ready(function() {
     ub.left_view.position.x         = ub.dimensions.width;
     ub.pattern_view.position.x      = ub.dimensions.width;
 
-    ub.current_material             = {};
-    ub.current_material.settings    = {};
-    ub.current_material.settings.roster = {};
+    ub.current_material                         = {};
+    ub.current_material.settings                = {};
+    ub.current_material.settings.roster         = [];
+    ub.current_material.settings.order_info     = {};
 
     ub.states                       = {};
     ub.states.active_application    = 'undefined';

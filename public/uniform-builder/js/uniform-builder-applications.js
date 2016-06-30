@@ -3785,7 +3785,7 @@
     }
 
     ub.status.fontPopupVisible = false;
-    
+
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         ub.status.fontPopupVisible = true;
@@ -6219,7 +6219,10 @@
                 var locationObject = ub.objects[_perspective]['locations_' + location.code];
 
                 //locationObject.zIndex = 1;
-                locationObject.alpha = 0;
+
+                if (typeof locationObject !== 'undefined') {
+                    locationObject.alpha = 0;
+                }
 
                 //ub.updateLayersOrder(ub[_perspective]);
 
@@ -6234,10 +6237,9 @@
     ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
-
         ub.showLocation = true;
 
-        if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+        //if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
 
             _.each (_locations, function (location) {
 
@@ -6249,11 +6251,15 @@
                    // _locationObj.zIndex =  -200 + (index * -1);
                    if (typeof alphaOff !== 'undefined') {
 
-                       _locationObj.alpha = 0;
+                        if (typeof _locationObj !== 'undefined') {
+                            _locationObj.alpha = 0;
+                        }
 
                    } else {
 
-                        _locationObj.alpha = 1;
+                        if (typeof _locationObj !== 'undefined') {
+                            _locationObj.alpha = 1;
+                        }
 
                    }
 
@@ -6266,7 +6272,7 @@
 
             return;
 
-        }
+        //}
 
         _.each (_locations, function (location) {
 
