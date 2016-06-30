@@ -3785,6 +3785,7 @@
     }
 
     ub.status.fontPopupVisible = false;
+    
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         ub.status.fontPopupVisible = true;
@@ -5235,7 +5236,7 @@
             
         });
 
-        var _url = 'http://api-dev.qstrike.com/api/font/dupdate'
+        var _url = 'http://api-dev.qstrike.com/api/font/dupdate';
         var _postData = {
             name: _fontObject.name,
             id: fontID,
@@ -5247,6 +5248,8 @@
     }
 
     ub.funcs.activateApplications = function (application_id) {
+
+        if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
         if (ub.funcs.isBitFieldOn()) { 
 
@@ -6094,7 +6097,6 @@
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
-
             if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
