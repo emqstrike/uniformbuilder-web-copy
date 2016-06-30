@@ -6239,7 +6239,13 @@
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
-        //if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+        var _id = 1;
+
+        if (ub.current_material.material.type === 'lower') {
+            _id = 12
+        }
+
+        if (typeof ub.objects['front_view']['locations_' + _locations[_id].code] === "object") {
 
             _.each (_locations, function (location) {
 
@@ -6251,15 +6257,12 @@
                    // _locationObj.zIndex =  -200 + (index * -1);
                    if (typeof alphaOff !== 'undefined') {
 
-                        if (typeof _locationObj !== 'undefined') {
-                            _locationObj.alpha = 0;
-                        }
+                        _locationObj.alpha = 0;
 
                    } else {
 
-                        if (typeof _locationObj !== 'undefined') {
-                            _locationObj.alpha = 1;
-                        }
+                        _locationObj.alpha = 1;
+
 
                    }
 
@@ -6272,7 +6275,7 @@
 
             return;
 
-        //}
+        }
 
         _.each (_locations, function (location) {
 
