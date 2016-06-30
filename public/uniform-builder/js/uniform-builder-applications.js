@@ -1799,6 +1799,13 @@
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 4) { point.scale.x = 0.4; point.scale.y = 0.4 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 3) { point.scale.x = 0.33; point.scale.y = 0.33 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
+
+
+
                 /// Rotation Overrides 
 
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
