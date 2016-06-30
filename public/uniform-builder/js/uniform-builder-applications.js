@@ -6253,7 +6253,7 @@
         var _id = 1;
 
         if (ub.current_material.material.type === 'lower') {
-            _id = 12
+            _id = 38
         }
 
         if (typeof ub.objects['front_view']['locations_' + _locations[_id].code] === "object") {
