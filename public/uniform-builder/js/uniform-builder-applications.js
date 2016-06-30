@@ -4026,7 +4026,7 @@
 
         /// Todo: put index in initial load
 
-        var _fontList  = _.filter(ub.data.fonts, {active: "1"});
+        var _fontList  = _.filter(_.sortBy(ub.data.fonts,'name'), {active: "1"});
         var _fontMatch = undefined;
 
         _.each(_fontList, function (font, fontIndex){ 
@@ -4046,7 +4046,7 @@
     ub.funcs.getFontObj = function (direction, activeFontObject) {
 
         var _fontList   = _.filter(ub.data.fonts, {active: "1"});
-        var _index      = _.findIndex(_fontList, {name: activeFontObject.name});
+        var _index      = _.findIndex(_.sortBy(_fontList,'name'), {name: activeFontObject.name});
         var _newFontObj;
 
         if (typeof _index === "undefined") {
