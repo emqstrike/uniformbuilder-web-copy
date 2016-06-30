@@ -184,6 +184,7 @@ class MaterialsController extends Controller
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $uniformApplicationType = $request->input('uniform_application_type');
+        $sizes = $request->input('sizes');
         $slug = FileUploader::makeSlug($materialName);
 
         $block_pattern_id = $request->input('block_pattern_id');
@@ -238,9 +239,10 @@ class MaterialsController extends Controller
             'builder_customizations' => $builder_customizations,
             'description' => $description,
             'design_type' => $design_type,
-            'uniform_application_type' => $uniformApplicationType
+            'uniform_application_type' => $uniformApplicationType,
+            'sizes' => $sizes
         ];
-
+// dd($data);
         try {
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');

@@ -355,6 +355,62 @@
                         </div>
 
                         <div class="form-group">
+                            <input type="hidden" name="sizes" id="sizes" value="{{ $material->sizes }}">
+                        <!-- <a href="#" class="check-data btn btn-xs btn-primary">Check Data</a> -->
+                            <table class="Table table-bordered col-md-12">
+                                <tbody>
+                                    <tr style="font-weight: bold;">
+                                        <td style="width: 30px;">Adult Sizes</td>
+                                        <td style="width: 30px;">3XS</td>
+                                        <td style="width: 30px;">2XS</td>
+                                        <td style="width: 30px;">XS</td>
+                                        <td style="width: 30px;">S</td>
+                                        <td style="width: 30px;">M</td>
+                                        <td style="width: 30px;">L</td>
+                                        <td style="width: 30px;">XL</td>
+                                        <td style="width: 30px;">2XL</td>
+                                        <td style="width: 30px;">3XL</td>
+                                        <td style="width: 30px;">4XL</td>
+                                        <td style="width: 30px;">5XL</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 30px;"></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="3XS"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="2XS"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="XS"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="S"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="M"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="L"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="XL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="2XL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="3XL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="4XL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="5XL"></select></td>
+                                    </tr>
+                                    <tr style="font-weight: bold;">
+                                        <td style="width: 30px;">Youth Sizes</td>
+                                        <td style="width: 30px;">YS</td>
+                                        <td style="width: 30px;">YM</td>
+                                        <td style="width: 30px;">YL</td>
+                                        <td style="width: 30px;">YXL</td>
+                                        <td style="width: 30px;">Y2XL</td>
+                                        <td style="width: 30px;">Y3XL</td>
+                                        <td style="width: 30px;" colspan="5"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 30px;"></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YS"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YM"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YXL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="Y2XL"></select></td>
+                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="Y3XL"></select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
                                 <input type="hidden" name="description" id="description" value="{{ $material->description }}">
@@ -393,6 +449,111 @@
 <script>
 $( document ).ready(function() {
 
+    window.price_items = null;
+    getPriceItems(function(price_items){ window.price_items = price_items; });
+    function getPriceItems(callback){
+        var price_items;
+        var url = "//api-dev.qstrike.com/api/price_items";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                price_items = data['price_items'];
+                if(typeof callback === "function") callback(price_items);
+            }
+        });
+    }
+
+    var price_items_dd = '<option value=""> - - - </option>';
+    window.price_items.forEach(function(entry) {
+        price_items_dd += '<option value="' + entry.price_item + '" data-msrp="' + entry.msrp + '" data-wsp="' + entry.web_price_sale + '">' + entry.price_item + '</option>';
+    });
+
+    $(".pi-dd").each(function(i) {
+        $(this).append(price_items_dd);
+    });
+    if( $('#sizes').val() != "" ){
+        var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
+        console.log(size_obj);
+        size_obj['adult'].forEach(function(entry) {
+            // console.log(entry.size);
+            $(".pi-dd").each(function(i) {
+                var elem = $(this);
+                if( elem.data('size') == entry.size ){
+                    // elem.append('<option selected>HERE!</option');
+                    elem.find('option').each(function(index,element){
+                        if( element.value == entry.price_item ){
+                            // console.log('Match!');
+                            $(this).prop("selected", "selected");
+                        }
+                    });
+                }
+            });
+        });
+
+        size_obj['youth'].forEach(function(entry) {
+            // console.log(entry.size);
+            $(".pi-dd").each(function(i) {
+                var elem = $(this);
+                if( elem.data('size') == entry.size ){
+                    // elem.append('<option selected>HERE!</option');
+                    elem.find('option').each(function(index,element){
+                        if( element.value == entry.price_item ){
+                            // console.log('Match!');
+                            $(this).prop("selected", "selected");
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+
+    $(".pi-dd").change(function() {
+        buildPIxSizes();
+    });
+
+    // $(document).on('click', '.check-data', function() {
+    //     buildPIxSizes();
+    // });
+// var sizes = [];
+    function buildPIxSizes(){
+        sizes = {};
+        sizes['adult'] = [];
+        sizes['youth'] = [];
+        $(".a-size").each(function(i) {
+            if( $(this).val() != "" ){
+                data = {
+                    "size" : $(this).data('size'),
+                    "msrp" : parseInt($(this).find(':selected').data('msrp')),
+                    "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
+                    "price_item" : $(this).val()
+                };
+                sizes['adult'].push(data);
+            }
+        });
+        $(".y-size").each(function(i) {
+            if( $(this).val() != "" ){
+                data = {
+                    "size" : $(this).data('size'),
+                    "msrp" : parseInt($(this).find(':selected').data('msrp')),
+                    "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
+                    "price_item" : $(this).val()
+                };
+                sizes['youth'].push(data);
+            }
+        });
+        strResult = JSON.stringify(sizes);
+        console.log( strResult );
+        $('#sizes').val( '"' + strResult + '"' );
+    }
+
+    // console.log(window.price_items);
+
     tinymce.init({ 
         selector:'textarea.material-description'
     });
@@ -408,7 +569,7 @@ $( document ).ready(function() {
 
     $('.edit-material').on('click', function(){
         saveEditor();
-        console.log('SAVE');
+        // console.log('SAVE');
     });
 
     function saveEditor(){
@@ -441,12 +602,12 @@ $( document ).ready(function() {
         });
     }
 
-    console.log( window.block_patterns );
+    // console.log( window.block_patterns );
 
     var block_pattern_id = $('#block_pattern_id').val();
     var existing_neck_option = $('#existing_neck_option').val();
 
-    console.log(existing_neck_option);
+    // console.log(existing_neck_option);
 
     $.each(window.block_patterns, function(i, item) {
         if( item.id === block_pattern_id ){
