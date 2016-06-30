@@ -272,6 +272,7 @@ $(document).ready(function() {
             quantity: _quantity,
             sleeveType: _sleeveType,
             lastNameApplcation: _lastNameApplcation,
+            sample: 0,
 
         }
 
@@ -295,9 +296,6 @@ $(document).ready(function() {
 
         var _valid = true;
 
-        console.log('Value: ');
-        console.log(value);
-        
         if (!parseInt(value) > 0) {
 
             _valid = false;
@@ -312,6 +310,7 @@ $(document).ready(function() {
 
         var _valid          = true;
         var _messages       = [];
+        var _roster         = [];
 
         $('tr.roster-row').each (function () {
 
@@ -323,14 +322,6 @@ $(document).ready(function() {
             var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
 
             _valid              = true;
-
-            if (!_validName) {
-
-                _valid = false;
-                _message = _indexLabel + ' - ' + 'Invalid Last Name' + '<br />';
-                _messages.push(_message);
-
-            }
 
             if (!_validQuantity) {
 
@@ -350,9 +341,11 @@ $(document).ready(function() {
 
             }
 
+            _roster.push(_values);
+
         });
 
-        return { valid: _valid, messages: _messages }
+        return { valid: _valid, messages: _messages, roster: _roster }
 
     }
 
@@ -368,6 +361,9 @@ $(document).ready(function() {
             return;
 
         }
+
+        ub.showModal('Roster Saved...');
+        ub.current_material.settings.roster = _validate.roster;
 
     };
 
