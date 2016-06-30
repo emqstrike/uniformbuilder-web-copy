@@ -2374,6 +2374,8 @@
 
             if (results.length > 0) {
 
+                ub.states.canDoubleClick = true;
+
                 var _originalName = _.first(results).name;
 
                 if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
@@ -2390,6 +2392,8 @@
 
             }
             else {
+
+                ub.states.canDoubleClick = false;
 
                 ub.funcs.resetHighlights();
 

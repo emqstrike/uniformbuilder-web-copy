@@ -106,6 +106,7 @@ $(document).ready(function() {
     ub.current_material.settings.order_info     = {};
 
     ub.states                       = {};
+    ub.states.canDoubleClick        = false;
     ub.states.active_application    = 'undefined';
 
     ub.data                         = {};
