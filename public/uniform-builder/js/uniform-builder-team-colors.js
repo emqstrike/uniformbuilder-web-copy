@@ -607,11 +607,8 @@ $(document).ready(function () {
 
             var colors_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker' });
 
-            console.log(colors_btn);
-
             _.each(ub.current_material.settings.team_colors, function(color, index){
 
-                console.log(color.color_code);
                 var color_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker', 'color-label': color.color_code });
                 color_btn.attr('data-status','selected');
 
