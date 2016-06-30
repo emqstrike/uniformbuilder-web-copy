@@ -1187,7 +1187,7 @@
 
         ub.funcs.removeUIHandles();
     
-        var text_input = input_object.text_input;
+        var text_input = input_object.text_input.toUpperCase();
         var font_name = input_object.font_name;
         var application = input_object.application;
         var settings = input_object.settingsObject;
