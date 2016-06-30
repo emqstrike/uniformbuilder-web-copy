@@ -355,7 +355,8 @@
                         </div>
 
                         <div class="form-group">
-                        <a href="#" class="check-data btn btn-xs btn-primary">Check Data</a>
+                            <input type="hidden" name="sizes" id="sizes" value="{{ $material->sizes }}">
+                        <!-- <a href="#" class="check-data btn btn-xs btn-primary">Check Data</a> -->
                             <table class="Table table-bordered col-md-12">
                                 <tbody>
                                     <tr style="font-weight: bold;">
@@ -467,21 +468,63 @@ $( document ).ready(function() {
         });
     }
 
-    var price_items_dd = '<option value="">N/A</option>';
+    var price_items_dd = '<option value=""> - - - </option>';
     window.price_items.forEach(function(entry) {
-        price_items_dd += '<option value="' + entry.price_item + '" data-msrp="' + entry.msrp + '" data-wsp="' + entry.web_sale_price + '">' + entry.price_item + '</option>';
+        price_items_dd += '<option value="' + entry.price_item + '" data-msrp="' + entry.msrp + '" data-wsp="' + entry.web_price_sale + '">' + entry.price_item + '</option>';
     });
-// console.log(price_items_dd);
+
     $(".pi-dd").each(function(i) {
         $(this).append(price_items_dd);
     });
+    if( $('#sizes').val() != "" ){
+        var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
+        console.log(size_obj);
+        size_obj['adult'].forEach(function(entry) {
+            // console.log(entry.size);
+            $(".pi-dd").each(function(i) {
+                var elem = $(this);
+                if( elem.data('size') == entry.size ){
+                    // elem.append('<option selected>HERE!</option');
+                    elem.find('option').each(function(index,element){
+                        if( element.value == entry.price_item ){
+                            // console.log('Match!');
+                            $(this).prop("selected", "selected");
+                        }
+                    });
+                }
+            });
+        });
 
-    $(document).on('click', '.check-data', function() {
+        size_obj['youth'].forEach(function(entry) {
+            // console.log(entry.size);
+            $(".pi-dd").each(function(i) {
+                var elem = $(this);
+                if( elem.data('size') == entry.size ){
+                    // elem.append('<option selected>HERE!</option');
+                    elem.find('option').each(function(index,element){
+                        if( element.value == entry.price_item ){
+                            // console.log('Match!');
+                            $(this).prop("selected", "selected");
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+
+    $(".pi-dd").change(function() {
         buildPIxSizes();
     });
-var sizes = [];
+
+    // $(document).on('click', '.check-data', function() {
+    //     buildPIxSizes();
+    // });
+// var sizes = [];
     function buildPIxSizes(){
-        sizes = [];
+        sizes = {};
+        sizes['adult'] = [];
+        sizes['youth'] = [];
         $(".a-size").each(function(i) {
             if( $(this).val() != "" ){
                 data = {
@@ -490,10 +533,23 @@ var sizes = [];
                     "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
                     "price_item" : $(this).val()
                 };
-                sizes.push(data);
+                sizes['adult'].push(data);
             }
         });
-        console.log(sizes);
+        $(".y-size").each(function(i) {
+            if( $(this).val() != "" ){
+                data = {
+                    "size" : $(this).data('size'),
+                    "msrp" : parseInt($(this).find(':selected').data('msrp')),
+                    "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
+                    "price_item" : $(this).val()
+                };
+                sizes['youth'].push(data);
+            }
+        });
+        strResult = JSON.stringify(sizes);
+        console.log( strResult );
+        $('#sizes').val( '"' + strResult + '"' );
     }
 
     // console.log(window.price_items);
