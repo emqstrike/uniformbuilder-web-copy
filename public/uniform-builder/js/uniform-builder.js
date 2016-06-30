@@ -4627,6 +4627,8 @@ $(document).ready(function () {
         $("body").dblclick(function() {
 
             if(ub.status.onText) { return; }
+            if(!ub.states.canDoubleClick) { return; }
+
             if($('div#cogPopupContainer').is(':visible')) { return; }
             
             ub.zoom_on();
