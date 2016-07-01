@@ -595,6 +595,8 @@ $(document).ready(function() {
 
         $('span.size').on('click', function () {
 
+            if ($('div#numbersPopup').is(':visible')) { return; }
+
             var _status = $(this).data('status');
             var _size   = $(this).data('size');
 
