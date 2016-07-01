@@ -1804,7 +1804,7 @@
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
 
-
+                /// Font Overrides 
 
                 /// Rotation Overrides 
 
@@ -3145,7 +3145,7 @@
 
             var data = {
                 label: 'Choose Patterns: ',
-                patterns: _.sortBy(ub.data.patterns.items, 'sortID'),
+                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
             };
 
             var template = $('#m-pattern-popup').html();
