@@ -389,6 +389,7 @@ $(document).ready(function() {
         var _url        = url;
 
         $('span.submit-order').fadeOut();
+        $('span.processing').fadeIn();
 
         $.ajax({
             
@@ -401,8 +402,9 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response){
 
-                console.log(response.message)
-                ub.showModal('Your order is now being processed. Thank you.')
+                console.log(response.message);
+                $('span.processing').fadeOut();
+                ub.showModal('Your order is now submitted. Thank you.')
                 ub.funcs.initGenderPicker();
 
             }
