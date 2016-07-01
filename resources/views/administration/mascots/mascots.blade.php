@@ -29,12 +29,13 @@
                     </div>
                     <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
                     <button class="button btn-primary" data-filter="*">All</button>
+                    <button class="button" data-filter="On">On</button>
+                        <button class="button" data-filter="Off">Off</button>
                     @foreach ($mascot_categories as $mascot_category)
                         <button class="button" data-filter="{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
                     @endforeach
                     
-                        <button class="button" data-filter="On">On</button>
-                        <button class="button" data-filter="Off">OFF</button>
+                        
                     
                     </div>
                 </div>
