@@ -196,6 +196,7 @@ class MaterialsController extends Controller
 
         $neck_option = $request->input('neck_option');
         $price_item_code = $request->input('price_item_code');
+        $item_id = $request->input('item_id');
         $sku = $request->input('sku');
         $builder_customizations = $request->input('builder_customizations');
 
@@ -235,6 +236,7 @@ class MaterialsController extends Controller
             'block_pattern_id' => $block_pattern_id,
             'neck_option' => $neck_option,
             'price_item_code' => $price_item_code,
+            'item_id' => $item_id,
             'sku' => $sku,
             'builder_customizations' => $builder_customizations,
             'description' => $description,

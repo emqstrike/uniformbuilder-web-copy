@@ -121,13 +121,14 @@ $('.updatePart').on('click', function(e){
 
     var questions = [{
             "QuestionID": 16,
-            "Value": "Dazzle (DA)"
+            "Value": "TEST"
         }];
 
     var data = {
         "pid" : 68678,
         "questions" : JSON.stringify(questions)
     };
+
     $.ajax({
         url: '//api-dev.qstrike.com/api/order/updatePartFromFactory',
         type: "POST",
@@ -135,7 +136,7 @@ $('.updatePart').on('click', function(e){
         dataType: "json",
         crossDomain: true,
         contentType: 'application/json;',
-        headers: {"accessToken": atob(headerValue)},
+        // headers: {"accessToken": atob(headerValue)},
         success: function (data) {
             alert('worked');
             //Success
