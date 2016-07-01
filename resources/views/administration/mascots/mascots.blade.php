@@ -32,13 +32,22 @@
                     @foreach ($mascot_categories as $mascot_category)
                         <button class="button" data-filter="{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
                     @endforeach
+                    
+                        <button class="button" data-filter="On">On</button>
+                        <button class="button" data-filter="Off">OFF</button>
+                    
                     </div>
                 </div>
                 
                 <div class="box-body isotope" id="box_body">
                 @forelse ($mascots as $mascot)
-
-                        <div class="col-md-2 mascot-row" data-category="{{ $mascot->category }}">
+                        @if( $mascot->active == 1)
+                        <div class="col-md-2 mascot-row On" data-category="{{ $mascot->category }}">
+                        @else
+                        <div class="col-md-2 mascot-row Off" data-category="{{ $mascot->category }}">
+                       
+                        
+                        @endif
                             <div class="panel panel-default">
                                 <div class="panel-heading" style="height: 70px;">
                                 <div class="col-md-6">{{ ucfirst($mascot->name) }}</div>
