@@ -17,6 +17,8 @@ $(document).ready(function () {
 
     ub.showModal = function (message) {
 
+        $('div.modal').modal('hide');
+
         $('div#messageModal').html(message);
         $('button#modalButton').trigger('click');
 

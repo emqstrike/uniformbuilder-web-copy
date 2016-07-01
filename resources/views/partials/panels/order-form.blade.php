@@ -132,6 +132,11 @@
 
         <br /><br />
 
+        <span class="processing">
+            <img src="/images/loading.gif" />
+            Processing...
+        </span>
+
         <span class="submit-order">
             <i class="fa fa-check-circle-o" aria-hidden="true"></i> Submit Order
         </span>
