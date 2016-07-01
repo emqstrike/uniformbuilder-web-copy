@@ -2173,7 +2173,6 @@ $(document).ready(function() {
     function getMascots(callback){
         var mascots;
         var url = "//api-dev.qstrike.com/api/mascots";
-        //var url = "//localhost:8888/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2182,15 +2181,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-
                 mascots = data['mascots'];
-                 mascots=$(mascots).filter(function (i,n){return n.active===1});
-                   // jQuery.each(mascots, function(index, item) {    
-                        
-                   //     console.log("id:"+ item.id +" fil:"+item.name+" active:"+item.active);
-
-                   //  });
-
                 if(typeof callback === "function") callback(mascots);
             }
         });
