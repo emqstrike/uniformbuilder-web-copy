@@ -103,7 +103,6 @@ $(document).ready(function() {
               "thumbnail" : item.thumbnail_path,          
               }
 
-
      accentObject.push(accent);
     // console.log(accent);
 
@@ -116,7 +115,7 @@ $(document).ready(function() {
         //     // console.log(item2.name.length );  
 
         // });
-    
+
 
 
 

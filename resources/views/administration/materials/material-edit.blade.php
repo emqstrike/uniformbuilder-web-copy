@@ -71,6 +71,13 @@
                         </div>
 <hr>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Item ID</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control material-item-id" name="item_id" value="{{ $material->item_id }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Code</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control material-price-item-code" name="price_item_code" value="{{ $material->price_item_code }}">
