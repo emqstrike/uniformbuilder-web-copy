@@ -131,7 +131,24 @@
                                     Remove
                                 </a>
                                 <button class='btn btn-warning btn-xs view-builder-customization'
-                                    data-builder-customization="{{ $order->builder_customizations }}">
+                                    data-builder-customization="{{ $order->builder_customizations }}"
+                                    data-order-id="{{ $order->id }}"
+                                    data-api-order-id="{{ $order->order_id }}"
+                                    data-client="{{ $order->client }}"
+                                    data-ship-contact="{{ $order->ship_contact }}"
+                                    data-ship-address="{{ $order->ship_address }}"
+                                    data-ship-city="{{ $order->ship_city }}"
+                                    data-ship-state="{{ $order->ship_state }}"
+                                    data-ship-zip="{{ $order->ship_address }}"
+                                    data-ship-phone="{{ $order->ship_phone }}"
+                                    data-bill-contact="{{ $order->bill_contact }}"
+                                    data-bill-city="{{ $order->bill_city }}"
+                                    data-bill-state="{{ $order->bill_state }}"
+                                    data-bill-zip="{{ $order->bill_zip }}"
+                                    data-bill-email="{{ $order->bill_email }}"
+                                    data-bill-phone="{{ $order->bill_phone }}"
+                                    data-bill-address="{{ $order->bill_address }}"
+                                   >
                                     View JSON
                                 </button>
                             </td>

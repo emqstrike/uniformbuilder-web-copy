@@ -106,11 +106,104 @@ $(document).ready(function(){
     });
 
 $('.view-builder-customization').on('click', function(){
-    var data = $(this).data('builder-customization');
-    var builder_customization = data.replace(/\\/g, '');
-    var trimmed_str = builder_customization.substring(1, builder_customization.length-1);
-    var json = JSON.parse(trimmed_str);
-    console.dir(json);
+     api_order_id = $(this).data('api-order-id');
+    order_id = $(this).data('order-id');
+    client = $(this).data('client');
+
+    ship_contact = $(this).data('ship-contact');
+    ship_address = $(this).data('ship-address');
+    ship_phone = $(this).data('ship-phone');
+    ship_city = $(this).data('ship-city');
+    ship_state = $(this).data('ship-state');
+    ship_zip = $(this).data('ship-zip');
+
+    billing_contact = $(this).data('bill-contact');
+    billing_address = $(this).data('bill-address');
+    billing_city = $(this).data('bill-city');
+    billing_state = $(this).data('bill-state');
+    billing_zip = $(this).data('bill-zip');
+    billing_email = $(this).data('bill-email');
+    billing_phone = $(this).data('bill-phone');
+
+console.log(order_id);
+
+    window.order_parts = null;
+    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+
+
+
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+
+    window.order_parts.forEach(function(entry) {
+        entry.orderPart = {
+            "ID" : entry.id,
+            "ItemID" : entry.item_id,
+            "Description" : entry.description,
+            "DesignSheet" : entry.design_sheet,
+            "BuilderCustomizations" : JSON.stringify(entry.builder_customizations)
+        };
+
+        entry.orderQuestions = {};
+        entry.orderItems = JSON.parse(entry.roster);
+
+        delete entry.builder_customizations;
+        delete entry.description;
+        delete entry.factory_order_id;
+        delete entry.id;
+        delete entry.item_id;
+        delete entry.oid;
+        delete entry.roster;
+        // entry.roster = 
+    });
+// console.log(window.order_parts);
+        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+
+        var order = {
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
+            "APICode": 1,
+            "Gender": 0,
+            "RepID": 154,
+            "RepIDEnteredBy": 0,
+            "Sport": "All"
+        };
+
+        var orderEntire =
+        {
+            "Order": order,
+            // "orderParts": orderPartsEntire
+            "orderParts" : window.order_parts
+        };
+
+    strResult = JSON.stringify(orderEntire);
+    console.log( strResult );
 });
 
 $('.factory-oid').on('click', function(e){
