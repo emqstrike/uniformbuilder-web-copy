@@ -2173,7 +2173,6 @@ $(document).ready(function() {
     function getMascots(callback){
         var mascots;
         var url = "//api-dev.qstrike.com/api/mascots";
-        //var url = "//localhost:8888/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2182,12 +2181,8 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-
                 mascots = data['mascots'];
-                var mascotsFiltered=$(mascots).filter(function (i,n){return n.active===1});
-
-
-                if(typeof callback === "function") callback(mascotsFiltered);
+                if(typeof callback === "function") callback(mascots);
             }
         });
     }
@@ -3440,7 +3435,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                          $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
                     }
                  
-         
+               console.log(filteredMascots);
                 });
                 
 
