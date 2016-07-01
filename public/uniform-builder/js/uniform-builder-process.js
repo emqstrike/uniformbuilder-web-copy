@@ -388,7 +388,6 @@ $(document).ready(function() {
         var _postData   = data;
         var _url        = url;
 
-        console.log(JSON.stringify(_postData));
         $('span.submit-order').fadeOut();
 
         $.ajax({

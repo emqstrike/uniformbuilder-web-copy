@@ -172,7 +172,7 @@ $(document).ready(function() {
         {
             sport: 'football',
             category: 'adult',
-            sizes: ['3XS','2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
+            sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YXS','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
         }, 
         {
             sport: 'football',
@@ -2183,6 +2183,118 @@ $(document).ready(function() {
              status: "free",
          },        
 
+    ];
+
+    ub.funcs.fontOffSets = [
+        {   /// Start Badgers
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '4',
+            origY: 74,            
+            origX: 511.5,
+            adjustmentX: 518,
+            adjustmentY: 77, 
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '3',
+            origY: 74,            
+            origX: 511.5,
+            adjustmentY: 72,            
+            adjustmentX: 518,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '4',
+            origY: 72,
+            origX: 739.5,
+            adjustmentY: 77, 
+            adjustmentX: 745,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '3',
+            origY: 72,
+            origX: 739.5,
+            adjustmentY: 75, 
+            adjustmentX: 743,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '4',
+            origY: 44,
+            origX: 237,
+            adjustmentY: 44, 
+            adjustmentX: 233,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '3',
+            origY: 44,
+            origX: 237,
+            adjustmentY: 45, 
+            adjustmentX: 237,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '4',
+            origY: 180,
+            origX: 519.5,
+            adjustmentY: 185, 
+            adjustmentX: 515,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '3',
+            origY: 180,
+            origX: 519.5,
+            adjustmentY: 185,
+            adjustmentX: 515,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '4',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 175, 
+            adjustmentX: 889,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '3',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 173,             
+            adjustmentX: 885,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '4',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 175, 
+            adjustmentX: 889,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '3',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 173,
+            adjustmentX: 885,
+        },  /// End Badgers
     ];
 
     ub.funcs.load_fonts = function () {
