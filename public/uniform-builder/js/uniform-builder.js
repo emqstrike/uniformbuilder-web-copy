@@ -4430,6 +4430,8 @@ $(document).ready(function () {
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
+        ub.funcs.hideRosterAndOrderForm();
+
         // $('.header-container').removeClass('forceHide');
 
         $('body').addClass('pickers-enabled');

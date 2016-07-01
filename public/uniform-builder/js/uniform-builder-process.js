@@ -349,6 +349,200 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.showRosterForm = function () {
+
+        $('div#order-form').fadeOut();
+        $('div#roster-input').fadeIn();
+
+    }
+
+    ub.funcs.hideRosterAndOrderForm = function () {
+
+        $('div#order-form').fadeOut();
+        $('div#roster-input').fadeOut();
+
+    }
+
+    ub.funcs.getTotalQuantity = function () {
+
+        var _total = 0;
+
+        _.each (ub.current_material.settings.roster, function (roster){
+
+            _total += parseInt(roster.quantity);
+
+        });
+
+        return _total;
+
+    }
+
+    ub.funcs.isOrderFormValid = function () {
+
+        return true;
+
+    }
+
+    ub.funcs.postOrderData = function (data, url) {
+
+        var _postData   = data;
+        var _url        = url;
+
+        console.log(JSON.stringify(_postData));
+        $('span.submit-order').fadeOut();
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response){
+
+                console.log(response.message)
+                ub.showModal('Your order is now being processed. Thank you.')
+                ub.funcs.initGenderPicker();
+
+            }
+            
+        });
+
+    };
+
+    ub.funcs.submitOrderForm = function () {
+
+        var _rosterFormValid    = ub.funcs.isOrderFormValid();
+        
+        if (!_rosterFormValid) {
+
+            ub.startModal('Please Complete Order Form Details');
+            return;
+
+        }
+
+        var _factoryCode            = ub.current_material.material.factory_code;
+        var _sleeveCut              = '';
+        var _lastnameApplication    = '';
+        var _itemID                 = parseInt(ub.current_material.material.item_id);
+        var _uniformName            = ub.current_material.material.name;
+
+        var _clientOrgName          = $('input[name="client-organization"]').val();
+        var _clientName             = $('input[name="client-name"]').val();
+        var _clientEmail            = $('input[name="client-email"]').val();
+        var _clientPhone            = $('input[name="client-phone"]').val();
+        var _clientFax              = $('input[name="client-fax"]').val();
+        var _athleticDirector       = $('input[name="athletic-director"]').val();
+
+        var _billingOrganization    = $('input[name="billing-organization"]').val();
+        var _billingContactName     = $('input[name="billing-contact-name"]').val();
+        var _billingEmail           = $('input[name="billing-email"]').val();
+        var _billingPhone           = $('input[name="billing-phone"]').val();
+        var _billingFax             = $('input[name="billing-fax"]').val();
+        
+        var _billingAddress         = $('input[name="billing-address"]').val();
+        var _billingCity            = $('input[name="billing-city"]').val();
+        var _billingState           = $('input[name="billing-state"]').val();
+        var _billingZip             = $('input[name="billing-zip"]').val();
+
+        var _transformedRoster      = [];
+
+        _.each (ub.current_material.settings.roster, function (_roster){
+
+            if (_factoryCode === "BLB") {
+
+                _sleeveCut  = "Motion";
+                _lastnameApplication = 'N/A';
+
+            }
+            else {
+
+                _sleeveCut  = _roster.sleeveType,
+                _lastnameApplication = _roster.sleeveType;
+
+            }
+
+            var _obj = {
+                Size: _roster.size,
+                Number: _roster.number,
+                Name: _roster.lastname,
+                Sample: 0,
+            }
+
+            _transformedRoster.push(_obj);
+
+        });
+
+        var orderInput = {
+
+            order: {
+                client: _clientName,    
+            },
+            athletic_director: {
+
+                organization: _clientOrgName,
+                contact: _athleticDirector,
+                email: _clientEmail,
+                phone: _clientPhone,
+                fax: _clientFax,
+
+            },
+            billing: {
+
+                organization: _billingOrganization,
+                contact: _billingContactName,
+                email: _billingEmail,
+                address: _billingAddress,
+                city: _billingCity,
+                state: _billingState,
+                phone: _billingPhone,
+                fax: _billingFax,
+
+            },
+            order_items: [
+                {
+                    item_id: _itemID,
+                    description: _uniformName,
+                    builder_customizations: ub.current_material.settings,
+                    set_group_id: 0,
+                    factory_order_id: '',
+                    design_sheet : "",
+                    roster: _transformedRoster,
+                },
+            ]
+        };
+
+        var _url = 'http://api-dev.qstrike.com/api/order';
+
+        ub.funcs.postOrderData(orderInput,_url);
+
+    };
+
+    ub.funcs.showOrderForm = function () {
+
+        $('div#roster-input').fadeOut();
+        window.scrollTo(0,0);
+        $('div#order-form').fadeIn();
+
+        $('td.uniform-name').html(ub.current_material.material.name);
+        $('td.quantity').html(ub.funcs.getTotalQuantity());
+
+        $('span.back-to-roster-form-button').on('click', function () {
+
+            ub.funcs.showRosterForm();
+
+        });
+
+        $('span.submit-order').on('click', function () {
+
+            ub.funcs.submitOrderForm();
+
+        });
+
+    }
+
     ub.funcs.submitUniform = function () {
 
         if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); return; }
@@ -362,8 +556,8 @@ $(document).ready(function() {
 
         }
 
-        ub.showModal('Roster Saved...');
         ub.current_material.settings.roster = _validate.roster;
+        ub.funcs.showOrderForm();
 
     };
 
@@ -396,6 +590,7 @@ $(document).ready(function() {
         $('span.add-item-to-order').on('click', function () {
 
             ub.funcs.submitUniform();
+
 
         });
 
