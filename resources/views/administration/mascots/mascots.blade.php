@@ -30,7 +30,7 @@
                     <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
                     <button class="button btn-primary" data-filter="*">All</button>
                     @foreach ($mascot_categories as $mascot_category)
-                        <button class="button" data-filter=".{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
+                        <button class="button" data-filter="{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
                     @endforeach
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="box-body isotope" id="box_body">
                 @forelse ($mascots as $mascot)
 
-                        <div class="col-md-2 mascot-row {{ $mascot->category }}" data-category="{{ $mascot->category }}">
+                        <div class="col-md-2 mascot-row" data-category="{{ $mascot->category }}">
                             <div class="panel panel-default">
                                 <div class="panel-heading" style="height: 70px;">
                                 <div class="col-md-6">{{ ucfirst($mascot->name) }}</div>
@@ -132,6 +132,25 @@
 @endsection
 
 @section('scripts')
+<script>
+    
+  $("#filters button").each(function(i) {
+        var filteredMascotClass=($(this).data("filter")).replace(/[\W_]/g,"");
+
+        $(this).attr("data-filter","."+filteredMascotClass);
+
+
+        });
+        $(".mascot-row").each(function(i) {
+        var filteredClass=($(this).data("category")).replace(/[\W_]/g,"");
+
+        $(this).attr("data-category",filteredClass);
+        $(this).addClass(filteredClass);
+           console.log(this);
+
+        });
+
+</script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
@@ -139,6 +158,9 @@
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+   
+
+    console.log("asdasdasdasdasdasdssss");
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
