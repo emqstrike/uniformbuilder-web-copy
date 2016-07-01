@@ -99,7 +99,7 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             //$('div.activate_qa_tools').fadeIn();
 
-            $('div#uniform_name').html(ub.current_material.material.name);
+            $('div#uniform_name').html(ub.current_material.material.name + ' <em class="notice">*pricing may vary depending on size</em>');
             $('div#uniform_price').html(ub.funcs.getPrice());
 
             $('div.header-container').css('display','none !important');
@@ -933,6 +933,8 @@ $(document).ready(function () {
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
+
+                    console.log(_application.id);
 
                     var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
 

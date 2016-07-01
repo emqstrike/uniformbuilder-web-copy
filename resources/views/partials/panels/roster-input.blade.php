@@ -16,8 +16,6 @@
         <div id="sizes">
 
             <span>ADULT SIZES:</span>
-            <span data-status="off" data-size="3XS" class="size">3XS</span>
-            <span data-status="off" data-size="2XS" class="size">2XS</span>
             <span data-status="off" data-size="XS" class="size">XS</span>
             <span data-status="off" data-size="S" class="size">S</span>
             <span data-status="off" data-size="M" class="size">M</span>
@@ -31,6 +29,7 @@
             <br />
 
             <span>YOUTH SIZES:</span>
+            <span data-status="off" data-size="YXS" class="size">YXS</span>
             <span data-status="off" data-size="YS" class="size">YS</span>
             <span data-status="off" data-size="YM" class="size">YM</span>
             <span data-status="off" data-size="YL" class="size">YL</span>
@@ -50,12 +49,6 @@
 
                 <span class='adult-header'>Adult Sizes: </span>
 
-                <span class="tabButton active" data-category="adult" data-size="3XS">
-                    3XS
-                </span>
-                <span class="tabButton"  data-category="adult" data-size="2XS">
-                    2XS
-                </span>
                 <span class="tabButton" data-category="adult" data-size="XS">
                     XS
                 </span>
@@ -86,6 +79,9 @@
 
                 <span class='youth-header'>Youth Sizes: </span>
 
+                <span class="tabButton" data-category="youth" data-size="YXS">
+                    YXS
+                </span>
                 <span class="tabButton" data-category="youth" data-size="YS">
                     YS
                 </span>
