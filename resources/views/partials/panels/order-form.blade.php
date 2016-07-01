@@ -116,7 +116,6 @@
                 
                 <td>Order Item</td>
                 <td>QTY</td>
-                <td></td>
 
             </tr>
 
@@ -124,7 +123,6 @@
 
                 <td class="uniform-name">Grizzlies</td>
                 <td class="quantity">100</td>
-                <td class="view-roster"><a href="#">View Roster and Sizes</a></td>
                 
             </tr>
             

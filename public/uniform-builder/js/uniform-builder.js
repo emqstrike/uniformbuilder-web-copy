@@ -79,13 +79,13 @@ $(document).ready(function () {
             var _msrp           = parseFloat(ub.current_material.material.msrp);
             var _price          = 0;
 
-            if (_web_price_sale < _msrp) {
+            if (_web_price_sale < _msrp && _web_price_sale > 1) {
                 _price          = "$" + _web_price_sale;
             } else {
                 _price          = "$" + _msrp;
             }
 
-            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { _price = "Call for Pricing" }
+            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { _price = "Call for Team Pricing" }
 
             return _price;
 
