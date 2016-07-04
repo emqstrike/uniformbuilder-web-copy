@@ -103,7 +103,16 @@ $(document).ready(function () {
         _.each (_colors, function (_color) {
 
             var _match = _.find(ub.data.colors, {color_code: _color});
-            _newColorSet.push(_match);
+
+            if (typeof _match === 'undefined') {
+
+                console.log('Cant Find ' + _color);
+
+            }
+            else {
+                _newColorSet.push(_match);    
+            }
+            
 
         });
 
