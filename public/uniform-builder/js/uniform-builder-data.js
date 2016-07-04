@@ -100,11 +100,22 @@ $(document).ready(function() {
     ub.left_view.position.x         = ub.dimensions.width;
     ub.pattern_view.position.x      = ub.dimensions.width;
 
-    ub.current_material             = {};
-    ub.current_material.settings    = {};
-    ub.current_material.settings.roster = {};
+    ub.current_material                         = {};
+    ub.current_material.settings                = {};
+    ub.current_material.settings.roster         = [];
+    ub.current_material.settings.order_info     = {};
+
+    ub.current_material.settings.thumbnails     = {
+        front_view: "",
+        back_view: "",
+        left_view: "",
+        right_view: "",
+    }
+
+    ub.current_material.settings.pdfOrderForm = "";
 
     ub.states                       = {};
+    ub.states.canDoubleClick        = false;
     ub.states.active_application    = 'undefined';
 
     ub.data                         = {};
@@ -170,7 +181,7 @@ $(document).ready(function() {
         {
             sport: 'football',
             category: 'adult',
-            sizes: ['3XS','2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
+            sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YXS','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
         }, 
         {
             sport: 'football',
@@ -913,31 +924,44 @@ $(document).ready(function() {
                     code: 'football',
                     name: 'Football',
                     active: "1",
+                    tooltip: '',
+                    disabledClass: '',
                 },
                 {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
+                    tooltip: 'Coming Soon!',
+                    disabledClass: 'disabledClass',
+
                 },
                 {
                     code: 'basketball',
                     name: 'Basketball',
                     active: "1",
+                    tooltip: 'Coming Soon!',
+                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'lacrosse',
                     name: 'Lacrosse',
                     active: "1",
+                    tooltip: 'Coming Soon!',
+                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'soccer',
                     name: 'Soccer',
                     active: "1",
+                    tooltip: 'Coming Soon!',
+                    disabledClass: 'disabledClass',
                 }, 
                 {
                     code: 'wrestling',
                     name: 'Wrestling',
                     active: "1",
+                    tooltip: 'Coming Soon!',
+                    disabledClass: 'disabledClass',
                 }, 
             ],
         },
@@ -2181,6 +2205,118 @@ $(document).ready(function() {
              status: "free",
          },        
 
+    ];
+
+    ub.funcs.fontOffSets = [
+        {   /// Start Badgers
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '4',
+            origY: 74,            
+            origX: 511.5,
+            adjustmentX: 518,
+            adjustmentY: 77, 
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '3',
+            origY: 74,            
+            origX: 511.5,
+            adjustmentY: 72,            
+            adjustmentX: 518,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '4',
+            origY: 72,
+            origX: 739.5,
+            adjustmentY: 77, 
+            adjustmentX: 745,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '3',
+            origY: 72,
+            origX: 739.5,
+            adjustmentY: 75, 
+            adjustmentX: 743,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '4',
+            origY: 44,
+            origX: 237,
+            adjustmentY: 44, 
+            adjustmentX: 233,
+        },{
+            location: '32',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '3',
+            origY: 44,
+            origX: 237,
+            adjustmentY: 45, 
+            adjustmentX: 237,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '4',
+            origY: 180,
+            origX: 519.5,
+            adjustmentY: 185, 
+            adjustmentX: 515,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'left',
+            size: '3',
+            origY: 180,
+            origX: 519.5,
+            adjustmentY: 185,
+            adjustmentX: 515,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '4',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 175, 
+            adjustmentX: 889,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'front',
+            size: '3',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 173,             
+            adjustmentX: 885,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '4',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 175, 
+            adjustmentX: 889,
+        },{
+            location: '10',
+            fontName: 'Badgers',
+            perspective: 'back',
+            size: '3',
+            origY: 168,
+            origX: 879.5,
+            adjustmentY: 173,
+            adjustmentX: 885,
+        },  /// End Badgers
     ];
 
     ub.funcs.load_fonts = function () {

@@ -80,9 +80,11 @@ $(document).ready(function () {
 
     $('a.navbar-brand').on('click', function (evt) {
 
+        ub.funcs.initGenderPicker();
+        return;
+
         if(ub.debug.UI_VERSION === 1) {
 
-            ub.funcs.uiV1();
             ub.debug.UI_VERSION = 0.5;
 
         }

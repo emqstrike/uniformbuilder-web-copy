@@ -23,6 +23,11 @@ $(document).ready(function() {
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
 
+        $('span.size[data-size="' + size + '"]').attr('data-status','on');
+
+
+        // var _rosterSize = _.find(ub.current_material.settings.roster, {size: size});
+
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
             $('span.tabButton[data-size="' + size + '"]').trigger('click');
@@ -46,9 +51,26 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getActiveSizes = function () {
+
+        var _activeSizes = [];
+
+        $('span.size[data-status="on"]').each (function () {
+
+            var _size = $(this).data('size');
+            
+            _activeSizes.push(_size);
+
+        });
+
+        return _activeSizes;
+
+    }
+
     ub.funcs.removeSizesTabs = function (size) {
 
         $('span.tabButton[data-size="' + size + '"]').hide();
+        $('span.size[data-size="' + size + '"]').attr('data-status','off');
         $('span.tabButton:visible').first().trigger('click');
         $('div.tab[data-size="' + size + '"]').hide();
 
@@ -131,7 +153,7 @@ $(document).ready(function() {
         });
 
         _htmlBuilder += '<br />';
-        _htmlBuilder += '<span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
+        _htmlBuilder += '<span class="preview">Preview: </span> <span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
 
         _htmlBuilder += '</div>';
 
@@ -157,6 +179,22 @@ $(document).ready(function() {
                 $(this).addClass('selected');
 
             }
+
+        });
+
+        $('span.number.used').hover(function() {
+            
+            var _number     = $(this).data('number');
+            var $tr         = $('input[name="number"][value="' + _number + '"]').parent().parent();
+            var _size       = $tr.find('input[name="size"]').val();
+            var _lastname   = $tr.find('input[name="lastname"]').val();
+            var _index      = $tr.data('index');
+
+            $('span.preview').html(_index + '. ' +_size + ' - ' + _lastname);
+
+        }, function() {
+        
+            $('span.preview').html('Preview');
 
         });
 
@@ -205,6 +243,22 @@ $(document).ready(function() {
 
             });
 
+            if (ub.current_material.material.factory_code === "BLB") {
+
+                $('select.lastname-application').attr('disabled','disabled');
+                $('select.lastname-application').val('None');
+
+                $('select.sleeve-type').attr('disabled','disabled');
+                $('select.sleeve-type').val('Motion Cut');
+
+            }
+            else {
+
+                $('select.lastname-application').removeAttr('disabled');
+                $('select.sleeve-type').removeAttr('disabled');
+
+            }
+
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
@@ -237,7 +291,330 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.extractFields = function (row) {
+
+        var _index              = row.data('index');
+        var _size               = row.find('input.size').val();
+        var _lastname           = row.find('input.lastname').val();
+        var _number             = row.find('input.number').val();
+        var _quantity           = row.find('input.quantity').val();
+        var _sleeveType         = row.find('select.sleeve-type').val();
+        var _lastNameApplcation = row.find('select.lastname-application').val();
+
+        return {
+
+            index: _index,
+            lastname: _lastname,
+            size: _size,
+            number: _number,
+            quantity: _quantity,
+            sleeveType: _sleeveType,
+            lastNameApplcation: _lastNameApplcation,
+            sample: 0,
+
+        }
+
+    }
+
+    ub.funcs.validName = function (value) {
+
+        var _valid = true;
+        
+        if (!value.trim().length > 0) {
+
+            _valid = false;
+
+        }
+
+        return _valid;
+
+    }
+
+    ub.funcs.validQuantity = function (value) {
+
+        var _valid = true;
+
+        if (!parseInt(value) > 0) {
+
+            _valid = false;
+
+        }
+
+        return _valid;
+
+    }
+
+    ub.funcs.rosterValid = function () {
+
+        var _valid          = true;
+        var _messages       = [];
+        var _roster         = [];
+
+        $('tr.roster-row').each (function () {
+
+            var $row            = $(this);
+            var _values         = ub.funcs.extractFields($row);
+            var _message        = '';
+            var _validName      = ub.funcs.validName(_values.lastname);
+            var _validQuantity  = ub.funcs.validQuantity(_values.quantity);
+            var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
+
+
+
+            _valid              = true;
+
+            if (!_validQuantity) {
+
+                _valid = false;
+                _message = _indexLabel + ' - ' + 'Invalid Quantity' + '<br />';
+                _messages.push(_message);
+
+            }
+
+            if (!_valid) {
+
+                $row.css('background-color', 'red');
+
+            } else {
+
+                $row.css('background-color', 'white');
+
+            }
+
+            if(_.includes(ub.funcs.getActiveSizes(),_values.size)) {
+
+                _roster.push(_values);
+
+            }
+
+        });
+
+        return { valid: _valid, messages: _messages, roster: _roster }
+
+    }
+
+    ub.funcs.showRosterForm = function () {
+
+        $('div#order-form').fadeOut();
+        $('div#roster-input').fadeIn();
+
+    }
+
+    ub.funcs.hideRosterAndOrderForm = function () {
+
+        $('div#order-form').fadeOut();
+        $('div#roster-input').fadeOut();
+
+    }
+
+    ub.funcs.getTotalQuantity = function () {
+
+        var _total = 0;
+
+        _.each (ub.current_material.settings.roster, function (roster){
+
+            _total += parseInt(roster.quantity);
+
+        });
+
+        return _total;
+
+    }
+
+    ub.funcs.isOrderFormValid = function () {
+
+        return true;
+
+    }
+
+    ub.funcs.postOrderData = function (data, url) {
+
+        var _postData   = data;
+        var _url        = url;
+
+        $('span.submit-order').fadeOut();
+        $('span.processing').fadeIn();
+
+        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response){
+
+                console.log(response.message);
+                $('span.processing').fadeOut();
+                ub.showModal('Your order is now submitted. Thank you.')
+                ub.funcs.initGenderPicker();
+
+            }
+            
+        });
+
+    };
+
+    ub.funcs.submitOrderForm = function () {
+
+        var _rosterFormValid    = ub.funcs.isOrderFormValid();
+        
+        if (!_rosterFormValid) {
+
+            ub.startModal('Please Complete Order Form Details');
+            return;
+
+        }
+
+        var _factoryCode            = ub.current_material.material.factory_code;
+        var _sleeveCut              = '';
+        var _lastnameApplication    = '';
+        var _itemID                 = parseInt(ub.current_material.material.item_id);
+        var _uniformName            = ub.current_material.material.name;
+
+        var _clientOrgName          = $('input[name="client-organization"]').val();
+        var _clientName             = $('input[name="client-name"]').val();
+        var _clientEmail            = $('input[name="client-email"]').val();
+        var _clientPhone            = $('input[name="client-phone"]').val();
+        var _clientFax              = $('input[name="client-fax"]').val();
+        var _athleticDirector       = $('input[name="athletic-director"]').val();
+
+        var _billingOrganization    = $('input[name="billing-organization"]').val();
+        var _billingContactName     = $('input[name="billing-contact-name"]').val();
+        var _billingEmail           = $('input[name="billing-email"]').val();
+        var _billingPhone           = $('input[name="billing-phone"]').val();
+        var _billingFax             = $('input[name="billing-fax"]').val();
+        
+        var _billingAddress         = $('input[name="billing-address"]').val();
+        var _billingCity            = $('input[name="billing-city"]').val();
+        var _billingState           = $('input[name="billing-state"]').val();
+        var _billingZip             = $('input[name="billing-zip"]').val();
+
+        var _transformedRoster      = [];
+
+        _.each (ub.current_material.settings.roster, function (_roster){
+
+            if (_factoryCode === "BLB") {
+
+                _sleeveCut  = "Motion";
+                _lastnameApplication = 'N/A';
+
+            }
+            else {
+
+                _sleeveCut  = _roster.sleeveType,
+                _lastnameApplication = _roster.sleeveType;
+
+            }
+
+            var _obj = {
+                Size: _roster.size,
+                Number: _roster.number,
+                Name: _roster.lastname,
+                Sample: 0,
+            }
+
+            _transformedRoster.push(_obj);
+
+        });
+
+        var orderInput = {
+
+            order: {
+                client: _clientName,    
+            },
+            athletic_director: {
+
+                organization: _clientOrgName,
+                contact: _athleticDirector,
+                email: _clientEmail,
+                phone: _clientPhone,
+                fax: _clientFax,
+
+            },
+            billing: {
+
+                organization: _billingOrganization,
+                contact: _billingContactName,
+                email: _billingEmail,
+                address: _billingAddress,
+                city: _billingCity,
+                state: _billingState,
+                phone: _billingPhone,
+                fax: _billingFax,
+
+            },
+            order_items: [
+                {
+                    item_id: _itemID,
+                    description: _uniformName,
+                    builder_customizations: ub.current_material.settings,
+                    set_group_id: 0,
+                    factory_order_id: '',
+                    design_sheet : "",
+                    roster: _transformedRoster,
+                },
+            ]
+        };
+
+        var _url = 'http://api-dev.qstrike.com/api/order';
+
+        ub.funcs.postOrderData(orderInput,_url);
+
+    };
+
+    ub.funcs.showOrderForm = function () {
+
+        $('div#roster-input').fadeOut();
+        window.scrollTo(0,0);
+        $('div#order-form').fadeIn();
+
+        $('td.uniform-name').html(ub.current_material.material.name);
+        $('td.quantity').html(ub.funcs.getTotalQuantity());
+
+        $('span.back-to-roster-form-button').on('click', function () {
+
+            ub.funcs.showRosterForm();
+
+        });
+
+        $('span.submit-order').on('click', function () {
+
+            ub.funcs.submitOrderForm();
+
+        });
+
+    }
+
+    ub.funcs.submitUniform = function () {
+
+        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); return; }
+
+        var _validate = ub.funcs.rosterValid();
+
+        if (!_validate.valid) {
+
+            ub.showModal(_validate.messages);
+            return;
+
+        }
+
+        ub.current_material.settings.roster = _validate.roster;
+        ub.funcs.showOrderForm();
+
+    };
+
     ub.funcs.initRoster = function () {
+
+        ub.uploadThumbnail('front_view');
+        ub.uploadThumbnail('back_view');
+        ub.uploadThumbnail('left_view');
+        ub.uploadThumbnail('right_view');
+
 
         ub.funcs.fadeOutCustomizer();
 
@@ -263,7 +640,16 @@ $(document).ready(function() {
 
         });
 
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform();
+
+
+        });
+
         $('span.size').on('click', function () {
+
+            if ($('div#numbersPopup').is(':visible')) { return; }
 
             var _status = $(this).data('status');
             var _size   = $(this).data('size');

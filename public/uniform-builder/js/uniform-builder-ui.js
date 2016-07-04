@@ -17,6 +17,8 @@ $(document).ready(function () {
 
     ub.showModal = function (message) {
 
+        $('div.modal').modal('hide');
+
         $('div#messageModal').html(message);
         $('button#modalButton').trigger('click');
 
@@ -53,6 +55,9 @@ $(document).ready(function () {
     ub.zoom_on = function () {
 
         if (ub.status.onText) { return; }
+        if(!ub.states.canDoubleClick) { return; }
+
+        ub.funcs.resetHighlights();
 
         var _windowSize = ub.funcs.getWindowSize();
         

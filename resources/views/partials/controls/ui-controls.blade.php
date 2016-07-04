@@ -389,7 +389,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow" data-picker-type="gender" data-item="@{{name}}">
+            <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="gender" data-item="@{{name}}">
 
                 <img src="/images/main-ui/pickers/@{{code}}.png{{$asset_version}}">
 
@@ -415,7 +415,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow" data-picker-type="sports" data-item="@{{name}}">
+            <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
                 <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png{{$asset_version}}">
 
@@ -444,8 +444,9 @@
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
-                    <img src='/images/main-ui/shadow.png' /> <br />
-                    @{{name}}
+                    <img src='/images/main-ui/shadow.png' />
+                    @{{name}} <br />
+                    <span class="calculatedPrice">@{{calculatedPrice}}</span>
                 </span>
 
             </div>
@@ -706,7 +707,7 @@
                             
                 <tr class="thead">
                     
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide">Sleeve Type</th><th class="wide">Last Name Application</th><th class="action"></th>
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
                 </tr>
 
@@ -714,11 +715,12 @@
  
             </table>
 
-            <br />
+                <br />
 
-            <span class="add-player" data-size="@{{.}}">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
-            </span>
+                <span class="add-player" data-size="@{{.}}">
+
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Player
+                </span>
 
             </div>
             @{{/tabs}}
@@ -750,20 +752,19 @@
                        <input type="text" name="quantity" value="1" class="quantity" maxlength="5" />  
                     </td>
 
-                    <td>
+                    <td class="sleevetype">
                         <select class="sleeve-type">
-                            <option>Quarterback Cut</option>
-                            <option>Motion Cut</option>
-                            <option>Lineman Cut</option>
-                            <option>Lineman Cut</option>
+                            <option value="Quarterback Cut">Quarterback Cut</option>
+                            <option value="Motion Cut">Motion Cut</option>
+                            <option value="Lineman Cut">Lineman Cut</option>
                         </select>
                     </td>
 
-                    <td>
+                    <td class="lastnameapplication">
                         <select class="lastname-application">
-                            <option>None</option>
-                            <option>Directly To Jersey</option>
-                            <option>Nameplate</option>
+                            <option value="None">None</option>
+                            <option value="Directly To Jersey">Directly To Jersey</option>
+                            <option value="Nameplate">Nameplate</option>
                         </select>
                     </td>
                     <td>

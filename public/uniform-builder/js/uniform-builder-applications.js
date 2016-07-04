@@ -1799,6 +1799,13 @@
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 4) { point.scale.x = 0.4; point.scale.y = 0.4 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 3) { point.scale.x = 0.33; point.scale.y = 0.33 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
+                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
+
+                /// Font Overrides 
+
                 /// Rotation Overrides 
 
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
@@ -2367,6 +2374,8 @@
 
             if (results.length > 0) {
 
+                ub.states.canDoubleClick = true;
+
                 var _originalName = _.first(results).name;
 
                 if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
@@ -2383,6 +2392,8 @@
 
             }
             else {
+
+                ub.states.canDoubleClick = false;
 
                 ub.funcs.resetHighlights();
 
@@ -3134,7 +3145,7 @@
 
             var data = {
                 label: 'Choose Patterns: ',
-                patterns: _.sortBy(ub.data.patterns.items, 'sortID'),
+                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
             };
 
             var template = $('#m-pattern-popup').html();
@@ -3785,6 +3796,7 @@
     }
 
     ub.status.fontPopupVisible = false;
+
     ub.funcs.createFontPopup = function (applicationType, sampleText, settingsObj) {
 
         ub.status.fontPopupVisible = true;
@@ -4026,7 +4038,7 @@
 
         /// Todo: put index in initial load
 
-        var _fontList  = _.filter(ub.data.fonts, {active: "1"});
+        var _fontList  = _.filter(_.sortBy(ub.data.fonts,'name'), {active: "1"});
         var _fontMatch = undefined;
 
         _.each(_fontList, function (font, fontIndex){ 
@@ -4046,7 +4058,7 @@
     ub.funcs.getFontObj = function (direction, activeFontObject) {
 
         var _fontList   = _.filter(ub.data.fonts, {active: "1"});
-        var _index      = _.findIndex(_fontList, {name: activeFontObject.name});
+        var _index      = _.findIndex(_.sortBy(_fontList,'name'), {name: activeFontObject.name});
         var _newFontObj;
 
         if (typeof _index === "undefined") {
@@ -5235,7 +5247,7 @@
             
         });
 
-        var _url = 'http://api-dev.qstrike.com/api/font/dupdate'
+        var _url = 'http://api-dev.qstrike.com/api/font/dupdate';
         var _postData = {
             name: _fontObject.name,
             id: fontID,
@@ -5247,6 +5259,8 @@
     }
 
     ub.funcs.activateApplications = function (application_id) {
+
+        if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
         if (ub.funcs.isBitFieldOn()) { 
 
@@ -6094,7 +6108,6 @@
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
-
             if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
@@ -6217,7 +6230,10 @@
                 var locationObject = ub.objects[_perspective]['locations_' + location.code];
 
                 //locationObject.zIndex = 1;
-                locationObject.alpha = 0;
+
+                if (typeof locationObject !== 'undefined') {
+                    locationObject.alpha = 0;
+                }
 
                 //ub.updateLayersOrder(ub[_perspective]);
 
@@ -6232,10 +6248,15 @@
     ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
-
         ub.showLocation = true;
 
-        if (typeof ub.objects['front_view']['locations_' + _locations[1].code] === "object") {
+        var _id = 1;
+
+        if (ub.current_material.material.type === 'lower') {
+            _id = 38
+        }
+
+        if (typeof ub.objects['front_view']['locations_' + _locations[_id].code] === "object") {
 
             _.each (_locations, function (location) {
 
@@ -6247,11 +6268,12 @@
                    // _locationObj.zIndex =  -200 + (index * -1);
                    if (typeof alphaOff !== 'undefined') {
 
-                       _locationObj.alpha = 0;
+                        _locationObj.alpha = 0;
 
                    } else {
 
                         _locationObj.alpha = 1;
+
 
                    }
 
@@ -6410,5 +6432,42 @@
     }
 
     /// End Locations and Free Application Types
+
+     ub.uploadThumbnail = function (view) {
+
+            var _dataUrl = ub.getThumbnailImage(view);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify({ dataUrl: _dataUrl }),
+                url: ub.config.host + "/saveLogo",
+                dataType: "json",
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if(response.success) {
+                        ub.current_material.settings.thumbnails[view] = response.filename;
+                        console.log('filename: ' + response.filename);
+                    }
+                    else{
+                        console.log('Error generating thumbnail for ' + view);
+                        console.log(response.message);
+                    }
+
+                }
+            
+            });
+
+    }
+
 
 });

@@ -73,6 +73,13 @@ $(document).ready(function () {
     
     ///  material_option:    Body, etc...
     ///  type:               sublimated | non-sublimated
+
+    ub.funcs.sublimationColorSet = function () {
+
+        var _colorSet = _.pluck(_.filter(ub.data.colors, {sublimation_only: '1'}),'color_code');
+        return _colorSet;
+
+    }
     
     ub.funcs.ui.getColorSet = function (material_option, type) { 
 
@@ -607,11 +614,8 @@ $(document).ready(function () {
 
             var colors_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker' });
 
-            console.log(colors_btn);
-
             _.each(ub.current_material.settings.team_colors, function(color, index){
 
-                console.log(color.color_code);
                 var color_btn = util.dataSelector('.btn', { 'elid': 'single_team-color-picker', 'color-label': color.color_code });
                 color_btn.attr('data-status','selected');
 

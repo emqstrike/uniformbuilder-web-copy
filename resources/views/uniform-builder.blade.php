@@ -11,7 +11,7 @@
 
 <title>{{ $page_title }}</title>
 
-<link rel="icon" type="image/png" href="/images/branding/brand.png" />
+<link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
@@ -116,122 +116,8 @@
 
     <!-- End Scrolling Pickers -->
 
-    <div id="roster-input">
-        
-        <div id="description">
-
-            <span class="back-to-customizer-button">
-                <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Customizer
-            </span>
-
-            <br />
-
-            <span class='header'>1. SELECT SIZES</span>
-            <br /><br />
-            
-        </div>
-
-        <div id="sizes">
-
-            <span>ADULT SIZES:</span>
-            <span data-status="off" data-size="3XS" class="size">3XS</span>
-            <span data-status="off" data-size="2XS" class="size">2XS</span>
-            <span data-status="off" data-size="XS" class="size">XS</span>
-            <span data-status="off" data-size="S" class="size">S</span>
-            <span data-status="off" data-size="M" class="size">M</span>
-            <span data-status="off" data-size="L" class="size">L</span>
-            <span data-status="off" data-size="XL" class="size">XL</span> 
-            <span data-status="off" data-size="2XL" class="size">2XL</span> 
-            <span data-status="off" data-size="3XL" class="size">3XL</span> 
-            <span data-status="off" data-size="4XL" class="size">4XL</span> 
-            <span data-status="off" data-size="5XL" class="size">5XL</span> 
-
-            <br />
-
-            <span>YOUTH SIZES:</span>
-            <span data-status="off" data-size="YS" class="size">YS</span>
-            <span data-status="off" data-size="YM" class="size">YM</span>
-            <span data-status="off" data-size="YL" class="size">YL</span>
-            <span data-status="off" data-size="YXL" class="size">YXL</span>
-            <span data-status="off" data-size="Y2XL" class="size">Y2XL</span>
-            <span data-status="off" data-size="Y3XL" class="size">Y3XL</span>
-
-        </div>
-
-        <div id="size-tabs">
-            <br/><br/>
-            <span class="header">
-                2. ADD PLAYER INFO
-            </span>
-            
-            <div class="tabButtonsContainer">
-
-                <span class='adult-header'>Adult Sizes: </span>
-
-                <span class="tabButton active" data-category="adult" data-size="3XS">
-                    3XS
-                </span>
-                <span class="tabButton"  data-category="adult" data-size="2XS">
-                    2XS
-                </span>
-                <span class="tabButton" data-category="adult" data-size="XS">
-                    XS
-                </span>
-                <span class="tabButton" data-category="adult" data-size="S">
-                    S
-                </span>
-                <span class="tabButton" data-category="adult" data-size="M">
-                    M
-                </span>
-                <span class="tabButton" data-category="adult" data-size="L">
-                    L
-                </span>
-                <span class="tabButton" data-category="adult" data-size="XL"> 
-                    XL
-                </span>
-                <span class="tabButton" data-category="adult" data-size="2XL">
-                    2XL
-                </span>
-                <span class="tabButton" data-category="adult" data-size="3XL">
-                    3XL
-                </span>
-                <span class="tabButton" data-category="adult" data-size="4XL">
-                    4XL
-                </span>
-                <span class="tabButton" data-category="adult" data-size="5XL">
-                    5XL
-                </span>
-
-                <span class='youth-header'>Youth Sizes: </span>
-
-                <span class="tabButton" data-category="youth" data-size="YS">
-                    YS
-                </span>
-                <span class="tabButton" data-category="youth" data-size="YM">
-                    YM
-                </span>
-                <span class="tabButton" data-category="youth" data-size="YL">
-                    YL
-                </span>
-                <span class="tabButton" data-category="youth" data-size="YXL">
-                    YXL
-                </span>
-                <span class="tabButton" data-category="youth" data-size="Y2XL">
-                    Y2XL
-                </span>
-                <span class="tabButton" data-category="youth" data-size="Y3XL">
-                    Y3XL
-                </span>
-
-            </div>
-
-            <div class="tabsContainer">
-                
-            </div>
-
-        </div>
-
-    </div>
+    @include('partials.panels.roster-input')
+    @include('partials.panels.order-form')    
 
 </div>
 
@@ -420,7 +306,7 @@
 <button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
 
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-md">
     <div class="modal-content">
      <div id="messageModal">
      </div>
@@ -433,6 +319,7 @@
 
 </body>
 
+<!-- /// Old Analytics --- Remove This -->
 <script>
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -442,6 +329,18 @@
 
   ga('create', 'UA-75629672-2', 'auto');
   ga('send', 'pageview');
+
+</script>
+
+<!-- /// New Analytics -->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-3860127-1', 'auto');
+ ga('send', 'pageview');
 
 </script>
 

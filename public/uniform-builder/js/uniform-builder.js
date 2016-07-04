@@ -73,19 +73,23 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
 
-        ub.funcs.getPrice = function () {
 
-            var _web_price_sale = parseFloat(ub.current_material.material.web_price_sale);
-            var _msrp           = parseFloat(ub.current_material.material.msrp);
+
+        ub.funcs.getPrice = function (material) {
+
+            var _web_price_sale = parseFloat(material.web_price_sale);
+            var _msrp           = parseFloat(material.msrp);
             var _price          = 0;
 
-            if (_web_price_sale < _msrp) {
-                _price          = "$" + _web_price_sale;
+            if (_web_price_sale < _msrp && _web_price_sale > 1) {
+                _price          = "Sale Price: $" + _web_price_sale + " / Call for Team Pricing";
             } else {
-                _price          = "$" + _msrp;
+                _price          = "MSRP $" + _msrp + " / Call for Team Pricing";
             }
 
-            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { _price = "Call for Pricing" }
+            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
+                _price = "Call for Pricing";
+            } 
 
             return _price;
 
@@ -97,10 +101,10 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
-            $('div.activate_qa_tools').fadeIn();
+            //$('div.activate_qa_tools').fadeIn();
 
             $('div#uniform_name').html(ub.current_material.material.name);
-            $('div#uniform_price').html(ub.funcs.getPrice());
+            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
@@ -646,6 +650,14 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.materials = obj;
+
+            _.each (ub.materials, function (material) {
+
+                material.calculatedPrice = ub.funcs.getPrice(material);
+
+            });
+
+
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
 
             ub.prepareTypeAhead();
@@ -1747,7 +1759,7 @@ $(document).ready(function () {
 
             ub.getThumbnailImage = function (view, rotate) {
 
-                var texture = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;
@@ -4430,6 +4442,8 @@ $(document).ready(function () {
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
+        ub.funcs.hideRosterAndOrderForm();
+
         // $('.header-container').removeClass('forceHide');
 
         $('body').addClass('pickers-enabled');
@@ -4627,6 +4641,8 @@ $(document).ready(function () {
         $("body").dblclick(function() {
 
             if(ub.status.onText) { return; }
+            if(!ub.states.canDoubleClick) { return; }
+
             if($('div#cogPopupContainer').is(':visible')) { return; }
             
             ub.zoom_on();

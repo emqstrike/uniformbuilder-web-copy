@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     try{
         var $container = $('.isotope').isotope({
             itemSelector: '.mascot-row',
@@ -8,7 +9,9 @@ $(document).ready(function() {
         });
 
         $('#filters').on( 'click', 'button', function() {
+
             var filterValue = $( this ).attr('data-filter');
+             console.log(filterValue);
             $container.isotope({ filter: filterValue });
         });
 
