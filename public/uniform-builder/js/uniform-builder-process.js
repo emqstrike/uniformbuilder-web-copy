@@ -435,6 +435,8 @@ $(document).ready(function() {
         $('span.submit-order').fadeOut();
         $('span.processing').fadeIn();
 
+        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
         $.ajax({
             
             url: _url,
