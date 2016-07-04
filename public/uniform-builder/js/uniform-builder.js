@@ -73,10 +73,12 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
 
-        ub.funcs.getPrice = function () {
 
-            var _web_price_sale = parseFloat(ub.current_material.material.web_price_sale);
-            var _msrp           = parseFloat(ub.current_material.material.msrp);
+
+        ub.funcs.getPrice = function (material) {
+
+            var _web_price_sale = parseFloat(material.web_price_sale);
+            var _msrp           = parseFloat(material.msrp);
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
@@ -100,7 +102,7 @@ $(document).ready(function () {
             //$('div.activate_qa_tools').fadeIn();
 
             $('div#uniform_name').html(ub.current_material.material.name + ' <em class="notice">*pricing may vary depending on size</em>');
-            $('div#uniform_price').html(ub.funcs.getPrice());
+            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material));
 
             $('div.header-container').css('display','none !important');
 
@@ -646,6 +648,14 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.materials = obj;
+
+            _.each (ub.materials, function (material) {
+
+                material.calculatedPrice = ub.funcs.getPrice(material);
+
+            });
+
+
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
 
             ub.prepareTypeAhead();
