@@ -254,6 +254,8 @@ $(document).ready(function () {
 
         };
 
+        
+
         ub.saveLogo = function (dataUrl, applicationCode) {
 
             $.ajaxSetup({
@@ -1759,7 +1761,7 @@ $(document).ready(function () {
 
             ub.getThumbnailImage = function (view, rotate) {
 
-                var texture = new PIXI.RenderTexture(ub.renderer, ub.dimensions.width, ub.dimensions.height);
+                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
 
                 return texture.getImage().src;

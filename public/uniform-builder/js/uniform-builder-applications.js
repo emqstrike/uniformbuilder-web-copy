@@ -6433,4 +6433,41 @@
 
     /// End Locations and Free Application Types
 
+     ub.uploadThumbnail = function (view) {
+
+            var _dataUrl = ub.getThumbnailImage(view);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify({ dataUrl: _dataUrl }),
+                url: ub.config.host + "/saveLogo",
+                dataType: "json",
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if(response.success) {
+                        ub.current_material.settings.thumbnails[view] = response.filename;
+                        console.log('filename: ' + response.filename);
+                    }
+                    else{
+                        console.log('Error generating thumbnail for ' + view);
+                        console.log(response.message);
+                    }
+
+                }
+            
+            });
+
+    }
+
+
 });
