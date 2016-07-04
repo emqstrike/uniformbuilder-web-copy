@@ -254,8 +254,6 @@ $(document).ready(function () {
 
         };
 
-        
-
         ub.saveLogo = function (dataUrl, applicationCode) {
 
             $.ajaxSetup({
