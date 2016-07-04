@@ -154,7 +154,6 @@ $(document).ready(function() {
 
         _htmlBuilder += '<br />';
         _htmlBuilder += '<span class="preview">Preview: </span> <span class="btn-cancel">Cancel</span> <span class="btn-ok">OK</span>';
-
         _htmlBuilder += '</div>';
 
         $('body').append(_htmlBuilder);
@@ -525,7 +524,8 @@ $(document).ready(function() {
         var orderInput = {
 
             order: {
-                client: _clientName,    
+                client: _clientName,  
+                submitted: '1',  
             },
             athletic_director: {
 
@@ -567,6 +567,55 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.displayLinks = function (link) {
+
+
+
+    };
+
+    ub.funcs.generatePDF = function () {
+
+        var _bc = ub.current_material.settings;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            data: JSON.stringify({builder_customizations: _bc}),
+            url: ub.config.host + "/generateOrderForm",
+            dataType: "json",
+            type: "POST",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+                    ub.funcs.displayLinks(response.filename);
+                    console.log('pdf filename: ' + response.filename);
+                }
+                else{
+                    console.log('error: ');
+                    console.log(response.message);
+                }
+
+            }
+        
+        });
+
+
+    }
+
+    ub.funcs.validateOrderForm = function () {
+
+
+
+    }
+
     ub.funcs.showOrderForm = function () {
 
         $('div#roster-input').fadeOut();
@@ -584,7 +633,9 @@ $(document).ready(function() {
 
         $('span.submit-order').on('click', function () {
 
-            ub.funcs.submitOrderForm();
+            ub.funcs.validateOrderForm();
+
+            // ub.funcs.submitOrderForm();
 
         });
 

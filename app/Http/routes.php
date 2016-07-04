@@ -36,6 +36,8 @@ Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOr
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 
+Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
+
 // Save Logo 
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
 
