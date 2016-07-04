@@ -30,4 +30,9 @@ class PriceItemsController extends Controller
         ]);
     }
 
+    public function materialsTable()
+    {
+        return view('administration.price-items.list-materials');
+    }
+
 }

@@ -161,6 +161,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Price Items
     Route::get('price_items', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@index']);
+    Route::get('price_item/materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@materialsTable']);
 
     // Preferences
     Route::get('preferences', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@index']);
