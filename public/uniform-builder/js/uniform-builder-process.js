@@ -221,6 +221,22 @@ $(document).ready(function() {
 
             });
 
+            if (ub.current_material.material.factory_code === "BLB") {
+
+                $('select.lastname-application').attr('disabled','disabled');
+                $('select.lastname-application').val('None');
+
+                $('select.sleeve-type').attr('disabled','disabled');
+                $('select.sleeve-type').val('Motion Cut');
+
+            }
+            else {
+
+                $('select.lastname-application').removeAttr('disabled');
+                $('select.sleeve-type').removeAttr('disabled');
+
+            }
+
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
