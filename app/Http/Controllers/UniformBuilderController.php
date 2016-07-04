@@ -249,6 +249,12 @@ class UniformBuilderController extends Controller
 
     }
 
+    function createOrderForm ($builder_customizations) {
+
+        
+
+    }
+
     function createPDF ($builder_customizations) {
 
         $pdf = new TCPDF(); 
