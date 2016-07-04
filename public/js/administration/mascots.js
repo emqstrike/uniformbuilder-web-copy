@@ -297,8 +297,8 @@ $(document).ready(function() {
     $(document).on('click', '.clone-row', function() {
 
         $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-
-        $('.ma-default-color').change(function(){
+            $(document).on("change", ".ma-default-color", function(){
+        
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });
@@ -325,7 +325,8 @@ $(document).ready(function() {
         var newLength = $('.layers-row').length;
     });
 
-    $('.ma-default-color').change(function(){
+    $(document).on("change", ".ma-default-color", function(){
+
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
