@@ -934,8 +934,6 @@ $(document).ready(function () {
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    console.log(_application.id);
-
                     var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
