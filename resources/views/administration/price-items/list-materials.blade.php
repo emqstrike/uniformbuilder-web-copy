@@ -105,19 +105,45 @@ $.each(group, function(index, item){
     console.log(item);
     var p_item = item;
     $.each(item.materials, function(index, item){
-        var alert = '';
-        if( item.item_id == 0 || p_item.price_item == "" ){
-            alert = 'danger';
+
+        var alert_type = 'warning';
+        var safe_price = 50;
+
+        var iid_alert = '';
+        if( item.item_id == 0){
+            iid_alert = alert_type;
         } else {
-            alert = '';
+            iid_alert = '';
         }
-        var elem = '<tr class="alert alert-' + alert + '">';
-        elem += '<td>' + p_item.price_item + '</td>';
-        elem += '<td>' + item.item_id + '</td>';
+
+        var pi_alert = '';
+        if( p_item.price_item == ""){
+            pi_alert = alert_type;
+        } else {
+            pi_alert = '';
+        }
+
+        var msrp_alert = '';
+        if( p_item.msrp == null || p_item.msrp < safe_price){
+            msrp_alert = alert_type;
+        } else {
+            msrp_alert = '';
+        }
+
+        var wps_alert = '';
+        if( p_item.web_price_sale == null || p_item.web_price_sale == 0){
+            wps_alert = alert_type;
+        } else {
+            wps_alert = '';
+        }
+
+        var elem = '<tr>';
+        elem += '<td class="alert alert-' + pi_alert + '">' + p_item.price_item + '</td>';
+        elem += '<td class="alert alert-' + iid_alert + '">' + item.item_id + '</td>';
         elem += '<td>' + item.material_id + '</td>';
         elem += '<td>' + item.material_name + '</td>';
-        elem += '<td>' + p_item.msrp + '</td>';
-        elem += '<td>' + p_item.web_price_sale + '</td>';
+        elem += '<td class="alert alert-' + msrp_alert + '">' + p_item.msrp + '</td>';
+        elem += '<td class="alert alert-' + wps_alert + '">' + p_item.web_price_sale + '</td>';
         elem +='</tr>';
         $('#contents').append(elem);
     });
