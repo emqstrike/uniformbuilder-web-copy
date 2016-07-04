@@ -103,8 +103,8 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             //$('div.activate_qa_tools').fadeIn();
 
-            $('div#uniform_name').html(ub.current_material.material.name + ' <em class="notice">*pricing may vary depending on size</em>');
-            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material));
+            $('div#uniform_name').html(ub.current_material.material.name);
+            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
