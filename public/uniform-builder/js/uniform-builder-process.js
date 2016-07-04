@@ -23,6 +23,11 @@ $(document).ready(function() {
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
 
+        $('span.size[data-size="' + size + '"]').attr('data-status','on');
+
+
+        // var _rosterSize = _.find(ub.current_material.settings.roster, {size: size});
+
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
             $('span.tabButton[data-size="' + size + '"]').trigger('click');
@@ -46,9 +51,27 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getActiveSizes = function () {
+
+        var _activeSizes = [];
+
+        $('span.size[data-status="on"]').each (function () {
+
+            var _size = $(this).data('size');
+            console.log(_size);
+
+            _activeSizes.push(_size);
+
+        });
+
+        return _activeSizes;
+
+    }
+
     ub.funcs.removeSizesTabs = function (size) {
 
         $('span.tabButton[data-size="' + size + '"]').hide();
+        $('span.size[data-size="' + size + '"]').attr('data-status','off');
         $('span.tabButton:visible').first().trigger('click');
         $('div.tab[data-size="' + size + '"]').hide();
 
@@ -337,6 +360,8 @@ $(document).ready(function() {
             var _validQuantity  = ub.funcs.validQuantity(_values.quantity);
             var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
 
+
+
             _valid              = true;
 
             if (!_validQuantity) {
@@ -357,7 +382,11 @@ $(document).ready(function() {
 
             }
 
-            _roster.push(_values);
+            if(_.includes(ub.funcs.getActiveSizes(),_values.size)) {
+
+                _roster.push(_values);
+
+            }
 
         });
 
