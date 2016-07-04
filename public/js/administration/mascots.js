@@ -252,7 +252,12 @@ $(document).ready(function() {
 
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
+             layers_properties[length]['filename'] = $(this).find('.default_img').val();
+            if($(this).find(src_class).val()){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
+            
+                }
+            
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
@@ -286,6 +291,7 @@ $(document).ready(function() {
         });
 
         renumberRows(length);
+
     });
 
     $(document).on('click', '.clone-row', function() {
