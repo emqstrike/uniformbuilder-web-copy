@@ -105,6 +105,15 @@ $(document).ready(function() {
     ub.current_material.settings.roster         = [];
     ub.current_material.settings.order_info     = {};
 
+    ub.current_material.settings.thumbnails     = {
+        front_view: "",
+        back_view: "",
+        left_view: "",
+        right_view: "",
+    }
+
+    ub.current_material.settings.pdfOrderForm = "";
+
     ub.states                       = {};
     ub.states.canDoubleClick        = false;
     ub.states.active_application    = 'undefined';

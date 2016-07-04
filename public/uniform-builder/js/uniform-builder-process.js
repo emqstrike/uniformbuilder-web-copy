@@ -608,6 +608,12 @@ $(document).ready(function() {
 
     ub.funcs.initRoster = function () {
 
+        ub.uploadThumbnail('front_view');
+        ub.uploadThumbnail('back_view');
+        ub.uploadThumbnail('left_view');
+        ub.uploadThumbnail('right_view');
+
+
         ub.funcs.fadeOutCustomizer();
 
         var data = {
