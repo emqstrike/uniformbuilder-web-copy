@@ -445,7 +445,8 @@
 
                 <span class="main-picker-item-caption">
                     <img src='/images/main-ui/shadow.png' /> <br />
-                    @{{name}}
+                    @{{name}} <br />
+                    <span class="calculatedPrice">@{{calculatedPrice}}</span>
                 </span>
 
             </div>
