@@ -82,12 +82,14 @@ $(document).ready(function () {
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
-                _price          = "$" + _web_price_sale;
+                _price          = "Sale Price: $" + _web_price_sale + " / Call for Team Pricing";
             } else {
-                _price          = "$" + _msrp;
+                _price          = "MSRP $" + _msrp + " / Call for Team Pricing";
             }
 
-            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { _price = "Call for Team Pricing" }
+            if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
+                _price = "Call for Pricing";
+            } 
 
             return _price;
 
