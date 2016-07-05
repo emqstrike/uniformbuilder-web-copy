@@ -2,6 +2,12 @@
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+    li.select2-selection__choice {
+    color: black !important;
+}
+</style>>
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -394,7 +400,7 @@ $(document).ready(function(){
        
           
 
-console.log(mascotValue);
+
 
 
       
