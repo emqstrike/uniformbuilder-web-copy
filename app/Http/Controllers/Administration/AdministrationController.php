@@ -6,9 +6,19 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
+use App\APIClients\OrdersAPIClient;
 
 class AdministrationController extends Controller
 {
+    protected $ordersClient;
+
+    public function __construct(
+        OrdersAPIClient $ordersAPIClient
+    )
+    {
+        $this->ordersClient = $ordersAPIClient;
+    }
+
     public function index()
     {
         if (Session::has('isLoggedIn'))
@@ -23,11 +33,20 @@ class AdministrationController extends Controller
 
     public function dashboard()
     {
+        $orders = $this->ordersClient->countNewOrders();
+        $newOrdersCount = $orders->count;
+        $perndingOrders = $this->ordersClient->countPendingOrders();
+        $pendingOrdersCount = $perndingOrders->count;
+
         if (Session::has('isLoggedIn'))
         {
             if (Session::get('isLoggedIn') == true)
             {
-                return view('administration.lte-dashboard');
+                // return view('administration.lte-dashboard');
+                return view('administration.lte-dashboard', [
+                    'newOrdersCount' => $newOrdersCount,
+                    'pendingOrdersCount' => $pendingOrdersCount
+                ]);
             }
         }
         return redirect('administration/login');
