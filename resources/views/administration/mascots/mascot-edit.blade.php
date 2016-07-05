@@ -199,7 +199,8 @@ $(document).ready(function(){
             length--;
         });
 
-        $('.ma-default-color').change(function(){
+         $(document).on("change", ".ma-default-color", function(){
+
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });
@@ -295,7 +296,8 @@ $(document).ready(function(){
     //     var color = $('option:selected', this).data('color');
     //     $(this).css('background-color', color);
     // });
-    $('.ma-default-color').change(function(){
+    $(document).on("change", ".ma-default-color", function(){
+        console.log("wehiuwhekjwhekhwkje");
         var color = "#"+$('option:selected', this).data('color');
         $(this).css('background-color', color);
 
@@ -350,7 +352,7 @@ $(document).ready(function(){
             layers_properties[length]['filename'] = $(this).find('.default_img').val();
             if($(this).find(src_class).val()){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
-            console.log("selected:"+$(this).find(src_class).val());
+
                 }
             
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
