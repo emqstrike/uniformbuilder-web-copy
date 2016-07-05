@@ -78,7 +78,7 @@ class MascotsAPIClient extends APIClient
     }
 
     public function updateMascot($data)
-    {
+    {// dd($data);
         $response = $this->post('mascot/update', [
             'json' => $data
         ]);
