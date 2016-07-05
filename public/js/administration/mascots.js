@@ -252,7 +252,12 @@ $(document).ready(function() {
 
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
+             layers_properties[length]['filename'] = $(this).find('.default_img').val();
+            if($(this).find(src_class).val()){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
+            
+                }
+            
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
@@ -286,13 +291,14 @@ $(document).ready(function() {
         });
 
         renumberRows(length);
+
     });
 
     $(document).on('click', '.clone-row', function() {
 
         $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-
-        $('.ma-default-color').change(function(){
+            $(document).on("change", ".ma-default-color", function(){
+        
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });
@@ -319,7 +325,8 @@ $(document).ready(function() {
         var newLength = $('.layers-row').length;
     });
 
-    $('.ma-default-color').change(function(){
+    $(document).on("change", ".ma-default-color", function(){
+
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });

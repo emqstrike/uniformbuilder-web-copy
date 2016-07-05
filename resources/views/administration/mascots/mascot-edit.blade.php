@@ -199,7 +199,8 @@ $(document).ready(function(){
             length--;
         });
 
-        $('.ma-default-color').change(function(){
+         $(document).on("change", ".ma-default-color", function(){
+
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });
@@ -229,6 +230,8 @@ $(document).ready(function(){
     buildLayers();
     function buildLayers(){
         existing_layers_properties = $('#existing-layers-properties').val();
+        console.log($('#existing-layers-properties').val());
+
         var myJson = JSON.parse(existing_layers_properties);
 
         var length = Object.keys(myJson).length;
@@ -293,7 +296,8 @@ $(document).ready(function(){
     //     var color = $('option:selected', this).data('color');
     //     $(this).css('background-color', color);
     // });
-    $('.ma-default-color').change(function(){
+    $(document).on("change", ".ma-default-color", function(){
+        console.log("wehiuwhekjwhekhwkje");
         var color = "#"+$('option:selected', this).data('color');
         $(this).css('background-color', color);
 
@@ -345,9 +349,10 @@ $(document).ready(function(){
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
 
-             layers_properties[length]['filename'] = $(this).find('.default_img').val();
+            layers_properties[length]['filename'] = $(this).find('.default_img').val();
             if($(this).find(src_class).val()){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
+
                 }
             
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();

@@ -249,9 +249,36 @@ class UniformBuilderController extends Controller
 
     }
 
-    function createOrderForm ($builder_customizations) {
+    function generatePDF ($builder_customizations) {
 
+       $pdf = new TCPDF(); 
+
+       $filename = $this->getGUID(); 
+       $path = storage_path('app/design_sheets/' . $filename . '.pdf');
+
+       $bc = $builder_customizations;
+       // dd($bc['builder_customizations']['roster']);
+
+       // $body_color = $bc->upper->Body->color;
+       // $body_color_hex = dechex($body_color);
+
+       $pdf->SetTitle('Order Form');
+       $pdf->AddPage("L");
+       $pdf->Write(0, $bc['builder_customizations']['roster'][0]['size']);
+
+       $pdf->Output($path, 'F');
+
+       return $path;
+
+    }
+
+    public function generateOrderForm(Request $request){
+
+        $r = $request->all();
         
+        $fname = $this->generatePDF($r);
+
+        return response()->json(['success' => true, 'filename' => $fname ]);
 
     }
 

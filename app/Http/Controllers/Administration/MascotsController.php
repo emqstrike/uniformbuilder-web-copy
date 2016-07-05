@@ -124,7 +124,7 @@ class MascotsController extends Controller
         $category = $request->input('category');
         $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
-         
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -171,7 +171,7 @@ class MascotsController extends Controller
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
-            $ctr = 1;
+            $ctr = count($mascotLayerFiles);
             foreach ($mascotLayerFiles as $mascotLayerFile) {
                 if (!is_null($mascotLayerFile))
                 {
@@ -187,7 +187,7 @@ class MascotsController extends Controller
                                                                 );
                     }
                 }
-                $ctr++;
+                $ctr--;
             }
         }
 
@@ -198,7 +198,7 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
+// dd($data);
         $response = null;
         if (!empty($id))
         {

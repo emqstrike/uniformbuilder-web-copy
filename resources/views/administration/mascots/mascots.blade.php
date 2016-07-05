@@ -149,7 +149,9 @@
 
         $(this).attr("data-filter","."+filteredMascotClass);
 
-
+          if(i==0){
+        $(this).attr("data-filter","*");
+        }
         });
         $(".mascot-row").each(function(i) {
         var filteredClass=($(this).data("category")).replace(/[\W_]/g,"");
