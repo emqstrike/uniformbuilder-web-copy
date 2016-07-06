@@ -36,9 +36,11 @@ class AdministrationController extends Controller
         try
         {
             $orders = $this->ordersClient->countNewOrders();
-            $newOrdersCount = $orders->count;
-            $perndingOrders = $this->ordersClient->countPendingOrders();
-            $pendingOrdersCount = $perndingOrders->count;
+            if(isset($orders)){
+                $newOrdersCount = $orders->count;
+                $pendingOrders = $this->ordersClient->countPendingOrders();
+                $pendingOrdersCount = $pendingOrders->count;
+            }            
         } catch (QueryException $e) {
             // $error = $e->getMessage();
         } catch (Exception $e) {
