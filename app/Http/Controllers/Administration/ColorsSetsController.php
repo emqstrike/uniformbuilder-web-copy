@@ -7,15 +7,21 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\APIClients\ColorsAPIClient;
 use App\APIClients\ColorsSetsAPIClient as APIClient;
 
 class ColorsSetsController extends Controller
 {
     protected $client;
+    protected $colorsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        ColorsAPIClient $colorsAPIClient
+    )
     {
         $this->client = $apiClient;
+        $this->colorsClient = $colorsAPIClient;
     }
 
     /**
@@ -32,7 +38,10 @@ class ColorsSetsController extends Controller
 
     public function addColorsSetForm()
     {
-        return view('administration.colors.colors-set-create');
+        $colors = $this->colorsClient->getColors();
+        return view('administration.colors.colors-set-create', [
+            'colors' => $colors
+        ]);
     }
 
 }

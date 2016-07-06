@@ -52,8 +52,17 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Colors</label>
                             <div class="col-md-6">
-                                <input id='colorpicker' />
-                                <input type='hidden' name="hex_code" id="hex-code" value="#ff0000">
+                                <select class="form-control colors" name="colors[]" style="color: #000;text-shadow: 1px 1px #000;" multiple="multiple">
+                                    <option>
+                                        @foreach ($colors as $color)
+                                            @if ($color->active)
+                                            <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
+                                                {{ $color->name }}
+                                            </option>
+                                            @endif
+                                        @endforeach
+                                    </option>
+                                </select>
                             </div>
                         </div>
 
@@ -79,23 +88,17 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#colorpicker').spectrum({
-        color: "#ff0000",
-        preferredFormat: "hex",
-        showInput: true,
-        move: function(tinycolor) {
-            $('#hex-code').val(tinycolor);
-        },
-        hide: function(tinycolor) {
-            $('#hex-code').val(tinycolor);
-        }
-    });
+    bindColorsSelect2();
+    function bindColorsSelect2()
+    {
+        $('.colors').select2();
+    }
 });
 </script>
 @endsection
