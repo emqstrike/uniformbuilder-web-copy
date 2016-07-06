@@ -28,7 +28,7 @@
   </div>
 
   <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-red">
+    <div class="small-box bg-yellow">
       <div class="inner">
         <h3 class='pending-orders-count'>{{ $pendingOrdersCount }}</h3>
         <p>Pending Orders</p>

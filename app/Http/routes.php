@@ -110,6 +110,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('color/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@addColorForm']);
     Route::get('color/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsController@editColorForm']);
 
+    // Colors Sets
+    Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@index']);
+    Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@addColorsSetForm']);
+
     // Mascots
     Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
     Route::post('mascots_filter', 'Administration\MascotsController@indexFiltered');

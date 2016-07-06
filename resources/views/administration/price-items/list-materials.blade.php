@@ -13,7 +13,7 @@
                 <div class="box-header">
                     <h1>
                         <span class="fa fa-cubes"></span>
-                        Materials List View
+                        Uniforms List View
                     </h1>
                 </div>
                 <div class="box-body">

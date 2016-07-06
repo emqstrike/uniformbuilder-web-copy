@@ -20,7 +20,7 @@
                                 Add New Price Item
                             </a>
                             <a href="/administration/price_item/materials" class='btn btn-xs btn-primary'>
-                                View Materials (List)
+                                View Uniforms (List)
                             </a>
                         </small>
                     </h1>
