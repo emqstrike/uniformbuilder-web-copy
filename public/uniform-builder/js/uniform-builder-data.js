@@ -102,8 +102,10 @@ $(document).ready(function() {
 
     ub.current_material                         = {};
     ub.current_material.settings                = {};
+    ub.current_material.settings.pdfOrderForm   = '';
     ub.current_material.settings.roster         = [];
     ub.current_material.settings.order_info     = {};
+    ub.current_material.settings.size_breakdown = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",

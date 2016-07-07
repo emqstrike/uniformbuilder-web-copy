@@ -1761,7 +1761,7 @@ $(document).ready(function () {
 
                 var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
-
+                
                 return texture.getImage().src;
 
             }

@@ -114,8 +114,8 @@
 
             <tr class="row-header">
                 
-                <td>Order Item</td>
-                <td>QTY</td>
+                <td width="70%">Order Item</td>
+                <td width="30%">QTY</td>
 
             </tr>
 
@@ -129,14 +129,27 @@
         </table>
 
         <br /><br />
+        <table id="size-breakdown"  align="center" border=1>
 
-        <span class="processing">
-            <img src="/images/loading.gif" />
-            Processing...
-        </span>
+            <tr class="row-header">
+                
+                <td width="70%">Size</td>
+                <td width="30%">QTY</td>
+
+            </tr>
+
+        </table>
+        <br /><br />
 
         <span class="submit-order">
             <i class="fa fa-check-circle-o" aria-hidden="true"></i> Submit Order
+        </span>
+
+        <span class="processing">
+
+            Uploading Thumbnails, please wait...
+            <img src="/images/loading.gif" />
+
         </span>
 
     </div>
