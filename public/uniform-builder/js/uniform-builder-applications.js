@@ -3568,6 +3568,7 @@
 
             var _layer = { 
                 default_color: _defaultColor.hex_code,
+                color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
                 layer_no:_property.layer, 
                 filename: _property.file_path,
                 color: parseInt(_defaultColor.hex_code, 16),
@@ -3628,6 +3629,7 @@
             
             var _layer = { 
                 default_color: _defaultColor,
+                color_code: ub.funcs.getColorObjByHexCode(_defaultColor).color_code,
                 layer_no:_property.layer_no.toString(), 
                 filename: _property.filename,
                 color: parseInt(_defaultColor, 16),
@@ -6455,12 +6457,22 @@
                 success: function (response){
                     
                     if(response.success) {
+
                         ub.current_material.settings.thumbnails[view] = response.filename;
-                        console.log('filename: ' + response.filename);
+                        
+                        if (ub.funcs.thumbnailsUploaded()) {
+
+                            $('span.processing').fadeOut();
+                            $('span.submit-order').fadeIn();
+
+                        }
+
                     }
                     else{
+
                         console.log('Error generating thumbnail for ' + view);
                         console.log(response.message);
+                        
                     }
 
                 }
