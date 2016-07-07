@@ -2,7 +2,7 @@
 
     <div>
     
-        <span class="back-to-roster-form-button">
+        <span class="back-to-roster-form-button" style="display: none">
             <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Roster Input
         </span>
 
