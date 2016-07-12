@@ -1592,6 +1592,46 @@
 
         }
 
+        ub.funcs.getFontOffsets = function (fontName, fontSize, perspective, location) {
+
+            var _offsetObject = _.find(ub.funcs.fontOffSets, {fontName: fontName, size: fontSize.toString(), perspective: perspective, location: location.toString()});
+            var _returnObject = {
+
+                offsetX: 0, 
+                offsetY: 0,
+                scaleX: 1, 
+                scaleY: 1,
+
+            }
+
+            if (typeof _offsetObject === "undefined") {
+
+                _returnObject.offsetX   = 0;
+                _returnObject.offsetY   = 0;
+                _returnObject.scaleX    = 1;
+                _returnObject.scaleY    = 1;
+
+                console.error('Offsets for ' + fontName + ' not found, using defaults. please add values to ub.funcs.fontOffsets')
+                console.error('fontName: ' + fontName);
+                console.error('fontSize: ' + fontSize);
+                console.error('perspective: ' + perspective);
+                console.error('location: ' + location);
+                console.error('typeof location: ' + typeof location);
+
+            }
+            else {
+
+                _returnObject.offsetX = parseFloat(_offsetObject.adjustmentX) - parseFloat(_offsetObject.origX);
+                _returnObject.offsetY = parseFloat(_offsetObject.adjustmentY) - parseFloat(_offsetObject.origY);
+                _returnObject.scaleX = parseFloat(_offsetObject.scaleX);
+                _returnObject.scaleY = parseFloat(_offsetObject.scaleY);
+
+            }
+
+            return _returnObject;
+
+        }
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection   = [];
@@ -1670,8 +1710,6 @@
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
                     if (_fontSizeData.yScale !== "0" && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
-
-
                     
                     point.scale.set(_xScale, _yScale);
 
@@ -1804,7 +1842,105 @@
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
 
-                /// Font Overrides 
+                /// Font Overrides
+
+                if (( app_id === "10" || app_id === "32") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
+
+                    point.position.x += _fontOffsets.offsetX;
+                    point.position.y += _fontOffsets.offsetY;
+
+                    if (_fontOffsets.scaleX !== 1) {
+                        point.scale.x = _fontOffsets.scaleX;    
+                    }
+                    
+                    if (_fontOffsets.scaleY !== 1) {
+                        point.scale.y = _fontOffsets.scaleY;
+                    }
+
+                    console.log('');
+                    console.log('ID: ' + app_id + ' / ' + view.perspective);
+                    console.log('Font Name: ' + args.font_name);
+                    console.log('Font Size: ' + args.fontSize);
+                    console.log('Position: ');
+                    console.log(point.position);
+                    console.log('Scale: ');
+                    console.log(point.scale);
+
+                }
+
+                /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
+                if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    var _proxyId;
+                    var _proxyPerspective; 
+
+                    if (app_id === "9") {
+                        _proxyId = 10;
+                        if (view.perspective === "right") {
+                            _proxyPerspective = "left";
+                        } else {
+                            _proxyPerspective = view.perspective;
+                        }
+                    }
+
+                    if (app_id === "33") {
+                        _proxyId = 32;
+                        if (view.perspective === "right") {
+                            _proxyPerspective = "left";
+                        }
+                        else {
+                            _proxyPerspective = view.perspective;
+                        }
+                    }
+
+                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, _proxyPerspective, _proxyId);
+
+                    if (_fontOffsets.offsetX > 0) {
+
+                        point.position.x += (_fontOffsets.offsetX * -1);
+
+                    } else if (_fontOffsets.offsetX < 0) {
+
+                        point.position.x += (_fontOffsets.offsetX * _fontOffsets.offsetX);
+
+                    }
+
+                    // if (_fontOffsets.offsetY > 0) {
+
+                    //     point.position.y += (_fontOffsets.offsetY * -1);
+
+                    // } else if (_fontOffsets.offsetY < 0) {
+
+                    //     point.position.y += (_fontOffsets.offsetY * _fontOffsets.offsetY);
+
+                    // }
+
+                    point.position.y += _fontOffsets.offsetY;
+
+
+                    if (_fontOffsets.scaleX !== 1) {
+                        point.scale.x = _fontOffsets.scaleX;    
+                    }
+                    
+                    if (_fontOffsets.scaleY !== 1) {
+                        point.scale.y = _fontOffsets.scaleY;
+
+                    }
+
+                    console.log('');
+                    console.log('ID: ' + app_id + ' / ' + view.perspective);
+                    console.log('Font Name: ' + args.font_name);
+                    console.log('Font Size: ' + args.fontSize);
+                    console.log('Position: ');
+                    console.log(point.position);
+                    console.log('Scale: ');
+                    console.log(point.scale);
+
+
+
+                }
 
                 /// Rotation Overrides 
 

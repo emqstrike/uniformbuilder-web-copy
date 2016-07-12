@@ -455,8 +455,11 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'status') { continue; }
             if ($part['code'] === 'static') { continue; }
             if ($part['code'] === 'infused_locker_tag') { continue; }
+            if ($part['code'] === 'locker_tag') { continue; }
 
             $code = $this->toTitleCase($part['code']);
+
+            Log::info('---' . $code);
             
             $html .= '<tr>';
             $html .=   '<td align="right">';
@@ -468,20 +471,25 @@ class UniformBuilderController extends Controller
             $html .=   '<td align="center">';
 
             Log::error('----------' . $code);
-            if ($part['pattern']['pattern_id'] != '') {
-                
-                if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
 
-                    $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
+            if (array_key_exists('pattern', $part)) {
 
-                    $colors = '';
-                    foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
-                        $colors .= $layer['color_code'] . ',';
-                    }
+                if ($part['pattern']['pattern_id'] != '') {
                     
-                    $colorsTrimmed = rtrim($colors, ",");
+                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
 
-                    $html .= '<strong>' . $colorsTrimmed . '</strong>';
+                        $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
+
+                        $colors = '';
+                        foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
+                            $colors .= $layer['color_code'] . ',';
+                        }
+                        
+                        $colorsTrimmed = rtrim($colors, ",");
+
+                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
+
+                    }
 
                 }
 
