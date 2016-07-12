@@ -572,7 +572,7 @@ $(document).ready(function() {
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
-                    builder_customizations: ub.current_material.settings,
+                    builder_customizations: JSON.stringify(ub.current_material.settings),
                     set_group_id: 0,
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
