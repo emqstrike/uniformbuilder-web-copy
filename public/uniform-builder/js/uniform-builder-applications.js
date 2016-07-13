@@ -2031,7 +2031,7 @@
 
 
                     if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
-                        point.position.y += 6;    
+                        point.position.y += 12;    
                     }
                     
                     if (_fontOffsets.scaleX !== 1) {
