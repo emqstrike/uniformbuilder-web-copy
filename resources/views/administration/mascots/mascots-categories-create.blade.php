@@ -33,6 +33,16 @@ select:hover {
                                 <input type="name" class="form-control mascot-name" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
+                         <label class="col-md-4 control-label">Mascot Group</label>
+                            <div class="col-md-6">
+                            <select  class="form-control mascot-group-category-name" name="group" >
+                                @foreach ($mascots_groups_categories as $mascots_groups_category)
+                                    <option value="{{$mascots_groups_category->id }}">{{$mascots_groups_category->name }}</option>
+                                @endforeach
+
+                            </select>
+
+                            </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

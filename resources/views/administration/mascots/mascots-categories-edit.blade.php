@@ -16,6 +16,16 @@
                             <div class="col-md-6">
                                 <input type="name" class="form-control mascot-category-name" name="name" value="{{ $mascot_category->name }}">
                             </div>
+                             <label class="col-md-4 control-label">Mascot Group</label>
+                            <div class="col-md-6">
+                            <select  class="form-control mascot-group-category-name" name="group" >
+                                @foreach ($mascots_groups_categories as $mascots_groups_category)
+                                    <option value="{{$mascots_groups_category->id }}" <?php if($mascots_groups_category->id == $mascot_category->mascots_group_category_id ){ echo "selected"; } ?>>{{$mascots_groups_category->name }}</option>
+                                @endforeach
+
+                            </select>
+
+                            </div>
                         </div>
 
                         <div class="form-group">
