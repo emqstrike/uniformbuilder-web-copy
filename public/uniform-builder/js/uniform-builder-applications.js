@@ -2030,6 +2030,10 @@
                     point.position.y += _fontOffsets.offsetY;
 
 
+                    if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
+                        point.position.y += 6;    
+                    }
+                    
                     if (_fontOffsets.scaleX !== 1) {
                         point.scale.x = _fontOffsets.scaleX;    
                     }
