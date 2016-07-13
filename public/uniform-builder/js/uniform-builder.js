@@ -649,7 +649,7 @@ $(document).ready(function () {
         ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
-            ub.materials = obj;
+            ub.materials = _.filter(obj, {debug_mode: '0'});
 
             _.each (ub.materials, function (material) {
 
