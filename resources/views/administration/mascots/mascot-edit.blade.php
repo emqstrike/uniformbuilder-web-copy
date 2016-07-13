@@ -54,18 +54,6 @@
                                 </select>
                             </div>
                         </div>
-                          <div class="form-group">
-                            <label class="col-md-4 control-label">Tags</label>
-                            <div class="col-md-6">
-                            
-                                <input type="hidden" class="mascotTagsValue" value="{{$mascot->group_category}}">
-                                <select name='group_category[]' class="form-control mascot_group_category" multiple="multiple">
-                                     @foreach ($mascots_categories as $mascot_category)
-                                        <option value='{{ $mascot_category }}' >{{ $mascot_category }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
                         <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
