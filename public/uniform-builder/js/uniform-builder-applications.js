@@ -1719,7 +1719,6 @@
                 _returnObject.scaleX    = 1;
                 _returnObject.scaleY    = 1;
 
-
                 console.error('Offsets for ' + fontName + ' not found, using defaults. please add values to ub.funcs.fontOffsets')
                 console.error('fontName: ' + fontName);
                 console.error('fontSize: ' + fontSize);
@@ -2316,7 +2315,6 @@
         });
 
     };
-
     ub.funcs.create_plugins = function (match, mode, matchingSide) {
 
         $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
@@ -5230,7 +5228,7 @@
 
     ub.funcs.getSampleNumber = function () {
 
-        var _sampleNumber = 85;
+        var _sampleNumber = "85";
         return _sampleNumber;
 
     }
