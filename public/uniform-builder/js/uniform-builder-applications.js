@@ -1958,8 +1958,14 @@
 
                     var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
 
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
+
                     point.position.x += _fontOffsets.offsetX;
                     point.position.y += _fontOffsets.offsetY;
+
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
 
                     if (_fontOffsets.scaleX !== 1) {
                         point.scale.x = _fontOffsets.scaleX;    
@@ -1982,6 +1988,9 @@
 
                 /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
                 if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
 
                     var _proxyId;
                     var _proxyPerspective; 
@@ -2043,6 +2052,9 @@
 
                     }
 
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
+
                     console.log('');
                     console.log('ID: ' + app_id + ' / ' + view.perspective);
                     console.log('Font Name: ' + args.font_name);
@@ -2051,8 +2063,6 @@
                     console.log(point.position);
                     console.log('Scale: ');
                     console.log(point.scale);
-
-
 
                 }
 
