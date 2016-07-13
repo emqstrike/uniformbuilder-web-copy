@@ -758,18 +758,22 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .=   '</tr>';
         $html .= '</table>';
+        $html .= '</div>';
 
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->AddPage("L");
+
+        $html = '';
         $html .= '<table>';
+        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .= '<tr>';
         $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
         $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
         $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
         $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
         $html .= '</tr>';
+        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .= '</table>';
-
-
-        $html .= '</div>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
 

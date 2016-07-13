@@ -1586,6 +1586,41 @@
 
         };
 
+        ub.funcs.setProperties = function (location, perspective, scaleX, scaleY, positionX, positionY) {
+
+            if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
+
+                var _obj = ub.objects[perspective + '_view']['objects_' + location];
+
+                _obj.position.x = positionX;
+                _obj.position.y = positionY;
+                _obj.scale.x = scaleX;
+                _obj.scale.y = scaleY;
+                
+                console.log('Position: ');
+                console.log(_obj.position);
+                console.log('Scale: ');
+                console.log(_obj.scale);
+
+            }
+
+        }
+
+        ub.funcs.getProperties = function (location, perspective) {
+
+            if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
+
+                var _obj = ub.objects[perspective + '_view']['objects_' + location];
+                
+                console.log('Position: ');
+                console.log(_obj.position);
+                console.log('Scale: ');
+                console.log(_obj.scale);
+
+            }
+
+        }
+
         ub.funcs.getSettingsObject = function (applicationID) {
 
             return ub.current_material.settings.applications[applicationID];
@@ -1611,6 +1646,7 @@
                 _returnObject.scaleX    = 1;
                 _returnObject.scaleY    = 1;
 
+
                 console.error('Offsets for ' + fontName + ' not found, using defaults. please add values to ub.funcs.fontOffsets')
                 console.error('fontName: ' + fontName);
                 console.error('fontSize: ' + fontSize);
@@ -1627,6 +1663,8 @@
                 _returnObject.scaleY = parseFloat(_offsetObject.scaleY);
 
             }
+
+            console.log(_offsetObject);
 
             return _returnObject;
 
