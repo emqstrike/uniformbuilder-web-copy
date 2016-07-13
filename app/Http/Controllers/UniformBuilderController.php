@@ -758,12 +758,7 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .=   '</tr>';
         $html .= '</table>';
-        $html .= '</div>';
-
-        $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->AddPage("L");
-
-        $html = '';
+        $html .= '<br /><br /><br /><br /><br /><br />';
         $html .= '<table>';
         $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .= '<tr>';
@@ -774,6 +769,7 @@ class UniformBuilderController extends Controller
         $html .= '</tr>';
         $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .= '</table>';
+        $html .= '</div>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
 
