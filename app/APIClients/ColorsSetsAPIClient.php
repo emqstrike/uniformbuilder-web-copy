@@ -21,5 +21,15 @@ class ColorsSetsAPIClient extends APIClient
         }
         return $colors_sets;
     }
+
+    public function createColorsSet($data)
+    {
+        // $data['colors'] = json_encode($data['colors']);
+        // dd($data);
+        $response = $this->post('color_set', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
     
 }

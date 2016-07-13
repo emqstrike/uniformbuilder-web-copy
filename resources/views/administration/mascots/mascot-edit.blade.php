@@ -1,6 +1,13 @@
 @extends('administration.lte-main')
 
 @section('content')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+    li.select2-selection__choice {
+    color: black !important;
+}
+</style>
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -43,6 +50,18 @@
                                 <select name='category' class="form-control mascot-category">
                                     @foreach ($mascots_categories as $mascot_category)
                                         <option value='{{ $mascot_category }}' <?php if($mascot_category == $mascot->category){ echo "selected"; } ?>>{{ $mascot_category }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-4 control-label">Tags</label>
+                            <div class="col-md-6">
+                            
+                                <input type="hidden" class="mascotTagsValue" value="{{$mascot->tags}}">
+                                <select name='tags[]' class="form-control mascot_tags" multiple="multiple">
+                                     @foreach ($mascots_categories as $mascot_category)
+                                        <option value='{{ $mascot_category }}' >{{ $mascot_category }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -160,8 +179,10 @@
 @endsection
 
 @section('custom-scripts')
+
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -365,6 +386,24 @@ $(document).ready(function(){
         $('#layers-properties').val(layersProperties);
         $('#existing-colors-properties').val(layersProperties);
     }
+  
+     
+  
+      $(".mascot_tags").select2({
+            placeholder: "Select colors",
+            multiple: true,
+            allowClear: true
+        });
+      var mascotValue = $(".mascotTagsValue").val();
+      mascotValue = JSON.parse(mascotValue);
+       $(".mascot_tags").select2().val(mascotValue).trigger("change"); 
+       
+          
+
+
+
+
+      
 });
 </script>
 @endsection

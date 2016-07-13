@@ -30,18 +30,36 @@ class ColorsSetsController extends Controller
     public function index()
     {
         $colors_sets = $this->client->getColorsSets();
+        $colors = $this->colorsClient->getColors();
 
         return view('administration.colors.colors-sets', [
-            'colors_sets' => $colors_sets
+            'colors_sets' => $colors_sets,
+            'colors' => $colors
         ]);
     }
 
     public function addColorsSetForm()
     {
         $colors = $this->colorsClient->getColors();
+        // dd($colors);
         return view('administration.colors.colors-set-create', [
             'colors' => $colors
         ]);
+    }
+
+    public function store(Request $request){
+        $name = $request->input('name');
+        $uniformType = $request->input('uniform_type');
+        $colors = $request->input('colors');
+
+        $data = [
+            'name' => $name,
+            'uniform_type' => $uniformType,
+            'colors' => $colors
+        ];
+
+        $response = $this->client->createColorsSet($data);
+        // dd($data);
     }
 
 }

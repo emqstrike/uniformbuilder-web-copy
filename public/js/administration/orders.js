@@ -265,7 +265,7 @@ $('.send-to-factory').on('click', function(e){
     billing_email = $(this).data('bill-email');
     billing_phone = $(this).data('bill-phone');
 
-console.log(order_id);
+// console.log(order_id);
 
     window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
@@ -296,6 +296,32 @@ console.log(order_id);
             "Description" : entry.description,
             "DesignSheet" : entry.design_sheet
         };
+
+        var entryQuestions = null;
+        getQuestions(function(questions){ entryQuestions = questions; });
+
+
+
+        function getQuestions(callback){
+            var questions;
+            var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    questions = data;
+                    // questions = data;
+                    console.log( JSON.stringify(data) );
+                    if(typeof callback === "function") callback(questions);
+                }
+            });
+        }
+
+        console.log('Builder Customizations: ' + entry.builder_customizations);
 
         entry.orderQuestions = {};
         entry.orderItems = JSON.parse(entry.roster);
@@ -339,6 +365,7 @@ console.log(order_id);
         //     "Description": "Arizona Jersey",
         //     "DesignSheet": "test.png"
         // };
+
 
 
         // var orderQuestionValue = [{
@@ -394,29 +421,29 @@ console.log(order_id);
 
     // console.log(orderEntire['orderParts']);
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('worked');
-            console.log('return data: ' + JSON.stringify(data));
-            var factory_order_id = data[0].OrderID;
-            var parts = [];
-            $.each(data, function( index, value ) {
-                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                console.log(JSON.stringify(orderEntire));
-                parts.push(orderEntire['orderParts'][index]['orderPart']);
-            });
-            console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
-            // console.log(data[0].OrderID);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
+    // $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(orderEntire),
+    //     contentType: 'application/json;',
+    //     success: function (data) {
+    //         alert('worked');
+    //         console.log('return data: ' + JSON.stringify(data));
+    //         var factory_order_id = data[0].OrderID;
+    //         var parts = [];
+    //         $.each(data, function( index, value ) {
+    //             orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //             console.log(JSON.stringify(orderEntire));
+    //             parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //         });
+    //         console.log(JSON.stringify(parts));
+    //         updateFOID(order_id, factory_order_id, parts);
+    //         // console.log(data[0].OrderID);
+    //     },
+    //     error: function (xhr, ajaxOptions, thrownError) {
+    //         //Error Code Here
+    //     }
+    // });
 
 });
 
