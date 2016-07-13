@@ -7,7 +7,7 @@
     li.select2-selection__choice {
     color: black !important;
 }
-</style>>
+</style>
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -58,8 +58,8 @@
                             <label class="col-md-4 control-label">Tags</label>
                             <div class="col-md-6">
                             
-                                <input type="hidden" class="mascotTagsValue" value="{{$mascot->tags}}">
-                                <select name='tags[]' class="form-control mascot_tags" multiple="multiple">
+                                <input type="hidden" class="mascotTagsValue" value="{{$mascot->group_category}}">
+                                <select name='group_category[]' class="form-control mascot_group_category" multiple="multiple">
                                      @foreach ($mascots_categories as $mascot_category)
                                         <option value='{{ $mascot_category }}' >{{ $mascot_category }}</option>
                                     @endforeach
@@ -389,14 +389,14 @@ $(document).ready(function(){
   
      
   
-      $(".mascot_tags").select2({
-            placeholder: "Select colors",
-            multiple: true,
-            allowClear: true
-        });
-      var mascotValue = $(".mascotTagsValue").val();
-      mascotValue = JSON.parse(mascotValue);
-       $(".mascot_tags").select2().val(mascotValue).trigger("change"); 
+      // $(".mascot_tags").select2({
+      //       placeholder: "Select colors",
+      //       multiple: true,
+      //       allowClear: true
+      //   });
+      // var mascotValue = $(".mascotTagsValue").val();
+      // mascotValue = JSON.parse(mascotValue);
+      //  $(".mascot_tags").select2().val(mascotValue).trigger("change"); 
        
           
 

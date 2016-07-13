@@ -11,6 +11,8 @@ class MascotsAPIClient extends APIClient
     public function getMascots()
     {
         $response = $this->get('mascots');
+ 
+
         $result = $this->decoder->decode($response->getBody());
 
         $mascots = [];
@@ -18,6 +20,7 @@ class MascotsAPIClient extends APIClient
         {
             $mascots = $result->mascots;
         }
+        
         return $mascots;
     }
 
@@ -78,7 +81,7 @@ class MascotsAPIClient extends APIClient
     }
 
     public function updateMascot($data)
-    {// dd($data);
+    {
         $response = $this->post('mascot/update', [
             'json' => $data
         ]);

@@ -123,10 +123,30 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@editMascotForm']);
 
     Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@index']);
+
+    Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@index']);
+
+    Route::get('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@addMascotsGroupsCategoryForm']);
+    
     Route::get('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@addMascotsCategoryForm']);
+
+
     Route::post('mascots_categories/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
+
+    Route::post('mascots_groups_categories/update', 'Administration\MascotsGroupsCategoriesController@store');
+
+    Route::post('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@store']);
+
+
     Route::post('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
+
+
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
+
+    Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
+
+
+
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);

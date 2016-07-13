@@ -33,9 +33,11 @@ class MascotsController extends Controller
 
     public function index()
     {
+
         $mascots = $this->client->getMascots();
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
-
+        
+        
         return view('administration.mascots.mascots', [
             'mascots' => $mascots,
             'mascot_categories' => $mascot_categories
@@ -121,7 +123,7 @@ class MascotsController extends Controller
     {
         $mascotName = $request->input('name');
         $code = $request->input('code');
-        $tags = $request->input('tags');
+        $tags = $request->input('code');
         $category = $request->input('category');
         $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
@@ -130,7 +132,7 @@ class MascotsController extends Controller
             'name' => $mascotName,
             'code' => $code,
             'category' => $category,
-            'tags' => $tags,
+            'group_category',
             'team_color_id' => $team_color_id,
             'layers_properties' => $layersProperties
         ];
