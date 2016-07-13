@@ -176,7 +176,7 @@ $(document).ready(function(){
         var id = $(this).data('mascot-group-category-id');
 
        //  var url = "http://localhost:8888/api/mascot_group_category/delete";
-        var url = "//" + api_host + "/api/accent/delete/";
+        var url = "//" + api_host + "/api/mascot_group_category/delete";
                    
         $.ajax({
             url: url,
@@ -206,7 +206,7 @@ $(document).ready(function(){
         var id = $(this).data('mascot-group-category-id');
   
         // var url = "http://localhost:8888/api/mascot_group_category/toggle/";
-         var url = "//" + api_host + "/api/mascot_category/toggle/";
+         var url = "//" + api_host + "/api/mascot_group_category/";
         $.ajax({
             url: url,
             type: "POST",
