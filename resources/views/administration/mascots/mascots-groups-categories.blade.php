@@ -205,8 +205,8 @@ $(document).ready(function(){
        $('.toggle-mascot-group-category').on('click', function(){
         var id = $(this).data('mascot-group-category-id');
   
-         var url = "http://localhost:8888/api/mascot_group_category/toggle/";
-        // var url = "//" + api_host + "/api/mascot_category/toggle/";
+        // var url = "http://localhost:8888/api/mascot_group_category/toggle/";
+         var url = "//" + api_host + "/api/mascot_category/toggle/";
         $.ajax({
             url: url,
             type: "POST",
