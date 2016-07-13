@@ -85,6 +85,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Group</th>
                                 <th>Active Status</th>
                                 <th></th>
                             </tr>
@@ -95,6 +96,9 @@
                     <tr class='mascot-category-{{ $mascots_category->id }} {{ (!$mascots_category->active) ? ' inactive' : '' }}'>
                         <td>
                             {{ $mascots_category->name }}
+                        </td>
+                        <td>
+                            {{ $mascots_category->group_name }}
                         </td>
                         <td>
                             <div class="onoffswitch">
