@@ -47,6 +47,11 @@
           <i class="fa fa-circle"></i> <span>Mascots Categories</span>
         </a>
       </li>
+      <li  data-step="8" data-intro="For Mascots group category settings.">
+        <a href="/administration/mascots_groups_categories">
+          <i class="fa fa-circle"></i> <span>Mascots Groups Categories</span>
+        </a>
+      </li>
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/materials">
           <i class="fa fa-cubes"></i> <span>Materials</span>

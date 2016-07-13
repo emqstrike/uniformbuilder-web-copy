@@ -5,25 +5,19 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Edit mascot category</div>
+                <div class="panel-heading">Edit mascot group category</div>
                 <div class="panel-body">
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascots_categories/update" enctype="multipart/form-data" id='edit-mascot-category-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascots_groups_categories/update" enctype="multipart/form-data" id='edit-mascot-category-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="mascots_category_id" value="{{ $mascot_category->id }}">
+                        <input type="hidden" name="mascot_group_category_id" value="{{ $mascot_group_category->id }} ">
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Mascot Name</label>
+                            <label class="col-md-4 control-label">Mascot Group Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-category-name" name="name" value="{{ $mascot_category->name }}">
-                            </div>
-                             <label class="col-md-4 control-label">Mascot Group</label>
-                            <div class="col-md-6">
-                            <select  class="form-control mascot-group-category-name" name="group" >
-                                @foreach ($mascots_groups_categories as $mascots_groups_category)
-                                    <option value="{{$mascots_groups_category->id }}" <?php if($mascots_groups_category->id == $mascot_category->mascots_group_category_id ){ echo "selected"; } ?>>{{$mascots_groups_category->name }}</option>
-                                @endforeach
-
-                            </select>
+                                <input type="name" class="form-control mascot-category-name" name="name" value="{{ $mascot_group_category->name }}">
+                      
+                             </div>
+                           <div class="col-md-6">
 
                             </div>
                         </div>

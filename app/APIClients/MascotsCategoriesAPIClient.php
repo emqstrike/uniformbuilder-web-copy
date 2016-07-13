@@ -23,6 +23,7 @@ class MascotsCategoriesAPIClient extends APIClient
 
     public function isMascotCategoryTaken($name, $id)
     {
+     
         $response = $this->get('mascot_category/name/' . $name);
         $result = $this->decoder->decode($response->getBody());
 

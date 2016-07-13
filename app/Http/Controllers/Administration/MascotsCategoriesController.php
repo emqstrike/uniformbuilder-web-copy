@@ -10,19 +10,22 @@ use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\MascotsCategoriesAPIClient as APIClient;
 
+use App\APIClients\MascotsGroupsCategoriesAPIClient;
+
 class MascotsCategoriesController extends Controller
 {
     protected $client;
-
-    public function __construct(APIClient $apiClient)
+    protected $MascotsGroupCategoriesClient;
+    public function __construct(APIClient $apiClient,MascotsGroupsCategoriesAPIClient $MascotsGroupsCategoriesAPIClient)
     {
         $this->client = $apiClient;
+        $this->MascotsGroupCategoriesClient = $MascotsGroupsCategoriesAPIClient;
     }
 
     public function index()
     {
         $mascots_categories = $this->client->getMascotCategories();
-
+   
         return view('administration.mascots.mascots-categories', [
             'mascots_categories' => $mascots_categories
         ]);
@@ -30,21 +33,29 @@ class MascotsCategoriesController extends Controller
 
     public function editMascotsCategoriesForm($id)
     {
+
         $mascot_category = $this->client->getMascotCategory($id);
+        $mascots_groups_categories = $this->MascotsGroupCategoriesClient->getMascotsGroupsCategories();
+
 
         return view('administration.mascots.mascots-categories-edit', [
-            'mascot_category' => $mascot_category->mascot_category
+            'mascot_category' => $mascot_category->mascot_category,
+             'mascots_groups_categories' => $mascots_groups_categories
         ]);
     }
 
     public function addMascotsCategoryForm()
     {
-        return view('administration.mascots.mascots-categories-create');
+         $mascots_groups_categories = $this->MascotsGroupCategoriesClient->getMascotsGroupsCategories();
+        return view('administration.mascots.mascots-categories-create', [
+           'mascots_groups_categories' => $mascots_groups_categories
+        ]);
     }
 
     public function store(Request $request)
     {
         $name = $request->input('name');
+        $group = $request->input('group');
         
         $id = null;
 
@@ -62,6 +73,7 @@ class MascotsCategoriesController extends Controller
 
         $data = [
             'name' => $name,
+            'mascots_group_category_id' => $group,
             'id' => $id
         ];
 
