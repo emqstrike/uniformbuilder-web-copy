@@ -185,6 +185,7 @@ class MaterialsController extends Controller
         $liningType = $request->input('lining_type');
         $uniformApplicationType = $request->input('uniform_application_type');
         $sizes = $request->input('sizes');
+        $debugMode = $request->input('debug_mode');
         $slug = FileUploader::makeSlug($materialName);
 
         $block_pattern_id = $request->input('block_pattern_id');
@@ -242,7 +243,8 @@ class MaterialsController extends Controller
             'description' => $description,
             'design_type' => $design_type,
             'uniform_application_type' => $uniformApplicationType,
-            'sizes' => $sizes
+            'sizes' => $sizes,
+            'debug_mode' => $debugMode
         ];
 // dd($data);
         try {

@@ -61,6 +61,15 @@
                         </div>
 <hr>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Debug Mode</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-debug_mode" name="debug_mode" id="debug_mode">
+                                    <option value="0" @if( $material->debug_mode == 0 ) selected="selected"@endif>OFF</option>
+                                    <option value="1" @if( $material->debug_mode == 1 ) selected="selected"@endif>ON</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Design Type</label>
                             <div class="col-md-6">
                                 <select class="form-control material-design-type" name="design_type" id="design_type">

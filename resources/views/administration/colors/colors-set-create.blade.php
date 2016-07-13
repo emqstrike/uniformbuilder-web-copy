@@ -1,7 +1,13 @@
 @extends('administration.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/spectrum/spectrum.css">
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+    li.select2-selection__choice {
+    color: black !important;
+}
+</style>
 @endsection
 
 @section('content')
@@ -23,7 +29,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/color/add" enctype="multipart/form-data" id='create-color-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/colors_set/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         @if (Session::has('flash_message'))
@@ -41,7 +47,7 @@
                             <label class="col-md-4 control-label">Color Set Type</label>
                             <div class="col-md-6">
                                 <!-- <input type="name" class="form-control color-code" name="color_code" value="{{ old('name') }}"> -->
-                                <select class="form-control" name='type'>
+                                <select class="form-control" name='uniform_type'>
                                     <option value="custom">Custom</option>
                                     <option value="twill">Twill</option>
                                     <option value="sublimated">Sublimated</option>
@@ -52,8 +58,19 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Colors</label>
                             <div class="col-md-6">
-                                <input id='colorpicker' />
-                                <input type='hidden' name="hex_code" id="hex-code" value="#ff0000">
+                                <input type="hidden" class="colors-val" name="colors_value">
+                                <select name="colors[]" class="form-control colors" multiple="multiple">
+                                    @foreach ($colors as $color)
+                                        @if ($color->active)
+                                        <option value='{{ $color->color_code }}'>
+                                            @if ($color->sublimation_only)
+                                                *
+                                            @endif
+                                            {{ $color->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -79,23 +96,20 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/spectrum/spectrum.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#colorpicker').spectrum({
-        color: "#ff0000",
-        preferredFormat: "hex",
-        showInput: true,
-        move: function(tinycolor) {
-            $('#hex-code').val(tinycolor);
-        },
-        hide: function(tinycolor) {
-            $('#hex-code').val(tinycolor);
-        }
+    $('.colors').select2({
+        placeholder: "Select colors",
+        multiple: true,
+        allowClear: true
     });
+    var colors_val = $(".colors-val").val();
+    colors_val = JSON.parse(colors_val);
+    $(".colors").select2().val(colors_val).trigger("change"); 
 });
 </script>
 @endsection
