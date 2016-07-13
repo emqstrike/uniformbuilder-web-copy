@@ -1662,6 +1662,12 @@
                     _matchingObj.scale.x = scaleX;
                     _matchingObj.scale.y = scaleY;
 
+                    console.log('Matching Object ');
+                    console.log('Position: ');
+                    console.log(_matchingObj.position);
+                    console.log('Scale: ');
+                    console.log(_matchingObj.scale);
+
                 }
                 
                 console.log('Position: ');
