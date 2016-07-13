@@ -1636,8 +1636,6 @@
                             _prPerspective = perspective;
                         }
 
-                        console.log(_prID + ' ' + _prPerspective);
-
                         var _matchingAppSettings    = ub.funcs.getApplicationSettingsByView(_prID, _prPerspective);
                         var _matchingCenter         = _matchingAppSettings.application.center;
 
@@ -1662,18 +1660,20 @@
                     _matchingObj.scale.x = scaleX;
                     _matchingObj.scale.y = scaleY;
 
-                    console.log('Matching Object ');
-                    console.log('Position: ');
-                    console.log(_matchingObj.position);
-                    console.log('Scale: ');
-                    console.log(_matchingObj.scale);
-
                 }
                 
+                console.log('Primary Object #' + location);
+
                 console.log('Position: ');
                 console.log(_obj.position);
                 console.log('Scale: ');
                 console.log(_obj.scale);
+
+                console.log('Matching Object #' + _prID);
+                console.log('Position: ');
+                console.log(_matchingObj.position);
+                console.log('Scale: ');
+                console.log(_matchingObj.scale);
 
             }
 
