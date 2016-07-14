@@ -1,5 +1,5 @@
 <!-- Information Modal -->
-<div class="modal fade" id="view-order-modal" aria-hidden="false">
+<div class="modal modal-wide fade" id="view-order-modal" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -44,10 +44,10 @@
                         <li>
                             <a href="#tab-shipping-info" data-toggle="tab">Shipping Information</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="#tab-team-roster" data-toggle="tab">Team Roster</a>
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                             <a href="#tab-front-view" data-toggle="tab">Front View</a>
                         </li>
                         <li>
@@ -58,7 +58,7 @@
                         </li>
                         <li>
                             <a href="#tab-left-view" data-toggle="tab">Left View</a>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-athletic-dir">
@@ -119,7 +119,7 @@
                             <table class='table table-bordered table-striped order-items'>
                             </table>
                         </div>
-                        <div class="tab-pane" id='tab-front-view'>
+                        <!-- <div class="tab-pane" id='tab-front-view'>
                             <img src="" class='upper-uniform' />
                             <img src="" class='lower-uniform' />
                         </div>
@@ -134,7 +134,7 @@
                         <div class="tab-pane" id='tab-left-view'>
                             <img src="" class='upper-uniform' />
                             <img src="" class='lower-uniform' />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
