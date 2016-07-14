@@ -2038,8 +2038,20 @@
 
                     point.position.y += _fontOffsets.offsetY;
 
-                    if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
+                    if ((view.perspective === "front") && (_proxyId === 32)) {
                         point.position.y += 12;    
+                    }
+
+                    if ((view.perspective === "back") && (_proxyId === 32)) {
+                        point.position.y -= 4;    
+                    }
+
+                    if ((view.perspective === "front") && (_proxyId === 10)) {
+                        point.position.x += 12;    
+                    }
+
+                    if ((view.perspective === "back") && (_proxyId === 10)) {
+                        point.position.x += 12;    
                     }
                     
                     if (_fontOffsets.scaleX !== 1) {
