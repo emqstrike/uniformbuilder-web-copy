@@ -380,7 +380,6 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>SLEEVE TYPE</strong>';
         $html .=   '</td>';
 
-
         $html .= '</tr>';
 
         foreach ($rosters as &$roster) {
@@ -739,7 +738,7 @@ class UniformBuilderController extends Controller
         $html .= "UNIFORM NAME: <strong>" . $itemData['description'] . "</strong><br />";
         $html .= "SKU: <strong>" .  $itemData['sku'] . "</strong><br />";
         $html .= "BUILDER URL: <strong>" . $itemData['url'] . "</strong><br />";
-        $html .= "PDF URL: <strong>http://" . $_SERVER['SERVER_NAME'] . $fname . "</strong><br />";
+        $html .= "PDF URL: <strong>http://" . env('WEBSITE_URL') . $fname . "</strong><br />";
         $html .= "</td>";
         $html .= "</tr>";
         $html .= "</table>";
