@@ -67,6 +67,8 @@ $(document).ready(function(){
             rows += '<td>'+item.Size+'</td>';
             rows += '<td>'+item.Number+'</td>';
             rows += '<td>'+item.Name+'</td>';
+            rows += '<td>'+item.LastNameApplication+'</td>';
+            rows += '<td>'+item.SleeveCut+'</td>';
             rows += '<td>'+item.Quantity+'</td>';
             rows += '</tr>';
         });
@@ -268,7 +270,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
 
     // PostOrder();
-
+console.log('send to edit');
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
@@ -313,6 +315,7 @@ $('.send-to-factory').on('click', function(e){
     }
 
     window.order_parts.forEach(function(entry) {
+        console.log(entry);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
@@ -447,33 +450,33 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
+    console.log(strResult);
 
     // console.log(orderEntire['orderParts']);
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('worked');
-            console.log('return data: ' + JSON.stringify(data));
-            var factory_order_id = data[0].OrderID;
-            var parts = [];
-            $.each(data, function( index, value ) {
-                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                console.log(JSON.stringify(orderEntire));
-                parts.push(orderEntire['orderParts'][index]['orderPart']);
-            });
-            console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
-            // console.log(data[0].OrderID);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
+    // $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(orderEntire),
+    //     contentType: 'application/json;',
+    //     success: function (data) {
+    //         alert('worked');
+    //         console.log('return data: ' + JSON.stringify(data));
+    //         var factory_order_id = data[0].OrderID;
+    //         var parts = [];
+    //         $.each(data, function( index, value ) {
+    //             orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //             console.log(JSON.stringify(orderEntire));
+    //             parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //         });
+    //         console.log(JSON.stringify(parts));
+    //         updateFOID(order_id, factory_order_id, parts);
+    //         // console.log(data[0].OrderID);
+    //     },
+    //     error: function (xhr, ajaxOptions, thrownError) {
+    //         //Error Code Here
+    //     }
+    // });
 
 });
 
