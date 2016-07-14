@@ -563,7 +563,6 @@ class UniformBuilderController extends Controller
         $table .=   '</td>';
         $table .= '</tr>';
 
-
         $table .= '<tr>';
         $table .=   '<td>';
         $table .=     '<br /><br /><strong>BILLING</strong><br />';
@@ -641,6 +640,86 @@ class UniformBuilderController extends Controller
         $table .=   '</td>';
         $table .=   '<td>';
         $table .=     $itemData['billing']['state'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     '<br /><br /><strong>SHIPPING</strong><br />';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Organization: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['organization'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Contact: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['contact'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Email: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['email'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Phone: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['phone'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Fax: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['fax'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Address: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['address'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'City: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['city'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'State: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['state'];
         $table .=   '</td>';
         $table .= '</tr>';
 

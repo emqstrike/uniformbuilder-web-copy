@@ -4115,6 +4115,54 @@ div.header-container.main {
         margin: 0 auto;
         margin-top: 30px;
 
+        div.order-tabs-container {
+
+            div.order-tab-buttons {
+
+                div.order-tab-button {
+
+                    display: inline-block;
+
+                    width: 200px;
+                    text-align: center;
+                    height: 40px;
+                    color: white;
+                    background-color: #acacac;
+                    padding: 10px;
+                    cursor: pointer;
+
+                }
+
+                div.order-tab-button.active-tab, div.order-tab-button:hover {
+
+                    background-color: #3d3d3d;
+
+                }
+
+            }
+
+            div.order-tabs {
+
+                border: 1px solid #3d3d3d;
+
+                div.order-tab {
+
+                    display: none;
+                    padding: 10px;
+
+                }
+
+                div.order-tab.active-tab {
+
+                    display: block;
+
+                }
+
+            }
+
+        }
+
+
         div.order-info {
 
             div.form-container-organization {
@@ -4190,7 +4238,6 @@ div.header-container.main {
         div.order-details-block {
 
             padding: 30px;
-            border-top: dashed 1px #3d3d3d;
             text-align: center;
 
             span.processing {

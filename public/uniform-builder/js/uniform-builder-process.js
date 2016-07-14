@@ -509,6 +509,17 @@ $(document).ready(function() {
         var _billingState           = $('input[name="billing-state"]').val();
         var _billingZip             = $('input[name="billing-zip"]').val();
 
+        var _shippingOrganization    = $('input[name="shipping-organization"]').val();
+        var _shippingContactName     = $('input[name="shipping-contact-name"]').val();
+        var _shippingEmail           = $('input[name="shipping-email"]').val();
+        var _shippingPhone           = $('input[name="shipping-phone"]').val();
+        var _shippingFax             = $('input[name="shipping-fax"]').val();
+        
+        var _shippingAddress         = $('input[name="shipping-address"]').val();
+        var _shippingCity            = $('input[name="shipping-city"]').val();
+        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingZip             = $('input[name="shipping-zip"]').val();
+
         var _transformedRoster      = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
@@ -565,6 +576,18 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+
+            },
+            shipping: {
+
+                organization: _shippingOrganization,
+                contact: _shippingContactName,
+                email: _shippingEmail,
+                address: _shippingAddress,
+                city: _shippingCity,
+                state: _shippingState,
+                phone: _shippingPhone,
+                fax: _shippingFax,
 
             },
             order_items: [
@@ -639,6 +662,17 @@ $(document).ready(function() {
         var _billingState           = $('input[name="billing-state"]').val();
         var _billingZip             = $('input[name="billing-zip"]').val();
 
+        var _shippingOrganization    = $('input[name="shipping-organization"]').val();
+        var _shippingContactName     = $('input[name="shipping-contact-name"]').val();
+        var _shippingEmail           = $('input[name="shipping-email"]').val();
+        var _shippingPhone           = $('input[name="shipping-phone"]').val();
+        var _shippingFax             = $('input[name="shipping-fax"]').val();
+        
+        var _shippingAddress         = $('input[name="shipping-address"]').val();
+        var _shippingCity            = $('input[name="shipping-city"]').val();
+        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingZip             = $('input[name="shipping-zip"]').val();
+
         var _transformedRoster      = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
@@ -697,6 +731,18 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+
+            },
+            shipping: {
+
+                organization: _shippingOrganization,
+                contact: _shippingContactName,
+                email: _shippingEmail,
+                address: _shippingAddress,
+                city: _shippingCity,
+                state: _shippingState,
+                phone: _shippingPhone,
+                fax: _shippingFax,
 
             },
             order_items: [
@@ -844,6 +890,18 @@ $(document).ready(function() {
             ub.funcs.validateOrderForm();
 
         });
+
+        $('div.order-tab-button').on('click', function () {
+
+            var _name = $(this).data('name');
+
+            $('div.order-tab-button').removeClass('active-tab');
+            $(this).addClass('active-tab');
+            $('div.order-tab').removeClass('active-tab');
+            $('div.order-tab[data-name="' + _name + '"]').addClass('active-tab');
+
+        });
+
 
     }
 
