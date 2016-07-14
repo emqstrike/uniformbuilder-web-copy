@@ -1186,6 +1186,36 @@
         }
 
         ub.funcs.removeUIHandles();
+
+        console.log('Input Object: ');
+        console.log(input_object);
+        console.log(input_object.text_input);
+
+        if (typeof input_object.fontSize === "undefined") {
+
+            if (input_object.application.id !== '2' || input_object.application.id !== '5') {
+
+                input_object.fontSize = "4";
+
+            } else {
+
+                input_object.fontSize = "10";
+
+            }
+
+        }
+
+        if (typeof input_object.text_input === "undefined") {
+
+            input_object.text_input = window.ub.funcs.getPlayerNumber();
+
+        }
+
+        if (typeof input_object.text_input === "number") {
+
+            input_object.text_input = toString(input_object.text_input);
+
+        }
     
         var text_input = input_object.text_input.toUpperCase();
         var font_name = input_object.font_name;

@@ -1586,6 +1586,15 @@
 
         };
 
+        ub.funcs.getApplicationSettingsByView = function (location, view) {
+
+            var _applicationObj = ub.funcs.getApplicationSettings(location);
+            var _view = _.find(_applicationObj.application.views, {perspective: view});
+
+            return _view;
+
+        }
+
         ub.funcs.setProperties = function (location, perspective, scaleX, scaleY, positionX, positionY) {
 
             if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
@@ -1596,11 +1605,75 @@
                 _obj.position.y = positionY;
                 _obj.scale.x = scaleX;
                 _obj.scale.y = scaleY;
+
+                if (location === '32' || location === '10') {
+
+                    var _matchingObj = ub.objects[perspective + '_view']['objects_33'];
+
+                    _matchingObj.position.x = positionX;
+                    _matchingObj.position.y = positionY;
+
+                    var _appSettings = ub.funcs.getApplicationSettingsByView(location, perspective);
+
+                    if (typeof _appSettings !== 'undefined') {
+
+                        var _center                 = _appSettings.application.center;
+                        var _newX                   = parseFloat(positionX) - _appSettings.application.center.x;
+                        var _newY                   = parseFloat(positionY) - _appSettings.application.center.y;
+
+                        var _prID;
+                        var _prPerspective;
+
+                        if (location === "32") {
+                            _prID = '33';
+                        } else if (location === "9") {
+                            _prID = '10';
+                        }
+
+                        if (perspective === 'left') {
+                            _prPerspective = 'right'
+                        } else {
+                            _prPerspective = perspective;
+                        }
+
+                        var _matchingAppSettings    = ub.funcs.getApplicationSettingsByView(_prID, _prPerspective);
+                        var _matchingCenter         = _matchingAppSettings.application.center;
+
+                        _matchingObj.position.x     = _matchingCenter.x;
+                        _matchingObj.position.y     = _matchingCenter.y;
+
+                        if (_newX > 0) {
+
+                            _matchingObj.position.x += (_newX * -1);
+
+                        } else if (positionX < 0) {
+
+                            _matchingObj.position.x += (_newX * _newX);
+
+                        }
+
+                        _matchingObj.position.y     += _newY;
+
+
+                    }
+
+                    _matchingObj.scale.x = scaleX;
+                    _matchingObj.scale.y = scaleY;
+
+                }
                 
+                console.log('Primary Object #' + location);
+
                 console.log('Position: ');
                 console.log(_obj.position);
                 console.log('Scale: ');
                 console.log(_obj.scale);
+
+                console.log('Matching Object #' + _prID);
+                console.log('Position: ');
+                console.log(_matchingObj.position);
+                console.log('Scale: ');
+                console.log(_matchingObj.scale);
 
             }
 
@@ -1645,7 +1718,6 @@
                 _returnObject.offsetY   = 0;
                 _returnObject.scaleX    = 1;
                 _returnObject.scaleY    = 1;
-
 
                 console.error('Offsets for ' + fontName + ' not found, using defaults. please add values to ub.funcs.fontOffsets')
                 console.error('fontName: ' + fontName);
@@ -1886,8 +1958,14 @@
 
                     var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
 
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
+
                     point.position.x += _fontOffsets.offsetX;
                     point.position.y += _fontOffsets.offsetY;
+
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
 
                     if (_fontOffsets.scaleX !== 1) {
                         point.scale.x = _fontOffsets.scaleX;    
@@ -1910,6 +1988,9 @@
 
                 /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
                 if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
 
                     var _proxyId;
                     var _proxyPerspective; 
@@ -1958,6 +2039,10 @@
                     point.position.y += _fontOffsets.offsetY;
 
 
+                    if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
+                        point.position.y += 12;    
+                    }
+                    
                     if (_fontOffsets.scaleX !== 1) {
                         point.scale.x = _fontOffsets.scaleX;    
                     }
@@ -1967,6 +2052,9 @@
 
                     }
 
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
+
                     console.log('');
                     console.log('ID: ' + app_id + ' / ' + view.perspective);
                     console.log('Font Name: ' + args.font_name);
@@ -1975,8 +2063,6 @@
                     console.log(point.position);
                     console.log('Scale: ');
                     console.log(point.scale);
-
-
 
                 }
 
@@ -2243,7 +2329,6 @@
         });
 
     };
-
     ub.funcs.create_plugins = function (match, mode, matchingSide) {
 
         $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
@@ -5157,7 +5242,7 @@
 
     ub.funcs.getSampleNumber = function () {
 
-        var _sampleNumber = 85;
+        var _sampleNumber = "85";
         return _sampleNumber;
 
     }
