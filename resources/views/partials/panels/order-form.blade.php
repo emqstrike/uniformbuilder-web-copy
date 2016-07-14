@@ -211,13 +211,13 @@
         <br /><br />
 
         <span class="submit-order">
-            <i class="fa fa-check-circle-o" aria-hidden="true"></i> Submit Order
+            Continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </span>
 
         <span class="processing">
 
             Processing... Please wait. <img src="/images/loading.gif" /> <br />
-            Submit Order Button will appear here after the process is done, Thank You!
+            Continue Button will appear here after the process is done, Thank You!
 
         </span>
 

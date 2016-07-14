@@ -633,7 +633,12 @@ $(document).ready(function() {
 
         $('span.submit-confirmed-order').on('click', function () {
 
+            if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
+                return;
+            }
+
             ub.funcs.submitOrderForm();
+            $('span.submit-confirmed-order').html('Submitting Order...');
 
         });
 

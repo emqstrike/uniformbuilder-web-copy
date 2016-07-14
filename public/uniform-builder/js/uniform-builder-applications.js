@@ -4631,7 +4631,6 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
-        console.log('Activating Mascots..: ');
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         if (_appInfo.application_type !== "mascot") {

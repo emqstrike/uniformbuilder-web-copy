@@ -10,17 +10,14 @@
             <span class="processing-pdf">Generating PDF, please wait... <img src="/images/loading.gif" width="50"/></span>
         </span>
 
-        
 
     </div>
     
     <span class="submit-confirmed-order">
-        <i class="fa fa-check-circle-o" aria-hidden="true"></i> Confirm Order
+        Submit Order <i class="fa fa-arrow-right" aria-hidden="true"></i>
     </span>
 
     <iframe class="pdfViewer" id="pdfViewer">
-        
-
 
     </iframe>
 
