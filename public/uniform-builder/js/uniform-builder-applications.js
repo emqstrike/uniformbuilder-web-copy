@@ -2038,7 +2038,6 @@
 
                     point.position.y += _fontOffsets.offsetY;
 
-
                     if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
                         point.position.y += 12;    
                     }
@@ -2049,7 +2048,6 @@
                     
                     if (_fontOffsets.scaleY !== 1) {
                         point.scale.y = _fontOffsets.scaleY;
-
                     }
 
                     point.position.x -= _xOffset;
@@ -4632,6 +4630,16 @@
     };
 
     ub.funcs.activateMascots = function (application_id) {
+
+        console.log('Activating Mascots..: ');
+        var _appInfo = ub.funcs.getApplicationSettings(application_id);
+
+        if (_appInfo.application_type !== "mascot") {
+
+            ub.funcs.activateApplications(application_id);
+            return;
+
+        }
 
         if (ub.funcs.isBitFieldOn()) { 
 
