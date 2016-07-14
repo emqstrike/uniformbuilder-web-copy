@@ -468,6 +468,8 @@ $(document).ready(function() {
                 ub.showModal('Your order is now submitted. Thank you.')
                 ub.funcs.initGenderPicker();
 
+                $('div#validate-order-form').remove();
+
             }
             
         });
