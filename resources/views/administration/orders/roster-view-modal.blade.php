@@ -12,6 +12,8 @@
                         <th>Size</th>
                         <th>Number</th>
                         <th>Name</th>
+                        <th>Last Name Application</th>
+                        <th>Sleeve Cut</th>
                         <th>Quantity</th>
                     </tr>
                     <tbody id="roster-rows"></tbody>
