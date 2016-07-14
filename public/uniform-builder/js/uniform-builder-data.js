@@ -3575,10 +3575,10 @@ ub.funcs.fontOffSets = [
         /// End Jaguars
 
 
-        /// Start Maryland
+        /// Start MARYLAND
         {   
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'left',
             size: '4',
             origY: 74,            
@@ -3589,7 +3589,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'left',
             size: '3',
             origY: 74,            
@@ -3600,7 +3600,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -3611,7 +3611,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -3622,7 +3622,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -3633,7 +3633,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -3644,7 +3644,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'left',
             size: '4',
             origY: 180,
@@ -3655,7 +3655,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'left',
             size: '3',
             origY: 180,
@@ -3666,7 +3666,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -3677,7 +3677,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -3688,7 +3688,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                     
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -3699,7 +3699,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                               
         },{
             location: '10',
-            fontName: 'Maryland',
+            fontName: 'MARYLAND',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -3709,7 +3709,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,         
         },
-        /// End Maryland
+        /// End MARYLAND
 
  // Start Pistons
        {   
@@ -3850,7 +3850,7 @@ ub.funcs.fontOffSets = [
         /// Start Skyline
         {   
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'left',
             size: '4',
             origY: 74,            
@@ -3861,7 +3861,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'left',
             size: '3',
             origY: 74,            
@@ -3872,7 +3872,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -3883,7 +3883,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -3894,7 +3894,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -3905,7 +3905,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -3916,7 +3916,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'left',
             size: '4',
             origY: 180,
@@ -3927,7 +3927,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'left',
             size: '3',
             origY: 180,
@@ -3938,7 +3938,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -3949,7 +3949,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -3960,7 +3960,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                     
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -3971,7 +3971,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                       
         },{
             location: '10',
-            fontName: 'Skyline',
+            fontName: 'Sky Line',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -3981,7 +3981,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,           
         },
-        /// End Skyline
+        /// End Sky Line
 
         /// Start Spartans
         {   
@@ -4391,10 +4391,10 @@ ub.funcs.fontOffSets = [
         },
         /// End Upright      
 
-        /// Start Yardline
+        /// Start Yard Line
         {   
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'left',
             size: '4',
             origY: 74,            
@@ -4405,7 +4405,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'left',
             size: '3',
             origY: 74,            
@@ -4416,7 +4416,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -4427,7 +4427,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -4438,7 +4438,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -4449,7 +4449,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -4460,7 +4460,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'left',
             size: '4',
             origY: 180,
@@ -4471,7 +4471,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'left',
             size: '3',
             origY: 180,
@@ -4482,7 +4482,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -4493,7 +4493,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -4504,7 +4504,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                     
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -4515,7 +4515,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                                                         
         },{
             location: '10',
-            fontName: 'Yardline',
+            fontName: 'Yard Line',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -4525,7 +4525,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,
         },
-        /// End Yardline                    
+        /// End Yard Line                    
 
     ];
 
