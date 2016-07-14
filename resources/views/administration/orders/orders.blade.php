@@ -20,9 +20,6 @@
                             <th>Order</th>
                             <th>Client</th>
                             <th>Items</th>
-                            <!-- <th>Uniform Type</th> -->
-                            <!-- <th>Upper Uniform</th>
-                            <th>Lower Uniform</th> -->
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
