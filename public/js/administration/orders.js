@@ -56,7 +56,28 @@ $(document).ready(function(){
         });
     });
 
-    $('.view-oder-details').on('click', function(){
+
+    $('.view-roster-details').on('click', function(){
+        // console.log('Roster details');
+        var item = $(this).data('item');
+        var roster = $(this).data('roster');
+        var rows = '<tr>'
+        // console.log(roster);
+        $.each(roster, function(i, item){
+            rows += '<td>'+item.Size+'</td>';
+            rows += '<td>'+item.Number+'</td>';
+            rows += '<td>'+item.Name+'</td>';
+            rows += '<td>'+item.Quantity+'</td>';
+            rows += '</tr>';
+        });
+        $('#view-roster-modal .modal-title').text(item);
+        $('#roster-rows').html('');
+        $('#roster-rows').append(rows);
+        $('#view-roster-modal').modal('show');
+    });
+
+
+    $('.view-order-details').on('click', function(){
         var orderId = $(this).data('order-id');
         var client = $(this).data('client');
 

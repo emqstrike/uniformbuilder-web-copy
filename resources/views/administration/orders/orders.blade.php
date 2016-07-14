@@ -57,7 +57,8 @@
                             </td>
                             <td>
                                 @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a></br>
+                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a>
+                                <a href="#" class="btn btn-primary btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a></br>
                                 @endforeach
                             </td>
                             <!-- <td>
@@ -77,7 +78,7 @@
                                 </select>
                             </td>
                             <td>
-                                <button class='btn btn-default btn-xs btn-primary view-oder-details'
+                                <button class='btn btn-default btn-xs btn-success view-order-details'
                                     style="color: #fff;"
                                     data-order-id="{{ $order->id }}"
                                     data-client="{{ $order->client }}"
@@ -170,6 +171,8 @@
 </section>
 
 @include('administration.orders.order-view-modal')
+
+@include('administration.orders.roster-view-modal')
 
 @include('administration.orders.order-view-json-modal')
 
