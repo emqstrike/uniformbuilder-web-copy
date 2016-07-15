@@ -129,7 +129,7 @@
             </div>
             <hr>
             <div class="modal-footer">
-                <a href="#" class="btn btn-success update-applications-json">Update Changes</a>
+                <a href="#" class="btn btn-success update-applications-json" style="display:none">Update Changes</a>
                 <input type="submit" class="btn btn-primary save-applications-button" value="Save">
                 <input type="submit" class="btn btn-primary save-applications" value="Save" style="display:none">
                 <!-- <a href="#" class="btn btn-primary update-applications-json">Save Changes</a> -->
