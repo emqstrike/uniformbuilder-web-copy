@@ -453,8 +453,9 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'guide') { continue; }
             if ($part['code'] === 'status') { continue; }
             if ($part['code'] === 'static') { continue; }
-            if ($part['code'] === 'infused_locker_tag') { continue; }
             if ($part['code'] === 'locker_tag') { continue; }
+            if ($part['code'] === 'elastic_belt') { continue; }
+            if ($part['code'] === 'body_inside') { continue; }
 
             $code = $this->toTitleCase($part['code']);
 
