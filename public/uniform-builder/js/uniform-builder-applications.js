@@ -6685,6 +6685,41 @@
 
     }
 
+    ub.funcs.printFontData = function (location, perspective) {
+
+        var _orig = ub.funcs.getApplicationSettingsByView(location, perspective).application.center;
+
+        var _origX = _orig.x;
+        var _origY = _orig.y;
+
+        console.log("{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '4',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("},{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '3',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("}");
+
+        return 'ok';
+
+    }
+
     ub.funcs.removeCrossHair = function () {
 
         ub[ub.active_view + '_view'].removeChild(ub.ch)
