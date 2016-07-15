@@ -3312,6 +3312,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
         applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+        applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
+        applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
         applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
