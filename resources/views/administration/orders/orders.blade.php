@@ -126,6 +126,7 @@
                                 {{ $order->factory_order_id }}
                             </td>
                             <td>
+                                <a href="#" class="btn btn-primary btn-xs">Edit Info</a>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
