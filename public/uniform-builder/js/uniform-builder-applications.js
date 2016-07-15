@@ -2054,6 +2054,14 @@
                     point.position.x -= _xOffset;
                     point.position.y -= _yOffset;
 
+                    if (app_id === "33" && view.perspective === "front")
+                    {
+
+                        point.rotation = ub.objects.front_view.objects_32.rotation * -1;
+                        point.position.y = ub.objects.front_view.objects_32.position.y;
+
+                    }
+
                 }
 
                 /// Rotation Overrides 
