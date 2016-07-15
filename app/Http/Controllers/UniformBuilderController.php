@@ -449,7 +449,9 @@ class UniformBuilderController extends Controller
 
             if (!is_array($part)) { continue; }
             if ($part['code'] === 'highlights') { continue; }
+            if ($part['code'] === 'highlight') { continue; }
             if ($part['code'] === 'shadows') { continue; }
+            if ($part['code'] === 'shadow') { continue; }
             if ($part['code'] === 'guide') { continue; }
             if ($part['code'] === 'status') { continue; }
             if ($part['code'] === 'static') { continue; }
