@@ -1736,8 +1736,6 @@
 
             }
 
-            console.log(_offsetObject);
-
             return _returnObject;
 
         }
@@ -1975,15 +1973,6 @@
                         point.scale.y = _fontOffsets.scaleY;
                     }
 
-                    console.log('');
-                    console.log('ID: ' + app_id + ' / ' + view.perspective);
-                    console.log('Font Name: ' + args.font_name);
-                    console.log('Font Size: ' + args.fontSize);
-                    console.log('Position: ');
-                    console.log(point.position);
-                    console.log('Scale: ');
-                    console.log(point.scale);
-
                 }
 
                 /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
@@ -2064,15 +2053,6 @@
 
                     point.position.x -= _xOffset;
                     point.position.y -= _yOffset;
-
-                    console.log('');
-                    console.log('ID: ' + app_id + ' / ' + view.perspective);
-                    console.log('Font Name: ' + args.font_name);
-                    console.log('Font Size: ' + args.fontSize);
-                    console.log('Position: ');
-                    console.log(point.position);
-                    console.log('Scale: ');
-                    console.log(point.scale);
 
                 }
 

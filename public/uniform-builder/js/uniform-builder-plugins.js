@@ -1187,10 +1187,6 @@
 
         ub.funcs.removeUIHandles();
 
-        console.log('Input Object: ');
-        console.log(input_object);
-        console.log(input_object.text_input);
-
         if (typeof input_object.fontSize === "undefined") {
 
             if (input_object.application.id !== '2' || input_object.application.id !== '5') {
