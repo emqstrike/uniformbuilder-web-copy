@@ -578,6 +578,7 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+                zip: _billingZip,
 
             },
             shipping: {
@@ -590,6 +591,7 @@ $(document).ready(function() {
                 state: _shippingState,
                 phone: _shippingPhone,
                 fax: _shippingFax,
+                zip: _shippingZip,
 
             },
             order_items: [
@@ -738,6 +740,7 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+                zip: _billingZip,
 
             },
             shipping: {
@@ -750,6 +753,7 @@ $(document).ready(function() {
                 state: _shippingState,
                 phone: _shippingPhone,
                 fax: _shippingFax,
+                zip: _shippingZip,
 
             },
             order_items: [

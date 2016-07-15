@@ -644,6 +644,15 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
         $table .=     '<br /><br /><strong>SHIPPING</strong><br />';
         $table .=   '</td>';
         $table .=   '<td>';
@@ -721,6 +730,16 @@ class UniformBuilderController extends Controller
         $table .=     $itemData['shipping']['state'];
         $table .=   '</td>';
         $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
 
         $table .= '</table>';
         $total  = 0;
