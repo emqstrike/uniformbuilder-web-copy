@@ -340,8 +340,6 @@ console.log('send to edit');
                 contentType: 'application/json',
                 success: function(data){
                     questions = data;
-                    // questions = data;
-                    // console.log( data );
                     if(typeof callback === "function") callback(questions);
                 }
             });
