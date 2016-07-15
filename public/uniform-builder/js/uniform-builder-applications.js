@@ -2054,11 +2054,57 @@
                     point.position.x -= _xOffset;
                     point.position.y -= _yOffset;
 
+                    /// Calculated Mirror and Override
+
                     if (app_id === "33" && view.perspective === "front")
                     {
 
-                        point.rotation = ub.objects.front_view.objects_32.rotation * -1;
-                        point.position.y = ub.objects.front_view.objects_32.position.y;
+                        if (typeof ub.objects.front_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "33" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "front")
+                    {
+
+                        if (typeof ub.objects.front_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
+
+                        }
 
                     }
 
