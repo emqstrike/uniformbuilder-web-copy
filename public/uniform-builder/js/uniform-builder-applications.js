@@ -2658,7 +2658,7 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
                 
                 //if(_sizeOfTeamColors < _sizeOfColorsUsed){
                 if(_sizeOfTeamColors < 2){
@@ -2666,7 +2666,7 @@
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 7){
+                if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     return;     
                 }

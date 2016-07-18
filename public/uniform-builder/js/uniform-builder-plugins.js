@@ -117,9 +117,9 @@
 
                 if (colorStatus === 'unselected') {
 
-                    if (ub.current_material.settings.team_colors.length + 1 > 7) {
+                    if (ub.current_material.settings.team_colors.length + 1 > 8) {
 
-                        ub.startModal('Maximum # of Team Colors is 7');
+                        ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
                     }
@@ -1276,8 +1276,11 @@
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = _strokeOuter + 14;
 
+                if(input_object.fontSize > 5) {
+                    style.strokeThickness = _strokeOuter + 14;
+                }
+                
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {
