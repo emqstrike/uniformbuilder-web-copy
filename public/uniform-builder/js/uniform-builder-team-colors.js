@@ -472,6 +472,15 @@ $(document).ready(function () {
 
                 document.getElementById(_id).setAttribute("d", describeArc(275, 215, 150, _start, _end));
 
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).css('cursor','pointer');
+
                 $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
 
                     $("path.arc-" + modLabel.fullname).attr("class", "growStroke arc-" + modLabel.fullname);
@@ -622,8 +631,10 @@ $(document).ready(function () {
         ub.funcs.showTeamColorPicker();
 
         if (!ub.data.initialized) {
+
             ub.funcs.restoreTeamColorSelections();
             ub.data.initialized = true;
+            
         }
         else {
 

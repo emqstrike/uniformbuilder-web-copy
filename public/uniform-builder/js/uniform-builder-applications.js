@@ -2373,6 +2373,7 @@
         });
 
     };
+
     ub.funcs.create_plugins = function (match, mode, matchingSide) {
 
         $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
@@ -2671,6 +2672,11 @@
                     return;     
                 }
                 
+            }
+
+            /// Check if CW if empty, draw Pickers if it is
+            if ($('div#cw').html().length === 0) {
+                ub.funcs.drawColorPickers();
             }
 
             var current_coodinates = mousedata.data.global;
