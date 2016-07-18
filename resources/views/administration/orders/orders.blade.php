@@ -88,9 +88,16 @@
                                     data-uniform-type="{{ $order->uniform_type }}"
                                     data-director-organization="{{ $order->director_organization }}"
                                     data-director-contact-person="{{ $order->director_contact_person }}"
+                                    data-bill-id="{{ $order->bill_id }}"
                                     data-bill-organization="{{ $order->bill_organization }}"
                                     data-bill-contact-person="{{ $order->bill_contact_person }}"
                                     data-bill-email="{{ $order->bill_email }}"
+                                    data-bill-address="{{ $order->bill_address }}"
+                                    data-bill-city="{{ $order->bill_city }}"
+                                    data-bill-state="{{ $order->bill_state }}"
+                                    data-bill-zip="{{ $order->bill_zip }}"
+                                    data-bill-phone="{{ $order->bill_phone }}"
+                                    data-bill-fax="{{ $order->bill_fax }}"
                                     data-ship-organization="{{ $order->ship_organization }}"
                                     data-ship-contact-person="{{ $order->ship_contact_person }}"
                                     data-status="{{ $order->status }}"
@@ -100,7 +107,7 @@
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
                                     View Order Details
                                 </button>
-
+                                {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"
                                    data-order-id="{{ $order->id }}"
@@ -110,7 +117,7 @@
                                    data-ship-address="{{ $order->ship_address }}"
                                    data-ship-city="{{ $order->ship_city }}"
                                    data-ship-state="{{ $order->ship_state }}"
-                                   data-ship-zip="{{ $order->ship_address }}"
+                                   data-ship-zip="{{ $order->ship_zip }}"
                                    data-ship-phone="{{ $order->ship_phone }}"
                                    data-bill-contact="{{ $order->bill_contact }}"
                                    data-bill-city="{{ $order->bill_city }}"
@@ -120,7 +127,7 @@
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
                                    >Send to Edit</a>
-
+                                {{-- @endif --}}
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}

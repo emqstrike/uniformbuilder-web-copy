@@ -90,9 +90,19 @@ $(document).ready(function(){
         $('#view-order-modal .order-director-organization strong').html($(this).data('director-organization'));
         $('#view-order-modal .order-director-contact-person strong').html($(this).data('director-contact-person'));
         // Billing Information
-        $('#view-order-modal .order-bill-organization strong').html($(this).data('bill-organization'));
-        $('#view-order-modal .order-bill-contact-person strong').html($(this).data('bill-contact-person'));
-        $('#view-order-modal .order-bill-email strong').html($(this).data('bill-email'));
+        // $('#view-order-modal .order-bill-organization strong').html($(this).data('bill-organization'));
+        // console.log($(this).data('bill-id'));
+        var bill_id = $(this).data('bill-id');
+
+        $('#view-order-modal .order-bill-organization').val( $(this).data('bill-organization') );
+        $('#view-order-modal .order-bill-contact-person').val( $(this).data('bill-contact-person') );
+        $('#view-order-modal .order-bill-email').val( $(this).data('bill-email') );
+        $('#view-order-modal .order-bill-address').val( $(this).data('bill-address') );
+        $('#view-order-modal .order-bill-city').val( $(this).data('bill-city') );
+        $('#view-order-modal .order-bill-state').val( $(this).data('bill-state') );
+        $('#view-order-modal .order-bill-zip').val( $(this).data('bill-zip') );
+        $('#view-order-modal .order-bill-phone').val( $(this).data('bill-phone') );
+        $('#view-order-modal .order-bill-fax').val( $(this).data('bill-fax') );
         // Shipping Information
         $('#view-order-modal .order-ship-organization strong').html($(this).data('ship-organization'));
         $('#view-order-modal .order-ship-contact-person strong').html($(this).data('ship-contact-person'));
@@ -127,6 +137,50 @@ $(document).ready(function(){
                     $('#view-order-modal').modal('show');
                 }
             }
+        });
+
+        $('.update-order-info').on('click', function(){
+            console.log('update');
+
+            var bill_organization = $('.order-bill-organization').val();
+            var bill_contact_person = $('.order-bill-contact-person').val();
+            var bill_email = $('.order-bill-email').val();
+            var bill_address = $('.order-bill-address').val();
+            var bill_city = $('.order-bill-city').val();
+            var bill_state = $('.order-bill-state').val();
+            var bill_zip = $('.order-bill-zip').val();
+            var bill_phone = $('.order-bill-phone').val();
+            var bill_fax = $('.order-bill-fax').val();
+
+            var data = {
+                        id: bill_id,
+                        organization: bill_organization,
+                        contact: bill_contact_person,
+                        email: bill_email,
+                        address: bill_address,
+                        city: bill_email,
+                        state: bill_state,
+                        zip: bill_zip,
+                        phone: bill_phone,
+                        fax: bill_fax
+                    };
+            console.log(data);
+            $.ajax({
+                // url: '//' + api_host + '/api/order/updateFOID',
+                url: '//localhost:8888/api/billing_info/update',
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        console.log("Success! Billing Info is updated.");
+                        document.location.reload();
+                    }
+                }
+            });
         });
     });
 
@@ -315,14 +369,15 @@ console.log('send to edit');
     }
 
     window.order_parts.forEach(function(entry) {
-        console.log(entry);
+        // console.log(entry);
+        bcx = JSON.parse(entry.builder_customizations);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
-            "DesignSheet" : entry.design_sheet
+            "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
         };
-
+        console.log(entry.orderPart)
         var entryQuestions = null;
         getQuestions(function(questions){ entryQuestions = questions; });
 
@@ -351,9 +406,10 @@ console.log('send to edit');
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
         var color = color_name + " " + "(" + color_code + ")";
+        // console.log(bc);
         // console.log('Color: ' + color);
         // console.log('Questions: ' + JSON.stringify(entryQuestions));
-
+        // entry.designSheet = entry.builder_customizations.pdfOrderForm;
         entry.orderQuestions = {};
         entry.orderItems = JSON.parse(entry.roster);
 
@@ -452,29 +508,29 @@ console.log('send to edit');
 
     // console.log(orderEntire['orderParts']);
 
-    // $.ajax({
-    //     url: url,
-    //     type: "POST",
-    //     data: JSON.stringify(orderEntire),
-    //     contentType: 'application/json;',
-    //     success: function (data) {
-    //         alert('worked');
-    //         console.log('return data: ' + JSON.stringify(data));
-    //         var factory_order_id = data[0].OrderID;
-    //         var parts = [];
-    //         $.each(data, function( index, value ) {
-    //             orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-    //             console.log(JSON.stringify(orderEntire));
-    //             parts.push(orderEntire['orderParts'][index]['orderPart']);
-    //         });
-    //         console.log(JSON.stringify(parts));
-    //         updateFOID(order_id, factory_order_id, parts);
-    //         // console.log(data[0].OrderID);
-    //     },
-    //     error: function (xhr, ajaxOptions, thrownError) {
-    //         //Error Code Here
-    //     }
-    // });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(orderEntire),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert('worked');
+            console.log('return data: ' + JSON.stringify(data));
+            var factory_order_id = data[0].OrderID;
+            var parts = [];
+            $.each(data, function( index, value ) {
+                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                console.log(JSON.stringify(orderEntire));
+                parts.push(orderEntire['orderParts'][index]['orderPart']);
+            });
+            console.log(JSON.stringify(parts));
+            updateFOID(order_id, factory_order_id, parts);
+            // console.log(data[0].OrderID);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error Code Here
+        }
+    });
 
 });
 
