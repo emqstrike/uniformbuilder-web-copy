@@ -427,8 +427,6 @@
 
         @{{/picker_items}}
 
-     
-
     </script>
 
 <!-- End Sports Pickers -->
