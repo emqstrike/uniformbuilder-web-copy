@@ -176,6 +176,36 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>Shipping Address</td>
+                                    <td class='order-ship-address'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping City</td>
+                                    <td class='order-ship-city'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping State</td>
+                                    <td class='order-ship-state'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Zip</td>
+                                    <td class='order-ship-zip'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Phone</td>
+                                    <td class='order-ship-phone'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="tab-pane" id='tab-team-roster'>
