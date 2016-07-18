@@ -1,3 +1,4 @@
+
 <!-- Start Mascot UI's -->
 
     <!-- Mascot Dropdown -->
@@ -417,6 +418,9 @@
             
             <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
                 <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png{{$asset_version}}">
 
                 <span class="main-picker-item-caption">

@@ -26,7 +26,6 @@ Route::get('changePassword', ['middleware' => 'adminAccess', 'uses' => 'Authenti
 Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'AuthenticationController@saveChangedPassword']);
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
-
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
@@ -35,7 +34,6 @@ Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@load
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
-
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
 // Save Logo 
@@ -43,8 +41,7 @@ Route::post('saveLogo', 'UniformBuilderController@saveLogo');
 
 // help Routes
 Route::group(array('prefix' => 'help'), function() {
-
-    Route::get('getting_started', 'Help\HelpController@getting_started');
+Route::get('getting_started', 'Help\HelpController@getting_started');
 
 });
 
@@ -64,16 +61,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
      // Accents
     Route::get('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@create']);
-
     Route::post('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
-
     Route::get('accents', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@index']);
-
     Route::get('accent/edit/{id}', 'Administration\AccentsController@editAccentForm');
-    
     Route::post('accent/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
-  
-
 
     // Users
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index']);
@@ -81,10 +72,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('user/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::get('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@addUserForm']);
     Route::get('user/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@editUserForm']);
-
     Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@accountSettings']);
     Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
-
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
 
@@ -122,32 +111,16 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addMascotForm']);
     Route::get('mascot/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@editMascotForm']);
-
     Route::get('mascots_categories', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@index']);
-
     Route::get('mascots_groups_categories', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@index']);
-
     Route::get('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@addMascotsGroupsCategoryForm']);
-    
     Route::get('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@addMascotsCategoryForm']);
-
-
     Route::post('mascots_categories/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
-
     Route::post('mascots_groups_categories/update', 'Administration\MascotsGroupsCategoriesController@store');
-
     Route::post('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@store']);
-
-
     Route::post('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
-
-
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
-
     Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
-
-
-
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
@@ -249,9 +222,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('splash_images', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@index']);
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
     Route::get('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@create']);
-    
     Route::get('splash_image/edit/{id}', 'Administration\SplashImagesController@editSplashImageForm');
-
     Route::post('splash_image/update', 'Administration\SplashImagesController@store');
   
     
@@ -261,7 +232,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
     Route::get('order/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@editForm']);
-
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
 
