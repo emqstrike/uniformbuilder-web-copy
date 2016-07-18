@@ -2660,7 +2660,8 @@
      
             if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
                 
-                if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                if(_sizeOfTeamColors < 2){
                     ub.startModal(1);
                     return;     
                 }
