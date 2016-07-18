@@ -1736,8 +1736,6 @@
 
             }
 
-            console.log(_offsetObject);
-
             return _returnObject;
 
         }
@@ -1975,15 +1973,6 @@
                         point.scale.y = _fontOffsets.scaleY;
                     }
 
-                    console.log('');
-                    console.log('ID: ' + app_id + ' / ' + view.perspective);
-                    console.log('Font Name: ' + args.font_name);
-                    console.log('Font Size: ' + args.fontSize);
-                    console.log('Position: ');
-                    console.log(point.position);
-                    console.log('Scale: ');
-                    console.log(point.scale);
-
                 }
 
                 /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
@@ -2038,9 +2027,21 @@
 
                     point.position.y += _fontOffsets.offsetY;
 
-                    if ((view.perspective === "front" || view.perspective === "back") && (_proxyId === 32)) {
-                        point.position.y += 12;    
-                    }
+                    // if ((view.perspective === "front") && (_proxyId === 32)) {
+                    //     point.position.y += 12;    
+                    // }
+
+                    // if ((view.perspective === "back") && (_proxyId === 32)) {
+                    //     point.position.y -= 4;    
+                    // }
+
+                    // if ((view.perspective === "front") && (_proxyId === 10)) {
+                    //     point.position.x += 12;    
+                    // }
+
+                    // if ((view.perspective === "back") && (_proxyId === 10)) {
+                    //     point.position.x += 12;    
+                    // }
                     
                     if (_fontOffsets.scaleX !== 1) {
                         point.scale.x = _fontOffsets.scaleX;    
@@ -2053,14 +2054,59 @@
                     point.position.x -= _xOffset;
                     point.position.y -= _yOffset;
 
-                    console.log('');
-                    console.log('ID: ' + app_id + ' / ' + view.perspective);
-                    console.log('Font Name: ' + args.font_name);
-                    console.log('Font Size: ' + args.fontSize);
-                    console.log('Position: ');
-                    console.log(point.position);
-                    console.log('Scale: ');
-                    console.log(point.scale);
+                    /// Calculated Mirror and Override
+
+                    if (app_id === "33" && view.perspective === "front")
+                    {
+
+                        if (typeof ub.objects.front_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "33" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "front")
+                    {
+
+                        if (typeof ub.objects.front_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
+
+                        }
+
+                    }
 
                 }
 
@@ -2327,6 +2373,7 @@
         });
 
     };
+
     ub.funcs.create_plugins = function (match, mode, matchingSide) {
 
         $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
@@ -2612,18 +2659,24 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
                 
-                if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                if(_sizeOfTeamColors < 2){
                     ub.startModal(1);
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 7){
+                if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     return;     
                 }
                 
+            }
+
+            /// Check if CW if empty, draw Pickers if it is
+            if ($('div#cw').html().length === 0) {
+                ub.funcs.drawColorPickers();
             }
 
             var current_coodinates = mousedata.data.global;
@@ -4631,7 +4684,6 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
-        console.log('Activating Mascots..: ');
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         if (_appInfo.application_type !== "mascot") {
@@ -6691,6 +6743,41 @@
         ub.objects[ub.active_view + "_view"]['ch'] = _sprite;
 
         ub.updateLayersOrder(ub[ub.active_view + "_view"]);
+
+    }
+
+    ub.funcs.printFontData = function (location, perspective) {
+
+        var _orig = ub.funcs.getApplicationSettingsByView(location, perspective).application.center;
+
+        var _origX = _orig.x;
+        var _origY = _orig.y;
+
+        console.log("{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '4',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("},{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '3',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("}");
+
+        return 'ok';
 
     }
 

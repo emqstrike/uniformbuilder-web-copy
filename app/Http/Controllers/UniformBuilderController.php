@@ -380,7 +380,6 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>SLEEVE TYPE</strong>';
         $html .=   '</td>';
 
-
         $html .= '</tr>';
 
         foreach ($rosters as &$roster) {
@@ -450,12 +449,15 @@ class UniformBuilderController extends Controller
 
             if (!is_array($part)) { continue; }
             if ($part['code'] === 'highlights') { continue; }
+            if ($part['code'] === 'highlight') { continue; }
             if ($part['code'] === 'shadows') { continue; }
+            if ($part['code'] === 'shadow') { continue; }
             if ($part['code'] === 'guide') { continue; }
             if ($part['code'] === 'status') { continue; }
             if ($part['code'] === 'static') { continue; }
-            if ($part['code'] === 'infused_locker_tag') { continue; }
             if ($part['code'] === 'locker_tag') { continue; }
+            if ($part['code'] === 'elastic_belt') { continue; }
+            if ($part['code'] === 'body_inside') { continue; }
 
             $code = $this->toTitleCase($part['code']);
 
@@ -645,6 +647,15 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
         $table .=     '<br /><br /><strong>SHIPPING</strong><br />';
         $table .=   '</td>';
         $table .=   '<td>';
@@ -723,6 +734,16 @@ class UniformBuilderController extends Controller
         $table .=   '</td>';
         $table .= '</tr>';
 
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+
         $table .= '</table>';
         $total  = 0;
         
@@ -739,7 +760,7 @@ class UniformBuilderController extends Controller
         $html .= "UNIFORM NAME: <strong>" . $itemData['description'] . "</strong><br />";
         $html .= "SKU: <strong>" .  $itemData['sku'] . "</strong><br />";
         $html .= "BUILDER URL: <strong>" . $itemData['url'] . "</strong><br />";
-        $html .= "PDF URL: <strong>http://" . $_SERVER['SERVER_NAME'] . $fname . "</strong><br />";
+        $html .= "PDF URL: <strong>http://" . env('WEBSITE_URL') . $fname . "</strong><br />";
         $html .= "</td>";
         $html .= "</tr>";
         $html .= "</table>";

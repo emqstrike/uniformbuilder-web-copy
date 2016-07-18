@@ -578,6 +578,7 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+                zip: _billingZip,
 
             },
             shipping: {
@@ -590,6 +591,7 @@ $(document).ready(function() {
                 state: _shippingState,
                 phone: _shippingPhone,
                 fax: _shippingFax,
+                zip: _shippingZip,
 
             },
             order_items: [
@@ -633,7 +635,12 @@ $(document).ready(function() {
 
         $('span.submit-confirmed-order').on('click', function () {
 
+            if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
+                return;
+            }
+
             ub.funcs.submitOrderForm();
+            $('span.submit-confirmed-order').html('Submitting Order...');
 
         });
 
@@ -733,6 +740,7 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+                zip: _billingZip,
 
             },
             shipping: {
@@ -745,6 +753,7 @@ $(document).ready(function() {
                 state: _shippingState,
                 phone: _shippingPhone,
                 fax: _shippingFax,
+                zip: _shippingZip,
 
             },
             order_items: [

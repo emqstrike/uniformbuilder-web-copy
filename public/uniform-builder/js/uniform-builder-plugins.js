@@ -105,7 +105,6 @@
             el_parent.append(popup_picker);
 
             var colors_btn = util.dataSelector('.btn', { 'elid': btn_el_id });
-            
 
             colors_btn.on('click', function () {
 
@@ -118,16 +117,15 @@
 
                 if (colorStatus === 'unselected') {
 
-                    if (ub.current_material.settings.team_colors.length + 1 > 7) {
+                    if (ub.current_material.settings.team_colors.length + 1 > 8) {
 
-                        ub.startModal('Maximum # of Team Colors is 7');
+                        ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
                     }
 
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
-                    //ub.current_material.settings.team_colors.length
                     $(this).first().html(ub.current_material.settings.team_colors.length + 1);
 
                     if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
@@ -159,35 +157,6 @@
 
                 return;
                 
-                $('input#primary_text').val(color);
-                el_parent.find('span').css('background-color', color);
-                el_parent.find('span').html($(this).html());
-                el_parent.find('span').css('font-size', '10px');
-                el_parent.find('span').css('padding-top', '2px');
-                el_parent.find('span').css('color', '#eeeeee');
-
-                if($(this).html() === 'W'){
-                    el_parent.find('span').css('background-color', "#ffffff");
-                    el_parent.find('span').css('color', '#eeeeee');
-                }
-
-                if($(this).html() === 'CR'){
-                    el_parent.find('span').css('color', '#000000');
-                }
-
-                if (settings.type === 'single') {
-
-                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
-                    
-                }
-
-                if (settings.type === 'withMatch') {
-
-                    $('button.btn.change-color[data-target="' + settings.target + '"][data-color="' + color +'"]').click();
-                    $('button.btn.change-color[data-target="' + settings.matchingSide + '"][data-color="' + color +'"]').click();
-
-                }
-
             });
 
             var preamble = 'div.options_panel_section.ubColorPicker';
@@ -1187,10 +1156,6 @@
 
         ub.funcs.removeUIHandles();
 
-        console.log('Input Object: ');
-        console.log(input_object);
-        console.log(input_object.text_input);
-
         if (typeof input_object.fontSize === "undefined") {
 
             if (input_object.application.id !== '2' || input_object.application.id !== '5') {
@@ -1311,8 +1276,11 @@
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-                style.strokeThickness = _strokeOuter + 14;
 
+                if(input_object.fontSize > 5) {
+                    style.strokeThickness = _strokeOuter + 14;
+                }
+                
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {

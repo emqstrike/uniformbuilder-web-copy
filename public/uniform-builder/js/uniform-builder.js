@@ -4383,6 +4383,14 @@ $(document).ready(function () {
 
             });
 
+            $( ".cSoon" ).each(function() {
+                var cText = $(this).text();
+                if(!cText){
+                    $(this).hide();
+                }
+            });
+
+
         }
 
         if(type === 'uniforms') {
