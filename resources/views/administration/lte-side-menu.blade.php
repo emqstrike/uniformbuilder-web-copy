@@ -77,6 +77,11 @@
           <i class="fa fa-paint-brush"></i> <span>Colors</span>
         </a>
       </li>
+      <li  data-step="13" data-intro="For Colors settings.">
+        <a href="/administration/colors_sets">
+          <i class="fa fa-paint-brush"></i> <span>Colors Sets</span>
+        </a>
+      </li>
       <li  data-step="14" data-intro="For Patterns settings.">
         <a href="/administration/patterns">
           <i class="fa fa-table"></i> <span>Patterns</span>

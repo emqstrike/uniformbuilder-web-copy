@@ -245,30 +245,689 @@ class UniformBuilderController extends Controller
                 .substr($charid,16, 4).$hyphen
                 .substr($charid,20,12); 
             return $uuid;
+
         }
 
     }
 
+    function toTitleCase ($str) {
+
+        $output = strtoupper(str_replace("_"," ",$str));
+        return $output;
+
+    }
+
+    function generateApplicationsTable ($applications) {
+
+        $html = '';
+        $html .= '<br /><br />';
+        $html .= '<h3>APPLICATIONS</h3>';
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>LOCATION</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>APPLICATION TYPE</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>FONT or MASCOT Detail</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>SIZE</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>COLORS</strong>';
+        $html .=   '</td>';
+
+        $html .= '</tr>';
+
+        foreach ($applications as &$application) {
+
+            $appType = strtoupper(str_replace("_"," ",$application['application_type']));
+
+            if ($appType == "FREE") { continue; }
+
+            $html .= '<tr>';
+            $html .=   '<td align="center">';
+            $html .=   $application['code'];
+            $html .=   '</td>';
+
+            $html .=   '<td align="center">';
+            $html .=   $appType;
+            $html .=   '</td>';
+
+            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+
+                $html .=   '<td align="center">';
+                $html .=   'Accent: ' . $application['accent_obj']['name'] . "<br />";
+                $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
+                $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
+                $html .=   '</td>';
+           
+            } else if ($appType == "MASCOT" ) {
+                $html .=   '<td align="center">';
+                $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
+                $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
+                $html .=   '</td>';                
+            } else {
+                $html .=   '<td align="center">';
+                $html .=   '<strong></strong>';
+                $html .=   '</td>';                
+            }
+
+            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+                $html .=   '<td align="center">';
+                $html .=   'Size: ' . $application['font_size'] . '" <br />';
+                $html .=   '</td>';
+            } else if ($appType == "MASCOT" ) {
+                $html .=   '<td align="center">';
+                $html .=   '<strong></strong>';
+                $html .=   '</td>';                
+            } else {
+                $html .=   '<td align="center">';
+                $html .=   '<strong></strong>';
+                $html .=   '</td>';                
+            }
+
+            $html .=   '<td align="center">';
+                
+                $colors = '';
+                foreach ($application['color_array'] as &$color) {
+                    $colors .= $color['color_code'] . ",";
+                }
+
+                $colorsTrimmed = rtrim($colors, ",");
+
+            $html .= $colorsTrimmed;
+            $html .=   '</td>';
+
+            $html .= '</tr>';
+
+        }
+
+        $html .= '</table>';
+
+        return $html;
+
+    }
+
+    function generateRosterTable ($rosters) {
+
+        $html = '';
+        $html .= '<br /><br />';
+        $html .= '<h3>ROSTER</h3>';
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>SIZE</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>NUMBER</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>QUANTITY</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>LASTNAME</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>LASTNAME APPLICATION</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>SLEEVE TYPE</strong>';
+        $html .=   '</td>';
+
+        $html .= '</tr>';
+
+        foreach ($rosters as &$roster) {
+
+            $html .= '<tr>';
+            $html .=   '<td align="center">';
+            $html .=   $roster['size'];
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   $roster['number'];
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   $roster['quantity'];
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   strtoupper($roster['lastname']);
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   $roster['lastNameApplication'];
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   $roster['sleeveType'];
+            $html .=   '</td>';
+            $html .= '</tr>';
+
+        }
+
+        $html .= '</table>';
+
+        return $html;
+
+    }
+
+    function generateMaterialOptionsTable ($itemData) {
+
+        $orItem = $itemData;
+        $bc = $itemData['builder_customizations'];
+        $uniformType = $itemData['type'];
+        $parts = $bc[$uniformType];
+
+        $html = '';
+        $html .= '<br /><br />';
+        $html .= '<h3>PARTS</h3>';
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        $html .=   '<td align="right" width="40%">';
+        $html .=       '<strong>PARTS</strong>';
+        $html .=   '</td>';
+        $html .=   '<td width="20%" align="center">';
+        $html .=       '<strong>COLOR</strong>';
+        $html .=   '</td>';
+        $html .=   '<td width="40%" align="center">';
+        $html .=       '<strong>PATTERN</strong>';
+        $html .=   '</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .=   '<td>';
+        $html .=       '';
+        $html .=   '</td>';
+        $html .=   '<td>';
+        $html .=       ''; 
+        $html .=   '</td>';
+        $html .= '</tr>';
+
+        foreach ($parts as &$part) {
+
+            if (!is_array($part)) { continue; }
+            if ($part['code'] === 'highlights') { continue; }
+            if ($part['code'] === 'highlight') { continue; }
+            if ($part['code'] === 'shadows') { continue; }
+            if ($part['code'] === 'shadow') { continue; }
+            if ($part['code'] === 'guide') { continue; }
+            if ($part['code'] === 'status') { continue; }
+            if ($part['code'] === 'static') { continue; }
+            if ($part['code'] === 'locker_tag') { continue; }
+            if ($part['code'] === 'elastic_belt') { continue; }
+            if ($part['code'] === 'body_inside') { continue; }
+
+            $code = $this->toTitleCase($part['code']);
+
+            Log::info('---' . $code);
+            
+            $html .= '<tr>';
+            $html .=   '<td align="right">';
+            $html .=   $code;
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   $part['colorObj']['color_code'];
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+
+            Log::error('----------' . $code);
+
+            if (array_key_exists('pattern', $part)) {
+
+                if ($part['pattern']['pattern_id'] != '') {
+                    
+                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
+
+                        $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
+
+                        $colors = '';
+                        foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
+                            $colors .= $layer['color_code'] . ',';
+                        }
+                        
+                        $colorsTrimmed = rtrim($colors, ",");
+
+                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
+
+                    }
+
+                }
+
+            }
+
+            $html .=   '</td>';
+            $html .= '</tr>';
+
+        }
+
+        $html .= '</table>';
+
+        return $html;
+
+    }
+
+    function generateClientDetailsTable ($itemData) {
+
+        $table = '<strong>CLIENT INFO / ORGANIZATION</strong><br /><br />';
+        $table .= '<table cellpadding="2">';
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Client Name';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['order']['client'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Athletic Director ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Contact: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['athletic_director']['contact'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Email: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['athletic_director']['email'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Phone: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['athletic_director']['phone'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Fax: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['athletic_director']['fax'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     '<br /><br /><strong>BILLING</strong><br />';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Organization: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['organization'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Contact: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['contact'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Email: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['email'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Phone: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['phone'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Fax: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['fax'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Address: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['address'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'City: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['city'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'State: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['state'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['billing']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     '<br /><br /><strong>SHIPPING</strong><br />';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Organization: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['organization'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Contact: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['contact'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Email: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['email'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Phone: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['phone'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Fax: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['fax'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'Address: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['address'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'City: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['city'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'State: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['state'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'ZIP: ';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=     $itemData['shipping']['zip'];
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+
+        $table .= '</table>';
+        $total  = 0;
+        
+        return $table;
+
+    }
+
+    function generateItemTable ($itemData, $fname) {
+        
+        $html = '';
+        $html .= "<table>";
+        $html .= "<tr>";
+        $html .= "<td>";
+        $html .= "UNIFORM NAME: <strong>" . $itemData['description'] . "</strong><br />";
+        $html .= "SKU: <strong>" .  $itemData['sku'] . "</strong><br />";
+        $html .= "BUILDER URL: <strong>" . $itemData['url'] . "</strong><br />";
+        $html .= "PDF URL: <strong>http://" . env('WEBSITE_URL') . $fname . "</strong><br />";
+        $html .= "</td>";
+        $html .= "</tr>";
+        $html .= "</table>";
+        return $html;
+
+    }
+
+    function generateSizeBreakDownTable ($sizeBreakDown) {
+
+        $table = '<strong>SIZES BREAKDOWN</strong><br /><br />';
+
+        $table .= '<table>';
+        $total  = 0;
+
+        foreach ($sizeBreakDown as &$size) {
+
+            $table .= '<tr>';
+            $table .=   '<td>';
+            $table .=   $size['size'];
+            $table .=   '</td>';
+            $table .=   '<td>';
+            $table .=   $size['quantity'];
+            $table .=   '</td>';
+            $table .= '</tr>';
+
+            $total += intval($size['quantity']);
+
+        }
+
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=   '<strong>Total</strong>';
+        $table .=   '</td>';
+        $table .=   '<td>';
+        $table .=   '<strong>'. $total . '</strong>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '</table>';
+
+        return $table;
+    }
+
     function generatePDF ($builder_customizations) {
 
-       $pdf = new TCPDF(); 
+        $pdf = new TCPDF(); 
 
-       $filename = $this->getGUID(); 
-       $path = storage_path('app/design_sheets/' . $filename . '.pdf');
+        $filename = $this->getGUID(); 
+        $path = public_path('design_sheets/' . $filename . '.pdf');
 
-       $bc = $builder_customizations;
-       // dd($bc['builder_customizations']['roster']);
+        $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
 
-       // $body_color = $bc->upper->Body->color;
-       // $body_color_hex = dechex($body_color);
+        // dd($bc['builder_customizations']['roster']);
+        // $body_color = $bc->upper->Body->color;
+        // $body_color_hex = dechex($body_color);
 
-       $pdf->SetTitle('Order Form');
-       $pdf->AddPage("L");
-       $pdf->Write(0, $bc['builder_customizations']['roster'][0]['size']);
+        $frontViewImage = $bc['thumbnails']['front_view'];
+        $backViewImage = $bc['thumbnails']['back_view'];
+        $leftViewImage = $bc['thumbnails']['left_view'];
+        $rightViewImage = $bc['thumbnails']['right_view'];
+        $image = @file_get_contents($frontViewImage);
 
-       $pdf->Output($path, 'F');
+        // $outputFilenameFront = '';
+        // if ($image != '') {
+        //     $fname = 'front.png';
+        //     $outputFilenameFront = storage_path('/app/'.$fname);
+        //     file_put_contents($outputFilenameFront, $image);
+        // }
 
-       return $path;
+        $pdf->SetTitle('Order Form');
+        $pdf->AddPage("L");
+
+        $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
+        $mainInfo = $builder_customizations['builder_customizations'];
+
+        $html = '';
+        $style = '<style> body { font-size: 0.8em; } td { font-size: 0.8em; } </style>';
+        $html .= $style;
+        $html .= '<h3>Prolook Customizer - Order Form</h3>';
+        $html .= '<div>';
+        $html .=   '<table width="100%" style="height: 750px">';
+        $html .=   '<tr>';
+        $html .=   '<td width="50%" style="text-align=center;">';
+        $html .= $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf');
+        $html .= '<br /><br />';
+        $html .= $this->generateClientDetailsTable($mainInfo);
+        $html .= '<br /><br />';
+        $html .=   '</td>';
+        $html .=   '<td width="50%">';
+        
+        $html .= '<br /><br /><br /><br /><br /><br />';
+        $html .= $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
+        $html .= '<br /><br />';
+
+        $html .=   '</td>';
+        $html .=   '</tr>';
+        $html .= '</table>';
+        $html .= '<br /><br /><br /><br /><br /><br />';
+        $html .= '<table>';
+        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+        $html .= '<tr>';
+        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
+        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
+        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
+        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
+        $html .= '</tr>';
+        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+        $html .= '</table>';
+        $html .= '</div>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        //$pdf->Image($outputFilenameFront, 1, 12, 200);
+        //$pdf->Write(0, $bc['roster'][0]['size']);
+
+        $pdf->AddPage("L");
+
+        $bc = $builder_customizations['builder_customizations']['order_items'][0];
+
+        $html  = '';
+        $html .= $style;
+        $html .= '<table>';
+        $html .=    '<tr>';
+        $html .=        '<td width="70%">';
+        $html .=            $this->generateMaterialOptionsTable($bc);
+        $html .=        '</td>';
+        $html .=        '<td width= "30%">';
+        $html .=            '';
+        $html .=        '</td>';
+        $html .=    '</tr>';
+        $html .='</table>';
+        
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $roster = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['roster'];
+        $pdf->AddPage("L");
+        $html  = '';
+        $html .= $style;
+        $html .= '<table>';
+        $html .=    '<tr>';
+        $html .=        '<td width="100%">';
+        $html .=            $this->generateRosterTable($roster);
+        $html .=        '</td>';
+        $html .=    '</tr>';
+        $html .='</table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $applications = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['applications'];
+        $pdf->AddPage("L");
+        $html  = '';
+        $html .= $style;
+        $html .= '<table>';
+        $html .=    '<tr>';
+        $html .=        '<td width="100%">';
+        $html .=            $this->generateApplicationsTable($applications);
+        $html .=        '</td>';
+        $html .=    '</tr>';
+        $html .='</table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');      
+
+        $pdf->Output($path, 'F');
+
+        $transformedPath = '/design_sheets/' . $filename . '.pdf';
+
+        return $transformedPath;
 
     }
 

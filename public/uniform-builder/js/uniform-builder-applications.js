@@ -1586,9 +1586,157 @@
 
         };
 
+        ub.funcs.getApplicationSettingsByView = function (location, view) {
+
+            var _applicationObj = ub.funcs.getApplicationSettings(location);
+            var _view = _.find(_applicationObj.application.views, {perspective: view});
+
+            return _view;
+
+        }
+
+        ub.funcs.setProperties = function (location, perspective, scaleX, scaleY, positionX, positionY) {
+
+            if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
+
+                var _obj = ub.objects[perspective + '_view']['objects_' + location];
+
+                _obj.position.x = positionX;
+                _obj.position.y = positionY;
+                _obj.scale.x = scaleX;
+                _obj.scale.y = scaleY;
+
+                if (location === '32' || location === '10') {
+
+                    var _matchingObj = ub.objects[perspective + '_view']['objects_33'];
+
+                    _matchingObj.position.x = positionX;
+                    _matchingObj.position.y = positionY;
+
+                    var _appSettings = ub.funcs.getApplicationSettingsByView(location, perspective);
+
+                    if (typeof _appSettings !== 'undefined') {
+
+                        var _center                 = _appSettings.application.center;
+                        var _newX                   = parseFloat(positionX) - _appSettings.application.center.x;
+                        var _newY                   = parseFloat(positionY) - _appSettings.application.center.y;
+
+                        var _prID;
+                        var _prPerspective;
+
+                        if (location === "32") {
+                            _prID = '33';
+                        } else if (location === "9") {
+                            _prID = '10';
+                        }
+
+                        if (perspective === 'left') {
+                            _prPerspective = 'right'
+                        } else {
+                            _prPerspective = perspective;
+                        }
+
+                        var _matchingAppSettings    = ub.funcs.getApplicationSettingsByView(_prID, _prPerspective);
+                        var _matchingCenter         = _matchingAppSettings.application.center;
+
+                        _matchingObj.position.x     = _matchingCenter.x;
+                        _matchingObj.position.y     = _matchingCenter.y;
+
+                        if (_newX > 0) {
+
+                            _matchingObj.position.x += (_newX * -1);
+
+                        } else if (positionX < 0) {
+
+                            _matchingObj.position.x += (_newX * _newX);
+
+                        }
+
+                        _matchingObj.position.y     += _newY;
+
+
+                    }
+
+                    _matchingObj.scale.x = scaleX;
+                    _matchingObj.scale.y = scaleY;
+
+                }
+                
+                console.log('Primary Object #' + location);
+
+                console.log('Position: ');
+                console.log(_obj.position);
+                console.log('Scale: ');
+                console.log(_obj.scale);
+
+                console.log('Matching Object #' + _prID);
+                console.log('Position: ');
+                console.log(_matchingObj.position);
+                console.log('Scale: ');
+                console.log(_matchingObj.scale);
+
+            }
+
+        }
+
+        ub.funcs.getProperties = function (location, perspective) {
+
+            if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
+
+                var _obj = ub.objects[perspective + '_view']['objects_' + location];
+                
+                console.log('Position: ');
+                console.log(_obj.position);
+                console.log('Scale: ');
+                console.log(_obj.scale);
+
+            }
+
+        }
+
         ub.funcs.getSettingsObject = function (applicationID) {
 
             return ub.current_material.settings.applications[applicationID];
+
+        }
+
+        ub.funcs.getFontOffsets = function (fontName, fontSize, perspective, location) {
+
+            var _offsetObject = _.find(ub.funcs.fontOffSets, {fontName: fontName, size: fontSize.toString(), perspective: perspective, location: location.toString()});
+            var _returnObject = {
+
+                offsetX: 0, 
+                offsetY: 0,
+                scaleX: 1, 
+                scaleY: 1,
+
+            }
+
+            if (typeof _offsetObject === "undefined") {
+
+                _returnObject.offsetX   = 0;
+                _returnObject.offsetY   = 0;
+                _returnObject.scaleX    = 1;
+                _returnObject.scaleY    = 1;
+
+                console.error('Offsets for ' + fontName + ' not found, using defaults. please add values to ub.funcs.fontOffsets')
+                console.error('fontName: ' + fontName);
+                console.error('fontSize: ' + fontSize);
+                console.error('perspective: ' + perspective);
+                console.error('location: ' + location);
+                console.error('typeof location: ' + typeof location);
+
+            }
+            else {
+
+                _returnObject.offsetX = parseFloat(_offsetObject.adjustmentX) - parseFloat(_offsetObject.origX);
+                _returnObject.offsetY = parseFloat(_offsetObject.adjustmentY) - parseFloat(_offsetObject.origY);
+                _returnObject.scaleX = parseFloat(_offsetObject.scaleX);
+                _returnObject.scaleY = parseFloat(_offsetObject.scaleY);
+
+            }
+
+            return _returnObject;
 
         }
 
@@ -1670,8 +1818,6 @@
 
                     if (_fontSizeData.xScale !== "0" && _fontSizeData.xScale !== undefined) { _xScale = parseFloat(_fontSizeData.xScale); }
                     if (_fontSizeData.yScale !== "0" && _fontSizeData.yScale !== undefined) { _yScale = parseFloat(_fontSizeData.yScale); }
-
-
                     
                     point.scale.set(_xScale, _yScale);
 
@@ -1804,7 +1950,165 @@
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
                 if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
 
-                /// Font Overrides 
+                /// Font Overrides
+
+                if (( app_id === "10" || app_id === "32") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
+
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
+
+                    point.position.x += _fontOffsets.offsetX;
+                    point.position.y += _fontOffsets.offsetY;
+
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
+
+                    if (_fontOffsets.scaleX !== 1) {
+                        point.scale.x = _fontOffsets.scaleX;    
+                    }
+                    
+                    if (_fontOffsets.scaleY !== 1) {
+                        point.scale.y = _fontOffsets.scaleY;
+                    }
+
+                }
+
+                /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
+                if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                    _xOffset = parseFloat(_fontSizeData.xOffset);
+                    _yOffset = parseFloat(_fontSizeData.yOffset);
+
+                    var _proxyId;
+                    var _proxyPerspective; 
+
+                    if (app_id === "9") {
+                        _proxyId = 10;
+                        if (view.perspective === "right") {
+                            _proxyPerspective = "left";
+                        } else {
+                            _proxyPerspective = view.perspective;
+                        }
+                    }
+
+                    if (app_id === "33") {
+                        _proxyId = 32;
+                        if (view.perspective === "right") {
+                            _proxyPerspective = "left";
+                        }
+                        else {
+                            _proxyPerspective = view.perspective;
+                        }
+                    }
+
+                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, _proxyPerspective, _proxyId);
+
+                    if (_fontOffsets.offsetX > 0) {
+
+                        point.position.x += (_fontOffsets.offsetX * -1);
+
+                    } else if (_fontOffsets.offsetX < 0) {
+
+                        point.position.x += (_fontOffsets.offsetX * _fontOffsets.offsetX);
+
+                    }
+
+                    // if (_fontOffsets.offsetY > 0) {
+
+                    //     point.position.y += (_fontOffsets.offsetY * -1);
+
+                    // } else if (_fontOffsets.offsetY < 0) {
+
+                    //     point.position.y += (_fontOffsets.offsetY * _fontOffsets.offsetY);
+
+                    // }
+
+                    point.position.y += _fontOffsets.offsetY;
+
+                    // if ((view.perspective === "front") && (_proxyId === 32)) {
+                    //     point.position.y += 12;    
+                    // }
+
+                    // if ((view.perspective === "back") && (_proxyId === 32)) {
+                    //     point.position.y -= 4;    
+                    // }
+
+                    // if ((view.perspective === "front") && (_proxyId === 10)) {
+                    //     point.position.x += 12;    
+                    // }
+
+                    // if ((view.perspective === "back") && (_proxyId === 10)) {
+                    //     point.position.x += 12;    
+                    // }
+                    
+                    if (_fontOffsets.scaleX !== 1) {
+                        point.scale.x = _fontOffsets.scaleX;    
+                    }
+                    
+                    if (_fontOffsets.scaleY !== 1) {
+                        point.scale.y = _fontOffsets.scaleY;
+                    }
+
+                    point.position.x -= _xOffset;
+                    point.position.y -= _yOffset;
+
+                    /// Calculated Mirror and Override
+
+                    if (app_id === "33" && view.perspective === "front")
+                    {
+
+                        if (typeof ub.objects.front_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "33" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_32 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_32.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_32.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "front")
+                    {
+
+                        if (typeof ub.objects.front_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.front_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.front_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
+
+                        }
+
+                    }
+
+                    if (app_id === "9" && view.perspective === "back")
+                    {
+
+                        if (typeof ub.objects.back_view.objects_10 !== "undefined") {
+
+                            point.rotation = ub.objects.back_view.objects_10.rotation * -1;
+                            point.position.y = ub.objects.back_view.objects_10.position.y;
+                            point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
+
+                        }
+
+                    }
+
+                }
 
                 /// Rotation Overrides 
 
@@ -2069,7 +2373,6 @@
         });
 
     };
-
     ub.funcs.create_plugins = function (match, mode, matchingSide) {
 
         $('#primary_options_colors').html("<input type='text' id='primary_text' style='float: left; margin-top: -2px;'></input>");
@@ -2355,14 +2658,15 @@
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
-            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 7) { 
+            if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
                 
-                if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+                if(_sizeOfTeamColors < 2){
                     ub.startModal(1);
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 7){
+                if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     return;     
                 }
@@ -3568,6 +3872,7 @@
 
             var _layer = { 
                 default_color: _defaultColor.hex_code,
+                color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
                 layer_no:_property.layer, 
                 filename: _property.file_path,
                 color: parseInt(_defaultColor.hex_code, 16),
@@ -3628,6 +3933,7 @@
             
             var _layer = { 
                 default_color: _defaultColor,
+                color_code: ub.funcs.getColorObjByHexCode(_defaultColor).color_code,
                 layer_no:_property.layer_no.toString(), 
                 filename: _property.filename,
                 color: parseInt(_defaultColor, 16),
@@ -4372,6 +4678,15 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
+        var _appInfo = ub.funcs.getApplicationSettings(application_id);
+
+        if (_appInfo.application_type !== "mascot") {
+
+            ub.funcs.activateApplications(application_id);
+            return;
+
+        }
+
         if (ub.funcs.isBitFieldOn()) { 
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
@@ -4981,7 +5296,7 @@
 
     ub.funcs.getSampleNumber = function () {
 
-        var _sampleNumber = 85;
+        var _sampleNumber = "85";
         return _sampleNumber;
 
     }
@@ -6425,6 +6740,41 @@
 
     }
 
+    ub.funcs.printFontData = function (location, perspective) {
+
+        var _orig = ub.funcs.getApplicationSettingsByView(location, perspective).application.center;
+
+        var _origX = _orig.x;
+        var _origY = _orig.y;
+
+        console.log("{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '4',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("},{");
+        console.log("    location: '" + location + "',");
+        console.log("    fontName: 'Badgers'" + ",");
+        console.log("    perspective: '" + perspective + "',");
+        console.log("    size: '3',");
+        console.log("    origY: " + _origY + ",");
+        console.log("    origX: " + _origX + ",");
+        console.log("    adjustmentY: " + _origY + ",");
+        console.log("    adjustmentX: " + _origX + ",");
+        console.log("    scaleY: 1,");
+        console.log("    scaleX: 1,");
+        console.log("}");
+
+        return 'ok';
+
+    }
+
     ub.funcs.removeCrossHair = function () {
 
         ub[ub.active_view + '_view'].removeChild(ub.ch)
@@ -6455,12 +6805,22 @@
                 success: function (response){
                     
                     if(response.success) {
+
                         ub.current_material.settings.thumbnails[view] = response.filename;
-                        console.log('filename: ' + response.filename);
+                        
+                        if (ub.funcs.thumbnailsUploaded()) {
+
+                            $('span.processing').fadeOut();
+                            $('span.submit-order').fadeIn();
+
+                        }
+
                     }
                     else{
+
                         console.log('Error generating thumbnail for ' + view);
                         console.log(response.message);
+                        
                     }
 
                 }

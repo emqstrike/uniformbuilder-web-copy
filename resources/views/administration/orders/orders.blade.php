@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
 
 @section('content')
@@ -20,9 +21,6 @@
                             <th>Order</th>
                             <th>Client</th>
                             <th>Items</th>
-                            <!-- <th>Uniform Type</th> -->
-                            <!-- <th>Upper Uniform</th>
-                            <th>Lower Uniform</th> -->
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
@@ -60,7 +58,9 @@
                             </td>
                             <td>
                                 @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a></br>
+                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a>
+                                <a href="#" class="btn btn-primary btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
+                                <a href="{{ $item->design_sheet }}" class="btn btn-primary btn-xs">PDF</a></br>
                                 @endforeach
                             </td>
                             <!-- <td>
@@ -80,7 +80,7 @@
                                 </select>
                             </td>
                             <td>
-                                <button class='btn btn-default btn-xs btn-primary view-oder-details'
+                                <button class='btn btn-default btn-xs btn-success view-order-details'
                                     style="color: #fff;"
                                     data-order-id="{{ $order->id }}"
                                     data-client="{{ $order->client }}"
@@ -126,6 +126,7 @@
                                 {{ $order->factory_order_id }}
                             </td>
                             <td>
+                                <a href="#" class="btn btn-primary btn-xs">Edit Info</a>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
@@ -173,6 +174,8 @@
 </section>
 
 @include('administration.orders.order-view-modal')
+
+@include('administration.orders.roster-view-modal')
 
 @include('administration.orders.order-view-json-modal')
 

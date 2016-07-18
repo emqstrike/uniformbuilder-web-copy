@@ -56,7 +56,30 @@ $(document).ready(function(){
         });
     });
 
-    $('.view-oder-details').on('click', function(){
+
+    $('.view-roster-details').on('click', function(){
+        // console.log('Roster details');
+        var item = $(this).data('item');
+        var roster = $(this).data('roster');
+        var rows = '<tr>'
+        // console.log(roster);
+        $.each(roster, function(i, item){
+            rows += '<td>'+item.Size+'</td>';
+            rows += '<td>'+item.Number+'</td>';
+            rows += '<td>'+item.Name+'</td>';
+            rows += '<td>'+item.LastNameApplication+'</td>';
+            rows += '<td>'+item.SleeveCut+'</td>';
+            rows += '<td>'+item.Quantity+'</td>';
+            rows += '</tr>';
+        });
+        $('#view-roster-modal .modal-title').text(item);
+        $('#roster-rows').html('');
+        $('#roster-rows').append(rows);
+        $('#view-roster-modal').modal('show');
+    });
+
+
+    $('.view-order-details').on('click', function(){
         var orderId = $(this).data('order-id');
         var client = $(this).data('client');
 
@@ -83,7 +106,9 @@ $(document).ready(function(){
         $('#view-order-modal #tab-right-view img.lower-uniform').attr('src', $(this).data('lower-right-view'));
         $('#view-order-modal #tab-left-view img.upper-uniform').attr('src', $(this).data('upper-left-view'));
         $('#view-order-modal #tab-left-view img.lower-uniform').attr('src', $(this).data('lower-left-view'));
+
         var url = '//' + api_host + '/api/order/items/' + orderId;
+
         $.ajax({
             url: url,
             type: 'GET',
@@ -245,7 +270,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
 
     // PostOrder();
-
+console.log('send to edit');
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
@@ -265,7 +290,7 @@ $('.send-to-factory').on('click', function(e){
     billing_email = $(this).data('bill-email');
     billing_phone = $(this).data('bill-phone');
 
-console.log(order_id);
+// console.log(order_id);
 
     window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
@@ -290,12 +315,44 @@ console.log(order_id);
     }
 
     window.order_parts.forEach(function(entry) {
+        console.log(entry);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
             "DesignSheet" : entry.design_sheet
         };
+
+        var entryQuestions = null;
+        getQuestions(function(questions){ entryQuestions = questions; });
+
+
+
+        function getQuestions(callback){
+            var questions;
+            var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    questions = data;
+                    if(typeof callback === "function") callback(questions);
+                }
+            });
+        }
+
+
+
+        var bc = JSON.parse(entry.builder_customizations);
+        var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
+        var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
+        var color = color_name + " " + "(" + color_code + ")";
+        // console.log('Color: ' + color);
+        // console.log('Questions: ' + JSON.stringify(entryQuestions));
 
         entry.orderQuestions = {};
         entry.orderItems = JSON.parse(entry.roster);
@@ -339,6 +396,7 @@ console.log(order_id);
         //     "Description": "Arizona Jersey",
         //     "DesignSheet": "test.png"
         // };
+
 
 
         // var orderQuestionValue = [{
@@ -390,33 +448,33 @@ console.log(order_id);
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
+    console.log(strResult);
 
     // console.log(orderEntire['orderParts']);
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('worked');
-            console.log('return data: ' + JSON.stringify(data));
-            var factory_order_id = data[0].OrderID;
-            var parts = [];
-            $.each(data, function( index, value ) {
-                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                console.log(JSON.stringify(orderEntire));
-                parts.push(orderEntire['orderParts'][index]['orderPart']);
-            });
-            console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
-            // console.log(data[0].OrderID);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
+    // $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(orderEntire),
+    //     contentType: 'application/json;',
+    //     success: function (data) {
+    //         alert('worked');
+    //         console.log('return data: ' + JSON.stringify(data));
+    //         var factory_order_id = data[0].OrderID;
+    //         var parts = [];
+    //         $.each(data, function( index, value ) {
+    //             orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //             console.log(JSON.stringify(orderEntire));
+    //             parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //         });
+    //         console.log(JSON.stringify(parts));
+    //         updateFOID(order_id, factory_order_id, parts);
+    //         // console.log(data[0].OrderID);
+    //     },
+    //     error: function (xhr, ajaxOptions, thrownError) {
+    //         //Error Code Here
+    //     }
+    // });
 
 });
 

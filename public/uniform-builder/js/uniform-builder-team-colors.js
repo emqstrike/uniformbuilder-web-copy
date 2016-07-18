@@ -437,7 +437,13 @@ $(document).ready(function () {
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
-                    ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj);
+                    // Only Update Material Option Colors when colors selected is less than the colors used count, to prevent updating uniform colors in case the user is just adding another color
+                    if (_.size(ub.current_material.settings.team_colors) < _.size(ub.data.colorsUsed)) {
+
+                        ub.funcs.setGroupColor((index + 1).toString(), colorObj.hex_code, colorObj); 
+
+                    }
+
                     _strBuilder +=  '<path class="growStroke arc-' + modLabel.fullname + '" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
                 });

@@ -298,7 +298,7 @@ $(document).ready(function() {
         var _number             = row.find('input.number').val();
         var _quantity           = row.find('input.quantity').val();
         var _sleeveType         = row.find('select.sleeve-type').val();
-        var _lastNameApplcation = row.find('select.lastname-application').val();
+        var _lastNameApplication = row.find('select.lastname-application').val();
 
         return {
 
@@ -308,7 +308,7 @@ $(document).ready(function() {
             number: _number,
             quantity: _quantity,
             sleeveType: _sleeveType,
-            lastNameApplcation: _lastNameApplcation,
+            lastNameApplication: _lastNameApplication,
             sample: 0,
 
         }
@@ -410,11 +410,27 @@ $(document).ready(function() {
 
         var _total = 0;
 
+        var _prepareSize = [];
+
         _.each (ub.current_material.settings.roster, function (roster){
 
             _total += parseInt(roster.quantity);
 
+            var _obj = _.find(_prepareSize, {size: roster.size});
+            
+            if (typeof _obj === "undefined") {
+
+                _prepareSize.push({size: roster.size, quantity: 0 });
+                _obj = _.find(_prepareSize, {size: roster.size});
+
+            }
+
+            _obj.quantity +=  parseInt(roster.quantity);
+
         });
+
+        ub.current_material.settings.size_breakdown = _prepareSize;
+        console.log(ub.current_material.settings.size_breakdown);
 
         return _total;
 
@@ -451,6 +467,8 @@ $(document).ready(function() {
                 $('span.processing').fadeOut();
                 ub.showModal('Your order is now submitted. Thank you.')
                 ub.funcs.initGenderPicker();
+
+                $('div#validate-order-form').remove();
 
             }
             
@@ -493,6 +511,17 @@ $(document).ready(function() {
         var _billingState           = $('input[name="billing-state"]').val();
         var _billingZip             = $('input[name="billing-zip"]').val();
 
+        var _shippingOrganization    = $('input[name="shipping-organization"]').val();
+        var _shippingContactName     = $('input[name="shipping-contact-name"]').val();
+        var _shippingEmail           = $('input[name="shipping-email"]').val();
+        var _shippingPhone           = $('input[name="shipping-phone"]').val();
+        var _shippingFax             = $('input[name="shipping-fax"]').val();
+        
+        var _shippingAddress         = $('input[name="shipping-address"]').val();
+        var _shippingCity            = $('input[name="shipping-city"]').val();
+        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingZip             = $('input[name="shipping-zip"]').val();
+
         var _transformedRoster      = [];
 
         _.each (ub.current_material.settings.roster, function (_roster){
@@ -515,6 +544,9 @@ $(document).ready(function() {
                 Number: _roster.number,
                 Name: _roster.lastname,
                 Sample: 0,
+                LastNameApplication: _lastnameApplication,
+                SleeveCut: _sleeveCut,
+                Quantity: _roster.quantity,
             }
 
             _transformedRoster.push(_obj);
@@ -525,7 +557,7 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,  
-                submitted: '1',  
+                submitted: '1'
             },
             athletic_director: {
 
@@ -546,16 +578,31 @@ $(document).ready(function() {
                 state: _billingState,
                 phone: _billingPhone,
                 fax: _billingFax,
+                zip: _billingZip,
+
+            },
+            shipping: {
+
+                organization: _shippingOrganization,
+                contact: _shippingContactName,
+                email: _shippingEmail,
+                address: _shippingAddress,
+                city: _shippingCity,
+                state: _shippingState,
+                phone: _shippingPhone,
+                fax: _shippingFax,
+                zip: _shippingZip,
 
             },
             order_items: [
                 {
                     item_id: _itemID,
                     description: _uniformName,
-                    builder_customizations: ub.current_material.settings,
+                    type: ub.current_material.material.type,
+                    builder_customizations: JSON.stringify(ub.current_material.settings),
                     set_group_id: 0,
                     factory_order_id: '',
-                    design_sheet : "",
+                    design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
                 },
             ]
@@ -569,13 +616,180 @@ $(document).ready(function() {
 
     ub.funcs.displayLinks = function (link) {
 
+        ub.current_material.settings.pdfOrderForm = link;
 
+        var _linkTransformed = link;
+
+        window.scrollTo(0,0);
+
+        $('span.processing-pdf').fadeOut();
+        $('span.previewFormPdf').fadeIn();
+        $('span.submit-confirmed-order').fadeIn();
+
+        var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
+
+        $('iframe#pdfViewer').attr('src', _url)
+        $('a.previewPDFLink').attr('href', _url);
+
+        $('div#validate-order-form > span.processing').fadeOut();
+
+        $('span.submit-confirmed-order').on('click', function () {
+
+            if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
+                return;
+            }
+
+            ub.funcs.submitOrderForm();
+            $('span.submit-confirmed-order').html('Submitting Order...');
+
+        });
+
+    };
+
+    ub.funcs.prepareData = function () {
+
+        var _factoryCode            = ub.current_material.material.factory_code;
+        var _sleeveCut              = '';
+        var _lastnameApplication    = '';
+        var _itemID                 = parseInt(ub.current_material.material.item_id);
+        var _uniformName            = ub.current_material.material.name;
+
+        var _clientName             = $('input[name="client-name"]').val();
+        var _clientEmail            = $('input[name="client-email"]').val();
+        var _clientPhone            = $('input[name="client-phone"]').val();
+        var _clientFax              = $('input[name="client-fax"]').val();
+        var _athleticDirector       = $('input[name="athletic-director"]').val();
+
+        var _billingOrganization    = $('input[name="billing-organization"]').val();
+        var _billingContactName     = $('input[name="billing-contact-name"]').val();
+        var _billingEmail           = $('input[name="billing-email"]').val();
+        var _billingPhone           = $('input[name="billing-phone"]').val();
+        var _billingFax             = $('input[name="billing-fax"]').val();
+        
+        var _billingAddress         = $('input[name="billing-address"]').val();
+        var _billingCity            = $('input[name="billing-city"]').val();
+        var _billingState           = $('input[name="billing-state"]').val();
+        var _billingZip             = $('input[name="billing-zip"]').val();
+
+        var _shippingOrganization    = $('input[name="shipping-organization"]').val();
+        var _shippingContactName     = $('input[name="shipping-contact-name"]').val();
+        var _shippingEmail           = $('input[name="shipping-email"]').val();
+        var _shippingPhone           = $('input[name="shipping-phone"]').val();
+        var _shippingFax             = $('input[name="shipping-fax"]').val();
+        
+        var _shippingAddress         = $('input[name="shipping-address"]').val();
+        var _shippingCity            = $('input[name="shipping-city"]').val();
+        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingZip             = $('input[name="shipping-zip"]').val();
+
+        var _transformedRoster      = [];
+
+        _.each (ub.current_material.settings.roster, function (_roster){
+
+            if (_factoryCode === "BLB") {
+
+                _sleeveCut  = "Motion";
+                _lastnameApplication = 'N/A';
+
+            }
+            else {
+
+                _sleeveCut  = _roster.sleeveType,
+                _lastnameApplication = _roster.sleeveType;
+
+            }
+
+            var _obj = {
+                Size: _roster.size,
+                Number: _roster.number,
+                Name: _roster.lastname,
+                Sample: 0,
+                LastNameApplication: _lastnameApplication,
+                SleeveCut: _sleeveCut,
+                Quantity: _roster.quantity,
+            }
+
+            _transformedRoster.push(_obj);
+
+        });
+
+        var orderInput = {
+
+            order: {
+                client: _clientName,  
+                submitted: '1',
+                sku: "B-M-FBIJ-INF14-01-F01-17",
+                material_id: ub.current_material.material.id,
+                url: ub.config.host + window.document.location.pathname,
+            },
+            athletic_director: {
+
+                contact: _athleticDirector,
+                email: _clientEmail,
+                phone: _clientPhone,
+                fax: _clientFax,
+
+            },
+            billing: {
+
+                organization: _billingOrganization,
+                contact: _billingContactName,
+                email: _billingEmail,
+                address: _billingAddress,
+                city: _billingCity,
+                state: _billingState,
+                phone: _billingPhone,
+                fax: _billingFax,
+                zip: _billingZip,
+
+            },
+            shipping: {
+
+                organization: _shippingOrganization,
+                contact: _shippingContactName,
+                email: _shippingEmail,
+                address: _shippingAddress,
+                city: _shippingCity,
+                state: _shippingState,
+                phone: _shippingPhone,
+                fax: _shippingFax,
+                zip: _shippingZip,
+
+            },
+            order_items: [
+                {
+                    item_id: _itemID,
+                    type: ub.current_material.material.type,
+                    description: _uniformName,
+                    builder_customizations: ub.current_material.settings,
+                    set_group_id: 0,
+                    factory_order_id: '',
+                    design_sheet : ub.current_material.settings.pdfOrderForm,
+                    roster: _transformedRoster,
+                    sku: ub.current_material.material.sku,
+                    material_id: ub.current_material.material.id,
+                    url: ub.config.host + window.document.location.pathname,
+                },
+            ]
+        };        
+
+        return orderInput;
 
     };
 
     ub.funcs.generatePDF = function () {
 
+        var _rosterFormValid    = ub.funcs.isOrderFormValid();
+        
+        if (!_rosterFormValid) {
+
+            ub.startModal('Please Complete Order Form Details');
+            return;
+
+        }
+
         var _bc = ub.current_material.settings;
+        var _input = ub.funcs.prepareData();
 
         $.ajaxSetup({
             headers: {
@@ -584,7 +798,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            data: JSON.stringify({builder_customizations: _bc}),
+            data: JSON.stringify({builder_customizations: _input}),
             url: ub.config.host + "/generateOrderForm",
             dataType: "json",
             type: "POST",
@@ -610,9 +824,34 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.thumbnailsUploaded = function () {
+
+        var _uploaded = false;
+        var _thumbs =  ub.current_material.settings.thumbnails;
+
+        var _frontViewOk    = _thumbs.front_view !== '';
+        var _backViewOk     = _thumbs.back_view !== '';
+        var _leftViewOk     = _thumbs.left_view !== '';
+        var _rightViewOk    = _thumbs.left_view !== '';
+        
+        _uploaded = _frontViewOk && _backViewOk && _leftViewOk && _rightViewOk;
+
+        return _uploaded;
+
+    };
+
+    ub.funcs.showValidateOrderForm = function () {
+
+        $("div#validate-order-form").fadeIn();
+
+    }
+
     ub.funcs.validateOrderForm = function () {
 
+        ub.funcs.hideRosterAndOrderForm();
+        ub.funcs.showValidateOrderForm();
 
+        ub.funcs.generatePDF();
 
     }
 
@@ -621,9 +860,35 @@ $(document).ready(function() {
         $('div#roster-input').fadeOut();
         window.scrollTo(0,0);
         $('div#order-form').fadeIn();
-
+        var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
-        $('td.quantity').html(ub.funcs.getTotalQuantity());
+        $('td.quantity').html(_total);
+
+        var _htmlBuilder = '';
+        _.each (ub.current_material.settings.size_breakdown, function (row) {
+
+            _htmlBuilder += '<tr>';
+            _htmlBuilder +=     '<td>';
+            _htmlBuilder +=        row.size;
+            _htmlBuilder +=     '</td>';
+            _htmlBuilder +=     '<td align="right">';
+            _htmlBuilder +=        row.quantity;
+            _htmlBuilder +=     '</td>';
+            _htmlBuilder += '</tr>';
+
+        });
+
+        _htmlBuilder += '<tr class="items">';
+        _htmlBuilder +=     '<td align="right">';
+        _htmlBuilder +=        '<strong>TOTAL: </strong>';
+        _htmlBuilder +=     '</td>';
+        _htmlBuilder +=     '<td align="right">';
+        _htmlBuilder +=        '<strong>' + _total + '</strong>';
+        _htmlBuilder +=     '</td>';
+        _htmlBuilder += '</tr>';
+
+        $('table#size-breakdown').find('tr.items').remove();
+        $('table#size-breakdown').append(_htmlBuilder);
 
         $('span.back-to-roster-form-button').on('click', function () {
 
@@ -635,9 +900,19 @@ $(document).ready(function() {
 
             ub.funcs.validateOrderForm();
 
-            // ub.funcs.submitOrderForm();
+        });
+
+        $('div.order-tab-button').on('click', function () {
+
+            var _name = $(this).data('name');
+
+            $('div.order-tab-button').removeClass('active-tab');
+            $(this).addClass('active-tab');
+            $('div.order-tab').removeClass('active-tab');
+            $('div.order-tab[data-name="' + _name + '"]').addClass('active-tab');
 
         });
+
 
     }
 
@@ -661,11 +936,19 @@ $(document).ready(function() {
 
     ub.funcs.initRoster = function () {
 
+        ub.funcs.resetHighlights();
+
+        ub.current_material.settings.thumbnails = {
+            front_view: "",
+            back_view: "",
+            left_view: "",
+            right_view: "",
+        }
+
         ub.uploadThumbnail('front_view');
         ub.uploadThumbnail('back_view');
         ub.uploadThumbnail('left_view');
         ub.uploadThumbnail('right_view');
-
 
         ub.funcs.fadeOutCustomizer();
 
@@ -694,7 +977,6 @@ $(document).ready(function() {
         $('span.add-item-to-order').on('click', function () {
 
             ub.funcs.submitUniform();
-
 
         });
 

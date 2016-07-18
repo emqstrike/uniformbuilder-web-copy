@@ -1593,7 +1593,7 @@ $(document).ready(function() {
                     } else {
                         item['selected'] = false;
                     }
-                    // item['selected'] = false;
+
                     item['description'] = 'Accent';
                     item['imageSrc'] = item.thumbnail;
                 });
@@ -1618,9 +1618,7 @@ $(document).ready(function() {
 
                         accentMascotSelect(data,"accent",rowIndex);
                     }
-                 
-                       
-                     
+
                     },
                 });
 
@@ -1642,33 +1640,33 @@ $(document).ready(function() {
                        $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
                     }
-                 
+
                 $(document).on('change', '.app-def-item', function() {                       
                     if($(this).val() == "mascot"){
                         var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
                         if(selectedMascot == -1){
-                           
+
                         $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                         $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
-                  
+
                         }               
                         selectedMascot = selectedMascot.toString();  
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
-                 
+
                     }else{              
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
                         if(selectedAccent == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                             $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
-                  
+
                         }
                         selectedAccent = selectedAccent.toString();
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent });
                      }       
-            
+
 
                 });
-          
+
 
                 $(document).on('change', '.app-default-font', function() {
                     var font = $('option:selected', this).data('font-family');
@@ -3314,6 +3312,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].widthp = ((thisGroup.getWidth() / canvasFront.width) * 100) * multiplier;
         applicationProperties[itemIdx].heightp = ((thisGroup.getHeight() / canvasFront.height) * 100) * multiplier;
         applicationProperties[itemIdx].pivot = thisGroup.getCenterPoint();
+        applicationProperties[itemIdx].pivot.x = $(this).parent().siblings('td').find("input[class=app-x]").val();
+        applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
         applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;

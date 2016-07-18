@@ -649,7 +649,7 @@ $(document).ready(function () {
         ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
-            ub.materials = obj;
+            ub.materials = _.filter(obj, {debug_mode: '0'});
 
             _.each (ub.materials, function (material) {
 
@@ -847,6 +847,7 @@ $(document).ready(function () {
         } else {
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
+
             _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
             _inputFontSize      = _fontProperties.inputSize;
             _returnFontSize     = _fontProperties.outputSize;
@@ -1761,7 +1762,7 @@ $(document).ready(function () {
 
                 var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
-
+                
                 return texture.getImage().src;
 
             }

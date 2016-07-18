@@ -3298,10 +3298,10 @@ div.header-container.main {
 
                             .smallColorPickerLabel {
 
-                                width: 30%;
+                                width: 20%;
                                 text-align: right;
                                 margin-right: 10px;
-                                font-size: 0.7em;
+                                font-size: 0.5em;
 
                             }
 
@@ -4016,6 +4016,107 @@ div.header-container.main {
 
 /* Process */
 
+    div#validate-order-form {
+
+        display: none;
+        width: 80%;
+        height: 1000px;
+        background-color: white;
+        padding: 30px;
+        margin: 0 auto;
+        margin-top: 30px;
+
+        div {
+
+            float: left;
+            
+            span.back-to-roster-form-button {
+
+            display: block;
+            width: 180px;
+            color: @text_color;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-weight: bold;
+            border-bottom: dashed 1px white;
+
+        }
+
+        span.back-to-roster-form-button:hover {
+
+            border-bottom: dashed 1px @text_color;
+           
+        }
+
+        span.previewFormPdf {
+            display: inline-block;
+            height: 50px;
+            float: left;
+        }
+        }
+
+        
+
+        iframe.pdfViewer {
+
+            width: 100%;
+            height: 90%;
+            display: block;
+
+        }
+
+        span.processing {
+
+            display: block;
+            width: 100%;
+            text-align: center;
+
+            img {
+
+                width: 50px;
+                height: 50px;
+
+            }
+
+        }
+
+
+
+        span.link {
+            display: inline-block;
+            margin: 20px;
+            height: 50px;
+            float: left;
+        }
+
+        span.submit-confirmed-order {
+
+                background-color: @forecolor;
+                width: 250px;
+                height: 50px;
+                display: inline-block;
+                padding: 13px;
+                cursor: pointer;
+                color: white;
+                font-size: 1.2em;
+                text-align: center;
+                margin: 0 auto;
+                display: none;
+                float: right;
+                margin-bottom: 10px;
+
+        }
+
+        span.submit-confirmed-order:hover {
+
+            background-color: #3d3d3d;
+
+        }
+
+    }
+
+
+
     div#order-form {
 
         display: none;
@@ -4026,6 +4127,54 @@ div.header-container.main {
         padding: 30px;
         margin: 0 auto;
         margin-top: 30px;
+
+        div.order-tabs-container {
+
+            div.order-tab-buttons {
+
+                div.order-tab-button {
+
+                    display: inline-block;
+
+                    width: 200px;
+                    text-align: center;
+                    height: 40px;
+                    color: white;
+                    background-color: #acacac;
+                    padding: 10px;
+                    cursor: pointer;
+
+                }
+
+                div.order-tab-button.active-tab, div.order-tab-button:hover {
+
+                    background-color: #3d3d3d;
+
+                }
+
+            }
+
+            div.order-tabs {
+
+                border: 1px solid #3d3d3d;
+
+                div.order-tab {
+
+                    display: none;
+                    padding: 10px;
+
+                }
+
+                div.order-tab.active-tab {
+
+                    display: block;
+
+                }
+
+            }
+
+        }
+
 
         div.order-info {
 
@@ -4102,12 +4251,20 @@ div.header-container.main {
         div.order-details-block {
 
             padding: 30px;
-            border-top: dashed 1px #3d3d3d;
             text-align: center;
 
             span.processing {
 
-                display: none;
+                display: block;
+                width: 100%;
+                text-align: center;
+
+                img {
+
+                    width: 50px;
+                    height: 50px;
+
+                }
 
             }
 
@@ -4123,6 +4280,7 @@ div.header-container.main {
                 font-size: 1.2em;
                 text-align: center;
                 margin: 0 auto;
+                display: none;
 
             }
 
@@ -4145,7 +4303,7 @@ div.header-container.main {
                 tr {
 
                     td {
-                        padding: 3px;
+                        padding: 7px;
                     }
 
                     td.uniform-name {

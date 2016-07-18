@@ -117,7 +117,8 @@
     <!-- End Scrolling Pickers -->
 
     @include('partials.panels.roster-input')
-    @include('partials.panels.order-form')    
+    @include('partials.panels.order-form')
+    @include('partials.panels.validate-order-form')    
 
 </div>
 
