@@ -81,20 +81,83 @@
                             <table class="table table-striped">
                                 <tr>
                                     <td>Billing Organization</td>
-                                    <td class='order-bill-organization'>
+                                    <!-- <td class='order-bill-organization'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-organization">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Billing Contact Person</td>
-                                    <td class='order-bill-contact-person'>
+                                    <!-- <td class='order-bill-contact-person'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-contact-person">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Billing Email</td>
-                                    <td class='order-bill-email'>
+                                    <!-- <td class='order-bill-email'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-email">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Address</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-address">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing City</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-city">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing State</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-state">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Zip</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-zip">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Phone</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-phone">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Fax</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-fax">
                                     </td>
                                 </tr>
                             </table>
@@ -110,6 +173,36 @@
                                 <tr>
                                     <td>Shipping Contact Person</td>
                                     <td class='order-ship-contact-person'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Address</td>
+                                    <td class='order-ship-address'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping City</td>
+                                    <td class='order-ship-city'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping State</td>
+                                    <td class='order-ship-state'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Zip</td>
+                                    <td class='order-ship-zip'>
+                                        <strong></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Phone</td>
+                                    <td class='order-ship-phone'>
                                         <strong></strong>
                                     </td>
                                 </tr>
@@ -139,6 +232,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <!-- <button class="btn btn-primary update-order-info" data-dismiss="modal">Update</button> -->
+                <a href="#" class="btn btn-primary update-order-info">Update</a>
                 <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
             </div>
         </div>
