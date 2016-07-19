@@ -2209,6 +2209,8 @@ $(document).ready(function() {
 
     ];
 
+ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears'];
+
 ub.funcs.fontOffSets = [
 
        /// Start Badgers 33 and 
