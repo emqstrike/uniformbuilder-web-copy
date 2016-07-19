@@ -1975,7 +1975,7 @@
 
                 }
 
-                if ( (args.font_name === "Beaver Block" || args.font_name === "Badgers" || args.font_name === "Bears") && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+                if ( (args.font_name === "CHARGERS" || args.font_name === "Beaver Block" || args.font_name === "Badgers" || args.font_name === "Bears") && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
 
                     var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
 
