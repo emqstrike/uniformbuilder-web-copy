@@ -166,7 +166,17 @@ $(document).ready(function () {
             _colorType  = 'sublimated';
         }
 
-        _colorSet   = ub.funcs.ui.getColorSet('Body', _colorType);
+        /// _colorSet   = ub.funcs.ui.getColorSet('Body', _colorType);
+
+        if (_factoryCode === "PMP") {
+
+            _colorSet = _.filter(ub.data.colors, {sublimation_only: "0"});
+
+        } else {
+
+            _colorSet = ub.data.colors;
+
+        }
 
         return _colorSet;
 
@@ -625,6 +635,7 @@ $(document).ready(function () {
             target: 'team-color-picker',
             type: 'single',
             colorSet: _colorSet,
+            factory: ub.current_material.material.factory_code,
 
         });
 

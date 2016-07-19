@@ -468,7 +468,13 @@ class UniformBuilderController extends Controller
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
-            $html .=   $part['colorObj']['color_code'];
+            
+            if (array_key_exists('colorObj', $part)) {
+                $html .=   $part['colorObj']['color_code'];
+            } else {
+                $html .=   'Default';
+            }
+
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
