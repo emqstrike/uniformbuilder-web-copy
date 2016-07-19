@@ -1560,7 +1560,7 @@ $(document).ready(function () {
                     if (typeof ub.current_material.options_distinct_names[name] !== "object") {
 
                         ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
-                        ub.data.defaultUniformStyle[name] = { name: name, default_color: tint};
+                        ub.data.defaultUniformStyle[name] = { name: name, default_color: tint, colorObj: color};
                     
                     }
                     
@@ -1666,6 +1666,7 @@ $(document).ready(function () {
                     var mo_setting = _.find(ub.current_material.settings[uniform_type], {code: style.name});
 
                     mo_setting.color = style.default_color;
+                    mo_setting.colorObj = style.colorObj;
 
                 });
 
