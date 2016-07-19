@@ -18,13 +18,12 @@
                     <table class='data-table table table-bordered'>
                     <thead>
                         <tr>
-                            <th>Order</th>
+                            <th>Order code</th>
                             <th>Client</th>
                             <th>Items</th>
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
-                            <th>JSON</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,29 +31,15 @@
 
                         <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
                             <td>
-                                <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
-                                <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" />
-                                <br />
-                                <small>
-                                    ID: <strong>{{ $order->order_id }}</strong>
-                                </small>
+                                <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
+                                <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" /> -->
+                                <!-- <br /> -->
+                                <p style="font-size: 17px">{{ $order->order_id }}</p>
                             </td>
                             <td>
                                 <div>
                                     {{ $order->client }}
-                                    <small class='label label-info'>
-                                        &lt;{{ $order->email }}&gt;
-                                    </small>
                                 </div>
-                                @if ($order->director_contact_person)
-                                <div class="label label-default">Director: <strong>{{ $order->director_contact_person }}</strong> @if (!is_null($order->bill_organization)) of {{ $order->bill_organization }} @endif</div><br>
-                                @endif
-                                @if ($order->bill_contact_person)
-                                <div class="label label-primary">Billing: <strong>{{ $order->bill_contact_person }}</strong> &lt;{{ $order->bill_email }}&gt;</div><br>
-                                @endif
-                                @if ($order->ship_contact_person)
-                                <div class="label label-success">Shipping: <strong>{{ $order->ship_contact_person }}</strong></div>
-                                @endif
                             </td>
                             <td>
                                 @foreach( $order->items as $item )
@@ -63,15 +48,6 @@
                                 <a href="{{ $item->design_sheet }}" class="btn btn-primary btn-xs">PDF</a></br>
                                 @endforeach
                             </td>
-                            <!-- <td>
-                                {{ $order->uniform_type }}
-                            </td> -->
-                            <!-- <td>
-                                {{ $order->total_upper_uniforms }}
-                            </td>
-                            <td>
-                                {{ $order->total_lower_uniforms }}
-                            </td> -->
                             <td>
                                 <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
                                 @foreach ($order_statuses as $status)
@@ -133,38 +109,14 @@
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
                                    >Send to Edit</a>
+                                    <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Remove
+                                    </a>
                                 {{-- @endif --}}
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-xs">Edit Info</a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    Remove
-                                </a>
-                                <button class='btn btn-warning btn-xs view-builder-customization'
-                                    data-builder-customization="{{ $order->builder_customizations }}"
-                                    data-order-id="{{ $order->id }}"
-                                    data-api-order-id="{{ $order->order_id }}"
-                                    data-client="{{ $order->client }}"
-                                    data-ship-contact="{{ $order->ship_contact }}"
-                                    data-ship-address="{{ $order->ship_address }}"
-                                    data-ship-city="{{ $order->ship_city }}"
-                                    data-ship-state="{{ $order->ship_state }}"
-                                    data-ship-zip="{{ $order->ship_address }}"
-                                    data-ship-phone="{{ $order->ship_phone }}"
-                                    data-bill-contact="{{ $order->bill_contact }}"
-                                    data-bill-city="{{ $order->bill_city }}"
-                                    data-bill-state="{{ $order->bill_state }}"
-                                    data-bill-zip="{{ $order->bill_zip }}"
-                                    data-bill-email="{{ $order->bill_email }}"
-                                    data-bill-phone="{{ $order->bill_phone }}"
-                                    data-bill-address="{{ $order->bill_address }}"
-                                   >
-                                    View JSON
-                                </button>
                             </td>
                         </tr>
 
