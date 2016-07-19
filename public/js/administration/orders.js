@@ -83,7 +83,8 @@ $(document).ready(function(){
         var orderId = $(this).data('order-id');
         var client = $(this).data('client');
 
-        $('#view-order-modal .order-client strong').html(client);
+        // $('#view-order-modal .order-client strong').html(client);
+        $('#view-order-modal .order-client').val( $(this).data('client') );
         $('#view-order-modal .order-email strong').html($(this).data('email'));
         $('#view-order-modal .order-uniform-type strong').html($(this).data('uniform-type'));
         // Athletic Director
@@ -93,6 +94,8 @@ $(document).ready(function(){
         // $('#view-order-modal .order-bill-organization strong').html($(this).data('bill-organization'));
         // console.log($(this).data('bill-id'));
         var bill_id = $(this).data('bill-id');
+        var ship_id = $(this).data('ship-id');
+        var order_id = $(this).data('order-id');
 
         $('#view-order-modal .order-bill-organization').val( $(this).data('bill-organization') );
         $('#view-order-modal .order-bill-contact-person').val( $(this).data('bill-contact-person') );
@@ -103,6 +106,14 @@ $(document).ready(function(){
         $('#view-order-modal .order-bill-zip').val( $(this).data('bill-zip') );
         $('#view-order-modal .order-bill-phone').val( $(this).data('bill-phone') );
         $('#view-order-modal .order-bill-fax').val( $(this).data('bill-fax') );
+
+        $('#view-order-modal .order-ship-organization').val( $(this).data('ship-organization') );
+        $('#view-order-modal .order-ship-contact-person').val( $(this).data('ship-contact-person') );
+        $('#view-order-modal .order-ship-address').val( $(this).data('ship-address') );
+        $('#view-order-modal .order-ship-city').val( $(this).data('ship-city') );
+        $('#view-order-modal .order-ship-state').val( $(this).data('ship-state') );
+        $('#view-order-modal .order-ship-zip').val( $(this).data('ship-zip') );
+        $('#view-order-modal .order-ship-phone').val( $(this).data('ship-phone') );
         // Shipping Information
         $('#view-order-modal .order-ship-organization strong').html($(this).data('ship-organization'));
         $('#view-order-modal .order-ship-contact-person strong').html($(this).data('ship-contact-person'));
@@ -166,8 +177,8 @@ $(document).ready(function(){
                     };
             console.log(data);
             $.ajax({
-                // url: '//' + api_host + '/api/order/updateFOID',
-                url: '//localhost:8888/api/billing_info/update',
+                url: '//' + api_host + '/api/billing_info/update',
+                // url: '//localhost:8888/api/billing_info/update',
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: "json",
@@ -177,112 +188,181 @@ $(document).ready(function(){
                 success: function(response){
                     if (response.success) {
                         console.log("Success! Billing Info is updated.");
-                        document.location.reload();
+                        UpdateShipping(ship_id, order_id);
+                        // UpdateClientInfo(order_id);
+                        // document.location.reload();
                     }
                 }
             });
+
+            function UpdateShipping(ship_id, order_id){
+                var ship_organization = $('.order-ship-organization').val();
+                var ship_contact_person = $('.order-ship-contact-person').val();
+                var ship_address = $('.order-ship-address').val();
+                var ship_city = $('.order-ship-city').val();
+                var ship_state = $('.order-ship-state').val();
+                var ship_zip = $('.order-ship-zip').val();
+                var ship_phone = $('.order-ship-phone').val();
+
+                var data = {
+                            id: ship_id,
+                            organization: ship_organization,
+                            contact: ship_contact_person,
+                            address: ship_address,
+                            city: ship_city,
+                            state: ship_state,
+                            zip: ship_zip,
+                            phone: ship_phone
+                        };
+                console.log('Shipping_data' + JSON.stringify(data));
+                console.log('order id >>' + order_id);
+                $.ajax({
+                    url: '//' + api_host + '/api/shipping_info/update',
+                    // url: '//localhost:8888/api/billing_info/update',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response){
+                        if (response.success) {
+                            console.log("Success! Shipping Info is updated.");
+                            // document.location.reload();
+                            UpdateClientInfo(order_id);
+                        }
+                    }
+                });
+            }
+
+            function UpdateClientInfo(order_id){
+                var client_name = $('.order-client').val();
+                var client_email = $('.order-email').val();
+
+                var data = {
+                            id: order_id,
+                            client: client_name
+                        };
+                console.log('Order Data - Client - ' + JSON.stringify(data));
+                $.ajax({
+                    url: '//' + api_host + '/api/order/update',
+                    // url: '//localhost:8888/api/billing_info/update',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": atob(headerValue)},
+                    success: function(response){
+                        if (response.success) {
+                            console.log("Success! Order Info is updated.");
+                            document.location.reload();
+                        }
+                    }
+                });
+            }
         });
     });
 
 $('.view-builder-customization').on('click', function(){
-     api_order_id = $(this).data('api-order-id');
-    order_id = $(this).data('order-id');
-    client = $(this).data('client');
+//     api_order_id = $(this).data('api-order-id');
+//     order_id = $(this).data('order-id');
+//     client = $(this).data('client');
 
-    ship_contact = $(this).data('ship-contact');
-    ship_address = $(this).data('ship-address');
-    ship_phone = $(this).data('ship-phone');
-    ship_city = $(this).data('ship-city');
-    ship_state = $(this).data('ship-state');
-    ship_zip = $(this).data('ship-zip');
+//     ship_contact = $(this).data('ship-contact');
+//     ship_address = $(this).data('ship-address');
+//     ship_phone = $(this).data('ship-phone');
+//     ship_city = $(this).data('ship-city');
+//     ship_state = $(this).data('ship-state');
+//     ship_zip = $(this).data('ship-zip');
 
-    billing_contact = $(this).data('bill-contact');
-    billing_address = $(this).data('bill-address');
-    billing_city = $(this).data('bill-city');
-    billing_state = $(this).data('bill-state');
-    billing_zip = $(this).data('bill-zip');
-    billing_email = $(this).data('bill-email');
-    billing_phone = $(this).data('bill-phone');
+//     billing_contact = $(this).data('bill-contact');
+//     billing_address = $(this).data('bill-address');
+//     billing_city = $(this).data('bill-city');
+//     billing_state = $(this).data('bill-state');
+//     billing_zip = $(this).data('bill-zip');
+//     billing_email = $(this).data('bill-email');
+//     billing_phone = $(this).data('bill-phone');
 
-console.log(order_id);
+// console.log(order_id);
 
-    window.order_parts = null;
-    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+//     window.order_parts = null;
+//     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
 
 
 
-    function getOrderParts(callback){
-        var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                order_parts = data['order'];
-                if(typeof callback === "function") callback(order_parts);
-            }
-        });
-    }
+//     function getOrderParts(callback){
+//         var order_parts;
+//         var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+//         $.ajax({
+//             url: url,
+//             async: false,
+//             type: "GET",
+//             dataType: "json",
+//             crossDomain: true,
+//             contentType: 'application/json',
+//             success: function(data){
+//                 order_parts = data['order'];
+//                 if(typeof callback === "function") callback(order_parts);
+//             }
+//         });
+//     }
 
-    window.order_parts.forEach(function(entry) {
-        entry.orderPart = {
-            "ID" : entry.id,
-            "ItemID" : entry.item_id,
-            "Description" : entry.description,
-            "DesignSheet" : entry.design_sheet,
-            "BuilderCustomizations" : JSON.stringify(entry.builder_customizations)
-        };
+//     window.order_parts.forEach(function(entry) {
+//         entry.orderPart = {
+//             "ID" : entry.id,
+//             "ItemID" : entry.item_id,
+//             "Description" : entry.description,
+//             "DesignSheet" : entry.design_sheet,
+//             "BuilderCustomizations" : JSON.stringify(entry.builder_customizations)
+//         };
 
-        entry.orderQuestions = {};
-        entry.orderItems = JSON.parse(entry.roster);
+//         entry.orderQuestions = {};
+//         entry.orderItems = JSON.parse(entry.roster);
 
-        delete entry.builder_customizations;
-        delete entry.description;
-        delete entry.factory_order_id;
-        delete entry.id;
-        delete entry.item_id;
-        delete entry.oid;
-        delete entry.roster;
-        // entry.roster = 
-    });
-// console.log(window.order_parts);
-        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+//         delete entry.builder_customizations;
+//         delete entry.description;
+//         delete entry.factory_order_id;
+//         delete entry.id;
+//         delete entry.item_id;
+//         delete entry.oid;
+//         delete entry.roster;
+//         // entry.roster = 
+//     });
+// // console.log(window.order_parts);
+//         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 
-        var order = {
-            "Client": client,
-            "ShippingAttention": ship_contact,
-            "ShippingAddress": ship_address,
-            "ShippingPhone": ship_phone,
-            "ShippingCity": ship_city,
-            "ShippingState": ship_state,
-            "ShippingZipCode": ship_zip,
-            "BillingAttention": billing_contact,
-            "BillingAddress": billing_address,
-            "BillingCity": billing_city,
-            "BillingState": billing_state,
-            "BillingZipCode": billing_zip,
-            "BillingEmail": billing_email,
-            "BillingPhone": billing_phone,
-            "APICode": 1,
-            "Gender": 0,
-            "RepID": 154,
-            "RepIDEnteredBy": 0,
-            "Sport": "All"
-        };
+//         var order = {
+//             "Client": client,
+//             "ShippingAttention": ship_contact,
+//             "ShippingAddress": ship_address,
+//             "ShippingPhone": ship_phone,
+//             "ShippingCity": ship_city,
+//             "ShippingState": ship_state,
+//             "ShippingZipCode": ship_zip.toString(),
+//             "BillingAttention": billing_contact,
+//             "BillingAddress": billing_address,
+//             "BillingCity": billing_city,
+//             "BillingState": billing_state,
+//             "BillingZipCode": billing_zip.toString(),
+//             "BillingEmail": billing_email,
+//             "BillingPhone": billing_phone,
+//             "APICode": 1,
+//             "Gender": 'M',
+//             "RepID": 154,
+//             "RepIDEnteredBy": 0,
+//             "Sport": "All"
+//         };
 
-        var orderEntire =
-        {
-            "Order": order,
-            // "orderParts": orderPartsEntire
-            "orderParts" : window.order_parts
-        };
+//         var orderEntire =
+//         {
+//             "Order": order,
+//             // "orderParts": orderPartsEntire
+//             "orderParts" : window.order_parts
+//         };
 
-    strResult = JSON.stringify(orderEntire);
-    console.log( strResult );
+//     strResult = JSON.stringify(orderEntire);
+//     console.log( strResult );
 });
 
 $('.factory-oid').on('click', function(e){
@@ -324,7 +404,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
 
     // PostOrder();
-console.log('send to edit');
+    console.log('send to edit');
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
@@ -344,7 +424,6 @@ console.log('send to edit');
     billing_email = $(this).data('bill-email');
     billing_phone = $(this).data('bill-phone');
 
-// console.log(order_id);
 
     window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
@@ -369,7 +448,6 @@ console.log('send to edit');
     }
 
     window.order_parts.forEach(function(entry) {
-        // console.log(entry);
         bcx = JSON.parse(entry.builder_customizations);
         entry.orderPart = {
             "ID" : entry.id,
@@ -406,12 +484,20 @@ console.log('send to edit');
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
         var color = color_name + " " + "(" + color_code + ")";
-        // console.log(bc);
-        // console.log('Color: ' + color);
-        // console.log('Questions: ' + JSON.stringify(entryQuestions));
-        // entry.designSheet = entry.builder_customizations.pdfOrderForm;
-        entry.orderQuestions = {};
+
+        entry.orderQuestions = {
+            "OrderQuestion": [{
+                "QuestionID": 267,
+                "Value": "Black"
+            }]
+        };
+        // var qt = JSON.parse(entry.roster[0])
+        // delete entry.roster[0].Quantity;
+        // console.log('QT' + qt);
+
         entry.orderItems = JSON.parse(entry.roster);
+        delete entry.orderItems[0].Quantity;
+        delete entry.orderItems[0].SleeveCut;
 
         delete entry.builder_customizations;
         delete entry.description;
@@ -420,87 +506,103 @@ console.log('send to edit');
         delete entry.item_id;
         delete entry.oid;
         delete entry.roster;
-        // entry.roster = 
+
+        delete entry.order_id;
+        delete entry.pid;
+        delete entry.questions;
+
     });
-// console.log(window.order_parts);
+
         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 
         var order = {
-            "Client": client,
-            "ShippingAttention": ship_contact,
-            "ShippingAddress": ship_address,
-            "ShippingPhone": ship_phone,
-            "ShippingCity": ship_city,
-            "ShippingState": ship_state,
-            "ShippingZipCode": ship_zip,
-            "BillingAttention": billing_contact,
-            "BillingAddress": billing_address,
-            "BillingCity": billing_city,
-            "BillingState": billing_state,
-            "BillingZipCode": billing_zip,
-            "BillingEmail": billing_email,
-            "BillingPhone": billing_phone,
+            "Client": "East High School",
+            "ShippingAttention": "Dustin Brown",
+            "ShippingAddress": "123 East Stree",
+            "ShippingPhone": "(999) 999-9999",
+            "ShippingCity": "Seattle",
+            "ShippingState": "WA",
+            "ShippingZipCode": 97811,
+            "BillingAttention": "East High Billing Department",
+            "BillingAddress": "125 East High Road",
+            "BillingAddress2": "",
+            "BillingCity": "Bellevue",
+            "BillingState": "WA",
+            "BillingZipCode": 98981,
+            "BillingEmail": "billing@easthighschool.com",
+            "BillingPhone": "(999) 999-8888",
+            // "BillingAttention": billing_contact,
+            // "BillingAddress": billing_address,
+            // "BillingCity": billing_city,
+            // "BillingState": billing_state,
+            // "BillingZipCode": '08778',
+            // "BillingEmail": billing_email,
+            // "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
             "RepID": 154,
             "RepIDEnteredBy": 0,
-            "Sport": "All"
+            "Sport": "All",
+            "TeamName": "Wildcats"
         };
 
-        // var orderPart = {
-        //     "ItemID": 455,
-        //     "Description": "Arizona Jersey",
-        //     "DesignSheet": "test.png"
-        // };
-
-
-
-        // var orderQuestionValue = [{
-        //     "QuestionID": 16,
-        //     "Value": "Dazzle (DA)"
-        // }];
-
-        // var orderQuestions = {
-        //     "orderQuestion": orderQuestionValue
-        // };
-
-
-
-        // var orderItems = [{
-        //     "Size": "2XL",
-        //     "Number": "22",
-        //     "Name": "Lee",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0
-        //     },{
-        //     "Size" : "1XL",
-        //     "Number" : "21",
-        //     "Name" : "Brown",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0     
-        //     },{
-        //     "Size" : "XS",
-        //     "Number" : "11",
-        //     "Name" : "Del Rosario",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0     
-        //     }
-        // ];
-
-
-
-        // var orderPartsEntire = [{
-        //     "orderPart": orderPart,
-        //     "orderQuestions": orderQuestions,
-        //     "orderItems": orderItems
-        // }];
-
-
-        var orderEntire =
-        {
-            "Order": order,
-            // "orderParts": orderPartsEntire
+        // var xparts = [{
+        //                           "orderPart": {
+        //                             "ItemID": 2572,
+        //                             "Description": "Grizzlies 2016 Jersey",
+        //                             "DesignSheet": "designsheet.jpg"
+        //                           },
+        //                           "orderQuestions": {
+        //                             "OrderQuestion": [
+        //                               {
+        //                                 "QuestionID": 267,
+        //                                 "Value": "Black"
+        //                               }
+        //                             ]
+        //                           },
+        //                           "orderItems": [
+        //                             {
+        //                               "Size": "2XL",
+        //                               "Number": "22",
+        //                               "Name": "Lee",
+        //                               "LastNameApplication": "Directly to Jersey",
+        //                               "Sample": 0
+        //                             },
+        //                             {
+        //                               "Size": "XL",
+        //                               "Number": "21",
+        //                               "Name": "Brown",
+        //                               "LastNameApplication": "Directly to Jersey",
+        //                               "Sample": 0
+        //                             },
+        //                             {
+        //                               "Size": "M",
+        //                               "Number": "12",
+        //                               "Name": "Smith",
+        //                               "LastNameApplication": "Directly to Jersey",
+        //                               "Sample": 0
+        //                             },
+        //                             {
+        //                               "Size": "M",
+        //                               "Number": "9",
+        //                               "Name": "Johnson",
+        //                               "LastNameApplication": "Directly to Jersey",
+        //                               "Sample": 0
+        //                             },
+        //                             {
+        //                               "Size": "2XL",
+        //                               "Number": "8",
+        //                               "Name": "Frank",
+        //                               "LastNameApplication": "Directly to Jersey",
+        //                               "Sample": 0
+        //                             }
+        //                           ]
+        //                         }];
+        
+        var orderEntire = {
+            "order": order,
             "orderParts" : window.order_parts
+            // "orderParts" : xparts
         };
 
     strResult = JSON.stringify(orderEntire);
@@ -567,10 +669,6 @@ function updateItemsPID(parts){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
-                // $.each(parts, function( index, value ) {
-                //     value['PID'] = factory_order_id;
-                // });
-                // updateItemsPID(parts);
                 console.log("Success! Items PID is updated.");
                 document.location.reload();
             }

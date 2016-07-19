@@ -98,6 +98,7 @@
                                     data-bill-zip="{{ $order->bill_zip }}"
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-fax="{{ $order->bill_fax }}"
+                                    data-ship-id="{{ $order->ship_id }}"
                                     data-ship-organization="{{ $order->ship_organization }}"
                                     data-ship-contact-person="{{ $order->ship_contact_person }}"
                                     data-ship-address="{{ $order->ship_address }}"
