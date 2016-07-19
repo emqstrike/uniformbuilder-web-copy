@@ -166,8 +166,8 @@ $(document).ready(function(){
                     };
             console.log(data);
             $.ajax({
-                // url: '//' + api_host + '/api/order/updateFOID',
-                url: '//localhost:8888/api/billing_info/update',
+                url: '//' + api_host + '/api/billing_info/update',
+                // url: '//localhost:8888/api/billing_info/update',
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: "json",
@@ -324,7 +324,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
 
     // PostOrder();
-console.log('send to edit');
+    console.log('send to edit');
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
@@ -344,7 +344,6 @@ console.log('send to edit');
     billing_email = $(this).data('bill-email');
     billing_phone = $(this).data('bill-phone');
 
-// console.log(order_id);
 
     window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
@@ -369,7 +368,6 @@ console.log('send to edit');
     }
 
     window.order_parts.forEach(function(entry) {
-        // console.log(entry);
         bcx = JSON.parse(entry.builder_customizations);
         entry.orderPart = {
             "ID" : entry.id,
@@ -406,10 +404,7 @@ console.log('send to edit');
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
         var color = color_name + " " + "(" + color_code + ")";
-        // console.log(bc);
-        // console.log('Color: ' + color);
-        // console.log('Questions: ' + JSON.stringify(entryQuestions));
-        // entry.designSheet = entry.builder_customizations.pdfOrderForm;
+
         entry.orderQuestions = {};
         entry.orderItems = JSON.parse(entry.roster);
 
@@ -420,9 +415,9 @@ console.log('send to edit');
         delete entry.item_id;
         delete entry.oid;
         delete entry.roster;
-        // entry.roster = 
+
     });
-// console.log(window.order_parts);
+
         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 
         var order = {
@@ -446,60 +441,9 @@ console.log('send to edit');
             "RepIDEnteredBy": 0,
             "Sport": "All"
         };
-
-        // var orderPart = {
-        //     "ItemID": 455,
-        //     "Description": "Arizona Jersey",
-        //     "DesignSheet": "test.png"
-        // };
-
-
-
-        // var orderQuestionValue = [{
-        //     "QuestionID": 16,
-        //     "Value": "Dazzle (DA)"
-        // }];
-
-        // var orderQuestions = {
-        //     "orderQuestion": orderQuestionValue
-        // };
-
-
-
-        // var orderItems = [{
-        //     "Size": "2XL",
-        //     "Number": "22",
-        //     "Name": "Lee",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0
-        //     },{
-        //     "Size" : "1XL",
-        //     "Number" : "21",
-        //     "Name" : "Brown",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0     
-        //     },{
-        //     "Size" : "XS",
-        //     "Number" : "11",
-        //     "Name" : "Del Rosario",
-        //     "LastNameApplication": "Directly to Jersey",
-        //     "Sample": 0     
-        //     }
-        // ];
-
-
-
-        // var orderPartsEntire = [{
-        //     "orderPart": orderPart,
-        //     "orderQuestions": orderQuestions,
-        //     "orderItems": orderItems
-        // }];
-
-
-        var orderEntire =
-        {
+        
+        var orderEntire = {
             "Order": order,
-            // "orderParts": orderPartsEntire
             "orderParts" : window.order_parts
         };
 
@@ -567,10 +511,6 @@ function updateItemsPID(parts){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
-                // $.each(parts, function( index, value ) {
-                //     value['PID'] = factory_order_id;
-                // });
-                // updateItemsPID(parts);
                 console.log("Success! Items PID is updated.");
                 document.location.reload();
             }
