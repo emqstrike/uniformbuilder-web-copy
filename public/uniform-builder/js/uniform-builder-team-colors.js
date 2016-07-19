@@ -170,13 +170,9 @@ $(document).ready(function () {
 
         if (_factoryCode === "PMP") {
 
-            console.log('Using PMP Color Set');
-
             _colorSet = _.filter(ub.data.colors, {sublimation_only: "0"});
 
         } else {
-
-            console.log('Using BLB Color Set');
 
             _colorSet = ub.data.colors;
 
