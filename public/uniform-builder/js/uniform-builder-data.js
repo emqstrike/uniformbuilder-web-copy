@@ -2319,7 +2319,7 @@ ub.funcs.fontOffSets = [
             origY: 168,
             origX: 118.466,
             adjustmentY: 168,
-            adjustmentX: 15,
+            adjustmentX: 117,
             scaleY: 1,
             scaleX: 1,
         },{

@@ -1,7 +1,7 @@
 /vendor
 /node_modules
 /public/uniform-builder/css/*
-/public/design_sheets/*
+/public/design_sheets/*.pdf
 Homestead.yaml
 .env
 .env-staging
