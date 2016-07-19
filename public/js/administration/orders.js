@@ -58,11 +58,11 @@ $(document).ready(function(){
 
 
     $('.view-roster-details').on('click', function(){
-        // console.log('Roster details');
+
         var item = $(this).data('item');
         var roster = $(this).data('roster');
         var rows = '<tr>'
-        // console.log(roster);
+
         $.each(roster, function(i, item){
             rows += '<td>'+item.Size+'</td>';
             rows += '<td>'+item.Number+'</td>';
@@ -83,16 +83,13 @@ $(document).ready(function(){
         var orderId = $(this).data('order-id');
         var client = $(this).data('client');
 
-        // $('#view-order-modal .order-client strong').html(client);
         $('#view-order-modal .order-client').val( $(this).data('client') );
         $('#view-order-modal .order-email strong').html($(this).data('email'));
         $('#view-order-modal .order-uniform-type strong').html($(this).data('uniform-type'));
         // Athletic Director
         $('#view-order-modal .order-director-organization strong').html($(this).data('director-organization'));
         $('#view-order-modal .order-director-contact-person strong').html($(this).data('director-contact-person'));
-        // Billing Information
-        // $('#view-order-modal .order-bill-organization strong').html($(this).data('bill-organization'));
-        // console.log($(this).data('bill-id'));
+
         var bill_id = $(this).data('bill-id');
         var ship_id = $(this).data('ship-id');
         var order_id = $(this).data('order-id');
@@ -178,7 +175,6 @@ $(document).ready(function(){
             console.log(data);
             $.ajax({
                 url: '//' + api_host + '/api/billing_info/update',
-                // url: '//localhost:8888/api/billing_info/update',
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: "json",
@@ -189,8 +185,6 @@ $(document).ready(function(){
                     if (response.success) {
                         console.log("Success! Billing Info is updated.");
                         UpdateShipping(ship_id, order_id);
-                        // UpdateClientInfo(order_id);
-                        // document.location.reload();
                     }
                 }
             });
@@ -218,7 +212,6 @@ $(document).ready(function(){
                 console.log('order id >>' + order_id);
                 $.ajax({
                     url: '//' + api_host + '/api/shipping_info/update',
-                    // url: '//localhost:8888/api/billing_info/update',
                     type: "POST",
                     data: JSON.stringify(data),
                     dataType: "json",
@@ -228,7 +221,6 @@ $(document).ready(function(){
                     success: function(response){
                         if (response.success) {
                             console.log("Success! Shipping Info is updated.");
-                            // document.location.reload();
                             UpdateClientInfo(order_id);
                         }
                     }
@@ -246,7 +238,6 @@ $(document).ready(function(){
                 console.log('Order Data - Client - ' + JSON.stringify(data));
                 $.ajax({
                     url: '//' + api_host + '/api/order/update',
-                    // url: '//localhost:8888/api/billing_info/update',
                     type: "POST",
                     data: JSON.stringify(data),
                     dataType: "json",
@@ -263,107 +254,6 @@ $(document).ready(function(){
             }
         });
     });
-
-$('.view-builder-customization').on('click', function(){
-//     api_order_id = $(this).data('api-order-id');
-//     order_id = $(this).data('order-id');
-//     client = $(this).data('client');
-
-//     ship_contact = $(this).data('ship-contact');
-//     ship_address = $(this).data('ship-address');
-//     ship_phone = $(this).data('ship-phone');
-//     ship_city = $(this).data('ship-city');
-//     ship_state = $(this).data('ship-state');
-//     ship_zip = $(this).data('ship-zip');
-
-//     billing_contact = $(this).data('bill-contact');
-//     billing_address = $(this).data('bill-address');
-//     billing_city = $(this).data('bill-city');
-//     billing_state = $(this).data('bill-state');
-//     billing_zip = $(this).data('bill-zip');
-//     billing_email = $(this).data('bill-email');
-//     billing_phone = $(this).data('bill-phone');
-
-// console.log(order_id);
-
-//     window.order_parts = null;
-//     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
-
-
-
-//     function getOrderParts(callback){
-//         var order_parts;
-//         var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
-//         $.ajax({
-//             url: url,
-//             async: false,
-//             type: "GET",
-//             dataType: "json",
-//             crossDomain: true,
-//             contentType: 'application/json',
-//             success: function(data){
-//                 order_parts = data['order'];
-//                 if(typeof callback === "function") callback(order_parts);
-//             }
-//         });
-//     }
-
-//     window.order_parts.forEach(function(entry) {
-//         entry.orderPart = {
-//             "ID" : entry.id,
-//             "ItemID" : entry.item_id,
-//             "Description" : entry.description,
-//             "DesignSheet" : entry.design_sheet,
-//             "BuilderCustomizations" : JSON.stringify(entry.builder_customizations)
-//         };
-
-//         entry.orderQuestions = {};
-//         entry.orderItems = JSON.parse(entry.roster);
-
-//         delete entry.builder_customizations;
-//         delete entry.description;
-//         delete entry.factory_order_id;
-//         delete entry.id;
-//         delete entry.item_id;
-//         delete entry.oid;
-//         delete entry.roster;
-//         // entry.roster = 
-//     });
-// // console.log(window.order_parts);
-//         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
-
-//         var order = {
-//             "Client": client,
-//             "ShippingAttention": ship_contact,
-//             "ShippingAddress": ship_address,
-//             "ShippingPhone": ship_phone,
-//             "ShippingCity": ship_city,
-//             "ShippingState": ship_state,
-//             "ShippingZipCode": ship_zip.toString(),
-//             "BillingAttention": billing_contact,
-//             "BillingAddress": billing_address,
-//             "BillingCity": billing_city,
-//             "BillingState": billing_state,
-//             "BillingZipCode": billing_zip.toString(),
-//             "BillingEmail": billing_email,
-//             "BillingPhone": billing_phone,
-//             "APICode": 1,
-//             "Gender": 'M',
-//             "RepID": 154,
-//             "RepIDEnteredBy": 0,
-//             "Sport": "All"
-//         };
-
-//         var orderEntire =
-//         {
-//             "Order": order,
-//             // "orderParts": orderPartsEntire
-//             "orderParts" : window.order_parts
-//         };
-
-//     strResult = JSON.stringify(orderEntire);
-//     console.log( strResult );
-});
 
 $('.factory-oid').on('click', function(e){
     e.preventDefault();
