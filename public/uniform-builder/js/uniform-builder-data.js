@@ -2209,7 +2209,7 @@ $(document).ready(function() {
 
     ];
 
-ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears'];
+ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS'];
 
 ub.funcs.fontOffSets = [
 
@@ -2890,9 +2890,146 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },
       /// End Carbon Block 33 9
+      /// Start HAWKS
+        {
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'right',
+            size: '4',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 85,
+            adjustmentX: 474.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'right',
+            size: '3',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 83,
+            adjustmentX: 472.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'front',
+            size: '4',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 78,
+            adjustmentX: 243,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'front',
+            size: '3',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 80,
+            adjustmentX: 248,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'back',
+            size: '4',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 49,
+            adjustmentX: 780,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'HAWKS',
+            perspective: 'back',
+            size: '3',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 48,
+            adjustmentX: 770,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'right',
+            size: '4',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 193,
+            adjustmentX: 472.512,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'right',
+            size: '3',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 190,
+            adjustmentX: 474.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'front',
+            size: '4',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 185,
+            adjustmentX: 112,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'front',
+            size: '3',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 182,
+            adjustmentX: 118,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'back',
+            size: '4',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 189,
+            adjustmentX: 890,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'HAWKS',
+            perspective: 'back',
+            size: '3',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 182,
+            adjustmentX: 884,
+            scaleY: 1,
+            scaleX: 1,
+        },
+      /// End HAWKS 33 and 9
+
+      /// END 33 and 9
 
 
-/// Start Badgers
+      /// Start Badgers
        {   
            location: '32',
            fontName: 'Badgers',
