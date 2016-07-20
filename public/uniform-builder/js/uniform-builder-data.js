@@ -2209,7 +2209,7 @@ $(document).ready(function() {
 
     ];
 
-ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS'];
+ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs'];
 
 ub.funcs.fontOffSets = [
 
@@ -3025,9 +3025,143 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },
       /// End HAWKS 33 and 9
+      /// Start Horned Frogs
+       {
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'right',
+            size: '4',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 79,
+            adjustmentX: 474.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'right',
+            size: '3',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 79,
+            adjustmentX: 472.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'front',
+            size: '4',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 78,
+            adjustmentX: 252,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'front',
+            size: '3',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 73,
+            adjustmentX: 255,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'back',
+            size: '4',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 40,
+            adjustmentX: 770,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'Horned Frogs',
+            perspective: 'back',
+            size: '3',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 46,
+            adjustmentX: 765,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'right',
+            size: '4',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 183,
+            adjustmentX: 472.512,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'right',
+            size: '3',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 183,
+            adjustmentX: 472.512,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'front',
+            size: '4',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 178,
+            adjustmentX: 114,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'front',
+            size: '3',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 176,
+            adjustmentX: 117,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'back',
+            size: '4',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 175,
+            adjustmentX: 888,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'Horned Frogs',
+            perspective: 'back',
+            size: '3',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 175,
+            adjustmentX: 883,
+            scaleY: 1,
+            scaleX: 1,
+        },
+        /// End Horned Frogs 33 and 9
 
       /// END 33 and 9
-
 
       /// Start Badgers
        {   
