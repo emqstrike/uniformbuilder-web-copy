@@ -4804,6 +4804,21 @@
 
         }
 
+        if (typeof _settingsObject.size === 'undefined') {
+
+            if (application_id !== 2 || application_id !== 5) {
+
+                _settingsObject.size = 4;
+
+            }
+            else {
+
+                _settingsObject.size = 10;
+
+            }
+
+        }
+
         _.each(_inputSizes, function (size) {
 
             var _additionalClass = '';
@@ -5711,6 +5726,21 @@
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
+        if (typeof _settingsObject.font_size === 'undefined') {
+
+            if (application_id !== 2 || application_id !== 5) {
+
+                _settingsObject.font_size = 4;
+
+            }
+            else {
+
+                _settingsObject.font_size = 10;
+
+            }
+
+        }
+
         _.each(_sizes.sizes, function (size) {
 
             var _additionalClass = '';
@@ -5718,6 +5748,15 @@
             if (size.size === _settingsObject.font_size) {
 
                 _additionalClass = 'active';
+
+            }
+            else {
+
+                console.log('size.size');
+                console.log(size.size);
+
+                console.log('_settingsObject.font_size');
+                console.log(_settingsObject.font_size);
 
             }
 
