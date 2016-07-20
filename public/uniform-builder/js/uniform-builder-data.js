@@ -2359,7 +2359,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 86,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.58,
             scaleX: 1,
         },{
             location: '33',
@@ -2370,7 +2370,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 81,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.63,
             scaleX: 1,
         },{
             location: '33',
@@ -2495,7 +2495,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 78,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.6,
             scaleX: 1,
         },{
             location: '33',
@@ -2506,7 +2506,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 76,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.7,
             scaleX: 1,
         },{
             location: '33',
@@ -2630,7 +2630,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 80,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.6,
             scaleX: 1,
         },{
             location: '33',
@@ -2641,7 +2641,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 77,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.65,
             scaleX: 1,
         },{
             location: '33',
@@ -2763,9 +2763,9 @@ ub.funcs.fontOffSets = [
             size: '4',
             origY: 74,
             origX: 486.466,
-            adjustmentY: 86,
+            adjustmentY: 74,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.58,
             scaleX: 1,
         },{
             location: '33',
@@ -2776,7 +2776,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 75,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.65,
             scaleX: 1,
         },{
             location: '33',
@@ -2900,7 +2900,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 85,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.57,
             scaleX: 1,
         },{
             location: '33',
@@ -2911,7 +2911,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 83,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.68,
             scaleX: 1,
         },{
             location: '33',
@@ -3035,7 +3035,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 79,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.56,
             scaleX: 1,
         },{
             location: '33',
@@ -3046,7 +3046,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 79,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.68,
             scaleX: 1,
         },{
             location: '33',
@@ -3170,7 +3170,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 85,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.58,
             scaleX: 1,
         },{
             location: '33',
@@ -3181,7 +3181,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 82,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.7,
             scaleX: 1,
         },{
             location: '33',
@@ -3305,7 +3305,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 77,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.6,
             scaleX: 1,
         },{
             location: '33',
@@ -3316,7 +3316,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 77,
             adjustmentX: 472.012,
-            scaleY: 1,
+            scaleY: 0.68,
             scaleX: 1,
         },{
             location: '33',
@@ -3440,7 +3440,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 80,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.6,
             scaleX: 1,
         },{
             location: '33',
@@ -3451,7 +3451,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 77,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.68,
             scaleX: 1,
         },{
             location: '33',
@@ -3575,7 +3575,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 79,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.57,
             scaleX: 1,
         },{
             location: '33',
@@ -3586,7 +3586,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 77,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.7,
             scaleX: 1,
         },{
             location: '33',
@@ -3710,7 +3710,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 79,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.58,
             scaleX: 1,
         },{
             location: '33',
@@ -3721,7 +3721,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 78,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.7,
             scaleX: 1,
         },{
             location: '33',
@@ -3845,7 +3845,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 80,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.58,
             scaleX: 1,
         },{
             location: '33',
@@ -3856,7 +3856,7 @@ ub.funcs.fontOffSets = [
             origX: 486.466,
             adjustmentY: 76,
             adjustmentX: 474.012,
-            scaleY: 1,
+            scaleY: 0.68,
             scaleX: 1,
         },{
             location: '33',
