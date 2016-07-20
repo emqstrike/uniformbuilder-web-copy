@@ -489,6 +489,20 @@ $(document).ready(function () {
 
                 });
 
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
                 $("path#arc" + index + '-' + modLabel.fullname).css('cursor','pointer');
 
                 $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
