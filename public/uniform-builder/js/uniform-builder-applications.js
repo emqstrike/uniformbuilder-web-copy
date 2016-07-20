@@ -3026,6 +3026,7 @@
 
                 ub.funcs.initTeamColors();
                 $pd.hide();
+                $('div#right-main-window').css('overflow','hidden');
 
                 return;
 
