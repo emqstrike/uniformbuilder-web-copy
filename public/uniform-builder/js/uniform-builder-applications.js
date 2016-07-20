@@ -3088,6 +3088,10 @@
             return; 
         }
 
+        if ($('div#cw').html().length === 0) {
+                ub.funcs.drawColorPickers();
+        }
+
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
         var _next_label     =   $('span.next_label').html();
@@ -3123,6 +3127,10 @@
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
+
+        if ($('div#cw').html().length === 0) {
+            ub.funcs.drawColorPickers();
+        }
 
         if (_currentPart >= 1) {
 
