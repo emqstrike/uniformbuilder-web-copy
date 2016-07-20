@@ -2209,7 +2209,7 @@ $(document).ready(function() {
 
     ];
 
-ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars'];
+ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars', 'MARYLAND'];
 
 ub.funcs.fontOffSets = [
 
@@ -3295,11 +3295,146 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },
       /// End Jaguars
+      /// Start Maryland
+        {
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'right',
+            size: '4',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 77,
+            adjustmentX: 474.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'right',
+            size: '3',
+            origY: 74,
+            origX: 486.466,
+            adjustmentY: 77,
+            adjustmentX: 472.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'front',
+            size: '4',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 79,
+            adjustmentX: 258,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'front',
+            size: '3',
+            origY: 72,
+            origX: 258.466,
+            adjustmentY: 75,
+            adjustmentX: 258,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'back',
+            size: '4',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 37,
+            adjustmentX: 767,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '33',
+            fontName: 'MARYLAND',
+            perspective: 'back',
+            size: '3',
+            origY: 44,
+            origX: 760.466,
+            adjustmentY: 45,
+            adjustmentX: 760,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'right',
+            size: '4',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 180,
+            adjustmentX: 472.512,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'right',
+            size: '3',
+            origY: 180,
+            origX: 478.486,
+            adjustmentY: 180,
+            adjustmentX: 474.012,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'front',
+            size: '4',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 172,
+            adjustmentX: 115,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'front',
+            size: '3',
+            origY: 168,
+            origX: 118.466,
+            adjustmentY: 175,
+            adjustmentX: 124,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'back',
+            size: '4',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 172,
+            adjustmentX: 892,
+            scaleY: 1,
+            scaleX: 1,
+        },{
+            location: '9',
+            fontName: 'MARYLAND',
+            perspective: 'back',
+            size: '3',
+            origY: 174,
+            origX: 884.466,
+            adjustmentY: 170,
+            adjustmentX: 879,
+            scaleY: 1,
+            scaleX: 1,
+        },
+        /// End MARYLAND
 
-      /// END 33 and 9
+        /// END 33 and 9
 
-      /// Start Badgers
-       {   
+        /// Start Badgers
+        {   
            location: '32',
            fontName: 'Badgers',
            perspective: 'left',
