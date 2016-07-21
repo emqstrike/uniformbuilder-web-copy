@@ -14,8 +14,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Login
-                        <span class="caret"></span>
+                        
+                        LOGIN
+                        
                     </a>
                     <ul id="login-dp" class="dropdown-menu">
                         <li>
@@ -46,7 +47,7 @@
                 </li>
                 <li>
                     <a class="user-signup" href="#">
-                        Signup
+                        Don't have an Account?
                     </a>
                 </li>
             </ul>

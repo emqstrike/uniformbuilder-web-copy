@@ -5751,16 +5751,7 @@
                 _additionalClass = 'active';
 
             }
-            else {
-
-                console.log('size.size');
-                console.log(size.size);
-
-                console.log('_settingsObject.font_size');
-                console.log(_settingsObject.font_size);
-
-            }
-
+            
             _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
         });                    
