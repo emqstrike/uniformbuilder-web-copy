@@ -1301,6 +1301,12 @@ div.applications_dropdown {
     overflow: hidden;
     background-color: rgba(255,255,255,.8);
 
+    margin-top: 1px;
+    padding-top: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+
     .help-block {
         font-size: 12px;
     }
@@ -1684,7 +1690,7 @@ input.fe_input, select.fe_input {
 
 .dropdown-menu {
 
-    background-color: @text_color !important;
+    background-color: #acacac !important;
     border-radius: 0px !important;
 
 }
@@ -4816,17 +4822,11 @@ div.header-container.main {
         border-radius: 0px;
     }
 
-    .btn:hover {
 
-        color: white;
-        background-color: #3d3d3d;
-        border: solid 1px white;
-
-    }
 
     .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
         color: white;
-        background-color: #3d3d3d;
+        background-color: #acacac;
         box-shadow: none;
         background-image: none;
     }
@@ -4862,6 +4862,8 @@ div.header-container.main {
         right: 0;
         left: initial;
         border: none;
+        min-width: 350px;
+        margin-top: 1px;
 
     }    
 
@@ -4869,6 +4871,8 @@ div.header-container.main {
 
         color: white;
         background-color: #acacac;
+        min-width: 170px;
+        text-align: center;
 
     }
 
@@ -4877,6 +4881,25 @@ div.header-container.main {
         color: white;
         background-color: #3d3d3d;
 
+    }
+
+    button.btn {
+
+        background-color: #e7e7e7;
+        color: #3d3d3d;
+
+    }
+
+    .btn:hover {
+
+        color: white;
+        background-color: #3d3d3d;
+        
+    }
+
+    .btn-group>.btn:first-child {
+        margin-left: 0;
+        min-width: 150px;
     }
 
 /* End User Management */
