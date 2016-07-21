@@ -37,18 +37,14 @@
                                                 <i class="fa fa-sign-in"></i>
                                                 Sign in
                                             </button>
-                                            <div class="help-block text-right"><a href="/forgotPassword">Forgot your password?</a></div>
+                                            <div class="help-block text-right"><br />
+                                                <a class="user-signup" href="#">Don't have an Account?</a> | <a href="/forgotPassword">Forgot your password?</a></div>
                                         </div>
                                     </form>
                                 </div>
                              </div>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a class="user-signup" href="#">
-                        Don't have an Account?
-                    </a>
                 </li>
             </ul>
             @else
