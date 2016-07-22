@@ -340,7 +340,7 @@ $('.send-to-factory').on('click', function(e){
 
 
     window.order_parts.forEach(function(entry) {
-        bcx = entry.builder_customizations;
+        bcx = JSON.parse(entry.builder_customizations);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
@@ -348,7 +348,7 @@ $('.send-to-factory').on('click', function(e){
             "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
         };
         // console.log(entry.orderPart);
-        // console.log('BC >>>>' + bcx);
+        // console.log('DSheet >>>>' + entry.orderPart.DesignSheet);
         var entryQuestions = null;
         getQuestions(function(questions){ entryQuestions = questions; });
 
@@ -372,7 +372,7 @@ $('.send-to-factory').on('click', function(e){
         }
 
         // console.log( JSON.stringify(entryQuestions) );
-        var utpi = null;
+        var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
         $.each(entryQuestions, function(i, item) {
             if( item.QuestionID == 267 ){
                 utpi = "inf_14";
@@ -380,11 +380,45 @@ $('.send-to-factory').on('click', function(e){
         });
 
 
+
         var bc = JSON.parse(entry.builder_customizations);
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
-        var color = color_name + " " + "(" + color_code + ")";
-        console.log("Body color: " + color);
+        var body_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['name']).slice(1, -1);
+        var right_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['name']).slice(1, -1);
+        var left_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
+        var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
+        var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['name']).slice(1, -1);
+        var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
+
+        var body_pattern_raw = JSON.stringify(bc['upper']['Body']['pattern']['pattern_id']).slice(1, -1);
+        var left_sleeve_pattern_raw = JSON.stringify(bc['upper']['Left Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
+        var right_sleeve_pattern_raw = JSON.stringify(bc['upper']['Right Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
+        var neck_trim_pattern_raw = JSON.stringify(bc['upper']['Front Neck Trim']['pattern']['pattern_id']).slice(1, -1);
+
+        var body_pattern = translatePattern(body_pattern_raw);
+        var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
+        var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
+        var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
+
+        console.log("Body color: " + body_color);
+        console.log("Right Sleeve color: " + right_sleeve_color);
+        console.log("Left Sleeve color: " + left_sleeve_color);
         // entry.orderQuestions = {
         //     "OrderQuestion": [{
         //         "QuestionID": 267,
@@ -394,7 +428,20 @@ $('.send-to-factory').on('click', function(e){
         //         "Value": color
         //     }]
         // };
-        var questions_valid = buildQuestions(utpi);
+        var questionsValues = {
+            "body_color" : body_color,
+            "body_pattern" : body_pattern,
+            "right_sleeve_color" : right_sleeve_color,
+            "left_sleeve_color" : left_sleeve_color,
+            "right_shoulder_cowl_color" : right_shoulder_cowl_color,
+            "left_shoulder_cowl_color" : left_shoulder_cowl_color,
+            "front_neck_trim_color" : front_neck_trim_color,
+            "right_sleeve_pattern" : right_sleeve_pattern,
+            "left_sleeve_pattern" : left_sleeve_pattern,
+            "neck_trim_pattern" : neck_trim_pattern
+        };
+
+        var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
@@ -583,16 +630,55 @@ function updateItemsPID(parts){
     });
 }
 
-function buildQuestions( utpi ){
+function translatePattern(body_pattern_raw){
+    var pattern = null;
+    if(body_pattern_raw == "stripe"){
+        pattern = "Stripes"
+    }
+
+    return pattern;
+}
+
+function buildQuestions( utpi, questionsValues ){
     var questions = [];
 
     if( utpi == "inf_14" ){
         questions = [{
+                "QuestionID": 266,
+                "Value": questionsValues.body_pattern
+            }, {
                 "QuestionID": 267,
-                "Value": color
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 272,
+                "Value": questionsValues.body_pattern
             }, {
                 "QuestionID": 273,
-                "Value": color
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 284,
+                "Value": questionsValues.left_sleeve_color
+            }, {
+                "QuestionID": 289,
+                "Value": questionsValues.right_sleeve_color
+            }, {
+                "QuestionID": 312,
+                "Value": questionsValues.left_shoulder_cowl_color
+            }, {
+                "QuestionID": 306,
+                "Value": questionsValues.right_shoulder_cowl_color
+            }, {
+                "QuestionID": 294,
+                "Value": questionsValues.front_neck_trim_color
+            }, {
+                "QuestionID": 278,
+                "Value": questionsValues.left_sleeve_pattern
+            }, {
+                "QuestionID": 280,
+                "Value": questionsValues.right_sleeve_pattern
+            }, {
+                "QuestionID": 282,
+                "Value": questionsValues.neck_trim_pattern
             }];
     }
 
