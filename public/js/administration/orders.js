@@ -337,15 +337,18 @@ $('.send-to-factory').on('click', function(e){
         });
     }
 
+
+
     window.order_parts.forEach(function(entry) {
-        bcx = JSON.parse(entry.builder_customizations);
+        bcx = entry.builder_customizations;
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
         };
-        console.log(entry.orderPart)
+        // console.log(entry.orderPart);
+        // console.log('BC >>>>' + bcx);
         var entryQuestions = null;
         getQuestions(function(questions){ entryQuestions = questions; });
 
@@ -368,18 +371,32 @@ $('.send-to-factory').on('click', function(e){
             });
         }
 
+        // console.log( JSON.stringify(entryQuestions) );
+        var utpi = null;
+        $.each(entryQuestions, function(i, item) {
+            if( item.QuestionID == 267 ){
+                utpi = "inf_14";
+            }
+        });
 
 
         var bc = JSON.parse(entry.builder_customizations);
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
         var color = color_name + " " + "(" + color_code + ")";
-
+        console.log("Body color: " + color);
+        // entry.orderQuestions = {
+        //     "OrderQuestion": [{
+        //         "QuestionID": 267,
+        //         "Value": color
+        //     }, {
+        //         "QuestionID": 273,
+        //         "Value": color
+        //     }]
+        // };
+        var questions_valid = buildQuestions(utpi);
         entry.orderQuestions = {
-            "OrderQuestion": [{
-                "QuestionID": 267,
-                "Value": "Black"
-            }]
+            "OrderQuestion": questions_valid
         };
         // var qt = JSON.parse(entry.roster[0])
         // delete entry.roster[0].Quantity;
@@ -406,21 +423,21 @@ $('.send-to-factory').on('click', function(e){
         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 
         var order = {
-            "Client": "East High School",
-            "ShippingAttention": "Dustin Brown",
-            "ShippingAddress": "123 East Stree",
-            "ShippingPhone": "(999) 999-9999",
-            "ShippingCity": "Seattle",
-            "ShippingState": "WA",
-            "ShippingZipCode": 97811,
-            "BillingAttention": "East High Billing Department",
-            "BillingAddress": "125 East High Road",
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
             "BillingAddress2": "",
-            "BillingCity": "Bellevue",
-            "BillingState": "WA",
-            "BillingZipCode": 98981,
-            "BillingEmail": "billing@easthighschool.com",
-            "BillingPhone": "(999) 999-8888",
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
             // "BillingAttention": billing_contact,
             // "BillingAddress": billing_address,
             // "BillingCity": billing_city,
@@ -564,6 +581,22 @@ function updateItemsPID(parts){
             }
         }
     });
+}
+
+function buildQuestions( utpi ){
+    var questions = [];
+
+    if( utpi == "inf_14" ){
+        questions = [{
+                "QuestionID": 267,
+                "Value": color
+            }, {
+                "QuestionID": 273,
+                "Value": color
+            }];
+    }
+
+    return questions;
 }
 
 });
