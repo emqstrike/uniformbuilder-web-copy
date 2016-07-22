@@ -122,6 +122,8 @@
 
 </div>
 
+@yield('my-orders')
+
 
 <!--
 <div class="container-fluid uniform-suggestions">
@@ -139,6 +141,7 @@
 @else
     @include('partials.signup-modal')
 @endif
+
 @include('partials.team-roster-modal')
 
 @include('partials.controls.ui-controls')
@@ -224,6 +227,8 @@
             $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
 
         @endif
+
+        window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         // #load_order
         var s = "{{ $builder_customizations }}";

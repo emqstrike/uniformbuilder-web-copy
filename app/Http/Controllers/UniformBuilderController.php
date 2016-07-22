@@ -1121,4 +1121,25 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function myOrders(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-orders',
+        ];
+
+        return view('editor.my-orders', $params);
+
+    }
+
 }

@@ -78,26 +78,4 @@ $(document).ready(function () {
 
     /// End UI Functions
 
-    $('a.navbar-brand').on('click', function (evt) {
-
-        ub.funcs.initGenderPicker();
-        return;
-
-        if(ub.debug.UI_VERSION === 1) {
-
-            ub.debug.UI_VERSION = 0.5;
-
-        }
-        else {
-
-           window.location.reload();
-
-        }
-
-        return false;
-
-    });
-
-
-
 });

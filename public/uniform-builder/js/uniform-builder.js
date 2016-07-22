@@ -4662,6 +4662,47 @@ $(document).ready(function () {
 
     /// End Sidebar 
 
+    /// Orders  
+
+    ub.funcs.displayLoginForm = function () {
+    
+        $('a.dropdown-toggle').trigger('click');
+
+    };
+
+    ub.funcs.displayMyOrders = function () {
+
+        var $container = $('div.order-list');
+      
+        var template = $('#m-orders-table').html();
+        var data = {
+            application_id: '1',
+        }
+
+        var markup = Mustache.render(template, data);
+        
+        $container.html(markup);
+
+    }
+
+    if (ub.page === 'my-orders') {
+
+        $('div#main-picker-container').remove();
+        $('body').css('background-image', 'none');
+
+        if (!window.ub.user) { 
+            ub.funcs.displayLoginForm(); 
+            return;
+        } 
+
+        ub.funcs.displayMyOrders();
+
+
+
+    }
+
+    /// End Orders
+
 
     /// Saving, Loading and Sharing /// 
 
