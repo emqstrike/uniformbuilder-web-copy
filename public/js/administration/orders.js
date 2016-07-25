@@ -57,8 +57,8 @@ $(document).ready(function(){
     });
 
 
-    $('.view-roster-details').on('click', function(){
-
+    $('.view-roster-details').on('click', function(e){
+        e.preventDefault();
         var item = $(this).data('item');
         var roster = $(this).data('roster');
         var rows = '<tr>'
