@@ -30,12 +30,14 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 
-// Orders 
+// Orders and Profile
 
     Route::get('/my-orders', 'UniformBuilderController@myOrders');
+    Route::get('/my-profile', 'UniformBuilderController@myProfile');
+    Route::get('/signup', 'UniformBuilderController@signup');
+    Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 
-//
-
+// End Orders and Profile
 
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');

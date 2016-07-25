@@ -816,3 +816,32 @@
     </script>   
 
 <!-- End Orders Table -->
+
+<!-- Profile -->
+
+    <script type="text/mustache" id="m-profile-page">
+
+    </script>   
+
+<!-- End Profile -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-signup-page">
+
+        
+
+    </script>   
+
+<!-- End Sigunup -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-forgot-password">
+
+
+
+    </script>   
+
+<!-- End Sigunup -->
+

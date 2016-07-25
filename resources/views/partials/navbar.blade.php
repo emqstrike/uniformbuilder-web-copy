@@ -38,7 +38,7 @@
                                                 Sign in
                                             </button>
                                             <div class="help-block text-right"><br />
-                                                <a class="user-signup" href="#">Don't have an Account?</a> | <a href="/forgotPassword">Forgot your password?</a></div>
+                                                <a class="user-signup" href="/signup">Don't have an Account?</a> | <a href="/forgot-password">Forgot your password?</a></div>
                                         </div>
                                     </form>
                                 </div>
@@ -59,7 +59,7 @@
                </button>
 
                <ul class = "dropdown-menu" role="menu">
-                  <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                  <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li class="divider"></li>
