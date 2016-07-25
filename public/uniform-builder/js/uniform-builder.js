@@ -4767,6 +4767,48 @@ $(document).ready(function () {
 
     /// End Signup
 
+    /// Change Password Post
+
+    ub.funcs.submitChangePasswordPOST = function () {
+
+            var _postData = {
+
+                user_id: $('input.user_id').val(),
+                hash: $('input.hash').val(),
+                _token: $('input.csrf-token').val(),
+                old_password: $('input#old-password').val(),
+                new_password: $('input#new-password').val(),
+
+            };
+
+            $.ajax({
+                
+                url: '/saveChangedPassword',
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (response.success) {
+                        $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                        window.location.href = window.ub.config.host;
+                    } else {
+
+                        $.smkAlert({text: 'There is an error processing this request', type:'error', permanent: false, time: 5, marginTop: '90px'});
+
+                    }
+
+                }
+                
+            });
+
+        };
+
+    /// End Change Password Post
+
     /// Forgot Password
 
         ub.funcs.submitForgotPasswordPOST = function () {
@@ -4873,9 +4915,7 @@ $(document).ready(function () {
 
     /// End Forgot Password
 
-     /// Reset Password
-
-
+    /// Reset Password
 
         ub.funcs.resetPassword = function () {
 
