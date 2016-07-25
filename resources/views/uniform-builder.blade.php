@@ -214,6 +214,27 @@
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
             };
 
+              $('button#change-password-submit').on('click', function() {
+
+                if($('input#old-password').val() === ""){
+
+                   $.smkAlert({text: 'Password cant be blank', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                if($('input#new-password').val() !== $('input#confirm-password').val()){
+
+                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                ub.funcs.submitChangePasswordPOST();
+                return false;
+
+            });
+
         @else
 
             window.ub.user = false;
@@ -285,6 +306,8 @@
                 return false;
 
             });
+
+          
 
         @endif
 

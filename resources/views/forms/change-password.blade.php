@@ -17,7 +17,7 @@
 
             <span class='header'>Change Password</span>
 
-            <form id="change-password" class="change-password pinhp-form" method="POST" novalidate="novalidate" style="display: block;">
+            <form id="change-password" class="change-password pinhp-form" novalidate="novalidate" style="display: block;">
                 <input type="hidden" class='csrf-token' name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" class='user_id' name="user_id" value="{{ Session::get('userId') }}">
                 <div class='col-md-12'>
