@@ -441,9 +441,9 @@ $(document).ready(function () {
                 _strBuilder     += '<div class="color-wheel" id="cw_' + modLabel.index + '">';
                 _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';
                 _tempIndex      += 1;
-                _strBuilder     += '<circle class="preview" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
-                _strBuilder     += '<text class="previewColorCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
-                _strBuilder     += '<text class="previewColorName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
+                _strBuilder     += '<circle class="preview growCircle" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
+                _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
+                _strBuilder     += '<text class="previewColorName growTextName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
@@ -484,6 +484,20 @@ $(document).ready(function () {
 
                 $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').css('cursor', 'pointer');
                 $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').on('click', function () {
 
                     $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
 

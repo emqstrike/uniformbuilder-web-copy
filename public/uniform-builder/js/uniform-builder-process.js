@@ -464,11 +464,10 @@ $(document).ready(function() {
             success: function (response){
 
                 console.log(response.message);
+                $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
                 ub.showModal('Your order is now submitted. Thank you.')
                 ub.funcs.initGenderPicker();
-
-                $('div#validate-order-form').remove();
 
             }
             

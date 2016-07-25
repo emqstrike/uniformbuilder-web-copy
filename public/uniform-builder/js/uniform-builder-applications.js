@@ -3026,6 +3026,7 @@
 
                 ub.funcs.initTeamColors();
                 $pd.hide();
+                $('div#right-main-window').css('overflow','hidden');
 
                 return;
 
@@ -3088,6 +3089,10 @@
             return; 
         }
 
+        if ($('div#cw').html().length === 0) {
+                ub.funcs.drawColorPickers();
+        }
+
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
         var _next_label     =   $('span.next_label').html();
@@ -3123,6 +3128,10 @@
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
+
+        if ($('div#cw').html().length === 0) {
+            ub.funcs.drawColorPickers();
+        }
 
         if (_currentPart >= 1) {
 
@@ -4796,6 +4805,21 @@
 
         }
 
+        if (typeof _settingsObject.size === 'undefined') {
+
+            if (application_id !== 2 || application_id !== 5) {
+
+                _settingsObject.size = 4;
+
+            }
+            else {
+
+                _settingsObject.size = 10;
+
+            }
+
+        }
+
         _.each(_inputSizes, function (size) {
 
             var _additionalClass = '';
@@ -5703,6 +5727,21 @@
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
 
+        if (typeof _settingsObject.font_size === 'undefined') {
+
+            if (application_id !== 2 || application_id !== 5) {
+
+                _settingsObject.font_size = 4;
+
+            }
+            else {
+
+                _settingsObject.font_size = 10;
+
+            }
+
+        }
+
         _.each(_sizes.sizes, function (size) {
 
             var _additionalClass = '';
@@ -5712,7 +5751,7 @@
                 _additionalClass = 'active';
 
             }
-
+            
             _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
         });                    
