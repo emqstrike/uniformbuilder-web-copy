@@ -337,6 +337,8 @@ $('.send-to-factory').on('click', function(e){
         });
     }
 
+
+
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
         entry.orderPart = {
@@ -345,7 +347,8 @@ $('.send-to-factory').on('click', function(e){
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
         };
-        console.log(entry.orderPart)
+        // console.log(entry.orderPart);
+        // console.log('DSheet >>>>' + entry.orderPart.DesignSheet);
         var entryQuestions = null;
         getQuestions(function(questions){ entryQuestions = questions; });
 
@@ -368,18 +371,81 @@ $('.send-to-factory').on('click', function(e){
             });
         }
 
+        // console.log( JSON.stringify(entryQuestions) );
+        var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
+        $.each(entryQuestions, function(i, item) {
+            if( item.QuestionID == 267 ){
+                utpi = "fbij";
+            } else if( item.QuestionID == 14 ){
+                 utpi = "fbgj";
+            }
+        });
+
 
 
         var bc = JSON.parse(entry.builder_customizations);
         var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
         var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
-        var color = color_name + " " + "(" + color_code + ")";
+        var body_color = color_name + " " + "(" + color_code + ")";
 
+        color_code = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['name']).slice(1, -1);
+        var right_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['name']).slice(1, -1);
+        var left_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
+        var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
+        var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+        color_code = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['color_code']).slice(1, -1);
+        color_name = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['name']).slice(1, -1);
+        var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
+
+        var body_pattern_raw = JSON.stringify(bc['upper']['Body']['pattern']['pattern_id']).slice(1, -1);
+        var left_sleeve_pattern_raw = JSON.stringify(bc['upper']['Left Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
+        var right_sleeve_pattern_raw = JSON.stringify(bc['upper']['Right Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
+        var neck_trim_pattern_raw = JSON.stringify(bc['upper']['Front Neck Trim']['pattern']['pattern_id']).slice(1, -1);
+
+        var body_pattern = translatePattern(body_pattern_raw);
+        var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
+        var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
+        var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
+
+        console.log("Body color: " + body_color);
+        console.log("Right Sleeve color: " + right_sleeve_color);
+        console.log("Left Sleeve color: " + left_sleeve_color);
+        // entry.orderQuestions = {
+        //     "OrderQuestion": [{
+        //         "QuestionID": 267,
+        //         "Value": color
+        //     }, {
+        //         "QuestionID": 273,
+        //         "Value": color
+        //     }]
+        // };
+        var questionsValues = {
+            "body_color" : body_color,
+            "body_pattern" : body_pattern,
+            "right_sleeve_color" : right_sleeve_color,
+            "left_sleeve_color" : left_sleeve_color,
+            "right_shoulder_cowl_color" : right_shoulder_cowl_color,
+            "left_shoulder_cowl_color" : left_shoulder_cowl_color,
+            "front_neck_trim_color" : front_neck_trim_color,
+            "right_sleeve_pattern" : right_sleeve_pattern,
+            "left_sleeve_pattern" : left_sleeve_pattern,
+            "neck_trim_pattern" : neck_trim_pattern
+        };
+
+        var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
-            "OrderQuestion": [{
-                "QuestionID": 267,
-                "Value": "Black"
-            }]
+            "OrderQuestion": questions_valid
         };
         // var qt = JSON.parse(entry.roster[0])
         // delete entry.roster[0].Quantity;
@@ -406,21 +472,21 @@ $('.send-to-factory').on('click', function(e){
         var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 
         var order = {
-            "Client": "East High School",
-            "ShippingAttention": "Dustin Brown",
-            "ShippingAddress": "123 East Stree",
-            "ShippingPhone": "(999) 999-9999",
-            "ShippingCity": "Seattle",
-            "ShippingState": "WA",
-            "ShippingZipCode": 97811,
-            "BillingAttention": "East High Billing Department",
-            "BillingAddress": "125 East High Road",
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
             "BillingAddress2": "",
-            "BillingCity": "Bellevue",
-            "BillingState": "WA",
-            "BillingZipCode": 98981,
-            "BillingEmail": "billing@easthighschool.com",
-            "BillingPhone": "(999) 999-8888",
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
             // "BillingAttention": billing_contact,
             // "BillingAddress": billing_address,
             // "BillingCity": billing_city,
@@ -510,7 +576,7 @@ $('.send-to-factory').on('click', function(e){
             console.log('return data: ' + JSON.stringify(data));
             var factory_order_id = data[0].OrderID;
             var parts = [];
-            $.each(data, function( index, value ) {
+            $.each(data, function( index, valufbije ) {
                 orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                 console.log(JSON.stringify(orderEntire));
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
@@ -564,6 +630,76 @@ function updateItemsPID(parts){
             }
         }
     });
+}
+
+function translatePattern(body_pattern_raw){
+    var pattern = null;
+    if(body_pattern_raw == "stripe"){
+        pattern = "Stripes"
+    }
+
+    return pattern;
+}
+
+function extractPartValues(bc){
+    
+}
+
+function buildQuestions( utpi, questionsValues ){
+    var questions = [];
+
+    if( utpi == "fbij" ){
+        questions = [{
+                "QuestionID": 266,
+                "Value": questionsValues.body_pattern
+            }, {
+                "QuestionID": 267,
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 272,
+                "Value": questionsValues.body_pattern
+            }, {
+                "QuestionID": 273,
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 284,
+                "Value": questionsValues.left_sleeve_color
+            }, {
+                "QuestionID": 289,
+                "Value": questionsValues.right_sleeve_color
+            }, {
+                "QuestionID": 312,
+                "Value": questionsValues.left_shoulder_cowl_color
+            }, {
+                "QuestionID": 306,
+                "Value": questionsValues.right_shoulder_cowl_color
+            }, {
+                "QuestionID": 294,
+                "Value": questionsValues.front_neck_trim_color
+            }, {
+                "QuestionID": 278,
+                "Value": questionsValues.left_sleeve_pattern
+            }, {
+                "QuestionID": 280,
+                "Value": questionsValues.right_sleeve_pattern
+            }, {
+                "QuestionID": 282,
+                "Value": questionsValues.neck_trim_pattern
+            }];
+    } else if( utpi == "fbgj" ){
+        questions = [{
+                "QuestionID": 14,
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 219,
+                "Value": questionsValues.right_sleeve_color
+            }, {
+                "QuestionID": 38,
+                "Value": questionsValues.right_shoulder_cowl_color
+            }];
+    }
+
+    return questions;
 }
 
 });
