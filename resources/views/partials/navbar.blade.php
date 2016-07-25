@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="#"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
         </div>
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
@@ -38,7 +38,7 @@
                                                 Sign in
                                             </button>
                                             <div class="help-block text-right"><br />
-                                                <a class="user-signup" href="#">Don't have an Account?</a> | <a href="/forgotPassword">Forgot your password?</a></div>
+                                                <a class="user-signup" href="/signup">Don't have an Account?</a> | <a href="/forgot-password">Forgot your password?</a></div>
                                         </div>
                                     </form>
                                 </div>
@@ -59,9 +59,9 @@
                </button>
 
                <ul class = "dropdown-menu" role="menu">
-                  <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
+                  <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
-                  <li><a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
+                  <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li class="divider"></li>
                   <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
                </ul>

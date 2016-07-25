@@ -782,3 +782,66 @@
 
 <!-- End Roster Table Field -->
 
+<!-- Orders Table -->
+
+    <script type="text/mustache" id="m-orders-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Date</td>
+                <td>Client</td>
+                <td>Status</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>07/22/2016</td>
+                <td>Madden Inc.</td>
+                <td>Open</td> 
+                
+                <td class="action">
+                    
+                    <span class="action-button">Edit</span>
+                    <span class="action-button">View Details</span>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </script>   
+
+<!-- End Orders Table -->
+
+<!-- Profile -->
+
+    <script type="text/mustache" id="m-profile-page">
+
+    </script>   
+
+<!-- End Profile -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-signup-page">
+
+        
+
+    </script>   
+
+<!-- End Sigunup -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-forgot-password">
+
+
+
+    </script>   
+
+<!-- End Sigunup -->
+

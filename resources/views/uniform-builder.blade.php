@@ -122,14 +122,22 @@
 
 </div>
 
+@yield('my-orders')
+@yield('my-profile')
+@yield('signup')
+@yield('forgot-password')
+@yield('reset-password')
+@yield('change-password')
 
 <!--
-<div class="container-fluid uniform-suggestions">
-    <div class="col-md-12 you-might-like">
-        You might also like:
+
+    <div class="container-fluid uniform-suggestions">
+        <div class="col-md-12 you-might-like">
+            You might also like:
+        </div>
+        <div class="suggestions"></div>
     </div>
-    <div class="suggestions"></div>
-</div>
+
 -->
 
 @if (Session::get('isLoggedIn'))
@@ -139,6 +147,7 @@
 @else
     @include('partials.signup-modal')
 @endif
+
 @include('partials.team-roster-modal')
 
 @include('partials.controls.ui-controls')
@@ -208,22 +217,84 @@
         @else
 
             window.ub.user = false;
-            $('#signup-modal .register').on('click', function(){
+            $('.register').on('click', function(){
+
+                var captcha_response = $('.g-recaptcha-response').val();
+
+                if (captcha_response.length == 0) {
+                    $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    return false;
+                }
+
+                if($('input#password').val() !== $('input#retype-password').val()){
+
+                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                return true;
+
+            });
+
+            $('button#forgot-password-submit').on('click', function() {
+
+                var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                if(!email_regex.test($('input#forgot-password-email').val())) {
+
+                   $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                if($('input#forgot-password-email').val() === ""){
+                   //alert('Password do not match');
+                   $.smkAlert({text: 'Enter a valid email', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+
+                   return false;
+                }
+
                 var captcha_response = $('.g-recaptcha-response').val();
                 if (captcha_response.length == 0) {
                     $.smkAlert({text: 'Please answer the reCAPTCHA verification', type:'warning', permanent: false, time: 5, marginTop: '90px'});
                     return false;
                 }
-                return true;
+
+                ub.funcs.forgotPasswordPOST();
+                return false;
+
+            });
+
+            $('button#reset-password-submit').on('click', function() {
+
+                if($('input#rpassword').val() === ""){
+
+                   $.smkAlert({text: 'Password cant be blank', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                if($('input#rpassword').val() !== $('input#rconfirmpassword').val()){
+
+                   $.smkAlert({text: 'Passwords do not match', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                   return false;
+
+                }
+
+                ub.funcs.submitForgotPasswordPOST();
+                return false;
+
             });
 
         @endif
 
         @if (Session::has('message'))
 
-            $.smkAlert({text: "{{ Session::get('message') }}", type:'info', permanent: false, time: 5, marginTop: '90px'});
+            $.smkAlert({text: "{{ Session::get('message') }}", type: 'info', permanent: false, time: 5, marginTop: '90px'});
 
         @endif
+
+        window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         // #load_order
         var s = "{{ $builder_customizations }}";

@@ -463,10 +463,10 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response){
 
-                console.log(response.message);
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
-                ub.showModal('Your order is now submitted. Thank you.')
+
+                $.smkAlert({text: 'Your order is now submitted. Thank you.', type:'success', permanent: false, time: 5, marginTop: '90px'});
                 ub.funcs.initGenderPicker();
 
             }
@@ -917,7 +917,12 @@ $(document).ready(function() {
 
     ub.funcs.submitUniform = function () {
 
-        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); return; }
+        if ($('tr.roster-row').length === 0) { 
+            
+            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+
+            return; 
+        }
 
         var _validate = ub.funcs.rosterValid();
 

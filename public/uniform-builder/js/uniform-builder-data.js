@@ -87,7 +87,10 @@ $(document).ready(function() {
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
-    ub.pCanvas.appendChild(ub.renderer.view);
+    
+    if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
+        ub.pCanvas.appendChild(ub.renderer.view);
+    }
 
     ub.interactionManager           = ub.renderer.plugins.interaction;
     ub.dragAndDropManager           = new PIXI.DragAndDropManager(ub.interactionManager);
