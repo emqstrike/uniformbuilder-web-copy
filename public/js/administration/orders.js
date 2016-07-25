@@ -375,7 +375,9 @@ $('.send-to-factory').on('click', function(e){
         var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
         $.each(entryQuestions, function(i, item) {
             if( item.QuestionID == 267 ){
-                utpi = "inf_14";
+                utpi = "fbij";
+            } else if( item.QuestionID == 14 ){
+                 utpi = "fbgj";
             }
         });
 
@@ -574,7 +576,7 @@ $('.send-to-factory').on('click', function(e){
             console.log('return data: ' + JSON.stringify(data));
             var factory_order_id = data[0].OrderID;
             var parts = [];
-            $.each(data, function( index, value ) {
+            $.each(data, function( index, valufbije ) {
                 orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                 console.log(JSON.stringify(orderEntire));
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
@@ -639,10 +641,14 @@ function translatePattern(body_pattern_raw){
     return pattern;
 }
 
+function extractPartValues(bc){
+    
+}
+
 function buildQuestions( utpi, questionsValues ){
     var questions = [];
 
-    if( utpi == "inf_14" ){
+    if( utpi == "fbij" ){
         questions = [{
                 "QuestionID": 266,
                 "Value": questionsValues.body_pattern
@@ -679,6 +685,17 @@ function buildQuestions( utpi, questionsValues ){
             }, {
                 "QuestionID": 282,
                 "Value": questionsValues.neck_trim_pattern
+            }];
+    } else if( utpi == "fbgj" ){
+        questions = [{
+                "QuestionID": 14,
+                "Value": questionsValues.body_color
+            }, {
+                "QuestionID": 219,
+                "Value": questionsValues.right_sleeve_color
+            }, {
+                "QuestionID": 38,
+                "Value": questionsValues.right_shoulder_cowl_color
             }];
     }
 
