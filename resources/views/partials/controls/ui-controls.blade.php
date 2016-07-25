@@ -798,9 +798,9 @@
             </tr>
 
             <tr>
-                <td>07/22/2016</td>
-                <td>Madden Inc.</td>
-                <td>Open</td> 
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td> 
                 
                 <td class="action">
                     
@@ -829,7 +829,7 @@
 
     <script type="text/mustache" id="m-signup-page">
 
-        
+
 
     </script>   
 
