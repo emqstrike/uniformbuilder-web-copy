@@ -57,8 +57,8 @@ $(document).ready(function(){
     });
 
 
-    $('.view-roster-details').on('click', function(){
-
+    $('.view-roster-details').on('click', function(e){
+        e.preventDefault()
         var item = $(this).data('item');
         var roster = $(this).data('roster');
         var rows = '<tr>'
@@ -289,6 +289,16 @@ $('.updatePart').on('click', function(e){
     });
 });
 
+$('.pdf-link').on('click', function(e){
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+});
+
+function OpenInNewTab(url) {
+  var win = window.open(url, '_blank');
+  win.focus();
+}
+
 $('.send-to-factory').on('click', function(e){
 
     e.preventDefault();
@@ -347,8 +357,7 @@ $('.send-to-factory').on('click', function(e){
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
         };
-        // console.log(entry.orderPart);
-        // console.log('DSheet >>>>' + entry.orderPart.DesignSheet);
+
         var entryQuestions = null;
         getQuestions(function(questions){ entryQuestions = questions; });
 
@@ -371,7 +380,6 @@ $('.send-to-factory').on('click', function(e){
             });
         }
 
-        // console.log( JSON.stringify(entryQuestions) );
         var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
         $.each(entryQuestions, function(i, item) {
             if( item.QuestionID == 267 ){
@@ -381,75 +389,12 @@ $('.send-to-factory').on('click', function(e){
             }
         });
 
-
-
         var bc = JSON.parse(entry.builder_customizations);
-        var color_code = JSON.stringify(bc['upper']['Body']['colorObj']['color_code']).slice(1, -1);
-        var color_name = JSON.stringify(bc['upper']['Body']['colorObj']['name']).slice(1, -1);
-        var body_color = color_name + " " + "(" + color_code + ")";
-
-        color_code = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
-        color_name = JSON.stringify(bc['upper']['Right Sleeve Insert']['colorObj']['name']).slice(1, -1);
-        var right_sleeve_color = color_name + " " + "(" + color_code + ")";
-
-        color_code = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['color_code']).slice(1, -1);
-        color_name = JSON.stringify(bc['upper']['Left Sleeve Insert']['colorObj']['name']).slice(1, -1);
-        var left_sleeve_color = color_name + " " + "(" + color_code + ")";
-
-        color_code = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
-        color_name = JSON.stringify(bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
-        var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
-
-        color_code = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code']).slice(1, -1);
-        color_name = JSON.stringify(bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name']).slice(1, -1);
-        var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
-
-        color_code = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['color_code']).slice(1, -1);
-        color_name = JSON.stringify(bc['upper']['Front Neck Trim']['colorObj']['name']).slice(1, -1);
-        var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
-
-        var body_pattern_raw = JSON.stringify(bc['upper']['Body']['pattern']['pattern_id']).slice(1, -1);
-        var left_sleeve_pattern_raw = JSON.stringify(bc['upper']['Left Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
-        var right_sleeve_pattern_raw = JSON.stringify(bc['upper']['Right Sleeve Insert']['pattern']['pattern_id']).slice(1, -1);
-        var neck_trim_pattern_raw = JSON.stringify(bc['upper']['Front Neck Trim']['pattern']['pattern_id']).slice(1, -1);
-
-        var body_pattern = translatePattern(body_pattern_raw);
-        var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
-        var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
-        var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
-
-        console.log("Body color: " + body_color);
-        console.log("Right Sleeve color: " + right_sleeve_color);
-        console.log("Left Sleeve color: " + left_sleeve_color);
-        // entry.orderQuestions = {
-        //     "OrderQuestion": [{
-        //         "QuestionID": 267,
-        //         "Value": color
-        //     }, {
-        //         "QuestionID": 273,
-        //         "Value": color
-        //     }]
-        // };
-        var questionsValues = {
-            "body_color" : body_color,
-            "body_pattern" : body_pattern,
-            "right_sleeve_color" : right_sleeve_color,
-            "left_sleeve_color" : left_sleeve_color,
-            "right_shoulder_cowl_color" : right_shoulder_cowl_color,
-            "left_shoulder_cowl_color" : left_shoulder_cowl_color,
-            "front_neck_trim_color" : front_neck_trim_color,
-            "right_sleeve_pattern" : right_sleeve_pattern,
-            "left_sleeve_pattern" : left_sleeve_pattern,
-            "neck_trim_pattern" : neck_trim_pattern
-        };
-
+        var questionsValues = extractPartValues(bc);
         var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
-        // var qt = JSON.parse(entry.roster[0])
-        // delete entry.roster[0].Quantity;
-        // console.log('QT' + qt);
 
         entry.orderItems = JSON.parse(entry.roster);
         delete entry.orderItems[0].Quantity;
@@ -487,13 +432,6 @@ $('.send-to-factory').on('click', function(e){
             "BillingZipCode": billing_zip,
             "BillingEmail": billing_email,
             "BillingPhone": billing_phone,
-            // "BillingAttention": billing_contact,
-            // "BillingAddress": billing_address,
-            // "BillingCity": billing_city,
-            // "BillingState": billing_state,
-            // "BillingZipCode": '08778',
-            // "BillingEmail": billing_email,
-            // "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
             "RepID": 154,
@@ -502,59 +440,6 @@ $('.send-to-factory').on('click', function(e){
             "TeamName": "Wildcats"
         };
 
-        // var xparts = [{
-        //                           "orderPart": {
-        //                             "ItemID": 2572,
-        //                             "Description": "Grizzlies 2016 Jersey",
-        //                             "DesignSheet": "designsheet.jpg"
-        //                           },
-        //                           "orderQuestions": {
-        //                             "OrderQuestion": [
-        //                               {
-        //                                 "QuestionID": 267,
-        //                                 "Value": "Black"
-        //                               }
-        //                             ]
-        //                           },
-        //                           "orderItems": [
-        //                             {
-        //                               "Size": "2XL",
-        //                               "Number": "22",
-        //                               "Name": "Lee",
-        //                               "LastNameApplication": "Directly to Jersey",
-        //                               "Sample": 0
-        //                             },
-        //                             {
-        //                               "Size": "XL",
-        //                               "Number": "21",
-        //                               "Name": "Brown",
-        //                               "LastNameApplication": "Directly to Jersey",
-        //                               "Sample": 0
-        //                             },
-        //                             {
-        //                               "Size": "M",
-        //                               "Number": "12",
-        //                               "Name": "Smith",
-        //                               "LastNameApplication": "Directly to Jersey",
-        //                               "Sample": 0
-        //                             },
-        //                             {
-        //                               "Size": "M",
-        //                               "Number": "9",
-        //                               "Name": "Johnson",
-        //                               "LastNameApplication": "Directly to Jersey",
-        //                               "Sample": 0
-        //                             },
-        //                             {
-        //                               "Size": "2XL",
-        //                               "Number": "8",
-        //                               "Name": "Frank",
-        //                               "LastNameApplication": "Directly to Jersey",
-        //                               "Sample": 0
-        //                             }
-        //                           ]
-        //                         }];
-        
         var orderEntire = {
             "order": order,
             "orderParts" : window.order_parts
@@ -572,11 +457,11 @@ $('.send-to-factory').on('click', function(e){
         data: JSON.stringify(orderEntire),
         contentType: 'application/json;',
         success: function (data) {
-            alert('worked');
+            alert('Order was sent to EDIT!');
             console.log('return data: ' + JSON.stringify(data));
             var factory_order_id = data[0].OrderID;
             var parts = [];
-            $.each(data, function( index, valufbije ) {
+            $.each(data, function( index, value ) {
                 orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                 console.log(JSON.stringify(orderEntire));
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
@@ -641,8 +526,57 @@ function translatePattern(body_pattern_raw){
     return pattern;
 }
 
-function extractPartValues(bc){
-    
+function extractPartValues(bc){ // get values for builder customizations
+
+    var color_code = bc['upper']['Body']['colorObj']['color_code'];
+    var color_name = bc['upper']['Body']['colorObj']['name'];
+    var body_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Right Sleeve Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Right Sleeve Insert']['colorObj']['name'];
+    var right_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Left Sleeve Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Left Sleeve Insert']['colorObj']['name'];
+    var left_sleeve_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name'];
+    var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name'];
+    var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Front Neck Trim']['colorObj']['color_code'];
+    color_name = bc['upper']['Front Neck Trim']['colorObj']['name'];
+    var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
+
+    var body_pattern_raw = bc['upper']['Body']['pattern']['pattern_id'];
+    var left_sleeve_pattern_raw = bc['upper']['Left Sleeve Insert']['pattern']['pattern_id'];
+    var right_sleeve_pattern_raw = bc['upper']['Right Sleeve Insert']['pattern']['pattern_id'];
+    var neck_trim_pattern_raw = bc['upper']['Front Neck Trim']['pattern']['pattern_id'];
+
+    var body_pattern = translatePattern(body_pattern_raw);
+    var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
+    var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
+    var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
+
+    var questionsValues = {
+        "body_color" : body_color,
+        "body_pattern" : body_pattern,
+        "right_sleeve_color" : right_sleeve_color,
+        "left_sleeve_color" : left_sleeve_color,
+        "right_shoulder_cowl_color" : right_shoulder_cowl_color,
+        "left_shoulder_cowl_color" : left_shoulder_cowl_color,
+        "front_neck_trim_color" : front_neck_trim_color,
+        "right_sleeve_pattern" : right_sleeve_pattern,
+        "left_sleeve_pattern" : left_sleeve_pattern,
+        "neck_trim_pattern" : neck_trim_pattern
+    };
+
+    return questionsValues;
+
 }
 
 function buildQuestions( utpi, questionsValues ){
