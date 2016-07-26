@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 
     $('.view-roster-details').on('click', function(e){
-        e.preventDefault();
+        e.preventDefault()
         var item = $(this).data('item');
         var roster = $(this).data('roster');
         var rows = '<tr>'
@@ -289,6 +289,16 @@ $('.updatePart').on('click', function(e){
     });
 });
 
+$('.pdf-link').on('click', function(e){
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+});
+
+function OpenInNewTab(url) {
+  var win = window.open(url, '_blank');
+  win.focus();
+}
+
 $('.send-to-factory').on('click', function(e){
 
     e.preventDefault();
@@ -429,7 +439,7 @@ $('.send-to-factory').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        
+
         var orderEntire = {
             "order": order,
             "orderParts" : window.order_parts

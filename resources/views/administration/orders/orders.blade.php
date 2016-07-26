@@ -45,7 +45,7 @@
                                 @foreach( $order->items as $item )
                                 <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a>
                                 <a href="#" class="btn btn-primary btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
-                                <a href="{{ $item->design_sheet }}" class="btn btn-primary btn-xs">PDF</a></br>
+                                <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-primary btn-xs pdf-link">PDF</a></br>
                                 @endforeach
                             </td>
                             <td>
