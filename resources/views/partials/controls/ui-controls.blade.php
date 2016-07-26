@@ -792,24 +792,41 @@
            
             <tr class="header">
                 <td>Date</td>
+                <td>Order ID</td>
+                <td>Order Info</td>
                 <td>Client</td>
                 <td>Status</td>
                 <td>&nbsp;</td>
             </tr>
 
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td> 
-                
-                <td class="action">
+            @{{#orders}}
+
+                <tr>
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_id}}</strong></td>
+                    <td class="order-info">
+
+                        @{{#items}}
+
+                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
+                            <strong> @{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+
+                        @{{/items}}
+
+
+                    </td>
+                    <td>@{{client}}</td>
+                    <td>@{{status}}</td> 
                     
-                    <span class="action-button">Edit</span>
-                    <span class="action-button">View Details</span>
+                    <td class="action">
+                        
+                        <span class="action-button" data-order-id="@{{order_id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View / Edit Info</span>
+                        
+                    </td>
 
-                </td>
+                </tr>
 
-            </tr>
+            @{{/orders}}
 
         </table>
 
