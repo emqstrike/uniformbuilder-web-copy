@@ -358,8 +358,6 @@ $(document).ready(function() {
             var _validQuantity  = ub.funcs.validQuantity(_values.quantity);
             var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
 
-
-
             _valid              = true;
 
             if (!_validQuantity) {
@@ -556,7 +554,8 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,  
-                submitted: '1'
+                submitted: '1',
+                user_id: ub.user.id,
             },
             athletic_director: {
 
@@ -565,7 +564,6 @@ $(document).ready(function() {
                 email: _clientEmail,
                 phone: _clientPhone,
                 fax: _clientFax,
-
             },
             billing: {
 

@@ -4670,19 +4670,64 @@ $(document).ready(function () {
 
     /// Orders
 
+        ub.funcs.getOrders = function () {
+
+
+
+        };
+
+        ub.funcs.parseJSON = function (orders) {
+
+            var _parsedOrders = orders;
+
+            _.each(orders, function (order) {
+
+                _.each(order.items, function (item){
+
+                    var _bc = JSON.parse(item.builder_customizations);
+                    console.log(_bc);
+                    item.thumbnails = _bc.thumbnails;
+
+                }) 
+                
+            });
+
+            console.log(_parsedOrders);
+
+            return _parsedOrders;
+
+        }
+
+
+
         ub.funcs.displayMyOrders = function () {
 
-            var $container = $('div.order-list');
-          
-            var template = $('#m-orders-table').html();
-            var data = {
-                application_id: '1',
-            }
-
-            var markup = Mustache.render(template, data);
+            $.ajax({
             
-            $container.html(markup);
+                url: 'http://api-dev.qstrike.com/api/order/user/orderswItems/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
 
+                  $('div.my-orders-loading').hide();
+
+                  var $container = $('div.order-list');
+          
+                  var template = $('#m-orders-table').html();
+                  var data = {
+                    orders: ub.funcs.parseJSON(response.orders),
+                  }
+
+                  var markup = Mustache.render(template, data);
+                    
+                  $container.html(markup);
+
+                }
+                
+            });
+   
         }
 
         if (ub.page === 'my-orders') {
