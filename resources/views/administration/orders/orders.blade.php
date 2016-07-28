@@ -15,12 +15,13 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered'>
+                    <table class='data-table table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
                             <th>Order code</th>
                             <th>Client</th>
                             <th>Items</th>
+                            <th>Artwork Requests</th>
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
@@ -43,10 +44,13 @@
                             </td>
                             <td>
                                 @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a>
+                                <a href="#" class="btn btn-default btn-xs" style="width: 200px; text-align: left;">{{ $item->item_id }} - {{ $item->description }}</a>
                                 <a href="#" class="btn btn-primary btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
                                 <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-primary btn-xs pdf-link">PDF</a></br>
                                 @endforeach
+                            </td>
+                            <td>
+                                
                             </td>
                             <td>
                                 <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
