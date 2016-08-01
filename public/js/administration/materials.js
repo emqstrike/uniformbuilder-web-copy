@@ -281,7 +281,7 @@ $(document).ready(function() {
     });
 
     $('.add-point').on('click', function(){
-bringingPointToFront();
+
         var pointsCount = canvas.getObjects('circle').length;
         var linesCount = canvas.getObjects('line').length;
         var l = linesCount - 1;
@@ -315,6 +315,7 @@ bringingPointToFront();
                 }
             });
         }
+        bringingPointToFront();
     });
 
     var controls_state = 0;
@@ -1059,6 +1060,12 @@ bringingPointToFront();
         $('#save-material-option-boundary-modal .material-id').val(material.id);
         $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
         $('#save-material-option-boundary-modal').modal('show');
+
+
+        bringingPointToFront();
+
+
+
     });
 
     $('.update-applications-json').on('click', function(){
@@ -2364,7 +2371,7 @@ bringingPointToFront();
         });
         // canvas.add(p.text);
         canvas.add(p);
-        canvas.bringToFront(p);
+     
         return p;
     } // addPoint()
 
@@ -2395,7 +2402,7 @@ bringingPointToFront();
         }
         p1.inPath.push(new_line);
         canvas.add(new_line);
-        canvas.sendBackwards(new_line);
+     
         return new_line;
     } //addLine()
 
@@ -2742,7 +2749,7 @@ console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
             type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                 return letter.toUpperCase();
             });
-            // type = type.slice(0,-1)
+            type = type.slice(0,-1)
             elem.val(type);
             syncMOLayers();
         }
@@ -3433,16 +3440,35 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                  
                console.log(filteredMascots);
         });
-               bringingPointToFront(); 
+        
     function bringingPointToFront(){
         console.log("world");
          canvas.forEachObject(function(key,obj){  
-                console.log(canvas.item(obj).name);
-        // if(layerName == canvas.item(obj).name){       
-        //     canvas.item(obj).fill= $(t).val();
-        //     canvas.item(obj).stroke= $(t).val();          
-        // }
+          
+            var subjectName = ""+ canvas.item(obj).name +"";
+
+           // subjectName = jQuery.parseJSON( subjectName);
+           subjectName = subjectName.substring(0,4);
+     
+            if ( subjectName == "Line" ) {
+                  
+            // canvas.sendToBack(canvas.item(obj));
+        
+
+             canvas.item(obj).evented = false;
+             canvas.item(obj).selectable = false;
+            } else if(subjectName != "unde") { 
+        
+               // canvas.sendToFront(canvas.item(obj));
+               canvas.item(obj).evented = true;
+             canvas.item(obj).selectable = true;
+            }
+           
+           // canvas.item(obj).visible = false;
+
+
       });
+            canvas.renderAll();
     }
 
    
