@@ -10,16 +10,16 @@
                 <table class="table table-striped">
                     <tr>
                         <td>Client</td>
-                        <td class='order-client'>
-                            <strong></strong>
+                        <td>
+                            <input type="text" class="form-control order-client">
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Email</td>
-                        <td class='order-email'>
-                            <strong></strong>
+                        <td>
+                            <input type="text" class="form-control order-email">
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>Uniform Type</td>
                         <td class='order-uniform-type'>
@@ -35,9 +35,9 @@
                 </table>
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
-                        <li class="active">
+                        <!-- <li class="active">
                             <a href="#tab-athletic-dir" data-toggle="tab">Athletic Director</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="#tab-billing-info" data-toggle="tab">Billing Information</a>
                         </li>
@@ -61,40 +61,103 @@
                         </li> -->
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tab-athletic-dir">
+                        <!-- <div class="tab-pane active" id="tab-athletic-dir">
                             <table class="table table-striped">
                                 <tr>
                                     <td>Athletic Organization</td>
-                                    <td class='order-director-organization'>
-                                        <strong></strong>
+                                    <td>
+                                        <input type="text" class="form-control order-director-organization">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Athletic Director</td>
-                                    <td class='order-director-contact-person'>
-                                        <strong></strong>
+                                    <td>
+                                        <input type="text" class="form-control order-director-contact-person">
                                     </td>
                                 </tr>
                             </table>
-                        </div>
-                        <div class="tab-pane" id="tab-billing-info">
+                        </div> -->
+                        <div class="tab-pane active" id="tab-billing-info">
                             <table class="table table-striped">
                                 <tr>
                                     <td>Billing Organization</td>
-                                    <td class='order-bill-organization'>
+                                    <!-- <td class='order-bill-organization'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-organization">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Billing Contact Person</td>
-                                    <td class='order-bill-contact-person'>
+                                    <!-- <td class='order-bill-contact-person'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-contact-person">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Billing Email</td>
-                                    <td class='order-bill-email'>
+                                    <!-- <td class='order-bill-email'>
                                         <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-email">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Address</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-address">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing City</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-city">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing State</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-state">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Zip</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-zip">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Phone</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-phone">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Billing Fax</td>
+                                    <!-- <td class='order-bill-email'>
+                                        <strong></strong>
+                                    </td> -->
+                                    <td>
+                                        <input type="text" class="form-control order-bill-fax">
                                     </td>
                                 </tr>
                             </table>
@@ -103,14 +166,44 @@
                             <table class="table table-striped">
                                 <tr>
                                     <td>Shipping Organization</td>
-                                    <td class='order-ship-organization'>
-                                        <strong></strong>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-organization">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Shipping Contact Person</td>
-                                    <td class='order-ship-contact-person'>
-                                        <strong></strong>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-contact-person">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Address</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-address">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping City</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-city">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping State</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-state">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Zip</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-zip">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Phone</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-phone">
                                     </td>
                                 </tr>
                             </table>
@@ -139,6 +232,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <!-- <button class="btn btn-primary update-order-info" data-dismiss="modal">Update</button> -->
+                <a href="#" class="btn btn-primary update-order-info">Update</a>
                 <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
             </div>
         </div>

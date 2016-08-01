@@ -358,8 +358,6 @@ $(document).ready(function() {
             var _validQuantity  = ub.funcs.validQuantity(_values.quantity);
             var _indexLabel     = _values.index + '. ' + _values.size + ' (#' + _values.number + ')';
 
-
-
             _valid              = true;
 
             if (!_validQuantity) {
@@ -463,12 +461,11 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response){
 
-                console.log(response.message);
-                $('span.processing').fadeOut();
-                ub.showModal('Your order is now submitted. Thank you.')
-                ub.funcs.initGenderPicker();
-
                 $('div#validate-order-form').remove();
+                $('span.processing').fadeOut();
+
+                $.smkAlert({text: 'Your order is now submitted. Thank you.', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                ub.funcs.initGenderPicker();
 
             }
             
@@ -557,7 +554,8 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,  
-                submitted: '1'
+                submitted: '1',
+                user_id: ub.user.id,
             },
             athletic_director: {
 
@@ -566,7 +564,6 @@ $(document).ready(function() {
                 email: _clientEmail,
                 phone: _clientPhone,
                 fax: _clientFax,
-
             },
             billing: {
 
@@ -918,7 +915,12 @@ $(document).ready(function() {
 
     ub.funcs.submitUniform = function () {
 
-        if ($('tr.roster-row').length === 0) { ub.showModal('Please add Sizes and Roster before proceeding.'); return; }
+        if ($('tr.roster-row').length === 0) { 
+            
+            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+
+            return; 
+        }
 
         var _validate = ub.funcs.rosterValid();
 

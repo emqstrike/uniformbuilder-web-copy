@@ -2742,7 +2742,7 @@ console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
             type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                 return letter.toUpperCase();
             });
-            type = type.slice(0,-1)
+            // type = type.slice(0,-1)
             elem.val(type);
             syncMOLayers();
         }

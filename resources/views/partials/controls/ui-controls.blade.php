@@ -431,8 +431,6 @@
 
         @{{/picker_items}}
 
-     
-
     </script>
 
 <!-- End Sports Pickers -->
@@ -783,4 +781,84 @@
     </script>   
 
 <!-- End Roster Table Field -->
+
+<!-- Orders Table -->
+
+    <script type="text/mustache" id="m-orders-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Date</td>
+                <td>Order ID</td>
+                <td>Order Info</td>
+                <td>Client</td>
+                <td>Status</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            @{{#orders}}
+
+                <tr>
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_id}}</strong></td>
+                    <td class="order-info">
+
+                        @{{#items}}
+
+                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
+                            <strong> @{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+
+                        @{{/items}}
+
+
+                    </td>
+                    <td>@{{client}}</td>
+                    <td>@{{status}}</td> 
+                    
+                    <td class="action">
+                        
+                        <span class="action-button" data-order-id="@{{order_id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View / Edit Info</span>
+                        
+                    </td>
+
+                </tr>
+
+            @{{/orders}}
+
+        </table>
+
+    </script>   
+
+<!-- End Orders Table -->
+
+<!-- Profile -->
+
+    <script type="text/mustache" id="m-profile-page">
+
+    </script>   
+
+<!-- End Profile -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-signup-page">
+
+
+
+    </script>   
+
+<!-- End Sigunup -->
+
+<!-- Sigunup -->
+
+    <script type="text/mustache" id="m-forgot-password">
+
+
+
+    </script>   
+
+<!-- End Sigunup -->
 

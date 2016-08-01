@@ -166,7 +166,17 @@ $(document).ready(function () {
             _colorType  = 'sublimated';
         }
 
-        _colorSet   = ub.funcs.ui.getColorSet('Body', _colorType);
+        /// _colorSet   = ub.funcs.ui.getColorSet('Body', _colorType);
+
+        if (_factoryCode === "PMP") {
+
+            _colorSet = _.filter(ub.data.colors, {sublimation_only: "0"});
+
+        } else {
+
+            _colorSet = ub.data.colors;
+
+        }
 
         return _colorSet;
 
@@ -431,9 +441,9 @@ $(document).ready(function () {
                 _strBuilder     += '<div class="color-wheel" id="cw_' + modLabel.index + '">';
                 _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';
                 _tempIndex      += 1;
-                _strBuilder     += '<circle class="preview" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
-                _strBuilder     += '<text class="previewColorCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
-                _strBuilder     += '<text class="previewColorName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
+                _strBuilder     += '<circle class="preview growCircle" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
+                _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
+                _strBuilder     += '<text class="previewColorName growTextName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
@@ -471,6 +481,29 @@ $(document).ready(function () {
                 var _id     = "arc" + index + '-' + modLabel.fullname;
 
                 document.getElementById(_id).setAttribute("d", describeArc(275, 215, 150, _start, _end));
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').css('cursor', 'pointer');
+                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').on('click', function () {
+
+                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+                });
+
+                $("path#arc" + index + '-' + modLabel.fullname).css('cursor','pointer');
 
                 $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
 
@@ -616,14 +649,17 @@ $(document).ready(function () {
             target: 'team-color-picker',
             type: 'single',
             colorSet: _colorSet,
+            factory: ub.current_material.material.factory_code,
 
         });
 
         ub.funcs.showTeamColorPicker();
 
         if (!ub.data.initialized) {
+
             ub.funcs.restoreTeamColorSelections();
             ub.data.initialized = true;
+            
         }
         else {
 

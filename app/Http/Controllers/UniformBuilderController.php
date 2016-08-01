@@ -468,7 +468,13 @@ class UniformBuilderController extends Controller
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
-            $html .=   $part['colorObj']['color_code'];
+            
+            if (array_key_exists('colorObj', $part)) {
+                $html .=   $part['colorObj']['color_code'];
+            } else {
+                $html .=   'Default';
+            }
+
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
@@ -1112,6 +1118,87 @@ class UniformBuilderController extends Controller
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
+
+    }
+
+    public function myOrders(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-orders',
+        ];
+
+        return view('editor.my-orders', $params);
+
+    }
+
+    public function myProfile(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-profile',
+        ];
+
+        return view('editor.my-profile', $params);
+
+    }
+
+    public function signup(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'signup',
+        ];
+
+        return view('editor.signup', $params);
+
+    }
+
+    public function forgotPassword(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'forgot-password',
+        ];
+
+        return view('editor.forgot-password', $params);
 
     }
 

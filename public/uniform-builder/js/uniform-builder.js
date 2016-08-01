@@ -1560,7 +1560,7 @@ $(document).ready(function () {
                     if (typeof ub.current_material.options_distinct_names[name] !== "object") {
 
                         ub.current_material.options_distinct_names[name] = { setting_type: obj.setting_type, 'modifier_label': modifier_label, 'material_option': name, 'default_color': color.hex_code, 'available_colors': JSON.parse(obj.colors), 'layer_order': obj.layer_level, };
-                        ub.data.defaultUniformStyle[name] = { name: name, default_color: tint};
+                        ub.data.defaultUniformStyle[name] = { name: name, default_color: tint, colorObj: color};
                     
                     }
                     
@@ -1666,6 +1666,7 @@ $(document).ready(function () {
                     var mo_setting = _.find(ub.current_material.settings[uniform_type], {code: style.name});
 
                     mo_setting.color = style.default_color;
+                    mo_setting.colorObj = style.colorObj;
 
                 });
 
@@ -4661,6 +4662,337 @@ $(document).ready(function () {
 
     /// End Sidebar 
 
+        ub.funcs.displayLoginForm = function () {
+        
+            $('a.dropdown-toggle').trigger('click');
+
+        };
+
+    /// Orders
+
+        ub.funcs.getOrders = function () {
+
+
+
+        };
+
+        ub.funcs.parseJSON = function (orders) {
+
+            var _parsedOrders = orders;
+
+            _.each(orders, function (order) {
+
+                _.each(order.items, function (item){
+
+                    var _bc = JSON.parse(item.builder_customizations);
+                    console.log(_bc);
+                    item.thumbnails = _bc.thumbnails;
+
+                }) 
+                
+            });
+
+            console.log(_parsedOrders);
+
+            return _parsedOrders;
+
+        }
+
+
+
+        ub.funcs.displayMyOrders = function () {
+
+            $.ajax({
+            
+                url: 'http://api-dev.qstrike.com/api/order/user/orderswItems/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                  $('div.my-orders-loading').hide();
+
+                  var $container = $('div.order-list');
+          
+                  var template = $('#m-orders-table').html();
+                  var data = {
+                    orders: ub.funcs.parseJSON(response.orders),
+                  }
+
+                  var markup = Mustache.render(template, data);
+                    
+                  $container.html(markup);
+
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-orders') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyOrders();
+
+        }
+
+    /// End Orders
+
+    /// Profile
+
+        ub.funcs.displayMyProfile = function () {
+
+            var $container = $('div.profile-container');
+          
+            var template = $('#m-profile-page').html();
+            var data = {
+                application_id: '1',
+            }
+
+            var markup = Mustache.render(template, data);
+            
+            $container.html(markup);
+
+        }
+
+        if (ub.page === 'my-profile') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyProfile();
+
+        }
+
+    /// End Profile
+
+    /// Signup
+
+        ub.funcs.displaySignup = function () {
+
+            var $container = $('div.signup-container');
+          
+            var template = $('#m-signup-page').html();
+            var data = {
+                application_id: '1',
+            }
+
+            var markup = Mustache.render(template, data);
+            
+            $container.html(markup);
+
+        }
+
+        if (ub.page === 'signup') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                //ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displaySignup();
+
+        }
+
+    /// End Signup
+
+    /// Change Password Post
+
+    ub.funcs.submitChangePasswordPOST = function () {
+
+            var _postData = {
+
+                user_id: $('input.user_id').val(),
+                hash: $('input.hash').val(),
+                _token: $('input.csrf-token').val(),
+                old_password: $('input#old-password').val(),
+                new_password: $('input#new-password').val(),
+
+            };
+
+            $.ajax({
+                
+                url: '/saveChangedPassword',
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (response.success) {
+                        $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                        window.location.href = window.ub.config.host;
+                    } else {
+
+                        $.smkAlert({text: 'There is an error processing this request', type:'error', permanent: false, time: 5, marginTop: '90px'});
+
+                    }
+
+                }
+                
+            });
+
+        };
+
+    /// End Change Password Post
+
+    /// Forgot Password
+
+        ub.funcs.submitForgotPasswordPOST = function () {
+
+            var _postData = {
+
+                user_id: $('input.user-id').val(),
+                hash: $('input.hash').val(),
+                _token: $('input.csrf-token').val(),
+                password: $('input#rpassword').val(),
+
+            };
+
+            $.ajax({
+                
+                url: '/saveNewPassword',
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (response.success) {
+                        $.smkAlert({text: 'Your Password has been changed successfully', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                        window.location.href = window.ub.config.host;
+                    } else {
+
+                        $.smkAlert({text: 'There is an error processing this request', type:'error', permanent: false, time: 5, marginTop: '90px'});
+
+                    }
+
+                }
+                
+            });
+
+        };
+
+        ub.funcs.forgotPasswordPOST = function () {
+
+            var _postData = {
+
+                email: $('input#forgot-password-email').val(),
+                _token: $('input[name="_token"]').val(),
+
+            };
+
+            $.ajax({
+                
+                url: '/recoverPassword',
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (response.success) {
+                        $.smkAlert({text: 'A password reset link has been sent to your email', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                        window.location.href = window.ub.config.host;
+                    } else {
+
+                        $.smkAlert({text: 'You have entered an invalid email!', type:'error', permanent: false, time: 5, marginTop: '90px'});
+
+                    }
+
+                }
+                
+            });
+
+        };
+
+        ub.funcs.forgotPassword = function () {
+
+            var $container = $('div.forgot-password-container');
+          
+            var template = $('#m-forgot-password').html();
+            var data = {
+                application_id: '1',
+            }
+
+            var markup = Mustache.render(template, data);
+            
+            $container.html(markup);
+            $('div#main-row').css('display','block')
+
+        }
+
+        if (ub.page === 'forgot-password') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                //ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.forgotPassword();
+
+        }
+
+    /// End Forgot Password
+
+    /// Reset Password
+
+        ub.funcs.resetPassword = function () {
+
+            var $container = $('div.forgot-password-container');
+          
+            var template = $('#m-forgot-password').html();
+            var data = {
+                application_id: '1',
+            }
+
+            var markup = Mustache.render(template, data);
+            
+            $container.html(markup);
+
+        }
+
+        if (ub.page === 'reset-password') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                //ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.resetPassword();
+
+        }
+
+    /// End Forgot Password
+
 
     /// Saving, Loading and Sharing /// 
 
@@ -4851,10 +5183,6 @@ $(document).ready(function () {
         });
     }
 
-    function showSignUpModal() {
-        $('#signup-modal').modal('show');
-    }
-
     // Save Uniform Design
     $('.save-uniform-design').on('click', function() {
         // Uniform Codes
@@ -4880,9 +5208,6 @@ $(document).ready(function () {
         // disable the modal-close behaviour
         $('#save-uniform-design-form').submit();
     });
-
-    // User Signup
-    $('.user-signup').on('click', showSignUpModal);
 
     if (ub.user !== false) {
         // Credit Card Validator

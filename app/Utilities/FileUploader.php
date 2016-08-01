@@ -48,7 +48,7 @@ class FileUploader
      * @param String $objectName
      * @param String File path of the uploaded file
      */
-    public static function moveToTemporaryFolder(UploadedFile $uploadedFile, $objectName)
+    public static function moveToTemporaryFolder(uploadedfile $uploadedFile, $objectName)
     {
         $filename = $uploadedFile->getClientOriginalName();
         if (is_null($objectName))
