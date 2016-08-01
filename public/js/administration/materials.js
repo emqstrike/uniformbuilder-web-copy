@@ -281,7 +281,7 @@ $(document).ready(function() {
     });
 
     $('.add-point').on('click', function(){
-
+bringingPointToFront();
         var pointsCount = canvas.getObjects('circle').length;
         var linesCount = canvas.getObjects('line').length;
         var l = linesCount - 1;
@@ -3350,10 +3350,7 @@ function updateApplicationsJSON(){
 
 
 function accentMascotSelect(data,accentMascot,rowIndex){
-    console.log("/////////////////////");
-    console.log(rowIndex);
 
-    console.log("/////////////////////");
     var layers;
     var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
     var colorCodeField="";
@@ -3435,8 +3432,18 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                     }
                  
                console.log(filteredMascots);
-                });
-                
+        });
+               bringingPointToFront(); 
+    function bringingPointToFront(){
+        console.log("world");
+         canvas.forEachObject(function(key,obj){  
+                console.log(canvas.item(obj).name);
+        // if(layerName == canvas.item(obj).name){       
+        //     canvas.item(obj).fill= $(t).val();
+        //     canvas.item(obj).stroke= $(t).val();          
+        // }
+      });
+    }
 
    
 
