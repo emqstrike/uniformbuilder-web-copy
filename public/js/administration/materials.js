@@ -315,6 +315,7 @@ $(document).ready(function() {
                 }
             });
         }
+        bringingPointToFront();
     });
 
     var controls_state = 0;
@@ -1059,6 +1060,12 @@ $(document).ready(function() {
         $('#save-material-option-boundary-modal .material-id').val(material.id);
         $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
         $('#save-material-option-boundary-modal').modal('show');
+
+
+        bringingPointToFront();
+
+
+
     });
 
     $('.update-applications-json').on('click', function(){
@@ -2364,7 +2371,7 @@ $(document).ready(function() {
         });
         // canvas.add(p.text);
         canvas.add(p);
-        canvas.bringToFront(p);
+     
         return p;
     } // addPoint()
 
@@ -2395,7 +2402,7 @@ $(document).ready(function() {
         }
         p1.inPath.push(new_line);
         canvas.add(new_line);
-        canvas.sendBackwards(new_line);
+     
         return new_line;
     } //addLine()
 
@@ -2742,7 +2749,7 @@ console.log('Angle: ' + angle + ' New Angle: '+ newAngle);
             type = type.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                 return letter.toUpperCase();
             });
-            // type = type.slice(0,-1)
+            type = type.slice(0,-1)
             elem.val(type);
             syncMOLayers();
         }
@@ -3350,10 +3357,7 @@ function updateApplicationsJSON(){
 
 
 function accentMascotSelect(data,accentMascot,rowIndex){
-    console.log("/////////////////////");
-    console.log(rowIndex);
 
-    console.log("/////////////////////");
     var layers;
     var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
     var colorCodeField="";
@@ -3435,8 +3439,37 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                     }
                  
                console.log(filteredMascots);
-                });
-                
+        });
+        
+    function bringingPointToFront(){
+        console.log("world");
+         canvas.forEachObject(function(key,obj){  
+          
+            var subjectName = ""+ canvas.item(obj).name +"";
+
+           // subjectName = jQuery.parseJSON( subjectName);
+           subjectName = subjectName.substring(0,4);
+     
+            if ( subjectName == "Line" ) {
+                  
+            // canvas.sendToBack(canvas.item(obj));
+        
+
+             canvas.item(obj).evented = false;
+             canvas.item(obj).selectable = false;
+            } else if(subjectName != "unde") { 
+        
+               // canvas.sendToFront(canvas.item(obj));
+               canvas.item(obj).evented = true;
+             canvas.item(obj).selectable = true;
+            }
+           
+           // canvas.item(obj).visible = false;
+
+
+      });
+            canvas.renderAll();
+    }
 
    
 
