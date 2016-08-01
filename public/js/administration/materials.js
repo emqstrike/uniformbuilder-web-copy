@@ -797,7 +797,8 @@ $(document).ready(function() {
     $(".options-row-source").hide();
 
     $('#front-default-item').change(function(){
-        var def_name = $(this).val();
+        var def_name = $(this).find("option:selected").text();
+        console.log(def_name);
         $('#application_name').val(def_name);
     });
 
@@ -3407,6 +3408,35 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
 
 }
+
+    $(document).on('click', '.material-options-Checkbox,.multiple-options-Checkbox', function() {
+        console.log($(this).data("checkboxselected"));
+        console.log("click");
+        if($(this).is(':checked')){
+            $($(this).data("checkboxselected")).prop('checked', true);
+        }else{
+            $($(this).data("checkboxselected")).prop('checked', false);
+
+        }
+
+    });
+    $(document).on('change', '.app-def-item', function() {
+        var subject = $(this).val();
+        subject = subject.replace(/_/g, ' ');
+        function capitalizeFirstLetter(subject) {
+            return subject.charAt(0).toUpperCase() + subject.slice(1);
+        }
+        subject = capitalizeFirstLetter(subject);
+        console.log($(".app-def-item").index( this ));
+        console.log(subject);
+        
+        $(".app-def-name").eq($(".app-def-item").index( this )).val(subject);
+
+        
+
+    });
+
+    
 
       $(document).on('change', '.mascotFilter', function() {
 

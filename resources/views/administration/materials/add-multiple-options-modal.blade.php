@@ -33,10 +33,10 @@
                             <th>Setting Type</th>
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
-                            <th><input class="blendCb" type="checkbox" data-allow=".mo-blend">Blend</th>
-                            <th><input class="patternCb" type="checkbox"  data-allow=".mo-allow-pattern">Allow Pattern</th>
-                            <th><input class="gradientCb" type="checkbox"  data-allow=".mo-allow-gradient">Allow Gradient</th>
-                            <th><input class="colorCb" type="checkbox"  data-allow=".mo-allow-color">Allow Color</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox" data-checkboxselected=".mo-blend">Blend</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-pattern">Allow Pattern</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-gradient">Allow Gradient</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-color">Allow Color</th>
                             <th>Team Color ID</th> <th>Group ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
