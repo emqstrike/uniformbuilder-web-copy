@@ -47,8 +47,8 @@ class MascotsController extends Controller
     public function indexFiltered(Request $request)
     {
 // dd($request->category);
-        $category = $request->category;
-        $mascots = $this->client->getMascotByCategory($category);
+        // $category = $request->category;
+        // $mascots = $this->client->getMascotByCategory($category);
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
 
         // return response()->json(['mascots' => $mascots->mascots]);
@@ -124,18 +124,19 @@ class MascotsController extends Controller
         $mascotName = $request->input('name');
         $code = $request->input('code');
         $tags = $request->input('code');
-        $category = $request->input('category');
+        // $category = $request->input('category');
         $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
 
         $data = [
             'name' => $mascotName,
             'code' => $code,
-            'category' => $category,
-            'group_category',
+            // 'category' => $category,
             'team_color_id' => $team_color_id,
             'layers_properties' => $layersProperties
         ];
+
+
 
         $id = null;
         if (!empty($request->input('mascot_id')))
@@ -170,7 +171,7 @@ class MascotsController extends Controller
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
         }
-// dd($data);
+
         // Upload images from the layers
         try
         {
@@ -201,14 +202,20 @@ class MascotsController extends Controller
             return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
-        $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-// dd($data);
+
+        // $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+   
+
         $response = null;
         if (!empty($id))
         {
+          
+
             Log::info('Attempts to update Mascot#' . $id);
             $response = $this->client->updateMascot($data);// dd($response);
-        }
+
+
+                  }
         else
         {
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
@@ -217,9 +224,12 @@ class MascotsController extends Controller
 
         if ($response->success)
         {
+
             Log::info('Success');
             return Redirect::to('administration/mascots')
                             ->with('message', 'Successfully saved changes');
+
+
         }
         else
         {

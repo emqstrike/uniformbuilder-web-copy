@@ -7,7 +7,7 @@
             <input type="hidden" class="material-option-id" name="material_option_id">
             <input type="hidden" class="material-id" name="material_id">
             <input type="hidden" name="form-action" id="form-action" value="">
-            <input type="hidden" name="boundary_properties" id="boundary-properties">s
+            <input type="hidden" name="boundary_properties" id="boundary-properties">
             <input type="hidden" name="applications_properties" id="application-properties">
             <input type="hidden" name="is_blend_array" id="is-blend-array">
             <input type="hidden" name="allow_pattern_array" id="allow-pattern-array">
@@ -24,6 +24,7 @@
 
                 <a class="btn btn-primary clone-row"><i class="fa fa-plus"></i> Add option</a>
 
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -32,14 +33,14 @@
                             <th>Setting Type</th>
                             <th width="160px;">Default Color</th>
                             <th width="160px;">Sublimated Default Color</th>
-                            <th>Blend</th>
-                            <th>Allow Pattern</th>
-                            <th>Allow Gradient</th>
-                            <th>Allow Color</th>
-                            <th>Team Color ID</th>
-                            <th>Group ID</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox" data-checkboxselected=".mo-blend">Blend</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-pattern">Allow Pattern</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-gradient">Allow Gradient</th>
+                            <th><input class="multiple-options-Checkbox" type="checkbox"  data-checkboxselected=".mo-allow-color">Allow Color</th>
+                            <th>Team Color ID</th> <th>Group ID</th>
                             <th>Image File</th>
                             <th>Thumbnail</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody id="options-row-container" class="upload-sortable-rows">
@@ -118,6 +119,9 @@
                             </td>
                             <td>
                                 <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
+                            </td>
+                              <td>
+                               <div class="btn btn-danger remove-row">Remove</div>
                             </td>
                         </tr>
                     </tbody>

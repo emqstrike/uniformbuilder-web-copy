@@ -14,9 +14,22 @@
 @font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
 @endforeach
 
+
 @endsection
 
 @section('content')
+
+<style>
+    input.material-options-Checkbox {
+    /* top: 30px; */
+    position: relative;
+    top: 5px;
+    left: -30px;
+}
+input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
+    width: 60px;
+}
+</style>
 <div class="col-md-12" style="margin-top: -40px;">
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
 <input type="hidden" id="material_block_pattern" value="{{ $material->block_pattern }}">
@@ -52,13 +65,18 @@
             @foreach ($options as $option)
                 @if ($option->perspective == "front")
                     @if ($option->setting_type == "highlights")
+
                     <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+
+
+                    
                     @endif
                 @endif
             @endforeach
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                 FRONT</h3></center>
+                  <input class="material-options-Checkbox" data-checkboxselected=".frontCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
@@ -71,6 +89,7 @@
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                 BACK</h3></center>
+                 <input class="material-options-Checkbox" data-checkboxselected=".backCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
@@ -83,6 +102,7 @@
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                 LEFT</h3></center>
+                 <input class="material-options-Checkbox" data-checkboxselected=".leftCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
             @foreach ($options as $option)
@@ -95,6 +115,7 @@
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                 RIGHT</h3></center>
+                 <input class="material-options-Checkbox" data-checkboxselected=".rightCb" type="checkbox" value="">
             </th>
         </thead>
         <tbody style="padding-top: 30px;" id="mo-list">
@@ -140,7 +161,7 @@
                                     role="button">
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
-                        <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                        <input class="delete-multiple-material-options frontCb" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                         <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                          data-placement="right"
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -220,7 +241,7 @@
                                     role="button">
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
-                        <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                        <input class="delete-multiple-material-options backCb" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                         <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                          data-placement="right"
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -300,7 +321,7 @@
                                     role="button">
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
-                        <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                        <input class="delete-multiple-material-options leftCb" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                         <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                          data-placement="right"
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
@@ -380,7 +401,7 @@
                                     role="button">
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
-                        <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
+                        <input class="delete-multiple-material-options rightCb" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                         <a href="#" style="width: 180px; text-align: left; border-radius: 0px;" class="btn btn-default btn-xs edit-material-option-info" data-toggle="popover" data-img="{{ $option->material_option_path }}"
                          data-placement="right"
                                 data-material-option-boundary-properties="{{ $option->boundary_properties }}"
