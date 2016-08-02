@@ -73,16 +73,18 @@ class MascotsAPIClient extends APIClient
 
     public function createMascot($data)
     {
+
         $response = $this->post('mascot', [
             'json' => $data
         ]);
+  
 
         return $this->decoder->decode($response->getBody());
     }
 
     public function updateMascot($data)
     {
-     
+
         $response = $this->post('mascot/update', [
             'json' => $data
         ]);
