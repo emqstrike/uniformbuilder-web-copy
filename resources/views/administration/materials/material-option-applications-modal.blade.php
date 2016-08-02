@@ -115,6 +115,7 @@
                                 <th>Default Macot</th>
                                 <th>Default Font</th>
                                 <th>Default Text</th>
+                                <th>Vertical Text</th>
                                 <th>Default Number</th>
                             </thead>
                             <tbody class="front-applications">
