@@ -356,7 +356,7 @@ $('.send-to-factory').on('click', function(e){
             "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
-            "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
+            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
 
         var entryQuestions = null;

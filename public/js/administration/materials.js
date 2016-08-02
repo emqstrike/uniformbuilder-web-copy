@@ -1347,7 +1347,7 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
-        console.log(app_properties);
+        // console.log(app_properties);
 
         var dividend = 2;
 
@@ -1724,7 +1724,7 @@ $(document).ready(function() {
                 thisGroup.pivot         = thisGroup.centerPoint;
                 thisGroup.setAngle(app_properties[l].rotation);
                 // thisGroup.pivot         = app_properties[l].pivot;
-                console.log(JSON.stringify(thisGroup.pivot));
+                // console.log(JSON.stringify(thisGroup.pivot));
                 canvasFront.renderAll();
                 application_number++;
             }
@@ -3255,8 +3255,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['fontData'] = {};
 
         applicationProperties[itemIdx]['center'] = {};
-        applicationProperties[itemIdx].center['x'] = {};
-        applicationProperties[itemIdx].center['y'] = {};
+        // applicationProperties[itemIdx].center['x'] = {};
+        // applicationProperties[itemIdx].center['y'] = {};
 
         applicationProperties[itemIdx]['colors'] = {};
         applicationProperties[itemIdx]['accents'] = {};
@@ -3316,9 +3316,13 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-        applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
+        var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
+        var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
+
+        applicationProperties[itemIdx].center.x = ( tx + 3 ) * multiplier;
+        // applicationProperties[itemIdx].center.x = 'test';
         // applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
-        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y ) * multiplier;
+        applicationProperties[itemIdx].center.y = ( ty ) * multiplier;
 
         applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
         applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;
