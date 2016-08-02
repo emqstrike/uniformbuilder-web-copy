@@ -351,11 +351,12 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
+        console.log(JSON.stringify(bcx));
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
             "Description" : entry.description,
-            "DesignSheet" : '//customizer.prolook.com'+bcx.pdfOrderForm
+            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
 
         var entryQuestions = null;
@@ -447,33 +448,33 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    console.log(strResult);
+    // console.log(strResult);
 
     // console.log(orderEntire['orderParts']);
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('Order was sent to EDIT!');
-            console.log('return data: ' + JSON.stringify(data));
-            var factory_order_id = data[0].OrderID;
-            var parts = [];
-            $.each(data, function( index, value ) {
-                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                console.log(JSON.stringify(orderEntire));
-                parts.push(orderEntire['orderParts'][index]['orderPart']);
-            });
-            console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
-            // console.log(data[0].OrderID);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
+    // $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: JSON.stringify(orderEntire),
+    //     contentType: 'application/json;',
+    //     success: function (data) {
+    //         alert('Order was sent to EDIT!');
+    //         console.log('return data: ' + JSON.stringify(data));
+    //         var factory_order_id = data[0].OrderID;
+    //         var parts = [];
+    //         $.each(data, function( index, value ) {
+    //             orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //             console.log(JSON.stringify(orderEntire));
+    //             parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //         });
+    //         console.log(JSON.stringify(parts));
+    //         updateFOID(order_id, factory_order_id, parts);
+    //         // console.log(data[0].OrderID);
+    //     },
+    //     error: function (xhr, ajaxOptions, thrownError) {
+    //         //Error Code Here
+    //     }
+    // });
 
 });
 

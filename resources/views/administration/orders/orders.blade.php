@@ -15,12 +15,15 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered'>
+                    <table class='data-table table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
                             <th>Order code</th>
                             <th>Client</th>
+                            <th></th>
+                            <th>Rep</th>
                             <th>Items</th>
+                            <th>Artwork Requests</th>
                             <th>Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
@@ -42,21 +45,7 @@
                                 </div>
                             </td>
                             <td>
-                                @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs">{{ $item->item_id }} - {{ $item->description }}</a>
-                                <a href="#" class="btn btn-primary btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
-                                <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-primary btn-xs pdf-link">PDF</a></br>
-                                @endforeach
-                            </td>
-                            <td>
-                                <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
-                                @foreach ($order_statuses as $status)
-                                    <option value="{{ $status }}"@if ($status == $order->status) selected @endif>{{ ucfirst($status) }}</option>
-                                @endforeach
-                                </select>
-                            </td>
-                            <td>
-                                <button class='btn btn-default btn-xs btn-success view-order-details'
+                                <button class='btn btn-default btn-xs btn-info view-order-details'
                                     style="color: #fff;"
                                     data-order-id="{{ $order->id }}"
                                     data-client="{{ $order->client }}"
@@ -87,8 +76,29 @@
                                     data-upper-back-view="{{ $order->upper_back_thumbnail_path }}"
                                     data-upper-right-view="{{ $order->upper_right_thumbnail_path }}"
                                     data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
-                                    View Order Details
+                                    <!-- View Order Details -->
+                                    Info
                                 </button>
+                            </td>
+                            <td></td>
+                            <td>
+                                @foreach( $order->items as $item )
+                                <a href="#" class="btn btn-default btn-xs" style="width: 200px; text-align: left;">{{ $item->item_id }} - {{ $item->description }}</a>
+                                <a href="#" class="btn btn-default btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
+                                <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-default btn-xs pdf-link">PDF</a></br>
+                                @endforeach
+                            </td>
+                            <td>
+                                null
+                            </td>
+                            <td>
+                                <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
+                                @foreach ($order_statuses as $status)
+                                    <option value="{{ $status }}"@if ($status == $order->status) selected @endif>{{ ucfirst($status) }}</option>
+                                @endforeach
+                                </select>
+                            </td>
+                            <td>
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
                                    class="btn btn-primary btn-xs send-to-factory"

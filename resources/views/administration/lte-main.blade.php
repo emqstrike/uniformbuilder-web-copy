@@ -101,6 +101,7 @@
                             </li>
 
                             <li class="user-body">
+                                <a href="/administration/messages"><i class="fa fa-envelope"></i>Messages</a>
                             </li>
 
                             <li class="user-footer">
