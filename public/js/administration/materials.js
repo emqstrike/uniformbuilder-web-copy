@@ -527,6 +527,7 @@ $(document).ready(function() {
         var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
+        var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -562,6 +563,7 @@ $(document).ready(function() {
                     default_mascot,
                     default_font,
                     default_text,
+                    vertical_text,
                     default_number,
                     flip
                 ];
@@ -1436,7 +1438,8 @@ $(document).ready(function() {
                     logo_checked        = "",
                     team_name_checked   = "",
                     player_name_checked = "", 
-                    number_checked      = "";
+                    number_checked      = "",
+                    vertical_text_checked = "";
 
                 // Check checkbox if value is 1, isn't it obvious?
                 if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
@@ -1444,6 +1447,7 @@ $(document).ready(function() {
                 if(app_properties[l].hasTeamName == 1){ team_name_checked = checked; }
                 if(app_properties[l].hasPlayerName == 1){ player_name_checked = checked; }
                 if(app_properties[l].hasNumber == 1){ number_checked = checked; }
+                if(app_properties[l].verticalText == 1){ vertical_text_checked = checked; }
 
                 var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
@@ -1489,6 +1493,7 @@ $(document).ready(function() {
                 }
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
+                var vertical_text       = '<input type="checkbox" style="'  + style + '" class="app-vertical-text" value="1" data-id="' + group.id + '" '        + vertical_text_checked                   + '>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
 
                 // Append options to selectbox
@@ -1525,6 +1530,7 @@ $(document).ready(function() {
                     default_mascot,
                     default_font,
                     default_text,
+                    vertical_text,
                     default_number,
                     flip
                 ];
@@ -3174,6 +3180,7 @@ function updateApplicationsJSON(){
         hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
         fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
         uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+        verticalText = $(this).parent().siblings('td').find("input[class=app-vertical-text]");
 
         // applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
@@ -3209,6 +3216,12 @@ function updateApplicationsJSON(){
             hasPlayerName = 1;
         } else {
             hasPlayerName = 0;
+        }
+
+        if(verticalText.prop( "checked" )){
+            verticalText = 1;
+        } else {
+            verticalText = 0;
         }
 
         if(hasNumber.prop( "checked" )){
@@ -3253,6 +3266,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['hasNumber'] = {};
         applicationProperties[itemIdx]['fontSizes'] = {};
         applicationProperties[itemIdx]['uniformSizes'] = {};
+        applicationProperties[itemIdx]['verticalText'] = {};
 
         applicationProperties[itemIdx]['defaultMascot'] = {};
         applicationProperties[itemIdx]['defaultFont'] = {};
@@ -3288,6 +3302,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].hasNumber = hasNumber;
         applicationProperties[itemIdx].fontSizes = fontSizes;
         applicationProperties[itemIdx].uniformSizes = uniformSizes;
+        applicationProperties[itemIdx].verticalText = verticalText;
 
         // applicationProperties[itemIdx].defaultAccent = applicationAccent;
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
