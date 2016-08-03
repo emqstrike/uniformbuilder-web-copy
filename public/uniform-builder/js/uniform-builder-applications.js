@@ -1781,7 +1781,6 @@
                         // point.position  = new PIXI.Point(view.application.center.x, y);
                         point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
-
                     }
 
                 }
