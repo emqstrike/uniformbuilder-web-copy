@@ -939,6 +939,7 @@ $(document).ready(function () {
                         object_type: "text object",
                         text: view.application.defaultText,
                         type: _application.type,
+                        verticalText: view.application.verticalText,
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
@@ -4685,14 +4686,11 @@ $(document).ready(function () {
                 _.each(order.items, function (item){
 
                     var _bc = JSON.parse(item.builder_customizations);
-                    console.log(_bc);
                     item.thumbnails = _bc.thumbnails;
 
                 }) 
                 
             });
-
-            console.log(_parsedOrders);
 
             return _parsedOrders;
 
