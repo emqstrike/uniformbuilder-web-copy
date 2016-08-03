@@ -6464,6 +6464,10 @@
         if (typeof _sizes === 'undefined') {
             util.error('Application Sizes for ' + applicationType + ' is not found!');
         }
+
+        if (applicationType === "mascot" && ub.current_material.material.uniform_category === "Wrestling") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'mascot_wrestling'});            
+        }
         
         return _sizes;
 
