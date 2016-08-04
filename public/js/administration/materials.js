@@ -2049,6 +2049,8 @@ $(document).ready(function() {
                 }
             }
         });
+
+
     });
 
     $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
@@ -2078,6 +2080,7 @@ $(document).ready(function() {
     });
 
     $('#confirmation-modal-material-option .confirm-yes').on('click', function(){
+
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/material_option/delete/";
         $.ajax({
@@ -2101,6 +2104,7 @@ $(document).ready(function() {
                 }
             }
         });
+        window.location.reload(true);
     });
 
     $('.delete-material-image').on('click', function(){
@@ -3469,14 +3473,15 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
     
  $(document).on('click', '.remove-row', function() {
-console.log("index");
-console.log($(".remove-row").index(this));
+
 
 
     $(".options-row").eq($(".remove-row").index(this)).remove();
     
 
 });
+
+ 
       $(document).on('change', '.mascotFilter', function() {
 
                   
