@@ -3426,7 +3426,7 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) {
@@ -4517,12 +4517,12 @@
             paddingTop: paddingTop,
         };
 
-        var template = $('#m-mascot-popup').html();
+        var template = $('#m-new-mascot-popup').html();
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
 
         /// Type Ahead

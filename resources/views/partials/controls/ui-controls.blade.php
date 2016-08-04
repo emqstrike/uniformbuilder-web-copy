@@ -698,6 +698,68 @@
 
 <!-- End Mascot Picker -->
 
+<!-- New Mascot Picker -->
+    
+    <script type="text/mustache" id="m-new-mascot-popup">
+
+         <div id="primaryMascotPopup" data-status="hidden">
+
+            <div class="header">
+
+                <div class="popup_header">
+
+                    Mascots
+
+                </div>
+
+                <div class="mascot_search">
+
+                    <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+
+                </div>
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+
+                <div class="categories">
+                    <span class="category_item" data-category="all">All</span>
+
+                    @{{#categories}}
+                    <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
+                    @{{/categories}}
+                </div>
+                
+                <div class="patternPopupResults">
+
+                    @{{#mascots}}
+
+                        <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+                            <div class="name">@{{name}}</div>
+                        </div>
+
+                    @{{/mascots}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+            </div>
+
+        </div>
+    </script>
+
+
+<!-- End New Mascot Picker -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
