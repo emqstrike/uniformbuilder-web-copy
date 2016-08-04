@@ -49,6 +49,7 @@
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
+                <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->neck_option) }}</span></div>
                 <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>
                 <div class="material-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="1pxb btn btn-default btn-xs edit-material" role="button"

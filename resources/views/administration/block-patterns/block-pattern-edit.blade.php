@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Neck Options
+                            <label class="col-md-4 control-label">Block Pattern Options
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
                             </div>
