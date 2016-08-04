@@ -353,8 +353,10 @@ $(document).ready(function() {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
         stop: function( ) {
-            // var length = $('.options-row').length;
-             var length = 1;
+
+
+
+            var length = $('.options-row').length;
             $(".options-row").each(function(i) {
                 // $(this).find(".layer-number").text(length);
                 $(this).find(".mo-layer").val(length);
@@ -367,18 +369,11 @@ $(document).ready(function() {
                     $(this).find(".mo-layer").val('98');
                     // $(this).find(".layer-number").text('98');
                 }
-                length = length+1;
-
-                 if(0<i){
-                $(this).find(".remove-row").show();
-
-            }else{
-                 $(this).find(".remove-row").hide();
-            }
-
+                length = length-1;
             });
             var newLength = $('.options-row').length;
             renumberRows(newLength);
+
         }
     });
 
@@ -389,10 +384,9 @@ $(document).ready(function() {
     });
 
     function syncMOLayers(){
-        // var length = $('.options-row').length;
-        var length = 1;
+        var length = $('.options-row').length;
         $(".options-row").each(function(i) {
-   
+            console.log(i);
             if(0<i){
                 $(this).find(".remove-row").show();
 
@@ -413,7 +407,7 @@ $(document).ready(function() {
                 $(this).find(".mo-layer").val('98');
                 // $(this).find(".layer-number").text('98');
             }
-            length = length+1;
+            length = length-1;
         });
         var newLength = $('.options-row').length;
         renumberRows(newLength);
@@ -822,7 +816,7 @@ $(document).ready(function() {
     });
 
     $('.clone-row').on('click', function(){
-        $( ".options-row:first" ).clone().appendTo( "#options-row-container" );
+        $( ".options-row:first" ).clone().prependTo( "#options-row-container" );
 
         $('.mo-default-color, .mo-sublimated-default-color').change(function(){
             var color = $('option:selected', this).data('color');
@@ -2535,6 +2529,12 @@ $(document).ready(function() {
         var allow_color_arr = [];
 
         $(".options-row").each(function(i) {
+             if(0<i){
+                $(this).find(".remove-row").show();
+
+            }else{
+                 $(this).find(".remove-row").hide();
+            }
             var old_length = length;
             var thisLayer = "layer"+length;
             var layer_class = ".mo-layer.layer" + length;
@@ -3470,7 +3470,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
 
     $(".options-row").eq($(".remove-row").index(this)).remove();
-    syncMOLayers();
+    
 
 });
 
