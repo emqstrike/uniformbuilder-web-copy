@@ -181,6 +181,13 @@ $(document).ready(function(){
             $('#layers-row-container').append( open + name + existing_file + thumbnail + file + remove + close );
             x++;
 
+            $('.btn-remove-option').on('click', function(){
+                // console.log('rimuv');
+                $(this).parent().parent().remove();
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+            });
+
         }
 
     }
