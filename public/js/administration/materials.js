@@ -382,6 +382,15 @@ $(document).ready(function() {
     function syncMOLayers(){
         var length = $('.options-row').length;
         $(".options-row").each(function(i) {
+            console.log(i);
+            if(0<i){
+                $(this).find(".remove-row").show();
+
+            }else{
+                 $(this).find(".remove-row").hide();
+            }
+
+
             // $(this).find(".layer-number").text(length);
             // $(this).find(".layer-number").val(length);
             $(this).find(".mo-layer").val(length);
@@ -955,7 +964,10 @@ $(document).ready(function() {
     });
 
     $('.add-multiple-material-option').on('click', function(){
+
         $('#add-multiple-options-modal').modal('show');
+
+
     });
 
     $('.cleanup-material').on('click', function(){
@@ -3456,7 +3468,15 @@ function accentMascotSelect(data,accentMascot,rowIndex){
     });
 
     
+ $(document).on('click', '.remove-row', function() {
+console.log("index");
+console.log($(".remove-row").index(this));
 
+
+    $(".options-row").eq($(".remove-row").index(this)).remove();
+    
+
+});
       $(document).on('change', '.mascotFilter', function() {
 
                   
@@ -3491,7 +3511,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         });
         
     function bringingPointToFront(){
-        console.log("world");
+       
          canvas.forEachObject(function(key,obj){  
           
             var subjectName = ""+ canvas.item(obj).name +"";
