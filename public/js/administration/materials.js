@@ -353,7 +353,8 @@ $(document).ready(function() {
             $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
         },
         stop: function( ) {
-            var length = $('.options-row').length;
+            // var length = $('.options-row').length;
+             var length = 1;
             $(".options-row").each(function(i) {
                 // $(this).find(".layer-number").text(length);
                 $(this).find(".mo-layer").val(length);
@@ -366,7 +367,15 @@ $(document).ready(function() {
                     $(this).find(".mo-layer").val('98');
                     // $(this).find(".layer-number").text('98');
                 }
-                length = length-1;
+                length = length+1;
+
+                 if(0<i){
+                $(this).find(".remove-row").show();
+
+            }else{
+                 $(this).find(".remove-row").hide();
+            }
+
             });
             var newLength = $('.options-row').length;
             renumberRows(newLength);
@@ -380,9 +389,10 @@ $(document).ready(function() {
     });
 
     function syncMOLayers(){
-        var length = $('.options-row').length;
+        // var length = $('.options-row').length;
+        var length = 1;
         $(".options-row").each(function(i) {
-            console.log(i);
+   
             if(0<i){
                 $(this).find(".remove-row").show();
 
@@ -403,7 +413,7 @@ $(document).ready(function() {
                 $(this).find(".mo-layer").val('98');
                 // $(this).find(".layer-number").text('98');
             }
-            length = length-1;
+            length = length+1;
         });
         var newLength = $('.options-row').length;
         renumberRows(newLength);
@@ -2068,6 +2078,9 @@ $(document).ready(function() {
                     });
                     $('#confirmation-modal-multiple-material-option').modal('hide');
                 }
+
+
+
                 window.location.reload(true);
             }
         });
@@ -2098,7 +2111,6 @@ $(document).ready(function() {
                 }
             }
         });
-        window.location.reload(true);
     });
 
     $('.delete-material-image').on('click', function(){
@@ -3458,7 +3470,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
 
     $(".options-row").eq($(".remove-row").index(this)).remove();
-    
+    syncMOLayers();
 
 });
 
