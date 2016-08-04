@@ -1739,10 +1739,15 @@ $(document).ready(function() {
                 thisGroup.setAngle(app_properties[l].rotation);
                 // thisGroup.pivot         = app_properties[l].pivot;
                 // console.log(JSON.stringify(thisGroup.pivot));
-                canvasFront.renderAll();
+                // canvasFront.renderAll();
+                // canvasFront.setActiveObject(canvasFront.item(1));
                 application_number++;
+                canvasFront.renderAll();
+                // updateCoordinates();
+                // reIndexRowsDataID();
             }
             else{
+                // canvasFront.renderAll();
                 break;
             }
 
@@ -1761,6 +1766,7 @@ $(document).ready(function() {
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
             });
+            // canvasFront.renderAll();
         }
     }
 
