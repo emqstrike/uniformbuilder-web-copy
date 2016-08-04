@@ -1781,7 +1781,6 @@
                         // point.position  = new PIXI.Point(view.application.center.x, y);
                         point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
-
                     }
 
                 }
@@ -3427,7 +3426,7 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) {
@@ -4462,7 +4461,7 @@
         var _id         = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
 
-        settingsObj.size = parseInt(size);
+        settingsObj.size = parseFloat(size);
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
     }
@@ -4518,12 +4517,12 @@
             paddingTop: paddingTop,
         };
 
-        var template = $('#m-mascot-popup').html();
+        var template = $('#m-new-mascot-popup').html();
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
 
         /// Type Ahead
@@ -4811,12 +4810,18 @@
 
                 _settingsObject.size = 4;
 
-            }
-            else {
+            } else {
 
                 _settingsObject.size = 10;
 
             }
+
+            if (application_id === 4) {
+
+                _settingsObject.size = 0.5;
+
+            }
+
 
         }
 
@@ -5022,11 +5027,12 @@
 
             $('span.font_size').on('click', function () {
 
-                if (_id === '4') { return; }
+                //if (_id === '4') { return; }
 
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
                 if (_id === "9") {
@@ -5388,6 +5394,7 @@
             if (_id === 1) { _settingsObject.size = 2;  }
             if (_id === 2) { _settingsObject.size = 8;  }
             if (_id === 5) { _settingsObject.size = 10; }
+            if (_id === 4) { _settingsObject.size = 0.5; }
 
             var _matchingID;
             var _matchingSide;
@@ -6464,6 +6471,10 @@
 
         if (typeof _sizes === 'undefined') {
             util.error('Application Sizes for ' + applicationType + ' is not found!');
+        }
+
+        if (applicationType === "mascot" && ub.current_material.material.uniform_category === "Wrestling") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'mascot_wrestling'});            
         }
         
         return _sizes;

@@ -175,10 +175,12 @@ class UniformBuilderController extends Controller
     public function loadOrder($orderId)
     {
         $order = $this->ordersClient->getOrderByOrderId($orderId);
+
         Session::put('order', [
             'id' => $order->id,
             'order_id' => $orderId
         ]);
+        
         if (!is_null($order))
         {
             // Check whether the upper body or the lower body has something in it

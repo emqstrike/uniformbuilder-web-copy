@@ -466,6 +466,23 @@ $(document).ready(function() {
                                 },
                             ],
                 },
+                {
+                    name: 'mascot_wrestling',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
+                                },
+                            ],
+                },
 
             ],
     }

@@ -121,7 +121,7 @@
                                 <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
                             </td>
                               <td>
-                               <div class="btn btn-danger remove-row">Remove</div>
+                               <div class="btn btn-danger remove-row" style="display:none">Remove</div>
                             </td>
                         </tr>
                     </tbody>

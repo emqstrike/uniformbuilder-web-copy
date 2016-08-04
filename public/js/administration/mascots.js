@@ -163,6 +163,7 @@ $(document).ready(function() {
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
+
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/mascot/delete/";
         $.ajax({
@@ -186,6 +187,8 @@ $(document).ready(function() {
                 }
             }
         });
+ window.location.reload(true);
+ 
     });
 
     $(document).on('change', function() {
