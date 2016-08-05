@@ -27,6 +27,17 @@ $(document).ready(function () {
 
     };
 
+    ub.showModalTool = function (message) {
+
+         $('div.modal').modal('hide');
+
+         $('div#messageModal').html(message);
+         $('button#modalButton').trigger('click');
+
+        
+
+    };
+
     ub.zoom_off = function () {
 
         var _windowSize = ub.funcs.getWindowSize();

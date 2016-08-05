@@ -706,23 +706,23 @@
 
             <div class="header">
 
-                <div class="popup_header">
+                <div class="top">
 
-                    Mascots
-
-                </div>
-
-                <div class="mascot_search">
-
-                    <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+                    <div class="popup_header">Mascots </div>
+                    <div class="close-popup"> <i class="fa fa-times" aria-hidden="true"></i> </div>
 
                 </div>
 
-                <div class="close-popup">
-                        
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                <div class="bottom">
 
-                </div>
+                    <div class="mascot_search">
+
+                        <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+
+                    </div>
+                    
+                </dib>
+
              
             </div>
             
@@ -734,6 +734,7 @@
                     @{{#categories}}
                     <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
                     @{{/categories}}
+
                 </div>
                 
                 <div class="patternPopupResults">
