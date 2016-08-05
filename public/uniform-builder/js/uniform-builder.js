@@ -950,12 +950,6 @@ $(document).ready(function () {
 
                     var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
 
-                    console.log('Mascot ID: ');
-                    console.log(view.application.defaultMascot);
-
-                    console.log('Application ID: ');
-                    console.log(_application.id);
-
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
                         if (typeof _colorArray[index -1] === 'undefined') { return; }
@@ -1790,7 +1784,6 @@ $(document).ready(function () {
                 var _str = "<img src ='" + img + "' />";
 
                 ub.showModalTool(_str);
-
 
             }
             

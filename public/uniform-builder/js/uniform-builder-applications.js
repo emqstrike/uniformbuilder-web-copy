@@ -2772,7 +2772,13 @@
     }
 
     ub.funcs.stageMouseMove = function (mousedata) {
+        
+        if ($('div#primaryMascotPopup').is(":visible") ) { 
+            
+            return; 
 
+        }
+        
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
@@ -6505,6 +6511,7 @@
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
             if ($('div#primaryPatternPopup').is(':visible')) { return; }
+            if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
 
