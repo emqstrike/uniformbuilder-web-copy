@@ -26,7 +26,7 @@
     <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
 @endforeach
 </div>
-<div class="container-fluid main-content isotope" style="margin-top: 120px;">
+<div class="container-fluid main-content isotope" style="margin-top: 200px;">
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }}' data-category="{{ $material->block_pattern_id }}">
                 <div class="material-id-div">
