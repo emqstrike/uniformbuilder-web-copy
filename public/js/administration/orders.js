@@ -56,6 +56,12 @@ $(document).ready(function(){
         });
     });
 
+    $('.bc-display').on('click', function(e){
+        e.preventDefault();
+        // console.log($(this).data('bc'));
+        console.log(JSON.stringify($(this).data('bc')));
+    });
+
 
     $('.view-roster-details').on('click', function(e){
         e.preventDefault()
@@ -537,6 +543,26 @@ function extractPartValues(bc){ // get values for builder customizations
     color_name = bc['upper']['Right Sleeve Insert']['colorObj']['name'];
     var right_sleeve_color = color_name + " " + "(" + color_code + ")";
 
+    color_code = bc['upper']['Right Arm Trim']['colorObj']['color_code'];
+    color_name = bc['upper']['Right Arm Trim']['colorObj']['name'];
+    var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Right Side Panel Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Right Side Panel Insert']['colorObj']['name'];
+    var right_side_panel_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Back Body Yoke Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Back Body Yoke Insert']['colorObj']['name'];
+    var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['name'];
+    var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
+
+    color_code = bc['upper']['Bottom Body Insert']['colorObj']['color_code'];
+    color_name = bc['upper']['Bottom Body Insert']['colorObj']['name'];
+    var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
+
     color_code = bc['upper']['Left Sleeve Insert']['colorObj']['color_code'];
     color_name = bc['upper']['Left Sleeve Insert']['colorObj']['name'];
     var left_sleeve_color = color_name + " " + "(" + color_code + ")";
@@ -567,15 +593,20 @@ function extractPartValues(bc){ // get values for builder customizations
         "body_color" : body_color,
         "body_pattern" : body_pattern,
         "right_sleeve_color" : right_sleeve_color,
+        "right_arm_trim_color" : right_arm_trim_color,
+        "right_side_panel_color" : right_side_panel_color,
         "left_sleeve_color" : left_sleeve_color,
         "right_shoulder_cowl_color" : right_shoulder_cowl_color,
         "left_shoulder_cowl_color" : left_shoulder_cowl_color,
         "front_neck_trim_color" : front_neck_trim_color,
         "right_sleeve_pattern" : right_sleeve_pattern,
         "left_sleeve_pattern" : left_sleeve_pattern,
-        "neck_trim_pattern" : neck_trim_pattern
+        "neck_trim_pattern" : neck_trim_pattern,
+        "back_body_yoke_insert_color" : back_body_yoke_insert_color,
+        "bottom_right_side_panel_insert_color" : bottom_right_side_panel_insert_color,
+        "bottom_body_insert_color" : bottom_body_insert_color
     };
-
+    console.log(questionsValues);
     return questionsValues;
 
 }
@@ -621,6 +652,19 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 282,
                 "Value": questionsValues.neck_trim_pattern
             }];
+            // , {
+            //     "QuestionID": 68,
+            //     "Value": questionsValues.right_arm_trim_color
+            // }, {
+            //     "QuestionID": 62,
+            //     "Value": questionsValues.right_side_panel_color
+            // }, {
+            //     "QuestionID": 66, // Insert and Trim Color 3
+            //     "Value": questionsValues.back_body_yoke_insert_color
+            // }, {
+            //     "QuestionID": 64, // Insert and Trim Color 2
+            //     "Value": questionsValues.bottom_right_side_panel_insert_color
+            // }
     } else if( utpi == "fbgj" ){
         questions = [{
                 "QuestionID": 14,
@@ -631,6 +675,21 @@ function buildQuestions( utpi, questionsValues ){
             }, {
                 "QuestionID": 38,
                 "Value": questionsValues.right_shoulder_cowl_color
+            }, {
+                "QuestionID": 68,
+                "Value": questionsValues.right_arm_trim_color
+            }, {
+                "QuestionID": 62,
+                "Value": questionsValues.right_side_panel_color
+            }, {
+                "QuestionID": 66, // Insert and Trim Color 3
+                "Value": questionsValues.back_body_yoke_insert_color
+            }, {
+                "QuestionID": 64, // Insert and Trim Color 2
+                "Value": questionsValues.bottom_right_side_panel_insert_color
+            }, {
+                "QuestionID": 18, //    Base Material 2 Color 1
+                "Value": questionsValues.bottom_body_insert_color
             }];
     }
 
