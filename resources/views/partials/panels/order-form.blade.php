@@ -90,6 +90,10 @@
                 <h2>Billing Info</h2>
 
                 <div class="form-group">
+                    <input type="checkbox" id="billing-checkbox" value="second_checkbox" checked> <label for="billing-checkbox">Same as Client Info</label>
+                </div>
+
+                <div class="form-group">
                     <label for="client-name">Organization</label>
                     <input type="text" class="form-control" id="billing-organization" placeholder="Organization" name="billing-organization">
                 </div>
@@ -115,6 +119,7 @@
                 </div>
 
                 <br />
+
                 <h3>
                     Billing Address
                 </h3>
@@ -146,6 +151,11 @@
             <div class="order-tab" data-name="shipping-info">
 
                 <h2>Shipping Info</h2>
+
+                <div class="form-group">
+                    <input type="checkbox" id="shipping-checkbox" value="second_checkbox" checked> <label for="shipping-checkbox">Same as Client Info</label>
+                </div>
+
 
                 <div class="form-group">
                     <label for="client-name">Organization</label>

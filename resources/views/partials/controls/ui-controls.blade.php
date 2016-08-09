@@ -665,11 +665,12 @@
             <div class="main-content">
 
                 <div class="categories">
-                    <span class="category_item" data-category="all">All</span>
 
+                    <!--     <span class="category_item" data-category="all">All</span> -->
                     @{{#categories}}
                     <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
                     @{{/categories}}
+
                 </div>
                 
                 <div class="patternPopupResults">
@@ -699,6 +700,28 @@
 <!-- End Mascot Picker -->
 
 <!-- New Mascot Picker -->
+
+    <script type="text/mustache" id="m-new-mascot-popup-categories">
+
+        <span class="category_item back" data-category="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</span>
+
+        @{{#categories}}
+            <span class="category_item" data-category-name="@{{name}}" data-category="@{{id}}">@{{name}}</span>
+        @{{/categories}}
+
+    </script>            
+
+    <script type="text/mustache" id="m-new-mascot-items">
+
+        @{{#mascots}}
+
+        <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+            <div class="name">@{{name}}</div>
+        </div>
+
+        @{{/mascots}}
+
+    </script>
     
     <script type="text/mustache" id="m-new-mascot-popup">
 
@@ -706,45 +729,65 @@
 
             <div class="header">
 
-                <div class="popup_header">
+                <div class="top">
 
-                    Mascots
-
-                </div>
-
-                <div class="mascot_search">
-
-                    <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+                    <div class="popup_header">Mascots </div>
+                    <div class="close-popup"> <i class="fa fa-times" aria-hidden="true"></i> </div>
 
                 </div>
 
-                <div class="close-popup">
-                        
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                <div class="bottom">
 
-                </div>
+                    <div class="tabs">
+
+                        <span class="mascot-tab tab active" data-button="browse">Browse</span>
+                        <span class="mascot-tab tab" data-button="upload">Upload</span>
+
+                    </div>
+
+                    <div class="mascot_search">
+
+                        <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+
+                    </div>
+                    
+                </dib>
+
              
             </div>
             
             <div class="main-content">
 
+
+                <div class="groups_categories">
+                    
+                    <!-- <span class="groups_category_item all" data-category="all">All</span> -->
+
+                    @{{#groups_categories}}
+                    <span class="groups_category_item" data-category-name="@{{name}}" data-category="@{{id}}">@{{name}}</span>
+                    @{{/groups_categories}}
+
+                </div>
+
                 <div class="categories">
-                    <span class="category_item" data-category="all">All</span>
+                    <span class="category_item back" data-category="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</span>
 
                     @{{#categories}}
                     <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
                     @{{/categories}}
+
                 </div>
                 
                 <div class="patternPopupResults">
 
                     @{{#mascots}}
 
-                        <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
-                            <div class="name">@{{name}}</div>
-                        </div>
+                    <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+                        <div class="name">@{{name}}</div>
+                    </div>
 
                     @{{/mascots}}
+
 
                 </div>
 
@@ -818,8 +861,8 @@
 
                     <td class="sleevetype">
                         <select class="sleeve-type">
-                            <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Motion Cut">Motion Cut</option>
+                            <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Lineman Cut">Lineman Cut</option>
                         </select>
                     </td>

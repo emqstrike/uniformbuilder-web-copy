@@ -135,6 +135,7 @@ $(document).ready(function() {
 
     ub.funcs.createNumbersSelectionPopup = function (_size) {
 
+        $('body').scrollTo(0);
         $('div#numbersPopup').remove();
 
         var _htmlBuilder = "";
@@ -852,6 +853,36 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.duplicateClientInfo = function () {
+
+        var _clientName = $('#client-name').val();
+        var _athleticDirector = $('#athletic-director').val();
+        var _clientEmail = $('#client-email').val();
+        var _phone = $('#phone').val();
+        var _fax = $('#fax').val();
+
+        if ($('#billing-checkbox').is(':checked')) {
+
+            $('#billing-organization').val(_clientName);
+            $('#billing-contact-name').val(_athleticDirector);
+            $('#billing-email').val(_clientEmail);
+            $('#billing-phone').val(_phone);
+            $('#billing-fax').val(_fax);
+
+        }
+
+        if ($('#shipping-checkbox').is(':checked')) {
+
+           $('#shipping-organization').val(_clientName);
+           $('#shipping-contact-name').val(_athleticDirector);
+           $('#shipping-email').val(_clientEmail);
+           $('#shipping-phone').val(_phone);
+           $('#shipping-fax').val(_fax);
+
+        }
+
+    }
+
     ub.funcs.showOrderForm = function () {
 
         $('div#roster-input').fadeOut();
@@ -910,6 +941,11 @@ $(document).ready(function() {
 
         });
 
+        $('#client-name, #athletic-director, #client-email, #phone, #fax, #shipping-checkbox, #billing-checkbox').on('change', function () {
+
+            ub.funcs.duplicateClientInfo();
+
+        });
 
     }
 
