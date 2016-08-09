@@ -4518,8 +4518,9 @@
 
         var data = {
             label: 'Choose Mascot: ',
-            mascots: _.filter(ub.data.mascots, {active: "1"}),
-            categories: _.sortBy(ub.data.mascotsCategories, 'name'),
+            mascots: _.filter(ub.data.mascots, {active: "1", category: 'Bulldogs'}),
+            categories: _.sortBy(ub.data.mascots_categories, 'name'),
+            groups_categories: _.sortBy(ub.data.mascots_groups_categories, 'name'),
             paddingTop: paddingTop,
         };
 
@@ -4533,17 +4534,17 @@
 
         /// Type Ahead
 
-        // var _mascotNames = _.pluck(ub.data.mascots, "name");
+        var _mascotNames = _.pluck(ub.data.mascots, "name");
 
-        // $('input.mascot_search').typeahead({
-        //   hint: true,
-        //   highlight: true,
-        //   minLength: 1
-        // },
-        // {
-        //   name: 'Mascots',
-        //   source: ub.funcs.substringMatcher(_mascotNames),
-        // });
+        $('input.mascot_search').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'Mascots',
+          source: ub.funcs.substringMatcher(_mascotNames),
+        });
 
         $('.patternPopupResults').isotope({
           // options
@@ -4556,20 +4557,57 @@
         $('input.mascot_search').on('change', function (){
 
             var _term = $(this).val().toLowerCase();
+            var _mascots = _.filter(ub.data.mascots, function(mascot){ return mascot.name.toLowerCase().indexOf(_term.toLowerCase()) !== -1; });
 
-            if (_term !== '') {
-                $('.patternPopupResults').isotope({ filter: function() {
+            var data = {
+                category: '',
+                mascot_category_id: '',
+                mascots: _mascots,
+            };
 
-                    var name = $(this).find('.name').text();
-                    return name.toLowerCase().indexOf(_term) > -1;
+            var template = $('#m-new-mascot-items').html();
+            var markup = Mustache.render(template, data);
 
-                    } 
-                });
-            } else {
-               
-                $('.patternPopupResults').isotope({ filter: '.all' });
+            $('div.main-content').scrollTo(0);
+            $('div.patternPopupResults').html(markup);
 
-            }
+             $('div.patternPopupResults > div.item').on('click', function () {
+
+                var _id = $(this).data('mascot-id');
+
+                ub.funcs.changeMascotFromPopup(_id, settingsObj);
+                $popup.remove();
+                ub.funcs.activateMascots(settingsObj.code)
+
+                if (settingsObj.code === "9") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                }
+
+                if (settingsObj.code === "10") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                }
+
+                if (settingsObj.code === "32") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                }
+
+                if (settingsObj.code === "33") {
+
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+                    
+                }
+
+            });
 
         });
 
@@ -4595,6 +4633,107 @@
           }
 
         );
+
+        $('span.groups_category_item').on('click', function () {
+
+            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_name = $(this).data('category-name');
+            var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            if (_groups_category_id === "all") {
+
+                $('div.popup_header').html("Mascots: All");
+                return;
+
+            }
+
+            var data = {
+                categories: _.sortBy(_categories, 'name'),
+            };
+
+            var template = $('#m-new-mascot-popup-categories').html();
+            var markup = Mustache.render(template, data);
+
+            $('div.popup_header').html("Mascots: " + _groups_category_name);
+            $('div.categories').html(markup);
+            $('div.groups_categories').hide();
+            $('div.categories').fadeIn();
+
+            $('span.category_item').on('click', function () {
+
+                var _category_id = $(this).data('category');
+                var _category_name = $(this).data('category-name');
+                var _current = $('div.popup_header').html();
+
+                $('div.popup_header').html('MASCOTS: ' + _groups_category_name + ', ' + _category_name );
+
+                if (_category_id === "back") {
+
+                    $('div.categories').hide();
+                    $('div.groups_categories').fadeIn();
+
+                    $('div.popup_header').html('MASCOTS');
+
+                    return;
+
+                }
+
+                var _mascots = _.filter(ub.data.mascots, {category: _category_name});
+
+                var data = {
+                    category: _category_name,
+                    mascot_category_id: _category_id,
+                    mascots: _.sortBy(_mascots, 'name'),
+                };
+
+                var template = $('#m-new-mascot-items').html();
+                var markup = Mustache.render(template, data);
+
+                $('div.main-content').scrollTo(0);
+
+                $('div.patternPopupResults').html(markup);
+
+                $('div.patternPopupResults > div.item').on('click', function () {
+
+                    var _id = $(this).data('mascot-id');
+
+                    ub.funcs.changeMascotFromPopup(_id, settingsObj);
+                    $popup.remove();
+                    ub.funcs.activateMascots(settingsObj.code)
+
+                    if (settingsObj.code === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                    }
+
+                    if (settingsObj.code === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                    }
+
+                    if (settingsObj.code === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                    }
+
+                    if (settingsObj.code === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+                        
+                    }
+
+                });
+
+            });
+
+        });
 
         $('div.patternPopupResults > div.item').on('click', function () {
 
@@ -4634,7 +4773,17 @@
 
         });
 
+        $('span.mascot-tab').on('click', function () {
+
+            var _btn = $(this).data('button');
+
+            $('span.mascot-tab').removeClass('active');
+            $(this).addClass('active');
+
+        });
+
         ub.funcs.centerPatternPopup();
+
 
         $('div.close-popup').on('click', function (){
 
