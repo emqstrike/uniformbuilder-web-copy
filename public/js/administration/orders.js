@@ -357,7 +357,7 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        console.log(JSON.stringify(bcx));
+        // console.log(JSON.stringify(bcx));
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
@@ -397,6 +397,7 @@ $('.send-to-factory').on('click', function(e){
         });
 
         var bc = JSON.parse(entry.builder_customizations);
+        // console.log(bc);
         var questionsValues = extractPartValues(bc);
         var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
@@ -465,7 +466,7 @@ $('.send-to-factory').on('click', function(e){
         contentType: 'application/json;',
         success: function (data) {
             alert('Order was sent to EDIT!');
-            console.log('return data: ' + JSON.stringify(data));
+            // console.log('return data: ' + JSON.stringify(data));
             var factory_order_id = data[0].OrderID;
             var parts = [];
             $.each(data, function( index, value ) {
@@ -534,61 +535,114 @@ function translatePattern(body_pattern_raw){
 }
 
 function extractPartValues(bc){ // get values for builder customizations
-
+console.log(bc);
     var color_code = bc['upper']['Body']['colorObj']['color_code'];
     var color_name = bc['upper']['Body']['colorObj']['name'];
     var body_color = color_name + " " + "(" + color_code + ")";
 
-    color_code = bc['upper']['Right Sleeve Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Right Sleeve Insert']['colorObj']['name'];
-    var right_sleeve_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Right Sleeve Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Right Sleeve Insert']['colorObj']['name'];
+        var right_sleeve_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Right Arm Trim']['colorObj']['color_code'];
-    color_name = bc['upper']['Right Arm Trim']['colorObj']['name'];
-    var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Right Arm Trim']['colorObj']['color_code'];
+        color_name = bc['upper']['Right Arm Trim']['colorObj']['name'];
+        var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Right Side Panel Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Right Side Panel Insert']['colorObj']['name'];
-    var right_side_panel_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Right Side Panel Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Right Side Panel Insert']['colorObj']['name'];
+        var right_side_panel_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Back Body Yoke Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Back Body Yoke Insert']['colorObj']['name'];
-    var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Back Body Yoke Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Back Body Yoke Insert']['colorObj']['name'];
+        var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['name'];
-    var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['name'];
+        var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Bottom Body Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Bottom Body Insert']['colorObj']['name'];
-    var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Bottom Body Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Bottom Body Insert']['colorObj']['name'];
+        var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Left Sleeve Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Left Sleeve Insert']['colorObj']['name'];
-    var left_sleeve_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Left Sleeve Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Left Sleeve Insert']['colorObj']['name'];
+        var left_sleeve_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name'];
-    var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name'];
+        var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code'];
-    color_name = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name'];
-    var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code'];
+        color_name = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name'];
+        var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    color_code = bc['upper']['Front Neck Trim']['colorObj']['color_code'];
-    color_name = bc['upper']['Front Neck Trim']['colorObj']['name'];
-    var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
+    try {
+        color_code = bc['upper']['Front Neck Trim']['colorObj']['color_code'];
+        color_name = bc['upper']['Front Neck Trim']['colorObj']['name'];
+        var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
-    var body_pattern_raw = bc['upper']['Body']['pattern']['pattern_id'];
-    var left_sleeve_pattern_raw = bc['upper']['Left Sleeve Insert']['pattern']['pattern_id'];
-    var right_sleeve_pattern_raw = bc['upper']['Right Sleeve Insert']['pattern']['pattern_id'];
-    var neck_trim_pattern_raw = bc['upper']['Front Neck Trim']['pattern']['pattern_id'];
+    try {
+        var body_pattern_raw = bc['upper']['Body']['pattern']['pattern_id'];
+        var left_sleeve_pattern_raw = bc['upper']['Left Sleeve Insert']['pattern']['pattern_id'];
+        var right_sleeve_pattern_raw = bc['upper']['Right Sleeve Insert']['pattern']['pattern_id'];
+        var neck_trim_pattern_raw = bc['upper']['Front Neck Trim']['pattern']['pattern_id'];
 
-    var body_pattern = translatePattern(body_pattern_raw);
-    var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
-    var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
-    var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
-
+        var body_pattern = translatePattern(body_pattern_raw);
+        var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
+        var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
+        var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
+    }catch(err) {
+        console.log(err.message);
+    }
     var questionsValues = {
         "body_color" : body_color,
         "body_pattern" : body_pattern,
@@ -606,7 +660,7 @@ function extractPartValues(bc){ // get values for builder customizations
         "bottom_right_side_panel_insert_color" : bottom_right_side_panel_insert_color,
         "bottom_body_insert_color" : bottom_body_insert_color
     };
-    console.log(questionsValues);
+    // console.log(questionsValues);
     return questionsValues;
 
 }
