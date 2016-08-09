@@ -18,7 +18,11 @@ $(document).ready(function () {
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
+            ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+            ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
             ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+            ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+            ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
@@ -194,7 +198,7 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots') {
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
 
                 ub.data[object_name] = obj;
 
@@ -220,7 +224,9 @@ $(document).ready(function () {
                      typeof(ub.data.colors) !== 'undefined' &&
                      typeof(ub.data.patterns) !== 'undefined' &&
                      typeof(ub.data.fonts) !== 'undefined' && 
-                     typeof(ub.data.mascots) !== 'undefined';  
+                     typeof(ub.data.mascots) !== 'undefined' && 
+                     typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
 
@@ -949,12 +955,6 @@ $(document).ready(function () {
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
                     var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
-
-                    console.log('Mascot ID: ');
-                    console.log(view.application.defaultMascot);
-
-                    console.log('Application ID: ');
-                    console.log(_application.id);
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
@@ -1790,7 +1790,6 @@ $(document).ready(function () {
                 var _str = "<img src ='" + img + "' />";
 
                 ub.showModalTool(_str);
-
 
             }
             

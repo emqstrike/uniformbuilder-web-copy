@@ -2943,6 +2943,8 @@ div.header-container.main {
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
 
+            padding-left: 0px;
+
             div.footer {
 
                 position: absolute;
@@ -2957,10 +2959,69 @@ div.header-container.main {
             }
 
             div.header {
-                    
                 text-align: center;
                 font-size: 1.3em;
                 padding: 10px;
+                padding-left: 0px;
+
+                .top {
+
+                    div.popup_header {
+
+                        width: 100%;
+
+                    }
+                    
+                }
+
+                .bottom {
+
+                    margin-top: 30px;
+
+                    .tabs {
+
+                        float: left;
+                        margin-left: 10px;
+                        
+                        .tab {
+
+                            cursor: pointer;
+                            width: 90px;
+                            display: inline-block;
+                            font-weight: bold;
+                            padding: 3px;
+                            font-size: 0.9em;
+
+                        }
+
+                        .tab:hover {
+
+                            color: white;
+                            background-color: #acacac;
+
+                        }
+
+                        .tab.active {
+
+                            color: white;
+                            background-color: #3d3d3d;
+
+                        }
+
+                    }
+
+                    input.mascot_search {
+
+                        float: right;
+                        margin-bottom: 7px;
+                        font-size: 0.8em;
+                        width: 250px;
+                        height: 30px;
+                        padding: 7px;
+
+                    }
+
+                }
 
             }
 
@@ -2972,10 +3033,85 @@ div.header-container.main {
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
-
                 border-top: solid 1px @customizer_forecolor;
+                padding-left: 0px;
+
+                div.groups_categories {
+
+                    width: 15%;
+                    float: left;
+                    height: 400px;
+                    overflow-y: scroll;
+                    position: fixed;
+                    border-right: solid 1px;
+
+                    span.groups_category_item {
+
+                        display: block;
+                        cursor: pointer;
+                        height: 30px;
+                        padding: 4px;
+                        font-weight: bold;
+
+                    }
+
+                    span.groups_category_item:hover {
+
+                        background-color: @forecolor;
+                        color: white;
+
+                    }
+
+                    span.groups_active_category {
+                        
+                        background-color: @customizer_main_area;
+                        color: white;
+                        border-bottom: dashed 1px black;
+
+                    }
+
+                }
+
+                div.categories {
+
+                    width: 15%;
+                    float: left;
+                    height: 400px;
+                    overflow-y: scroll;
+                    position: fixed;
+                    border-right: solid 1px;
+                    display: none;
+
+                    span.category_item {
+
+                        display: block;
+                        cursor: pointer;
+                        height: 30px;
+                        padding: 4px;
+                        font-weight: bold;
+
+                    }
+
+                    span.category_item:hover {
+
+                        background-color: @forecolor;
+                        color: white;
+
+                    }
+
+                    span.active_category {
+                        
+                        background-color: @customizer_main_area;
+                        color: white;
+                        border-bottom: dashed 1px black;
+
+                    }
+
+                }
 
                 div.patternPopupResults {
+
+                    width: 66%;
 
                     div.item {
 
@@ -4076,58 +4212,9 @@ div.header-container.main {
 
         }
 
-        input.mascot_search {
-
-            float: right;
-            margin-bottom: 20px;
-            font-size: 0.8em;
-            width: 250px;
-            height: 30px;
-            padding: 7px;
-
-        }
-
-        div.categories {
-
-            width: 15%;
-            float: left;
-            height: 400px;
-            overflow-y: scroll;
-            position: fixed;
-
-            margin-top: 10px;
-            border-right: solid 1px;
-
-        }
-
         div.patternPopupResults {
             width: 75%;
             float: right;
-
-        }
-
-        span.category_item {
-
-            display: block;
-            cursor: pointer;
-            height: 30px;
-            padding: 4px;
-            font-weight: bold;
-
-        }
-
-        span.category_item:hover {
-
-            background-color: @forecolor;
-            color: white;
-
-        }
-
-        span.active_category {
-            
-            background-color: @customizer_main_area;
-            color: white;
-            border-bottom: dashed 1px black;
 
         }
 
