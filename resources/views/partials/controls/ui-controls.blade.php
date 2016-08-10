@@ -760,7 +760,7 @@
 
                 <div class="upload">
                     
-                    Mascot Upload
+                    Upload Custom Logo
 
                 </div>
 
