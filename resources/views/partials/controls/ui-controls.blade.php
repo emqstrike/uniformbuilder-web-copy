@@ -758,6 +758,12 @@
             
             <div class="main-content">
 
+                <div class="upload">
+                    
+                    Upload Custom Logo
+
+                </div>
+
 
                 <div class="groups_categories">
                     

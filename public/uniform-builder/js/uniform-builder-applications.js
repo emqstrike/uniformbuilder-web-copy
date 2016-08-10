@@ -4810,6 +4810,23 @@
 
         });
 
+
+        /// Custom Artwork Request
+
+            $('span[data-button="browse"]').on('click', function () {
+
+                $('div.upload').fadeOut();
+
+            }); 
+
+            $('span[data-button="upload"]').on('click', function () {
+
+                $('div.upload').fadeIn();
+
+            });          
+
+        /// End Custom Artwork Request 
+
     }
 
     ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
@@ -4898,12 +4915,20 @@
         var _applicationType    = _settingsObject.application_type;
         var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
 
-        if (_id === '2' && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
-        }
+        if (ub.current_material.material.uniform_category === "Football") {
 
-        if (_id === '5' && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+            if (_id === '2' && _applicationType === 'mascot') {
+                _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+            }
+
+            if (_id === '5' && _applicationType === 'mascot') {
+                _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+            }
+
+        } else if (ub.current_material.material.uniform_category === "Wrestling") {
+
+            _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+
         }
 
         var _mascotObj          = _settingsObject.mascot;
@@ -5819,7 +5844,13 @@
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
-        var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
+        var _sizes;
+
+        if (ub.current_material.material.uniform_category === "Football") {
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+        } else if (ub.current_material.material.uniform_category === "Wrestling") {
+            _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        }
 
         if (_applicationType === 'mascot') {
 
@@ -6628,8 +6659,12 @@
             util.error('Application Sizes for ' + applicationType + ' is not found!');
         }
 
-        if (applicationType === "mascot" && ub.current_material.material.uniform_category === "Wrestling") {
+        if (applicationType === "mascot_wrestling") {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'mascot_wrestling'});            
+        }
+
+        if (applicationType === "text_wrestling") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
         
         return _sizes;
@@ -6802,7 +6837,7 @@
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
-        var _id = 1;
+        var _id = _.pluck(ub.current_material.settings.applications, 'code')[0];
 
         if (ub.current_material.material.type === 'lower') {
             _id = 38
