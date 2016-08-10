@@ -938,7 +938,7 @@ class UniformBuilderController extends Controller
 
 
         $user = Session::get('userId');
-        $message = 'Anonymous has generated a designsheet for '.$firstOrderItem['description'];
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
 
         if( isset($user) ){
             $user_id = Session::get('userId');
