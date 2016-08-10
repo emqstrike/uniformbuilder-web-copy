@@ -274,6 +274,10 @@ $(document).ready(function() {
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
+    $('.btn-fix-app').on('click', function(){
+        console.log( canvasFront.item(0) );
+    });
+
     $('.confirm_no').on('click', function(){
 
         window.location.reload(true);
@@ -1431,7 +1435,9 @@ $(document).ready(function() {
                 bl: false
             });
             group.hasRotatingPoint = false;
+            group.setCoords();
             canvasFront.add(group);
+            // canvasFront.setCoords();
             //  ){
             //     console.log('added group');
             // }
@@ -1751,14 +1757,17 @@ $(document).ready(function() {
 
                 thisGroup.left = app_properties[l].pivot.x;
                 thisGroup.top = app_properties[l].pivot.y;
-                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.pivot = thisGroup.centerPoint;
                 thisGroup.setAngle(app_properties[l].rotation);
+                thisGroup.setCoords();
                 // thisGroup.pivot         = app_properties[l].pivot;
                 // console.log(JSON.stringify(thisGroup.pivot));
                 // canvasFront.renderAll();
                 // canvasFront.setActiveObject(canvasFront.item(1));
                 application_number++;
+                // canvasFront.setActiveObject(0);
                 canvasFront.renderAll();
+                // canvasFront.setCoords();
                 // updateCoordinates();
                 // reIndexRowsDataID();
             }
