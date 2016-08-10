@@ -758,6 +758,12 @@
             
             <div class="main-content">
 
+                <div class="upload">
+                    
+                    Mascot Upload
+
+                </div>
+
 
                 <div class="groups_categories">
                     

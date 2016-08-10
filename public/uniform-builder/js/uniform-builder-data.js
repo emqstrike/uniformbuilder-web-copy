@@ -470,16 +470,33 @@ $(document).ready(function() {
                     name: 'mascot_wrestling',
                     sizes:  [
                                 {
-                                    size: 2,
+                                    size: 5,
                                 },
                                 {
-                                    size: 4,
+                                    size: 8,
                                 },
                                 {
                                     size: 10,
                                 },
                                 {
                                     size: 12,
+                                },
+                            ],
+                },
+                {
+                    name: 'text_wrestling',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
                                 },
                             ],
                 },
