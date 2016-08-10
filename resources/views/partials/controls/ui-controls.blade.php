@@ -760,7 +760,18 @@
 
                 <div class="upload">
                     
-                    Upload Custom Logo
+                    Upload Custom Logo <br />
+
+                    <img id ="preview" /> <br />
+
+                    <span class="file-input">
+
+                        <input id="custom-artwork" name="file" type="file" multiple />
+                        
+                        <br />
+                        <em>Upload your logo using the field above</em>
+
+                    </span>
 
                 </div>
 

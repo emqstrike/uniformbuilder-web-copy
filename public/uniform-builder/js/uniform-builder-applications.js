@@ -4823,7 +4823,26 @@
 
                 $('div.upload').fadeIn();
 
-            });          
+            });    
+
+            $("input#custom-artwork").change( function() {
+
+                console.log('change');
+                
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        
+                        $('img#preview').attr('src', e.target.result);
+                        ub.uploadLogo(e.target.result);
+
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+                }
+
+            });      
 
         /// End Custom Artwork Request 
 
@@ -7057,47 +7076,87 @@
 
      ub.uploadThumbnail = function (view) {
 
-            var _dataUrl = ub.getThumbnailImage(view);
+        var _dataUrl = ub.getThumbnailImage(view);
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-            $.ajax({
-                data: JSON.stringify({ dataUrl: _dataUrl }),
-                url: ub.config.host + "/saveLogo",
-                dataType: "json",
-                type: "POST", 
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
+        $.ajax({
+            data: JSON.stringify({ dataUrl: _dataUrl }),
+            url: ub.config.host + "/saveLogo",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    ub.current_material.settings.thumbnails[view] = response.filename;
                     
-                    if(response.success) {
+                    if (ub.funcs.thumbnailsUploaded()) {
 
-                        ub.current_material.settings.thumbnails[view] = response.filename;
-                        
-                        if (ub.funcs.thumbnailsUploaded()) {
+                        $('span.processing').fadeOut();
+                        $('span.submit-order').fadeIn();
 
-                            $('span.processing').fadeOut();
-                            $('span.submit-order').fadeIn();
-
-                        }
-
-                    }
-                    else{
-
-                        console.log('Error generating thumbnail for ' + view);
-                        console.log(response.message);
-                        
                     }
 
                 }
-            
-            });
+                else{
+
+                    console.log('Error generating thumbnail for ' + view);
+                    console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
+
+    }
+
+    ub.uploadLogo = function (dUrl) {
+
+        var _dataUrl = dUrl;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ dataUrl: _dataUrl }),
+            url: ub.config.host + "/saveLogo",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    ub.current_material.settings.custom_artwork = response.filename;
+                    
+                }
+                else{
+
+                    console.log('Error Uploading Custom Artwork');
+                    console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
 
     }
 
