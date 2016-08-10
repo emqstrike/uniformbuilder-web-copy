@@ -29,6 +29,7 @@
                 <div class="col-md-8" id="applications_div">
                     <div style="float: left; text-align: center; margin-top: 60px; z-index: 50; position: relative; border: 1px solid black;" class="text-center">
                         <a href="#" style="float: left; position: relative; margin-top: 5px; margin-left: 5px;" id="app_controls_button" class="btn btn-default app-controls-button"><span class="glyphicon glyphicon-cog"></span> Show Controls</a>
+                        <a href="#" style="float: left; position: relative; margin-top: 50px; margin-left: 5px;" class="btn btn-default btn-fix-app">Fix Applications</a>
                         <div id="app-controls" style="margin-top: 5px;">
                             <table style="width: 200px;" style="overflow: x;">
                                 <tr>
@@ -36,7 +37,7 @@
                                         <center>
                                             <a href="#" class="btn btn-default" id="move-top">
                                                 <span class="glyphicon glyphicon-arrow-up"></span>
-                                            </a> 
+                                            </a>
                                         </center>
                                     </td>
                                 </tr>

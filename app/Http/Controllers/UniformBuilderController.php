@@ -17,6 +17,7 @@ use App\Utilities\S3Uploader;
 
 use TCPDF;
 use File;
+use Slack;
 
 class UniformBuilderController extends Controller
 {
@@ -934,6 +935,18 @@ class UniformBuilderController extends Controller
         $pdf->Output($path, 'F');
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
+
+
+        $user = Session::get('userId');
+        $user_id = null;
+        if( isset($user) ){
+            $user_id = Session::get('userId');
+            $user = Session::get('first_name');
+        }
+        $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
+        Slack::send($message);
+
+
 
         return $transformedPath;
 
