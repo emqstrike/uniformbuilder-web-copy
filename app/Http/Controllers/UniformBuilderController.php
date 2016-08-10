@@ -938,12 +938,15 @@ class UniformBuilderController extends Controller
 
 
         $user = Session::get('userId');
-        $user_id = null;
+        $message = 'Anonymous has generated a designsheet for '.$firstOrderItem;
+
         if( isset($user) ){
             $user_id = Session::get('userId');
-            $user = Session::get('first_name');
+            $first_name = Session::get('first_name');
+            $last_name = Session::get('last_name');
+            $message = uc_first($first_name).''.uc_first($last_name).'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
         }
-        $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
+        // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
         Slack::send($message);
 
 
