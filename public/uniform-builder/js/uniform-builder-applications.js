@@ -3432,7 +3432,7 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form');
         $popup.fadeIn();
 
         if ($popup.length === 0) {

@@ -441,6 +441,31 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.feedbackForm = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
+
+        var data = {
+            message: initMessage,
+            imgFront: imgFront,
+            imgLeft: imgLeft,
+            imgRight: imgRight,
+            imgBack: imgBack,
+        };
+
+        var template = $('#m-feedback-form').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+        $('div.feedback-form').fadeIn();
+        ub.funcs.centerPatternPopup();
+
+        $('span.ok-btn').on('click', function () {
+
+            $('div.feedback-form').remove();
+
+        });
+
+    }
+
     ub.funcs.postOrderData = function (data, url) {
 
         var _postData   = data;
@@ -465,7 +490,7 @@ $(document).ready(function() {
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
 
-                $.smkAlert({text: 'Your order is now submitted. Thank you.', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                ub.funcs.feedbackForm('Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.', ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
                 ub.funcs.initGenderPicker();
 
             }
@@ -551,12 +576,18 @@ $(document).ready(function() {
 
         });
 
+        var _user_id = ub.user.id;
+
+        if (typeof _user_id === "undefined") {
+            _user_id = 0;
+        }
+
         var orderInput = {
 
             order: {
                 client: _clientName,  
                 submitted: '1',
-                user_id: ub.user.id,
+                user_id: _user_id,
             },
             athletic_director: {
 

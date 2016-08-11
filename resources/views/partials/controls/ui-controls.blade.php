@@ -982,6 +982,52 @@
 
 <!-- End Orders Table -->
 
+<!-- Order Submitted -->
+
+    <script type="text/mustache" id="m-feedback-form">
+
+        <div class="feedback-form">
+
+            <h3>Thank you for submitting your order!</h3>
+
+            <span class="message">@{{message}}</span>
+
+            <div class="row">
+                
+                <div class="col-md-3">
+                    <img src="@{{imgFront}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgLeft}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgRight}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgBack}}" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Order Submitted -->
+
 <!-- Profile -->
 
     <script type="text/mustache" id="m-profile-page">
