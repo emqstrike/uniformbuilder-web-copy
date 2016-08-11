@@ -4508,6 +4508,44 @@
       };
     };
 
+    ub.funcs.changeMascotByID = function (mascotID, settingsObj) {
+        
+        var _id = mascotID;
+
+        ub.funcs.changeMascotFromPopup(_id, settingsObj);
+        $popup.remove();
+        ub.funcs.activateMascots(settingsObj.code)
+
+        if (settingsObj.code === "9") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "10") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "32") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "33") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+            
+        }
+
+    }
+
     ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
@@ -4575,37 +4613,7 @@
 
                 var _id = $(this).data('mascot-id');
 
-                ub.funcs.changeMascotFromPopup(_id, settingsObj);
-                $popup.remove();
-                ub.funcs.activateMascots(settingsObj.code)
-
-                if (settingsObj.code === "9") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                }
-
-                if (settingsObj.code === "10") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                }
-
-                if (settingsObj.code === "32") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                }
-
-                if (settingsObj.code === "33") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                    ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-                    
-                }
+                ub.funcs.changeMascotByID(_id, settingsObj);
 
             });
 
@@ -4697,37 +4705,7 @@
 
                     var _id = $(this).data('mascot-id');
 
-                    ub.funcs.changeMascotFromPopup(_id, settingsObj);
-                    $popup.remove();
-                    ub.funcs.activateMascots(settingsObj.code)
-
-                    if (settingsObj.code === "9") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                    }
-
-                    if (settingsObj.code === "10") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                    }
-
-                    if (settingsObj.code === "32") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-                    }
-
-                    if (settingsObj.code === "33") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                        ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-                        
-                    }
+                    ub.funcs.changeMascotByID(_id, settingsObj);
 
                 });
 
@@ -4739,37 +4717,7 @@
 
             var _id = $(this).data('mascot-id');
 
-            ub.funcs.changeMascotFromPopup(_id, settingsObj);
-            $popup.remove();
-            ub.funcs.activateMascots(settingsObj.code)
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "32") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-                
-            }
+            ub.funcs.changeMascotByID(_id, settingsObj);
 
         });
 
@@ -4827,8 +4775,6 @@
 
             $("input#custom-artwork").change( function() {
 
-                console.log('change');
-                
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
 
@@ -4849,16 +4795,13 @@
                 if ($(this).attr('data-status') === "ok") {
 
                     ub.current_material.settings.custom_artwork = window.uploaded_filename;
-                    console.log('Assigned: ' + ub.current_material.settings.custom_artwork);
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
+                    ub.funcs.changeMascotByID('1037', settingsObj);
 
                 }
-                else {
-                    console.log ('Not Yet Ok');
-                }
-
+                
             }); 
 
         /// End Custom Artwork Request 
