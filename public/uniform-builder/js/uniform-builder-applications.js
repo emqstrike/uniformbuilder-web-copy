@@ -3432,7 +3432,7 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form');
         $popup.fadeIn();
 
         if ($popup.length === 0) {
@@ -7120,6 +7120,7 @@
                     $('span.ok_btn').attr('data-status','ok');
                     $('span.ok_btn').css('display', 'inline-block');
                     $('span.ok_btn').css('border', '1px solid #3d3d3d');
+                    $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
                     
                 }
                 else{

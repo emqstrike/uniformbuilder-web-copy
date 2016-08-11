@@ -170,7 +170,7 @@ $(document).ready(function () {
         $('a.change-view[data-view="' + ub.active_view + '"]').click();
         ub.zoom_off();
         ub.funcs.centerPatternPopup();
-
+        
     };
 
     $(window).resize(function() {
