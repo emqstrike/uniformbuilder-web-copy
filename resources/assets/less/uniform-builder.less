@@ -2950,6 +2950,8 @@ div.header-container.main {
 
                 position: absolute;
                 padding: 30px;
+                padding-left: 0px;
+                padding-right: 0px;
                 display: none;
                 width: 100%;
                 height: 430px;
@@ -2957,29 +2959,86 @@ div.header-container.main {
 
                 z-index: 100;
 
-                img#preview {
+                div.col1  {
 
-                    width: 250px;
-                    height: 250px;
-                    margin-top: 7px;
+                    img#preview {
+
+                        height: 250px;
+                        width: 250px;
+                        margin-top: 7px;
+
+                    }
+
+                    span.file-input {
+
+                        margin-top: 30px;
+                        display: block;
+                        font-size: 0.8em;
+                        padding: 7px;
+                        margin: 0 auto;
+                        margin-top: 10px;
+                        
+                        input#custom-artwork {
+                            background-color: #3d3d3d;
+                            padding: 10px;
+                            color: white;
+                            margin-bottom: 10px;
+                        }
+
+                    }
 
                 }
 
-                span.file-input {
+                div.col2 {
 
-                    margin-top: 30px;
-                    display: block;
+                    text-align: left;
                     font-size: 0.8em;
-                    background-color: #3d3d3d;
-                    padding: 7px;
-                    width: 50%;
-                    margin: 0 auto;
-                    margin-top: 30px;
-                    color: white;
-                    position: absolute;
-                    bottom: 30px;
-                    margin-left: 22%;
 
+                    ol {
+                        
+                        width: 90%;
+
+                        li {
+                            margin-top: 7px;
+                        }
+
+                    }
+
+                    div.button_footer {
+
+                        width: 100%;
+                        text-align: right;
+                        margin-top: 150px;
+                        padding-right: 30px;
+
+                        span.ok_btn, span.cancel_btn {
+                            display: inline-block;
+                            width: 150px;
+                            background-color: #acacac;
+                            color: #3d3d3d;
+                            cursor: pointer;
+                            padding: 7px;
+                            border: 1px solid #3d3d3d;
+                            font-weight: bold;
+                            text-align: center;
+                        }
+
+                        span.ok_btn {
+                            display: none;
+                            img {
+                                width: 40px;
+                                height: 40px;
+                            }
+                        }
+
+                        span.ok_btn:hover, span.cancel_btn:hover {
+                            background-color: #3d3d3d;
+                            color: white;
+                        }
+
+
+                    }
+                    
                 }
 
             }
