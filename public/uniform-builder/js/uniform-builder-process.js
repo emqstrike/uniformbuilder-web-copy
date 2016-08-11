@@ -633,7 +633,7 @@ $(document).ready(function() {
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
-                    attached_files: [ub.current_material.settings.custom_artwork,],
+                    attached_files: ub.current_material.settings.custom_artwork,
                 },
             ]
         };
