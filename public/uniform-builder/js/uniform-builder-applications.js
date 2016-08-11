@@ -4842,7 +4842,24 @@
                     reader.readAsDataURL(this.files[0]);
                 }
 
-            });      
+            });   
+
+            $('span.ok_btn').on('click', function () {
+
+                if ($(this).attr('data-status') === "ok") {
+
+                    ub.current_material.settings.custom_artwork = window.uploaded_filename;
+                    console.log('Assigned: ' + ub.current_material.settings.custom_artwork);
+
+                    $popup = $('div#primaryMascotPopup');
+                    $popup.remove();
+
+                }
+                else {
+                    console.log ('Not Yet Ok');
+                }
+
+            }); 
 
         /// End Custom Artwork Request 
 
@@ -7122,6 +7139,15 @@
 
     ub.uploadLogo = function (dUrl) {
 
+        
+        $('span.ok_btn').css('color', '#3d3d3d');
+        $('span.ok_btn').html('Processing...  <img src="/images/loading.gif" />');
+        $('span.ok_btn').hide();
+        $('span.ok_btn').fadeIn();
+        $('span.ok_btn').attr('data-status','processing');
+        $('span.ok_btn').css('border', 'none');
+
+
         var _dataUrl = dUrl;
 
         $.ajaxSetup({
@@ -7144,7 +7170,13 @@
                 
                 if(response.success) {
 
-                    ub.current_material.settings.custom_artwork = response.filename;
+                    window.uploaded_filename = response.filename;
+
+                    $('span.ok_btn').css('background-color', '#acacac');
+                    $('span.ok_btn').html('Submit Logo');
+                    $('span.ok_btn').attr('data-status','ok');
+                    $('span.ok_btn').css('display', 'inline-block');
+                    $('span.ok_btn').css('border', '1px solid #3d3d3d');
                     
                 }
                 else{

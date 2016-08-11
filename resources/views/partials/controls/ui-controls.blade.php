@@ -760,18 +760,44 @@
 
                 <div class="upload">
                     
-                    Upload Custom Logo <br />
+                    <h4>UPLOAD CUSTOM LOGO / ARTWORK REQUEST</h4>
 
-                    <img id ="preview" /> <br />
-
-                    <span class="file-input">
-
-                        <input id="custom-artwork" name="file" type="file" multiple />
+                    <div class="row">
                         
-                        <br />
-                        <em>Upload your logo using the field above</em>
+                        <div class="col-md-6 col1">
+                    
+                            <img id ="preview" src="/images/uiV1/upload1.png" /> <br />
 
-                    </span>
+                            <span class="file-input">
+
+                                <input id="custom-artwork" name="file" type="file" multiple />
+
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 col2">
+                        
+                            <ol>
+                                <li>Upload logo using the form on the left, at least (512px x 512px)</li>
+                                <li>A temporary placeholder (PL Logo), will be used in the uniform while our Graphic Artists prepare your logo.</li>
+                                <li>You will receive a notification via email once it is prepared. </li>
+                            </ol>
+
+                            <div class="button_footer">
+                                <span class="ok_btn" data-status="processing">Processing...  <img src="/images/loading.gif" /></span> <span class="cancel_btn close-popup">Cancel</span>    
+                            </div>
+                            
+                             
+                        </div>
+
+                    </div>
+
+                    
+
+                    
+
+                    
 
                 </div>
 
