@@ -5171,6 +5171,23 @@ div.header-container.main {
 
     }
 
+    a#feedback {
+
+        color: #acacac;
+        background-color: #fcfcfc;
+
+        min-width: 30px;
+        text-align: center;
+        margin-right: 10px;
+
+    }
+
+    a#feedback:hover {
+
+        color: #3d3d3d;
+        
+    }
+
     button.btn {
 
         background-color: #e7e7e7;
@@ -5447,13 +5464,13 @@ div.header-container.main {
 
     /* Feedback Form */
 
-        div.feedback-form {
+        div.feedback-form{
 
             padding: 30px;
             display: none;
             position: absolute;
             width: 930px;
-            height: 550px;
+            height: 650px;
             top: 300px;
             left: 300px;
             z-index: 1000;
@@ -5467,6 +5484,81 @@ div.header-container.main {
 
                 color: #3d3d3d;
                 text-align: center;
+
+            }
+
+            textarea#feedback-message {
+
+                width: 100%;
+                height: 100px;
+                padding: 10px;
+
+            }
+
+            div.col-md-3 > img {
+
+                width: 100%;
+                margin-top: 30px;
+
+            }
+
+            div.ok-footer {
+                
+                text-align: center;
+
+                span.ok-btn {
+
+                    background-color: #acacac;
+                    color: #3d3d3d;
+                    width: 150px;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    margin: 0 auto;
+                    margin-top: 30px;
+                    display: inline-block;
+
+                }
+
+                span.ok-btn:hover {
+
+                    background-color: #3d3d3d;
+                    color: white;
+
+                }
+
+            }
+
+        }
+
+        div.free-feedback-form{
+
+            padding: 30px;
+            display: none;
+            position: absolute;
+            width: 930px;
+            height: 400px;
+            top: 200px;
+            left: 300px;
+            z-index: 1000;
+            background-color: white;
+
+            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            span.message {
+
+                color: #3d3d3d;
+                text-align: center;
+
+            }
+
+            textarea#feedback-message {
+
+                width: 100%;
+                height: 100px;
+                padding: 10px;
 
             }
 
