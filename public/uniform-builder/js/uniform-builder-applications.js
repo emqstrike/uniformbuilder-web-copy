@@ -4798,7 +4798,7 @@
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
-                    ub.funcs.changeMascotByID('1037', settingsObj);
+                    ub.funcs.changeMascotByID('1038', settingsObj);
 
                 }
                 
