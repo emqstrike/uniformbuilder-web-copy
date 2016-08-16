@@ -988,7 +988,7 @@
 
         <div class="feedback-form">
 
-            <h3>Thank you for submitting your order!</h3>
+            <h4>Thank you for submitting your order!</h4>
 
             <span class="message">@{{message}}</span>
 
