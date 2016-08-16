@@ -988,7 +988,7 @@
 
         <div class="feedback-form">
 
-            <h3>Thank you for submitting your order!</h3>
+            <h4>Thank you for submitting your order!</h4>
 
             <span class="message">@{{message}}</span>
 
@@ -1016,7 +1016,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong>This Uniform Customizer is still in development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback will be really helpful so we can further improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
+                    <strong class="feedback-message">Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1049,7 +1049,7 @@
                 
                 <div class="col-md-12">
                     
-                    <i>Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </i> <br/ ><br />
+                    <strong>Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
