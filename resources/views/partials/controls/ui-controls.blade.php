@@ -1049,7 +1049,7 @@
                 
                 <div class="col-md-12">
                     
-                    <i>Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so we that can further improve this product for you and for other users as well. Thank you! </i> <br/ ><br />
+                    <i>Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </i> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
