@@ -1014,6 +1014,50 @@
 
             <div class="row">
                 
+                <div class="col-md-12">
+                    
+                    <strong>This Uniform Customizer is still in development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback will be really helpful so we can further improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
+                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Order Submitted -->
+
+    <script type="text/mustache" id="m-feedback-form-free">
+
+        <div class="free-feedback-form">
+
+            <h3>FEEDBACK</h3>
+
+            <div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <strong>This Uniform Customizer is still in development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback will be really helpful so we can further improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
+                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
                 <div class="col-md-12 ok-footer">
                     
                     <span class="ok-btn">OK</span>

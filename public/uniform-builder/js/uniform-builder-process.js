@@ -441,6 +441,52 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.submitFeedback = function (message) {
+
+        var _user_id = ub.user.id;
+        var _user_email = ub.user.email;
+
+        if (typeof _user_id === "undefined") {
+
+            _user_id = 0;
+            _user_email = '';
+
+        }
+
+        var _postData   = {
+
+            "subject" : "Feedback",
+            "order_code" : "",
+            "content" : message,
+            "type" : "feedback",
+            "email" : _user_email,
+            "user_id" : _user_id,
+
+        };
+
+        var _url = 'http://api-dev.qstrike.com/api/feedback';
+
+        //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response){
+
+                console.log(response);
+
+            }
+            
+        });
+
+    }
+ 
     ub.funcs.feedbackForm = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
 
         var data = {
@@ -460,11 +506,56 @@ $(document).ready(function() {
 
         $('span.ok-btn').on('click', function () {
 
+            var _message = $('textarea#feedback-message').val().trim();
+
+            if (_message.length === 0) {
+
+                ub.funcs.submitFeedback('No Feedback.');
+
+            } else {
+
+                ub.funcs.submitFeedback(_message);
+
+            }
+
             $('div.feedback-form').remove();
 
         });
 
     }
+
+    ub.funcs.freeFeedbackForm = function () {
+
+        $('a#feedback').on('click', function () {
+
+            var data = {};
+
+            var template = $('#m-feedback-form-free').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+            $('div.free-feedback-form').fadeIn();
+            ub.funcs.centerPatternPopup();
+
+            $('span.ok-btn').on('click', function () {
+
+                var _message = $('textarea#feedback-message').val().trim();
+
+                if (_message.length !== 0) {
+
+                    ub.funcs.submitFeedback(_message);
+
+                }
+
+                $('div.free-feedback-form').remove();
+
+            });
+
+        });
+
+    }
+
+    ub.funcs.freeFeedbackForm();
 
     ub.funcs.postOrderData = function (data, url) {
 
@@ -546,6 +637,12 @@ $(document).ready(function() {
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
         var _transformedRoster      = [];
+
+        if (typeof ub.current_material.settings.custom_artwork === "undefined") {
+
+            ub.current_material.settings.custom_artwork = "";            
+
+        }
 
         _.each (ub.current_material.settings.roster, function (_roster){
 
