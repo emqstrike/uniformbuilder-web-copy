@@ -4810,13 +4810,28 @@
 
     ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
 
-        var _mascotObj    = _.find(ub.data.mascots, {id: mascotId.toString()});
+        var _mascotID = mascotId.toString();
+
+        var _mascotObj    = _.find(ub.data.mascots, {id: _mascotID});
         var _id           = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
 
         settingsObj.mascot = _mascotObj;
-        settingsObj.color_array = ub.funcs.getDefaultColors();
+
+        if (_mascotID !== '1039') {
+
+            settingsObj.color_array = ub.funcs.getDefaultColors();    
+        
+        } else {
+
+            settingsObj.color_array = [];
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('W'));
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('RB'));
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('R'));
+
+        }
+        
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
         $popup = $('div#primaryPatternPopup');
@@ -5012,22 +5027,26 @@
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
-        _.each(_settingsObject.mascot.layers_properties, function (layer) {
+        if (ub.current_material.settings.applications[2].mascot.id !== "1039") {
 
-            var _hexCode = layer.default_color;
-            var _color   = ub.funcs.getColorByColorCode(_hexCode);
-            if (typeof _color !== 'undefined') {
+            _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
- 
-            }
-            else {
+                var _hexCode = layer.default_color;
+                var _color   = ub.funcs.getColorByColorCode(_hexCode);
+                if (typeof _color !== 'undefined') {
 
-                util.error('Hex Code: ' + _hexCode + ' not found!');
+                    _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
+     
+                }
+                else {
 
-            }
+                    util.error('Hex Code: ' + _hexCode + ' not found!');
 
-        });
+                }
+
+            });
+
+        }
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
