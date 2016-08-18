@@ -107,7 +107,18 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             //$('div.activate_qa_tools').fadeIn();
 
-            $('div#uniform_name').html(ub.current_material.material.name);
+            var _type = '';
+            if (ub.current_material.material.factory_code === "BLB") {
+
+                _type = "Sublimated";
+
+            } else {
+
+                _type ="Tackle Twill";
+
+            }
+
+            $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
