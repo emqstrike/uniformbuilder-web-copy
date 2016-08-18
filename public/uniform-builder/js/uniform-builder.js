@@ -4533,8 +4533,6 @@ $(document).ready(function () {
                 $('span.secondary-filters').removeClass('active');
                 $(this).addClass('active');
 
-                
-
                 if (_dataItem === "Sublimated") {
 
                     ub.filters.secondary = "BLB";
@@ -4606,21 +4604,11 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        console.log('Secondary: Not All')
-                        console.log('Primary: All')
-
                         items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary  });    
-                        console.log(items);
 
                     } else {
-
-                        console.log('Secondary: All')
-                        console.log('Primary: All')
                         
                         items = _.filter(ub.materials, { uniform_category: gender }); 
-
-                        console.log('Items');
-                        console.log(items);
 
                     }
 
