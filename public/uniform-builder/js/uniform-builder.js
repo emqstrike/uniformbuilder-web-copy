@@ -4447,11 +4447,48 @@ $(document).ready(function () {
             $('div.secondary-bar').css('margin-top', "0px");
 
             var template = $('#m-picker-items-uniforms').html();
+
             var data = {
 
                 picker_type: type,
                 picker_items: items,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
+                type: function () {
+                    return function (text, render) {
+                        var _type = '';
+
+                        if (text === "PMP") {
+                            _type = "Sublimated";
+                        } else {
+                            _type = "Tackle Twill";
+                        }
+
+                      return "<b>" + render(_type) + "</b>";
+
+                    }
+                },
+
+                test: function () {
+
+                    return function (text, render) {
+
+                        var _type = '';
+
+                        if (render(text) === "BLB") {
+
+                            _type = "Sublimated";
+
+                        } else {
+
+                            _type = "Tacle Twill";
+
+                        }
+
+                        return "<b>" + render(_type) + "</b>";
+
+                    }
+
+                }
 
             }
 
