@@ -4433,6 +4433,9 @@ $(document).ready(function () {
             ub.filters.primary = "All";
             ub.filters.secondary = "All";
 
+            $('span.secondary-filters').removeClass('active');
+            $('span.primary-filters').removeClass('active');
+
             $('span.secondary-filters[data-item="All"]').addClass('active');
             $('span.primary-filters[data-item="All"]').addClass('active');
                 
