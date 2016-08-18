@@ -52,7 +52,7 @@
 
             <a href="#" id="feedback">
 
-                <i class="fa fa-comment" aria-hidden="true"></i> Have a Feedback?
+                <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
 
             </a>
 
