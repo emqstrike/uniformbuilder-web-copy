@@ -4786,9 +4786,10 @@
                     }
 
                     reader.readAsDataURL(this.files[0]);
+
                 }
 
-            });   
+            });
 
             $('span.ok_btn').on('click', function () {
 

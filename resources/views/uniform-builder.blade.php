@@ -92,6 +92,7 @@
     <div id="main-picker-container">
         
         <div id="topbar">
+
             <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
@@ -103,6 +104,18 @@
                 <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
             </span>
+
+        </div>
+
+        <div class="secondary-bar">
+
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Jersey">Jersey</span>
+            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Pant">Pant</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="separator"> | </span>
+            <span class="slink main-picker-items secondary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Sublimated">Sublimated</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Twill">Twill</span>
 
         </div>
 
