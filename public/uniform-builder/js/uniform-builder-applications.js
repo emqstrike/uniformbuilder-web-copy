@@ -5028,7 +5028,7 @@
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
-        if (ub.current_material.settings.applications[2].mascot.id !== "1039") {
+        if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
             _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
