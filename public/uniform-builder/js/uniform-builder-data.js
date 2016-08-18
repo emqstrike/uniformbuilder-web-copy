@@ -6328,6 +6328,29 @@ ub.funcs.fontOffSets = [
 
     ];
 
+    ub.data.sportFilters = [
+        {
+            sport: 'Football',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Basketball',
+            filters: ['All', 'Jersey', 'Shorts'],
+        }, 
+        {
+            sport: 'Baseball',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Fastpitch',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Wrestling',
+            filters: ['All'],
+        }, 
+    ];
+
     ub.funcs.load_fonts = function () {
 
         var font_builder = '';

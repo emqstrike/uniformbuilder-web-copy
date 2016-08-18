@@ -4234,6 +4234,13 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.hideSecondaryBar = function () {
+
+        $('div.secondary-bar').hide();
+        $('div.secondary-bar').css('margin-top', "-50px");
+
+    }
+
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
@@ -4248,6 +4255,9 @@ $(document).ready(function () {
                 if (_item === "Home") {
 
                     ub.funcs.initGenderPicker();
+
+                    ub.funcs.hideSecondaryBar();
+
                     return; 
 
                 }
@@ -4388,6 +4398,8 @@ $(document).ready(function () {
 
         if(type === 'sports') {
 
+            ub.funcs.hideSecondaryBar();
+            
             var template = $('#m-picker-items-sport').html();
 
             var data = {
@@ -4416,18 +4428,30 @@ $(document).ready(function () {
                 }
             });
 
+            ub.filters = {};
 
+            ub.filters.primary = "All";
+            ub.filters.secondary = "All";
+
+            $('span.secondary-filters[data-item="All"]').addClass('active');
+            $('span.primary-filters[data-item="All"]').addClass('active');
+                
         }
 
         if(type === 'uniforms') {
 
-            var template = $('#m-picker-items-uniforms').html();
+            $('div.secondary-bar').fadeIn();
+            $('div.secondary-bar').css('margin-top', "0px");
 
+            var template = $('#m-picker-items-uniforms').html();
             var data = {
+
                 picker_type: type,
                 picker_items: items,
+                filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
+
             }
-            
+
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
 
@@ -4440,9 +4464,139 @@ $(document).ready(function () {
                 
             });
 
+            // Secondary Filters 
+
+            $('span.secondary-filters').unbind('click');
+            $('span.primary-filters').unbind('click');
+
+            $('span.secondary-filters').on('click', function () {
+
+                var _dataItem = $(this).data('item');
+
+                if (_dataItem === "separator") {
+
+                    return;
+
+                }
+
+                $('span.secondary-filters').removeClass('active');
+                $(this).addClass('active');
+
+                
+
+                if (_dataItem === "Sublimated") {
+
+                    ub.filters.secondary = "BLB";
+                    
+                } else if (_dataItem === "Twill") {
+
+                    ub.filters.secondary = "PMP";
+
+                } else {
+
+                    ub.filters.secondary = "All";
+
+                }
+
+                if (_dataItem === "All") {
+
+                    if (ub.filters.primary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });    
+
+                    } else {
+                        
+                        items = _.filter(ub.materials, { uniform_category: gender});    
+
+                    }
+
+                } else {
+
+                    if (ub.filters.primary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary,  type: ub.filters.primary });    
+
+                    } else {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary });
+
+                    }
+
+                }
+
+                $('div#main-picker-scroller').fadeOut().html('');
+                ub.funcs.initScroller('uniforms', items, gender);
+
+            });
+
+            $('span.primary-filters').on('click', function () {
+
+                $('span.primary-filters').removeClass('active');
+                $(this).addClass('active');
+
+                var _dataItem = $(this).data('item');
+
+                if (_dataItem === "Jersey") {
+
+                    ub.filters.primary = "upper";
+                    
+                } else if (_dataItem === "Pant") {
+
+                    ub.filters.primary = "lower";
+
+                } else {
+
+                    ub.filters.primary = 'All';
+
+                }
+
+
+                if (_dataItem === "All") {
+
+                    if (ub.filters.secondary !== 'All') {
+
+                        console.log('Secondary: Not All')
+                        console.log('Primary: All')
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary  });    
+                        console.log(items);
+
+                    } else {
+
+                        console.log('Secondary: All')
+                        console.log('Primary: All')
+                        
+                        items = _.filter(ub.materials, { uniform_category: gender }); 
+
+                        console.log('Items');
+                        console.log(items);
+
+                    }
+
+                } else {
+
+                    if (ub.filters.secondary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, factory_code: ub.filters.secondary  });    
+
+                    } else {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });
+
+                    }
+
+                }
+
+                $('div#main-picker-scroller').fadeOut().html('');
+                ub.funcs.initScroller('uniforms', items, gender);
+
+            });
+
         }
 
         if(type === 'search_results') {
+
+            ub.funcs.hideSecondaryBar();
 
             var template = $('#m-picker-items-search-results').html();
 
