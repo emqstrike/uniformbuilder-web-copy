@@ -12,7 +12,7 @@
 
             @if (!Session::get('isLoggedIn'))
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" id="feedback"><i class="fa fa-comment" aria-hidden="true"></i> Have a Feedback?</a> </li>
+                <li><a href="#" id="feedback"><i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?</a> </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         
@@ -52,7 +52,7 @@
 
             <a href="#" id="feedback">
 
-                <i class="fa fa-comment" aria-hidden="true"></i> Have a Feedback?
+                <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
 
             </a>
 
