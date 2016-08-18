@@ -449,7 +449,7 @@
                     <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
                     <strong class="type">@{{#test}}@{{factory_code}}@{{/test}}</strong>
-                    @{{name}} <br />
+                    <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                 </span>
 
