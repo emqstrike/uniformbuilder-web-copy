@@ -4480,7 +4480,7 @@ $(document).ready(function () {
 
                         } else {
 
-                            _type = "Tacle Twill";
+                            _type = "Tackle Twill";
 
                         }
 
