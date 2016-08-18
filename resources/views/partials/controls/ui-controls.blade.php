@@ -446,7 +446,9 @@
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
                 <span class="main-picker-item-caption">
+                    <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
+                    <strong class="type">@{{#test}}@{{factory_code}}@{{/test}}</strong>
                     @{{name}} <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                 </span>
