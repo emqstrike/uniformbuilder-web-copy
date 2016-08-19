@@ -448,9 +448,9 @@
                 <span class="main-picker-item-caption">
                     <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
-                    <strong class="type">@{{#test}}@{{factory_code}}@{{/test}}</strong>
                     <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
+                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong>
                 </span>
 
             </div>
