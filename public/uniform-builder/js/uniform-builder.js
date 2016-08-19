@@ -4248,6 +4248,9 @@ $(document).ready(function () {
         $('div.secondary-bar').hide();
         $('div.secondary-bar').css('margin-top', "-50px");
 
+        $('div.tertiary-bar').hide();
+        $('div.secondary-bar').css('margin-top', "-50px");
+
     }
 
     ub.funcs.reBindEventsPickers = function () {
@@ -4362,7 +4365,7 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
 
@@ -4496,8 +4499,60 @@ $(document).ready(function () {
             $('div.back-link').on('click', function () {
 
                 ub.funcs.initGenderPicker();
-                
+
             });
+
+            /* Tertiary Links */
+
+            var _blockPatterns = _.uniq(_.pluck(items,'block_pattern'));    
+
+            if (typeof fromTertiary !== 'boolean') {
+            
+                setTimeout(function () { 
+
+                    $('.tertiary-bar').html('');
+
+                    $('.tertiary-bar').hide();
+                    $('.tertiary-bar').css('margin-top','-50px');
+
+                    var t = $('#m-tertiary-links').html();
+
+                    var _str = '';
+                    
+                    var d = {
+
+                        block_patterns: _blockPatterns,
+                
+                    }
+
+                    var m = Mustache.render(t, d);
+                    $('.tertiary-bar').html(m);
+                
+                    $('div.tertiary-bar').fadeIn();        
+                    $('div.tertiary-bar').css('margin-top', "0px");
+
+                    window.origItems = items;
+                    
+                    $('span.slink-small').unbind('click');
+                    $('span.slink-small').on('click', function () {
+
+                        var _dataItem = $(this).data('item');
+
+                        _newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+                        ub.funcs.initScroller('uniforms', _newSet, gender, true);
+
+                        $('span.slink-small').removeClass('active');
+                        $(this).addClass('active');
+
+                    });
+
+                }, 1000);
+
+            }
+        
+
+            /* End Tertiary Links */
+
 
             // Secondary Filters 
 
@@ -4508,11 +4563,7 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
 
-                if (_dataItem === "separator") {
-
-                    return;
-
-                }
+                if (_dataItem === "separator") { return; }
 
                 $('span.secondary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -4582,7 +4633,6 @@ $(document).ready(function () {
                     ub.filters.primary = 'All';
 
                 }
-
 
                 if (_dataItem === "All") {
 

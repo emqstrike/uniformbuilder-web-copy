@@ -1102,3 +1102,23 @@
 
 <!-- End Sigunup -->
 
+<!-- Tertiary links -->
+
+    <script type="text/mustache" id="m-tertiary-links">
+
+    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+
+    @{{#block_patterns}}
+
+        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{.}}">@{{.}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Tertiary links -->
+
+
+            
+
+
