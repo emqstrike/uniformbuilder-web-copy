@@ -118,6 +118,14 @@
 
         </div>
 
+        <div class="tertiary-bar">
+
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="Infused 14">INFUSED 14</span>
+
+        </div>
+
+
         <div id="main-picker-scroller">
             
         </div>
