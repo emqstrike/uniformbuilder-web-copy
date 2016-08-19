@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     ub.startModal = function (type) {
 
-        if (type === 1){
+        if (type === 1) {
 
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
             //ub.showModal('Please select at least ' + _sizeOfColorsUsed + ' Team Colors')
@@ -181,15 +181,15 @@ $(document).ready(function () {
         var h = window.innerHeight;
         var _left = w - $('#right-pane-column').width();
 
-        if (window.innerWidth <= 1440) {
+        // if (window.innerWidth <= 1440) {
 
-            $('div#main-picker-scroller').css('width', '94%');
-        }
-        else {
+        //     $('div#main-picker-scroller').css('width', '94%');
+        // }
+        // else {
 
-            $('div#main-picker-scroller').css('width', '75%');
+        //     $('div#main-picker-scroller').css('width', '75%');
             
-        }
+        // }
 
         var _pickerLeft = ( window.innerWidth - $('div#main-picker-scroller').innerWidth() ) / 2;
 
