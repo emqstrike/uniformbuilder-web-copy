@@ -77,8 +77,6 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
 
-
-
         ub.funcs.getPrice = function (material) {
 
             var _web_price_sale = parseFloat(material.web_price_sale);
@@ -4464,22 +4462,8 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: items,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
-                type: function () {
-                    return function (text, render) {
-                        var _type = '';
-
-                        if (text === "PMP") {
-                            _type = "Sublimated";
-                        } else {
-                            _type = "Tackle Twill";
-                        }
-
-                      return "<b>" + render(_type) + "</b>";
-
-                    }
-                },
-
-                test: function () {
+              
+                uniform_type: function () {
 
                     return function (text, render) {
 
