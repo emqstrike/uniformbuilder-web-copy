@@ -4538,7 +4538,19 @@ $(document).ready(function () {
 
                         var _dataItem = $(this).data('item');
 
-                        _newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+                        console.log(_dataItem);
+
+                        if (_dataItem === "All") {
+
+                            _newSet = window.origItems;
+
+                        } else {
+
+                            _newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+                            
+                        }
+
+                        
                         ub.funcs.initScroller('uniforms', _newSet, gender, true);
 
                         $('span.slink-small').removeClass('active');
