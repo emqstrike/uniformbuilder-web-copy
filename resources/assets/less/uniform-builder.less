@@ -22,8 +22,29 @@
 
 @main_window_pane_height: 550px;
 
-body, h1, h2, h3, h4, h5, h6, button, a, p {
-    font-family: 'Roboto', sans-serif;
+/* Fonts */
+
+/* @import url("https://fast.fonts.net/lt/1.css?apiType=css&c=162ce2f8-58f0-4707-bf31-993c0c21a677&fontids=1437336,1437556"); */
+@font-face{
+    font-family:"Avenir Next LT W04 Thin";
+    src:url("/Fonts/1437336/b0751211-e805-4138-b7f2-a31031582ce2.eot?#iefix");
+    src:url("/Fonts/1437336/b0751211-e805-4138-b7f2-a31031582ce2.eot?#iefix") format("eot"),url("/Fonts/1437336/178ff15e-1d83-46d6-a191-80d443177813.woff2") format("woff2"),url("/Fonts/1437336/6a091542-e5b3-4c09-ad72-8aed56a6581e.woff") format("woff"),url("/Fonts/1437336/4130ee5f-67da-4bcd-bde2-e97df5e49432.ttf") format("truetype");
+}
+@font-face{
+    font-family:"Avenir Next LT W04 Bold";
+    src:url("../Fonts/1437556/6ff8ab07-ccb4-4a91-8f0f-2bd4367902e8.eot?#iefix");
+    src:url("../Fonts/1437556/6ff8ab07-ccb4-4a91-8f0f-2bd4367902e8.eot?#iefix") format("eot"),url("/Fonts/1437556/91799b0e-0ef8-446e-b274-5509412e1242.woff2") format("woff2"),url("/Fonts/1437556/97fb5311-bdbd-46bc-bf69-3bcf8c744cda.woff") format("woff"),url("/Fonts/1437556/88093bd3-b377-4278-8abe-8460dd24d0e8.ttf") format("truetype");
+}
+
+
+/* End Fonts */
+
+body, button, a, p {
+    font-family: 'Avenir Next LT W04 Thin', sans-serif;
+}
+
+strong, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Avenir Next LT W04 Bold', sans-serif;
 }
 
 /* TODO: This should be Tested */
@@ -5188,7 +5209,7 @@ div.header-container.main {
             border: solid 1px #3d3d3d;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: white;
 
@@ -5196,10 +5217,10 @@ div.header-container.main {
 
         span.number.selected {
 
-            text-decoration: underline;
+            
             background-color: #3d3d3d;
             color: white;
-            font-weight: bold;
+            
 
         }
 
@@ -5216,7 +5237,7 @@ div.header-container.main {
             border: solid 1px;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: #acacac;
             color: white;
@@ -5231,7 +5252,7 @@ div.header-container.main {
             border: solid 1px;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: #3d3d3d;
             color: white;
