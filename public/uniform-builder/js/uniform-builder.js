@@ -125,7 +125,7 @@ $(document).ready(function () {
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
-
+            
         };
 
         ub.showFontGuides = function () {
@@ -3780,6 +3780,10 @@ $(document).ready(function () {
                 }
 
                 if (view === 'team-info') {
+
+                    if (ub.data.afterLoadCalled === 0) {
+                        return;
+                    }
 
                     ub.funcs.initRoster();
                     return;
