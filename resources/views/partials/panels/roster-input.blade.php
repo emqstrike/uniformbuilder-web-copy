@@ -2,7 +2,7 @@
         
         <div id="description">
 
-            <span class="back-to-customizer-button">
+            <span class="back-to-customizer-button" style="display: none;">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Customizer
             </span>
 
