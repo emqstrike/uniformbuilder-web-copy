@@ -4504,7 +4504,8 @@ $(document).ready(function () {
 
             /* Tertiary Links */
 
-            var _blockPatterns = _.uniq(_.pluck(items,'block_pattern'));    
+            var itemsWOUpper = _.filter(items, {type: 'lower'});
+            var _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
 
             if (typeof fromTertiary !== 'boolean') {
             
@@ -4527,6 +4528,8 @@ $(document).ready(function () {
 
                     var m = Mustache.render(t, d);
                     $('.tertiary-bar').html(m);
+
+
                 
                     $('div.tertiary-bar').fadeIn();        
                     $('div.tertiary-bar').css('margin-top', "0px");
@@ -4564,7 +4567,6 @@ $(document).ready(function () {
         
 
             /* End Tertiary Links */
-
 
             // Secondary Filters 
 
