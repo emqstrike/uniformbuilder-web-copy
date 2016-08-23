@@ -5426,7 +5426,7 @@
 
             if (_state === "on") {
 
-                _obj.zIndex = -30;
+                _obj.zIndex = -50;
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
                 
