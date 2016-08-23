@@ -445,13 +445,13 @@
 
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
-                <span class="main-picker-item-caption">
+                <span class="main-picker-item-caption"> 
                     <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
                     <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
-                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <strong class="type">@{{block_pattern}}</strong>
-                </span>
+                    <!-- <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <strong class="type">@{{block_pattern}}</strong> -->
+                </span> 
 
             </div>
 

@@ -679,6 +679,18 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
+        var _type = '';
+        
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
@@ -731,6 +743,9 @@ $(document).ready(function() {
                     design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
                     attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
+                    
                 },
             ]
         };
@@ -840,6 +855,18 @@ $(document).ready(function() {
 
         });
 
+        var _type = '';
+
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
@@ -881,7 +908,6 @@ $(document).ready(function() {
                 phone: _shippingPhone,
                 fax: _shippingFax,
                 zip: _shippingZip,
-
             },
             order_items: [
                 {
@@ -896,6 +922,9 @@ $(document).ready(function() {
                     sku: ub.current_material.material.sku,
                     material_id: ub.current_material.material.id,
                     url: ub.config.host + window.document.location.pathname,
+                    attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
                 },
             ]
         };        
