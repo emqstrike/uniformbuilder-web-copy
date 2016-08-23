@@ -20,11 +20,11 @@ $(document).ready(function() {
 
     ub.funcs.addSizesTabs = function (size) {
 
+        console.log('Add Sizes Tab Called: ');
+
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
-
         $('span.size[data-size="' + size + '"]').attr('data-status','on');
-
 
         // var _rosterSize = _.find(ub.current_material.settings.roster, {size: size});
 
@@ -745,7 +745,7 @@ $(document).ready(function() {
                     attached_files: ub.current_material.settings.custom_artwork,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    
+
                 },
             ]
         };
@@ -1130,7 +1130,15 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.initRosterCalled = false;
+
     ub.funcs.initRoster = function () {
+
+        if (ub.funcs.initRosterCalled) {
+            return;
+        }
+
+        ub.funcs.initRosterCalled = true;
 
         ub.funcs.resetHighlights();
 
