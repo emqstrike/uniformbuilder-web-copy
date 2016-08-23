@@ -66,10 +66,12 @@ $(document).ready(function () {
 
     };
 
-    ub.zoom_on = function () {
+    ub.zoom_on = function (override) {
 
-        if (ub.status.onText) { return; }
-        if(!ub.states.canDoubleClick) { return; }
+        if (typeof override === 'undefined') {
+            if (ub.status.onText) { return; }
+            if(!ub.states.canDoubleClick) { return; }    
+        }
 
         ub.funcs.resetHighlights();
 

@@ -3764,7 +3764,7 @@ $(document).ready(function () {
 
                     if (!ub.zoom) {
 
-                        ub.zoom_on();
+                        ub.zoom_on(true);
                         $(this).addClass('zoom_on');
 
                     }
