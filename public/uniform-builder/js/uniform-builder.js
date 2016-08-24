@@ -1647,22 +1647,42 @@ $(document).ready(function () {
 
         /// Setup Modifiers Applications 
 
-            
-
-
     };
 
         /// End Render Different Views ///
 
         /// Utilities ///
 
+            ub.funcs.getCustomizations = function (order_id) {
+
+                var _url = window.ub.config.api_host + '/api/order/items/' + order_id;
+
+                $.ajax({
+            
+                    url: _url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                
+                    success: function (response){
+                        
+                        var _settings = JSON.parse(response.order[0].builder_customizations);
+                        ub.loadSettings(_settings);
+                        
+                    }
+                
+                });
+
+            }
+
             ub.init_style = function () {
 
                 // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
                 if (typeof window.ub.temp !== 'undefined') { 
-                    
-                    ub.loadSettings(window.ub.temp);
 
+                    ub.funcs.getCustomizations(window.ub.temp);
+                   
                 }
                 else {
 
@@ -4990,6 +5010,16 @@ $(document).ready(function () {
                   var markup = Mustache.render(template, data);
                     
                   $container.html(markup);
+
+                  $('span.action-button').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID = $(this).data('id');
+
+                        window.location.href =  '/order/' + _dataID;
+                        console.log('ID: ' + _ID);
+
+                  });
 
                 }
                 

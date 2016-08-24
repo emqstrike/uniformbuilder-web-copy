@@ -108,26 +108,51 @@ class UniformBuilderController extends Controller
         ];
 
         $params['builder_customizations'] = null;
-
         $params['order'] = null;
-        if (Session::has('order'))
-        {
-            $order = Session::get('order');
-            if (isset($config['order_id']))
-            {
-                if ($order['order_id'] == $config['order_id'])
-                {
 
-                    $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
-                    $params['order'] = $order;
-                    $params['builder_customizations'] = $bc;
-                }
-                else
-                {
-                    Session::put('order', null);
-                }
+        ///
+
+        if (isset($config['builder_customizations'])) {
+
+            $order = Session::get('order');
+
+            if ($order['order_id'] == $config['order_id'])
+            {
+
+                $bc = $config['builder_customizations'];
+                //dd($bc);
+                $params['order_id'] = $config['order_id'];
+                $params['order'] = $order;
+                $params['builder_customizations'] = $config['builder_customizations'];
+
             }
+            else
+            {
+                Session::put('order', null);
+            }
+
         }
+
+        ///
+
+        // if (Session::has('order'))
+        // {
+        //     $order = Session::get('order');
+        //     if (isset($config['order_id']))
+        //     {
+        //         if ($order['order_id'] == $config['order_id'])
+        //         {
+
+        //             $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
+        //             $params['order'] = $order;
+        //             $params['builder_customizations'] = $bc;
+        //         }
+        //         else
+        //         {
+        //             Session::put('order', null);
+        //         }
+        //     }
+        // }
 
         return view('editor.uniform-builder-index', $params);
 
@@ -175,32 +200,41 @@ class UniformBuilderController extends Controller
      */
     public function loadOrder($orderId)
     {
-        $order = $this->ordersClient->getOrderByOrderId($orderId);
 
-        Session::put('order', [
-            'id' => $order->id,
-            'order_id' => $orderId
-        ]);
-        
-        if (!is_null($order))
-        {
-            // Check whether the upper body or the lower body has something in it
-            $material = $this->materialsClient->getMaterialByCode($order->upper_body_uniform);
-            if (is_null($material))
-            {
-                $material = $this->materialsClient->getMaterialByCode($order->lower_body_uniform);
+        $order = $this->ordersClient->getOrderItems($orderId);
+
+        if( isset($order[0]) ) {
+
+            $order = $order[0]; 
+            $orderID = $order->order_id;
+            $builder_customizations = json_decode($order->builder_customizations);
+
+            if (isset($builder_customizations->upper->material_id)) {
+                $materialID = $builder_customizations->upper->material_id;
+            } else {
+                $materialID = $builder_customizations->lower->material_id;
             }
 
-            if (!is_null($material))
-            {
-                $config = [
-                    'material_id' => $material->id,
-                    'order_id' => $orderId
-                ];
-                return $this->showBuilder($config);
-            }
+            //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('order', [
+                'id' => $order->id,
+                'order_id' => $orderID,
+                'material_id' => $materialID,
+            ]);
+
+            $config = [
+                'material_id' => $materialID,
+                'order_id' => $orderId,
+                'builder_customizations' => $orderID,
+            ];
+            
+            return $this->showBuilder($config);
+
         }
+
         return redirect('index');
+
     }
 
     /**
@@ -1191,7 +1225,6 @@ class UniformBuilderController extends Controller
 
         $materialId = -1;
         $categoryId = -1;
-
 
         $params = [
             'page_title' => env('APP_TITLE'),
