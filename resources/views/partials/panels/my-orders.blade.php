@@ -4,7 +4,7 @@
 
     <div class="my-orders-loading" style="text-align: center;">
 
-        Loading Order Info... Please wait. <img src="/images/loading.gif" style="width: 50px"/> <br />
+        Loading Order Info... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
 
     </div>
 

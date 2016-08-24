@@ -20,8 +20,6 @@ $(document).ready(function() {
 
     ub.funcs.addSizesTabs = function (size) {
 
-        console.log('Add Sizes Tab Called: ');
-
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
         $('span.size[data-size="' + size + '"]').attr('data-status','on');

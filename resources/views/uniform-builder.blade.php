@@ -342,9 +342,9 @@
         // #load_order
         var s = "{{ $builder_customizations }}";
 
-        if(s.length > 0){
-            
-            window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+        if(s.length > 0) {
+
+            window.ub.temp = s;
 
             $('#genPDF').on('click', function () {
              
