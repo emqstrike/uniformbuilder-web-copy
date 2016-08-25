@@ -4393,6 +4393,24 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.prepareSecondaryBar = function (sport) {
+
+        if (sport === "Wrestling") {
+
+                $('span.slink[data-item="Jersey"]').html("Singlet");
+                $('span.slink[data-item="Pant"]').hide();
+                $('span.slink[data-item="Twill"]').hide();
+
+            } else {
+
+                $('span.slink[data-item="Jersey"]').html("Jersey");
+                $('span.slink[data-item="Pant"]').show();
+                $('span.slink[data-item="Twill"]').show();
+
+        }
+
+    }
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
@@ -4483,8 +4501,14 @@ $(document).ready(function () {
 
         if(type === 'uniforms') {
 
+            var _sport = gender;
+
+            ub.funcs.prepareSecondaryBar(_sport);
+            
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
+
+
 
             var template = $('#m-picker-items-uniforms').html();
 
