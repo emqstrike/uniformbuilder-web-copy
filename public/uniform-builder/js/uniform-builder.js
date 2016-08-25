@@ -103,7 +103,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
-            //$('div.activate_qa_tools').fadeIn();
+           // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
             if (ub.current_material.material.factory_code === "BLB") {
@@ -3805,6 +3805,10 @@ $(document).ready(function () {
                         return;
                     }
 
+                    if (ub.current_material.material.uniform_category === "Wrestling") {
+                        return;
+                    }
+
                     ub.funcs.initRoster();
                     return;
 
@@ -4305,7 +4309,7 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football") { return; }
+                if (_item !== "Football" && _item !== "Wrestling") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
                 ub.funcs.initUniformsPicker(_item);
