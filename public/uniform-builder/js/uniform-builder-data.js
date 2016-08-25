@@ -967,23 +967,22 @@ $(document).ready(function() {
                     disabledClass: '',
                 },
                 {
+                    code: 'wrestling',
+                    name: 'Wrestling',
+                    active: "1",
+                    tooltip: '',
+                    disabledClass: '',
+                }, 
+                {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
-
                 },
                 {
                     code: 'basketball',
                     name: 'Basketball',
-                    active: "1",
-                    tooltip: 'Coming Soon!',
-                    disabledClass: 'disabledClass',
-                },
-                {
-                    code: 'lacrosse',
-                    name: 'Lacrosse',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
@@ -996,12 +995,12 @@ $(document).ready(function() {
                     disabledClass: 'disabledClass',
                 }, 
                 {
-                    code: 'wrestling',
-                    name: 'Wrestling',
+                    code: 'lacrosse',
+                    name: 'Lacrosse',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
-                }, 
+                },
             ],
         },
         {

@@ -2972,7 +2972,15 @@
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
-        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'group_id');
+
+        _.each(ub.data.modifierLabels, function (ml) {
+
+            ml.intGroupID = parseInt(ml.group_id);
+            console.log(ml);
+
+        });
+
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
     
         $pd = $('div#parts_dropdown');
 
