@@ -2976,7 +2976,6 @@
         _.each(ub.data.modifierLabels, function (ml) {
 
             ml.intGroupID = parseInt(ml.group_id);
-            console.log(ml);
 
         });
 

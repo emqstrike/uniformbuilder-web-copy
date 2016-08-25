@@ -3751,7 +3751,8 @@ $(document).ready(function () {
 
                 if (view === 'home') {
 
-                    ub.funcs.initGenderPicker();
+                    window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;
+                    //ub.funcs.initGenderPicker();
                     return;
 
                 }
