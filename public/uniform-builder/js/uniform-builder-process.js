@@ -1132,9 +1132,9 @@ $(document).ready(function() {
 
     ub.funcs.initRoster = function () {
 
-        if (ub.funcs.initRosterCalled) {
-            return;
-        }
+        if (ub.funcs.initRosterCalled) { return; }
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
 
         ub.funcs.initRosterCalled = true;
 
