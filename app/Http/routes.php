@@ -57,7 +57,7 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
-    
+
     Route::get('/', 'Administration\AdministrationController@dashboard');
 
     // Login
