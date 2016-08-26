@@ -69,10 +69,10 @@
 
                             </td>
                             <td>
-                                {{ $design->fabric }}
+
                             </td>
                             <td>
-                                {{ $design->lining }}
+
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-design" data-design-id="{{ $design->id }}" role="button" {{ ($design->active) ? : 'disabled="disabled"' }}>
