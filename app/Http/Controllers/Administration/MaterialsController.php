@@ -264,6 +264,48 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
+
+
+            $thumbnailFileBack = $request->file('thumbnail_path_back');
+            if (isset($thumbnailFileBack))
+            {
+                if ($thumbnailFileBack->isValid())
+                {
+                    $data['thumbnail_path_back'] = FileUploader::upload(
+                                                    $thumbnailFileBack,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            //$data['thumbnail_path_back'] ="Image back";
+            $thumbnailFileLeft = $request->file('thumbnail_path_left');
+            if (isset($thumbnailFileLeft))
+            {
+                if ($thumbnailFileLeft->isValid())
+                {
+                    $data['thumbnail_path_left'] = FileUploader::upload(
+                                                    $thumbnailFileLeft,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            //$data['thumbnail_path_left'] ="Image left";
+            $thumbnailFileRight = $request->file('thumbnail_path_right');
+            if (isset($thumbnailFileRight))
+            {
+                if ($thumbnailFileRight->isValid())
+                {
+                    $data['thumbnail_path_right'] = FileUploader::upload(
+                                                    $thumbnailFileRight,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+                // $data['thumbnail_path_right'] ="Image right";
+
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
             if (isset($designSheetFile))
@@ -317,6 +359,14 @@ class MaterialsController extends Controller
                         }
                     }
                 }
+
+
+
+
+
+
+
+
 
                 // Shadow File
                 $shadowFile = $request->file('shadow_path');
