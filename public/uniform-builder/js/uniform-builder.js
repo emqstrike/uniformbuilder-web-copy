@@ -3802,13 +3802,7 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
-                    if (ub.data.afterLoadCalled === 0) {
-                        return;
-                    }
-
-                    if (ub.current_material.material.uniform_category === "Wrestling") {
-                        return;
-                    }
+                    if (ub.data.afterLoadCalled === 0) { return; }
 
                     ub.funcs.initRoster();
                     return;

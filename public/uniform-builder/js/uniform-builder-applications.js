@@ -3136,6 +3136,13 @@
 
     };
 
+    ub.funcs.getCurrentUniformCategory = function () {
+
+
+        return ub.current_material.material.uniform_category;
+
+    }
+
     ub.funcs.moveToPrevMaterialOption = function () {
 
         var _currentPart    = ub.current_part;
@@ -4444,7 +4451,7 @@
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
 
-        _html += '<label class="smallColorPickerLabel" style="color: #' + _cObj.hex_code + '">' + layer_name + ' (' + activeColorCode + '): ' + ' </label>';
+        _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
@@ -5324,8 +5331,7 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
-        $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
-
+       
     },
 
     ub.data.markerBitField = {};
