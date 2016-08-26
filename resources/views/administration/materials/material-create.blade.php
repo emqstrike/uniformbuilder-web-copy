@@ -62,6 +62,15 @@
                         </div>
 <hr>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Debug Mode</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-debug_mode" name="debug_mode" id="debug_mode">
+                                    <option value="0">OFF</option>
+                                    <option value="1">ON</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Design Type</label>
                             <div class="col-md-8">
                                 <select class="form-control material-design-type" name="design_type" id="design_type">
@@ -120,6 +129,18 @@
                                         <option value='{{ $factory->code }}'>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Application Type</label>
+                            <div class="col-md-6">
+                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                    <option value='none'>None</option>
+                                    <option value='infused'>Infused</option>
+                                    <option value='sublimated'>Sublimated</option>
+                                    <option value='tackle_twill'>Tackle Twill</option>
                                 </select>
                             </div>
                         </div>

@@ -75,24 +75,29 @@ $(document).ready(function(){
         console.log(data);
 
         if( data != "" && data != null ){
+            try {
+                var json = JSON.parse(data);
+                console.log(json);
+                var container = $(this).closest('.neck-options-cell');
+                var ctr = 1;
 
-            var json = JSON.parse(data);
-            console.log(json);
-            var container = $(this).closest('.neck-options-cell');
-            var ctr = 1;
-
-            $.each(json, function(key, value) {
-                var thumbnail = value.thumbnail_path;
-                var name = value.name;
-                $(container).append(
-                    '<div class="col-md-3">' +
-                    '<div class="panel panel-default">' +
-                    '<div class="panel-heading"><center><b>' + name + '</b></center></div>' +
-                    '<div class="panel-body">' +
-                    '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
-                    '</div></div></div>'
-                );
-            });
+                $.each(json, function(key, value) {
+                    
+                    var thumbnail = value.thumbnail_path;
+                    var name = value.name;
+                    $(container).append(
+                        '<div class="col-md-3">' +
+                        '<div class="panel panel-default">' +
+                        '<div class="panel-heading"><center><b>' + name + '</b></center></div>' +
+                        '<div class="panel-body">' +
+                        '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
+                        '</div></div></div>'
+                    );
+                });
+            }
+            catch(err) {
+                console.log('Error');
+            }
 
         }
 
@@ -170,11 +175,18 @@ $(document).ready(function(){
             var name            = '<td><input type="text" class="neck-option-name layer' + x + '" value="' + data[x].name + '" name="neck_option_name[]"></td>';
             var file            = '<td><input type="file" class="neck-option-file layer' + x + '" name="neck_option_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].thumbnail_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
-            var remove          = '<td><a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a></td>';
+            var remove          = '<td><a class="btn btn-danger btn-xs btn-remove-option"><i class="fa fa-remove"></i> Remove</a></td>';
             var close           = '<tr>';
 
             $('#layers-row-container').append( open + name + existing_file + thumbnail + file + remove + close );
             x++;
+
+            $('.btn-remove-option').on('click', function(){
+                // console.log('rimuv');
+                $(this).parent().parent().remove();
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+            });
 
         }
 

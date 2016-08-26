@@ -22,9 +22,7 @@ $(document).ready(function() {
 
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
-
         $('span.size[data-size="' + size + '"]').attr('data-status','on');
-
 
         // var _rosterSize = _.find(ub.current_material.settings.roster, {size: size});
 
@@ -135,6 +133,7 @@ $(document).ready(function() {
 
     ub.funcs.createNumbersSelectionPopup = function (_size) {
 
+        $('body').scrollTo(0);
         $('div#numbersPopup').remove();
 
         var _htmlBuilder = "";
@@ -440,6 +439,122 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.submitFeedback = function (message) {
+
+        var _user_id = ub.user.id;
+        var _user_email = ub.user.email;
+
+        if (typeof _user_id === "undefined") {
+
+            _user_id = 0;
+            _user_email = '';
+
+        }
+
+        var _postData   = {
+
+            "subject" : "Feedback",
+            "order_code" : "",
+            "content" : message,
+            "type" : "feedback",
+            "email" : _user_email,
+            "user_id" : _user_id,
+
+        };
+
+        var _url = 'http://api-dev.qstrike.com/api/feedback';
+
+        //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response){
+
+                console.log(response);
+
+            }
+            
+        });
+
+    }
+ 
+    ub.funcs.feedbackForm = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
+
+        var data = {
+            message: initMessage,
+            imgFront: imgFront,
+            imgLeft: imgLeft,
+            imgRight: imgRight,
+            imgBack: imgBack,
+        };
+
+        var template = $('#m-feedback-form').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+        $('div.feedback-form').fadeIn();
+        ub.funcs.centerPatternPopup();
+
+        $('span.ok-btn').on('click', function () {
+
+            var _message = $('textarea#feedback-message').val().trim();
+
+            if (_message.length === 0) {
+
+                ub.funcs.submitFeedback('No Feedback.');
+
+            } else {
+
+                ub.funcs.submitFeedback(_message);
+
+            }
+
+            $('div.feedback-form').remove();
+
+        });
+
+    }
+
+    ub.funcs.freeFeedbackForm = function () {
+
+        $('a#feedback').on('click', function () {
+
+            var data = {};
+
+            var template = $('#m-feedback-form-free').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+            $('div.free-feedback-form').fadeIn();
+            ub.funcs.centerPatternPopup();
+
+            $('span.ok-btn').on('click', function () {
+
+                var _message = $('textarea#feedback-message').val().trim();
+
+                if (_message.length !== 0) {
+
+                    ub.funcs.submitFeedback(_message);
+
+                }
+
+                $('div.free-feedback-form').remove();
+
+            });
+
+        });
+
+    }
+
+    ub.funcs.freeFeedbackForm();
+
     ub.funcs.postOrderData = function (data, url) {
 
         var _postData   = data;
@@ -464,7 +579,7 @@ $(document).ready(function() {
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
 
-                $.smkAlert({text: 'Your order is now submitted. Thank you.', type:'success', permanent: false, time: 5, marginTop: '90px'});
+                ub.funcs.feedbackForm('Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.', ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
                 ub.funcs.initGenderPicker();
 
             }
@@ -521,6 +636,12 @@ $(document).ready(function() {
 
         var _transformedRoster      = [];
 
+        if (typeof ub.current_material.settings.custom_artwork === "undefined") {
+
+            ub.current_material.settings.custom_artwork = "";            
+
+        }
+
         _.each (ub.current_material.settings.roster, function (_roster){
 
             if (_factoryCode === "BLB") {
@@ -550,12 +671,30 @@ $(document).ready(function() {
 
         });
 
+        var _user_id = ub.user.id;
+
+        if (typeof _user_id === "undefined") {
+            _user_id = 0;
+        }
+
+        var _type = '';
+        
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
                 client: _clientName,  
                 submitted: '1',
-                user_id: ub.user.id,
+                user_id: _user_id,
             },
             athletic_director: {
 
@@ -601,6 +740,10 @@ $(document).ready(function() {
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
+                    attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
+
                 },
             ]
         };
@@ -710,6 +853,18 @@ $(document).ready(function() {
 
         });
 
+        var _type = '';
+
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
@@ -751,7 +906,6 @@ $(document).ready(function() {
                 phone: _shippingPhone,
                 fax: _shippingFax,
                 zip: _shippingZip,
-
             },
             order_items: [
                 {
@@ -766,6 +920,9 @@ $(document).ready(function() {
                     sku: ub.current_material.material.sku,
                     material_id: ub.current_material.material.id,
                     url: ub.config.host + window.document.location.pathname,
+                    attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
                 },
             ]
         };        
@@ -852,6 +1009,36 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.duplicateClientInfo = function () {
+
+        var _clientName = $('#client-name').val();
+        var _athleticDirector = $('#athletic-director').val();
+        var _clientEmail = $('#client-email').val();
+        var _phone = $('#phone').val();
+        var _fax = $('#fax').val();
+
+        if ($('#billing-checkbox').is(':checked')) {
+
+            $('#billing-organization').val(_clientName);
+            $('#billing-contact-name').val(_athleticDirector);
+            $('#billing-email').val(_clientEmail);
+            $('#billing-phone').val(_phone);
+            $('#billing-fax').val(_fax);
+
+        }
+
+        if ($('#shipping-checkbox').is(':checked')) {
+
+           $('#shipping-organization').val(_clientName);
+           $('#shipping-contact-name').val(_athleticDirector);
+           $('#shipping-email').val(_clientEmail);
+           $('#shipping-phone').val(_phone);
+           $('#shipping-fax').val(_fax);
+
+        }
+
+    }
+
     ub.funcs.showOrderForm = function () {
 
         $('div#roster-input').fadeOut();
@@ -910,6 +1097,11 @@ $(document).ready(function() {
 
         });
 
+        $('#client-name, #athletic-director, #client-email, #phone, #fax, #shipping-checkbox, #billing-checkbox').on('change', function () {
+
+            ub.funcs.duplicateClientInfo();
+
+        });
 
     }
 
@@ -936,7 +1128,15 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.initRosterCalled = false;
+
     ub.funcs.initRoster = function () {
+
+        if (ub.funcs.initRosterCalled) { return; }
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+
+        ub.funcs.initRosterCalled = true;
 
         ub.funcs.resetHighlights();
 

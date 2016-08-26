@@ -149,6 +149,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material_option/purgeColor', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@purgeColor']);
     Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@updateMaterialOptions']);
 
+    // Messages
+    Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@index']);
+    Route::get('message/compose', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@composeForm']);
+
     // Base Models
     Route::get('models', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@index']);
     Route::post('model/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@store']);

@@ -81,7 +81,6 @@
 
     @include('partials.panels.texts')
 
-
     <div class='header-container forceHide'>
             
         <div class='back-link' data-destination="gender"></div>
@@ -92,6 +91,7 @@
     <div id="main-picker-container">
         
         <div id="topbar">
+
             <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
@@ -105,6 +105,26 @@
             </span>
 
         </div>
+
+        <div class="secondary-bar">
+
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Jersey">Jersey</span>
+            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Pant">Pant</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="separator"> | </span>
+            <span class="slink main-picker-items secondary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Sublimated">Sublimated</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Twill">Tackle Twill</span>
+
+        </div>
+
+        <div class="tertiary-bar">
+
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="Infused 14">INFUSED 14</span>
+
+        </div>
+
 
         <div id="main-picker-scroller">
             
@@ -322,9 +342,9 @@
         // #load_order
         var s = "{{ $builder_customizations }}";
 
-        if(s.length > 0){
-            
-            window.ub.temp = JSON.parse(s.replace(/&quot;/g,'"'));
+        if(s.length > 0) {
+
+            window.ub.temp = s;
 
             $('#genPDF').on('click', function () {
              
@@ -401,7 +421,7 @@
 <button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
 
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
      <div id="messageModal">
      </div>

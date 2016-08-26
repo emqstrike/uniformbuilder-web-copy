@@ -246,7 +246,10 @@ class MaterialsController extends Controller
             'sizes' => $sizes,
             'debug_mode' => $debugMode
         ];
-// dd($data);
+        if (empty( $uniformApplicationType )){
+            $data['uniform_application_type'] = "none";
+        }
+// dd(json_encode($data));
         try {
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');

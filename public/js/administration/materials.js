@@ -274,6 +274,10 @@ $(document).ready(function() {
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
     }
 
+    $('.btn-fix-app').on('click', function(){
+        console.log( canvasFront.item(0) );
+    });
+
     $('.confirm_no').on('click', function(){
 
         window.location.reload(true);
@@ -540,6 +544,7 @@ $(document).ready(function() {
         var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
+        var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -575,6 +580,7 @@ $(document).ready(function() {
                     default_mascot,
                     default_font,
                     default_text,
+                    vertical_text,
                     default_number,
                     flip
                 ];
@@ -1371,7 +1377,7 @@ $(document).ready(function() {
     });
 
     function appendApplications(app_properties){
-        console.log(app_properties);
+        // console.log(app_properties);
 
         var dividend = 2;
 
@@ -1429,7 +1435,9 @@ $(document).ready(function() {
                 bl: false
             });
             group.hasRotatingPoint = false;
+            group.setCoords();
             canvasFront.add(group);
+            // canvasFront.setCoords();
             //  ){
             //     console.log('added group');
             // }
@@ -1452,7 +1460,8 @@ $(document).ready(function() {
                     logo_checked        = "",
                     team_name_checked   = "",
                     player_name_checked = "", 
-                    number_checked      = "";
+                    number_checked      = "",
+                    vertical_text_checked = "";
 
                 // Check checkbox if value is 1, isn't it obvious?
                 if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
@@ -1460,6 +1469,7 @@ $(document).ready(function() {
                 if(app_properties[l].hasTeamName == 1){ team_name_checked = checked; }
                 if(app_properties[l].hasPlayerName == 1){ player_name_checked = checked; }
                 if(app_properties[l].hasNumber == 1){ number_checked = checked; }
+                if(app_properties[l].verticalText == 1){ vertical_text_checked = checked; }
 
                 var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
@@ -1505,6 +1515,7 @@ $(document).ready(function() {
                 }
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
+                var vertical_text       = '<input type="checkbox" style="'  + style + '" class="app-vertical-text" value="1" data-id="' + group.id + '" '        + vertical_text_checked                   + '>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
 
                 // Append options to selectbox
@@ -1541,6 +1552,7 @@ $(document).ready(function() {
                     default_mascot,
                     default_font,
                     default_text,
+                    vertical_text,
                     default_number,
                     flip
                 ];
@@ -1745,14 +1757,22 @@ $(document).ready(function() {
 
                 thisGroup.left = app_properties[l].pivot.x;
                 thisGroup.top = app_properties[l].pivot.y;
-                thisGroup.pivot         = thisGroup.centerPoint;
+                thisGroup.pivot = thisGroup.centerPoint;
                 thisGroup.setAngle(app_properties[l].rotation);
+                thisGroup.setCoords();
                 // thisGroup.pivot         = app_properties[l].pivot;
-                console.log(JSON.stringify(thisGroup.pivot));
-                canvasFront.renderAll();
+                // console.log(JSON.stringify(thisGroup.pivot));
+                // canvasFront.renderAll();
+                // canvasFront.setActiveObject(canvasFront.item(1));
                 application_number++;
+                // canvasFront.setActiveObject(0);
+                canvasFront.renderAll();
+                // canvasFront.setCoords();
+                // updateCoordinates();
+                // reIndexRowsDataID();
             }
             else{
+                // canvasFront.renderAll();
                 break;
             }
 
@@ -1771,6 +1791,7 @@ $(document).ready(function() {
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-family', font);
                 $(this).parent().siblings('td').find("input[class=app-default-number]").css('font-size', font_size);
             });
+            // canvasFront.renderAll();
         }
     }
 
@@ -3202,6 +3223,7 @@ function updateApplicationsJSON(){
         hasNumber = $(this).parent().siblings('td').find("input[class=app-number]");
         fontSizes = $(this).parent().siblings('td').find("input[class=app-font-sizes]").val();
         uniformSizes = $(this).parent().siblings('td').find("input[class=app-uniform-sizes]").val();
+        verticalText = $(this).parent().siblings('td').find("input[class=app-vertical-text]");
 
         // applicationMascot = $(this).parent().siblings('td').find(".dd-selected-value").val();
         applicationFont = $(this).parent().siblings('td').find("select[class=app-default-font]").val();
@@ -3237,6 +3259,12 @@ function updateApplicationsJSON(){
             hasPlayerName = 1;
         } else {
             hasPlayerName = 0;
+        }
+
+        if(verticalText.prop( "checked" )){
+            verticalText = 1;
+        } else {
+            verticalText = 0;
         }
 
         if(hasNumber.prop( "checked" )){
@@ -3281,6 +3309,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['hasNumber'] = {};
         applicationProperties[itemIdx]['fontSizes'] = {};
         applicationProperties[itemIdx]['uniformSizes'] = {};
+        applicationProperties[itemIdx]['verticalText'] = {};
 
         applicationProperties[itemIdx]['defaultMascot'] = {};
         applicationProperties[itemIdx]['defaultFont'] = {};
@@ -3291,8 +3320,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['fontData'] = {};
 
         applicationProperties[itemIdx]['center'] = {};
-        applicationProperties[itemIdx].center['x'] = {};
-        applicationProperties[itemIdx].center['y'] = {};
+        // applicationProperties[itemIdx].center['x'] = {};
+        // applicationProperties[itemIdx].center['y'] = {};
 
         applicationProperties[itemIdx]['colors'] = {};
         applicationProperties[itemIdx]['accents'] = {};
@@ -3316,6 +3345,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].hasNumber = hasNumber;
         applicationProperties[itemIdx].fontSizes = fontSizes;
         applicationProperties[itemIdx].uniformSizes = uniformSizes;
+        applicationProperties[itemIdx].verticalText = verticalText;
 
         // applicationProperties[itemIdx].defaultAccent = applicationAccent;
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
@@ -3352,9 +3382,13 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].pivot.y = $(this).parent().siblings('td').find("input[class=app-y]").val();
         applicationProperties[itemIdx].rotation = thisGroup.getAngle();
 
-        applicationProperties[itemIdx].center.x = ( applicationProperties[itemIdx].pivot.x + mascot_offset ) * multiplier;
+        var tx = parseFloat(applicationProperties[itemIdx].pivot.x);
+        var ty = parseFloat(applicationProperties[itemIdx].pivot.y);
+
+        applicationProperties[itemIdx].center.x = ( tx + 3 ) * multiplier;
+        // applicationProperties[itemIdx].center.x = 'test';
         // applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y + mascot_offset ) * multiplier;
-        applicationProperties[itemIdx].center.y = ( applicationProperties[itemIdx].pivot.y ) * multiplier;
+        applicationProperties[itemIdx].center.y = ( ty ) * multiplier;
 
         applicationProperties[itemIdx].pivot.x = applicationProperties[itemIdx].pivot.x * multiplier;
         applicationProperties[itemIdx].pivot.y = applicationProperties[itemIdx].pivot.y * multiplier;

@@ -445,11 +445,13 @@
 
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
-                <span class="main-picker-item-caption">
+                <span class="main-picker-item-caption"> 
+                    <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
-                    @{{name}} <br />
+                    <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
-                </span>
+                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                </span> 
 
             </div>
 
@@ -665,11 +667,12 @@
             <div class="main-content">
 
                 <div class="categories">
-                    <span class="category_item" data-category="all">All</span>
 
+                    <!--     <span class="category_item" data-category="all">All</span> -->
                     @{{#categories}}
                     <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
                     @{{/categories}}
+
                 </div>
                 
                 <div class="patternPopupResults">
@@ -698,6 +701,147 @@
 
 <!-- End Mascot Picker -->
 
+<!-- New Mascot Picker -->
+
+    <script type="text/mustache" id="m-new-mascot-popup-categories">
+
+        <span class="category_item back" data-category="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</span>
+
+        @{{#categories}}
+            <span class="category_item" data-category-name="@{{name}}" data-category="@{{id}}">@{{name}}</span>
+        @{{/categories}}
+
+    </script>            
+
+    <script type="text/mustache" id="m-new-mascot-items">
+
+        @{{#mascots}}
+
+        <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+            <div class="name">@{{name}}</div>
+        </div>
+
+        @{{/mascots}}
+
+    </script>
+    
+    <script type="text/mustache" id="m-new-mascot-popup">
+
+         <div id="primaryMascotPopup" data-status="hidden">
+
+            <div class="header">
+
+                <div class="top">
+
+                    <div class="popup_header">Mascots </div>
+                    <div class="close-popup"> <i class="fa fa-times" aria-hidden="true"></i> </div>
+
+                </div>
+
+                <div class="bottom">
+
+                    <div class="tabs">
+
+                        <span class="mascot-tab tab active" data-button="browse">Browse</span>
+                        <span class="mascot-tab tab" data-button="upload">Upload</span>
+
+                    </div>
+
+                    <div class="mascot_search">
+
+                        <input class="mascot_search" type="text" placeholder="Search and Press Enter..." />
+
+                    </div>
+                    
+                </dib>
+
+             
+            </div>
+            
+            <div class="main-content">
+
+                <div class="upload">
+                    
+                    <h4>UPLOAD CUSTOM LOGO / ARTWORK REQUEST</h4>
+
+                    <div class="row">
+                        
+                        <div class="col-md-6 col1">
+                    
+                            <img id ="preview" src="/images/uiV1/upload1.png" /> <br />
+
+                            <span class="file-input">
+
+                                <input id="custom-artwork" name="file" type="file" multiple />
+
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 col2">
+                        
+                            <ol>
+                                <li>Upload logo using the form on the left, at least (512px x 512px)</li>
+                                <li>A temporary placeholder (PL Logo), will be used in the uniform while our Graphic Artists prepare your logo.</li>
+                                <li>You will receive a notification via email once it is prepared. </li>
+                            </ol>
+
+                            <div class="button_footer">
+                                <span class="ok_btn" data-status="processing">Processing...  <img src="/images/loading.gif" /></span> <span class="cancel_btn close-popup">Cancel</span>    
+                            </div>
+                            
+                             
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="groups_categories">
+                    
+                    <!-- <span class="groups_category_item all" data-category="all">All</span> -->
+
+                    @{{#groups_categories}}
+                    <span class="groups_category_item" data-category-name="@{{name}}" data-category="@{{id}}">@{{name}}</span>
+                    @{{/groups_categories}}
+
+                </div>
+
+                <div class="categories">
+                    <span class="category_item back" data-category="back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</span>
+
+                    @{{#categories}}
+                    <span class="category_item" data-category="category-@{{id}}">@{{name}}</span>
+                    @{{/categories}}
+
+                </div>
+                
+                <div class="patternPopupResults">
+
+                    @{{#mascots}}
+
+                    <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
+                        <div class="name">@{{name}}</div>
+                    </div>
+
+                    @{{/mascots}}
+
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+            </div>
+
+        </div>
+    </script>
+
+
+<!-- End New Mascot Picker -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
@@ -713,8 +857,6 @@
 
                 </tr>
 
-                
- 
             </table>
 
                 <br />
@@ -756,8 +898,8 @@
 
                     <td class="sleevetype">
                         <select class="sleeve-type">
-                            <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Motion Cut">Motion Cut</option>
+                            <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Lineman Cut">Lineman Cut</option>
                         </select>
                     </td>
@@ -819,8 +961,8 @@
                     <td>@{{status}}</td> 
                     
                     <td class="action">
-                        
-                        <span class="action-button" data-order-id="@{{order_id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View / Edit Info</span>
+
+                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
                         
                     </td>
 
@@ -833,6 +975,96 @@
     </script>   
 
 <!-- End Orders Table -->
+
+<!-- Order Submitted -->
+
+    <script type="text/mustache" id="m-feedback-form">
+
+        <div class="feedback-form">
+
+            <h4>Thank you for submitting your order!</h4>
+
+            <span class="message">@{{message}}</span>
+
+            <div class="row">
+                
+                <div class="col-md-3">
+                    <img src="@{{imgFront}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgLeft}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgRight}}" />
+                </div>
+
+                <div class="col-md-3">
+                    <img src="@{{imgBack}}" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Order Submitted -->
+
+    <script type="text/mustache" id="m-feedback-form-free">
+
+        <div class="free-feedback-form">
+
+            <h3><i class="fa fa-comment" aria-hidden="true"></i> FEEDBACK</h3>
+
+            <div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Order Submitted -->
 
 <!-- Profile -->
 
@@ -861,4 +1093,24 @@
     </script>   
 
 <!-- End Sigunup -->
+
+<!-- Tertiary links -->
+
+    <script type="text/mustache" id="m-tertiary-links">
+
+    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+
+    @{{#block_patterns}}
+
+        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{.}}">@{{.}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Tertiary links -->
+
+
+            
+
 

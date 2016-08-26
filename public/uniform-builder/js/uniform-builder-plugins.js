@@ -1080,6 +1080,7 @@
         if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
         if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
         if (settings_obj.size === 8)   { scale_settings = {x: 0.79, y: 0.79}; }
+        if (settings_obj.size === 5)   { scale_settings = {x: 0.42, y: 0.42}; }
         if (settings_obj.size === 4)   { scale_settings = {x: 0.24, y: 0.24}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.19, y: 0.19}; }
         if (settings_obj.size === 2)   { scale_settings = {x: 0.14, y: 0.14}; }
@@ -1144,6 +1145,18 @@
 
     };
 
+    function vertical_text (text) {
+
+        var _output = "";
+
+        for (var i = 0, len = text.length; i < len; i++) {
+            _output += text[i] + "\n";
+        }
+
+        return _output;
+
+    }
+
     $.ub.create_text = function (input_object) {
 
         var _strokeInner = 11;
@@ -1182,13 +1195,23 @@
 
         }
     
-        var text_input = input_object.text_input.toUpperCase();
         var font_name = input_object.font_name;
         var application = input_object.application;
         var settings = input_object.settingsObject;
         var accent_obj = input_object.accentObj;
         var overrideSize =  input_object.overrideSize;
+        var verticalText = input_object.applicationObj.verticalText;
+        var text_input = '';
 
+        // var text_input = input_object.text_input.toUpperCase();
+
+        if (verticalText === 1) {
+            text_input = vertical_text(input_object.text_input.toUpperCase());    
+        }
+        else {
+            text_input = input_object.text_input.toUpperCase();
+        }
+        
         // TODO: Create text values must all come from the settings object no values must be read from the controls 
 
         var text_layers = {};
@@ -1213,7 +1236,7 @@
         $other_color_container.html('');    
 
         /// Create Text Accents
-        _.each(accent_obj.layers, function (layer) {
+        _.each(accent_obj.layers, function (layer, index) {
 
             var text_layer = '';
 
@@ -1246,7 +1269,25 @@
 
             ///
 
-            var style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+            var style = "";
+
+            if (verticalText === 1) {
+
+                var lineHeight = font_size;
+
+                if (layer.name === "Base Color" || layer.name === "Mask") {
+                    lineHeight -= lineHeight * 0.005;
+                }
+                
+                style = {font: font_size + "px " + font_name, fill: "white", padding: 0, lineJoin: 'miter', miterLimit: 2, lineHeight: lineHeight, align: 'center'};
+
+            }
+            else {
+
+                style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+
+            }
+
 
             if (layer.outline === 1) {
 
@@ -1293,7 +1334,11 @@
                 style.stroke = '#ffffff';
             }
 
-            text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+            if (verticalText === 1) {
+                text_layer.text_sprite = new PIXI.Text(text_input, style);
+            } else {
+                text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+            }
             
             /// Custom Properties]
 
@@ -1306,7 +1351,13 @@
             text_layer.text_sprite.zIndex = layer.zIndex;
             text_layer.text_sprite.x += dummy.width * layer.increment_x;
             text_layer.text_sprite.y += dummy.height * layer.increment_y;
-            text_layer.text_sprite.anchor.set(0.5, 0.5);
+            
+            if (verticalText !== 1) {
+                text_layer.text_sprite.anchor.set(0.5, 0.5);
+            }
+            else {
+                text_layer.text_sprite.anchor.set(0.5, 0);   
+            }
 
             container.addChild(text_layer.text_sprite);
 

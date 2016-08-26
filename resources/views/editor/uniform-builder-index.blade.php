@@ -245,8 +245,8 @@
             </a>
 
             <a class="footer-buttons change-view" data-view="home">
-                <i class="fa fa-home"></i>
-                <br /><span>Home</span>
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+                <br /><span>Start Over</span>
             </a>
 
         </div>  
@@ -279,8 +279,8 @@
             </a>
 
             <a class="footer-buttons change-view" data-view="team-info">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                <br /><span>Team Info</span>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <br /><span>Order Now</span>
             </a>
 
         </div>  

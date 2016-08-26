@@ -21,7 +21,7 @@ $(document).ready(function(){
     flashAlertFadeOut = function() {
         setTimeout(function(){
             $('.flash-alert').fadeOut();
-        }, 3000);
+        }, 1000);
     };
 
 });

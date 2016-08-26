@@ -442,8 +442,8 @@ $(document).ready(function () {
                 _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';
                 _tempIndex      += 1;
                 _strBuilder     += '<circle class="preview growCircle" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
-                _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="sans-serif" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
-                _strBuilder     += '<text class="previewColorName growTextName" x="275" y="240" font-family="sans-serif" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
+                _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="Avenir Next LT W04 Thin" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
+                _strBuilder     += '<text class="previewColorName growTextName" x="275" y="240" font-family="Avenir Next LT W04 Bold" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
 
                 _.each(_teamColorObj, function (colorObj, index) {
 
@@ -571,7 +571,14 @@ $(document).ready(function () {
     ub.funcs.getColorObjByHexCode = function (hexCode) {
 
         var _baseColors = ub.funcs.getBaseColors();
+
         var _colorObj   = _.find(_baseColors, {hex_code: hexCode.lpad("0",6).toString()});
+
+        if (typeof hexCode === 'undefined') {
+
+            _colorObj = ub.funcs.getBaseColors()[0];
+            
+        }
 
         return _colorObj;
 

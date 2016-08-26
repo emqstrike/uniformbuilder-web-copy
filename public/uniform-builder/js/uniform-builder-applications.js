@@ -1781,7 +1781,6 @@
                         // point.position  = new PIXI.Point(view.application.center.x, y);
                         point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
-
                     }
 
                 }
@@ -2773,7 +2772,13 @@
     }
 
     ub.funcs.stageMouseMove = function (mousedata) {
+        
+        if ($('div#primaryMascotPopup').is(":visible") ) { 
+            
+            return; 
 
+        }
+        
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
@@ -2967,7 +2972,14 @@
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
-        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'group_id');
+
+        _.each(ub.data.modifierLabels, function (ml) {
+
+            ml.intGroupID = parseInt(ml.group_id);
+
+        });
+
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
     
         $pd = $('div#parts_dropdown');
 
@@ -3123,6 +3135,13 @@
         }
 
     };
+
+    ub.funcs.getCurrentUniformCategory = function () {
+
+
+        return ub.current_material.material.uniform_category;
+
+    }
 
     ub.funcs.moveToPrevMaterialOption = function () {
 
@@ -3427,7 +3446,7 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form');
         $popup.fadeIn();
 
         if ($popup.length === 0) {
@@ -4432,7 +4451,7 @@
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
 
-        _html += '<label class="smallColorPickerLabel" style="color: #' + _cObj.hex_code + '">' + layer_name + ' (' + activeColorCode + '): ' + ' </label>';
+        _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
@@ -4462,7 +4481,7 @@
         var _id         = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
 
-        settingsObj.size = parseInt(size);
+        settingsObj.size = parseFloat(size);
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
     }
@@ -4503,6 +4522,44 @@
       };
     };
 
+    ub.funcs.changeMascotByID = function (mascotID, settingsObj) {
+        
+        var _id = mascotID;
+
+        ub.funcs.changeMascotFromPopup(_id, settingsObj);
+        $popup.remove();
+        ub.funcs.activateMascots(settingsObj.code)
+
+        if (settingsObj.code === "9") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "10") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "32") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        }
+
+        if (settingsObj.code === "33") {
+
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+            
+        }
+
+    }
+
     ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
@@ -4513,32 +4570,33 @@
 
         var data = {
             label: 'Choose Mascot: ',
-            mascots: _.filter(ub.data.mascots, {active: "1"}),
-            categories: _.sortBy(ub.data.mascotsCategories, 'name'),
+            mascots: _.filter(ub.data.mascots, {active: "1", category: 'Bulldogs'}),
+            categories: _.sortBy(ub.data.mascots_categories, 'name'),
+            groups_categories: _.sortBy(ub.data.mascots_groups_categories, 'name'),
             paddingTop: paddingTop,
         };
 
-        var template = $('#m-mascot-popup').html();
+        var template = $('#m-new-mascot-popup').html();
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
 
         /// Type Ahead
 
-        // var _mascotNames = _.pluck(ub.data.mascots, "name");
+        var _mascotNames = _.pluck(ub.data.mascots, "name");
 
-        // $('input.mascot_search').typeahead({
-        //   hint: true,
-        //   highlight: true,
-        //   minLength: 1
-        // },
-        // {
-        //   name: 'Mascots',
-        //   source: ub.funcs.substringMatcher(_mascotNames),
-        // });
+        $('input.mascot_search').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'Mascots',
+          source: ub.funcs.substringMatcher(_mascotNames),
+        });
 
         $('.patternPopupResults').isotope({
           // options
@@ -4551,20 +4609,27 @@
         $('input.mascot_search').on('change', function (){
 
             var _term = $(this).val().toLowerCase();
+            var _mascots = _.filter(ub.data.mascots, function(mascot){ return mascot.name.toLowerCase().indexOf(_term.toLowerCase()) !== -1; });
 
-            if (_term !== '') {
-                $('.patternPopupResults').isotope({ filter: function() {
+            var data = {
+                category: '',
+                mascot_category_id: '',
+                mascots: _mascots,
+            };
 
-                    var name = $(this).find('.name').text();
-                    return name.toLowerCase().indexOf(_term) > -1;
+            var template = $('#m-new-mascot-items').html();
+            var markup = Mustache.render(template, data);
 
-                    } 
-                });
-            } else {
-               
-                $('.patternPopupResults').isotope({ filter: '.all' });
+            $('div.main-content').scrollTo(0);
+            $('div.patternPopupResults').html(markup);
 
-            }
+             $('div.patternPopupResults > div.item').on('click', function () {
+
+                var _id = $(this).data('mascot-id');
+
+                ub.funcs.changeMascotByID(_id, settingsObj);
+
+            });
 
         });
 
@@ -4591,45 +4656,96 @@
 
         );
 
+        $('span.groups_category_item').on('click', function () {
+
+            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_name = $(this).data('category-name');
+            var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            if (_groups_category_id === "all") {
+
+                $('div.popup_header').html("Mascots: All");
+                return;
+
+            }
+
+            var data = {
+                categories: _.sortBy(_categories, 'name'),
+            };
+
+            var template = $('#m-new-mascot-popup-categories').html();
+            var markup = Mustache.render(template, data);
+
+            $('div.popup_header').html("Mascots: " + _groups_category_name);
+            $('div.categories').html(markup);
+            $('div.groups_categories').hide();
+            $('div.categories').fadeIn();
+
+            $('span.category_item').on('click', function () {
+
+                var _category_id = $(this).data('category');
+                var _category_name = $(this).data('category-name');
+                var _current = $('div.popup_header').html();
+
+                $('div.popup_header').html('MASCOTS: ' + _groups_category_name + ', ' + _category_name );
+
+                if (_category_id === "back") {
+
+                    $('div.categories').hide();
+                    $('div.groups_categories').fadeIn();
+
+                    $('div.popup_header').html('MASCOTS');
+
+                    return;
+
+                }
+
+                var _mascots = _.filter(ub.data.mascots, {category: _category_name});
+
+                var data = {
+                    category: _category_name,
+                    mascot_category_id: _category_id,
+                    mascots: _.sortBy(_mascots, 'name'),
+                };
+
+                var template = $('#m-new-mascot-items').html();
+                var markup = Mustache.render(template, data);
+
+                $('div.main-content').scrollTo(0);
+
+                $('div.patternPopupResults').html(markup);
+
+                $('div.patternPopupResults > div.item').on('click', function () {
+
+                    var _id = $(this).data('mascot-id');
+
+                    ub.funcs.changeMascotByID(_id, settingsObj);
+
+                });
+
+            });
+
+        });
+
         $('div.patternPopupResults > div.item').on('click', function () {
 
             var _id = $(this).data('mascot-id');
 
-            ub.funcs.changeMascotFromPopup(_id, settingsObj);
-            $popup.remove();
-            ub.funcs.activateMascots(settingsObj.code)
+            ub.funcs.changeMascotByID(_id, settingsObj);
 
-            if (settingsObj.code === "9") {
+        });
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+        $('span.mascot-tab').on('click', function () {
 
-            }
+            var _btn = $(this).data('button');
 
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "32") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-                
-            }
+            $('span.mascot-tab').removeClass('active');
+            $(this).addClass('active');
 
         });
 
         ub.funcs.centerPatternPopup();
+
 
         $('div.close-popup').on('click', function (){
 
@@ -4656,17 +4772,81 @@
 
         });
 
+
+        /// Custom Artwork Request
+
+            $('span[data-button="browse"]').on('click', function () {
+
+                $('div.upload').fadeOut();
+
+            }); 
+
+            $('span[data-button="upload"]').on('click', function () {
+
+                $('div.upload').fadeIn();
+
+            });    
+
+            $("input#custom-artwork").change( function() {
+
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        
+                        $('img#preview').attr('src', e.target.result);
+                        ub.uploadLogo(e.target.result);
+
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+
+                }
+
+            });
+
+            $('span.ok_btn').on('click', function () {
+
+                if ($(this).attr('data-status') === "ok") {
+
+                    ub.current_material.settings.custom_artwork = window.uploaded_filename;
+
+                    $popup = $('div#primaryMascotPopup');
+                    $popup.remove();
+                    ub.funcs.changeMascotByID('1038', settingsObj);
+
+                }
+                
+            }); 
+
+        /// End Custom Artwork Request 
+
     }
 
     ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
 
-        var _mascotObj    = _.find(ub.data.mascots, {id: mascotId.toString()});
+        var _mascotID = mascotId.toString();
+
+        var _mascotObj    = _.find(ub.data.mascots, {id: _mascotID});
         var _id           = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
 
         settingsObj.mascot = _mascotObj;
-        settingsObj.color_array = ub.funcs.getDefaultColors();
+
+        if (_mascotID !== '1039') {
+
+            settingsObj.color_array = ub.funcs.getDefaultColors();    
+        
+        } else {
+
+            settingsObj.color_array = [];
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('W'));
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('RB'));
+            settingsObj.color_array.push(ub.funcs.getColorByColorCode('R'));
+
+        }
+        
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
         $popup = $('div#primaryPatternPopup');
@@ -4744,12 +4924,20 @@
         var _applicationType    = _settingsObject.application_type;
         var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
 
-        if (_id === '2' && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
-        }
+        if (ub.current_material.material.uniform_category === "Football") {
 
-        if (_id === '5' && _applicationType === 'mascot') {
-            _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+            if (_id === '2' && _applicationType === 'mascot') {
+                _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+            }
+
+            if (_id === '5' && _applicationType === 'mascot') {
+                _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+            }
+
+        } else if (ub.current_material.material.uniform_category === "Wrestling") {
+
+            _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+
         }
 
         var _mascotObj          = _settingsObject.mascot;
@@ -4811,12 +4999,18 @@
 
                 _settingsObject.size = 4;
 
-            }
-            else {
+            } else {
 
                 _settingsObject.size = 10;
 
             }
+
+            if (application_id === 4) {
+
+                _settingsObject.size = 0.5;
+
+            }
+
 
         }
 
@@ -4848,22 +5042,26 @@
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
-        _.each(_settingsObject.mascot.layers_properties, function (layer) {
+        if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
-            var _hexCode = layer.default_color;
-            var _color   = ub.funcs.getColorByColorCode(_hexCode);
-            if (typeof _color !== 'undefined') {
+            _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
-                _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
- 
-            }
-            else {
+                var _hexCode = layer.default_color;
+                var _color   = ub.funcs.getColorByColorCode(_hexCode);
+                if (typeof _color !== 'undefined') {
 
-                util.error('Hex Code: ' + _hexCode + ' not found!');
+                    _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
+     
+                }
+                else {
 
-            }
+                    util.error('Hex Code: ' + _hexCode + ' not found!');
 
-        });
+                }
+
+            });
+
+        }
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
@@ -5022,11 +5220,12 @@
 
             $('span.font_size').on('click', function () {
 
-                if (_id === '4') { return; }
+                //if (_id === '4') { return; }
 
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
                 if (_id === "9") {
@@ -5132,8 +5331,7 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
-        $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
-
+       
     },
 
     ub.data.markerBitField = {};
@@ -5241,7 +5439,7 @@
 
             if (_state === "on") {
 
-                _obj.zIndex = -30;
+                _obj.zIndex = -50;
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
                 
@@ -5388,6 +5586,7 @@
             if (_id === 1) { _settingsObject.size = 2;  }
             if (_id === 2) { _settingsObject.size = 8;  }
             if (_id === 5) { _settingsObject.size = 10; }
+            if (_id === 4) { _settingsObject.size = 0.5; }
 
             var _matchingID;
             var _matchingSide;
@@ -5657,7 +5856,13 @@
         var _applicationType  = _settingsObject.application_type;
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
-        var _sizes            = ub.funcs.getApplicationSizes(_applicationType);
+        var _sizes;
+
+        if (ub.current_material.material.uniform_category === "Football") {
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+        } else if (ub.current_material.material.uniform_category === "Wrestling") {
+            _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        }
 
         if (_applicationType === 'mascot') {
 
@@ -6465,6 +6670,14 @@
         if (typeof _sizes === 'undefined') {
             util.error('Application Sizes for ' + applicationType + ' is not found!');
         }
+
+        if (applicationType === "mascot_wrestling") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'mascot_wrestling'});            
+        }
+
+        if (applicationType === "text_wrestling") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
+        }
         
         return _sizes;
 
@@ -6494,6 +6707,7 @@
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
             if ($('div#primaryPatternPopup').is(':visible')) { return; }
+            if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
             if (sprite.ubHover) {
 
@@ -6635,7 +6849,7 @@
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
-        var _id = 1;
+        var _id = _.pluck(ub.current_material.settings.applications, 'code')[0];
 
         if (ub.current_material.material.type === 'lower') {
             _id = 38
@@ -6855,47 +7069,103 @@
 
      ub.uploadThumbnail = function (view) {
 
-            var _dataUrl = ub.getThumbnailImage(view);
+        var _dataUrl = ub.getThumbnailImage(view);
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-            $.ajax({
-                data: JSON.stringify({ dataUrl: _dataUrl }),
-                url: ub.config.host + "/saveLogo",
-                dataType: "json",
-                type: "POST", 
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            
-                success: function (response){
+        $.ajax({
+            data: JSON.stringify({ dataUrl: _dataUrl }),
+            url: ub.config.host + "/saveLogo",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    ub.current_material.settings.thumbnails[view] = response.filename;
                     
-                    if(response.success) {
+                    if (ub.funcs.thumbnailsUploaded()) {
 
-                        ub.current_material.settings.thumbnails[view] = response.filename;
-                        
-                        if (ub.funcs.thumbnailsUploaded()) {
+                        $('span.processing').fadeOut();
+                        $('span.submit-order').fadeIn();
 
-                            $('span.processing').fadeOut();
-                            $('span.submit-order').fadeIn();
-
-                        }
-
-                    }
-                    else{
-
-                        console.log('Error generating thumbnail for ' + view);
-                        console.log(response.message);
-                        
                     }
 
                 }
-            
-            });
+                else{
+
+                    console.log('Error generating thumbnail for ' + view);
+                    console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
+
+    }
+
+    ub.uploadLogo = function (dUrl) {
+
+        
+        $('span.ok_btn').css('color', '#3d3d3d');
+        $('span.ok_btn').html('Processing...  <img src="/images/loading.gif" />');
+        $('span.ok_btn').hide();
+        $('span.ok_btn').fadeIn();
+        $('span.ok_btn').attr('data-status','processing');
+        $('span.ok_btn').css('border', 'none');
+
+
+        var _dataUrl = dUrl;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ dataUrl: _dataUrl }),
+            url: ub.config.host + "/saveLogo",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    window.uploaded_filename = response.filename;
+
+                    $('span.ok_btn').css('background-color', '#acacac');
+                    $('span.ok_btn').html('Submit Logo');
+                    $('span.ok_btn').attr('data-status','ok');
+                    $('span.ok_btn').css('display', 'inline-block');
+                    $('span.ok_btn').css('border', '1px solid #3d3d3d');
+                    $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
+                    
+                }
+                else{
+
+                    console.log('Error Uploading Custom Artwork');
+                    console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
 
     }
 

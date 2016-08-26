@@ -26,7 +26,7 @@
     <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
 @endforeach
 </div>
-<div class="container-fluid main-content isotope" style="margin-top: 120px;">
+<div class="container-fluid main-content isotope" style="margin-top: 200px;">
         @forelse ($materials as $material)
             <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }}' data-category="{{ $material->block_pattern_id }}">
                 <div class="material-id-div">
@@ -49,6 +49,7 @@
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
+                <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->neck_option) }}</span></div>
                 <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>
                 <div class="material-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="1pxb btn btn-default btn-xs edit-material" role="button"

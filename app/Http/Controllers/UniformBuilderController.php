@@ -17,6 +17,7 @@ use App\Utilities\S3Uploader;
 
 use TCPDF;
 use File;
+use Slack;
 
 class UniformBuilderController extends Controller
 {
@@ -107,26 +108,51 @@ class UniformBuilderController extends Controller
         ];
 
         $params['builder_customizations'] = null;
-
         $params['order'] = null;
-        if (Session::has('order'))
-        {
-            $order = Session::get('order');
-            if (isset($config['order_id']))
-            {
-                if ($order['order_id'] == $config['order_id'])
-                {
 
-                    $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
-                    $params['order'] = $order;
-                    $params['builder_customizations'] = $bc;
-                }
-                else
-                {
-                    Session::put('order', null);
-                }
+        ///
+
+        if (isset($config['builder_customizations'])) {
+
+            $order = Session::get('order');
+
+            if ($order['order_id'] == $config['order_id'])
+            {
+
+                $bc = $config['builder_customizations'];
+                //dd($bc);
+                $params['order_id'] = $config['order_id'];
+                $params['order'] = $order;
+                $params['builder_customizations'] = $config['builder_customizations'];
+
             }
+            else
+            {
+                Session::put('order', null);
+            }
+
         }
+
+        ///
+
+        // if (Session::has('order'))
+        // {
+        //     $order = Session::get('order');
+        //     if (isset($config['order_id']))
+        //     {
+        //         if ($order['order_id'] == $config['order_id'])
+        //         {
+
+        //             $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
+        //             $params['order'] = $order;
+        //             $params['builder_customizations'] = $bc;
+        //         }
+        //         else
+        //         {
+        //             Session::put('order', null);
+        //         }
+        //     }
+        // }
 
         return view('editor.uniform-builder-index', $params);
 
@@ -174,30 +200,41 @@ class UniformBuilderController extends Controller
      */
     public function loadOrder($orderId)
     {
-        $order = $this->ordersClient->getOrderByOrderId($orderId);
-        Session::put('order', [
-            'id' => $order->id,
-            'order_id' => $orderId
-        ]);
-        if (!is_null($order))
-        {
-            // Check whether the upper body or the lower body has something in it
-            $material = $this->materialsClient->getMaterialByCode($order->upper_body_uniform);
-            if (is_null($material))
-            {
-                $material = $this->materialsClient->getMaterialByCode($order->lower_body_uniform);
+
+        $order = $this->ordersClient->getOrderItems($orderId);
+
+        if( isset($order[0]) ) {
+
+            $order = $order[0]; 
+            $orderID = $order->order_id;
+            $builder_customizations = json_decode($order->builder_customizations);
+
+            if (isset($builder_customizations->upper->material_id)) {
+                $materialID = $builder_customizations->upper->material_id;
+            } else {
+                $materialID = $builder_customizations->lower->material_id;
             }
 
-            if (!is_null($material))
-            {
-                $config = [
-                    'material_id' => $material->id,
-                    'order_id' => $orderId
-                ];
-                return $this->showBuilder($config);
-            }
+            //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('order', [
+                'id' => $order->id,
+                'order_id' => $orderID,
+                'material_id' => $materialID,
+            ]);
+
+            $config = [
+                'material_id' => $materialID,
+                'order_id' => $orderId,
+                'builder_customizations' => $orderID,
+            ];
+            
+            return $this->showBuilder($config);
+
         }
+
         return redirect('index');
+
     }
 
     /**
@@ -573,7 +610,7 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
-        $table .=     '<br /><br /><strong>BILLING</strong><br />';
+        $table .=     '<br /><br /><strong>BILLING</strong>';
         $table .=   '</td>';
         $table .=   '<td>';
         $table .=   '</td>';
@@ -662,7 +699,7 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
-        $table .=     '<br /><br /><strong>SHIPPING</strong><br />';
+        $table .=     '<br /><br /><strong>SHIPPING</strong>';
         $table .=   '</td>';
         $table .=   '<td>';
         $table .=   '</td>';
@@ -749,7 +786,6 @@ class UniformBuilderController extends Controller
         $table .=   '</td>';
         $table .= '</tr>';
 
-
         $table .= '</table>';
         $total  = 0;
         
@@ -761,14 +797,42 @@ class UniformBuilderController extends Controller
         
         $html = '';
         $html .= "<table>";
+        
         $html .= "<tr>";
-        $html .= "<td>";
-        $html .= "UNIFORM NAME: <strong>" . $itemData['description'] . "</strong><br />";
-        $html .= "SKU: <strong>" .  $itemData['sku'] . "</strong><br />";
-        $html .= "BUILDER URL: <strong>" . $itemData['url'] . "</strong><br />";
-        $html .= "PDF URL: <strong>http://" . env('WEBSITE_URL') . $fname . "</strong><br />";
-        $html .= "</td>";
+        $html .=     "<td width='30%'>";
+        $html .=        "UNIFORM NAME:<br />";
+        $html .=       "<strong>" . $itemData['description'] . " (" . $itemData['applicationType']  .") </strong><br />";
+        $html .=     "</td>";
         $html .= "</tr>";
+
+        $html .= "<tr>";
+        $html .=     "<td width='20%'>";
+        $html .=        "SKU:<br />";
+        $html .=       "<strong>" .  $itemData['sku']  . "</strong><br />";
+        $html .=     "</td>";
+        $html .= "</tr>";
+
+        $html .= "<tr>";
+        $html .=     "<td width='20%'>";
+        $html .=        "PRICE:<br />";
+        $html .=       "<strong>" . $itemData['price'] . "</strong><br />";
+        $html .=     "</td>";
+        $html .= "</tr>";
+
+        $html .= "<tr>";
+        $html .=     "<td width='20%'>";
+        $html .=        "BUILDER URL:<br />";
+        $html .=       "<strong>" . $itemData['url'] . "</strong><br />";
+        $html .=     "</td>";
+        $html .= "</tr>";
+
+        $html .= "<tr>";
+        $html .=     "<td width='20%'>";
+        $html .=        "PDF URL:<br />";
+        $html .=       "<strong>" . env('WEBSITE_URL') . $fname . "</strong><br />";
+        $html .=     "</td>";
+        $html .= "</tr>";
+
         $html .= "</table>";
         return $html;
 
@@ -801,6 +865,7 @@ class UniformBuilderController extends Controller
         $table .=   '<strong>Total</strong>';
         $table .=   '</td>';
         $table .=   '<td>';
+        $table .=   '<hr />';
         $table .=   '<strong>'. $total . '</strong>';
         $table .=   '</td>';
         $table .= '</tr>';
@@ -836,47 +901,68 @@ class UniformBuilderController extends Controller
         //     file_put_contents($outputFilenameFront, $image);
         // }
 
+        $pdf->setPrintHeader(false);
         $pdf->SetTitle('Order Form');
-        $pdf->AddPage("L");
+        $pdf->AddPage("P");
+
+        //$fontname = $pdf->addTTFfont('/fonts/avenir_next.ttf', 'TrueTypeUnicode', '', 96);
+        $pdf->SetFont('avenir_next', '', 14, '', false);
 
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
-        $mainInfo = $builder_customizations['builder_customizations'];
+        $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $html = '';
         $style = '<style> body { font-size: 0.8em; } td { font-size: 0.8em; } </style>';
+
+        $html  = '';
         $html .= $style;
-        $html .= '<h3>Prolook Customizer - Order Form</h3>';
-        $html .= '<div>';
+        $html .= '<div style ="width: 100%; text-align: center;">';
+        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h3>';
+        $html .= '</div>';
+        $html .=   '<table width="100%">';
+        $html .=     '<tr>';
+        $html .=     '<td>';
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf');
+        $html .=     '</td>';
+        $html .=     '</tr>';
+        $html .=   '</table>';
+
         $html .=   '<table width="100%" style="height: 750px">';
         $html .=   '<tr>';
         $html .=   '<td width="50%" style="text-align=center;">';
-        $html .= $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf');
-        $html .= '<br /><br />';
-        $html .= $this->generateClientDetailsTable($mainInfo);
-        $html .= '<br /><br />';
+        $html .=   '<br /><br />';
+        $html .=   $this->generateClientDetailsTable($mainInfo);
+        $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '<td width="50%">';
-        
-        $html .= '<br /><br /><br /><br /><br /><br />';
-        $html .= $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
-        $html .= '<br /><br />';
-
+        $html .=   '<br /><br />';
+        $html .=   $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
+        $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '</tr>';
-        $html .= '</table>';
-        $html .= '<br /><br /><br /><br /><br /><br />';
-        $html .= '<table>';
-        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
-        $html .= '<tr>';
-        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
-        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
-        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
-        $html .=      '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
-        $html .= '</tr>';
-        $html .= '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
-        $html .= '</table>';
+        $html .=   '</table>';
+        $html .=   '</div>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $html  = '';
+        $html .=   '<div>';
+        $html .=      '<div style ="width: 100%; text-align: center;">';
+        $html .=         '<h3>PREVIEW</h3>';
+        $html .=      '</div>';
+        $html .=     '<br /><br /><br /><br /><br /><br />';
+        $html .=       '<table>';
+        $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+        $html .=         '<tr>';
+        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
+        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
+        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
+        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
+        $html .=         '</tr>';
+        $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+        $html .=   '</table>';
         $html .= '</div>';
 
+        $pdf->AddPage("L");
         $pdf->writeHTML($html, true, false, true, false, '');
 
         //$pdf->Image($outputFilenameFront, 1, 12, 200);
@@ -932,6 +1018,20 @@ class UniformBuilderController extends Controller
         $pdf->Output($path, 'F');
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
+
+
+        $user = Session::get('userId');
+        $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+
+        if( isset($user) ){
+            $user_id = Session::get('userId');
+            $first_name = Session::get('first_name');
+            $last_name = Session::get('last_name');
+            $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
+        }
+        // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
+
+        Slack::send($message);
 
         return $transformedPath;
 
@@ -1125,7 +1225,6 @@ class UniformBuilderController extends Controller
 
         $materialId = -1;
         $categoryId = -1;
-
 
         $params = [
             'page_title' => env('APP_TITLE'),
