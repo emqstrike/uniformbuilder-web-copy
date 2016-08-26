@@ -246,10 +246,7 @@ class MaterialsController extends Controller
             'sizes' => $sizes,
             'debug_mode' => $debugMode
         ];
-        if (empty( $uniformApplicationType )){
-            $data['uniform_application_type'] = "none";
-        }
-// dd(json_encode($data));
+// dd($data);
         try {
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');
@@ -278,7 +275,7 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
-                $data['thumbnail_path_back'] ="Image back";
+                // $data['thumbnail_path_back'] ="Image back";
             $thumbnailFileLeft = $request->file('thumbnail_path_left');
             if (isset($thumbnailFileLeft))
             {
@@ -291,7 +288,7 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
-            $data['thumbnail_path_left'] ="Image left";
+            // $data['thumbnail_path_left'] ="Image left";
             $thumbnailFileRight = $request->file('thumbnail_path_right');
             if (isset($thumbnailFileRight))
             {
@@ -304,7 +301,7 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
- $data['thumbnail_path_right'] ="Image right";
+ // $data['thumbnail_path_right'] ="Image right";
 
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
