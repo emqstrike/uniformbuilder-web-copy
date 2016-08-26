@@ -3811,6 +3811,7 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
+                    ub.funcs.initSaveDesign();
                     return;
 
                 }

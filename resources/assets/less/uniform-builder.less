@@ -2380,6 +2380,8 @@ div#main-picker-container {
                     font-size: 0.6em;
                     text-transform: uppercase;
 
+                    font-family: 'Avenir Next LT W04 Thin';
+
                 }
                 
             }  
@@ -5780,11 +5782,11 @@ div.header-container.main {
 
             }
 
-            div.ok-footer {
+            div.ok-footer  {
                 
                 text-align: center;
 
-                span.ok-btn {
+                span.ok-btn, span.cancel-btn {
 
                     background-color: #acacac;
                     color: white;
@@ -5798,7 +5800,7 @@ div.header-container.main {
 
                 }
 
-                span.ok-btn:hover {
+                span.ok-btn:hover, span.cancel-btn:hover {
 
                     background-color: #3d3d3d;
                     color: white;
@@ -5811,6 +5813,90 @@ div.header-container.main {
 
     /* End Feedback Form */
 
+    /* Save Design */
+
+        div.save-design {
+
+            padding: 10px;
+            display: none;
+            position: absolute;
+            width: 930px;
+            height: 630px;
+            top: 300px;
+            left: 300px;
+            z-index: 1000;
+            background-color: white;
+
+            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+            div.input-container {
+
+                text-align: center;
+
+                input.design-name {
+
+                    height: 30px;
+                    margin-bottom: 20px;
+                    width: 450px;
+                    display: inline-block;
+
+                }
+
+                textarea#design-notes {
+
+                    height: 70px;
+                    margin-bottom: 20px;
+                    width: 450px;
+                    display: inline-block;
+                    
+                }
+
+            }
+
+            img.views {
+
+                width: 100%;
+
+            }
+
+            div.ok-footer {
+                
+                text-align: center;
+
+                span.ok-btn, span.cancel-btn {
+
+                    background-color: #acacac;
+                    color: white;
+                    width: 150px;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    margin: 0 auto;
+                    margin-top: 10px;
+                    display: inline-block;
+
+                }
+
+                span.ok-btn:hover, span.cancel-btn:hover {
+
+                    background-color: #3d3d3d;
+                    color: white;
+
+                }
+            }
+
+        }
+
+    /* End Save Design */
+
+
+strong.hello {
+
+    font-family: 'Avenir Next LT W04 Thin';
+
+}
 
 .modal-lg {
     width: 1100px;

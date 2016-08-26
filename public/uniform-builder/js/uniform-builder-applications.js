@@ -3446,14 +3446,10 @@
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.save-design');
         $popup.fadeIn();
 
-        if ($popup.length === 0) {
-
-            return;
-
-        } 
+        if ($popup.length === 0) { return; } 
 
         var _wWidth     = window.innerWidth;
         var _wHeight    = window.innerHeight;
@@ -3468,7 +3464,9 @@
             top: _top,
             left: _left,
 
-        }) 
+        });
+
+
 
     }
 

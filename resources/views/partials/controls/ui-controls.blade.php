@@ -1054,7 +1054,7 @@
                 
                 <div class="col-md-12 ok-footer">
                     
-                    <span class="ok-btn">OK</span>
+                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
 
                 </div>
                 
@@ -1110,7 +1110,72 @@
 
 <!-- End Tertiary links -->
 
+<!-- Save Design -->
 
+    <script type="text/mustache" id="m-save-design">
+
+        <div class="save-design">
+
+            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Design</h3>
+
+            <div class="row">
+
+                <div class="col-md-12 input-container">
+
+                    <strong>Name of Design</strong><br />
+                    <input type="text" name="design-name" class="design-name" placeholder="name of design"><br />
+
+                    <strong>Notes</strong><br />
+                    <textarea id="design-notes" placeholder="notes..."></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-3">
+
+                    <img class="views front_view" src="" />
+
+                </div>
+                
+                <div class="col-md-3">
+
+                    <img class="views left_view" src="" />
+                    
+                </div>
+                
+                <div class="col-md-3">
+
+                    <img class="views right_view" src="" />
+                    
+                </div>
+
+                <div class="col-md-3">
+                
+                    <img class="views back_view" src="" />
+
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Save Design -->
             
 
 

@@ -231,17 +231,17 @@
                 <br /><span></span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="x">
-                
-                <br /><span></span>
-
-            </a>
-
             <a class="footer-buttons change-view" data-view="locations">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <br /><span>Locations</span>
                 
+            </a>
+
+            <a class="footer-buttons change-view" data-view="save">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+
+                <br /><span>Save Design</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="home">
