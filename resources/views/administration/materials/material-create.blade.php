@@ -210,6 +210,24 @@
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File Back</label>
+                            <div class="col-md-8">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_back" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File Left</label>
+                            <div class="col-md-8">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_left" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File Right</label>
+                            <div class="col-md-8">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_right" accept="image/*">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
