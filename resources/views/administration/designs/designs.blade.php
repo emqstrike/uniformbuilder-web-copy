@@ -66,7 +66,7 @@
                                 {{ $design->lower }}
                             </td>
                             <td>
-                                {{ $design->color }}
+
                             </td>
                             <td>
                                 {{ $design->fabric }}
