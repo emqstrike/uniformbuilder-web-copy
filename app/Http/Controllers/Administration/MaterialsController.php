@@ -270,12 +270,12 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_back'] = FileUploader::upload(
                                                     $thumbnailFileBack,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_back',
                                                     'thumbnail'
                                                 );
                 }
             }
-            //$data['thumbnail_path_back'] ="Image back";
+                $data['thumbnail_path_back'] ="Image back";
             $thumbnailFileLeft = $request->file('thumbnail_path_left');
             if (isset($thumbnailFileLeft))
             {
@@ -283,12 +283,12 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_left'] = FileUploader::upload(
                                                     $thumbnailFileLeft,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_left',
                                                     'thumbnail'
                                                 );
                 }
             }
-            //$data['thumbnail_path_left'] ="Image left";
+            $data['thumbnail_path_left'] ="Image left";
             $thumbnailFileRight = $request->file('thumbnail_path_right');
             if (isset($thumbnailFileRight))
             {
@@ -296,12 +296,12 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_right'] = FileUploader::upload(
                                                     $thumbnailFileRight,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_right',
                                                     'thumbnail'
                                                 );
                 }
             }
-                // $data['thumbnail_path_right'] ="Image right";
+ $data['thumbnail_path_right'] ="Image right";
 
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
