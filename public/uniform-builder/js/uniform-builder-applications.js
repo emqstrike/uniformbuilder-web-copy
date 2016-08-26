@@ -2972,7 +2972,14 @@
 
         var strBuilder              = '';
         var _moCount                = _.size(ub.data.modifierLabels);
-        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'group_id');
+
+        _.each(ub.data.modifierLabels, function (ml) {
+
+            ml.intGroupID = parseInt(ml.group_id);
+
+        });
+
+        var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
     
         $pd = $('div#parts_dropdown');
 
@@ -3128,6 +3135,13 @@
         }
 
     };
+
+    ub.funcs.getCurrentUniformCategory = function () {
+
+
+        return ub.current_material.material.uniform_category;
+
+    }
 
     ub.funcs.moveToPrevMaterialOption = function () {
 
@@ -4437,7 +4451,7 @@
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
 
-        _html += '<label class="smallColorPickerLabel" style="color: #' + _cObj.hex_code + '">' + layer_name + ' (' + activeColorCode + '): ' + ' </label>';
+        _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
@@ -4786,9 +4800,10 @@
                     }
 
                     reader.readAsDataURL(this.files[0]);
+
                 }
 
-            });   
+            });
 
             $('span.ok_btn').on('click', function () {
 
@@ -5027,7 +5042,7 @@
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
-        if (ub.current_material.settings.applications[2].mascot.id !== "1039") {
+        if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
             _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
@@ -5316,8 +5331,7 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
-        $smallPickerContainer.find('label').css('color', '#' + _colorObj.hex_code);
-
+       
     },
 
     ub.data.markerBitField = {};
@@ -5425,7 +5439,7 @@
 
             if (_state === "on") {
 
-                _obj.zIndex = -30;
+                _obj.zIndex = -50;
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
                 

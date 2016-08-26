@@ -77,8 +77,6 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
 
-
-
         ub.funcs.getPrice = function (material) {
 
             var _web_price_sale = parseFloat(material.web_price_sale);
@@ -105,9 +103,20 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
-            //$('div.activate_qa_tools').fadeIn();
+           // $('div.activate_qa_tools').fadeIn();
 
-            $('div#uniform_name').html(ub.current_material.material.name);
+            var _type = '';
+            if (ub.current_material.material.factory_code === "BLB") {
+
+                _type = "Sublimated";
+
+            } else {
+
+                _type ="Tackle Twill";
+
+            }
+
+            $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
@@ -116,7 +125,7 @@ $(document).ready(function () {
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
-
+            
         };
 
         ub.showFontGuides = function () {
@@ -1638,22 +1647,42 @@ $(document).ready(function () {
 
         /// Setup Modifiers Applications 
 
-            
-
-
     };
 
         /// End Render Different Views ///
 
         /// Utilities ///
 
+            ub.funcs.getCustomizations = function (order_id) {
+
+                var _url = window.ub.config.api_host + '/api/order/items/' + order_id;
+
+                $.ajax({
+            
+                    url: _url,
+                    type: "GET", 
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                
+                    success: function (response){
+                        
+                        var _settings = JSON.parse(response.order[0].builder_customizations);
+                        ub.loadSettings(_settings);
+                        
+                    }
+                
+                });
+
+            }
+
             ub.init_style = function () {
 
                 // Builder Customizations, from an Order is loaded on this object, see #load_order @ uniform-builder.blade.php
                 if (typeof window.ub.temp !== 'undefined') { 
-                    
-                    ub.loadSettings(window.ub.temp);
 
+                    ub.funcs.getCustomizations(window.ub.temp);
+                   
                 }
                 else {
 
@@ -3722,7 +3751,8 @@ $(document).ready(function () {
 
                 if (view === 'home') {
 
-                    ub.funcs.initGenderPicker();
+                    window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;
+                    //ub.funcs.initGenderPicker();
                     return;
 
                 }
@@ -3755,7 +3785,7 @@ $(document).ready(function () {
 
                     if (!ub.zoom) {
 
-                        ub.zoom_on();
+                        ub.zoom_on(true);
                         $(this).addClass('zoom_on');
 
                     }
@@ -3771,6 +3801,8 @@ $(document).ready(function () {
                 }
 
                 if (view === 'team-info') {
+
+                    if (ub.data.afterLoadCalled === 0) { return; }
 
                     ub.funcs.initRoster();
                     return;
@@ -4234,6 +4266,16 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.hideSecondaryBar = function () {
+
+        $('div.secondary-bar').hide();
+        $('div.secondary-bar').css('margin-top', "-50px");
+
+        $('div.tertiary-bar').hide();
+        $('div.secondary-bar').css('margin-top', "-50px");
+
+    }
+
     ub.funcs.reBindEventsPickers = function () {
 
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
@@ -4248,6 +4290,9 @@ $(document).ready(function () {
                 if (_item === "Home") {
 
                     ub.funcs.initGenderPicker();
+
+                    ub.funcs.hideSecondaryBar();
+
                     return; 
 
                 }
@@ -4259,7 +4304,7 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football") { return; }
+                if (_item !== "Football" && _item !== "Wrestling") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
                 ub.funcs.initUniformsPicker(_item);
@@ -4343,7 +4388,25 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initScroller = function (type, items, gender) {
+    ub.funcs.prepareSecondaryBar = function (sport) {
+
+        if (sport === "Wrestling") {
+
+                $('span.slink[data-item="Jersey"]').html("Singlet");
+                $('span.slink[data-item="Pant"]').hide();
+                $('span.slink[data-item="Twill"]').hide();
+
+            } else {
+
+                $('span.slink[data-item="Jersey"]').html("Jersey");
+                $('span.slink[data-item="Pant"]').show();
+                $('span.slink[data-item="Twill"]').show();
+
+        }
+
+    }
+
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
 
@@ -4388,6 +4451,8 @@ $(document).ready(function () {
 
         if(type === 'sports') {
 
+            ub.funcs.hideSecondaryBar();
+            
             var template = $('#m-picker-items-sport').html();
 
             var data = {
@@ -4416,18 +4481,62 @@ $(document).ready(function () {
                 }
             });
 
+            ub.filters = {};
 
+            ub.filters.primary = "All";
+            ub.filters.secondary = "All";
+
+            $('span.secondary-filters').removeClass('active');
+            $('span.primary-filters').removeClass('active');
+
+            $('span.secondary-filters[data-item="All"]').addClass('active');
+            $('span.primary-filters[data-item="All"]').addClass('active');
+                
         }
 
         if(type === 'uniforms') {
 
+            var _sport = gender;
+
+            ub.funcs.prepareSecondaryBar(_sport);
+            
+            $('div.secondary-bar').fadeIn();
+            $('div.secondary-bar').css('margin-top', "0px");
+
+
+
             var template = $('#m-picker-items-uniforms').html();
 
             var data = {
+
                 picker_type: type,
                 picker_items: items,
+                filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
+              
+                uniform_type: function () {
+
+                    return function (text, render) {
+
+                        var _type = '';
+
+                        if (render(text) === "BLB") {
+
+                            _type = "Sublimated";
+
+                        } else {
+
+                            _type = "Tackle Twill";
+
+                        }
+
+                        return "<b>" + render(_type) + "</b>";
+
+                    }
+
+                }
+
             }
-            
+
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
 
@@ -4437,12 +4546,191 @@ $(document).ready(function () {
             $('div.back-link').on('click', function () {
 
                 ub.funcs.initGenderPicker();
+
+            });
+
+            /* Tertiary Links */
+
+            var itemsWOUpper = _.filter(items, {type: 'lower'});
+            var _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+
+            if (typeof fromTertiary !== 'boolean') {
+            
+                setTimeout(function () { 
+
+                    $('.tertiary-bar').html('');
+
+                    $('.tertiary-bar').hide();
+                    $('.tertiary-bar').css('margin-top','-50px');
+
+                    var t = $('#m-tertiary-links').html();
+
+                    var _str = '';
+                    
+                    var d = {
+
+                        block_patterns: _blockPatterns,
                 
+                    }
+
+                    var m = Mustache.render(t, d);
+                    $('.tertiary-bar').html(m);
+
+
+                
+                    $('div.tertiary-bar').fadeIn();        
+                    $('div.tertiary-bar').css('margin-top', "0px");
+
+                    window.origItems = items;
+                    
+                    $('span.slink-small').unbind('click');
+                    $('span.slink-small').on('click', function () {
+
+                        var _dataItem = $(this).data('item');
+
+                        console.log(_dataItem);
+
+                        if (_dataItem === "All") {
+
+                            _newSet = window.origItems;
+
+                        } else {
+
+                            _newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+                            
+                        }
+
+                        
+                        ub.funcs.initScroller('uniforms', _newSet, gender, true);
+
+                        $('span.slink-small').removeClass('active');
+                        $(this).addClass('active');
+
+                    });
+
+                }, 1000);
+
+            }
+        
+
+            /* End Tertiary Links */
+
+            // Secondary Filters 
+
+            $('span.secondary-filters').unbind('click');
+            $('span.primary-filters').unbind('click');
+
+            $('span.secondary-filters').on('click', function () {
+
+                var _dataItem = $(this).data('item');
+
+                if (_dataItem === "separator") { return; }
+
+                $('span.secondary-filters').removeClass('active');
+                $(this).addClass('active');
+
+                if (_dataItem === "Sublimated") {
+
+                    ub.filters.secondary = "BLB";
+                    
+                } else if (_dataItem === "Twill") {
+
+                    ub.filters.secondary = "PMP";
+
+                } else {
+
+                    ub.filters.secondary = "All";
+
+                }
+
+                if (_dataItem === "All") {
+
+                    if (ub.filters.primary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });    
+
+                    } else {
+                        
+                        items = _.filter(ub.materials, { uniform_category: gender});    
+
+                    }
+
+                } else {
+
+                    if (ub.filters.primary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary,  type: ub.filters.primary });    
+
+                    } else {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary });
+
+                    }
+
+                }
+
+                $('div#main-picker-scroller').fadeOut().html('');
+                ub.funcs.initScroller('uniforms', items, gender);
+
+            });
+
+            $('span.primary-filters').on('click', function () {
+
+                $('span.primary-filters').removeClass('active');
+                $(this).addClass('active');
+
+                var _dataItem = $(this).data('item');
+
+                if (_dataItem === "Jersey") {
+
+                    ub.filters.primary = "upper";
+                    
+                } else if (_dataItem === "Pant") {
+
+                    ub.filters.primary = "lower";
+
+                } else {
+
+                    ub.filters.primary = 'All';
+
+                }
+
+                if (_dataItem === "All") {
+
+                    if (ub.filters.secondary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary  });    
+
+                    } else {
+                        
+                        items = _.filter(ub.materials, { uniform_category: gender }); 
+
+                    }
+
+                } else {
+
+                    if (ub.filters.secondary !== 'All') {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, factory_code: ub.filters.secondary  });    
+
+                    } else {
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });
+
+                    }
+
+                }
+
+                $('div#main-picker-scroller').fadeOut().html('');
+                ub.funcs.initScroller('uniforms', items, gender);
+
             });
 
         }
 
         if(type === 'search_results') {
+
+            ub.funcs.hideSecondaryBar();
 
             var template = $('#m-picker-items-search-results').html();
 
@@ -4745,6 +5033,16 @@ $(document).ready(function () {
                   var markup = Mustache.render(template, data);
                     
                   $container.html(markup);
+
+                  $('span.action-button').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID = $(this).data('id');
+
+                        window.location.href =  '/order/' + _dataID;
+                        console.log('ID: ' + _ID);
+
+                  });
 
                 }
                 

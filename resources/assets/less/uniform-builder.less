@@ -22,8 +22,29 @@
 
 @main_window_pane_height: 550px;
 
-body, h1, h2, h3, h4, h5, h6, button, a, p {
-    font-family: 'Roboto', sans-serif;
+/* Fonts */
+
+/* @import url("https://fast.fonts.net/lt/1.css?apiType=css&c=162ce2f8-58f0-4707-bf31-993c0c21a677&fontids=1437336,1437556"); */
+@font-face{
+    font-family:"Avenir Next LT W04 Thin";
+    src:url("/Fonts/1437336/b0751211-e805-4138-b7f2-a31031582ce2.eot?#iefix");
+    src:url("/Fonts/1437336/b0751211-e805-4138-b7f2-a31031582ce2.eot?#iefix") format("eot"),url("/Fonts/1437336/178ff15e-1d83-46d6-a191-80d443177813.woff2") format("woff2"),url("/Fonts/1437336/6a091542-e5b3-4c09-ad72-8aed56a6581e.woff") format("woff"),url("/Fonts/1437336/4130ee5f-67da-4bcd-bde2-e97df5e49432.ttf") format("truetype");
+}
+@font-face{
+    font-family:"Avenir Next LT W04 Bold";
+    src:url("../Fonts/1437556/6ff8ab07-ccb4-4a91-8f0f-2bd4367902e8.eot?#iefix");
+    src:url("../Fonts/1437556/6ff8ab07-ccb4-4a91-8f0f-2bd4367902e8.eot?#iefix") format("eot"),url("/Fonts/1437556/91799b0e-0ef8-446e-b274-5509412e1242.woff2") format("woff2"),url("/Fonts/1437556/97fb5311-bdbd-46bc-bf69-3bcf8c744cda.woff") format("woff"),url("/Fonts/1437556/88093bd3-b377-4278-8abe-8460dd24d0e8.ttf") format("truetype");
+}
+
+
+/* End Fonts */
+
+body, button, a, p {
+    font-family: 'Avenir Next LT W04 Thin', sans-serif;
+}
+
+strong, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Avenir Next LT W04 Bold', sans-serif;
 }
 
 /* TODO: This should be Tested */
@@ -2120,6 +2141,144 @@ div#main-picker-container {
 
     }
 
+    div.secondary-bar {
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+
+        margin-top: -50px;
+        display: none;
+
+        border-top: solid 1px lightgray;
+        border-bottom: solid 1px lightgray;
+
+        span.secondary-filters {
+
+            /* width: auto !important; */
+
+        }
+
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        background-color: #ffffff;
+        font-size: 1.4em;
+        padding-top: 10px;
+        color: @text_color;
+
+        span.slink {
+
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+            font-size: 0.7em;
+            width: 120px;
+            text-transform: uppercase;
+
+        }
+
+        span.slink.active {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
+
+        span.slink:hover {
+
+            color: @main_highlight;
+            cursor: pointer;
+
+        }
+
+        span.slink-search {
+
+            position: absolute;
+            right: 0px;
+            margin-top: -3px;
+
+        }
+
+        span.slink[data-item="separator"] {
+
+            font-weight: bold;
+            cursor: auto;
+
+        }
+
+    }
+
+    div.tertiary-bar {
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+
+        margin-top: -50px;
+        display: none;
+
+        border-top: solid 1px lightgray;
+        border-bottom: solid 1px lightgray;
+
+        span.secondary-filters {
+
+            /* width: auto !important; */
+
+        }
+
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        background-color: #ffffff;
+        font-size: 1.4em;
+        padding-top: 10px;
+        color: @text_color;
+
+        span.slink-small {
+
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+            font-size: 0.6em;
+            width: auto;
+            text-transform: uppercase;
+            padding-left: 7px;
+            padding-right: 7px;
+
+        }
+
+        span.slink-small.active {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
+
+        span.slink-small:hover {
+
+            color: @main_highlight;
+            cursor: pointer;
+
+        }
+
+        span.slink-small-search {
+
+            position: absolute;
+            right: 0px;
+            margin-top: -3px;
+
+        }
+
+        span.slink-small[data-item="separator"] {
+
+            font-weight: bold;
+            cursor: auto;
+
+        }
+
+    }
+
     div.uniform_details {
 
         position: absolute;
@@ -2146,7 +2305,7 @@ div#main-picker-container {
         display: block;
         position: absolute;
         margin-top: 100px;
-        width: 75%;
+        width: 1350px;
         margin: 30px auto;
 
         -moz-transition: all .2s;
@@ -2169,22 +2328,20 @@ div#main-picker-container {
         div.main-picker-items.grow:hover {
 
             span.main-picker-item-caption {
-                ocolor: black;
-
+                color: black;
             }
 
-
-            
         }
 
         div.main-picker-items {
 
-           display: block;
-           width: 224px;
-           height: 336px;
-           float: left;
-           cursor: pointer;
-           margin-bottom: 90px;
+            display: block;
+            width: 224px;
+            float: left;
+            cursor: pointer;
+            margin-bottom: 130px;
+            margin-right: 20px;
+            margin-left: 25px;
 
             img {
                 width: 100%;
@@ -2199,8 +2356,31 @@ div#main-picker-container {
                 opacity: 0.7;
                 transition: all 0.2s ease-in-out;
                 text-align: center;
-                font-size: 1.2em;
+                font-size: 1em;
+                font-family: 'Avenir Next LT W04 Bold';
                 margin-top: -10px !important;
+                text-transform: uppercase;
+
+
+                strong.uniform-name {
+                    font-size: 1em;
+                    color: black;
+                    text-transform: uppercase;
+                }
+
+                strong.type {
+
+                    background-color: black;
+                    color: white;
+                    padding: 5px;
+                    display: inline-block;
+                    width: 35%;
+                    margin: 0 auto;
+                    margin-top: 10px;
+                    font-size: 0.6em;
+                    text-transform: uppercase;
+
+                }
                 
             }  
 
@@ -2780,7 +2960,12 @@ div.header-container.main {
         margin: 10px;
         font-size: 1.7em;
         text-transform: uppercase;
-        margin-top: 20px;
+        text-align: left;
+
+        span.type {
+            font-size: 0.5em;
+            color: lightgray;
+        }
 
     }
 
@@ -2791,7 +2976,8 @@ div.header-container.main {
         margin: 10px;
         font-size: 1em;
         text-transform: uppercase;
-        margin-top: 3.2em;
+        margin-top: 5.1em;
+        text-align: left;
 
     }
 
@@ -3669,7 +3855,7 @@ div.header-container.main {
                                 width: 20%;
                                 text-align: right;
                                 margin-right: 10px;
-                                font-size: 0.5em;
+                                font-size: 0.6em;
 
                             }
 
@@ -5028,7 +5214,7 @@ div.header-container.main {
             border: solid 1px #3d3d3d;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: white;
 
@@ -5036,10 +5222,10 @@ div.header-container.main {
 
         span.number.selected {
 
-            text-decoration: underline;
+            
             background-color: #3d3d3d;
             color: white;
-            font-weight: bold;
+            
 
         }
 
@@ -5056,7 +5242,7 @@ div.header-container.main {
             border: solid 1px;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: #acacac;
             color: white;
@@ -5071,7 +5257,7 @@ div.header-container.main {
             border: solid 1px;
             border-radius: 15px 15px 15px 15px;
             display: inline-block;
-            padding: 4px;
+            padding: 5px;
             margin: 3px;
             background-color: #3d3d3d;
             color: white;
@@ -5088,14 +5274,14 @@ div.header-container.main {
         float: left;
         text-transform: lowercase;
         color: #acacac;
-        margin-top: 10px;
+        margin-top: 5px;
 
     }
 
     .calculatedPrice {
 
         font-size: 0.7em;
-        font-weight: bold;
+        display: block;
 
     }
 
@@ -5321,6 +5507,24 @@ div.header-container.main {
 
             }
 
+            input.btn.register {
+                color: white;
+            }
+
+        }
+
+        button#forgot-password-submit {
+
+            color: white;
+            background-color: buttonface;
+
+        }
+
+        button#forgot-password-submit:hover {
+
+            color: white;
+            background-color: #3d3d3d;
+
         }
 
 
@@ -5358,7 +5562,7 @@ div.header-container.main {
         div#my-orders {
 
             width: 90%;
-            height: 1000px;
+            height: auto;
             background-color: white;
             padding: 30px;
             margin: 0 auto;
@@ -5464,13 +5668,13 @@ div.header-container.main {
 
     /* Feedback Form */
 
-        div.feedback-form{
+        div.feedback-form {
 
             padding: 20px;
             display: none;
             position: absolute;
             width: 930px;
-            height: 630px;
+            height: 650px;
             top: 300px;
             left: 300px;
             z-index: 1000;

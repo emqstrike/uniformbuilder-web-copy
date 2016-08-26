@@ -48,6 +48,17 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getOrderItems($id)
+    {
+        $response = $this->get('order/items/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->order;
+        }
+        return null;
+    }
+
     public function updateStatus($data)
     {
         $response = $this->post('order/updateStatus', [

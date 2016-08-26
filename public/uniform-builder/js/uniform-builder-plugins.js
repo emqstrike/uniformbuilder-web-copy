@@ -1077,10 +1077,19 @@
         var container = new PIXI.Container();
         var elements = "";
 
-        if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
-        if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
-        if (settings_obj.size === 8)   { scale_settings = {x: 0.79, y: 0.79}; }
+        /// Wrestling
+        // if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
+        // if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
+        // if (settings_obj.size === 8)   { scale_settings = {x: 0.79, y: 0.79}; }
+        // if (settings_obj.size === 5)   { scale_settings = {x: 0.42, y: 0.42}; }
+
+        if (settings_obj.size === 12)  { scale_settings = {x: 0.87, y: 0.87}; }
+        if (settings_obj.size === 10)  { scale_settings = {x: 0.74, y: 0.74}; }
+        if (settings_obj.size === 8)   { scale_settings = {x: 0.63, y: 0.63}; }
         if (settings_obj.size === 5)   { scale_settings = {x: 0.42, y: 0.42}; }
+
+        /// End Wrestling
+
         if (settings_obj.size === 4)   { scale_settings = {x: 0.24, y: 0.24}; }
         if (settings_obj.size === 3)   { scale_settings = {x: 0.19, y: 0.19}; }
         if (settings_obj.size === 2)   { scale_settings = {x: 0.14, y: 0.14}; }

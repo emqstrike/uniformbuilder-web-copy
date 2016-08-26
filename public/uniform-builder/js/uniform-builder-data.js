@@ -967,23 +967,22 @@ $(document).ready(function() {
                     disabledClass: '',
                 },
                 {
+                    code: 'wrestling',
+                    name: 'Wrestling',
+                    active: "1",
+                    tooltip: '',
+                    disabledClass: '',
+                }, 
+                {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
-
                 },
                 {
                     code: 'basketball',
                     name: 'Basketball',
-                    active: "1",
-                    tooltip: 'Coming Soon!',
-                    disabledClass: 'disabledClass',
-                },
-                {
-                    code: 'lacrosse',
-                    name: 'Lacrosse',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
@@ -996,12 +995,12 @@ $(document).ready(function() {
                     disabledClass: 'disabledClass',
                 }, 
                 {
-                    code: 'wrestling',
-                    name: 'Wrestling',
+                    code: 'lacrosse',
+                    name: 'Lacrosse',
                     active: "1",
                     tooltip: 'Coming Soon!',
                     disabledClass: 'disabledClass',
-                }, 
+                },
             ],
         },
         {
@@ -6326,6 +6325,29 @@ ub.funcs.fontOffSets = [
        },
        /// End Yard Line         
 
+    ];
+
+    ub.data.sportFilters = [
+        {
+            sport: 'Football',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Basketball',
+            filters: ['All', 'Jersey', 'Shorts'],
+        }, 
+        {
+            sport: 'Baseball',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Fastpitch',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Wrestling',
+            filters: ['All'],
+        }, 
     ];
 
     ub.funcs.load_fonts = function () {

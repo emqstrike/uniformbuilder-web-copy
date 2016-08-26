@@ -369,6 +369,60 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail Back</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_back" accept="image/*">
+                                @if ($material->thumbnail_path_back)
+                                <div class="thumbnail_path_back">
+                                    <img src="{{ $material->thumbnail_path_back }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="thumbnail_path_back"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail Left</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_left" accept="image/*">
+                                @if ($material->thumbnail_path_left)
+                                <div class="thumbnail_path_left">
+                                    <img src="{{ $material->thumbnail_path_left }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="thumbnail_path_left"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail Right</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_right" accept="image/*">
+                                @if ($material->thumbnail_path_right)
+                                <div class="thumbnail_path_right">
+                                    <img src="{{ $material->thumbnail_path_right }}" width="100px" height="100px">
+                                    <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="thumbnail_path_right"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete Image
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <input type="hidden" name="sizes" id="sizes" value="{{ $material->sizes }}">

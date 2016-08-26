@@ -22,9 +22,7 @@ $(document).ready(function() {
 
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
-
         $('span.size[data-size="' + size + '"]').attr('data-status','on');
-
 
         // var _rosterSize = _.find(ub.current_material.settings.roster, {size: size});
 
@@ -508,11 +506,7 @@ $(document).ready(function() {
 
             var _message = $('textarea#feedback-message').val().trim();
 
-            if (_message.length === 0) {
-
-                ub.funcs.submitFeedback('No Feedback.');
-
-            } else {
+            if (_message.length !== 0) {
 
                 ub.funcs.submitFeedback(_message);
 
@@ -679,6 +673,18 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
+        var _type = '';
+        
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
@@ -731,6 +737,9 @@ $(document).ready(function() {
                     design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
                     attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
+
                 },
             ]
         };
@@ -840,6 +849,18 @@ $(document).ready(function() {
 
         });
 
+        var _type = '';
+
+        if (ub.current_material.material.factory_code === "BLB") {
+
+            _type = "Sublimated";
+
+        } else {
+
+            _type ="Tackle Twill";
+
+        }
+
         var orderInput = {
 
             order: {
@@ -881,7 +902,6 @@ $(document).ready(function() {
                 phone: _shippingPhone,
                 fax: _shippingFax,
                 zip: _shippingZip,
-
             },
             order_items: [
                 {
@@ -896,6 +916,9 @@ $(document).ready(function() {
                     sku: ub.current_material.material.sku,
                     material_id: ub.current_material.material.id,
                     url: ub.config.host + window.document.location.pathname,
+                    attached_files: ub.current_material.settings.custom_artwork,
+                    price: ub.funcs.getPrice(ub.current_material.material),
+                    applicationType: _type,
                 },
             ]
         };        
@@ -1101,7 +1124,15 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.initRosterCalled = false;
+
     ub.funcs.initRoster = function () {
+
+        if (ub.funcs.initRosterCalled) { return; }
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+
+        ub.funcs.initRosterCalled = true;
 
         ub.funcs.resetHighlights();
 

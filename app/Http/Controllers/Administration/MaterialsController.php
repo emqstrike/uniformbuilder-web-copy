@@ -246,10 +246,7 @@ class MaterialsController extends Controller
             'sizes' => $sizes,
             'debug_mode' => $debugMode
         ];
-        if (empty( $uniformApplicationType )){
-            $data['uniform_application_type'] = "none";
-        }
-// dd(json_encode($data));
+// dd($data);
         try {
             // Thumbnail File
             $thumbnailFile = $request->file('thumbnail_path');
@@ -264,6 +261,48 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
+
+
+            $thumbnailFileBack = $request->file('thumbnail_path_back');
+            if (isset($thumbnailFileBack))
+            {
+                if ($thumbnailFileBack->isValid())
+                {
+                    $data['thumbnail_path_back'] = FileUploader::upload(
+                                                    $thumbnailFileBack,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_back',
+                                                    'thumbnail'
+                                                );
+                }
+            }
+                // $data['thumbnail_path_back'] ="Image back";
+            $thumbnailFileLeft = $request->file('thumbnail_path_left');
+            if (isset($thumbnailFileLeft))
+            {
+                if ($thumbnailFileLeft->isValid())
+                {
+                    $data['thumbnail_path_left'] = FileUploader::upload(
+                                                    $thumbnailFileLeft,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_left',
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            // $data['thumbnail_path_left'] ="Image left";
+            $thumbnailFileRight = $request->file('thumbnail_path_right');
+            if (isset($thumbnailFileRight))
+            {
+                if ($thumbnailFileRight->isValid())
+                {
+                    $data['thumbnail_path_right'] = FileUploader::upload(
+                                                    $thumbnailFileRight,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_right',
+                                                    'thumbnail'
+                                                );
+                }
+            }
+ // $data['thumbnail_path_right'] ="Image right";
+
             // Design Sheet File
             $designSheetFile = $request->file('design_sheet_path');
             if (isset($designSheetFile))
@@ -317,6 +356,14 @@ class MaterialsController extends Controller
                         }
                     }
                 }
+
+
+
+
+
+
+
+
 
                 // Shadow File
                 $shadowFile = $request->file('shadow_path');

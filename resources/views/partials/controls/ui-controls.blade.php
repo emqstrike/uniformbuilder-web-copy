@@ -445,11 +445,13 @@
 
                 <img src="@{{thumbnail_path}}{{$asset_version}}">
 
-                <span class="main-picker-item-caption">
+                <span class="main-picker-item-caption"> 
+                    <span class="type"></span>
                     <img src='/images/main-ui/shadow.png' />
-                    @{{name}} <br />
+                    <strong class="uniform-name">@{{name}}</strong> <br />
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
-                </span>
+                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                </span> 
 
             </div>
 
@@ -793,12 +795,6 @@
 
                     </div>
 
-                    
-
-                    
-
-                    
-
                 </div>
 
 
@@ -861,8 +857,6 @@
 
                 </tr>
 
-                
- 
             </table>
 
                 <br />
@@ -967,8 +961,8 @@
                     <td>@{{status}}</td> 
                     
                     <td class="action">
-                        
-                        <span class="action-button" data-order-id="@{{order_id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View / Edit Info</span>
+
+                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
                         
                     </td>
 
@@ -1016,7 +1010,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong class="feedback-message">Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
+                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1049,7 +1043,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong>Prolook Uniform Customizer is still in the development and testing phase, if you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you! </strong> <br/ ><br />
+                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1099,4 +1093,24 @@
     </script>   
 
 <!-- End Sigunup -->
+
+<!-- Tertiary links -->
+
+    <script type="text/mustache" id="m-tertiary-links">
+
+    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+
+    @{{#block_patterns}}
+
+        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{.}}">@{{.}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Tertiary links -->
+
+
+            
+
 
