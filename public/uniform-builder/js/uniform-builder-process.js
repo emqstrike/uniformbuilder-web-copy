@@ -506,11 +506,7 @@ $(document).ready(function() {
 
             var _message = $('textarea#feedback-message').val().trim();
 
-            if (_message.length === 0) {
-
-                ub.funcs.submitFeedback('No Feedback.');
-
-            } else {
+            if (_message.length !== 0) {
 
                 ub.funcs.submitFeedback(_message);
 
