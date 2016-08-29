@@ -65,7 +65,7 @@
                                 <select name='upper_body_uniform' class="form-control upper-body-uniform">
                                 @foreach ($upper_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -78,14 +78,14 @@
                                 <select name='lower_body_uniform' class="form-control lower-body-uniform">
                                 @foreach ($lower_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Color</label>
                             <div class="col-md-6">
                                 <select name='base_color_code' class="form-control">
@@ -117,19 +117,16 @@
                                 <select name='lining_code' class="form-control">
                                 @foreach ($linings as $lining)
                                     @if ($lining->active)
-                                    <option data-description="{{ $lining->name }}" value='{{ $lining->code }}'>{{ $lining->name }}</option>
-                                    @endif
                                 @endforeach
                                 </select>
-                            </div>
-                        </div>
+                        </div> -->
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail Image</label>
                             <div class="col-md-6 design-set">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
