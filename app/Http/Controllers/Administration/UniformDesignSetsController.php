@@ -111,11 +111,11 @@ class UniformDesignSetsController extends Controller
             'uniform_category_id' => $uniform_category_id,
             'upper_body_uniform' => $upper_body_uniform,
             'lower_body_uniform' => $lower_body_uniform,
-            'base_color_code' => $base_color_code,
-            'base_fabric_code' => $base_fabric_code,
-            'lining_code' => $lining_code
+            // 'base_color_code' => $base_color_code,
+            // 'base_fabric_code' => $base_fabric_code,
+            // 'lining_code' => $lining_code
         ];
-
+// dd(json_encode($data));
         $designId = null;
         if (!empty($request->input('uniform_design_set_id')))
         {
@@ -123,29 +123,29 @@ class UniformDesignSetsController extends Controller
             $data['id'] = $designId;
         }
 
-        try {
-            // Thumbnail File
-            $thumbnailFile = $request->file('thumbnail_path');
-            if (isset($thumbnailFile))
-            {
-                if ($thumbnailFile->isValid())
-                {
-                    $data['thumbnail_path'] = FileUploader::upload(
-                                                    $thumbnailFile,
-                                                    $name,
-                                                    'thumbnail',
-                                                    'design_sets',
-                                                    "{$code}-thumbnail.png"
-                                                );
-                }
-            }
-        }
-        catch (S3Exception $e)
-        {
-            $message = $e->getMessage();
-            return Redirect::to('/administration/design_sets')
-                            ->with('message', 'There was a problem uploading your files');
-        }
+        // try {
+        //     // Thumbnail File
+        //     $thumbnailFile = $request->file('thumbnail_path');
+        //     if (isset($thumbnailFile))
+        //     {
+        //         if ($thumbnailFile->isValid())
+        //         {
+        //             $data['thumbnail_path'] = FileUploader::upload(
+        //                                             $thumbnailFile,
+        //                                             $name,
+        //                                             'thumbnail',
+        //                                             'design_sets',
+        //                                             "{$code}-thumbnail.png"
+        //                                         );
+        //         }
+        //     }
+        // }
+        // catch (S3Exception $e)
+        // {
+        //     $message = $e->getMessage();
+        //     return Redirect::to('/administration/design_sets')
+        //                     ->with('message', 'There was a problem uploading your files');
+        // }
 
         $id = null;
         if (!empty($request->input('uniform_design_id')))

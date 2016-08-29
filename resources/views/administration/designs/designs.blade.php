@@ -24,7 +24,6 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Design Sets</th>
-                            <th>Code</th>
                             <th>Gender</th>
                             <th>Category</th>
                             <th>Upper Body</th>
@@ -51,19 +50,16 @@
                                 {{ $design->name }}
                             </td>
                             <td>
-                                <span class="badge badge-default">{{ $design->code }}</span>
-                            </td>
-                            <td>
                                 {{ $design->gender }}
                             </td>
                             <td>
                                 {{ $design->category }}
                             </td>
                             <td>
-                                {{ $design->upper }}
+                                {{ $design->upper_body_uniform }}
                             </td>
                             <td>
-                                {{ $design->lower }}
+                                {{ $design->lower_body_uniform }}
                             </td>
                             <td>
 
