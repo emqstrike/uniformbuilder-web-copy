@@ -66,7 +66,7 @@
                                 <select name='upper_body_uniform' class="form-control upper-body-uniform">
                                 @foreach ($upper_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->upper_body_uniform == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'@if ($design->upper_body_uniform == $uniform->name) selected="selected"@endif>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
@@ -79,7 +79,7 @@
                                 <select name='lower_body_uniform' class="form-control lower-body-uniform">
                                 @foreach ($lower_uniforms as $uniform)
                                     @if ($uniform->active)
-                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->code }}'@if ($design->lower_body_uniform == $uniform->code) selected="selected"@endif>{{ $uniform->name }}</option>
+                                    <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'@if ($design->lower_body_uniform == $uniform->name) selected="selected"@endif>{{ $uniform->name }}</option>
                                     @endif
                                 @endforeach
                                 </select>
