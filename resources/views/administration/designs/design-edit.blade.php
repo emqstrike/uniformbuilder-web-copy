@@ -29,13 +29,13 @@
                                 <input type="name" class="form-control design-set-name" name="name" value="{{ $design->name }}">
                             </div>
                         </div>
-
+<!-- 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Code</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control design-set-code" name="code" value="{{ $design->code }}">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Gender</label>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Color</label>
                             <div class="col-md-6">
                                 <select name='base_color_code' class="form-control">
@@ -140,7 +140,7 @@
                                 </a>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
