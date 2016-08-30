@@ -28,9 +28,9 @@
                             <th>Category</th>
                             <th>Upper Body</th>
                             <th>Lower Body</th>
-                            <th>Color</th>
+<!--                             <th>Color</th>
                             <th>Fabric</th>
-                            <th>Lining</th>
+                            <th>Lining</th> -->
                             <th>Active Status</th>
                             <th>Actions</th>
                         </tr>
@@ -61,7 +61,7 @@
                             <td>
                                 {{ $design->lower_body_uniform }}
                             </td>
-                            <td>
+<!--                             <td>
 
                             </td>
                             <td>
@@ -69,7 +69,7 @@
                             </td>
                             <td>
 
-                            </td>
+                            </td> -->
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-design" data-design-id="{{ $design->id }}" role="button" {{ ($design->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
