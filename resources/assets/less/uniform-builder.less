@@ -5668,6 +5668,115 @@ div.header-container.main {
 
     /* End My Orders */
 
+    /* My Saved Designs */
+
+        div#my-saved-designs {
+
+            width: 90%;
+            height: auto;
+            background-color: white;
+            padding: 30px;
+            margin: 0 auto;
+            margin-top: 30px;
+
+            span.header {
+        
+                font-size: 2em;
+                text-align: center;
+                width: 100%;
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
+
+            }
+
+            div.saved-designs-list {
+
+                table {
+
+                    width: 100%;
+                    margin: 0 auto;
+
+                    tr.header {
+
+                        text-transform: uppercase;
+                        font-weight: bold;
+                        background-color: #3d3d3d;
+                        color: white;
+
+                        td {
+
+                            text-align: center;
+
+                        }
+
+                    }
+
+                    tr {
+
+                        td {
+
+                            text-align: center;
+                            border: solid 1px #3d3d3d;
+                            padding: 7px;
+
+                        }
+
+                        td.saved-design-info {
+
+                            padding: 30px;
+
+                            text-align: center;
+                            label {
+
+                                width: 30%;
+
+                            }
+
+                            img.thumbs {
+
+                                width: 100px;
+
+                            }
+
+                        }
+
+                        td.action {
+
+                            width: 20%;
+
+                            span.action-button {
+
+                                padding: 7px;
+                                background-color: #acacac;
+                                color: white;
+                                width: 120px;
+                                margin: 7px;
+                                display: inline-block;
+                                cursor: pointer;
+                                font-size: 0.8em;
+
+                            }
+
+                            span.action-button:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+    /* End My Saved Designs */
+
     /* Feedback Form */
 
         div.feedback-form {
@@ -5813,11 +5922,11 @@ div.header-container.main {
 
     /* End Feedback Form */
 
-    /* Save Design */
+    /* Save Design */ 
 
         div.save-design {
 
-            padding: 10px;
+            padding: 30px;
             display: none;
             position: absolute;
             width: 930px;
@@ -5826,6 +5935,34 @@ div.header-container.main {
             left: 300px;
             z-index: 1000;
             background-color: white;
+
+            div.please-wait {
+
+                em.uploading {
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+
+                    img {
+
+                        width: 50px;
+
+                    }
+                }
+
+            }
+
+            h3 {
+
+                margin-top: 0px;
+
+            }
+
+            div.save-design-footer {
+
+                display: none;
+
+            }
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);

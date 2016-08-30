@@ -5009,7 +5009,63 @@ $(document).ready(function () {
 
         }
 
+        /// My Saved Designs
 
+        ub.funcs.displayMySavedDesigns = function () {
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                  $('div.my-save--loading').hide();
+
+                  var $container = $('div.order-list');
+          
+                  var template = $('#m-orders-table').html();
+                  var data = {
+                    orders: ub.funcs.parseJSON(response.orders),
+                  }
+
+                  var markup = Mustache.render(template, data);
+                    
+                  $container.html(markup);
+
+                  $('span.action-button').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID = $(this).data('id');
+
+                        window.location.href =  '/order/' + _dataID;
+                        console.log('ID: ' + _ID);
+
+                  });
+
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-orders') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyOrders();
+
+        }
+
+    /// End My Saved Designs
 
         ub.funcs.displayMyOrders = function () {
 

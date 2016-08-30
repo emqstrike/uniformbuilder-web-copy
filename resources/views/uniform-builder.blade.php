@@ -142,6 +142,7 @@
 
 </div>
 
+@yield('my-saved-designs')
 @yield('my-orders')
 @yield('my-profile')
 @yield('signup')

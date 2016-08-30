@@ -7167,5 +7167,12 @@
 
     }
 
+    ub.funcs.turnLocationsOff = function () {
+
+        ub.funcs.removeLocations();
+        $('a[data-view="locations"]').removeClass('zoom_on');
+
+    }
+
 
 });

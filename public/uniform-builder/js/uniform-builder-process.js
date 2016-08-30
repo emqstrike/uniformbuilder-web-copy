@@ -1132,6 +1132,8 @@ $(document).ready(function() {
 
         if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
 
+        ub.funcs.turnLocationsOff();
+
         ub.funcs.initRosterCalled = true;
 
         ub.funcs.resetHighlights();
@@ -1218,9 +1220,37 @@ $(document).ready(function() {
         
     }
 
+    ub.funcs.goto = function (location) {
+
+        var _location = location;
+
+        switch(_location) {
+        
+            case 'my-saved-designs':
+          
+                window.location.href = '/my-saved-designs';
+                break;
+          
+            default:
+                console.warning('Invalid Location: ' + _location);
+
+        }        
+
+    }
+
     ///// Save Design //////
 
-        ub.uploadThumbnailSaveDesign = function (view) {
+         ub.funcs.updatePopup = function () {
+
+            var _designName = $('input.design-name').val();
+            $('div.save-design').fadeOut();
+            alert('Design ' + _designName + ' Saved!');
+
+            ub.funcs.goto('my-saved-designs');
+
+         };
+
+        ub.funcs.uploadThumbnailSaveDesign = function (view) {
 
             var _dataUrl = ub.getThumbnailImage(view);
 
@@ -1244,10 +1274,12 @@ $(document).ready(function() {
                     if(response.success) {
 
                         ub.current_material.settings.thumbnails[view] = response.filename;
+                        $('img.' + view).attr('src', response.filename);
                         
                         if (ub.funcs.thumbnailsUploaded()) {
 
-                            ub.funcs.saveDesign();
+                            $('div.save-design-footer').fadeIn();
+                            $('em.uploading').fadeOut();
 
                         }
 
@@ -1267,17 +1299,20 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
 
-                 url: ub.config.host + "/saved_design",
+                url: window.ub.config.api_host + '/api/saved_design',
                 dataType: "json",
-                type: "POST", 
+                type: "POST",
+                data: JSON.stringify(data),
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
@@ -1307,10 +1342,8 @@ $(document).ready(function() {
             // 1. Show Panel
             // 2. Gather Data
 
-
-
             var _userID = ub.user.id;
-            var _designName = '';
+            var _designName = $('input.design-name').val();
             var _materialID = ub.current_material.material.id;
             var _builderCustomizations = ub.current_material.settings;
             var _sport = ub.current_material.material.uniform_category;
@@ -1318,13 +1351,13 @@ $(document).ready(function() {
             var _backView = ub.current_material.settings.thumbnails.back_view;
             var _leftView = ub.current_material.settings.thumbnails.left_view;
             var _rightView = ub.current_material.settings.thumbnails.right_view;
-            var _notes = '';
+            var _notes = $('#design-notes').val();
 
             var _data = {
 
-                user_id: _userID,
+                user_id: _userID.toString(),
                 name: _designName,
-                material_id: materialID,
+                material_id: _materialID,
                 builder_customizations: _builderCustomizations,
                 sport: _sport,
                 front_thumbnail: _frontView,
@@ -1342,6 +1375,7 @@ $(document).ready(function() {
         ub.funcs.initSaveDesign = function () {
 
             ub.funcs.showSaveDialogBox();
+            ub.funcs.turnLocationsOff();
 
             ub.current_material.settings.thumbnails = {
             
@@ -1352,10 +1386,13 @@ $(document).ready(function() {
 
             }
 
-            ub.uploadThumbnail('front_view');
-            ub.uploadThumbnail('back_view');
-            ub.uploadThumbnail('left_view');
-            ub.uploadThumbnail('right_view');
+            ub.funcs.removeLocations();
+            $(this).removeClass('zoom_on');
+
+            ub.funcs.uploadThumbnailSaveDesign('front_view');
+            ub.funcs.uploadThumbnailSaveDesign('back_view');
+            ub.funcs.uploadThumbnailSaveDesign('left_view');
+            ub.funcs.uploadThumbnailSaveDesign('right_view');
 
         };
 
@@ -1375,6 +1412,19 @@ $(document).ready(function() {
             ub.funcs.centerPatternPopup();
 
             $('div.save-design').fadeIn();
+
+            $('div.save-design span.cancel-btn').on('click', function () {
+
+                $('div.save-design').remove();
+
+            });
+
+            $('div.save-design span.ok-btn').on('click', function () {
+
+                ub.funcs.saveDesign();
+                console.log('Ok Clicked!');
+
+            });
 
         };
 

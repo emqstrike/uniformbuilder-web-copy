@@ -63,7 +63,7 @@ class UniformBuilderController extends Controller
 
             if (is_null($material))
             {
-                    
+
                 // Set to the first material if nothing is requested
                 //$material = $this->materialsClient->getMaterials()[0];
                 //$materialId = $material->id;
@@ -78,9 +78,8 @@ class UniformBuilderController extends Controller
                 // set to just -1 for now to signal opening pickers instead
 
                 $materialId = -1;                
-                   
-            }
-            else {
+
+            } else {
 
                 $categoryId = $material->uniform_category_id;
 
@@ -1218,6 +1217,26 @@ class UniformBuilderController extends Controller
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
+
+    }
+
+    public function mySavedDesigns(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-saved-designs',
+        ];
+
+        return view('editor.my-saved-designs', $params);
 
     }
 

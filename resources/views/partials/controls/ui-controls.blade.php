@@ -1066,6 +1066,61 @@
 
 <!-- End Order Submitted -->
 
+<!-- My Saved Designs Table -->
+
+    <script type="text/mustache" id="m-saved-designs-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Date</td>
+                <td>Name</td>
+                <td>Notes</td>
+                <td>Client</td>
+                <td>Status</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            @{{#saved-designs}}
+
+                <tr>
+
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_id}}</strong></td>
+
+                    <td class="saved-design-info">
+
+                        @{{#items}}
+
+                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
+                            <strong>@{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+
+                        @{{/items}}
+
+                    </td>
+
+                    <td>@{{client}}</td>
+                    <td>@{{status}}</td> 
+                    
+                    <td class="action">
+
+                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        
+                    </td>
+
+                </tr>
+
+            @{{/orders}}
+
+        </table>
+
+    </script>   
+
+<!-- End Saved Designs Table -->
+
+
 <!-- Profile -->
 
     <script type="text/mustache" id="m-profile-page">
@@ -1122,46 +1177,57 @@
 
                 <div class="col-md-12 input-container">
 
-                    <strong>Name of Design</strong><br />
+                    <strong>NAME OF DESIGN</strong><br />
                     <input type="text" name="design-name" class="design-name" placeholder="name of design"><br />
 
-                    <strong>Notes</strong><br />
+                    <strong>NOTES</strong><br />
                     <textarea id="design-notes" placeholder="notes..."></textarea>
-
+                    
                 </div>
 
+            </div>
+
+            <div class="row please-wait">
+                
+                <div class="col-md">
+
+                    <em class="uploading">
+                        Uploading thumbnails, please wait ...<img class="views" src="/images/loading.gif" />
+                    </em>
+                    
+                </div>
+                
             </div>
 
             <div class="row">
                 
                 <div class="col-md-3">
 
-                    <img class="views front_view" src="" />
+                    <img class="views front_view" />
 
                 </div>
                 
                 <div class="col-md-3">
 
-                    <img class="views left_view" src="" />
+                    <img class="views left_view"/>
                     
                 </div>
                 
                 <div class="col-md-3">
 
-                    <img class="views right_view" src="" />
+                    <img class="views right_view"/>
                     
                 </div>
 
                 <div class="col-md-3">
                 
-                    <img class="views back_view" src="" />
+                    <img class="views back_view"/>
 
                 </div>
-
 
             </div>
 
-            <div class="row">
+            <div class="row save-design-footer">
                 
                 <div class="col-md-12 ok-footer">
                     
