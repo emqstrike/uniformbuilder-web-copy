@@ -79,6 +79,7 @@ $(document).ready(function(){
                         type: 'success',
                         hide: true
                     });
+                    document.location.reload();
                     $('#confirmation-modal').modal('hide');
                     $('.design-set').fadeOut();
                 }

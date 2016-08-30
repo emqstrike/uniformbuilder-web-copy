@@ -29,13 +29,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Code</label>
-                            <div class="col-md-6">
-                                <input type="name" class="form-control design-set-code" name="code" value="{{ old('code') }}">
-                            </div>
-                        </div> -->
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Gender</label>
                             <div class="col-md-6">
@@ -84,49 +77,6 @@
                                 </select>
                             </div>
                         </div>
-
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Color</label>
-                            <div class="col-md-6">
-                                <select name='base_color_code' class="form-control">
-                                @foreach ($colors as $color)
-                                    @if ($color->active)
-                                    <option value='{{ $color->color_code }}' style="background-color: #{{ $color->hex_code }}">{{ $color->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Fabric</label>
-                            <div class="col-md-6">
-                                <select name='base_fabric_code' class="form-control">
-                                @foreach ($fabrics as $fabric)
-                                    @if ($fabric->active)
-                                    <option data-description="{{ $fabric->name }}" data-imagesrc="{{ $fabric->fabric_path }}"  value='{{ $fabric->code }}'>{{ $fabric->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Lining</label>
-                            <div class="col-md-6">
-                                <select name='lining_code' class="form-control">
-                                @foreach ($linings as $lining)
-                                    @if ($lining->active)
-                                @endforeach
-                                </select>
-                        </div> -->
-
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Thumbnail Image</label>
-                            <div class="col-md-6 design-set">
-                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
