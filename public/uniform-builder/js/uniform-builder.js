@@ -125,6 +125,13 @@ $(document).ready(function () {
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
+
+            if(typeof (window.ub.user.id) === "undefined") {
+
+                $('a.change-view[data-view="save"]').css('color','lightgray');
+                $('a.change-view[data-view="team-info"]').css('color','lightgray');
+
+            }
             
         };
 
@@ -3826,6 +3833,10 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
+                    if(typeof (window.ub.user.id) === "undefined") {
+                        return;
+                    }
+
                     if (ub.data.afterLoadCalled === 0) { return; }
                     ub.funcs.initRoster();
 
@@ -3834,6 +3845,10 @@ $(document).ready(function () {
                 }
 
                 if (view === 'save') {
+
+                    if(typeof (window.ub.user.id) === "undefined") {
+                        return;
+                    }
 
                     ub.funcs.initSaveDesign();
                     return;
