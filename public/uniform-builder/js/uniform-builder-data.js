@@ -1327,6 +1327,7 @@ $(document).ready(function() {
                 id: 0,
                 name: 'Default',
                 code: 'default',
+                title: 'Single Color',
                 thumbnail: 'no-accent.png',
                 layers: [
                     {
@@ -1353,6 +1354,7 @@ $(document).ready(function() {
                 id: 1,
                 name: 'Outlined',
                 code: 'outlined',
+                title: 'Two Color',
                 thumbnail: 'outlined.png',
                 layers: [
                     {
@@ -1390,6 +1392,7 @@ $(document).ready(function() {
                 id: 2,
                 name: 'Single Outline with Shadow',
                 code: 'single outline shadow',
+                title: 'Two Color with Drop Shadow',
                 thumbnail: 'single_outline_with_shadow.png',
                 layers: [
                     {
@@ -1437,6 +1440,7 @@ $(document).ready(function() {
                 id: 3,
                 name: 'Double Outline',
                 code: 'double_outline',
+                title: 'Three Color',
                 thumbnail: 'double_outline.png',
                 layers: [
                     {
@@ -1484,6 +1488,7 @@ $(document).ready(function() {
                 id: 4,
                 name: 'Drop Shadow',
                 code: 'drop_shadow',
+                title: 'Single Color with Drop Shadow',
                 thumbnail: 'drop_shadow.png',
                 layers: [
                     {
@@ -1642,6 +1647,7 @@ $(document).ready(function() {
                 id: 8,
                 name: 'Outlined with Drop Shadow',
                 code: 'outlined_with_drop_shadow',
+                title: 'Three Color with Drop Shadow',
                 thumbnail: 'outlined_with_drop_shadow.png',
                 layers: [
                     {

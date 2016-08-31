@@ -5880,7 +5880,7 @@
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
         var _accentObj        = _settingsObject.accent_obj;
-        var _accentName       = _accentObj.name;
+        var _accentName       = _accentObj.title;
         var _accentFilename   = _accentObj.thumbnail;
         var _patternName      = 'None';
         var _patternFilename  = 'none.png';
