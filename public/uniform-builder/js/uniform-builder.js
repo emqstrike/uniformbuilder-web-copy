@@ -39,7 +39,7 @@ $(document).ready(function () {
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);                
 
             }
-            else{
+            else {
 
                 $('.open-save-design-modal').hide();
 
@@ -1097,11 +1097,6 @@ $(document).ready(function () {
             ub.data.convertDefaultApplications();
 
         }
-        else {
-
-            console.log('Order Detected: ');
-
-        }
 
         ub.funcs.showLocations();
 
@@ -1653,10 +1648,20 @@ $(document).ready(function () {
 
         /// Utilities ///
 
-            ub.funcs.getCustomizations = function (order_id) {
+            ub.funcs.getCustomizations = function (id) {
 
-                var _url = window.ub.config.api_host + '/api/order/items/' + order_id;
+                var _url = '';
 
+                if (window.ub.page === "order") {
+
+                    _url = window.ub.config.api_host + '/api/order/items/' + id;
+
+                } else if (window.ub.page === "saved-design") {
+
+                    _url = window.ub.config.api_host + '/api/saved_design/' + id;
+
+                }
+                
                 $.ajax({
             
                     url: _url,
@@ -1667,7 +1672,19 @@ $(document).ready(function () {
                 
                     success: function (response){
                         
-                        var _settings = JSON.parse(response.order[0].builder_customizations);
+                        var settings = '';
+
+                        if (window.ub.page === "order") {
+
+                            _settings = JSON.parse(response.order[0].builder_customizations);
+
+                        }
+                        else if (window.ub.page === "saved-design") {
+
+                            _settings = JSON.parse(response.saved_design.builder_customizations);
+
+                        }    
+
                         ub.loadSettings(_settings);
                         
                     }
@@ -3749,10 +3766,17 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'home') {
+                if (view === 'start-over') {
 
                     window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;
                     //ub.funcs.initGenderPicker();
+                    return;
+
+                }
+
+                if (view === 'home') {
+
+                    ub.funcs.initGenderPicker();
                     return;
 
                 }
@@ -3803,8 +3827,8 @@ $(document).ready(function () {
                 if (view === 'team-info') {
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-
                     ub.funcs.initRoster();
+
                     return;
 
                 }
@@ -4291,7 +4315,6 @@ $(document).ready(function () {
                 if (_item === "Home") {
 
                     ub.funcs.initGenderPicker();
-
                     ub.funcs.hideSecondaryBar();
 
                     return; 
@@ -4986,8 +5009,6 @@ $(document).ready(function () {
 
         ub.funcs.getOrders = function () {
 
-
-
         };
 
         ub.funcs.parseJSON = function (orders) {
@@ -5011,6 +5032,37 @@ $(document).ready(function () {
 
         /// My Saved Designs
 
+        ub.funcs.deleteSavedDesign = function (id, name) {
+
+            var txt;
+            
+            var r = confirm("Are you sure you want to delete '" + name + "'?");
+            
+            if (r !== true) { return; }
+
+            data = {
+                id: id,
+            }
+
+            $.ajax({
+
+                url: ub.config.api_host + '/api/saved_design/delete/',
+                data: JSON.stringify(data),
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
+
+                }
+                
+            });
+   
+        }
+
         ub.funcs.displayMySavedDesigns = function () {
 
             $.ajax({
@@ -5020,28 +5072,36 @@ $(document).ready(function () {
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-                success: function (response){
+                
+                success: function (response) {
 
-                  $('div.my-save--loading').hide();
+                  $('div.my-saved-designs-loading').hide();
 
-                  var $container = $('div.order-list');
-          
-                  var template = $('#m-orders-table').html();
+                  var $container = $('div.saved-designs-list');
+                  var template = $('#m-saved-designs-table').html();
                   var data = {
-                    orders: ub.funcs.parseJSON(response.orders),
+
+                        savedDesigns: ub.funcs.parseJSON(response.saved_designs),
+
                   }
 
                   var markup = Mustache.render(template, data);
-                    
                   $container.html(markup);
 
-                  $('span.action-button').on('click', function () {
+                  $('span.action-button.view').on('click', function () {
 
-                        var _dataID = $(this).data('order-id');
-                        var _ID = $(this).data('id');
+                        var _savedDesignID = $(this).data('saved-design-id');
+                        window.location.href =  '/my-saved-design/' + _savedDesignID;
+                        
+                  });
 
-                        window.location.href =  '/order/' + _dataID;
-                        console.log('ID: ' + _ID);
+                  $('span.action-button.delete').on('click', function () {
+
+                        var _deleteDesignID = $(this).data('saved-design-id');
+                        var _name = $(this).data('name');
+                        console.log('ID: ' + _deleteDesignID);
+
+                        ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
                   });
 
@@ -5051,7 +5111,7 @@ $(document).ready(function () {
    
         }
 
-        if (ub.page === 'my-orders') {
+        if (ub.page === 'my-saved-designs') {
 
             $('div#main-picker-container').remove();
             $('body').css('background-image', 'none');
@@ -5061,7 +5121,7 @@ $(document).ready(function () {
                 return;
             } 
 
-            ub.funcs.displayMyOrders();
+            ub.funcs.displayMySavedDesigns();
 
         }
 
@@ -5071,7 +5131,7 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: 'http://api-dev.qstrike.com/api/order/user/orderswItems/' + ub.user.id,
+                url: ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',

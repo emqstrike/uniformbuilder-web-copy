@@ -427,8 +427,7 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.size_breakdown = _prepareSize;
-        console.log(ub.current_material.settings.size_breakdown);
-
+        
         return _total;
 
     }
@@ -1339,8 +1338,12 @@ $(document).ready(function() {
 
         ub.funcs.saveDesign = function () {
 
-            // 1. Show Panel
-            // 2. Gather Data
+            //
+            
+            $('div.ok-footer').hide();
+            $('div.saving-please-wait').show();
+
+            //
 
             var _userID = ub.user.id;
             var _designName = $('input.design-name').val();
@@ -1422,8 +1425,7 @@ $(document).ready(function() {
             $('div.save-design span.ok-btn').on('click', function () {
 
                 ub.funcs.saveDesign();
-                console.log('Ok Clicked!');
-
+                
             });
 
         };

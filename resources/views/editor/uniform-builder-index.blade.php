@@ -227,10 +227,6 @@
                 <br /><span>Patterns</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="x">
-                <br /><span></span>
-            </a>
-
             <a class="footer-buttons change-view" data-view="locations">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -243,10 +239,16 @@
                 <br /><span>Order Now</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="home">
+            <a class="footer-buttons change-view" data-view="save">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                <br /><span>Save Design</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="start-over">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
                 <br /><span>Start Over</span>
             </a>
+
 
         </div>  
 
@@ -277,11 +279,11 @@
                 <br /><span>Zoom</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="save">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-
-                <br /><span>Save Design</span>
+            <a class="footer-buttons change-view" data-view="Home">
+                <i class="fa fa-home" aria-hidden="true"></i>
+                <br /><span>Home</span>
             </a>
+
 
         </div>  
 

@@ -1071,48 +1071,46 @@
     <script type="text/mustache" id="m-saved-designs-table">
 
         <br />
-
         <table>
            
             <tr class="header">
+
                 <td>Date</td>
-                <td>Name</td>
-                <td>Notes</td>
-                <td>Client</td>
-                <td>Status</td>
+                <td>Name / Notes</td>
+                <td>Thumbnails</td>
+
                 <td>&nbsp;</td>
             </tr>
 
-            @{{#saved-designs}}
+            @{{#savedDesigns}}
 
-                <tr>
+                <tr class="saved-design-row" data-id="@{{id}}">
 
                     <td>@{{created_at}}</td>
-                    <td><strong> @{{order_id}}</strong></td>
-
-                    <td class="saved-design-info">
-
-                        @{{#items}}
-
-                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
-                            <strong>@{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
-
-                        @{{/items}}
-
+                    <td>
+                        <strong>@{{name}}</strong><br />
+                        <em>@{{notes}}</em>
                     </td>
-
-                    <td>@{{client}}</td>
-                    <td>@{{status}}</td> 
+                    
+                    <td>
+                    
+                        <img class = "tview" src="@{{front_thumbnail}}" />
+                        <img class = "tview" src="@{{back_thumbnail}}" />
+                        <img class = "tview" src="@{{right_thumbnail}}" />
+                        <img class = "tview" src="@{{left_thumbnail}}" />
+                    
+                    </td>
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> View Design </span>
+                        <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design </span>
                         
                     </td>
 
                 </tr>
 
-            @{{/orders}}
+            @{{/savedDesigns}}
 
         </table>
 
@@ -1233,6 +1231,18 @@
                     
                     <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
 
+                </div>
+                
+            </div>
+
+             <div class="row saving-please-wait">
+                
+                <div class="col-md-12">
+
+                    <em class="saving">
+                        Saving design, please wait ...<img class="views" src="/images/loading.gif" />
+                    </em>
+                    
                 </div>
                 
             </div>
