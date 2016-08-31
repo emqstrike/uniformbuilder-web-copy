@@ -129,7 +129,11 @@ $(document).ready(function () {
             if(typeof (window.ub.user.id) === "undefined") {
 
                 $('a.change-view[data-view="save"]').css('color','lightgray');
+                $('a.change-view[data-view="save"]').css('cursor','not-allowed');
+                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
                 $('a.change-view[data-view="team-info"]').css('color','lightgray');
+                $('a.change-view[data-view="team-info"]').css('cursor','not-allowed');
+                $('a.change-view[data-view="team-info"]').attr('title','You must be logged-in to use this feature');
 
             }
             
