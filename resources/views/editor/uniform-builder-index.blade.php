@@ -279,7 +279,7 @@
                 <br /><span>Zoom</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="Home">
+            <a class="footer-buttons change-view" data-view="home">
                 <i class="fa fa-home" aria-hidden="true"></i>
                 <br /><span>Home</span>
             </a>
