@@ -615,7 +615,7 @@
                     @{{#accents}}
 
                         <div class="item grow" style="background-image: url(/images/sidebar/@{{thumbnail}})" data-accent-id="@{{id}}">
-                            <div class="name" style="">@{{name}}</div>
+                            <div class="name" style="">@{{title}}</div>
                         </div>
 
                     @{{/accents}}
