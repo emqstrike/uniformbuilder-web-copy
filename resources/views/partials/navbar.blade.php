@@ -59,7 +59,7 @@
             <div class = "btn-group">
 
               <button type = "button" class = "btn">
-                    <i class="fa fa-user" aria-hidden="true"></i> <strong>Hello {{ Session::get('first_name') }}!</strong>
+                    <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello {{ Session::get('first_name') }}!</strong>
               </button>
 
               <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
@@ -68,12 +68,16 @@
               </button>
 
               <ul class = "dropdown-menu" role="menu">
-                  <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a></li>
-                  <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
+
+                  <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li>
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
-                  <li><a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                  <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+                  <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>
                   <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
+
               </ul>
 
             </div>

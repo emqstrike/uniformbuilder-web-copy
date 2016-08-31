@@ -1054,7 +1054,7 @@
                 
                 <div class="col-md-12 ok-footer">
                     
-                    <span class="ok-btn">OK</span>
+                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
 
                 </div>
                 
@@ -1065,6 +1065,59 @@
     </script>   
 
 <!-- End Order Submitted -->
+
+<!-- My Saved Designs Table -->
+
+    <script type="text/mustache" id="m-saved-designs-table">
+
+        <br />
+        <table>
+           
+            <tr class="header">
+
+                <td>Date</td>
+                <td>Name / Notes</td>
+                <td>Thumbnails</td>
+
+                <td>&nbsp;</td>
+            </tr>
+
+            @{{#savedDesigns}}
+
+                <tr class="saved-design-row" data-id="@{{id}}">
+
+                    <td>@{{created_at}}</td>
+                    <td>
+                        <strong>@{{name}}</strong><br />
+                        <em>@{{notes}}</em>
+                    </td>
+                    
+                    <td>
+                    
+                        <img class = "tview" src="@{{front_thumbnail}}" />
+                        <img class = "tview" src="@{{back_thumbnail}}" />
+                        <img class = "tview" src="@{{right_thumbnail}}" />
+                        <img class = "tview" src="@{{left_thumbnail}}" />
+                    
+                    </td>
+                    
+                    <td class="action">
+
+                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> View Design </span>
+                        <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design </span>
+                        
+                    </td>
+
+                </tr>
+
+            @{{/savedDesigns}}
+
+        </table>
+
+    </script>   
+
+<!-- End Saved Designs Table -->
+
 
 <!-- Profile -->
 
@@ -1110,7 +1163,95 @@
 
 <!-- End Tertiary links -->
 
+<!-- Save Design -->
 
+    <script type="text/mustache" id="m-save-design">
+
+        <div class="save-design">
+
+            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Design</h3>
+
+            <div class="row">
+
+                <div class="col-md-12 input-container">
+
+                    <strong>NAME OF DESIGN</strong><br />
+                    <input type="text" name="design-name" class="design-name" placeholder="name of design"><br />
+
+                    <strong>NOTES</strong><br />
+                    <textarea id="design-notes" placeholder="notes..."></textarea>
+                    
+                </div>
+
+            </div>
+
+            <div class="row please-wait">
+                
+                <div class="col-md">
+
+                    <em class="uploading">
+                        Uploading thumbnails, please wait ...<img class="views" src="/images/loading.gif" />
+                    </em>
+                    
+                </div>
+                
+            </div>
+
+            <div class="row">
+                
+                <div class="col-md-3">
+
+                    <img class="views front_view" />
+
+                </div>
+                
+                <div class="col-md-3">
+
+                    <img class="views left_view"/>
+                    
+                </div>
+                
+                <div class="col-md-3">
+
+                    <img class="views right_view"/>
+                    
+                </div>
+
+                <div class="col-md-3">
+                
+                    <img class="views back_view"/>
+
+                </div>
+
+            </div>
+
+            <div class="row save-design-footer">
+                
+                <div class="col-md-12 ok-footer">
+                    
+                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
+
+                </div>
+                
+            </div>
+
+             <div class="row saving-please-wait">
+                
+                <div class="col-md-12">
+
+                    <em class="saving">
+                        Saving design, please wait ...<img class="views" src="/images/loading.gif" />
+                    </em>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </script>   
+
+<!-- End Save Design -->
             
 
 

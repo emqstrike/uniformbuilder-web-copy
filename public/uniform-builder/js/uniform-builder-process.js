@@ -427,8 +427,7 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.size_breakdown = _prepareSize;
-        console.log(ub.current_material.settings.size_breakdown);
-
+        
         return _total;
 
     }
@@ -1132,6 +1131,8 @@ $(document).ready(function() {
 
         if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
 
+        ub.funcs.turnLocationsOff();
+
         ub.funcs.initRosterCalled = true;
 
         ub.funcs.resetHighlights();
@@ -1217,5 +1218,218 @@ $(document).ready(function() {
         ub.funcs.reInitHover();
         
     }
+
+    ub.funcs.goto = function (location) {
+
+        var _location = location;
+
+        switch(_location) {
+        
+            case 'my-saved-designs':
+          
+                window.location.href = '/my-saved-designs';
+                break;
+          
+            default:
+                console.warning('Invalid Location: ' + _location);
+
+        }        
+
+    }
+
+    ///// Save Design //////
+
+         ub.funcs.updatePopup = function () {
+
+            var _designName = $('input.design-name').val();
+            $('div.save-design').fadeOut();
+            alert('Design ' + _designName + ' Saved!');
+
+            ub.funcs.goto('my-saved-designs');
+
+         };
+
+        ub.funcs.uploadThumbnailSaveDesign = function (view) {
+
+            var _dataUrl = ub.getThumbnailImage(view);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                data: JSON.stringify({ dataUrl: _dataUrl }),
+                url: ub.config.host + "/saveLogo",
+                dataType: "json",
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if(response.success) {
+
+                        ub.current_material.settings.thumbnails[view] = response.filename;
+                        $('img.' + view).attr('src', response.filename);
+                        
+                        if (ub.funcs.thumbnailsUploaded()) {
+
+                            $('div.save-design-footer').fadeIn();
+                            $('em.uploading').fadeOut();
+
+                        }
+
+                    }
+                    else{
+
+                        console.log('Error generating thumbnail for ' + view);
+                        console.log(response.message);
+                        
+                    }
+
+                }
+            
+            });
+
+        };
+
+        ub.funcs.postDesign = function (data) {
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+            $.ajax({
+
+                url: window.ub.config.api_host + '/api/saved_design',
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify(data),
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+                success: function (response){
+                    
+                    if (response.success) {
+
+                        ub.funcs.updatePopup();
+
+                    }
+                    else {
+
+                        console.log('Error Saving Design.');
+                        console.log(response.message);
+                        
+                    }
+
+                }
+            
+            });
+
+        }
+
+        ub.funcs.saveDesign = function () {
+
+            //
+            
+            $('div.ok-footer').hide();
+            $('div.saving-please-wait').show();
+
+            //
+
+            var _userID = ub.user.id;
+            var _designName = $('input.design-name').val();
+            var _materialID = ub.current_material.material.id;
+            var _builderCustomizations = ub.current_material.settings;
+            var _sport = ub.current_material.material.uniform_category;
+            var _frontView = ub.current_material.settings.thumbnails.front_view;
+            var _backView = ub.current_material.settings.thumbnails.back_view;
+            var _leftView = ub.current_material.settings.thumbnails.left_view;
+            var _rightView = ub.current_material.settings.thumbnails.right_view;
+            var _notes = $('#design-notes').val();
+
+            var _data = {
+
+                user_id: _userID.toString(),
+                name: _designName,
+                material_id: _materialID,
+                builder_customizations: _builderCustomizations,
+                sport: _sport,
+                front_thumbnail: _frontView,
+                back_thumbnail: _backView,
+                left_thumbnail: _leftView,
+                right_thumbnail: _rightView,
+                notes: _notes,
+
+            };
+
+            ub.funcs.postDesign(_data);
+
+        };
+
+        ub.funcs.initSaveDesign = function () {
+
+            ub.funcs.showSaveDialogBox();
+            ub.funcs.turnLocationsOff();
+
+            ub.current_material.settings.thumbnails = {
+            
+                front_view: "",
+                back_view: "",
+                left_view: "",
+                right_view: "",
+
+            }
+
+            ub.funcs.removeLocations();
+            $(this).removeClass('zoom_on');
+
+            ub.funcs.uploadThumbnailSaveDesign('front_view');
+            ub.funcs.uploadThumbnailSaveDesign('back_view');
+            ub.funcs.uploadThumbnailSaveDesign('left_view');
+            ub.funcs.uploadThumbnailSaveDesign('right_view');
+
+        };
+
+        ub.funcs.showSaveDialogBox = function () {
+
+            $('div.save-design').remove();
+
+            var data = {
+                tabs: ub.data.uniformSizes[0].sizes,
+            };
+
+            var template = $('#m-save-design').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+            ub.funcs.centerPatternPopup();
+
+            $('div.save-design').fadeIn();
+
+            $('div.save-design span.cancel-btn').on('click', function () {
+
+                $('div.save-design').remove();
+
+            });
+
+            $('div.save-design span.ok-btn').on('click', function () {
+
+                ub.funcs.saveDesign();
+                
+            });
+
+        };
+
+    ///// End Save DEsign /////
 
 });
