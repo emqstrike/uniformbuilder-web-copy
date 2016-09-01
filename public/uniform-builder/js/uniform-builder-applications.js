@@ -6685,7 +6685,6 @@
 
     /// Locations and Free Application Types
 
-
     ub.data.locationSprites = []; 
 
     ub.funcs.createClickableMarkers = function (sprite, view, locationCode, viewPerspective) {
@@ -6693,6 +6692,7 @@
         if(!ub.config.isFeatureOn('ui','hotspots')) { return; }
 
         var basesprite;
+
         baseSprite = _.first(sprite.children);
         baseSprite.oldTint = baseSprite.tint;
 
@@ -6709,30 +6709,28 @@
 
             if (sprite.ubHover) {
 
-                    var _id               = locationCode;
-                    var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
+                var _id               = locationCode;
+                var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-                    ub.funcs.deActivateLocations();
-                    ub.showLocation = false;
-                    
-                    if (_settingsObject.application_type === "free") {
+                ub.funcs.deActivateLocations();
+                ub.showLocation = false;
+                
+                if (_settingsObject.application_type === "free") {
 
-                        ub.funcs.activateFreeApplication(locationCode);
+                    ub.funcs.activateFreeApplication(locationCode);
 
-                    }
-                    else if (_settingsObject.application_type === "mascot") {
+                }
+                else if (_settingsObject.application_type === "mascot") {
 
-                        ub.funcs.activateMascots(locationCode);
+                    ub.funcs.activateMascots(locationCode);
 
-                    } else {
+                } else {
 
-                        ub.funcs.activateApplications(locationCode);
+                    ub.funcs.activateApplications(locationCode);
 
-                    }
+                }
 
-                    sprite.ubHover = false;
-
-               // -  }
+                sprite.ubHover = false;
 
             } 
 
@@ -6766,45 +6764,45 @@
                 y: this_data.global.y
             };
 
-            /// Hotspot
+            /// Start Hotspot
 
-            var sprite_obj; 
+                var sprite_obj; 
 
-            if(sprite.children.length === 0) {
+                if(sprite.children.length === 0) {
 
-                sprite_obj = sprite
+                    sprite_obj = sprite
 
-            } else {
-
-                sprite_obj = _.first(sprite.children);
-
-            }
-
-            if (typeof sprite_obj.containsPoint === "function") {
-
-                var _sizeOfApplications = _.size(ub.current_material.settings.applications);
-
-                if (sprite_obj.containsPoint(point)) {
-
-                    if(ub.zoom) { return; }
-
-                    // start
-
-                    sprite.ubHover      = true;
-                    ub.funcs.highlightMarker(locationCode, viewPerspective);
-                    ub.data.applicationAccumulator = _sizeOfApplications;
-                   
                 } else {
 
-                    // restore
-                    
-                    ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
-                    sprite.ubHover  = false;
-                    ub.data.applicationAccumulator -= 1;
+                    sprite_obj = _.first(sprite.children);
 
                 }
-                
-            }
+
+                if (typeof sprite_obj.containsPoint === "function") {
+
+                    var _sizeOfApplications = _.size(ub.current_material.settings.applications);
+
+                    if (sprite_obj.containsPoint(point)) {
+
+                        if(ub.zoom) { return; }
+
+                        // start
+
+                        sprite.ubHover      = true;
+                        ub.funcs.highlightMarker(locationCode, viewPerspective);
+                        ub.data.applicationAccumulator = _sizeOfApplications;
+                       
+                    } else {
+
+                        // restore
+                        
+                        ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
+                        sprite.ubHover  = false;
+                        ub.data.applicationAccumulator -= 1;
+
+                    }
+                    
+                }
 
             /// End Hot Spot
             
@@ -6859,10 +6857,9 @@
 
                 _.each(location.application.views, function (view, index){
 
-                    var _perspective = view.perspective + '_view';
-                    var _locationObj = ub.objects[_perspective]['locations_' + location.code];
+                   var _perspective = view.perspective + '_view';
+                   var _locationObj = ub.objects[_perspective]['locations_' + location.code];
 
-                   // _locationObj.zIndex =  -200 + (index * -1);
                    if (typeof alphaOff !== 'undefined') {
 
                         _locationObj.alpha = 0;
@@ -6873,9 +6870,6 @@
 
 
                    }
-
-
-                  //  ub.updateLayersOrder(ub[_perspective]);
 
                 })
 
