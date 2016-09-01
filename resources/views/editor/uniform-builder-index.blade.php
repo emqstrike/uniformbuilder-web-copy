@@ -234,11 +234,6 @@
                 
             </a>
 
-            <a class="footer-buttons change-view" data-view="team-info">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <br /><span>Order Now</span>
-            </a>
-
             <a class="footer-buttons change-view" data-view="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 <br /><span>Save Design</span>
@@ -249,6 +244,10 @@
                 <br /><span>Start Over</span>
             </a>
 
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home" aria-hidden="true"></i>
+                <br /><span>Home</span>
+            </a>
 
         </div>  
 
@@ -279,9 +278,9 @@
                 <br /><span>Zoom</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="home">
-                <i class="fa fa-home" aria-hidden="true"></i>
-                <br /><span>Home</span>
+            <a class="footer-buttons change-view" data-view="team-info">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <br /><span>Order Now</span>
             </a>
 
 

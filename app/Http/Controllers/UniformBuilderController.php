@@ -330,7 +330,7 @@ class UniformBuilderController extends Controller
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
 
                 $html .=   '<td align="center">';
-                $html .=   'Accent: ' . $application['accent_obj']['name'] . "<br />";
+                $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
                 $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
                 $html .=   '</td>';
@@ -843,7 +843,7 @@ class UniformBuilderController extends Controller
             $table .=   '<td>';
             $table .=   $size['size'];
             $table .=   '</td>';
-            $table .=   '<td>';
+            $table .=   '<td style="text-align: right;">';
             $table .=   $size['quantity'];
             $table .=   '</td>';
             $table .= '</tr>';
@@ -854,10 +854,10 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
-        $table .=   '<strong>Total</strong>';
+        $table .=   '<strong>TOTAL</strong>';
         $table .=   '</td>';
-        $table .=   '<td>';
-        $table .=   '<hr />';
+        $table .=   '<td style="text-align: right;">';
+        $table .=   '<br />';
         $table .=   '<strong>'. $total . '</strong>';
         $table .=   '</td>';
         $table .= '</tr>';
@@ -925,7 +925,7 @@ class UniformBuilderController extends Controller
         $html .=   $this->generateClientDetailsTable($mainInfo);
         $html .=   '<br /><br />';
         $html .=   '</td>';
-        $html .=   '<td width="50%">';
+        $html .=   '<td width="30%">';
         $html .=   '<br /><br />';
         $html .=   $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
         $html .=   '<br /><br />';

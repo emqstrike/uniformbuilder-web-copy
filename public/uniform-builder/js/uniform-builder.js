@@ -103,6 +103,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
+
            // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
