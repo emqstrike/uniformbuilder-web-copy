@@ -10,10 +10,11 @@ $(document).ready(function(){
 
         ui: {
                 // For ub.funcs.createDraggable @ uniform-builder-applications.js
-                draggable_applications: false, 
+                draggable_applications: true, 
                 hotspots: true, 
                 drag_limits: false, 
                 scale_text: false, 
+                hotspot_applications: false, 
             },    
 
     };

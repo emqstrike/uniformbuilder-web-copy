@@ -1,3 +1,4 @@
+
  $(document).ready(function() {
 
     /// Mascot Utilities
@@ -801,17 +802,21 @@
         // Check for Feature Flag
         if(!ub.config.isFeatureOn('ui','draggable_applications')) 
         {
+
             return;
+
         }
         
         sprite.draggable({
+
             manager: ub.dragAndDropManager
+
         });
 
-        sprite.mouseup = sprite.touchend = function(data) {
+        sprite.mouseup = sprite.touchend = function (data) {
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
-
+                
                 sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
 
             }
@@ -833,19 +838,26 @@
 
         };
 
-        sprite.mousemove = sprite.mousemove = function(interactionData) {
+        sprite.mousemove = sprite.mousemove = function (interactionData) {
+            
+            console.clear();
+            console.log('Application');
+            console.log(application);
 
             this.interactionData = interactionData;
 
             if (this.dragging) {
 
-                _.each(ub.data.applications.items, function(application) {
+                _.each(ub.data.applications.items, function (application) {
 
                     var x = application.position.x * ub.dimensions.width;
                     var y = application.position.y * ub.dimensions.height;
                     var p_app = new PIXI.Point(x, y);
                     var p_sprite = new PIXI.Point(sprite.x, sprite.y);
                     var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+                    console.log('Distance: ');
+                    console.log(distance);
 
                     if ($('#chkSnap').is(":checked")) {
 
@@ -2913,18 +2925,25 @@
 
         var view = undefined;
 
-        view = _.find(application.views, {perspective: "front"});
-        
-        if (typeof view === 'undefined') {
-            view = _.find(application.views, {perspective: "back"});
-        }
+        console.log(application.views);
 
-        if (typeof view === 'undefined') {
-            view = _.find(application.views, {perspective: "left"});
-        }
+        _.each (application.views, function (v) {
 
-        if (typeof view === 'undefined') {
-            view = _.find(application.views, {perspective: "right"});
+            if (v.application.isPrimary === 1) {
+
+                console.log('Found: ');
+                console.log(v);
+
+                view = v.perspective;
+            }
+
+        });
+
+        if (typeof view === "undefined") {
+
+            console.warn('No Primary View Set for application: ');
+            console.warn(application);
+
         }
 
         return view;
@@ -5314,6 +5333,7 @@
         // End Events
 
         $('div#applicationUI').fadeIn();
+        ub.funcs.activateMoveTool(application_id);
 
     }
 
@@ -5329,7 +5349,7 @@
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
-       
+
     },
 
     ub.data.markerBitField = {};
@@ -6636,6 +6656,53 @@
         //// End Events 
 
         $('div#applicationUI').fadeIn();
+
+        ub.funcs.activateMoveTool(application_id);
+
+    }
+
+    ub.funcs.activateMoveTool = function (application_id) {
+
+        if (ub.current_material.material.uniform_category !== "Wrestling") {
+
+            return;
+
+        }
+
+        ub.funcs.removeMoveTool();
+
+        var _applicationObj = ub.current_material.settings.applications[application_id];
+        var _primaryView = ub.funcs.getPrimaryView(_applicationObj.application);
+        var _filename = "/images/builder-ui/move-icon.png";
+        var _sprite = ub.pixi.new_sprite(_filename);
+        var _perspective = _primaryView + '_view';
+
+        ub.objects[_perspective].move_tool = _sprite;
+        ub[_perspective].addChild(_sprite);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _sprite.position.x  = _view.application.center.x;
+        _sprite.position.y  = _view.application.center.y;
+
+        ub.funcs.createDraggable(_sprite, _applicationObj,ub[_perspective]);
+
+    }
+
+    ub.funcs.removeMoveTool = function () {
+
+        _.each(ub.views, function (view) {
+
+            var _view = view + '_view';
+
+            if (typeof ub.objects[_view].move_tool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].move_tool);
+                delete ub.objects[_view].move_tool;
+
+            }
+
+        });
 
     }
 

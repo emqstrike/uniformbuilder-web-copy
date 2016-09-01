@@ -1103,7 +1103,7 @@
                     
                     <td class="action">
 
-                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> View Design </span>
+                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design </span>
                         <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design </span>
                         
                     </td>
