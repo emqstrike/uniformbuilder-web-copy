@@ -14,7 +14,7 @@ $(document).ready(function(){
                 hotspots: true, 
                 drag_limits: false, 
                 scale_text: false, 
-                hotspot_applications: false, 
+                hotspot_applications: true, 
             },    
 
     };

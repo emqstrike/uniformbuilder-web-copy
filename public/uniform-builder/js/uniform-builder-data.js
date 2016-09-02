@@ -18,6 +18,8 @@ $(document).ready(function() {
     ub.vars = {};
     ub.status = {};
 
+    ub.uiTools = {};
+
     /// Search
 
     ub.searchResults = {};
@@ -26,6 +28,8 @@ $(document).ready(function() {
 
     ub.ALPHA_ON = 1;
     ub.ALPHA_OFF = 0.1;
+
+    ub.activeApplication = "";
 
     ub.zoom = false;
     ub.showLocation = false;

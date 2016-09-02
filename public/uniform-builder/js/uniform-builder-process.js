@@ -1128,13 +1128,12 @@ $(document).ready(function() {
     ub.funcs.initRoster = function () {
 
         if (ub.funcs.initRosterCalled) { return; }
-
         if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+        if (typeof ub.user.id === "undefined") { return; }
 
+        ub.funcs.removeMoveTool();
         ub.funcs.turnLocationsOff();
-
         ub.funcs.initRosterCalled = true;
-
         ub.funcs.resetHighlights();
 
         ub.current_material.settings.thumbnails = {

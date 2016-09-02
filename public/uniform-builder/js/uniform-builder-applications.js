@@ -797,14 +797,14 @@
 
     };
 
-    ub.funcs.createDraggable = function (sprite, application, view) {
+    ub.funcs.createDraggable = function (sprite, application, view, viewName) {
+
+        var _application = application;
 
         // Check for Feature Flag
         if(!ub.config.isFeatureOn('ui','draggable_applications')) 
         {
-
             return;
-
         }
         
         sprite.draggable({
@@ -813,25 +813,45 @@
 
         });
 
-        sprite.mouseup = sprite.touchend = function (data) {
+        sprite.mouseup = sprite.touchend = function (interactionData) {
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
                 
-                sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
+                ///sprite.position = new PIXI.Point(sprite.oldX, sprite.oldY);
 
             }
 
-            this.data = data;
+            this.data = interactionData;
             this.dragging = true;
+
+            var _changeX = sprite.downX - interactionData.data.global.x;
+            var _changeY = sprite.downY - interactionData.data.global.y;
+
+            _.each (_application.application.views, function (view) {
+
+                if (view.application.isPrimary === 1) { return; }
+
+                view.application.center.x -= _changeX;
+                view.application.center.y -= _changeY;
+
+                var _object = ub.objects[view.perspective + '_view']['objects_' + _application.code];
+
+                _object.position.x -= _changeX;
+                _object.position.y -= _changeY;
+
+            });
+
+
 
         };
 
-        sprite.mousedown = sprite.touchstart = function(data) {
-
-            this.data = data;
+        sprite.mousedown = sprite.touchstart = function(interactionData) {
 
             sprite.oldX = sprite.x;
             sprite.oldY = sprite.y;
+
+            sprite.downX = interactionData.data.global.x;
+            sprite.downY = interactionData.data.global.y;
 
             sprite.snapped = false;
             this.dragging = true;
@@ -840,50 +860,66 @@
 
         sprite.mousemove = sprite.mousemove = function (interactionData) {
             
-            console.clear();
-            console.log('Application');
-            console.log(application);
-
             this.interactionData = interactionData;
+            var this_data = this.interactionData.data;
+            var _x = this_data.global.x;
+            var _y = this_data.global.y;
 
             if (this.dragging) {
 
-                _.each(ub.data.applications.items, function (application) {
+                ///
 
-                    var x = application.position.x * ub.dimensions.width;
-                    var y = application.position.y * ub.dimensions.height;
-                    var p_app = new PIXI.Point(x, y);
-                    var p_sprite = new PIXI.Point(sprite.x, sprite.y);
-                    var distance = ub.funcs.lineDistance(p_app, p_sprite);
+                sprite.oldX = sprite.x;
+                sprite.oldY = sprite.y;
 
-                    console.log('Distance: ');
-                    console.log(distance);
+                _.each (_application.application.views, function (view) {
 
-                    if ($('#chkSnap').is(":checked")) {
+                    if (view.application.isPrimary === 0) { return; }
 
-                        var minimum_distance_to_snap = 50;
+                    view.application.center.x = sprite.x;
+                    view.application.center.y = sprite.y;
 
-                        if (distance < minimum_distance_to_snap) {
-
-                            sprite.position = new PIXI.Point(x,y);
-
-                            sprite.oldX = x;
-                            sprite.oldY = y;
-
-                            sprite.snapped = true;
-                            this.dragging = false;
-
-                            return false; // Exit loop if the logo snapped to an application point
-
-                        } else {
-
-                            sprite.snapped = false;
-
-                        }
-
-                    }
+                    ub.objects[view.perspective + '_view']['objects_' + _application.code].position.x = sprite.x;
+                    ub.objects[view.perspective + '_view']['objects_' + _application.code].position.y = sprite.y;
 
                 });
+
+                ///
+
+                // _.each(ub.data.applications.items, function (application) {
+
+                //     var x = application.position.x * ub.dimensions.width;
+                //     var y = application.position.y * ub.dimensions.height;
+                //     var p_app = new PIXI.Point(x, y);
+                //     var p_sprite = new PIXI.Point(sprite.x, sprite.y);
+                //     var distance = ub.funcs.lineDistance(p_app, p_sprite);
+
+
+                //     if ($('#chkSnap').is(":checked")) {
+
+                //         var minimum_distance_to_snap = 50;
+
+                //         if (distance < minimum_distance_to_snap) {
+
+                //             sprite.position = new PIXI.Point(x,y);
+
+                //             sprite.oldX = x;
+                //             sprite.oldY = y;
+
+                //             sprite.snapped = true;
+                //             this.dragging = false;
+
+                //             return false; // Exit loop if the logo snapped to an application point
+
+                //         } else {
+
+                //             sprite.snapped = false;
+
+                //         }
+
+                //     }
+
+                // });
 
             }
 
@@ -900,6 +936,10 @@
             // Check for Feature Flag
             if(!ub.config.isFeatureOn('ui','hotspot_applications')) 
             {
+                return;
+            }
+
+            if(sprite.ubName !== "Move Tool") {
                 return;
             }
 
@@ -921,11 +961,21 @@
 
                     sprite.zIndex = -500;
                     ub.updateLayersOrder(view);
+                    sprite.tint = parseInt('ffffff', 16);
+
+                    ub.activeApplication = application.code;
+
+                    // console.log('View Name: ' + viewName);
+                    // console.log(ub.activeApplication);
+                    // console.log(ub.objects[viewName]['objects_' + application.code]);
 
                 } else {
 
-                    sprite.zIndex = sprite.originalZIndex;
+                    ///sprite.zIndex = sprite.originalZIndex;
                     ub.updateLayersOrder(view);
+                    sprite.tint = parseInt('888888', 16);
+
+                    ub.activeApplication = undefined;
 
                 }
                 
@@ -2368,7 +2418,16 @@
                         }
 
                     }
-                    
+
+                    /// Do not turn off application when its being moved by the move tool
+
+                    var _app_id = object.name.replace('objects_','');
+                    if (_app_id === ub.activeApplication) { 
+
+                        ub.funcs.setAlphaOn(object);
+                        return; 
+                        
+                    }
                     ub.funcs.setAlphaOff(object);
 
                 }   
@@ -2692,6 +2751,9 @@
 
             }
 
+            if(typeof ub.activeApplication !== "undefined") { return; }
+
+
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
      
@@ -2790,7 +2852,7 @@
             return; 
 
         }
-        
+
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
@@ -2925,14 +2987,9 @@
 
         var view = undefined;
 
-        console.log(application.views);
-
         _.each (application.views, function (v) {
 
             if (v.application.isPrimary === 1) {
-
-                console.log('Found: ');
-                console.log(v);
 
                 view = v.perspective;
             }
@@ -3035,6 +3092,7 @@
 
         $('div.pd-dropdown-links').on('click', function () {
 
+
             var _group_id         = $(this).data('group-id');
             var _fullname         = $(this).data('fullname');
             var _name             = $(this).data('name');
@@ -3050,7 +3108,6 @@
                 ub.funcs.activateColorPickers();    
             }
 
-
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
@@ -3061,6 +3118,12 @@
 
                 return;
 
+            }
+
+            ub.funcs.removeMoveTool();
+        
+            if ($('div#cw').html().length === 0) {
+                ub.funcs.drawColorPickers();
             }
 
             ub.active_part = _fullname;
@@ -3120,9 +3183,9 @@
             return; 
         }
 
-        if ($('div#cw').html().length === 0) {
-                ub.funcs.drawColorPickers();
-        }
+        // if ($('div#cw').html().length === 0) {
+        //         ub.funcs.drawColorPickers();
+        // }
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
@@ -3167,9 +3230,9 @@
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
 
-        if ($('div#cw').html().length === 0) {
-            ub.funcs.drawColorPickers();
-        }
+        // if ($('div#cw').html().length === 0) {
+        //     ub.funcs.drawColorPickers();
+        // }
 
         if (_currentPart >= 1) {
 
@@ -3826,6 +3889,7 @@
 
         if (typeof _modifier === 'undefined') { return false; }
 
+        ub.funcs.removeMoveTool();
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
@@ -5088,12 +5152,12 @@
         
         $('.modifier_main_container').append(_htmlBuilder);
 
-            // Generate Thumbnails
+        // Generate Thumbnails
 
-            // var _appView = _settingsObject.application.views[0].perspective;
-            // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
-            // console.log(_src);
-            // $('span.accentThumb > img').attr('src',_src);
+        // var _appView = _settingsObject.application.views[0].perspective;
+        // var _src = ub.funcs.getThumbnailImageMascot(ub.objects[_appView + "_view"]['objects_' + _id], _id);
+        // console.log(_src);
+        // $('span.accentThumb > img').attr('src',_src);
 
         // Events
 
@@ -5428,6 +5492,12 @@
 
         if (_state === "off") {
 
+            if (ub.activeApplication === id) {
+
+                return;
+
+            }
+            
             $('div.toggle').data('status', "off");
 
             $('div.valueContainer').css('margin-left', '-100px');
@@ -5450,7 +5520,7 @@
 
         ////
 
-        _.each (_views, function (view){
+        _.each (_views, function (view) {
 
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
@@ -6670,10 +6740,10 @@
         }
 
         ub.funcs.removeMoveTool();
-
+        
         var _applicationObj = ub.current_material.settings.applications[application_id];
         var _primaryView = ub.funcs.getPrimaryView(_applicationObj.application);
-        var _filename = "/images/builder-ui/move-icon.png";
+        var _filename = "/images/builder-ui/move-icon-on.png";
         var _sprite = ub.pixi.new_sprite(_filename);
         var _perspective = _primaryView + '_view';
 
@@ -6684,8 +6754,13 @@
 
         _sprite.position.x  = _view.application.center.x;
         _sprite.position.y  = _view.application.center.y;
+        _sprite.ubName = 'Move Tool';
+        _sprite.anchor.set(0, 0.5);
 
-        ub.funcs.createDraggable(_sprite, _applicationObj,ub[_perspective]);
+        _sprite.zIndex = -1000;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_sprite, _applicationObj,ub[_perspective], _perspective);
 
     }
 
