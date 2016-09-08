@@ -29,7 +29,7 @@ $(document).ready(function() {
     ub.ALPHA_ON = 1;
     ub.ALPHA_OFF = 0.1;
 
-    ub.activeApplication = "";
+    ub.activeApplication = undefined;
 
     ub.zoom = false;
     ub.showLocation = false;
