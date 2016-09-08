@@ -3742,7 +3742,8 @@ $(document).ready(function () {
                 $('#select_part').click();
 
             });
-            $('select_part').hide();
+
+            //$('#select_part').hide();
             
             $('a.change-view').on('click', function (e) {
 
@@ -3762,7 +3763,7 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') {
+                if (view === 'colors') { 
 
                     ub.funcs.activateColorPickers();
                     return;
