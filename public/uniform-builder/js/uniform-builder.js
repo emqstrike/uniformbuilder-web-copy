@@ -784,8 +784,8 @@ $(document).ready(function () {
             
                 ub.funcs.afterLoad(); 
 
-            }   
-
+            }
+            
             if (ub.pass < frames_to_refresh) {
                 ub.pass += 1; 
             }

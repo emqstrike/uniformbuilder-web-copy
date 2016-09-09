@@ -635,7 +635,7 @@
 
     };
 
-    ub.funcs.angleRadians = function(point1, point2) {
+    ub.funcs.angleRadians = function (point1, point2) {
         
         return Math.atan2(point2.y - point1.y, point2.x - point1.x);
 
@@ -848,11 +848,12 @@
 
                 if(sprite.ubName === "Rotate Tool") {
 
-                    var move_point = ub.objects[view.perspective + '_view']['move_tool'];
-                    var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
-                    var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+                    var move_point              = ub.objects[view.perspective + '_view']['move_tool'];
+                    var rotation_point          = ub.objects[view.perspective + '_view']['rotate_tool'];
+                    var application_obj         = ub.objects[view.perspective + '_view']['objects_' + application.code];
 
-                    application_obj.rotation = sprite.angleRadians;
+                    application_obj.rotation    = sprite.angleRadians;
+                    view.application.rotation   = sprite.angleRadians; 
 
                 }
 
@@ -901,6 +902,9 @@
                         
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
+                        
+                        ub.objects.front_view.manipulatorTool.position.x = sprite.x;
+                        ub.objects.front_view.manipulatorTool.position.y = sprite.y;
 
                     }
 
@@ -934,6 +938,11 @@
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
+
+                        view.application.rotation = angleRadians;
+                        
+                        move_point.rotation = angleRadians;
+                        ub.objects.front_view.manipulatorTool.rotation = angleRadians;
 
                         //settings_obj.rotation = application_obj.rotation;
 
@@ -2449,12 +2458,20 @@
                     /// Do not turn off application when its being moved by the move tool
 
                     var _app_id = object.name.replace('objects_','');
+                    
                     if (_app_id === ub.activeApplication) { 
 
                         ub.funcs.setAlphaOn(object);
                         return; 
                         
                     }
+
+                    if (typeof object.ubName !== "undefined") {
+
+                        console.log(object.ubName);    
+
+                    }
+                    
                     ub.funcs.setAlphaOff(object);
 
                 }   
@@ -5024,6 +5041,8 @@
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
+        ub.funcs.activateMoveTool(application_id);
+
         if (_appInfo.application_type !== "mascot") {
 
             ub.funcs.activateApplications(application_id);
@@ -5962,6 +5981,8 @@
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
 
+        ub.funcs.activateMoveTool(application_id);
+
         if (ub.funcs.isBitFieldOn()) { 
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
@@ -6798,12 +6819,13 @@
 
         _spriteMove.position.x  = _view.application.center.x;
         _spriteMove.position.y  = _view.application.center.y;
+        _spriteMove.rotation    = _view.application.rotation;
         _spriteMove.ubName = 'Move Tool';
         _spriteMove.anchor.set(0.5, 0.5);
         _spriteMove.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
-        ub.funcs.createDraggable(_spriteMove, _applicationObj,ub[_perspective], _perspective);
+        ub.funcs.createDraggable(_spriteMove, _applicationObj, ub[_perspective], _perspective);
 
         // --- Rotate --- ///
 
@@ -6817,6 +6839,8 @@
 
         _spriteRotate.position.x  = _view.application.center.x;
         _spriteRotate.position.y  = _view.application.center.y;
+        _spriteRotate.rotation    = _view.application.rotation;
+
         _spriteRotate.ubName = 'Rotate Tool';
         _spriteRotate.anchor.set(0, 2.0);
         _spriteRotate.zIndex = -1000;
@@ -6829,7 +6853,74 @@
         ub.funcs.unHighlightMarker(application_id, _primaryView);    
         ub.data.applicationAccumulator -= 1;
 
-        // End Turn Off Location
+        // End Turn Off Location 
+
+        /// Start Manipulator Group  
+
+            var _appObj     = ub.objects[_perspective]["objects_" + application_id];
+            var _width      = _appObj.width / 2;
+            var _height     = _appObj.height / 2;
+            var _tools      = new PIXI.Container();
+
+            // Add additional 20% to width and height to have some allowance
+
+            var _adjW   = _width * 0.25;
+            var _adjH   = _height * 0.25;
+
+            _width      = _width + _adjW;
+            _height     = _height + _adjH;
+
+            var _corners = [
+                {
+                    filename: 'top-left',
+                    position: {x: -_width - _adjW, y: -_height - _adjH},
+                },
+                {
+                    filename: 'top-right',
+                    position: {x: _width - _adjW, y: -_height - _adjH},
+                },
+                {
+                    filename: 'bottom-left',
+                    position: {x: -_width - _adjW, y: _height - _adjH},
+                },
+                {
+                    filename: 'bottom-right',
+                    position: {x: _width - _adjW, y: _height - _adjH},
+                },
+            ];
+
+            _.each(_corners, function (corner) {
+
+                var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
+                var _sprite = ub.pixi.new_sprite(_cornerFilename);
+
+                _sprite.tint = parseInt('888888', 16);
+                _sprite.position.x = corner.position.x;
+                _sprite.position.y = corner.position.y;
+
+                _tools.addChild(_sprite);
+
+            });
+
+            var _bl = "/images/manipulators/move-icon-on.png";
+            var _spriteMove = ub.pixi.new_sprite(_filenameMove);
+
+            ub.objects[_perspective].manipulatorTool = _tools;
+            ub[_perspective].addChild(_tools);
+
+            _tools.position.x  = _view.application.center.x;
+            _tools.position.y  = _view.application.center.y;
+
+            _tools.rotation = _view.application.rotation;
+
+            _tools.zIndex = -1000;
+            _tools.ubName = "Manipulator Tool";
+
+            ub.updateLayersOrder(ub[_perspective]);
+            ub.appObj = _appObj;
+            ub.tools.manipulator.tools = _tools;
+
+        /// End Manipulator Group 
 
     }
 
@@ -6850,6 +6941,13 @@
 
                 ub[_view].removeChild(ub.objects[_view].rotate_tool);
                 delete ub.objects[_view].rotate_tool;
+
+            }
+
+            if (typeof ub.objects[_view].manipulatorTool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].manipulatorTool);
+                delete ub.objects[_view].manipulatorTool;
 
             }
 
@@ -6935,7 +7033,7 @@
         sprite.draggable({ manager: ub.dragAndDropManager });
         sprite.mouseup = sprite.touchend = function (data) { };
 
-        $('body').mouseup(function() {
+        $('body').mouseup( function() {
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
@@ -7020,9 +7118,8 @@
                     if (sprite_obj.containsPoint(point)) {
 
                         if(ub.zoom) { return; }
-                        
-                        if (typeof ub.objects[viewPerspective + '_view']['rotate_tool'] === "object") { return; } // if move tool is visible don't show location marker
 
+                        if (typeof ub.objects[viewPerspective + '_view']['rotate_tool'] === "object") { return; } // if move tool is visible don't show location marker
 
                         // start
 
@@ -7033,13 +7130,13 @@
                     } else {
 
                         // restore
-                        
+
                         ub.funcs.unHighlightMarker(locationCode, viewPerspective);    
                         sprite.ubHover  = false;
                         ub.data.applicationAccumulator -= 1;
 
                     }
-                    
+
                 }
 
             /// End Hot Spot
