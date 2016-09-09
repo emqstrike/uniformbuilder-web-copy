@@ -34,6 +34,10 @@ $(document).ready(function() {
 
     // Manipulator Tools 
 
+    ub.tools = {};
+    ub.tools.manipulator = {};
+    ub.tools.manipulator.tools = undefined;
+
     ub.status = {};
     ub.status.manipulatorDown = false;
 
