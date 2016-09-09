@@ -822,6 +822,8 @@
 
             }
 
+            ub.status.manipulatorDown = false;
+
             this.data = interactionData;
             this.dragging = true;
 
@@ -868,6 +870,8 @@
 
             sprite.snapped = false;
             this.dragging = true;
+
+            ub.status.manipulatorDown = true;
 
         };
 
@@ -2883,6 +2887,12 @@
         if ($('div#primaryMascotPopup').is(":visible") ) { 
             
             return; 
+
+        }
+
+        if (ub.status.manipulatorDown) {
+
+            return;
 
         }
 
@@ -6813,6 +6823,13 @@
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteRotate, _applicationObj, ub[_perspective], _perspective);
+
+        // Turn Off Location
+
+        ub.funcs.unHighlightMarker(application_id, _primaryView);    
+        ub.data.applicationAccumulator -= 1;
+
+        // End Turn Off Location
 
     }
 

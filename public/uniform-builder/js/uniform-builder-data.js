@@ -31,6 +31,14 @@ $(document).ready(function() {
 
     ub.activeApplication = undefined;
 
+
+    // Manipulator Tools 
+
+    ub.status = {};
+    ub.status.manipulatorDown = false;
+
+    // End Manipulator Tools 
+
     ub.zoom = false;
     ub.showLocation = false;
 
