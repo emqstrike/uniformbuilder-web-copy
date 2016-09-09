@@ -854,6 +854,7 @@
 
                     application_obj.rotation    = sprite.angleRadians;
                     view.application.rotation   = sprite.angleRadians; 
+                    view.application.rotation   = (sprite.angleRadians / Math.PI) * 180;
 
                 }
 
@@ -940,6 +941,7 @@
                         sprite.angleRadians = angleRadians;
 
                         view.application.rotation = angleRadians;
+                        view.application.rotation = (angleRadians / Math.PI) * 180;
                         
                         move_point.rotation = angleRadians;
                         ub.objects.front_view.manipulatorTool.rotation = angleRadians;
@@ -2241,6 +2243,8 @@
                     }
 
                 }
+
+
 
             });
 
