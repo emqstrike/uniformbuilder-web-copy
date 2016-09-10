@@ -853,12 +853,21 @@
                     var application_obj         = ub.objects[view.perspective + '_view']['objects_' + application.code];
 
                     application_obj.rotation    = sprite.angleRadians;
-                    view.application.rotation   = sprite.angleRadians; 
                     view.application.rotation   = (sprite.angleRadians / Math.PI) * 180;
 
                 }
 
+                if(sprite.ubName === "Scale Tool") {
+
+                    var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
+                    application_obj.scale    = sprite.scaleSetting;
+                    view.application.scale   = sprite.scaleSetting;
+
+                }
+
             });
+
+            ub.funcs.activateMoveTool(application.code);
 
         };
 
@@ -874,6 +883,56 @@
             this.dragging = true;
 
             ub.status.manipulatorDown = true;
+
+            if(sprite.ubName !== "Reset Tool") {
+
+                _.each (_application.application.views, function (v) {
+
+                    var application_obj = ub.objects[v.perspective + "_view"]['objects_' + _application.code];
+
+                    application_obj.oldScaleX = application_obj.scale.x;
+                    application_obj.oldScaleY = application_obj.scale.y;
+
+                    application_obj.oldPositionX = application_obj.position.x;
+                    application_obj.oldPositionY = application_obj.position.y;
+
+                    application_obj.oldRotation = application_obj.rotation;
+
+                });
+
+
+            } else {
+
+                if(sprite.ubName === "Reset Tool") {
+
+                    _.each (_application.application.views, function (view) {
+
+                        var application_obj = ub.objects[view.perspective + "_view"]['objects_' + _application.code];
+
+                        if (typeof application_obj.oldPositionX !== "undefined") {
+
+                            if (typeof view.application.scale === "undefined") {
+
+                                view.application.scale = {x: 1, y: 1};
+
+                            }
+
+                            view.application.scale.x = application_obj.scale.x = application_obj.oldScaleX;
+                            view.application.scale.y = application_obj.scale.y = application_obj.oldScaleY;
+                            
+                            view.application.center.x = application_obj.position.x = application_obj.oldPositionX;
+                            view.application.center.y = application_obj.position.y = application_obj.oldPositionY;
+                            
+                            view.application.rotation = application_obj.rotation = application_obj.oldRotation;  
+
+                        }
+                    });
+
+                }
+
+                ub.funcs.activateMoveTool(application.code);
+
+            }
 
         };
 
@@ -893,7 +952,16 @@
 
                     if (view.application.isPrimary === 0) { return; }
 
+                    var move_point = ub.objects[view.perspective + '_view']['move_tool'];
+                    var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
+                    var scale_point = ub.objects[view.perspective + '_view']['scale_tool'];
+                    var reset_point = ub.objects[view.perspective + '_view']['reset_tool'];
+
                     if(sprite.ubName === "Move Tool") {
+
+                        rotation_point.alpha = 0;
+                        scale_point.alpha = 0;
+                        reset_point.alpha = 0;
 
                         view.application.center.x = sprite.x;
                         view.application.center.y = sprite.y;
@@ -903,6 +971,9 @@
                         
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
+
+                        ub.objects[view.perspective + '_view']['scale_tool'].position.x = sprite.x;
+                        ub.objects[view.perspective + '_view']['scale_tool'].position.y = sprite.y;
                         
                         ub.objects.front_view.manipulatorTool.position.x = sprite.x;
                         ub.objects.front_view.manipulatorTool.position.y = sprite.y;
@@ -911,54 +982,50 @@
 
                     if(sprite.ubName === "Rotate Tool") {
 
-                        // view.application.center.x = sprite.x;
-                        // view.application.center.y = sprite.y;
-
-                        // ub.objects[view.perspective + '_view']['objects_' + _application.code].position.x = sprite.x;
-                        // ub.objects[view.perspective + '_view']['objects_' + _application.code].position.y = sprite.y;
-                        
-                        // ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
-                        // ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
-
-                        // view.application.center.x -= _changeX;
-                        // view.application.center.y -= _changeY;
-
-                        // var _object = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-
-                        // _object.position.x -= _changeX;
-                        // _object.position.y -= _changeY;
-
-                        // var _rotateTool = ub.objects[view.perspective + '_view']['rotate_tool'];
-                        // _rotateTool.position.x -= _changeX;
-                        // _rotateTool.position.y -= _changeY;
-
-                        var move_point = ub.objects[view.perspective + '_view']['move_tool'];
-                        var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
+                        move_point.alpha = 0;
+                        scale_point.alpha = 0;
+                        reset_point.alpha = 0;
+                     
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+
                         application_obj.rotation = angleRadians;
+                        
                         sprite.angleRadians = angleRadians;
 
                         view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180;
-                        
+
                         move_point.rotation = angleRadians;
+                        scale_point.rotation = angleRadians;
                         ub.objects.front_view.manipulatorTool.rotation = angleRadians;
 
-                        //settings_obj.rotation = application_obj.rotation;
+                    }
 
-                        var distance = ub.funcs.lineDistance(move_point.position, rotation_point.position);
+                    if(sprite.ubName === "Scale Tool") {
+
+                        rotation_point.alpha = 0;
+                        move_point.alpha = 0;
+                        reset_point.alpha = 0;
+
+                        var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
+                        var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+                        var application_type = view.application.type;
+                        var distance = ub.funcs.lineDistance(application_obj.position, scale_point.position);
                         percentage = distance / 100;
+                        
+                        if (application_type === 'mascot') {
+                            
+                            application_obj.scale.x = percentage;
+                            application_obj.scale.y = percentage;
+                            view.application.scale = application_obj.scale;
 
-                        //var application_type = settings_obj.type;
+                            sprite.scaleSetting = application_obj.scale;
 
-                        // if (application_type === 'logo' || application_type === 'mascot' || application_type === 'image' || ub.config.isFeatureOn('ui','scale_text')) {
-                        //     application_obj.scale.set(percentage, percentage);
-                        //     settings_obj.scale = application_obj.scale;
+                            ub.appObj = application_obj;
+                            ub.appObjSettings = view.application;
 
-                        // }
-
+                        }
 
                     }
 
@@ -982,7 +1049,7 @@
                 return;
             }
 
-            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" ) {
+            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" && sprite.ubName !== "Scale Tool" && sprite.ubName !== "Reset Tool") {
 
                 return;
 
@@ -1010,12 +1077,20 @@
 
                     ub.activeApplication = application.code;
 
+                    if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = true; }
+                    if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = true; }
+                    if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = true; }
+
                 } else {
 
                     ub.updateLayersOrder(view);
                     sprite.tint = parseInt('888888', 16);
 
                     ub.activeApplication = undefined;
+
+                    if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = false; }
+                    if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = false; }
+                    if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = false; }
 
                 }
                 
@@ -2895,13 +2970,19 @@
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
-        if (typeof ub.activeApplication !== "undefined") {
+        if (ub.tools.activeTool.active()) {
 
-            $('body').css('cursor','pointer');
+            $('body').css('cursor', 'pointer');
 
         } else {
 
-            $('body').css('cursor','auto');
+            $('body').css('cursor', 'auto');
+
+        }
+
+        if (typeof ub.activeApplication !== "undefined") {
+
+            $('body').css('cursor', 'pointer');
 
         }
         
@@ -2928,7 +3009,6 @@
         }
 
         if (ub.active_lock === true) { return; }
-
 
         var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -6823,34 +6903,12 @@
 
         _spriteMove.position.x  = _view.application.center.x;
         _spriteMove.position.y  = _view.application.center.y;
-        _spriteMove.rotation    = _view.application.rotation;
         _spriteMove.ubName = 'Move Tool';
-        _spriteMove.anchor.set(0.5, 0.5);
+        _spriteMove.anchor.set(-3, 0.0);
         _spriteMove.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteMove, _applicationObj, ub[_perspective], _perspective);
-
-        // --- Rotate --- ///
-
-        var _filenameRotate = "/images/builder-ui/rotate-icon-on.png";
-        var _spriteRotate = ub.pixi.new_sprite(_filenameRotate);
-
-        ub.objects[_perspective].rotate_tool = _spriteRotate;
-        ub[_perspective].addChild(_spriteRotate);
-
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
-
-        _spriteRotate.position.x  = _view.application.center.x;
-        _spriteRotate.position.y  = _view.application.center.y;
-        _spriteRotate.rotation    = _view.application.rotation;
-
-        _spriteRotate.ubName = 'Rotate Tool';
-        _spriteRotate.anchor.set(0, 2.0);
-        _spriteRotate.zIndex = -1000;
-
-        ub.updateLayersOrder(ub[_perspective]);
-        ub.funcs.createDraggable(_spriteRotate, _applicationObj, ub[_perspective], _perspective);
 
         // Turn Off Location
 
@@ -6868,8 +6926,8 @@
 
             // Add additional 20% to width and height to have some allowance
 
-            var _adjW   = _width * 0.25;
-            var _adjH   = _height * 0.25;
+            var _adjW   = _width * 0.35;
+            var _adjH   = _height * 0.35;
 
             _width      = _width + _adjW;
             _height     = _height + _adjH;
@@ -6906,25 +6964,81 @@
 
             });
 
-            var _bl = "/images/manipulators/move-icon-on.png";
-            var _spriteMove = ub.pixi.new_sprite(_filenameMove);
-
             ub.objects[_perspective].manipulatorTool = _tools;
             ub[_perspective].addChild(_tools);
 
             _tools.position.x  = _view.application.center.x;
             _tools.position.y  = _view.application.center.y;
 
-            _tools.rotation = _view.application.rotation;
+            _tools.rotation    = _view.application.rotation;
 
-            _tools.zIndex = -1000;
-            _tools.ubName = "Manipulator Tool";
+            _tools.zIndex      = -1000;
+            _tools.ubName      = "Manipulator Tool";
 
             ub.updateLayersOrder(ub[_perspective]);
-            ub.appObj = _appObj;
             ub.tools.manipulator.tools = _tools;
 
         /// End Manipulator Group 
+
+        // --- Rotate --- ///
+
+        var _filenameRotate = "/images/builder-ui/rotate-icon-on.png";
+        var _spriteRotate = ub.pixi.new_sprite(_filenameRotate);
+
+        ub.objects[_perspective].rotate_tool = _spriteRotate;
+        ub[_perspective].addChild(_spriteRotate);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _spriteRotate.position.x  = _view.application.center.x;
+        _spriteRotate.position.y  = _view.application.center.y;
+
+        _spriteRotate.ubName = 'Rotate Tool';
+        _spriteRotate.anchor.set(-3, 2.0);
+        _spriteRotate.zIndex = -1000;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_spriteRotate, _applicationObj, ub[_perspective], _perspective);
+
+         // --- Scale --- ///
+
+        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
+
+        ub.objects[_perspective].scale_tool = _spriteScale;
+        ub[_perspective].addChild(_spriteScale);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _spriteScale.position.x  = _view.application.center.x;
+        _spriteScale.position.y  = _view.application.center.y;
+
+        _spriteScale.ubName = 'Scale Tool';
+        _spriteScale.anchor.set(-3, -2);
+        _spriteScale.zIndex = -1000;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+
+        // --- Reset --- ///
+
+        var _filenameReset = "/images/builder-ui/reset-icon-on.png";
+        var _spriteReset = ub.pixi.new_sprite(_filenameReset);
+
+        ub.objects[_perspective].reset_tool = _spriteReset;
+        ub[_perspective].addChild(_spriteReset);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _spriteReset.position.x  = _view.application.center.x;
+        _spriteReset.position.y  = _view.application.center.y;
+
+        _spriteReset.ubName = 'Reset Tool';
+        _spriteReset.anchor.set(-3, -4);
+        _spriteReset.zIndex = -1000;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_spriteReset, _applicationObj, ub[_perspective], _perspective);
 
     }
 
@@ -6945,6 +7059,21 @@
 
                 ub[_view].removeChild(ub.objects[_view].rotate_tool);
                 delete ub.objects[_view].rotate_tool;
+
+            }
+
+
+            if (typeof ub.objects[_view].scale_tool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].scale_tool);
+                delete ub.objects[_view].scale_tool;
+
+            }
+
+            if (typeof ub.objects[_view].reset_tool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].reset_tool);
+                delete ub.objects[_view].reset_tool;
 
             }
 
