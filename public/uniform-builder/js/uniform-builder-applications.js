@@ -1080,6 +1080,7 @@
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = true; }
                     if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = true; }
                     if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = true; }
+                    if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = true; }
 
                 } else {
 
@@ -1091,6 +1092,7 @@
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = false; }
                     if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = false; }
                     if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = false; }
+                    if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = false; }
 
                 }
                 
