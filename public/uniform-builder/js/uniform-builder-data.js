@@ -31,10 +31,32 @@ $(document).ready(function() {
 
     ub.activeApplication = undefined;
 
-
     // Manipulator Tools 
 
     ub.tools = {};
+
+    ub.tools.activeTool = {
+
+        moveTool: false,
+        scaleTool: false,
+        rotateTool: false,
+        resetTool: false,
+        active: function () {
+
+            if (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool) {
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        },
+
+    }
+
     ub.tools.manipulator = {};
     ub.tools.manipulator.tools = undefined;
 
