@@ -7634,6 +7634,7 @@
     ub.funcs.turnLocationsOff = function () {
 
         ub.funcs.removeLocations();
+        ub.funcs.deactivateMoveTool();
         $('a[data-view="locations"]').removeClass('zoom_on');
 
     }
