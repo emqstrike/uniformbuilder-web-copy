@@ -6926,30 +6926,44 @@
             var _height     = _appObj.height / 2;
             var _tools      = new PIXI.Container();
 
+            /// Consider vertical text
+
+            var _topOffset = 0;
+            var _leftOffset = 0;
+
+            if (_applicationObj.verticalText) {
+
+                _topOffset = _appObj.height / 2;
+                _leftOffset = _appObj.width / 2;
+
+            }
+
+            ///
+
             // Add additional 20% to width and height to have some allowance
 
-            var _adjW   = _width * 0.35;
-            var _adjH   = _height * 0.35;
+            var _adjW    = _width * 0.35;
+            var _adjH    = _height * 0.35;
 
-            _width      = _width + _adjW;
-            _height     = _height + _adjH;
+            _width       = _width + _adjW;
+            _height      = _height + _adjH;
 
             var _corners = [
                 {
                     filename: 'top-left',
-                    position: {x: -_width - _adjW, y: -_height - _adjH},
+                    position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
                 },
                 {
                     filename: 'top-right',
-                    position: {x: _width - _adjW, y: -_height - _adjH},
+                    position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
                 },
                 {
                     filename: 'bottom-left',
-                    position: {x: -_width - _adjW, y: _height - _adjH},
+                    position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
                 },
                 {
                     filename: 'bottom-right',
-                    position: {x: _width - _adjW, y: _height - _adjH},
+                    position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
                 },
             ];
 
