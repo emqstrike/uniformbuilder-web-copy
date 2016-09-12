@@ -886,6 +886,8 @@
 
             if(sprite.ubName !== "Reset Tool") {
 
+                var oldSettings = [];
+
                 _.each (_application.application.views, function (v) {
 
                     var application_obj = ub.objects[v.perspective + "_view"]['objects_' + _application.code];
@@ -898,7 +900,19 @@
 
                     application_obj.oldRotation = application_obj.rotation;
 
+                    oldSettings.push({
+
+                        perspective: v.perspective,
+                        applicationCode: _application.code,
+                        scale: {x: application_obj.oldScaleX, y: application_obj.oldScaleY},
+                        position: {x: application_obj.oldPositionX, y: application_obj.oldPositionY},
+                        rotation: application_obj.oldRotation,
+
+                    })
+                    
                 });
+
+                ub.funcs.pushOldState('position, scale, rotation change', 'application', _application, oldSettings);
 
 
             } else {
@@ -7068,7 +7082,7 @@
         _spriteReset.position.y  = _view.application.center.y;
 
         _spriteReset.ubName = 'Reset Tool';
-        _spriteReset.anchor.set(_xAnchor, -4);
+        _spriteReset.anchor.set(-1000, -4);
         _spriteReset.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);

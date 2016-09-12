@@ -6421,7 +6421,11 @@ ub.funcs.fontOffSets = [
 
     /// End Fonts 
 
-//    ub.funcs.load_fonts();
+    // ub.funcs.load_fonts();
+
+    ub.data.undoHistory = undefined;
+
+    ///
 
 
 });
