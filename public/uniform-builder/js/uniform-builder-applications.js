@@ -1018,7 +1018,7 @@
                             
                             application_obj.scale.x = percentage;
                             application_obj.scale.y = percentage;
-                            view.application.scale = application_obj.scale;
+                            view.application.scale  = application_obj.scale;
 
                             sprite.scaleSetting = application_obj.scale;
 
@@ -1074,7 +1074,7 @@
                     sprite.zIndex = -500;
                     ub.updateLayersOrder(view);
                     sprite.tint = parseInt('ffffff', 16);
-
+                    
                     ub.activeApplication = application.code;
 
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = true; }
@@ -1086,7 +1086,7 @@
 
                     ub.updateLayersOrder(view);
                     sprite.tint = parseInt('888888', 16);
-
+                    
                     ub.activeApplication = undefined;
 
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = false; }
@@ -6882,6 +6882,11 @@
 
     ub.funcs.activateMoveTool = function (application_id) {
 
+        var _applicationObj = ub.current_material.settings.applications[application_id];
+        var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
+        var _perspective    = _primaryView + '_view';
+        var _appObj         = ub.objects[_perspective]["objects_" + application_id];
+
         if (ub.current_material.material.uniform_category !== "Wrestling") {
 
             return;
@@ -6890,10 +6895,31 @@
 
         ub.funcs.deactivateMoveTool();
 
+        /// Consider vertical text
+
+        var _topOffset = 0;
+        var _leftOffset = 0;
+
+        if (_applicationObj.verticalText) {
+
+            _topOffset = _appObj.height / 2;
+            _leftOffset = _appObj.width / 2;
+
+        }
+
+        // adjustment to tools on text
+
+        var _xAnchor = -3;
+        if (_applicationObj.application_type !== "mascot") {
+            if (!_applicationObj.verticalText) {
+                _xAnchor = -5;
+            }
+        }
+
+        ///
+
         // --- Move --- //
-        
-        var _applicationObj = ub.current_material.settings.applications[application_id];
-        var _primaryView = ub.funcs.getPrimaryView(_applicationObj.application);
+
         var _filenameMove = "/images/builder-ui/move-icon-on.png";
         var _spriteMove = ub.pixi.new_sprite(_filenameMove);
         var _perspective = _primaryView + '_view';
@@ -6906,7 +6932,7 @@
         _spriteMove.position.x  = _view.application.center.x;
         _spriteMove.position.y  = _view.application.center.y;
         _spriteMove.ubName = 'Move Tool';
-        _spriteMove.anchor.set(-3, 0.0);
+        _spriteMove.anchor.set(_xAnchor, 0.0);
         _spriteMove.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -6921,35 +6947,34 @@
 
         /// Start Manipulator Group  
 
-            var _appObj     = ub.objects[_perspective]["objects_" + application_id];
             var _width      = _appObj.width / 2;
             var _height     = _appObj.height / 2;
             var _tools      = new PIXI.Container();
 
             // Add additional 20% to width and height to have some allowance
 
-            var _adjW   = _width * 0.35;
-            var _adjH   = _height * 0.35;
+            var _adjW    = _width * 0.35;
+            var _adjH    = _height * 0.35;
 
-            _width      = _width + _adjW;
-            _height     = _height + _adjH;
+            _width       = _width + _adjW;
+            _height      = _height + _adjH;
 
             var _corners = [
                 {
                     filename: 'top-left',
-                    position: {x: -_width - _adjW, y: -_height - _adjH},
+                    position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
                 },
                 {
                     filename: 'top-right',
-                    position: {x: _width - _adjW, y: -_height - _adjH},
+                    position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
                 },
                 {
                     filename: 'bottom-left',
-                    position: {x: -_width - _adjW, y: _height - _adjH},
+                    position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
                 },
                 {
                     filename: 'bottom-right',
-                    position: {x: _width - _adjW, y: _height - _adjH},
+                    position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
                 },
             ];
 
@@ -6996,7 +7021,7 @@
         _spriteRotate.position.y  = _view.application.center.y;
 
         _spriteRotate.ubName = 'Rotate Tool';
-        _spriteRotate.anchor.set(-3, 2.0);
+        _spriteRotate.anchor.set(_xAnchor, 2.0);
         _spriteRotate.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -7016,7 +7041,14 @@
         _spriteScale.position.y  = _view.application.center.y;
 
         _spriteScale.ubName = 'Scale Tool';
-        _spriteScale.anchor.set(-3, -2);
+
+        var _x = _xAnchor;
+        if (_applicationObj.application_type !=="mascot") {
+            _x = -1000
+        }    
+
+        _spriteScale.anchor.set(_x, -2);
+
         _spriteScale.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -7036,7 +7068,7 @@
         _spriteReset.position.y  = _view.application.center.y;
 
         _spriteReset.ubName = 'Reset Tool';
-        _spriteReset.anchor.set(-3, -4);
+        _spriteReset.anchor.set(_xAnchor, -4);
         _spriteReset.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -7045,6 +7077,8 @@
     }
 
     ub.funcs.deactivateMoveTool = function () {
+
+        ub.status.manipulatorDown = false;
 
         _.each(ub.views, function (view) {
 

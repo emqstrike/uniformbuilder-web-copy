@@ -43,15 +43,7 @@ $(document).ready(function() {
         resetTool: false,
         active: function () {
 
-            if (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool) {
-
-                return true;
-
-            } else {
-
-                return false;
-
-            }
+            return (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool) 
 
         },
 
