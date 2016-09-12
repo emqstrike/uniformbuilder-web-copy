@@ -5523,9 +5523,6 @@
                 var _temp = $(this).data('temp');
                 var _colorObj = ub.funcs.getColorByColorCode(_color_code);
 
-                console.log('Settings Object: ');
-                console.log(_settingsObject);
-
                 var _oldVal = {
 
                     layerNo: _layer_no,
@@ -5534,9 +5531,11 @@
 
                 }
 
-                if (temp) 
-                
-                ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+                if (_temp !== 'undo') {
+
+                    ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+                    
+                }
 
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);

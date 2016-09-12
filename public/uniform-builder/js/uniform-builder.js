@@ -5502,6 +5502,8 @@ $(document).ready(function () {
 
                 }
 
+                break;
+
             case "position, scale, rotation change":
 
                 if (_historyItem.objectType === "application") { 
