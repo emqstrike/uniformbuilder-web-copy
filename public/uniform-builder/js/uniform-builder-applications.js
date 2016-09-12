@@ -1018,7 +1018,7 @@
                             
                             application_obj.scale.x = percentage;
                             application_obj.scale.y = percentage;
-                            view.application.scale = application_obj.scale;
+                            view.application.scale  = application_obj.scale;
 
                             sprite.scaleSetting = application_obj.scale;
 
@@ -1074,7 +1074,7 @@
                     sprite.zIndex = -500;
                     ub.updateLayersOrder(view);
                     sprite.tint = parseInt('ffffff', 16);
-
+                    
                     ub.activeApplication = application.code;
 
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = true; }
@@ -1086,7 +1086,7 @@
 
                     ub.updateLayersOrder(view);
                     sprite.tint = parseInt('888888', 16);
-
+                    
                     ub.activeApplication = undefined;
 
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = false; }
@@ -7016,7 +7016,14 @@
         _spriteScale.position.y  = _view.application.center.y;
 
         _spriteScale.ubName = 'Scale Tool';
-        _spriteScale.anchor.set(-3, -2);
+
+        var _x = -3
+        if (_applicationObj.application_type !=="mascot") {
+            _x = -1000
+        }    
+
+        _spriteScale.anchor.set(_x, -2);
+
         _spriteScale.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -7045,6 +7052,8 @@
     }
 
     ub.funcs.deactivateMoveTool = function () {
+
+        ub.status.manipulatorDown = false;
 
         _.each(ub.views, function (view) {
 

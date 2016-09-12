@@ -61,7 +61,10 @@ $(document).ready(function () {
         var _color = _.find (ub.data.colors, {color_code: _code});
 
         if (typeof _color == 'undefined') {
-            window.util.error("Code: " + _code + " can't be found");   
+            
+            window.util.error("Code: " + _code + " can't be found");
+            window.util.error("caller is " + arguments.callee.caller.toString());
+
             return undefined;
         }
 
