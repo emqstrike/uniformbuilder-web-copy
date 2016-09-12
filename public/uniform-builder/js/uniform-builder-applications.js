@@ -6882,6 +6882,11 @@
 
     ub.funcs.activateMoveTool = function (application_id) {
 
+        var _applicationObj = ub.current_material.settings.applications[application_id];
+        var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
+        var _perspective    = _primaryView + '_view';
+        var _appObj         = ub.objects[_perspective]["objects_" + application_id];
+
         if (ub.current_material.material.uniform_category !== "Wrestling") {
 
             return;
@@ -6890,10 +6895,31 @@
 
         ub.funcs.deactivateMoveTool();
 
+        /// Consider vertical text
+
+        var _topOffset = 0;
+        var _leftOffset = 0;
+
+        if (_applicationObj.verticalText) {
+
+            _topOffset = _appObj.height / 2;
+            _leftOffset = _appObj.width / 2;
+
+        }
+
+        // adjustment to tools on text
+
+        var _xAnchor = -3;
+        if (_applicationObj.application_type !== "mascot") {
+            if (!_applicationObj.verticalText) {
+                _xAnchor = -5;
+            }
+        }
+
+        ///
+
         // --- Move --- //
-        
-        var _applicationObj = ub.current_material.settings.applications[application_id];
-        var _primaryView = ub.funcs.getPrimaryView(_applicationObj.application);
+
         var _filenameMove = "/images/builder-ui/move-icon-on.png";
         var _spriteMove = ub.pixi.new_sprite(_filenameMove);
         var _perspective = _primaryView + '_view';
@@ -6906,7 +6932,7 @@
         _spriteMove.position.x  = _view.application.center.x;
         _spriteMove.position.y  = _view.application.center.y;
         _spriteMove.ubName = 'Move Tool';
-        _spriteMove.anchor.set(-3, 0.0);
+        _spriteMove.anchor.set(_xAnchor, 0.0);
         _spriteMove.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -6921,24 +6947,9 @@
 
         /// Start Manipulator Group  
 
-            var _appObj     = ub.objects[_perspective]["objects_" + application_id];
             var _width      = _appObj.width / 2;
             var _height     = _appObj.height / 2;
             var _tools      = new PIXI.Container();
-
-            /// Consider vertical text
-
-            var _topOffset = 0;
-            var _leftOffset = 0;
-
-            if (_applicationObj.verticalText) {
-
-                _topOffset = _appObj.height / 2;
-                _leftOffset = _appObj.width / 2;
-
-            }
-
-            ///
 
             // Add additional 20% to width and height to have some allowance
 
@@ -7010,7 +7021,7 @@
         _spriteRotate.position.y  = _view.application.center.y;
 
         _spriteRotate.ubName = 'Rotate Tool';
-        _spriteRotate.anchor.set(-3, 2.0);
+        _spriteRotate.anchor.set(_xAnchor, 2.0);
         _spriteRotate.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
@@ -7031,7 +7042,7 @@
 
         _spriteScale.ubName = 'Scale Tool';
 
-        var _x = -3
+        var _x = _xAnchor;
         if (_applicationObj.application_type !=="mascot") {
             _x = -1000
         }    
@@ -7057,7 +7068,7 @@
         _spriteReset.position.y  = _view.application.center.y;
 
         _spriteReset.ubName = 'Reset Tool';
-        _spriteReset.anchor.set(-3, -4);
+        _spriteReset.anchor.set(_xAnchor, -4);
         _spriteReset.zIndex = -1000;
 
         ub.updateLayersOrder(ub[_perspective]);
