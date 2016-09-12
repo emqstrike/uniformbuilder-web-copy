@@ -5520,7 +5520,23 @@
                 var _layer_no   = $(this).data('layer-no');
                 var _color_code = $(this).data('color-code');
                 var _layer_name = $(this).data('layer-name');
+                var _temp = $(this).data('temp');
                 var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+                console.log('Settings Object: ');
+                console.log(_settingsObject);
+
+                var _oldVal = {
+
+                    layerNo: _layer_no,
+                    color: _settingsObject.color_array[_layer_no - 1],
+                    applicationCode: _settingsObject.code,
+
+                }
+
+                if (temp) 
+                
+                ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
 
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
@@ -6463,9 +6479,9 @@
                     var _layer_no   = $(this).data('layer-no');
                     var _color_code = $(this).data('color-code');
                     var _layer_name = $(this).data('layer-name');
-                    var _colorObj = ub.funcs.getColorByColorCode(_color_code);
-                    var _layer = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
-                    
+                    var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
+                    var _layer      = _.find(_settingsObject.accent_obj.layers, {name: _layer_name});
+
                     _layer.default_color = _colorObj.hex_code;
                     _settingsObject.color_array[_layer_no - 1] = _colorObj;
     

@@ -5490,11 +5490,21 @@ $(document).ready(function () {
 
                 }
 
+                if (_historyItem.objectType === "application") {
+
+                    var _oldValue = _historyItem.oldValue;
+                    ub.funcs.activateApplications(_oldValue.applicationCode);
+
+                    var _colorCode = _oldValue.color.color_code;
+                    var _layerNo = _oldValue.layerNo;
+
+                    $('span.colorItem[data-layer-no="' + _layerNo + '"][data-color-code="' + _colorCode + '"]').data('temp','undo').click();
+
+                }
+
             case "position, scale, rotation change":
 
                 if (_historyItem.objectType === "application") { 
-
-                    console.log(_historyItem);
 
                     var _oldValue = _historyItem.oldValue;
                     var _settingsObject = ub.funcs.getSettingsObject(_historyItem.settingsObject.code);
@@ -5506,9 +5516,6 @@ $(document).ready(function () {
                         if (typeof application_obj.oldPositionX !== "undefined") {
 
                             view = _.find(_settingsObject.application.views, {perspective: val.perspective });
-
-                            console.log('View Found: ');
-                            console.log(view);
 
                             if (typeof view.application.scale === "undefined") {
 
@@ -5546,17 +5553,21 @@ $(document).ready(function () {
 
     ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
 
-        var _undoData = {
+        if (ub.current_material.material.uniform_category !== "Football") {
 
-            operationType: operationType,
-            objectType: objectType,
-            settingsObject: settingsObject,
-            oldValue: oldValue, 
-            newValue: newValue,
+            var _undoData = {
+
+                operationType: operationType,
+                objectType: objectType,
+                settingsObject: settingsObject,
+                oldValue: oldValue, 
+                newValue: newValue,
+
+            }
+
+            ub.data.undoHistory.push (_undoData);
 
         }
-
-        ub.data.undoHistory.push (_undoData);
         
     }
 
