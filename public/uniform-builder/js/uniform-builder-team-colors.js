@@ -27,38 +27,47 @@ $(document).ready(function () {
 
     };
 
-
     // Set Color in the Settings Object
-    ub.funcs.setMaterialOptionSettingsColor = function (materialOptionCode, colorObj) {
+    ub.funcs.setMaterialOptionSettingsColor = function (materialOptionCode, colorObj, source) {
 
         var _type                       = ub.current_material.material.type;
         var _uniformObject              = ub.current_material.settings[_type];
         var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
 
+
         if (typeof _materialOptionObject !== 'undefined') {
+
+            if (_materialOptionObject.color !== parseInt(colorObj.hex_code, 16)) {
+
+                var _oldValue = _materialOptionObject.color;
+                var _newValue = parseInt(colorObj.hex_code, 16);
+                
+                if (source !== 'from undo') {
+                    ub.funcs.pushOldState('color change', 'material option', _materialOptionObject, _materialOptionObject.colorObj, colorObj);
+                }
+
+            }
 
             _materialOptionObject.color     = parseInt(colorObj.hex_code, 16);
             _materialOptionObject.colorObj  = colorObj;
-        
+
         }
 
-        
     };
 
     // Set Color of the Actual Sprite in the stage
-    ub.funcs.ui.setMaterialOptionColor = function (name, colorObj) {
+    ub.funcs.ui.setMaterialOptionColor = function (name, colorObj, source) {
 
         var _names = ub.funcs.ui.getAllNames(name);
 
         _.each(_names, function (name) {
 
-            ub.funcs.setMaterialOptionSettingsColor(name, colorObj);
+            ub.funcs.setMaterialOptionSettingsColor(name, colorObj, source);
             ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
 
         });
 
     };
-
 
     ub.funcs.setTeamColorByID = function (teamColorID, colorObj) {
 
@@ -513,7 +522,7 @@ $(document).ready(function () {
                    var _colorID           = $(this).data('color-id');
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
                    
-                   ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ);
+                   ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ, 'from color picker');
 
                    var $previewCircle     = $(this).parent().find('circle');
                    $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
