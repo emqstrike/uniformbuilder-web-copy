@@ -99,7 +99,8 @@ class UniformDesignSetsController extends Controller
         $gender = $request->input('gender');
         $uniform_category_id = $request->input('uniform_category_id');
         $upper_body_uniform = $request->input('upper_body_uniform');
-        $lower_body_uniform = $request->input('lower_body_uniform');
+        // $lower_body_uniform = $request->input('lower_body_uniform');
+        $lower_body_uniform = explode(",", $request->input('lower_body_uniform'));
         $base_color_code = $request->input('base_color_code');
         $base_fabric_code = $request->input('base_fabric_code');
         $lining_code = $request->input('lining_code');
@@ -112,7 +113,7 @@ class UniformDesignSetsController extends Controller
             'upper_body_uniform' => $upper_body_uniform,
             'lower_body_uniform' => $lower_body_uniform,
         ];
-
+// dd($data);
         $designId = null;
         if (!empty($request->input('uniform_design_set_id')))
         {

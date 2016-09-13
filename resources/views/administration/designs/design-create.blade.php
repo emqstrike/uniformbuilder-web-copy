@@ -1,5 +1,15 @@
 @extends('administration.lte-main')
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+li.select2-selection__choice {
+    color: black !important;
+}
+</style>
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -68,7 +78,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Lower Body Uniform</label>
                             <div class="col-md-6">
-                                <select name='lower_body_uniform' class="form-control lower-body-uniform">
+                                <!-- <select name='lower_body_uniform' class="form-control lower-body-uniform"> -->
+                                <input type="hidden" name="lower_body_uniform" id="lower_body_uniform">
+                                <select name="lower_designs[]" class="form-control lower-designs" multiple="multiple">
                                 @foreach ($lower_uniforms as $uniform)
                                     @if ($uniform->active)
                                     <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'>{{ $uniform->name }}</option>
@@ -97,4 +109,25 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+@endsection
+
+@section('custom-scripts')
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.lower-designs').select2({
+        placeholder: "Select pants",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".lower-designs").change(function() {
+        console.log($(this).val());
+        $('#lower_body_uniform').val($(this).val());
+    });
+});
+</script>
 @endsection
