@@ -382,7 +382,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateRosterTable ($rosters) {
+    function generateRosterTable ($rosters, $sport) {
 
         $html = '';
         $html .= '<br /><br />';
@@ -402,12 +402,17 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>LASTNAME</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>LASTNAME APPLICATION</strong>';
-        $html .=   '</td>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>SLEEVE TYPE</strong>';
-        $html .=   '</td>';
+
+        if ($sport !== "Wrestling") {
+
+            $html .=   '<td align="center">';
+            $html .=   '<strong>LASTNAME APPLICATION</strong>';
+            $html .=   '</td>';
+            $html .=   '<td align="center">';
+            $html .=   '<strong>SLEEVE TYPE</strong>';
+            $html .=   '</td>';
+
+        }
 
         $html .= '</tr>';
 
@@ -426,12 +431,18 @@ class UniformBuilderController extends Controller
             $html .=   '<td align="center">';
             $html .=   strtoupper($roster['lastname']);
             $html .=   '</td>';
-            $html .=   '<td align="center">';
-            $html .=   $roster['lastNameApplication'];
-            $html .=   '</td>';
-            $html .=   '<td align="center">';
-            $html .=   $roster['sleeveType'];
-            $html .=   '</td>';
+
+            if ($sport !== "Wrestling") {
+            
+                $html .=   '<td align="center">';
+                $html .=   $roster['lastNameApplication'];
+                $html .=   '</td>';
+                $html .=   '<td align="center">';
+                $html .=   $roster['sleeveType'];
+                $html .=   '</td>';
+
+            }
+
             $html .= '</tr>';
 
         }
@@ -986,7 +997,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateRosterTable($roster);
+        $html .=            $this->generateRosterTable($roster, $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['uniform_category']);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';

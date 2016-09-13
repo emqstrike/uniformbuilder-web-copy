@@ -257,6 +257,10 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+                $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+            }
+
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
 
@@ -1123,15 +1127,36 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.prepareUniformSizes = function () {
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+            var _toHide = ['4XL','5XL','YXS', 'YXL', 'Y2XL', 'Y3XL'];
+
+            _.each(_toHide, function (item) {
+
+                $('span[data-size="' + item + '"]').hide();
+
+            });
+
+            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+
+        }
+
+    };
+
     ub.funcs.initRosterCalled = false;
 
     ub.funcs.initRoster = function () {
 
         if (ub.funcs.initRosterCalled) { return; }
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+        // if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
         if (typeof ub.user.id === "undefined") { return; }
 
-        ub.funcs.removeMoveTool();
+        ub.funcs.prepareUniformSizes();
+
+        $('span.undo-btn').hide();
+        ub.funcs.deactivateMoveTool();
         ub.funcs.turnLocationsOff();
         ub.funcs.initRosterCalled = true;
         ub.funcs.resetHighlights();

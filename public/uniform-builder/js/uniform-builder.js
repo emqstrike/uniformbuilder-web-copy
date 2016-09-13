@@ -1190,6 +1190,8 @@ $(document).ready(function () {
             // },
         ];
 
+        settings.uniform_category = ub.current_material.material.uniform_category;
+
         settings.upper = {};
 
         settings.lower = {
