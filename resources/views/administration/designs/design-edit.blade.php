@@ -1,5 +1,15 @@
 @extends('administration.lte-main')
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+li.select2-selection__choice {
+    color: black !important;
+}
+</style>
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -69,7 +79,9 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Lower Body Uniform</label>
                             <div class="col-md-6">
-                                <select name='lower_body_uniform' class="form-control lower-body-uniform">
+                                <input type="hidden" name="lower_body_uniform" id="lower_body_uniform">
+                                <input type="hidden" name="lower_body_uniforms" id="lower_body_uniforms" value="{{ $design->lower_body_uniform }}">
+                                <select name="lower_designs[]" class="form-control lower-designs" multiple="multiple">
                                 @foreach ($lower_uniforms as $uniform)
                                     @if ($uniform->active)
                                     <option data-description="{{ $uniform->name }}" data-imagesrc="{{ $uniform->thumbnail_path }}" value='{{ $uniform->name }}'@if ($design->lower_body_uniform == $uniform->name) selected="selected"@endif>{{ $uniform->name }}</option>
@@ -108,4 +120,24 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script>
+$(document).ready(function(){
+    var pants = JSON.parse($('#lower_body_uniforms').val());
+    console.log(pants);
+
+    $('.lower-designs').select2({
+        placeholder: "Select pants",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".lower-designs").change(function() {
+        console.log($(this).val());
+        $('#lower_body_uniform').val($(this).val());
+    });
+
+    $('.lower-designs').select2('val', pants);
+});
+</script>
 @endsection

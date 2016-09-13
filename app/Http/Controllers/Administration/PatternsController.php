@@ -74,7 +74,7 @@ class PatternsController extends Controller
             // 'layer_4_default_color' => $layer_4_color,
             // 'team_color_id' => $team_color_id
         ];
-
+// dd($data);
         $patternId = null;
         if (!empty($request->input('base_pattern_id')))
         {
@@ -164,7 +164,8 @@ class PatternsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['pattern_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
+        // $data['pattern_properties'] =  str_replace(" ", "-", $data['pattern_properties']);
+// dd($data);
 
         $response = null;
         if (!empty($patternId))

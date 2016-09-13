@@ -80,7 +80,7 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Color
                                 </button>
-                                <a href="/administration/colors" class="btn btn-danger">
+                                <a href="/administration/colors_sets" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
