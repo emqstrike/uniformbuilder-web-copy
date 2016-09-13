@@ -14,11 +14,20 @@ $(document).ready(function () {
 
     };
 
+    $('span.undo-btn').on('click', function (e) {
+
+        ub.funcs.undo();
+
+    })
+
     ub.funcs.undo = function () {
 
         var _size = _.size(ub.data.undoHistory);
 
-        if (_size === 0) { console.log('Undo Stack is empty'); return; }
+        if (_size === 0) { 
+            $('span.undo-btn').hide();
+            return; 
+        }
 
         var _historyItem = ub.data.undoHistory.pop();
 
@@ -96,13 +105,26 @@ $(document).ready(function () {
 
         }
 
+        var _size = _.size(ub.data.undoHistory);
+
+        if (_size === 0) { 
+            $('span.undo-btn').hide();
+            return; 
+        }
+
     }
 
     document.onkeydown = ub.funcs.undoHandler;
 
-    function initUndo() {
+    ub.funcs.initUndo = function () {
 
         ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
+
+        if (ub.current_material.material.uniform_category !== "Football") {            
+
+            $('span.undo-btn').fadeIn();
+
+        }
 
         // if (ub.current_material.material.uniform_category !== "Football") {
 
