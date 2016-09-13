@@ -139,6 +139,7 @@ $(document).ready(function () {
             }
 
             ub.data.undoHistory = [];
+            initUndo();
             
         };
 
@@ -5553,9 +5554,11 @@ $(document).ready(function () {
 
     document.onkeydown = ub.funcs.undoHandler;
 
-    ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
+    function initUndo() {
 
-        if (ub.current_material.material.uniform_category !== "Football") {
+        ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
+
+        // if (ub.current_material.material.uniform_category !== "Football") {
 
             var _undoData = {
 
@@ -5569,8 +5572,10 @@ $(document).ready(function () {
 
             ub.data.undoHistory.push (_undoData);
 
-        }
+        // }
         
+        }
+
     }
 
     /// End Undo
