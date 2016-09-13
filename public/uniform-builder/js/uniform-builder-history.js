@@ -71,25 +71,21 @@ $(document).ready(function () {
 
                         var application_obj = ub.objects[val.perspective + "_view"]['objects_' + val.applicationCode];
 
-                        if (typeof application_obj.oldPositionX !== "undefined") {
+                        view = _.find(_settingsObject.application.views, {perspective: val.perspective });
 
-                            view = _.find(_settingsObject.application.views, {perspective: val.perspective });
+                        if (typeof view.application.scale === "undefined") {
 
-                            if (typeof view.application.scale === "undefined") {
-
-                                view.application.scale = {x: 1, y: 1};
-
-                            }
-
-                            view.application.scale.x = application_obj.scale.x = val.scale.x;
-                            view.application.scale.y = application_obj.scale.y = val.scale.y;
-                            
-                            view.application.center.x = application_obj.position.x = val.position.x;
-                            view.application.center.y = application_obj.position.y = val.position.y;
-                            
-                            view.application.rotation = application_obj.rotation = val.rotation;  
+                            view.application.scale = {x: 1, y: 1};
 
                         }
+
+                        view.application.scale.x = application_obj.scale.x = val.scale.x;
+                        view.application.scale.y = application_obj.scale.y = val.scale.y;
+                        
+                        view.application.center.x = application_obj.position.x = val.position.x;
+                        view.application.center.y = application_obj.position.y = val.position.y;
+                        
+                        view.application.rotation = application_obj.rotation = val.rotation;  
 
                     });
 
