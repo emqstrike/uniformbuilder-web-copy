@@ -3575,5 +3575,4 @@ function accentMascotSelect(data,accentMascot,rowIndex){
    
 
 
-
 });

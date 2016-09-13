@@ -246,3 +246,9 @@ select.accentLayerColors.form-control option, select.accentLayerColors.form-cont
     pointer-events: none;
     opacity: 0.4;
 }
+
+
+/*#filters button{
+    display:none;
+
+}*/
