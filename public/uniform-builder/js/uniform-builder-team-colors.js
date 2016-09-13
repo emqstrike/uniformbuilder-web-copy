@@ -34,7 +34,6 @@ $(document).ready(function () {
         var _uniformObject              = ub.current_material.settings[_type];
         var _materialOptionObject       = _.find(_uniformObject, {code: materialOptionCode});
 
-
         if (typeof _materialOptionObject !== 'undefined') {
 
             if (_materialOptionObject.color !== parseInt(colorObj.hex_code, 16)) {
@@ -43,7 +42,11 @@ $(document).ready(function () {
                 var _newValue = parseInt(colorObj.hex_code, 16);
                 
                 if (source !== 'from undo') {
+
+                    if (typeof ub.funcs.pushOldState === "undefined") { return; } 
+
                     ub.funcs.pushOldState('color change', 'material option', _materialOptionObject, _materialOptionObject.colorObj, colorObj);
+
                 }
 
             }

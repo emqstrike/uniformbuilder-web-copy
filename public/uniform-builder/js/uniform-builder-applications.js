@@ -2946,7 +2946,7 @@
 
             }
 
-            return; 
+            return;
 
             if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
 
@@ -2956,7 +2956,7 @@
             }
             else {
 
-                if (results.length > 0 ) {
+                if (results.length > 0) {
 
                     var _match = _.first(results).name.toCodeCase();
                     var _result = _match.replace('right_','left_');

@@ -12,6 +12,11 @@ $(document).ready(function() {
     	$container.isotope({ filter: filterValue });
     });
 
+    $('#filtersCategory').on( 'click', 'button', function() {
+        var filterValue = $( this ).attr('data-filter');
+        $container.isotope({ filter: filterValue });
+    });
+
 	$('.button-group').each( function( i, buttonGroup ) {
 	    var $buttonGroup = $( buttonGroup );
 	    $buttonGroup.on( 'click', 'button', function() {
@@ -117,5 +122,20 @@ $(document).ready(function() {
             }
         });
     });
+
+
+
+    $(document).on('click', '#filtersCategory button', function() {
+        $("#filters button").hide();
+     
+       console.log($(this).text());
+        if($(this).text() == "All"){
+            $("#filters button").show();
+        }else{
+            $("#filters button[data-category='"+ $(this).text() +"']").show();
+        }
+
+    });
+
 
 });

@@ -20,15 +20,28 @@
         <p class="materials-header">Materials</p>
     </h1>
 </div>
+<div id="filtersCategory" class="col-md-12 button-group" style="margin-top: 10px;">
+<button class="button btn-primary" data-filter="*">All</button>
+
+<?php $lCategory = ""; ?>
+@foreach ($block_patterns as $block_pattern)
+    @if ($lCategory != $block_pattern->uniform_category)
+    <button class="button" data-filter=".{{ $block_pattern->uniform_category }}" >{{ $block_pattern->uniform_category }}</button>
+    @endif
+
+    <?php $lCategory = $block_pattern->uniform_category; ?>
+    
+@endforeach
+</div>
 <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
 <button class="button btn-primary" data-filter="*">All</button>
 @foreach ($block_patterns as $block_pattern)
-    <button class="button" data-filter=".{{ $block_pattern->id }}">{{ $block_pattern->name }}</button>
+    <button class="button" data-filter=".{{ $block_pattern->id }}" data-category="{{ $block_pattern->uniform_category }}">{{ $block_pattern->name }}</button>
 @endforeach
 </div>
 <div class="container-fluid main-content isotope" style="margin-top: 200px;">
         @forelse ($materials as $material)
-            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }}' data-category="{{ $material->block_pattern_id }}">
+            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }} {{ $material->uniform_category }}' data-category="{{ $material->block_pattern_id }}">
                 <div class="material-id-div">
                     <span class="label material-label">{{ $material->id }}</span>
                 </div>
