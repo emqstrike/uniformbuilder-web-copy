@@ -18,6 +18,8 @@ $(document).ready(function() {
     ub.vars = {};
     ub.status = {};
 
+    ub.uiTools = {};
+
     /// Search
 
     ub.searchResults = {};
@@ -26,6 +28,34 @@ $(document).ready(function() {
 
     ub.ALPHA_ON = 1;
     ub.ALPHA_OFF = 0.1;
+
+    ub.activeApplication = undefined;
+
+    // Manipulator Tools 
+
+    ub.tools = {};
+
+    ub.tools.activeTool = {
+
+        moveTool: false,
+        scaleTool: false,
+        rotateTool: false,
+        resetTool: false,
+        active: function () {
+
+            return (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool) 
+
+        },
+
+    }
+
+    ub.tools.manipulator = {};
+    ub.tools.manipulator.tools = undefined;
+
+    ub.status = {};
+    ub.status.manipulatorDown = false;
+
+    // End Manipulator Tools 
 
     ub.zoom = false;
     ub.showLocation = false;
@@ -1327,6 +1357,7 @@ $(document).ready(function() {
                 id: 0,
                 name: 'Default',
                 code: 'default',
+                title: 'Single Color',
                 thumbnail: 'no-accent.png',
                 layers: [
                     {
@@ -1353,6 +1384,7 @@ $(document).ready(function() {
                 id: 1,
                 name: 'Outlined',
                 code: 'outlined',
+                title: 'Two Color',
                 thumbnail: 'outlined.png',
                 layers: [
                     {
@@ -1390,6 +1422,7 @@ $(document).ready(function() {
                 id: 2,
                 name: 'Single Outline with Shadow',
                 code: 'single outline shadow',
+                title: 'Two Color with Drop Shadow',
                 thumbnail: 'single_outline_with_shadow.png',
                 layers: [
                     {
@@ -1437,6 +1470,7 @@ $(document).ready(function() {
                 id: 3,
                 name: 'Double Outline',
                 code: 'double_outline',
+                title: 'Three Color',
                 thumbnail: 'double_outline.png',
                 layers: [
                     {
@@ -1484,6 +1518,7 @@ $(document).ready(function() {
                 id: 4,
                 name: 'Drop Shadow',
                 code: 'drop_shadow',
+                title: 'Single Color with Drop Shadow',
                 thumbnail: 'drop_shadow.png',
                 layers: [
                     {
@@ -1642,6 +1677,7 @@ $(document).ready(function() {
                 id: 8,
                 name: 'Outlined with Drop Shadow',
                 code: 'outlined_with_drop_shadow',
+                title: 'Three Color with Drop Shadow',
                 thumbnail: 'outlined_with_drop_shadow.png',
                 layers: [
                     {
@@ -6385,7 +6421,11 @@ ub.funcs.fontOffSets = [
 
     /// End Fonts 
 
-//    ub.funcs.load_fonts();
+    // ub.funcs.load_fonts();
+
+    ub.data.undoHistory = undefined;
+
+    ///
 
 
 });

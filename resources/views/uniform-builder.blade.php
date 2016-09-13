@@ -142,6 +142,7 @@
 
 </div>
 
+@yield('my-saved-designs')
 @yield('my-orders')
 @yield('my-profile')
 @yield('signup')
@@ -355,7 +356,6 @@
                 doc.setFontSize(40);
                 doc.addImage(image, 'png', 20, 40, 40, 40);
                 doc.text(20, 20, "Prolook UB");
-
                 doc.save('qrcode.pdf');
 
             });

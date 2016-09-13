@@ -32,10 +32,12 @@ Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@load
 
 // Orders and Profile
 
-    Route::get('/my-orders', 'UniformBuilderController@myOrders');
-    Route::get('/my-profile', 'UniformBuilderController@myProfile');
-    Route::get('/signup', 'UniformBuilderController@signup');
-    Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
+Route::get('/my-saved-design/{savedDesignID}', 'UniformBuilderController@mySavedDesign');
+Route::get('/my-saved-designs', 'UniformBuilderController@mySavedDesigns');
+Route::get('/my-orders', 'UniformBuilderController@myOrders');
+Route::get('/my-profile', 'UniformBuilderController@myProfile');
+Route::get('/signup', 'UniformBuilderController@signup');
+Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 
 // End Orders and Profile
 

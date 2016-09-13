@@ -39,7 +39,7 @@ $(document).ready(function () {
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);                
 
             }
-            else{
+            else {
 
                 $('.open-save-design-modal').hide();
 
@@ -103,6 +103,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
+
            // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
@@ -125,6 +126,19 @@ $(document).ready(function () {
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
+
+            if(typeof (window.ub.user.id) === "undefined") {
+
+                $('a.change-view[data-view="save"]').css('color','lightgray');
+                $('a.change-view[data-view="save"]').css('cursor','not-allowed');
+                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
+                $('a.change-view[data-view="team-info"]').css('color','lightgray');
+                $('a.change-view[data-view="team-info"]').css('cursor','not-allowed');
+                $('a.change-view[data-view="team-info"]').attr('title','You must be logged-in to use this feature');
+
+            }
+
+            ub.data.undoHistory = [];
             
         };
 
@@ -772,8 +786,8 @@ $(document).ready(function () {
             
                 ub.funcs.afterLoad(); 
 
-            }   
-
+            }
+            
             if (ub.pass < frames_to_refresh) {
                 ub.pass += 1; 
             }
@@ -1095,11 +1109,6 @@ $(document).ready(function () {
         if (typeof ub.temp === "undefined") {
 
             ub.data.convertDefaultApplications();
-
-        }
-        else {
-
-            console.log('Order Detected: ');
 
         }
 
@@ -1653,10 +1662,20 @@ $(document).ready(function () {
 
         /// Utilities ///
 
-            ub.funcs.getCustomizations = function (order_id) {
+            ub.funcs.getCustomizations = function (id) {
 
-                var _url = window.ub.config.api_host + '/api/order/items/' + order_id;
+                var _url = '';
 
+                if (window.ub.page === "order") {
+
+                    _url = window.ub.config.api_host + '/api/order/items/' + id;
+
+                } else if (window.ub.page === "saved-design") {
+
+                    _url = window.ub.config.api_host + '/api/saved_design/' + id;
+
+                }
+                
                 $.ajax({
             
                     url: _url,
@@ -1667,7 +1686,19 @@ $(document).ready(function () {
                 
                     success: function (response){
                         
-                        var _settings = JSON.parse(response.order[0].builder_customizations);
+                        var settings = '';
+
+                        if (window.ub.page === "order") {
+
+                            _settings = JSON.parse(response.order[0].builder_customizations);
+
+                        }
+                        else if (window.ub.page === "saved-design") {
+
+                            _settings = JSON.parse(response.saved_design.builder_customizations);
+
+                        }    
+
                         ub.loadSettings(_settings);
                         
                     }
@@ -3713,7 +3744,8 @@ $(document).ready(function () {
                 $('#select_part').click();
 
             });
-            $('select_part').hide();
+
+            //$('#select_part').hide();
             
             $('a.change-view').on('click', function (e) {
 
@@ -3733,7 +3765,7 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'colors') {
+                if (view === 'colors') { 
 
                     ub.funcs.activateColorPickers();
                     return;
@@ -3749,10 +3781,17 @@ $(document).ready(function () {
                     
                 }
 
-                if (view === 'home') {
+                if (view === 'start-over') {
 
                     window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;
                     //ub.funcs.initGenderPicker();
+                    return;
+
+                }
+
+                if (view === 'home') {
+
+                    ub.funcs.initGenderPicker();
                     return;
 
                 }
@@ -3802,15 +3841,24 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
-                    if (ub.data.afterLoadCalled === 0) { return; }
+                    if(typeof (window.ub.user.id) === "undefined") {
+                        return;
+                    }
 
+                    if (ub.data.afterLoadCalled === 0) { return; }
                     ub.funcs.initRoster();
+
                     return;
 
                 }
 
                 if (view === 'save') {
 
+                    if(typeof (window.ub.user.id) === "undefined") {
+                        return;
+                    }
+
+                    ub.funcs.initSaveDesign();
                     return;
 
                 }
@@ -4290,7 +4338,6 @@ $(document).ready(function () {
                 if (_item === "Home") {
 
                     ub.funcs.initGenderPicker();
-
                     ub.funcs.hideSecondaryBar();
 
                     return; 
@@ -4985,8 +5032,6 @@ $(document).ready(function () {
 
         ub.funcs.getOrders = function () {
 
-
-
         };
 
         ub.funcs.parseJSON = function (orders) {
@@ -5008,13 +5053,108 @@ $(document).ready(function () {
 
         }
 
+        /// My Saved Designs
 
+        ub.funcs.deleteSavedDesign = function (id, name) {
+
+            var txt;
+            
+            var r = confirm("Are you sure you want to delete '" + name + "'?");
+            
+            if (r !== true) { return; }
+
+            data = {
+                id: id,
+            }
+
+            $.ajax({
+
+                url: ub.config.api_host + '/api/saved_design/delete/',
+                data: JSON.stringify(data),
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $('tr.saved-design-row[data-id="' + id + '"]').fadeOut();
+
+                }
+                
+            });
+   
+        }
+
+        ub.funcs.displayMySavedDesigns = function () {
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                
+                success: function (response) {
+
+                  $('div.my-saved-designs-loading').hide();
+
+                  var $container = $('div.saved-designs-list');
+                  var template = $('#m-saved-designs-table').html();
+                  var data = {
+
+                        savedDesigns: ub.funcs.parseJSON(response.saved_designs),
+
+                  }
+
+                  var markup = Mustache.render(template, data);
+                  $container.html(markup);
+
+                  $('span.action-button.view').on('click', function () {
+
+                        var _savedDesignID = $(this).data('saved-design-id');
+                        window.location.href =  '/my-saved-design/' + _savedDesignID;
+                        
+                  });
+
+                  $('span.action-button.delete').on('click', function () {
+
+                        var _deleteDesignID = $(this).data('saved-design-id');
+                        var _name = $(this).data('name');
+                        console.log('ID: ' + _deleteDesignID);
+
+                        ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
+
+                  });
+
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-saved-designs') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMySavedDesigns();
+
+        }
+
+    /// End My Saved Designs
 
         ub.funcs.displayMyOrders = function () {
 
             $.ajax({
             
-                url: 'http://api-dev.qstrike.com/api/order/user/orderswItems/' + ub.user.id,
+                url: ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
@@ -5312,6 +5452,128 @@ $(document).ready(function () {
         }
 
     /// End Forgot Password
+    
+    /// Undo 
+
+    ub.funcs.undoHandler = function (e) {
+      
+      var evtobj = window.event? event : e
+
+      if (evtobj.keyCode == 90 && (evtobj.ctrlKey || evtobj.metaKey)) {
+        
+           ub.funcs.undo();
+
+      }
+
+    };
+
+    ub.funcs.undo = function () {
+
+        var _size = _.size(ub.data.undoHistory);
+
+        if (_size === 0) { console.log('Undo Stack is empty'); return; }
+
+        var _historyItem = ub.data.undoHistory.pop();
+
+        switch (_historyItem.operationType) {
+
+            case "color change": 
+
+                if (_historyItem.objectType === "material option") {
+
+                    var _partName = _historyItem.settingsObject.code.replace('left_', '').replace('right_', '').toTitleCase();
+                    ub.funcs.ui.setMaterialOptionColor(_partName, _historyItem.oldValue, 'from undo');
+
+                    var _index = ub.funcs.getIndexByName(_historyItem.settingsObject.code);
+                    ub.funcs.activatePartByIndex(_index);
+                    ub.funcs.resetHighlights();
+
+                }
+
+                if (_historyItem.objectType === "application") {
+
+                    var _oldValue = _historyItem.oldValue;
+                    ub.funcs.activateApplications(_oldValue.applicationCode);
+
+                    var _colorCode = _oldValue.color.color_code;
+                    var _layerNo = _oldValue.layerNo;
+
+                    $('span.colorItem[data-layer-no="' + _layerNo + '"][data-color-code="' + _colorCode + '"]').data('temp','undo').click();
+
+                }
+
+                break;
+
+            case "position, scale, rotation change":
+
+                if (_historyItem.objectType === "application") { 
+
+                    var _oldValue = _historyItem.oldValue;
+                    var _settingsObject = ub.funcs.getSettingsObject(_historyItem.settingsObject.code);
+
+                    _.each (_oldValue, function (val) {
+
+                        var application_obj = ub.objects[val.perspective + "_view"]['objects_' + val.applicationCode];
+
+                        if (typeof application_obj.oldPositionX !== "undefined") {
+
+                            view = _.find(_settingsObject.application.views, {perspective: val.perspective });
+
+                            if (typeof view.application.scale === "undefined") {
+
+                                view.application.scale = {x: 1, y: 1};
+
+                            }
+
+                            view.application.scale.x = application_obj.scale.x = val.scale.x;
+                            view.application.scale.y = application_obj.scale.y = val.scale.y;
+                            
+                            view.application.center.x = application_obj.position.x = val.position.x;
+                            view.application.center.y = application_obj.position.y = val.position.y;
+                            
+                            view.application.rotation = application_obj.rotation = val.rotation;  
+
+                        }
+
+                    });
+
+                    ub.funcs.activateMoveTool(_historyItem.settingsObject.code);
+
+                }
+
+                break;
+
+            default: 
+
+                console.error('Unhandled operation type: ' + _historyItem.operationType + ' '  +  _historyItem.objectType);
+
+        }
+
+    }
+
+    document.onkeydown = ub.funcs.undoHandler;
+
+    ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
+
+        if (ub.current_material.material.uniform_category !== "Football") {
+
+            var _undoData = {
+
+                operationType: operationType,
+                objectType: objectType,
+                settingsObject: settingsObject,
+                oldValue: oldValue, 
+                newValue: newValue,
+
+            }
+
+            ub.data.undoHistory.push (_undoData);
+
+        }
+        
+    }
+
+    /// End Undo
 
 
     /// Saving, Loading and Sharing /// 

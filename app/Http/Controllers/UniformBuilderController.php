@@ -10,6 +10,7 @@ use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\UniformDesignSetsAPIClient;
 use App\APIClients\OrdersAPIClient;
+use App\APIClients\SavedDesignsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
@@ -25,18 +26,21 @@ class UniformBuilderController extends Controller
     protected $colorsClient;
     protected $designSetClient;
     protected $ordersClient;
+    protected $savedDesignsClient;
 
     public function __construct(
         MaterialsAPIClient $materialsClient,
         ColorsAPIClient $colorsClient,
         UniformDesignSetsAPIClient $designSetClient,
-        OrdersAPIClient $ordersClient
+        OrdersAPIClient $ordersClient,
+        SavedDesignsAPIClient $savedDesignsClient
     )
     {
         $this->materialsClient = $materialsClient;
         $this->colorsClient = $colorsClient;
         $this->designSetClient = $designSetClient;
         $this->ordersClient = $ordersClient;
+        $this->savedDesignsClient = $savedDesignsClient;
     }
 
     public function showBuilder($config = [])
@@ -63,24 +67,10 @@ class UniformBuilderController extends Controller
 
             if (is_null($material))
             {
-                    
-                // Set to the first material if nothing is requested
-                //$material = $this->materialsClient->getMaterials()[0];
-                //$materialId = $material->id;
-
-                // if(env('APP_ENV') === 'local') {
-                //     $materialId = -1;
-                // }
-                // else {
-                //     $materialId = -1;                
-                // }
-
-                // set to just -1 for now to signal opening pickers instead
 
                 $materialId = -1;                
-                   
-            }
-            else {
+
+            } else {
 
                 $categoryId = $material->uniform_category_id;
 
@@ -114,45 +104,42 @@ class UniformBuilderController extends Controller
 
         if (isset($config['builder_customizations'])) {
 
-            $order = Session::get('order');
+            $pageType = Session::get("page-type");
 
-            if ($order['order_id'] == $config['order_id'])
-            {
+            if($pageType['page'] === "saved-design") {
+                
+                $design = Session::get('design');
+                Session::put('order', null);
 
+                $params['page'] = 'saved-design';
                 $bc = $config['builder_customizations'];
-                //dd($bc);
-                $params['order_id'] = $config['order_id'];
-                $params['order'] = $order;
+                $params['saved_design_id'] = $config['id'];
+                $params['material_id'] = $config['material_id'];
                 $params['builder_customizations'] = $config['builder_customizations'];
 
-            }
-            else
-            {
-                Session::put('order', null);
-            }
+            } elseif ($pageType['page'] === "order") {
+                
+                $order = Session::get('order');
+                Session::put('design', null);
 
+                if ($order['order_id'] == $config['order_id'])
+                {
+
+                    $params['page'] = 'order';
+                    $bc = $config['builder_customizations'];
+                    $params['order_id'] = $config['order_id'];
+                    $params['order'] = $order;
+                    $params['builder_customizations'] = $config['builder_customizations'];
+
+                } else {
+
+                    Session::put('order', null);
+
+                }
+
+            }
+            
         }
-
-        ///
-
-        // if (Session::has('order'))
-        // {
-        //     $order = Session::get('order');
-        //     if (isset($config['order_id']))
-        //     {
-        //         if ($order['order_id'] == $config['order_id'])
-        //         {
-
-        //             $bc = json_decode($this->ordersClient->getOrderByOrderId($order['order_id'])->builder_customizations);
-        //             $params['order'] = $order;
-        //             $params['builder_customizations'] = $bc;
-        //         }
-        //         else
-        //         {
-        //             Session::put('order', null);
-        //         }
-        //     }
-        // }
 
         return view('editor.uniform-builder-index', $params);
 
@@ -198,6 +185,7 @@ class UniformBuilderController extends Controller
      * Show the order in the builder editor
      * @param String $orderId
      */
+
     public function loadOrder($orderId)
     {
 
@@ -216,6 +204,10 @@ class UniformBuilderController extends Controller
             }
 
             //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('page-type', [
+                'page' => 'order',
+            ]);
 
             Session::put('order', [
                 'id' => $order->id,
@@ -338,7 +330,7 @@ class UniformBuilderController extends Controller
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
 
                 $html .=   '<td align="center">';
-                $html .=   'Accent: ' . $application['accent_obj']['name'] . "<br />";
+                $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
                 $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
                 $html .=   '</td>';
@@ -851,7 +843,7 @@ class UniformBuilderController extends Controller
             $table .=   '<td>';
             $table .=   $size['size'];
             $table .=   '</td>';
-            $table .=   '<td>';
+            $table .=   '<td style="text-align: right;">';
             $table .=   $size['quantity'];
             $table .=   '</td>';
             $table .= '</tr>';
@@ -862,10 +854,10 @@ class UniformBuilderController extends Controller
 
         $table .= '<tr>';
         $table .=   '<td>';
-        $table .=   '<strong>Total</strong>';
+        $table .=   '<strong>TOTAL</strong>';
         $table .=   '</td>';
-        $table .=   '<td>';
-        $table .=   '<hr />';
+        $table .=   '<td style="text-align: right;">';
+        $table .=   '<br />';
         $table .=   '<strong>'. $total . '</strong>';
         $table .=   '</td>';
         $table .= '</tr>';
@@ -933,7 +925,7 @@ class UniformBuilderController extends Controller
         $html .=   $this->generateClientDetailsTable($mainInfo);
         $html .=   '<br /><br />';
         $html .=   '</td>';
-        $html .=   '<td width="50%">';
+        $html .=   '<td width="30%">';
         $html .=   '<br /><br />';
         $html .=   $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
         $html .=   '<br /><br />';
@@ -1218,6 +1210,62 @@ class UniformBuilderController extends Controller
             return Redirect::to('/')
                         ->with('message', 'There was a problem saving your uniform design.');
         }
+
+    }
+
+    public function mySavedDesign($savedDesignID)
+    {
+
+        $savedDesign = $this->savedDesignsClient->getSavedDesign($savedDesignID);
+
+        if( isset($savedDesign) ) {
+
+            $savedDesignID = $savedDesign->id;
+            $builder_customizations = json_decode($savedDesign->builder_customizations);
+            $materialID = $savedDesign->material_id;
+        
+            //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('page-type', [
+                'page' => 'saved-design',
+            ]);
+
+            Session::put('design', [
+                'id' => $savedDesign->id,
+                'material_id' => $materialID,
+            ]);
+
+            $config = [
+                'material_id' => $materialID,
+                'id' => $savedDesignID,
+                'builder_customizations' => $savedDesignID,
+            ];
+            
+            return $this->showBuilder($config);
+
+        }
+
+        return redirect('index');
+
+    }
+
+    public function mySavedDesigns(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-saved-designs',
+        ];
+
+        return view('editor.my-saved-designs', $params);
 
     }
 

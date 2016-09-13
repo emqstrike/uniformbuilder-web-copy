@@ -195,8 +195,6 @@ $(document).ready(function () {
 
         var _pickerLeft = ( window.innerWidth - $('div#main-picker-scroller').innerWidth() ) / 2;
 
-
-
         $('div#main-picker-scroller').css('margin-left', _pickerLeft + 'px');
         $('div#main-picker-container').css('height', (h - 75) + 'px');
 
