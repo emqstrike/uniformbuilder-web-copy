@@ -111,11 +111,8 @@ class UniformDesignSetsController extends Controller
             'uniform_category_id' => $uniform_category_id,
             'upper_body_uniform' => $upper_body_uniform,
             'lower_body_uniform' => $lower_body_uniform,
-            // 'base_color_code' => $base_color_code,
-            // 'base_fabric_code' => $base_fabric_code,
-            // 'lining_code' => $lining_code
         ];
-// dd(json_encode($data));
+
         $designId = null;
         if (!empty($request->input('uniform_design_set_id')))
         {
