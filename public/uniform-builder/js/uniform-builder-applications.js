@@ -2336,6 +2336,19 @@
                 }
 
 
+                /// Sublimation Override - Wrestling ///
+
+                if(ub.current_material.material.uniform_category === "Wrestling") {
+
+                    if (typeof view.application.scale !== "undefined") {
+
+                        point.scale = view.application.scale;
+
+                    }
+
+                }
+                
+                /// End Sublimation Override - Wrestling ///
 
             });
 
