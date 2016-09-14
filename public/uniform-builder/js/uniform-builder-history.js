@@ -33,6 +33,12 @@ $(document).ready(function () {
 
         switch (_historyItem.operationType) {
 
+            case "change mascot": 
+
+                ub.funcs.changeMascotFromPopup(_historyItem.oldValue.mascotID, _historyItem.settingsObject, 'undo');
+                ub.funcs.activateMascots(_historyItem.settingsObject.code);
+                break;
+
             case "flip":
 
                 var _oldValue = _historyItem.oldValue.flip;
