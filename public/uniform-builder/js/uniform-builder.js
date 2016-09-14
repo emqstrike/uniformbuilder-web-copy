@@ -140,6 +140,12 @@ $(document).ready(function () {
 
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
+
+            window.onbeforeunload = function (e) {
+                
+                return false;
+
+            };
             
         };
 
@@ -3794,7 +3800,8 @@ $(document).ready(function () {
 
                 if (view === 'home') {
 
-                    ub.funcs.initGenderPicker();
+                    window.location.href = ub.config.host;
+
                     return;
 
                 }
@@ -3849,7 +3856,8 @@ $(document).ready(function () {
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-                    ub.funcs.initRoster();
+
+                        ub.funcs.initRoster();
 
                     return;
 
