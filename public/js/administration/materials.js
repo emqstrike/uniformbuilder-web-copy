@@ -1,19 +1,5 @@
 $(document).ready(function() {
 
-    // window.accents = [
-    //     {"name" : "No-Accent", "id" : "0", "layers" : "2", "thumbnail" : "no-accent.png"},
-    //     {"name" : "Outlined", "id" : "1", "layers" : "3", "thumbnail" : "outlined.png"},
-    //     {"name" : "Single Outline with Shadow", "id" : "2", "layers" : "4", "thumbnail" : "single_outline_with_shadow.png"},
-    //     {"name" : "Double Outline", "id" : "3", "layers" : "4", "thumbnail" : "double_outline.png"},
-    //     {"name" : "Drop Shadow", "id" : "4", "layers" : "3", "thumbnail" : "drop_shadow.png"},
-    //     {"name" : "Double Shadow", "id" : "5", "layers" : "4", "thumbnail" : "double_shadow.png"},
-    //     {"name" : "Shadow", "id" : "6", "layers" : "3", "thumbnail" : "shadow.png"},
-    //     {"name" : "Double Drop Shadow", "id" : "7", "layers" : "4", "thumbnail" : "double_drop_shadow.png"},
-    //     {"name" : "Outlined with Drop Shadow", "id" : "8", "layers" : "5", "thumbnail" : "outlined_with_drop_shadow.png"},
-    //     {"name" : "Center Shadow", "id" : "9", "layers" : "3", "thumbnail" : "center_shadow.png"},
-    //     {"name" : "Collegiate Drop Shadow", "id" : "10", "layers" : "4", "thumbnail" : "collegiate_drop_shadow.png"}
-    // ];
-
     $('.slide-zoomout').animate({ 'zoom': 0.45 }, 400);
 
     var material = {};
@@ -30,26 +16,6 @@ $(document).ready(function() {
             action: 'rotate',
             cursor: 'http://findicons.com/files/icons/2625/google_plus_interface_icons/128/rotate.png'
         },
-        // tr: {
-        //     action: 'scale'
-        // },
-        // bl: {
-        //     action: 'remove',
-        //     cursor: 'pointer'
-        // },
-        // br: {
-        //     action: 'moveUp',
-        //     cursor: 'pointer'
-        // },
-        // mb: {
-        //     action: 'moveDown',
-        //     cursor: 'pointer'
-        // },
-        // mt: {
-        //     action: {
-        //         'rotateByDegrees': 45
-        //     }
-        // },
         mr: {
             action: function( e, target ) {
                 target.set( {
@@ -104,19 +70,6 @@ $(document).ready(function() {
               }
 
      accentObject.push(accent);
-    // console.log(accent);
-
-    // console.log(item.name);  
-    // console.log(item.id);  
-    // console.log(item.thumbnail_path);  
-    // console.log(layers.length);
-
-        // jQuery.each(layers, function(index2, item2) {
-        //     // console.log(item2.name.length );  
-
-        // });
-
-
 
 
     });
@@ -398,18 +351,13 @@ $(document).ready(function() {
                  $(this).find(".remove-row").hide();
             }
 
-
-            // $(this).find(".layer-number").text(length);
-            // $(this).find(".layer-number").val(length);
             $(this).find(".mo-layer").val(length);
             var type = $(this).find(".mo-setting-type").val();
             if(type == "highlights"){
                 $(this).find(".mo-layer").val('99');
-                // $(this).find(".layer-number").text('99');
             }
             if(type == "shadows"){ 
                 $(this).find(".mo-layer").val('98');
-                // $(this).find(".layer-number").text('98');
             }
             length = length-1;
         });
@@ -589,24 +537,6 @@ $(document).ready(function() {
         var canvasItem = "application"+group.id;
         application_number++;
 
-        
-
-
-
-
-
-        // $(".dd-pointer ").has("dd-pointer-up",function(){
-        //     console.log(this);
-        //     console.log("yes");
-
-
-        // });
-        // $(document).on("click change",".app-default-accent",function(){
-
-        //     coonsole.log("li lil is");
-        // });
-
-
         $.each(window.mascots, function(i, item) {
             item['text'] = item.name;
             item['value'] = item.id;
@@ -642,10 +572,6 @@ $(document).ready(function() {
                         accentMascotSelect(data,"mascot",rowIndex);
                     }
 
-
-
-                // $('#mascot').val(data['selectedData']['value']);
-                // console.log('Mascot ID: '+data['selectedData']['value']);
             },
         });
 
@@ -659,7 +585,6 @@ $(document).ready(function() {
         });
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
-        // $(".app-default-accent").
    
         $(accent_class).ddslick({
 
@@ -713,11 +638,6 @@ $(document).ready(function() {
             flipApplication(id);
         });
         });
-        // $('.app-rotation-flip').on('click', function(){
-        //     console.log('FLIP ADD');
-        //     var id = $(this).data('id');
-        //     flipApplication(id);
-        // });
 
         updateApplicationsJSON();
 
@@ -763,11 +683,6 @@ $(document).ready(function() {
         // checkpoint
         updateRXY(0);
     });
-
-    // $('.front-applications').change(function(){
-    //     console.log('form change');
-    //     updateApplicationsJSON();
-    // });
 
     /*
         Initialize CANVAS for Bounding Polygon
@@ -844,10 +759,8 @@ $(document).ready(function() {
 
                 if(type_raw == "highlights"){
                     $(this).parent().siblings().find(".mo-layer").val('99');
-                    // $(this).parent().siblings().find(".layer-number").text('99');
                 } else{
                     $(this).parent().siblings().find(".mo-layer").val('98');
-                    // $(this).parent().siblings().find(".layer-number").text('98');
                 }
             }
         });
@@ -1135,7 +1048,6 @@ $(document).ready(function() {
 
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
-// console.log('ID' + $(this).data('material-option-id'));
         $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
@@ -1364,7 +1276,6 @@ $(document).ready(function() {
 
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
-        // $('#default_display').append( team_color_id_dropdown );
 
 
         $('#saved-setting-type').attr('selected',true);
@@ -1437,10 +1348,6 @@ $(document).ready(function() {
             group.hasRotatingPoint = false;
             group.setCoords();
             canvasFront.add(group);
-            // canvasFront.setCoords();
-            //  ){
-            //     console.log('added group');
-            // }
 
             if(app_properties[l].id != null){
 
@@ -1606,19 +1513,9 @@ $(document).ready(function() {
                     if($('.app-def-item').eq(rowIndex).val()=="mascot"){
                         accentMascotSelect(data,"mascot",rowIndex);
                     }
-                
-                                       
-                        // $(this).closest('.app-mascot-value').val( data['selectedData']['value'] );
-                        // console.log( 'Classes' + $(this).attr('class') );
-                        // $(amv_id).val( 'JETHRODEL' );
-                       // $('#mascot').val(data['selectedData']['value']);
-                        // $(document.getElementById(id_beta)).val(data['selectedData']['value']);
-                        // console.log('DDS CLICK' + data['selectedData']['value']);
+
                     }
                 });
-
-
-
 
                 $.each(window.accents, function(i, item) {
 
@@ -1646,9 +1543,6 @@ $(document).ready(function() {
                     var rowIndex = data.original[0].outerHTML;
                     rowIndex = $.parseHTML(rowIndex);
                     rowIndex = $(rowIndex).data("id");
-
-                    // console.log("//////accent");
-                    // console.log($('.app-def-item').eq(rowIndex).val());
 
                     if($('.app-def-item').eq(rowIndex).val()!="mascot"){
 
@@ -1722,13 +1616,11 @@ $(document).ready(function() {
                 });
 
                 $('.app-rotation-flip').on('click', function(){
-                    // console.log('FLIP CHANGE');
                     var id = $(this).data('id');
                     flipApplication(id);
                 });
 
                 $('.app-rotation').change(function(){
-                    // console.log('ROTATION');
                     updateRXY(0);
                 });
 
@@ -1760,16 +1652,8 @@ $(document).ready(function() {
                 thisGroup.pivot = thisGroup.centerPoint;
                 thisGroup.setAngle(app_properties[l].rotation);
                 thisGroup.setCoords();
-                // thisGroup.pivot         = app_properties[l].pivot;
-                // console.log(JSON.stringify(thisGroup.pivot));
-                // canvasFront.renderAll();
-                // canvasFront.setActiveObject(canvasFront.item(1));
                 application_number++;
-                // canvasFront.setActiveObject(0);
                 canvasFront.renderAll();
-                // canvasFront.setCoords();
-                // updateCoordinates();
-                // reIndexRowsDataID();
             }
             else{
                 // canvasFront.renderAll();
@@ -3541,11 +3425,11 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                  
                console.log(filteredMascots);
         });
-        
+         
     function bringingPointToFront(){
-       
+
          canvas.forEachObject(function(key,obj){  
-          
+
             var subjectName = ""+ canvas.item(obj).name +"";
 
            // subjectName = jQuery.parseJSON( subjectName);
