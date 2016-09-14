@@ -33,6 +33,37 @@ $(document).ready(function () {
 
         switch (_historyItem.operationType) {
 
+            case "flip":
+
+                var _oldValue = _historyItem.oldValue.flip;
+                var _settingsObject = _historyItem.settingsObject;
+
+                _.each (_settingsObject.application.views, function (view){
+
+                   _flipped = view.application.flip = _oldValue;
+
+                   var _obj = ub.objects[view.perspective + "_view"]['objects_' + _settingsObject.code];
+
+                   if (typeof _obj !== "undefined") {
+
+                        if (view.application.flip === 1) {
+
+                            $('span.flipButton').addClass('active');
+                            _obj.scale.x *= -1;
+
+                        } else {
+
+                            $('span.flipButton').removeClass('active');
+                            _obj.scale.x = Math.abs(_obj.scale.x);
+
+                        }
+                        
+                   }
+
+                });
+
+                break;
+
             case "color change": 
 
                 if (_historyItem.objectType === "material option") {
