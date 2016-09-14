@@ -2336,6 +2336,27 @@
                 }
 
 
+                /// Sublimation Override - Wrestling ///
+
+                if(ub.current_material.material.uniform_category === "Wrestling") {
+
+                    if (typeof view.application.scale !== "undefined") {
+
+                        point.scale = view.application.scale;
+
+                    }
+
+                    if (view.application.flip === 1) {
+
+                        point.scale.x *= -1;
+
+                    }
+
+                }
+
+
+                
+                /// End Sublimation Override - Wrestling ///
 
             });
 
@@ -3142,6 +3163,30 @@
     /// End Transformed Boundary Properties
 
     /// Get Primary View of Application, TODO: Set this on the backend primary_view, boolean
+
+    ub.funcs.getPrimaryViewObject = function (application) {
+
+        var view = undefined;
+
+        _.each (application.views, function (v) {
+
+            if (v.application.isPrimary === 1) {
+
+                view = v;
+            }
+
+        });
+
+        if (typeof view === "undefined") {
+
+            console.warn('No Primary View Set for application: ');
+            console.warn(application);
+
+        }
+
+        return view;
+
+    }
 
     ub.funcs.getPrimaryView = function (application) {
 
@@ -5137,6 +5182,53 @@
 
     };
 
+    ub.funcs.flipMascot = function (_settingsObject) {
+
+        _.each (_settingsObject.application.views, function (view){
+
+           if(typeof view.application.flip === "undefined") {
+
+                view.application.flip = 1;
+
+           }
+           else {
+
+                if (view.application.flip === 0)  {
+
+                    view.application.flip = 1;
+
+                } else {
+
+                    view.application.flip = 0;
+
+                }
+
+           }
+
+           var _obj = ub.objects[view.perspective + "_view"]['objects_' + _settingsObject.code];
+
+           if (typeof _obj !== "undefined") {
+
+                if (view.application.flip === 1) {
+
+                    $('span.flipButton').addClass('active');
+
+                    _obj.scale.x *= -1;
+
+                } else {
+
+                    $('span.flipButton').removeClass('active');
+                    _obj.scale.x = Math.abs(_obj.scale.x);
+
+                }
+                
+           }
+
+        });
+
+    }
+
+
     ub.funcs.activateMascots = function (application_id) {
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
@@ -5280,7 +5372,9 @@
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
-        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';        
+        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
+        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';        
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
@@ -5322,6 +5416,42 @@
         // $('span.accentThumb > img').attr('src',_src);
 
         // Events
+
+            if (ub.current_material.material.uniform_category !== "Wrestling") {
+
+                $('span.flipButton').hide();
+
+            } else {
+
+                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+
+                if (typeof sObj.application.flip !== "undefined") {
+
+                    if (sObj.application.flip === 1) {
+                        
+                        $('span.flipButton').addClass('active');    
+
+                    } else {
+
+                        $('span.flipButton').removeClass('active');    
+
+                    }
+                    
+                } else {
+
+                    $('span.flipButton').removeClass('active');
+
+                }
+
+            }
+
+            $('span.flipButton').on('click', function () {
+
+                var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
+                ub.funcs.flipMascot(_settingsObject);
+                
+            });
 
             $('div.applicationType').on('click', function () {
 

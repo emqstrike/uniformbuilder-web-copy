@@ -14,11 +14,20 @@ $(document).ready(function () {
 
     };
 
+    $('span.undo-btn').on('click', function (e) {
+
+        ub.funcs.undo();
+
+    })
+
     ub.funcs.undo = function () {
 
         var _size = _.size(ub.data.undoHistory);
 
-        if (_size === 0) { console.log('Undo Stack is empty'); return; }
+        if (_size === 0) { 
+            $('span.undo-btn').hide();
+            return; 
+        }
 
         var _historyItem = ub.data.undoHistory.pop();
 
@@ -62,25 +71,21 @@ $(document).ready(function () {
 
                         var application_obj = ub.objects[val.perspective + "_view"]['objects_' + val.applicationCode];
 
-                        if (typeof application_obj.oldPositionX !== "undefined") {
+                        view = _.find(_settingsObject.application.views, {perspective: val.perspective });
 
-                            view = _.find(_settingsObject.application.views, {perspective: val.perspective });
+                        if (typeof view.application.scale === "undefined") {
 
-                            if (typeof view.application.scale === "undefined") {
-
-                                view.application.scale = {x: 1, y: 1};
-
-                            }
-
-                            view.application.scale.x = application_obj.scale.x = val.scale.x;
-                            view.application.scale.y = application_obj.scale.y = val.scale.y;
-                            
-                            view.application.center.x = application_obj.position.x = val.position.x;
-                            view.application.center.y = application_obj.position.y = val.position.y;
-                            
-                            view.application.rotation = application_obj.rotation = val.rotation;  
+                            view.application.scale = {x: 1, y: 1};
 
                         }
+
+                        view.application.scale.x = application_obj.scale.x = val.scale.x;
+                        view.application.scale.y = application_obj.scale.y = val.scale.y;
+                        
+                        view.application.center.x = application_obj.position.x = val.position.x;
+                        view.application.center.y = application_obj.position.y = val.position.y;
+                        
+                        view.application.rotation = application_obj.rotation = val.rotation;  
 
                     });
 
@@ -96,13 +101,26 @@ $(document).ready(function () {
 
         }
 
+        var _size = _.size(ub.data.undoHistory);
+
+        if (_size === 0) { 
+            $('span.undo-btn').hide();
+            return; 
+        }
+
     }
 
     document.onkeydown = ub.funcs.undoHandler;
 
-    function initUndo() {
+    ub.funcs.initUndo = function () {
 
         ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
+
+        if (ub.current_material.material.uniform_category !== "Football") {            
+
+            $('span.undo-btn').fadeIn();
+
+        }
 
         // if (ub.current_material.material.uniform_category !== "Football") {
 

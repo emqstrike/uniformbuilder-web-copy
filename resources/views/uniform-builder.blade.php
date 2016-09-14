@@ -71,7 +71,9 @@
         </div>
         <div id="right-pane-column" class="col-md-6">
             <!-- Customizer -->
+
             @yield('right-pane')
+
         </div>
     </div>
 
@@ -135,6 +137,8 @@
     </div>
 
     <!-- End Scrolling Pickers -->
+
+    @include('partials.panels.left-side-toolbar')
 
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
@@ -328,8 +332,6 @@
 
             });
 
-          
-
         @endif
 
         @if (Session::has('message'))
@@ -395,6 +397,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
+
 
 
 <!-- Drop Down Test-->

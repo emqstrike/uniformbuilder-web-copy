@@ -4004,7 +4004,46 @@ div.header-container.main {
                     
                 }
 
+                span.flipButton {
+                    
+                    color: white;
+                    background-color: #acacac;
+                    padding: 3px;
+                    margin-top: 7px;
+                    display: block;
+                    font-size: 0.8em;
 
+                    cursor: pointer;
+
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                }
+
+                span.flipButton:hover {
+
+                    color: white;
+                    background-color: #acacac;
+
+                }
+
+                span.flipButton.active {
+
+                    font-weight: bold;
+                    background-color: #3d3d3d;
+
+                    -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    
+                }
+
+                span.flipButton.inActive {
+
+                    background-color: #acacac;
+
+                }
 
                 span.accentThumb {
 
@@ -6071,3 +6110,61 @@ strong.hello {
 }
 
 /* End User Management */
+
+/* Left Side Toolbar */
+
+    div#left-side-toolbar {
+
+        z-index: 1000;
+        position: absolute;
+        width: 115px;
+        bottom: 115px;
+
+
+        span.undo-btn {
+
+            display: none;
+
+        }
+
+        span.toolbar-item {
+
+            font-size: 1.2em;
+
+            i.fa {
+
+                text-align: center;
+                width: 100%;
+                font-size: 1.8em;
+
+            }
+
+            span.toolbar-item-label {
+
+                font-size: 0.7em;
+
+                text-align: center;
+                width: 100%;
+                display: inline-block;
+
+            }
+
+            cursor: pointer;
+
+        }
+
+        span.toolbar-item:hover {
+
+            color: white;
+
+        }
+
+        span.toolbar-item:active {
+
+            color: #acacac;
+
+        }
+     
+    }
+
+/* End Left Side Toolbar */
