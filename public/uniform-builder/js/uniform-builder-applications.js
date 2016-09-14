@@ -1,6 +1,12 @@
 
  $(document).ready(function() {
 
+    ub.funcs.currentSport = function (sport) {
+
+        return ub.current_material.material.uniform_category === sport;
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -2334,7 +2340,6 @@
                     }
 
                 }
-
 
                 /// Sublimation Override - Wrestling ///
 
@@ -5415,7 +5420,7 @@
         // console.log(_src);
         // $('span.accentThumb > img').attr('src',_src);
 
-        // Events
+        // Events 
 
             if (ub.current_material.material.uniform_category !== "Wrestling") {
 

@@ -393,9 +393,7 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>NUMBER</strong>';
-        $html .=   '</td>';
+        
         $html .=   '<td align="center">';
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
@@ -404,6 +402,10 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
 
         if ($sport !== "Wrestling") {
+
+            $html .=   '<td align="center">';
+            $html .=   '<strong>NUMBER</strong>';
+            $html .=   '</td>';
 
             $html .=   '<td align="center">';
             $html .=   '<strong>LASTNAME APPLICATION</strong>';
@@ -423,9 +425,6 @@ class UniformBuilderController extends Controller
             $html .=   $roster['size'];
             $html .=   '</td>';
             $html .=   '<td align="center">';
-            $html .=   $roster['number'];
-            $html .=   '</td>';
-            $html .=   '<td align="center">';
             $html .=   $roster['quantity'];
             $html .=   '</td>';
             $html .=   '<td align="center">';
@@ -433,7 +432,10 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             if ($sport !== "Wrestling") {
-            
+
+                $html .=   '<td align="center">';
+                $html .=   $roster['number'];
+                $html .=   '</td>';
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
                 $html .=   '</td>';
@@ -1034,7 +1036,7 @@ class UniformBuilderController extends Controller
         }
         // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
 
-        Slack::send($message);
+        //Slack::send($message);
 
         return $transformedPath;
 

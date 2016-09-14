@@ -853,7 +853,7 @@
                             
                 <tr class="thead">
                     
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
                 </tr>
 
@@ -888,7 +888,7 @@
                         <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
                     </td>
 
-                    <td>
+                    <td class="PlayerNumberInput">
                         <input type="text" name="number" value="@{{number}}" class="number" maxlength="5" />
                     </td>
 

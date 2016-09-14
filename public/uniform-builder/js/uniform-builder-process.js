@@ -131,6 +131,16 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.hideColumns = function () {
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+            $('td.PlayerNumberInput, th.thPlayerNumberInput, td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+            
+        }
+
+    }
+
     ub.funcs.createNumbersSelectionPopup = function (_size) {
 
         $('body').scrollTo(0);
@@ -257,9 +267,7 @@ $(document).ready(function() {
 
             }
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-                $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
-            }
+            ub.funcs.hideColumns();
 
             $('span.clear-row[data-size="' + _size + '"]').unbind('click');
             $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
@@ -1139,13 +1147,120 @@ $(document).ready(function() {
 
             });
 
-            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+            
 
         }
 
     };
 
     ub.funcs.initRosterCalled = false;
+
+    ub.funcs.AddRosterRow = function (_size) {
+
+        console.log('Size: ');
+        console.log(_size);
+
+        var _returnValue = [];
+        var _currentCount = $('tr.roster-row').length;
+
+        var _markup         = '';
+        var $rosterTable    = $('table.roster-table[data-size="' + _size + '"] > tbody');
+        var _length         = $rosterTable.find('tr').length;
+
+        data = {
+            index: _length + 1,
+            size: _size,
+            number: _returnValue,
+        };
+
+        template = $('#m-roster-table-field').html();
+        markup = Mustache.render(template, data);
+
+        $rosterTable.append(markup);
+        ub.funcs.hideColumns();
+        
+        // var _returnValue = [];
+
+        // $('span.number').each(function(){
+
+        //     if ($(this).data('status') === 'selected') {
+
+        //         var _number = $(this).data('number');
+        //         ub.funcs.setNumberStatus(_number,'used');
+        //         _returnValue.push(_number);
+
+        //     }
+
+        // });
+
+        // numbers = _returnValue;
+
+        // var _markup         = '';
+        // var $rosterTable    = $('table.roster-table[data-size="' + _size + '"] > tbody');
+        // var _length         = $rosterTable.find('tr').length;
+
+        // _.each (numbers, function (number){
+
+        //     data = {
+        //         index: _length,
+        //         size: _size,
+        //         number: number,
+        //     };
+
+        //     template = $('#m-roster-table-field').html();
+        //     markup = Mustache.render(template, data);
+
+        //     $rosterTable.append(markup);
+
+        //     _length += 1;
+
+        // });
+
+        // if (ub.current_material.material.factory_code === "BLB") {
+
+        //     $('select.lastname-application').attr('disabled','disabled');
+        //     $('select.lastname-application').val('None');
+
+        //     $('select.sleeve-type').attr('disabled','disabled');
+        //     $('select.sleeve-type').val('Motion Cut');
+
+        // }
+        // else {
+
+        //     $('select.lastname-application').removeAttr('disabled');
+        //     $('select.sleeve-type').removeAttr('disabled');
+
+        // }
+
+        // ub.funcs.hideColumns();
+
+        // $('span.clear-row[data-size="' + _size + '"]').unbind('click');
+        // $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
+
+        //     var _index          = $(this).data('index');
+        //     var _size           = $(this).data('size');
+        //     var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
+        //     var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+        //     var _number = $row.find('input[name="number"]').val();
+
+        //     ub.funcs.setNumberStatus(_number, 'free');
+
+        //     $row.remove();
+
+        //     $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+        //         var index = indexVar + 1;
+
+        //         $(this).find('td').first().html(index);
+        //         $(this).find('span.clear-row').attr('data-index', index);
+        //         $(this).attr('data-index', index)
+
+        //     });
+
+        // });
+
+
+    }
 
     ub.funcs.initRoster = function () {
 
@@ -1182,12 +1297,27 @@ $(document).ready(function() {
         var template = $('#m-roster-table').html();
         var markup = Mustache.render(template, data);
 
+        ub.funcs.prepareUniformSizes();
+
         $('div.tabsContainer').append(markup);
+        ub.funcs.hideColumns();
 
         $('span.add-player').on('click', function () {
 
-            var _size           = $(this).data('size');
-            var numbers         = ub.funcs.createNumbersSelectionPopup(_size);
+            var _numbers    = ''; 
+            var _size       = '';
+
+            _size           = $(this).data('size');
+
+            if (!ub.funcs.currentSport('Wrestling')) {
+
+                _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
+
+            } else {
+
+                ub.funcs.AddRosterRow(_size);
+
+            }
 
         });
 
