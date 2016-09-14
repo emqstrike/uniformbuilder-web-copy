@@ -5189,22 +5189,25 @@
 
     ub.funcs.flipMascot = function (_settingsObject) {
 
+        var _flipped;
+
         _.each (_settingsObject.application.views, function (view){
 
            if(typeof view.application.flip === "undefined") {
 
-                view.application.flip = 1;
+                _flipped = view.application.flip = 1;
 
            }
            else {
 
                 if (view.application.flip === 0)  {
 
-                    view.application.flip = 1;
+                    _flipped = view.application.flip = 1;
+
 
                 } else {
 
-                    view.application.flip = 0;
+                    _flipped = view.application.flip = 0;
 
                 }
 
@@ -5217,7 +5220,6 @@
                 if (view.application.flip === 1) {
 
                     $('span.flipButton').addClass('active');
-
                     _obj.scale.x *= -1;
 
                 } else {
@@ -5230,6 +5232,8 @@
            }
 
         });
+
+        ub.funcs.pushOldState('flip', 'application', _settingsObject, {flip: _flipped === 1 ? 0:1 });
 
     }
 
