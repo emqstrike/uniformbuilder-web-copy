@@ -5114,10 +5114,15 @@
 
     }
 
-    ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj) {
+    ub.funcs.changeMascotFromPopup = function (mascotId, settingsObj, source) {
 
-        var _mascotID = mascotId.toString();
+        if (typeof source === "undefined") {
 
+            ub.funcs.pushOldState('change mascot', 'application', settingsObj, { mascotID: settingsObj.mascot.id });
+
+        }
+
+        var _mascotID     = mascotId.toString();
         var _mascotObj    = _.find(ub.data.mascots, {id: _mascotID});
         var _id           = settingsObj.id;
 
