@@ -1036,7 +1036,7 @@ class UniformBuilderController extends Controller
         }
         // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
 
-        //Slack::send($message);
+        Slack::send($message);
 
         return $transformedPath;
 
