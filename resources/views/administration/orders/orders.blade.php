@@ -20,6 +20,7 @@
                         <tr>
                             <th>Order code</th>
                             <th>Client</th>
+                            <th>User ID</th>
                             <th></th>
                             <th>Rep</th>
                             <th>Items</th>
@@ -42,6 +43,11 @@
                             <td>
                                 <div>
                                     {{ $order->client }}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{ $order->user_id }}
                                 </div>
                             </td>
                             <td>
