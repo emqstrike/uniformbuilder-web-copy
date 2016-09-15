@@ -5443,6 +5443,16 @@
 
     }
 
+    ub.funcs.clearScale = function (settingsObj) {
+
+        _.each (settingsObj.application.views, function (view) {
+
+            view.application.scale = undefined;
+
+        });
+
+    }
+
 
     ub.funcs.activateMascots = function (application_id) {
 
@@ -5813,6 +5823,8 @@
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
+                ub.funcs.clearScale(_settingsObject);
 
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
