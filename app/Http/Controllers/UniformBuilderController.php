@@ -1045,7 +1045,7 @@ class UniformBuilderController extends Controller
     public function generateOrderForm(Request $request){
 
         $r = $request->all();
-        
+
         $fname = $this->generatePDF($r);
 
         return response()->json(['success' => true, 'filename' => $fname ]);
