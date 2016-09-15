@@ -875,6 +875,10 @@
 
                                     flip = -1;
 
+                                } else {
+
+                                    flip = 1;
+
                                 }
 
                             }
@@ -1057,6 +1061,11 @@
                                 if (view.application.flip === 1) {
 
                                     flip = -1;
+
+                                }
+                                else {
+
+                                    flip = 1;
 
                                 }
 
@@ -2379,6 +2388,10 @@
                     if (view.application.flip === 1) {
 
                         point.scale.x *= -1;
+
+                    } else {
+                        
+                        point.scale.x = Math.abs(point.scale.x);
 
                     }
 
@@ -5168,6 +5181,13 @@
 
         }
         
+        // Reset flip when changing new mascot
+        _.each(settingsObj.application.views, function (v){
+            
+            v.application.flip = 0;
+            
+        });
+
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
         $popup = $('div#primaryPatternPopup');
