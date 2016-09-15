@@ -141,11 +141,11 @@ $(document).ready(function () {
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
 
-            window.onbeforeunload = function (e) {
+            // window.onbeforeunload = function (e) {
                 
-                return false;
+            //     return false;
 
-            };
+            // };
             
         };
 
