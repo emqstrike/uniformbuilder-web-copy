@@ -866,9 +866,22 @@
                 if(sprite.ubName === "Scale Tool") {
 
                     var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
-                    application_obj.scale    = sprite.scaleSetting;
-                    view.application.scale   = sprite.scaleSetting;
 
+                            var flip = 1;
+
+                            if (typeof view.application.flip !== 'undefined') {
+
+                                if (view.application.flip === 1) {
+
+                                    flip = -1;
+
+                                }
+
+                            }
+
+                    application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.x};
+                    view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.x};
+                    
                 }
 
             });
@@ -1032,16 +1045,28 @@
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         var application_type = view.application.type;
                         var distance = ub.funcs.lineDistance(application_obj.position, scale_point.position);
+
                         percentage = distance / 100;
                         
                         if (application_type === 'mascot') {
+
+                            var flip = 1;
+
+                            if (typeof view.application.flip !== 'undefined') {
+
+                                if (view.application.flip === 1) {
+
+                                    flip = -1;
+
+                                }
+
+                            }
+
+                            application_obj.scale = { x: percentage * flip, y: percentage};
+
+                            view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
+                            sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
                             
-                            application_obj.scale.x = percentage;
-                            application_obj.scale.y = percentage;
-                            view.application.scale  = application_obj.scale;
-
-                            sprite.scaleSetting = application_obj.scale;
-
                             ub.appObj = application_obj;
                             ub.appObjSettings = view.application;
 
