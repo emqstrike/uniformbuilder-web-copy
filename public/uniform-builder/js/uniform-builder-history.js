@@ -44,7 +44,7 @@ $(document).ready(function () {
                 var _oldValue = _historyItem.oldValue.flip;
                 var _settingsObject = _historyItem.settingsObject;
 
-                _.each (_settingsObject.application.views, function (view){
+                _.each (_settingsObject.application.views, function (view) {
 
                    _flipped = view.application.flip = _oldValue;
 

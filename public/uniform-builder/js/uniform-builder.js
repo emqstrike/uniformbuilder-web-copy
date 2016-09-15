@@ -132,9 +132,9 @@ $(document).ready(function () {
                 $('a.change-view[data-view="save"]').css('color','lightgray');
                 $('a.change-view[data-view="save"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                $('a.change-view[data-view="team-info"]').css('color','lightgray');
-                $('a.change-view[data-view="team-info"]').css('cursor','not-allowed');
-                $('a.change-view[data-view="team-info"]').attr('title','You must be logged-in to use this feature');
+                // $('a.change-view[data-view="team-info"]').css('color','lightgray');
+                // $('a.change-view[data-view="team-info"]').css('cursor','not-allowed');
+                // $('a.change-view[data-view="team-info"]').attr('title','You must be logged-in to use this feature');
 
             }
 
@@ -3743,6 +3743,59 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.quickRegistration = function () {
+
+            var _email = window.prompt("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.","");
+            var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+            
+            if (!email_regex.test(_email)) { 
+
+                alert('Please enter a valid email: ');
+                return false;
+
+            } else {
+
+                $.ajax({
+                    data: JSON.stringify({ email: _email }),
+                    url: ub.config.api_host + "/api/user/quickRegistration",
+                    dataType: "json",
+                    type: "POST", 
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                
+                    success: function (response){
+                        
+                        if(response.success) {
+
+                            window.ub.user = {
+                                id: response.data.user_id,
+                                fullname: "New User",
+                                email: _email,
+                                headerValue: response.accessToken,
+                            };
+
+                            ub.funcs.initRoster();
+                            return true;
+
+                        }
+                        else{
+
+                            alert('Email address is already in use. Use Login instead.');
+                            return false;
+
+                        }
+
+                    }
+                
+                });
+
+                return true;
+
+            }
+
+
+        }
 
         /// End Utilities ///
 
@@ -3756,6 +3809,7 @@ $(document).ready(function () {
 
             //$('#select_part').hide();
             
+            // Toolbar Event Handler
             $('a.change-view').on('click', function (e) {
 
                 var view = $(this).data('view');
@@ -3852,12 +3906,16 @@ $(document).ready(function () {
                 if (view === 'team-info') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
+
+                        ub.funcs.quickRegistration();
                         return;
+                        
+                        
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
 
-                        ub.funcs.initRoster();
+                    ub.funcs.initRoster();
 
                     return;
 

@@ -39,11 +39,13 @@ $(document).ready(function() {
 
         moveTool: false,
         scaleTool: false,
+        scaleXTool: false,
+        scaleYTool: false,
         rotateTool: false,
         resetTool: false,
         active: function () {
 
-            return (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool) 
+            return (this.moveTool || this.scaleTool || this.scaleXTool || this.scaleYTool || this.rotateTool || this.resetTool) 
 
         },
 
