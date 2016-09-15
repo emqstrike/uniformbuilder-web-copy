@@ -235,7 +235,7 @@
             window.ub.user = {
                 id: {{ Session::get('userId') }}, 
                 fullname: "{{ Session::get('fullname') }}", 
-                email: "{{ Session::get('email') }}", 
+                email: "{{ Session::get('email') }}",
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
             };
 

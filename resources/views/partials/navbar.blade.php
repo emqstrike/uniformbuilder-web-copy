@@ -48,6 +48,7 @@
                     </ul>
                 </li>
             </ul>
+            
             @else
 
             <a href="#" id="feedback">
@@ -59,7 +60,7 @@
             <div class = "btn-group">
 
               <button type = "button" class = "btn">
-                    <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello {{ Session::get('first_name') }}!</strong>
+                  <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello {{ Session::get('first_name') }}!</strong>
               </button>
 
               <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">

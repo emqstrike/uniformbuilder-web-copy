@@ -1265,7 +1265,6 @@ $(document).ready(function() {
     ub.funcs.initRoster = function () {
 
         if (ub.funcs.initRosterCalled) { return; }
-        // if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
         if (typeof ub.user.id === "undefined") { return; }
 
         ub.funcs.prepareUniformSizes();
@@ -1415,7 +1414,7 @@ $(document).ready(function() {
 
             $.ajax({
                 data: JSON.stringify({ dataUrl: _dataUrl }),
-                url: ub.config.host + "/saveLogo",
+                url: ub.config.api_host + "/saveLogo",
                 dataType: "json",
                 type: "POST", 
                 crossDomain: true,
@@ -1445,7 +1444,7 @@ $(document).ready(function() {
                     }
 
                 }
-            
+
             });
 
         };
