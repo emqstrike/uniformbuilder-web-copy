@@ -31,7 +31,61 @@ $(document).ready(function () {
 
         var _historyItem = ub.data.undoHistory.pop();
 
+        console.log(_historyItem.operationType);
+        console.log(_historyItem);
+
         switch (_historyItem.operationType) {
+
+            case "change mascot size":
+
+                if (typeof _historyItem.oldValue.oldScale !== "undefined") {
+
+                    var _id = _historyItem.settingsObject.code;
+                    var _selectedSize = _historyItem.oldValue.size;
+
+                    _.each(_historyItem.settingsObject.application.views, function (view) {
+
+                        view.application.scale = _historyItem.oldValue.oldScale;
+
+                        console.log('Old Scale: ');
+                        console.log(_historyItem.oldValue.OldScale);
+
+                    });
+
+                    ub.funcs.changeMascotSize(_selectedSize, _historyItem.settingsObject, 'undo');
+                    
+                    if (_id === "9") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                        ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                    }
+
+                    if (_id === "10") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                    }
+
+                    if (_id === "32") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                        ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                    }
+
+                    if (_id === "33") {
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                        ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+
+                    }
+
+                }
+
+
+                break; 
 
             case "change mascot": 
 
