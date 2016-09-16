@@ -1044,6 +1044,7 @@
                     var scale_x_point = ub.objects[view.perspective + '_view']['scale_x_tool'];
                     var scale_y_point = ub.objects[view.perspective + '_view']['scale_y_tool'];
                     var reset_point = ub.objects[view.perspective + '_view']['reset_tool'];
+                    var center_point = ub.objects[view.perspective + '_view']['center_tool'];
 
                     if(sprite.ubName === "Move Tool") {
 
@@ -1107,7 +1108,7 @@
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         var application_type = view.application.type;
-                        var distance = ub.funcs.lineDistance(application_obj.position, scale_point.position);
+                        var distance = ub.funcs.lineDistance(center_point.position, scale_point.position);
 
                         percentage = distance / 100;
                         
@@ -1153,7 +1154,7 @@
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         var application_type = view.application.type;
-                        var distance = ub.funcs.lineDistance(application_obj.position, scale_x_point.position);
+                        var distance = ub.funcs.lineDistance(center_point.position, scale_x_point.position);
 
                         percentage = distance / 100;
                         
@@ -1199,7 +1200,7 @@
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         var application_type = view.application.type;
-                        var distance = ub.funcs.lineDistance(application_obj.position, scale_y_point.position);
+                        var distance = ub.funcs.lineDistance(center_point.position, scale_y_point.position);
 
                         percentage = distance / 100;
                         
@@ -7411,6 +7412,32 @@
 
         /// End Manipulator Group 
 
+          // --- Center Point --- ///
+
+        var _filenameCenter = "/images/builder-ui/center-point.png";
+        var _spriteCenter = ub.pixi.new_sprite(_filenameCenter);
+
+        ub.objects[_perspective].center_tool = _spriteCenter;
+        ub[_perspective].addChild(_spriteCenter);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _spriteCenter.position.x  = _view.application.center.x;
+        _spriteCenter.position.y  = _view.application.center.y;
+
+        _spriteCenter.ubName = 'Center Tool';
+        _spriteCenter.anchor.set(0, 0);
+        _spriteCenter.zIndex = -1000;
+        _spriteCenter.alpha = 0;
+
+        // Center Point Adjustment
+
+        _spriteCenter.position.x -= _appObj.width / 4;
+        _spriteCenter.position.y -= _appObj.height / 4;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
+
         // --- Rotate --- ///
 
         var _filenameRotate = "/images/builder-ui/rotate-icon-on.png";
@@ -7603,6 +7630,13 @@
             if (typeof ub.objects[_view].reset_tool !== 'undefined') {
 
                 ub[_view].removeChild(ub.objects[_view].reset_tool);
+                delete ub.objects[_view].reset_tool;
+
+            }
+
+            if (typeof ub.objects[_view].center_tool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].center_tool);
                 delete ub.objects[_view].reset_tool;
 
             }
