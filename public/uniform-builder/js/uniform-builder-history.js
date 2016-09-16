@@ -31,9 +31,6 @@ $(document).ready(function () {
 
         var _historyItem = ub.data.undoHistory.pop();
 
-        console.log(_historyItem.operationType);
-        console.log(_historyItem);
-
         switch (_historyItem.operationType) {
 
             case "change mascot size":
@@ -46,9 +43,6 @@ $(document).ready(function () {
                     _.each(_historyItem.settingsObject.application.views, function (view) {
 
                         view.application.scale = _historyItem.oldValue.oldScale;
-
-                        console.log('Old Scale: ');
-                        console.log(_historyItem.oldValue.OldScale);
 
                     });
 
