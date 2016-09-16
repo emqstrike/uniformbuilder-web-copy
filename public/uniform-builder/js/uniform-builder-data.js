@@ -83,6 +83,8 @@ $(document).ready(function() {
 
     }
 
+
+
     /// End Interactive Viewport
 
     ub.container_div                = 'main_view';
@@ -157,6 +159,25 @@ $(document).ready(function() {
 
     ub.data                         = {};
     ub.data.views                   = ['front', 'back', 'left', 'right'];
+
+    ub.data.placeHolderApplications = [
+        {
+            id: 100,
+            perspective: 'front',
+        },
+        {
+            id: 101,
+            perspective: 'back',
+        },
+        {
+            id: 102,
+            perspective: 'left',
+        },
+        {
+            id: 103,
+            perspective: 'right',
+        }
+    ];
 
     ub.data.design_sets             = undefined;
     ub.data.materials               = undefined;

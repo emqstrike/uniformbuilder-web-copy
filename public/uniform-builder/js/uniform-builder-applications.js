@@ -7520,6 +7520,10 @@
 
             }
             
+        } else {
+
+            _spriteScaleX.alpha = 0;
+
         }
         
 
@@ -7558,6 +7562,10 @@
 
             }
             
+        } else {
+
+            _spriteScaleY.alpha = 0;
+
         }
 
 
@@ -7874,13 +7882,15 @@
 
     ub.funcs.showLocations = function (alphaOff) {
 
+        var _dummyApplications = [100]
+
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
         var _id = _.pluck(ub.current_material.settings.applications, 'code')[0];
 
         if (ub.current_material.material.type === 'lower') {
-            _id = 38
+            _id = 38;
         }
 
         if (typeof ub.objects['front_view']['locations_' + _locations[_id].code] === "object") {
@@ -7898,8 +7908,13 @@
 
                    } else {
 
-                        _locationObj.alpha = 1;
+                        var _match = _.find(ub.data.placeHolderApplications, {id: parseInt(location.code)});
+                        
+                        if (typeof _match === "undefined") {
 
+                            _locationObj.alpha = 1;
+
+                        }
 
                    }
 

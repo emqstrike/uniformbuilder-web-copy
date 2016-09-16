@@ -78,7 +78,6 @@ $(document).ready(function () {
 
                 }
 
-
                 break; 
 
             case "change mascot": 
