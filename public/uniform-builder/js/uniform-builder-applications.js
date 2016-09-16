@@ -987,7 +987,6 @@
 
                 ub.funcs.pushOldState('position, scale, rotation change', 'application', _application, oldSettings);
 
-
             } else {
 
                 if(sprite.ubName === "Reset Tool") {
@@ -4961,10 +4960,22 @@
 
     }
 
-    ub.funcs.changeMascotSize = function (size, settingsObj) {
+    ub.funcs.changeMascotSize = function (size, settingsObj, source) {
 
         var _id         = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
+
+        if (typeof source === "undefined") {
+
+            var oldScale = undefined;
+
+            if (typeof settingsObj.oldScale !== "undefined") {
+                oldScale = settingsObj.oldScale;   
+            }
+
+            ub.funcs.pushOldState('change mascot size', 'application', settingsObj, { size: settingsObj.size, oldScale: oldScale });
+
+        }
 
         settingsObj.size = parseFloat(size);
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
@@ -5445,11 +5456,17 @@
 
     ub.funcs.clearScale = function (settingsObj) {
 
+        var _oldScale;
+
         _.each (settingsObj.application.views, function (view) {
+
+            _oldScale = view.application.scale;
 
             view.application.scale = undefined;
 
         });
+
+        return _oldScale;
 
     }
 
@@ -5824,7 +5841,8 @@
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
 
-                ub.funcs.clearScale(_settingsObject);
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
 
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
