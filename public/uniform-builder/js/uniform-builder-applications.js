@@ -7828,9 +7828,15 @@
 
                         // start
 
-                        sprite.ubHover      = true;
-                        ub.funcs.highlightMarker(locationCode, viewPerspective);
-                        ub.data.applicationAccumulator = _sizeOfApplications;
+                         var _match = _.find(ub.data.placeHolderApplications, {id: parseInt(locationCode)});
+                        
+                        if (typeof _match === "undefined") {
+
+                            sprite.ubHover      = true;
+                            ub.funcs.highlightMarker(locationCode, viewPerspective);
+                            ub.data.applicationAccumulator = _sizeOfApplications;
+
+                        }
                        
                     } else {
 
@@ -7881,8 +7887,6 @@
     }
 
     ub.funcs.showLocations = function (alphaOff) {
-
-        var _dummyApplications = [100]
 
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
@@ -7959,6 +7963,13 @@
         });
 
     }
+
+    ub.funcs.addLocation = function () {
+
+        var _pha = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
+        var _phaSettings = ub.data.placeholderApplicationSettings[_pha.id];
+        
+    };
 
     ub.funcs.activateFreeApplication = function (application_id) {
 

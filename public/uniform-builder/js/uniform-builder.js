@@ -141,6 +141,18 @@ $(document).ready(function () {
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
 
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                $('a.change-view[data-view="locations-add"]').show();
+                $('a.change-view[data-view="save"]').hide();
+
+            } else {
+
+                $('a.change-view[data-view="locations-add"]').hide();
+                $('a.change-view[data-view="save"]').show();
+
+            }
+
             // window.onbeforeunload = function (e) {
                 
             //     return false;
@@ -3882,6 +3894,15 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'locations-add') {
+
+                    ub.funcs.deActivateZoom();
+                    ub.funcs.addLocation();
+                    
+                    return;
+
+                }
+
                 if (view === 'zoom') {
 
                     ub.funcs.deActivateLocations();
@@ -3910,11 +3931,9 @@ $(document).ready(function () {
                         ub.funcs.quickRegistration();
                         return;
                         
-                        
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-
                     ub.funcs.initRoster();
 
                     return;

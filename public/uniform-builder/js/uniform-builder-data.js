@@ -160,25 +160,6 @@ $(document).ready(function() {
     ub.data                         = {};
     ub.data.views                   = ['front', 'back', 'left', 'right'];
 
-    ub.data.placeHolderApplications = [
-        {
-            id: 100,
-            perspective: 'front',
-        },
-        {
-            id: 101,
-            perspective: 'back',
-        },
-        {
-            id: 102,
-            perspective: 'left',
-        },
-        {
-            id: 103,
-            perspective: 'right',
-        }
-    ];
-
     ub.data.design_sets             = undefined;
     ub.data.materials               = undefined;
     ub.data.colors                  = {};
@@ -6449,6 +6430,30 @@ ub.funcs.fontOffSets = [
     ub.data.undoHistory = undefined;
 
     ///
+
+    /// Placeholder Application 
+
+    ub.data.placeHolderApplications = [
+        {
+            id: 100,
+            perspective: 'front',
+        },
+        {
+            id: 101,
+            perspective: 'back',
+        },
+        {
+            id: 102,
+            perspective: 'left',
+        },
+        {
+            id: 103,
+            perspective: 'right',
+        }
+    ];
+
+
+    /// End Placeholder Application
 
 
 });

@@ -234,6 +234,11 @@
                 
             </a>
 
+            <a class="footer-buttons change-view" data-view="locations-add">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <br /><span>Add Location</span>
+            </a>
+
             <a class="footer-buttons change-view" data-view="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 <br /><span>Save Design</span>
