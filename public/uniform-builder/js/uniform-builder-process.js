@@ -1414,7 +1414,7 @@ $(document).ready(function() {
 
             $.ajax({
                 data: JSON.stringify({ dataUrl: _dataUrl }),
-                url: ub.config.api_host + "/saveLogo",
+                url: ub.config.host + "/saveLogo",
                 dataType: "json",
                 type: "POST", 
                 crossDomain: true,
