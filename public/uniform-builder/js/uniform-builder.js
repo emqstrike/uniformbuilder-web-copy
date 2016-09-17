@@ -141,6 +141,18 @@ $(document).ready(function () {
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
 
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                $('a.change-view[data-view="locations-add"]').show();
+                $('a.change-view[data-view="save"]').hide();
+
+            } else {
+
+                $('a.change-view[data-view="locations-add"]').hide();
+                $('a.change-view[data-view="save"]').show();
+
+            }
+
             // window.onbeforeunload = function (e) {
                 
             //     return false;
@@ -1030,6 +1042,10 @@ $(document).ready(function () {
                     };
 
                 }
+
+                // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
+                // will be used to count be able to determine the sequence id to be assigned to new applications
+                _output.configurationSource = 'Default'; 
 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
@@ -3882,6 +3898,15 @@ $(document).ready(function () {
 
                 }
 
+                if (view === 'locations-add') {
+
+                    ub.funcs.deActivateZoom();
+                    ub.funcs.addLocation();
+                    
+                    return;
+
+                }
+
                 if (view === 'zoom') {
 
                     ub.funcs.deActivateLocations();
@@ -3910,11 +3935,9 @@ $(document).ready(function () {
                         ub.funcs.quickRegistration();
                         return;
                         
-                        
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-
                     ub.funcs.initRoster();
 
                     return;
