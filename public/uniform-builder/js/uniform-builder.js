@@ -1043,6 +1043,10 @@ $(document).ready(function () {
 
                 }
 
+                // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
+                // will be used to count be able to determine the sequence id to be assigned to new applications
+                _output.configurationSource = 'Default'; 
+
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
             });

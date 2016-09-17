@@ -2586,7 +2586,7 @@
             var apps_transformed        = ub.data.applications_transformed;
             var apps_one_dimensional    = ub.data.applications_transformed_one_dimensional;
 
-            _.each(shapes, function(shape){
+            _.each(shapes, function(shape) {
 
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
@@ -7886,6 +7886,54 @@
 
     }
 
+    ub.funcs.renderLocations = function (locationCode) {
+
+        var _locations = ub.current_material.settings.applications;  
+
+         _.each (_locations, function (location) {
+
+            if (location.type === "free") { 
+
+                /// Todo: Handle Here ....
+
+            }
+
+            _.each(location.application.views, function (view, index) {
+
+                var _perspective    = view.perspective + '_view';
+                var _viewObject     = ub.objects[_perspective];
+
+                // If object already exists continue
+                if (typeof _viewObject['locations_' + location.code] === "object") { return; }
+
+                var _x              = view.application.center.x;
+                var _y              = view.application.center.y;
+                var _sprite         = ub.funcs.createLocationSprite(location.code);
+
+                _viewObject['locations_' + location.code] = _sprite;
+
+                _sprite.position.x  = _x;
+                _sprite.position.y  = _y;
+
+                _sprite.zIndex = -200 + (index * -1);
+
+                ub[_perspective].addChild(_sprite);
+                ub.updateLayersOrder(ub[_perspective]);
+
+                ub.funcs.createClickableMarkers(_sprite, _viewObject, location.code, view.perspective);
+
+            });
+
+        });
+
+        if (typeof locationCode !== "undefined") {
+
+            ub.funcs.activateFreeApplication(locationCode);
+
+        }
+
+    }
+
     ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
@@ -7930,37 +7978,16 @@
 
         }
 
-        _.each (_locations, function (location) {
+        ub.funcs.renderLocations();
 
-            if (location.type === "free") { 
+    }
 
-                /// Todo: Handle Here ....
+    ub.funcs.getNewCustomID = function () {
 
-            }
+        var _ctr = 0;
 
-            _.each(location.application.views, function (view, index) {
-
-                var _perspective    = view.perspective + '_view';
-                var _viewObject     = ub.objects[_perspective];
-                var _x              = view.application.center.x;
-                var _y              = view.application.center.y;
-                var _sprite         = ub.funcs.createLocationSprite(location.code);
-
-                _viewObject['locations_' + location.code] = _sprite;
-
-                _sprite.position.x  = _x;
-                _sprite.position.y  = _y;
-
-                _sprite.zIndex = -200 + (index * -1);
-
-                ub[_perspective].addChild(_sprite);
-                ub.updateLayersOrder(ub[_perspective]);
-
-                ub.funcs.createClickableMarkers(_sprite, _viewObject, location.code, view.perspective);
-
-            });
-
-        });
+        _ctr = _.size(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}));
+        return _ctr + 1;
 
     }
 
@@ -7968,7 +7995,33 @@
 
         var _pha = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings = ub.data.placeholderApplicationSettings[_pha.id];
-        
+        var _newID = ub.funcs.getNewCustomID();
+
+        console.log('New ID: ');
+        console.log(_newID);
+        console.log(_phaSettings);
+
+        var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
+
+        _newID = 70 + _newID;
+        _newIDStr = _newID.toString(); 
+
+        _newApplication.code            = _newIDStr;
+        _newApplication.application.id  = _newIDStr;
+        _newApplication.configurationSource     = "Added";
+
+        _.each(_newApplication.application.views, function (view) {
+
+            view.application.id = _newIDStr;
+
+        });
+
+        ub.current_material.settings.applications[_newIDStr] = _newApplication;
+        ub.data.applications_transformed["Body"][_newIDStr] = _newApplication.application;
+        ub.data.applications_transformed_one_dimensional[_newIDStr] = _newApplication.application;
+
+        ub.funcs.renderLocations(_newIDStr);
+
     };
 
     ub.funcs.activateFreeApplication = function (application_id) {
