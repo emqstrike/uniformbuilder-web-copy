@@ -132,10 +132,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="save"]').css('color','lightgray');
                 $('a.change-view[data-view="save"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                // $('a.change-view[data-view="team-info"]').css('color','lightgray');
-                // $('a.change-view[data-view="team-info"]').css('cursor','not-allowed');
-                // $('a.change-view[data-view="team-info"]').attr('title','You must be logged-in to use this feature');
-
+                
             }
 
             ub.data.undoHistory = [];
@@ -225,11 +222,11 @@ $(document).ready(function () {
 
         /// Load Assets 
 
-        ub.callback_update = function (obj, object_name) { 
+        ub.callback_update = function (obj, object_name) {
 
             ub.data[object_name] = obj;
 
-            if (object_name === 'fonts') { 
+            if (object_name === 'fonts') {
 
                 ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
                 ub.data.fonts = _.sortBy(ub.data.fonts, "name");

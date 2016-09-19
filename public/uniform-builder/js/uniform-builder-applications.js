@@ -1104,14 +1104,15 @@
                         scale_x_point.alpha     = 0;
                         scale_y_point.alpha     = 0;
 
-
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-                        var application_type = view.application.type;
+                        //var application_type = view.application.type;
+
+                        var application_type = _application.application_type;
                         var distance = ub.funcs.lineDistance(center_point.position, scale_point.position);
 
                         percentage = distance / 100;
-                        
+
                         if (application_type === 'mascot') {
 
                             var flip = 1;
@@ -1135,7 +1136,7 @@
 
                             view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
                             sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                            
+
                             ub.appObj = application_obj;
                             ub.appObjSettings = view.application;
 
@@ -6229,6 +6230,10 @@
             if (_id === 5) { _settingsObject.size = 10; }
             if (_id === 4) { _settingsObject.size = 0.5; }
 
+            if (_id !== 1 || _id !== 2 || _id !== 5 || _id !== 4) {
+                _settingsObject.size = 5;
+            }
+
             var _matchingID;
             var _matchingSide;
             
@@ -7993,21 +7998,16 @@
 
     ub.funcs.addLocation = function () {
 
-        var _pha = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
-        var _phaSettings = ub.data.placeholderApplicationSettings[_pha.id];
-        var _newID = ub.funcs.getNewCustomID();
-
-        console.log('New ID: ');
-        console.log(_newID);
-        console.log(_phaSettings);
-
+        var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
+        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
 
         _newID = 70 + _newID;
         _newIDStr = _newID.toString(); 
 
-        _newApplication.code            = _newIDStr;
-        _newApplication.application.id  = _newIDStr;
+        _newApplication.code                    = _newIDStr;
+        _newApplication.application.id          = _newIDStr;
         _newApplication.configurationSource     = "Added";
 
         _.each(_newApplication.application.views, function (view) {
@@ -8090,7 +8090,6 @@
             if ($(this).hasClass('deactivatedOptionButton')) { return; }
 
             var _type = $(this).data('type');
-
             _settingsObject.status = 'on';
 
             ub.funcs.changeApplicationType(_settingsObject, _type);
