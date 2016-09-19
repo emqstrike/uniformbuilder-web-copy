@@ -3985,11 +3985,33 @@
 
     }
 
+    ub.funcs.getTeamColorObjByIndex = function (index) {
+
+        var _index      = parseInt(index);
+        var _colorObj   = ub.current_material.settings.team_colors[_index];
+
+        if (typeof _colorObj === "undefined") {
+
+            _colorObj = ub.data.colors[0];
+
+        }
+
+        return _colorObj;
+
+    };
+
     ub.funcs.changePatternFromPopup = function (currentPart, patternID) {
 
         var _patternID                  = patternID.toString();
         var _currentPart                = currentPart;
         var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        
+        _.each (_patternObject.layers, function (layer)  {
+
+            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+            layer.default_color = team_color.hex_code;
+
+        });
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
 
@@ -5505,6 +5527,12 @@
 
     ub.funcs.activateMascots = function (application_id) {
 
+        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
+
+            return; 
+
+        }
+
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         ub.funcs.activateMoveTool(application_id);
@@ -6506,6 +6534,7 @@
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
+        if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         ub.funcs.activateMoveTool(application_id);
 
@@ -7322,6 +7351,12 @@
 
     ub.funcs.activateMoveTool = function (application_id) {
 
+        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
+
+            return; 
+
+        }
+
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
         // if deleted exit
@@ -8085,6 +8120,8 @@
         delete ub.data.applications_transformed_one_dimensional[locationID];
 
         ub.funcs.deactivateMoveTool(locationID);
+        ub.tools.activeTool.deactivate();
+
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
         $('body').css('cursor', 'auto');
 
@@ -8095,6 +8132,7 @@
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
 
     }
+
 
     ub.funcs.addLocation = function () {
 
@@ -8127,6 +8165,9 @@
     };
 
     ub.funcs.activateFreeApplication = function (application_id) {
+
+        if ($('div#primaryPatternPopup').is(':visible')) { return; }
+        if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});

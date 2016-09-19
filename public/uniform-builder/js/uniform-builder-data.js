@@ -44,6 +44,17 @@ $(document).ready(function() {
         rotateTool: false,
         resetTool: false,
         deleteTool: false,
+        deactivate: function () {
+
+            this.moveTool   = false;
+            this.scaleTool  = false;
+            this.scaleXTool = false;
+            this.scaleYTool = false;
+            this.rotateTool = false;
+            this.resetTool  = false;
+            this.deleteTool = false;
+            
+        }, 
         active: function () {
 
             return (this.moveTool || this.scaleTool || this.scaleXTool || this.scaleYTool || this.rotateTool || this.resetTool || this.deleteTool) 

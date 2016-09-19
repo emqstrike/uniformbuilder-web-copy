@@ -582,6 +582,7 @@ $(document).ready(function () {
 
     ub.funcs.getColorObjByHexCode = function (hexCode) {
 
+        
         var _baseColors = ub.funcs.getBaseColors();
 
         var _colorObj   = _.find(_baseColors, {hex_code: hexCode.lpad("0",6).toString()});
