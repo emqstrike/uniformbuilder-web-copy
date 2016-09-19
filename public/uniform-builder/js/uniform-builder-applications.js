@@ -5508,6 +5508,46 @@
 
     }
 
+    ub.funcs.verticalText = function (_settingsObject) {
+
+        var _vertical;
+
+        _.each (_settingsObject.application.views, function (view){
+
+           if(typeof _settingsObject.verticalText === "undefined" || _settingsObject.verticalText === 0) {
+
+                _vertical = _settingsObject.verticalText = 1;
+
+           }
+           else {
+
+                _vertical = _settingsObject.verticalText = undefined;
+    
+           }
+
+           var _obj = ub.objects[view.perspective + "_view"]['objects_' + _settingsObject.code];
+
+           if (typeof _obj !== "undefined") {
+
+                if (_settingsObject.verticalText  === 1) {
+
+                    $('span.flipButton').addClass('active');
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+
+                } else {
+
+                    $('span.flipButton').removeClass('active');
+                    ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+                }
+                
+           }
+
+        });
+
+    }
+
     ub.funcs.clearScale = function (settingsObj) {
 
         var _oldScale;
@@ -6673,9 +6713,10 @@
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<div class="column1">'
         _htmlBuilder        +=                 '<div class="sub1">';
-        _htmlBuilder        +=                    '<br />';        
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=                 '<div class="colorContainer"><br />';
 
@@ -6708,6 +6749,41 @@
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// Vertical Text
+
+            if (ub.current_material.material.uniform_category !== "Wrestling") {
+
+                $('span.flipButton').hide();
+
+            } else {
+
+                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+
+                if (typeof _settingsObject.verticalText !== "undefined" && _settingsObject.verticalText !== 0) {
+
+                    $('span.flipButton').addClass('active');    
+                    
+                } else {
+
+                    $('span.flipButton').removeClass('active');
+
+                }
+
+            }
+
+            $('span.flipButton').on('click', function () {
+
+                var _settingsObject = _.find(ub.current_material.settings.applications, {code: _id});
+
+                ub.funcs.pushOldState('vertical text', 'application', _settingsObject, {verticalText: _settingsObject.verticalText});
+                ub.funcs.verticalText(_settingsObject);
+                ub.funcs.activateMoveTool(application_id);
+                
+            });
+
+            /// End Vertical Text 
 
             $('div.applicationType').on('click', function () {
 

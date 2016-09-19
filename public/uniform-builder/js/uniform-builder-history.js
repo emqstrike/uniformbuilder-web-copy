@@ -33,6 +33,15 @@ $(document).ready(function () {
 
         switch (_historyItem.operationType) {
 
+            case "vertical text":
+
+                _historyItem.settingsObject.verticalText = typeof _historyItem.oldValue.verticalText === "undefined" || _historyItem.oldValue.verticalText === 0 ? 1:0;
+
+                ub.funcs.verticalText(_historyItem.settingsObject);
+                ub.funcs.activateMoveTool(_historyItem.settingsObject.code);
+                
+                break; 
+
             case "add location":
 
                 ub.funcs.deleteLocation(_historyItem.oldValue.applicationID);
