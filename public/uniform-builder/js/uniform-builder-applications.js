@@ -8090,7 +8090,15 @@
 
     };
 
+    ub.funcs.activateBody = function () {
+
+        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+
+    }
+
     ub.funcs.addLocation = function () {
+
+        ub.funcs.activateBody(); // Force Activate Body to prevent Select Application type from not being shown
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
