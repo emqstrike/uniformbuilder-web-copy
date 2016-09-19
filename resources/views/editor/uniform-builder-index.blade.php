@@ -236,7 +236,7 @@
 
             <a class="footer-buttons change-view" data-view="locations-add">
                 <i class="fa fa-plus" aria-hidden="true"></i>
-                <br /><span>Add Location</span>
+                <br /><span>Add Loc.</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="save">
