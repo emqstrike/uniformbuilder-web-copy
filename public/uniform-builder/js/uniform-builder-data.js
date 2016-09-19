@@ -43,9 +43,10 @@ $(document).ready(function() {
         scaleYTool: false,
         rotateTool: false,
         resetTool: false,
+        deleteTool: false,
         active: function () {
 
-            return (this.moveTool || this.scaleTool || this.scaleXTool || this.scaleYTool || this.rotateTool || this.resetTool) 
+            return (this.moveTool || this.scaleTool || this.scaleXTool || this.scaleYTool || this.rotateTool || this.resetTool || this.deleteTool) 
 
         },
 
