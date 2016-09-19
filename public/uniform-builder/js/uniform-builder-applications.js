@@ -8192,7 +8192,21 @@
         });
 
         delete ub.current_material.settings.applications[locationID];
-        delete ub.data.applications_transformed["Body"][locationID];
+
+        if (typeof ub.data.applications_transformed["Body"] !== "undefined") {
+
+            delete ub.data.applications_transformed["Body"][locationID];
+
+        } else {
+
+            if (typeof ub.data.applications_transformed["Body Panel Color"] !== "undefined") {
+
+                delete ub.data.applications_transformed["Body Panel Color"][locationID];
+
+            }
+
+        }
+        
         delete ub.data.applications_transformed_one_dimensional[locationID];
 
         ub.funcs.deactivateMoveTool(locationID);
@@ -8233,7 +8247,20 @@
         });
 
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
-        ub.data.applications_transformed["Body"][_newIDStr] = _newApplication.application;
+        if (typeof ub.data.applications_transformed["Body"] !== 'undefined') {
+
+            ub.data.applications_transformed["Body"][_newIDStr] = _newApplication.application;
+
+        } else {
+
+            if (typeof ub.data.applications_transformed["Body Panel Color"] !== 'undefined') {
+
+                ub.data.applications_transformed["Body Panel Color"][_newIDStr] = _newApplication.application;
+
+            }
+
+        }
+        
         ub.data.applications_transformed_one_dimensional[_newIDStr] = _newApplication.application;
 
         ub.funcs.renderLocations(_newIDStr);
