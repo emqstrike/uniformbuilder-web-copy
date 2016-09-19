@@ -850,6 +850,9 @@
                     _object.position.x -= _changeX;
                     _object.position.y -= _changeY;
 
+                    var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
+                    _locationMarker.position = _object.position;
+
                 }
 
                 if(sprite.ubName === "Rotate Tool") {
@@ -1057,8 +1060,10 @@
                         view.application.center.x = sprite.x;
                         view.application.center.y = sprite.y;
 
-                        ub.objects[view.perspective + '_view']['objects_' + _application.code].position.x = sprite.x;
-                        ub.objects[view.perspective + '_view']['objects_' + _application.code].position.y = sprite.y;
+                        var _obj = ub.objects[view.perspective + '_view']['objects_' + _application.code]
+
+                        _obj.position.x = sprite.x;
+                        _obj.position.y = sprite.y;
                         
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
@@ -1068,6 +1073,9 @@
                         
                         ub.objects.front_view.manipulatorTool.position.x = sprite.x;
                         ub.objects.front_view.manipulatorTool.position.y = sprite.y;
+
+                        var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
+                        _locationMarker.position = _obj.position;
 
                     }
 
