@@ -7124,6 +7124,9 @@
                 _settingsObject.text = _val;
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
+                // cancel automatic changing of application (e.g. all team names changes)
+                if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+
                 _.each (ub.current_material.settings.applications, function (_application) {
 
                     if (_application.type !== "logo" && _application.type !== "mascot") {
@@ -7163,6 +7166,9 @@
 
                     _settingsObject.text = _val;
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
+
+                    // cancel automatic changing of application (e.g. all team names changes)
+                    if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
                 
                     _.each (ub.current_material.settings.applications, function (_application) {
 
