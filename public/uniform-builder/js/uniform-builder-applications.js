@@ -960,6 +960,13 @@
 
             ub.status.manipulatorDown = true;
 
+            if(sprite.ubName === "Delete Tool") {
+
+                ub.funcs.deleteLocation(_application.code);
+                return;
+
+            }
+
             if(sprite.ubName !== "Reset Tool") {
 
                 var oldSettings = [];
@@ -1048,6 +1055,7 @@
                     var scale_y_point = ub.objects[view.perspective + '_view']['scale_y_tool'];
                     var reset_point = ub.objects[view.perspective + '_view']['reset_tool'];
                     var center_point = ub.objects[view.perspective + '_view']['center_tool'];
+                    var delete_point = ub.objects[view.perspective + '_view']['delete_tool'];
 
                     if(sprite.ubName === "Move Tool") {
 
@@ -1056,6 +1064,7 @@
                         reset_point.alpha       = 0;
                         scale_x_point.alpha     = 0;
                         scale_y_point.alpha     = 0;
+                        delete_point.alpha      = 0;
 
                         view.application.center.x = sprite.x;
                         view.application.center.y = sprite.y;
@@ -1071,8 +1080,14 @@
                         ub.objects[view.perspective + '_view']['scale_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['scale_tool'].position.y = sprite.y;
                         
-                        ub.objects.front_view.manipulatorTool.position.x = sprite.x;
-                        ub.objects.front_view.manipulatorTool.position.y = sprite.y;
+                        var _mTool = ub.objects[view.perspective + '_view']['manipulatorTool'];
+
+                        if (typeof _mTool !== "undefined") {
+
+                            _mTool.position.x = sprite.x;
+                            _mTool.position.y = sprite.y;
+
+                        }
 
                         var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
                         _locationMarker.position = _obj.position;
@@ -1086,7 +1101,7 @@
                         reset_point.alpha       = 0;
                         scale_x_point.alpha     = 0;
                         scale_y_point.alpha     = 0;
-
+                        delete_point.alpha      = 0;
                      
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -1111,6 +1126,7 @@
                         reset_point.alpha       = 0;
                         scale_x_point.alpha     = 0;
                         scale_y_point.alpha     = 0;
+                        delete_point.alpha      = 0;
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -1159,6 +1175,7 @@
                         reset_point.alpha       = 0;
                         scale_point.alpha       = 0;
                         scale_y_point.alpha     = 0;
+                        delete_point.alpha      = 0;
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -1205,6 +1222,7 @@
                         reset_point.alpha       = 0;
                         scale_point.alpha       = 0;
                         scale_x_point.alpha     = 0;
+                        delete_point.alpha      = 0;
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
@@ -1264,7 +1282,7 @@
                 return;
             }
 
-            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" && sprite.ubName !== "Scale Tool" && sprite.ubName !== "Scale X Tool" && sprite.ubName !== "Scale Y Tool" && sprite.ubName !== "Reset Tool") {
+            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" && sprite.ubName !== "Scale Tool" && sprite.ubName !== "Scale X Tool" && sprite.ubName !== "Scale Y Tool" && sprite.ubName !== "Reset Tool" && sprite.ubName !== "Delete Tool") {
 
                 return;
 
@@ -1298,6 +1316,7 @@
                     if (sprite.ubName === "Scale X Tool") { ub.tools.activeTool.scaleXTool = true; }
                     if (sprite.ubName === "Scale Y Tool") { ub.tools.activeTool.scaleYTool = true; }
                     if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = true; }
+                    if (sprite.ubName === "Delete Tool") { ub.tools.activeTool.deleteTool = true; }
 
                 } else {
 
@@ -1312,6 +1331,7 @@
                     if (sprite.ubName === "Scale X Tool") { ub.tools.activeTool.scaleXTool = false; }
                     if (sprite.ubName === "Scale Y Tool") { ub.tools.activeTool.scaleYTool = false; }
                     if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = false; }
+                    if (sprite.ubName === "Delete Tool") { ub.tools.activeTool.deleteTool = false; }
 
                 }
                 
@@ -5238,6 +5258,8 @@
             var _id = $(this).data('mascot-id');
 
             ub.funcs.changeMascotByID(_id, settingsObj);
+            $('div#primaryMascotPopup').remove();
+            ub.status.mascotPopupVisible = false;
 
         });
 
@@ -5367,7 +5389,7 @@
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
-        $popup = $('div#primaryPatternPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup');
         $popup.remove();
         ub.status.mascotPopupVisible = false;
 
@@ -6227,7 +6249,7 @@
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
-            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '182'});
+            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '181'});
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
@@ -7301,6 +7323,10 @@
     ub.funcs.activateMoveTool = function (application_id) {
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
+
+        // if deleted exit
+        if (typeof _applicationObj === "undefined") { return; }
+
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
@@ -7602,6 +7628,32 @@
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteReset, _applicationObj, ub[_perspective], _perspective);
 
+        // --- Delete --- ///
+
+        var _filenameDelete = "/images/builder-ui/delete-icon-on.png";
+        var _spriteDelete = ub.pixi.new_sprite(_filenameDelete);
+
+        ub.objects[_perspective].delete_tool = _spriteDelete;
+        ub[_perspective].addChild(_spriteDelete);
+
+        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+
+        _spriteDelete.position.x  = _view.application.center.x;
+        _spriteDelete.position.y  = _view.application.center.y;
+
+        _spriteDelete.ubName = 'Delete Tool';
+        _spriteDelete.anchor.set(_xAnchor, 4);
+        _spriteDelete.zIndex = -1000;
+
+        ub.updateLayersOrder(ub[_perspective]);
+        ub.funcs.createDraggable(_spriteDelete, _applicationObj, ub[_perspective], _perspective);
+
+        if (parseInt(application_id) < 70) {
+
+            _spriteDelete.alpha = 0;
+
+        }
+
     }
 
     ub.funcs.deactivateMoveTool = function () {
@@ -7658,7 +7710,14 @@
             if (typeof ub.objects[_view].center_tool !== 'undefined') {
 
                 ub[_view].removeChild(ub.objects[_view].center_tool);
-                delete ub.objects[_view].reset_tool;
+                delete ub.objects[_view].center_tool;
+
+            }
+
+            if (typeof ub.objects[_view].delete_tool !== 'undefined') {
+
+                ub[_view].removeChild(ub.objects[_view].delete_tool);
+                delete ub.objects[_view].delete_tool;
 
             }
 
@@ -8003,6 +8062,33 @@
         return _ctr + 1;
 
     }
+
+    ub.funcs.deleteLocation = function (locationID) {
+
+        var _appSettings = ub.current_material.settings.applications[locationID];
+
+        _.each(_appSettings.application.views, function (view){
+
+            var _obj = ub.objects[view.perspective + '_view']['objects_' + locationID];
+            ub[view.perspective + '_view'].removeChild(_obj);
+
+            var _lObj = ub.objects[view.perspective + '_view']['locations_' + locationID];
+            ub[view.perspective + '_view'].removeChild(_lObj);
+            
+            delete ub.objects[view.perspective + '_view']['objects_' + locationID];
+            delete ub.objects[view.perspective + '_view']['locations_' + locationID];
+
+        });
+
+        delete ub.current_material.settings.applications[locationID];
+        delete ub.data.applications_transformed["Body"][locationID];
+        delete ub.data.applications_transformed_one_dimensional[locationID];
+
+        ub.funcs.deactivateMoveTool(locationID);
+        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        $('body').css('cursor', 'auto');
+
+    };
 
     ub.funcs.addLocation = function () {
 
