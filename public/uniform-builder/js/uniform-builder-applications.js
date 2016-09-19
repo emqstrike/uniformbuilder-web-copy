@@ -8162,6 +8162,9 @@
 
         ub.funcs.renderLocations(_newIDStr);
 
+        ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
+
+
     };
 
     ub.funcs.activateFreeApplication = function (application_id) {

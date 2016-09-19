@@ -33,6 +33,12 @@ $(document).ready(function () {
 
         switch (_historyItem.operationType) {
 
+            case "add location":
+
+                ub.funcs.deleteLocation(_historyItem.oldValue.applicationID);
+              
+                break; 
+
             case "change mascot size":
 
                 if (typeof _historyItem.oldValue.oldScale !== "undefined") {
