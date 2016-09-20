@@ -891,56 +891,6 @@
                     
                 }
 
-                if(sprite.ubName === "Scale X Tool") {
-
-                    var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
-
-                            var flip = 1;
-
-                            if (typeof view.application.flip !== 'undefined') {
-
-                                if (view.application.flip === 1) {
-
-                                    flip = -1;
-
-                                } else {
-
-                                    flip = 1;
-
-                                }
-
-                            }
-   
-                    application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-                    view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-                         
-                }
-
-                if(sprite.ubName === "Scale Y Tool") {
-
-                    var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
-
-                            var flip = 1;
-
-                            if (typeof view.application.flip !== 'undefined') {
-
-                                if (view.application.flip === 1) {
-
-                                    flip = -1;
-
-                                } else {
-
-                                    flip = 1;
-
-                                }
-
-                            }
-
-                    application_obj.scale = {x: application_obj.scale.x, y: sprite.scaleSetting.y};
-                    view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
-                    
-                }
-
             });
 
             ub.funcs.activateMoveTool(application.code);
@@ -7952,6 +7902,17 @@
         var _objectPresent = false;
 
         var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
+
+        var _b = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
+
+        if (ub.funcs.getCurrentUniformCategory() === "Football" && !_b) {
+
+            _firstID = _.pluck(ub.current_material.settings.applications, 'code')[1];
+
+            console.log(_firstID);
+
+        }
+        
         _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
 
         if (_objectPresent) {
