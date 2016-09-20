@@ -6062,6 +6062,8 @@
             $('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
             $('span.cog').fadeIn();
 
+            ub.funcs.hideGAFontTool();
+
         }
 
         ////
@@ -6463,6 +6465,13 @@
 
         ub.funcs.postData(_postData, _url);
 
+    }
+
+    ub.funcs.hideGAFontTool = function () {
+
+        // Hide GA Font Tool
+        $('span.cog').hide();
+        
     }
 
     ub.funcs.activateApplications = function (application_id) {
@@ -7097,6 +7106,8 @@
                 }
 
             });
+
+            ub.funcs.hideGAFontTool();
 
             $('span.cog').on('click', function () {
 
