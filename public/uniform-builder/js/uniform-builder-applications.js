@@ -7937,21 +7937,11 @@
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
-        var _id = _.pluck(ub.current_material.settings.applications, 'code')[0];
-
-        if (ub.current_material.material.type === 'lower') {
-            _id = 38;
-        }
-
+        var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
 
-        _.each(ub.current_material.settings.applications, function (app){
-
-            var _pView = ub.funcs.getPrimaryView(app.application);
-
-            _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + app.code] === "object";
-
-        });
+        var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
+        _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
 
         if (_objectPresent) {
 
