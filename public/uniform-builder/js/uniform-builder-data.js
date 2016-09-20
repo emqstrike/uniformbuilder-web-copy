@@ -39,8 +39,6 @@ $(document).ready(function() {
 
         moveTool: false,
         scaleTool: false,
-        scaleXTool: false,
-        scaleYTool: false,
         rotateTool: false,
         resetTool: false,
         deleteTool: false,
@@ -48,8 +46,6 @@ $(document).ready(function() {
 
             this.moveTool   = false;
             this.scaleTool  = false;
-            this.scaleXTool = false;
-            this.scaleYTool = false;
             this.rotateTool = false;
             this.resetTool  = false;
             this.deleteTool = false;
@@ -57,7 +53,7 @@ $(document).ready(function() {
         }, 
         active: function () {
 
-            return (this.moveTool || this.scaleTool || this.scaleXTool || this.scaleYTool || this.rotateTool || this.resetTool || this.deleteTool) 
+            return (this.moveTool || this.scaleTool || this.rotateTool || this.resetTool || this.deleteTool) 
 
         },
 

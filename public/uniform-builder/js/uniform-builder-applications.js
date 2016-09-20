@@ -1051,8 +1051,6 @@
                     var move_point = ub.objects[view.perspective + '_view']['move_tool'];
                     var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
                     var scale_point = ub.objects[view.perspective + '_view']['scale_tool'];
-                    var scale_x_point = ub.objects[view.perspective + '_view']['scale_x_tool'];
-                    var scale_y_point = ub.objects[view.perspective + '_view']['scale_y_tool'];
                     var reset_point = ub.objects[view.perspective + '_view']['reset_tool'];
                     var center_point = ub.objects[view.perspective + '_view']['center_tool'];
                     var delete_point = ub.objects[view.perspective + '_view']['delete_tool'];
@@ -1062,8 +1060,6 @@
                         rotation_point.alpha    = 0;
                         scale_point.alpha       = 0;
                         reset_point.alpha       = 0;
-                        scale_x_point.alpha     = 0;
-                        scale_y_point.alpha     = 0;
                         delete_point.alpha      = 0;
 
                         view.application.center.x = sprite.x;
@@ -1099,8 +1095,6 @@
                         move_point.alpha        = 0;
                         scale_point.alpha       = 0;
                         reset_point.alpha       = 0;
-                        scale_x_point.alpha     = 0;
-                        scale_y_point.alpha     = 0;
                         delete_point.alpha      = 0;
                      
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
@@ -1124,8 +1118,6 @@
                         rotation_point.alpha    = 0;
                         move_point.alpha        = 0;
                         reset_point.alpha       = 0;
-                        scale_x_point.alpha     = 0;
-                        scale_y_point.alpha     = 0;
                         delete_point.alpha      = 0;
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
@@ -1168,100 +1160,6 @@
 
                     }
 
-                    if(sprite.ubName === "Scale X Tool") {
-
-                        rotation_point.alpha    = 0;
-                        move_point.alpha        = 0;
-                        reset_point.alpha       = 0;
-                        scale_point.alpha       = 0;
-                        scale_y_point.alpha     = 0;
-                        delete_point.alpha      = 0;
-
-                        var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                        var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-                        var application_type = view.application.type;
-                        var distance = ub.funcs.lineDistance(center_point.position, scale_x_point.position);
-
-                        percentage = distance / 100;
-                        
-                        if (application_type === 'mascot') {
-
-                            var flip = 1;
-
-                            if (typeof view.application.flip !== 'undefined') {
-
-                                if (view.application.flip === 1) {
-
-                                    flip = -1;
-
-                                }
-                                else {
-
-                                    flip = 1;
-
-                                }
-
-                            }
-                            
-                            application_obj.scale = { x: percentage * flip, y: application_obj.scale.y};
-
-                            view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                            sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                                  
-                            ub.appObj = application_obj;
-                            ub.appObjSettings = view.application;
-
-                        }
-
-                    }
-
-                    if(sprite.ubName === "Scale Y Tool") {
-
-                        rotation_point.alpha    = 0;
-                        move_point.alpha        = 0;
-                        reset_point.alpha       = 0;
-                        scale_point.alpha       = 0;
-                        scale_x_point.alpha     = 0;
-                        delete_point.alpha      = 0;
-
-                        var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                        var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-                        var application_type = view.application.type;
-                        var distance = ub.funcs.lineDistance(center_point.position, scale_y_point.position);
-
-                        percentage = distance / 100;
-                        
-                        if (application_type === 'mascot') {
-
-                            var flip = 1;
-
-                            if (typeof view.application.flip !== 'undefined') {
-
-                                if (view.application.flip === 1) {
-
-                                    flip = -1;
-
-                                }
-                                else {
-
-                                    flip = 1;
-
-                                }
-
-                            }
-
-                            application_obj.scale = { x: application_obj.scale.x, y: percentage};
-
-                            view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                            sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                                           
-                            ub.appObj = application_obj;
-                            ub.appObjSettings = view.application;
-
-                        }
-
-                    }
-
                 });
 
             }
@@ -1282,7 +1180,7 @@
                 return;
             }
 
-            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" && sprite.ubName !== "Scale Tool" && sprite.ubName !== "Scale X Tool" && sprite.ubName !== "Scale Y Tool" && sprite.ubName !== "Reset Tool" && sprite.ubName !== "Delete Tool") {
+            if(sprite.ubName !== "Move Tool" && sprite.ubName !== "Rotate Tool" && sprite.ubName !== "Scale Tool" && sprite.ubName !== "Reset Tool" && sprite.ubName !== "Delete Tool") {
 
                 return;
 
@@ -1313,8 +1211,6 @@
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = true; }
                     if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = true; }
                     if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = true; }
-                    if (sprite.ubName === "Scale X Tool") { ub.tools.activeTool.scaleXTool = true; }
-                    if (sprite.ubName === "Scale Y Tool") { ub.tools.activeTool.scaleYTool = true; }
                     if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = true; }
                     if (sprite.ubName === "Delete Tool") { ub.tools.activeTool.deleteTool = true; }
 
@@ -1328,8 +1224,6 @@
                     if (sprite.ubName === "Move Tool") { ub.tools.activeTool.moveTool = false; }
                     if (sprite.ubName === "Rotate Tool") { ub.tools.activeTool.rotateTool = false; }
                     if (sprite.ubName === "Scale Tool") { ub.tools.activeTool.scaleTool = false; }
-                    if (sprite.ubName === "Scale X Tool") { ub.tools.activeTool.scaleXTool = false; }
-                    if (sprite.ubName === "Scale Y Tool") { ub.tools.activeTool.scaleYTool = false; }
                     if (sprite.ubName === "Reset Tool") { ub.tools.activeTool.resetTool = false; }
                     if (sprite.ubName === "Delete Tool") { ub.tools.activeTool.deleteTool = false; }
 
@@ -7641,90 +7535,6 @@
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
-        // --- Scale X --- ///
-
-        var _filenameScaleX = "/images/builder-ui/scale-x-icon-on.png";
-        var _spriteScaleX = ub.pixi.new_sprite(_filenameScaleX);
-
-        ub.objects[_perspective].scale_x_tool = _spriteScaleX;
-        ub[_perspective].addChild(_spriteScaleX);
-
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
-
-        _spriteScaleX.position.x  = _view.application.center.x;
-        _spriteScaleX.position.y  = _view.application.center.y;
-
-        _spriteScaleX.ubName = 'Scale X Tool';
-
-        var _x = _xAnchor;
-        if (_applicationObj.application_type !=="mascot") {
-            _x = -1000
-        }    
-
-        _spriteScaleX.anchor.set(3, 0);
-
-        _spriteScaleX.zIndex = -1000;
-
-        ub.updateLayersOrder(ub[_perspective]);
-        ub.funcs.createDraggable(_spriteScaleX, _applicationObj, ub[_perspective], _perspective);
-
-        if (_applicationObj.application_type === "mascot") {
-
-            if(_applicationObj.mascot.category !== "Shape") {
-
-                _spriteScaleX.alpha = 0;
-
-            }
-            
-        } else {
-
-            _spriteScaleX.alpha = 0;
-
-        }
-        
-
-        // --- Scale Y --- ///
-
-        var _filenameScaleY = "/images/builder-ui/scale-y-icon-on.png";
-        var _spriteScaleY = ub.pixi.new_sprite(_filenameScaleY);
-
-        ub.objects[_perspective].scale_y_tool = _spriteScaleY;
-        ub[_perspective].addChild(_spriteScaleY);
-
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
-
-        _spriteScaleY.position.x  = _view.application.center.x;
-        _spriteScaleY.position.y  = _view.application.center.y;
-
-        _spriteScaleY.ubName = 'Scale Y Tool';
-
-        var _x = _xAnchor;
-        if (_applicationObj.application_type !=="mascot") {
-            _x = -1000
-        }    
-
-        _spriteScaleY.anchor.set(0, -2);
-
-        _spriteScaleY.zIndex = -1000;
-
-        ub.updateLayersOrder(ub[_perspective]);
-        ub.funcs.createDraggable(_spriteScaleY, _applicationObj, ub[_perspective], _perspective);
-
-        if (_applicationObj.application_type === "mascot") {
-
-            if(_applicationObj.mascot.category !== "Shape") {
-
-                _spriteScaleY.alpha = 0;
-
-            }
-            
-        } else {
-
-            _spriteScaleY.alpha = 0;
-
-        }
-
-
         // --- Reset --- ///
 
         var _filenameReset = "/images/builder-ui/reset-icon-on.png";
@@ -7794,7 +7604,6 @@
                 delete ub.objects[_view].rotate_tool;
 
             }
-
 
             if (typeof ub.objects[_view].scale_tool !== 'undefined') {
 
