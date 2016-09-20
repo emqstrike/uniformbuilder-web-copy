@@ -7943,7 +7943,17 @@
             _id = 38;
         }
 
-        if (typeof ub.objects['front_view']['locations_' + _locations[_id].code] === "object") {
+        var _objectPresent = false;
+
+        _.each(ub.current_material.settings.applications, function (app){
+
+            var _pView = ub.funcs.getPrimaryView(app.application);
+
+            _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + app.code] === "object";
+
+        });
+
+        if (_objectPresent) {
 
             _.each (_locations, function (location) {
 
