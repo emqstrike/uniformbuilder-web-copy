@@ -3962,7 +3962,7 @@
         var _tempIndex      = 1;
 
         _htmlBuilder        += "<div class='patternName'><glabel>Pattern Name: </label> <span class='value'>" + _patternName + "</span></div>";
-        _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
+       // _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
         _htmlBuilder        += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
         _htmlBuilder        += '<div class="pattern-color-wheel-container">';
 
