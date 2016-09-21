@@ -7900,16 +7900,12 @@
 
         var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
-
         var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
-
         var _b = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
 
         if (ub.funcs.getCurrentUniformCategory() === "Football" && !_b) {
 
             _firstID = _.pluck(ub.current_material.settings.applications, 'code')[1];
-
-            console.log(_firstID);
 
         }
         

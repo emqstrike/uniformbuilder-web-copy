@@ -1264,6 +1264,8 @@ $(document).ready(function() {
 
     ub.funcs.initRoster = function () {
 
+        ub.funcs.resetHighlights();
+
         if (ub.funcs.initRosterCalled) { return; }
         if (typeof ub.user.id === "undefined") { return; }
 
