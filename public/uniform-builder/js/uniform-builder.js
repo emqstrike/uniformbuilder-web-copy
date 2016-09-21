@@ -3927,6 +3927,7 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
+                    ub.funcs.resetHighlights();
                     if(typeof (window.ub.user.id) === "undefined") {
 
                         ub.funcs.quickRegistration();
@@ -4542,6 +4543,18 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.hideIpadUniforms = function () {
+
+        var _iPadUniforms = ['Trial'];
+
+        _.each(_iPadUniforms, function (uniform) {
+
+            $('div.main-picker-items[data-item="' + uniform + '"]').hide();
+
+        });
+
+    }
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
@@ -4639,8 +4652,6 @@ $(document).ready(function () {
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
 
-
-
             var template = $('#m-picker-items-uniforms').html();
 
             var data = {
@@ -4675,6 +4686,8 @@ $(document).ready(function () {
 
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
+
+            ub.funcs.hideIpadUniforms();
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
@@ -4711,8 +4724,6 @@ $(document).ready(function () {
 
                     var m = Mustache.render(t, d);
                     $('.tertiary-bar').html(m);
-
-
                 
                     $('div.tertiary-bar').fadeIn();        
                     $('div.tertiary-bar').css('margin-top', "0px");
