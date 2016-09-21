@@ -7893,6 +7893,22 @@
 
     }
 
+    ub.funcs.locationMarkersExist = function () {
+
+        var _locations = ub.current_material.settings.applications;
+        var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
+        var _pview = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
+
+        if (typeof ub.objects[_pview + '_view'] === "undefined") {
+
+            return false;
+
+        }
+
+        return typeof ub.objects[_pview + '_view']['locations_' + _firstID] !== "undefined";
+
+    }
+
     ub.funcs.showLocations = function (alphaOff) {
 
         var _locations = ub.current_material.settings.applications;  
@@ -7901,50 +7917,53 @@
         var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
         var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
-        var _b = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
-
-        if (ub.funcs.getCurrentUniformCategory() === "Football" && !_b) {
-
-            _firstID = _.pluck(ub.current_material.settings.applications, 'code')[1];
-
-        }
         
-        _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
+        // var _b = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
 
-        if (_objectPresent) {
+        // if (ub.funcs.getCurrentUniformCategory() === "Football" && !_b) {
 
-            _.each (_locations, function (location) {
+        //     _firstID = _.pluck(ub.current_material.settings.applications, 'code')[1];
 
-                _.each(location.application.views, function (view, index){
+        // }
+        
+        // _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
 
-                   var _perspective = view.perspective + '_view';
-                   var _locationObj = ub.objects[_perspective]['locations_' + location.code];
+       // if (_objectPresent) {
 
-                   if (typeof alphaOff !== 'undefined') {
+        var _locationsMarkerExists = ub.funcs.locationMarkersExist();
 
-                        _locationObj.alpha = 0;
+        if (!_locationsMarkerExists) {
 
-                   } else {
-
-                        var _match = _.find(ub.data.placeHolderApplications, {id: parseInt(location.code)});
-                        
-                        if (typeof _match === "undefined") {
-
-                            _locationObj.alpha = 1;
-
-                        }
-
-                   }
-
-                })
-
-            });
-
-            return;
+            ub.funcs.renderLocations();
 
         }
 
-        ub.funcs.renderLocations();
+        _.each (_locations, function (location) {
+
+            _.each(location.application.views, function (view, index){
+
+               var _perspective = view.perspective + '_view';
+               var _locationObj = ub.objects[_perspective]['locations_' + location.code];
+
+               if (typeof alphaOff !== 'undefined') {
+
+                    _locationObj.alpha = 0;
+
+               } else {
+
+                    var _match = _.find(ub.data.placeHolderApplications, {id: parseInt(location.code)});
+                    
+                    if (typeof _match === "undefined") {
+
+                        _locationObj.alpha = 1;
+
+                    }
+
+               }
+
+            })
+
+        });
 
     }
 
