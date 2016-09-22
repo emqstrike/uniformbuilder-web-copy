@@ -2057,8 +2057,20 @@ $(document).ready(function() {
 
                 }
 
-                point.rotation = (view.application.rotation * Math.PI) / 180;                
-                point.zIndex = -(50 + _settingsObject.zIndex);
+                point.rotation = (view.application.rotation * Math.PI) / 180;   
+
+                if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                    point.zIndex = -(50 + _settingsObject.zIndex);
+                        
+                }
+                else {
+
+                    point.zIndex = -50;
+
+                }
+
+                
 
                 point.ubType = "object";
                 point.ubAppID = app_id;
