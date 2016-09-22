@@ -213,6 +213,8 @@
 
             @include('partials.panels.mod_primary')
 
+            @include('partials.panels.layers')
+
         </div>
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        
@@ -237,6 +239,11 @@
             <a class="footer-buttons change-view" data-view="locations-add">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                 <br /><span>Add Location</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="layers">
+                <i class="fa fa-sort" aria-hidden="true"></i>
+                <br /><span>Layers</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="save">

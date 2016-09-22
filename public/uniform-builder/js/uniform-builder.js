@@ -135,20 +135,10 @@ $(document).ready(function () {
                 
             }
 
+            ub.funcs.initToolBars();
+
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
-
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                $('a.change-view[data-view="locations-add"]').show();
-                $('a.change-view[data-view="save"]').hide();
-
-            } else {
-
-                $('a.change-view[data-view="locations-add"]').hide();
-                $('a.change-view[data-view="save"]').show();
-
-            }
 
             // window.onbeforeunload = function (e) {
                 
@@ -157,6 +147,27 @@ $(document).ready(function () {
             // };
             
         };
+
+        ub.funcs.initToolBars = function () {
+
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                $('a.change-view[data-view="locations-add"]').show();
+                $('a.change-view[data-view="locations-order"]').show();
+                $('a.change-view[data-view="save"]').hide();
+                $('a.change-view[data-view="start-over"]').hide();
+
+            } else {
+
+                $('a.change-view[data-view="locations-add"]').hide();
+                $('a.change-view[data-view="locations-order"]').hide();
+                $('a.change-view[data-view="save"]').show();
+                $('a.change-view[data-view="start-over"]').show();
+
+            }
+
+
+        }
 
         ub.showFontGuides = function () {
 
@@ -193,7 +204,12 @@ $(document).ready(function () {
         }
 
         ub.updateLayersOrder = function (container) {
-                
+            
+            // console.clear();
+            // console.log('Update Layers Order Called: ');
+            // console.log(arguments.callee.caller);
+            // console.trace();
+
             container.children.sort(function (a,b) {
                 a.zIndex = a.zIndex || 0;
                 b.zIndex = b.zIndex || 0;
@@ -1046,11 +1062,28 @@ $(document).ready(function () {
 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
+                /// TODO: This is being executed multiple times
+
             });
     
         });
 
+        ub.funcs.initzIndex();
+
     };
+
+    ub.funcs.initzIndex = function () {
+
+        var _ctr = 1;
+
+        _.each(ub.current_material.settings.applications, function (app) {
+
+            app.zIndex = _ctr;
+            _ctr += 1;
+
+        });
+
+    }
 
     ub.loadSettings = function (settings) { 
 
@@ -1869,6 +1902,15 @@ $(document).ready(function () {
             ub.showThumbnail = function () {
 
                 var img = ub.getThumbnailImage2('front_view');
+                var _str = "<img src ='" + img + "' />";
+
+                ub.showModalTool(_str);
+
+            }
+
+            ub.showThumbnail2 = function () {
+
+                var img = ub.getThumbnailImage2(ub.active_view + '_view');
                 var _str = "<img src ='" + img + "' />";
 
                 ub.showModalTool(_str);
@@ -3245,6 +3287,8 @@ $(document).ready(function () {
                 var app = ub.current_material.settings.applications[application_obj.application.id];
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
+
+
                 if (typeof app_containers[application_obj.id] === 'undefined') {
     
                     app_containers[application_obj.id] = {};
@@ -3810,6 +3854,7 @@ $(document).ready(function () {
 
         }
 
+
         /// End Utilities ///
 
         /// Bottom Nav Handlers
@@ -3899,6 +3944,14 @@ $(document).ready(function () {
 
                     ub.funcs.deActivateZoom();
                     ub.funcs.addLocation();
+                    
+                    return;
+
+                }
+
+                if (view === 'layers') {
+
+                    ub.funcs.showLayerTool();
                     
                     return;
 
