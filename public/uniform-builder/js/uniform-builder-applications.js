@@ -7373,6 +7373,8 @@ $(document).ready(function() {
 
         /// Start Manipulator Group  
 
+            if (typeof _appObj === "undefined") { return; }
+
             var _width      = _appObj.width / 2;
             var _height     = _appObj.height / 2;
             var _tools      = new PIXI.Container();
@@ -8122,7 +8124,7 @@ $(document).ready(function() {
             var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
             var _applicationCode    = app.code;
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">Layer ' + app.zIndex + ': ' + _applicationType + ' (' + app.code + ')</span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">Layer <span class="zIndex">' + app.zIndex + '</span>: ' + _applicationType + ' (' + app.code + ')</span>';
 
         });
 
@@ -8145,8 +8147,6 @@ $(document).ready(function() {
                 
             }
 
-            ub.funcs.updateLayerTool();
-
         });
 
         ub.sort = Sortable.create(layersContainer, {
@@ -8167,6 +8167,8 @@ $(document).ready(function() {
                var _app     = ub.current_material.settings.applications[_locID];
                
                _app.zIndex  = _index;
+
+               $(this).find('span.zIndex').html(_index + 1);
 
                if (_app.application_type === "free") { return; }
 
