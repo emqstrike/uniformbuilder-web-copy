@@ -8149,7 +8149,7 @@ $(document).ready(function() {
 
         });
 
-        ub.sort = Sortable.create(layersContainer, {
+        ub.sort = $("div.layers-container").sortable({
 
           handle: '.layer',
           animation: 150,
