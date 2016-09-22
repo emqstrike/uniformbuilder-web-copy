@@ -8145,6 +8145,8 @@ $(document).ready(function() {
                 
             }
 
+            ub.funcs.updateLayerTool();
+
         });
 
         ub.sort = Sortable.create(layersContainer, {
