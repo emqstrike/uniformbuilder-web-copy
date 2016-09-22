@@ -8124,7 +8124,7 @@ $(document).ready(function() {
             var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
             var _applicationCode    = app.code;
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">Layer <span class="zIndex">' + app.zIndex + '</span>: ' + _applicationType + ' (' + app.code + ')</span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _applicationType + ' (#' + app.code + ')</span>';
 
         });
 
