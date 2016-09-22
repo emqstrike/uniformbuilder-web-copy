@@ -6172,3 +6172,108 @@ strong.hello {
     }
 
 /* End Left Side Toolbar */
+
+/* Layers Order */
+
+
+/* End Layers Order */
+
+div#layers-order {
+
+    position: absolute;
+    display: none;
+    width: 260px;
+    height: 661px;
+    background-color: #acacac;
+    margin-left: -270px;
+    padding: 10px;
+
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+
+    text-align: center;
+
+    span.layers-header {
+
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+
+    }
+
+    div.layers-container {
+
+        height: 560px;
+        width: 100%;
+        display: block;
+
+        span.layer {
+
+            padding: 10px;
+            display: block;
+            background-color: #888888;
+            margin: 3px;
+            cursor: move;
+
+        }
+
+        span.layer:hover {
+
+            background-color: #3d3d3d;
+            color: white;
+            
+        }
+
+    }
+
+    span.layers-close {
+
+        background-color: #3d3d3d;
+        color: #acacac;
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 10px;
+
+    }
+
+    span.layers-close:hover {
+
+        background-color: #888888;
+        color: white;
+
+    }
+
+}
+
+div#layers-order.on {
+
+    display: block;
+    top: 0px;
+    
+}
+
+div#layers-order.off {
+
+    display: none;
+    top: -200px;
+    
+}
+
+.active-change-view {
+    background-color: white !important;
+}
+
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+

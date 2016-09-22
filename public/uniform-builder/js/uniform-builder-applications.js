@@ -1,5 +1,4 @@
-
- $(document).ready(function() {
+$(document).ready(function() {
 
     ub.funcs.currentSport = function (sport) {
 
@@ -542,8 +541,10 @@
                 var application = _.find(ub.data.applications.items, {
                     id: application_id
                 });
+
                 var value = $(this).limitslider("values")[0];
                 var object =  ub.objects[view_str]['objects_' + application_id];
+
                 object.alpha = value / max_opacity;
 
                 $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
@@ -669,8 +670,7 @@
 
     };
 
-
-    ub.funcs.update_application_mascot = function(application, mascot) {
+    ub.funcs.update_application_mascot = function (application, mascot) {
 
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
@@ -777,6 +777,12 @@
 
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
+
+        console.log('zIndex: ');
+        console.log('Original');
+        console.log(sprite.originalZIndex);
+        console.log(sprite.zIndex);
+
         settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
@@ -983,7 +989,7 @@
         };
 
         sprite.mousemove = sprite.mousemove = function (interactionData) {
-            
+
             this.interactionData = interactionData;
             var this_data = this.interactionData.data;
             var _x = this_data.global.x;
@@ -1673,6 +1679,7 @@
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+
             if (ub.status.fontPopupVisible) { return; }
             if (ub.status.accentPopupVisible) { return; }
             if (ub.status.mascotPopupVisible) { return; }
@@ -1770,9 +1777,11 @@
             var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
             
             if(typeof next_element !== 'undefined') {
+
                 var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
                 next_element.layer_order = (current_layer_order);
                 next_obj.zIndex = (current_layer_order) * -1;
+                
             }
 
             settings_obj.layer_order = (current_layer_order + 1);
@@ -2007,13 +2016,16 @@
             var marker_name         = "objects_" + app_id;
             var views               = ub.data.applications_transformed[mat_option][app_id].views;
             var _applicationObj     = ub.data.applications_transformed[mat_option][app_id];
+            var _settingsObject     = ub.funcs.getSettingsObject(app_id);
             
             _.each(ub.views, function(_view){
 
                 var _view_name = _view + '_view';
 
-                if(typeof ub.objects[_view_name][marker_name] !== "undefined"){
+                if(typeof ub.objects[_view_name][marker_name] !== "undefined") {
+
                     ub[_view_name].removeChild(ub.objects[_view_name][marker_name]);
+
                 }
 
             });
@@ -2045,8 +2057,12 @@
 
                 }
 
-                point.rotation = (view.application.rotation * Math.PI) / 180;
-                point.zIndex = -50;
+                point.rotation = (view.application.rotation * Math.PI) / 180;                
+                point.zIndex = -(50 + _settingsObject.zIndex);
+
+                point.ubType = "object";
+                point.ubAppID = app_id;
+                point.ubApplicationType = _applicationObj.type;
 
                 /// Todo: Put in Overrides to Opacity, Rotation, Scale and Position Here....
 
@@ -2984,7 +3000,6 @@
             }
 
             if(typeof ub.activeApplication !== "undefined") { return; }
-
 
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
@@ -5413,7 +5428,7 @@
 
         if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
 
-            return; 
+            return;
 
         }
 
@@ -6025,7 +6040,7 @@
 
             if (_state === "on") {
 
-                _obj.zIndex = -50;
+                _obj.zIndex = -(50 + _settingsObj.zIndex);
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
                 
@@ -7303,11 +7318,7 @@
         var _perspective    = _primaryView + '_view';
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
 
-        if (ub.current_material.material.uniform_category !== "Wrestling") {
-
-            return;
-
-        }
+        if (ub.current_material.material.uniform_category !== "Wrestling") { return; }
 
         ub.funcs.deactivateMoveTool();
 
@@ -7351,7 +7362,6 @@
         _spriteMove.anchor.set(_xAnchor, 0.0);
         _spriteMove.zIndex = -1000;
 
-        ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteMove, _applicationObj, ub[_perspective], _perspective);
 
         // Turn Off Location
@@ -7418,7 +7428,6 @@
             _tools.zIndex      = -1000;
             _tools.ubName      = "Manipulator Tool";
 
-            ub.updateLayersOrder(ub[_perspective]);
             ub.tools.manipulator.tools = _tools;
 
         /// End Manipulator Group 
@@ -7466,10 +7475,9 @@
         _spriteRotate.anchor.set(_xAnchor, 2.0);
         _spriteRotate.zIndex = -1000;
 
-        ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteRotate, _applicationObj, ub[_perspective], _perspective);
 
-         // --- Scale --- ///
+        // --- Scale --- ///
 
         var _filenameScale = "/images/builder-ui/scale-icon-on.png";
         var _spriteScale = ub.pixi.new_sprite(_filenameScale);
@@ -7481,7 +7489,6 @@
 
         _spriteScale.position.x  = _view.application.center.x;
         _spriteScale.position.y  = _view.application.center.y;
-
         _spriteScale.ubName = 'Scale Tool';
 
         var _x = _xAnchor;
@@ -7490,10 +7497,8 @@
         }    
 
         _spriteScale.anchor.set(_x, -2);
-
         _spriteScale.zIndex = -1000;
 
-        ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
 
         // --- Reset --- ///
@@ -7512,8 +7517,6 @@
         _spriteReset.ubName = 'Reset Tool';
         _spriteReset.anchor.set(-1000, -4);
         _spriteReset.zIndex = -1000;
-
-        ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteReset, _applicationObj, ub[_perspective], _perspective);
 
         // --- Delete --- ///
@@ -7528,12 +7531,11 @@
 
         _spriteDelete.position.x  = _view.application.center.x;
         _spriteDelete.position.y  = _view.application.center.y;
-
         _spriteDelete.ubName = 'Delete Tool';
         _spriteDelete.anchor.set(_xAnchor, 4);
         _spriteDelete.zIndex = -1000;
 
-        ub.updateLayersOrder(ub[_perspective]);
+        
         ub.funcs.createDraggable(_spriteDelete, _applicationObj, ub[_perspective], _perspective);
 
         if (parseInt(application_id) < 70) {
@@ -7541,6 +7543,8 @@
             _spriteDelete.alpha = 0;
 
         }
+
+       // ub.updateLayersOrder(ub[_perspective]);
 
     }
 
@@ -7697,7 +7701,7 @@
         sprite.draggable({ manager: ub.dragAndDropManager });
         sprite.mouseup = sprite.touchend = function (data) { };
 
-        $('body').mouseup( function() {
+        $('body').mouseup( function () {
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
@@ -7978,6 +7982,12 @@
 
     ub.funcs.deleteLocation = function (locationID) {
 
+        if ($('div#layers-order').is(':visible')) { 
+        
+            ub.funcs.showLayerTool(); 
+
+        }
+
         var _appSettings = ub.current_material.settings.applications[locationID];
 
         _.each(_appSettings.application.views, function (view){
@@ -8025,10 +8035,23 @@
 
     }
 
+    ub.funcs.getNewZIndex = function () {
+
+        var _size = _.size(ub.current_material.settings.applications);
+
+        return _size + 1;
+
+    }
 
     ub.funcs.addLocation = function () {
 
         ub.funcs.activateBody(); // Force Activate Body to prevent Select Application type from not being shown
+
+        if ($('div#layers-order').is(':visible')) { 
+        
+            ub.funcs.showLayerTool(); 
+
+        }
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
@@ -8041,6 +8064,8 @@
         _newApplication.code                    = _newIDStr;
         _newApplication.application.id          = _newIDStr;
         _newApplication.configurationSource     = "Added";
+
+        _newApplication.zIndex                  = ub.funcs.getNewZIndex();
 
         _.each(_newApplication.application.views, function (view) {
 
@@ -8064,13 +8089,121 @@
         }
         
         ub.data.applications_transformed_one_dimensional[_newIDStr] = _newApplication.application;
-
         ub.funcs.renderLocations(_newIDStr);
-
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
-
+        ub.funcs.updateLayerTool();
 
     };
+
+    ub.sort = undefined;
+
+    ub.funcs.updateLayerTool = function () {
+
+        if (typeof ub.sort !== "undefined") {
+
+            if(typeof ub.sort.nativeDraggable === "boolean") {
+
+                ub.sort.destroy();
+                delete ub.sort;
+                ub.sort = undefined;
+
+            }
+
+        }
+
+        // Populate Layer Tool
+
+        var _htmlStr = '';
+        var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
+
+        _.each(_applicationCollection, function (app) {
+
+            var _zIndex             = app.zIndex;
+            var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
+            var _applicationCode    = app.code;
+
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">Layer ' + app.zIndex + ': ' + _applicationType + ' (' + app.code + ')</span>';
+            
+        });
+
+        $('div.layers-container').html('');
+        $('div.layers-container').html(_htmlStr);
+
+        $('span.layer').on('click', function () {
+
+            var _appCode = $(this).data('location-id');
+            ub.funcs.activateApplications(_appCode);
+
+        });
+
+        ub.sort = Sortable.create(layersContainer, {
+
+          handle: '.layer',
+          animation: 150,
+          onUpdate: function (evt) { 
+
+            var _locationID = $(evt.item).data('location-id'); 
+            ub.funcs.activateMoveTool(_locationID);
+            
+            $.each($('span.layer'), function(key, value) {
+               
+               var _length = _.size(ub.current_material.settings.applications);
+
+               var _index   = _length - (key + 1);
+               var _locID   = $(value).data('location-id');
+               var _app     = ub.current_material.settings.applications[_locID];
+               
+               _app.zIndex  = _index;
+
+               if (_app.application_type === "free") { return; }
+
+               _.each(_app.application.views, function (view) {
+
+                    var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
+                    _obj.zIndex = -(50 + _index);
+                    
+               });
+
+            });
+
+            ub.updateLayersOrder(ub.front_view);
+            ub.updateLayersOrder(ub.back_view);
+            ub.updateLayersOrder(ub.left_view);
+            ub.updateLayersOrder(ub.right_view);
+            
+          }
+
+        });
+
+    }
+
+
+    ub.funcs.showLayerTool = function () {
+
+        if ($('div#layers-order').is(':visible')) {
+
+            $('div#layers-order').removeClass('on').addClass('off');
+            $('a.change-view[data-view="layers"]').removeClass('active-change-view');
+
+            $('div#layers-order > span.close').unbind('click');
+            
+        } else {
+
+            $('div#layers-order').removeClass('off').addClass('on');
+            $('a.change-view[data-view="layers"]').addClass('active-change-view');
+
+        }
+
+        ub.funcs.updateLayerTool();
+        // End Populate Layer Tool
+
+        $('div#layers-order > span.layers-close').on('click', function (){
+
+            ub.funcs.showLayerTool();
+            
+        });
+
+    }
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
