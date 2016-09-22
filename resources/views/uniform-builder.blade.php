@@ -211,6 +211,8 @@
 <script src="{{$asset_storage}}/isotope/isotope.pkgd.min.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/Sortable.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js{{$asset_version}}"></script>
+
 
 <!-- End Third Party Scripts -->
 
