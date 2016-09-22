@@ -8133,7 +8133,17 @@ $(document).ready(function() {
         $('span.layer').on('click', function () {
 
             var _appCode = $(this).data('location-id');
-            ub.funcs.activateApplications(_appCode);
+            var _settingsObject = ub.funcs.getSettingsObject(_appCode);
+
+            if (_settingsObject.application_type === "free") {
+
+                ub.funcs.activateFreeApplication(_appCode);
+
+            } else {
+
+                ub.funcs.activateApplications(_appCode);
+                
+            }
 
         });
 
