@@ -8103,9 +8103,9 @@ $(document).ready(function() {
 
             if(typeof ub.sort.nativeDraggable === "boolean") {
 
-                ub.sort.destroy();
-                delete ub.sort;
-                ub.sort = undefined;
+                // ub.sort.destroy();
+                // delete ub.sort;
+                // ub.sort = undefined;
 
             }
 
@@ -8123,12 +8123,13 @@ $(document).ready(function() {
             var _applicationCode    = app.code;
 
             _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">Layer ' + app.zIndex + ': ' + _applicationType + ' (' + app.code + ')</span>';
-            
+
         });
 
         $('div.layers-container').html('');
         $('div.layers-container').html(_htmlStr);
 
+        $('span.layer').unbind('click');
         $('span.layer').on('click', function () {
 
             var _appCode = $(this).data('location-id');
@@ -8161,6 +8162,7 @@ $(document).ready(function() {
 
                     var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
                     _obj.zIndex = -(50 + _index);
+
                     
                });
 
@@ -8176,7 +8178,6 @@ $(document).ready(function() {
         });
 
     }
-
 
     ub.funcs.showLayerTool = function () {
 
