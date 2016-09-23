@@ -2462,6 +2462,12 @@ $(document).ready(function() {
 
             ub.funcs.identify(app_id);
 
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                ub.funcs.runAfterUpdate(app_id);    
+                
+            }
+            
             return sprite_collection;
 
         };
@@ -6372,6 +6378,8 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.runAfterUpdate(_id);
+
     }
 
     ub.funcs.postData = function (data, url) {
@@ -6449,6 +6457,12 @@ $(document).ready(function() {
         // Hide GA Font Tool
         $('span.cog').hide();
         
+    }
+
+    ub.funcs.runAfterUpdate = function(application_id) {
+
+        ub.funcs.updateCaption(application_id);
+
     }
 
     ub.funcs.activateApplications = function (application_id) {
@@ -8119,7 +8133,7 @@ $(document).ready(function() {
 
             case 'free':
 
-                caption = 'Unused';
+                _caption = '(UNUSED)';
                 break;
 
             case 'sleeve_number':
@@ -8148,9 +8162,29 @@ $(document).ready(function() {
 
         }
 
+        _caption = _caption.toUpperCase();
+
         return _caption;
 
     };
+
+    ub.funcs.updateCaption = function (appID) {
+
+        if (!$('div#layers-order').is(':visible')) { return; }
+
+        var $locationLayer = $('span.layer[data-location-id="' + appID + '"]');
+        var _settingsObject = ub.funcs.getSettingsObject(appID);
+        var _caption = ub.funcs.getSampleCaption(_settingsObject);
+        var _applicationType    = _settingsObject.application_type.toUpperCase().replace('_',' ');
+
+        if (_applicationType === "SLEEVE NUMBER") {
+            _applicationType = "NUMBER";
+        }
+
+        $locationLayer.find('span.caption').html(_caption);
+        $locationLayer.find('span.application_type').html('(' +_applicationType + ')');
+
+    }
 
     ub.funcs.updateLayerTool = function () {
 
@@ -8175,9 +8209,17 @@ $(document).ready(function() {
 
             var _zIndex             = app.zIndex;
             var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
+
+            if (_applicationType === "SLEEVE NUMBER") {
+                _applicationType = "NUMBER";
+            }
+
             var _applicationCode    = app.code;
 
-            var _caption = ub.funcs.getSampleCaption(app).toUpperCase();
+            var _caption = ub.funcs.getSampleCaption(app);
+
+
+
             _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span><span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span></span>';
 
         });
