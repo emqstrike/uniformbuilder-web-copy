@@ -153,14 +153,14 @@ $(document).ready(function () {
             if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
                 $('a.change-view[data-view="locations-add"]').show();
-                $('a.change-view[data-view="locations-order"]').show();
+                $('a.change-view[data-view="layers"]').show();
                 $('a.change-view[data-view="save"]').hide();
                 $('a.change-view[data-view="start-over"]').hide();
 
             } else {
 
                 $('a.change-view[data-view="locations-add"]').hide();
-                $('a.change-view[data-view="locations-order"]').hide();
+                $('a.change-view[data-view="layers"]').hide();
                 $('a.change-view[data-view="save"]').show();
                 $('a.change-view[data-view="start-over"]').show();
 
