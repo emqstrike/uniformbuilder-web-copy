@@ -7574,11 +7574,15 @@ $(document).ready(function() {
 
        // ub.updateLayersOrder(ub[_perspective]);
 
+       ub.funcs.activateLayer(application_id);
+
     }
 
     ub.funcs.deactivateMoveTool = function () {
 
         ub.status.manipulatorDown = false;
+
+        if (ub.funcs.isLayersPanelVisible()) { $('span.layer').removeClass('active'); }
 
         _.each(ub.views, function (view) {
 
@@ -8186,6 +8190,42 @@ $(document).ready(function() {
 
     }
 
+    // Activate Move Tool and Primary Perspective
+    ub.funcs.activateManipulator = function (appID) {
+
+        var _appCode = appID;
+        var _settingsObject = ub.funcs.getSettingsObject(_appCode);
+
+        if (_settingsObject.application_type === "free") {
+
+            ub.funcs.activateFreeApplication(_appCode);
+
+        } else {
+
+            ub.funcs.activateApplications(_appCode);
+            
+        }
+
+    }
+
+    ub.funcs.isLayersPanelVisible = function () {
+
+        return $('div#layers-order').is(':visible');
+
+    }
+
+    ub.funcs.activateLayer = function (_appID) {
+
+        var _view = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_appID].application);
+        $('a.change-view[data-view="' + _view + '"]').trigger('click');
+
+        if (!ub.funcs.isLayersPanelVisible()) { return; }
+
+        $('span.layer').removeClass('active');
+        $('span.layer[data-location-id="' + _appID + '"]').addClass('active');
+
+    }
+
     ub.funcs.updateLayerTool = function () {
 
         if (typeof ub.sort !== "undefined") {
@@ -8215,12 +8255,9 @@ $(document).ready(function() {
             }
 
             var _applicationCode    = app.code;
-
             var _caption = ub.funcs.getSampleCaption(app);
 
-
-
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span><span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span></span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span><span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span><span class="delete-layer"></span></span>';
 
         });
 
@@ -8231,17 +8268,7 @@ $(document).ready(function() {
         $('span.layer').on('click', function () {
 
             var _appCode = $(this).data('location-id');
-            var _settingsObject = ub.funcs.getSettingsObject(_appCode);
-
-            if (_settingsObject.application_type === "free") {
-
-                ub.funcs.activateFreeApplication(_appCode);
-
-            } else {
-
-                ub.funcs.activateApplications(_appCode);
-                
-            }
+            ub.funcs.activateManipulator(_appCode);
 
         });
 
@@ -8250,9 +8277,6 @@ $(document).ready(function() {
           handle: '.layer',
           animation: 150,
           onUpdate: function (evt) { 
-
-            var _locationID = $(evt.item).data('location-id'); 
-            ub.funcs.activateMoveTool(_locationID);
             
             $.each($('span.layer'), function(key, value) {
                
@@ -8282,7 +8306,10 @@ $(document).ready(function() {
             ub.updateLayersOrder(ub.back_view);
             ub.updateLayersOrder(ub.left_view);
             ub.updateLayersOrder(ub.right_view);
-            
+
+            var _locationID = $(evt.item).data('location-id');
+            ub.funcs.activateManipulator(_locationID);
+
           }
 
         });
