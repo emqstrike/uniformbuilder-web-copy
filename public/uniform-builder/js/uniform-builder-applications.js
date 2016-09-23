@@ -8101,7 +8101,7 @@ $(document).ready(function() {
             }
 
         }
-        
+
         ub.data.applications_transformed_one_dimensional[_newIDStr] = _newApplication.application;
         ub.funcs.renderLocations(_newIDStr);
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
@@ -8110,6 +8110,47 @@ $(document).ready(function() {
     };
 
     ub.sort = undefined;
+
+    ub.funcs.getSampleCaption = function (app) {
+
+        var _caption = ''
+
+        switch (app.application_type) {
+
+            case 'free':
+
+                caption = 'Unused';
+                break;
+
+            case 'sleeve_number':
+
+                _caption = app.text;
+                break;
+
+            case 'player_name':
+
+                _caption = app.text;
+                break;
+
+            case 'mascot':
+
+                _caption = app.mascot.name;
+                break;
+
+            case 'team_name':
+
+                _caption = app.text;
+                break;
+
+            default:
+
+                util.error('app type not detected: ' + app.application_type);
+
+        }
+
+        return _caption;
+
+    };
 
     ub.funcs.updateLayerTool = function () {
 
@@ -8136,7 +8177,8 @@ $(document).ready(function() {
             var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
             var _applicationCode    = app.code;
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _applicationType + ' (#' + app.code + ')</span>';
+            var _caption = ub.funcs.getSampleCaption(app).toUpperCase();
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span><span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span></span>';
 
         });
 
