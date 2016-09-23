@@ -8005,9 +8005,11 @@ $(document).ready(function() {
 
     ub.funcs.getNewCustomID = function () {
 
-        var _ctr = 0;
+        var _ctr = 70;
+        var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}))
 
-        _ctr = _.size(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}));
+        if (typeof _lastAdded !== "undefined") { _ctr = parseInt(_lastAdded.code); }
+
         return _ctr + 1;
 
     }
@@ -8090,7 +8092,7 @@ $(document).ready(function() {
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
 
-        _newID = 70 + _newID;
+        _newID = _newID;
         _newIDStr = _newID.toString(); 
 
         _newApplication.code                    = _newIDStr;
