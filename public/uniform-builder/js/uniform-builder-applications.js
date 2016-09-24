@@ -8061,6 +8061,8 @@ $(document).ready(function() {
 
     ub.funcs.addLocation = function () {
 
+        if (!ub.is.wrestling()) { return; }
+
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _newID          = ub.funcs.getNewCustomID();
@@ -8349,7 +8351,7 @@ $(document).ready(function() {
 
         if (!ub.is.wrestling()) {
 
-            $('span.add-application').hide();
+            $('span.add-application').addClass('inactive');
             $('em.dragMessage').remove();
             $('div.layers-container').addClass('notSublimated');
 
