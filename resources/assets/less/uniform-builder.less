@@ -6182,42 +6182,91 @@ div#layers-order {
 
     position: absolute;
     display: none;
-    width: 260px;
+    width: 270px;
     height: 661px;
     background-color: #acacac;
-    margin-left: -270px;
+    margin-left: -280px;
     padding: 10px;
 
     -moz-transition: all .2s;
     -webkit-transition: all .2s;
     transition: all .2s;
-
     text-align: center;
 
-    span.add-layer {
+    div.tools {
 
-        display: block;
-        background-color: #3d3d3d;
+        span.add-application, span.show-locations {
+
+        display: table-cell;
+        background-color: #888888;
         color: white;
+        width: 100px;
+        height: 70px;
+        font-size: 0.8em;
+        padding: 9px;
+        vertical-align: bottom;
+        border: 3px solid #acacac;
+        cursor: pointer;
+        float: right;
+        vertical-align: bottom;
+
+        }
+
+        span.show-locations.active {
+
+            background-color: #3d3d3d;
+
+        }
+
+        span.add-application:hover, span.show-locations:hover {
+
+            background-color: #3d3d3d;
+
+        }
 
     }
+    
 
-    span.layers-header {
+    div.layers-header {
 
         text-transform: uppercase;
         display: block;
         margin-bottom: 10px;
         font-family: 'Avenir Next LT W04 Bold';
         font-size: 0.9em;
+        width: 100%;
+
+        span.header-text {
+
+            float: left;
+            font-size: 1.2em;
+
+        }
+
+        span.close {
+
+            cursor: pointer;
+            color: #3d3d3d;
+            float: right;
+
+        }
+
+        span.close:hover {
+
+            color: #3d3d3d;
+            float: right;
+
+        }
 
     }
 
     div.layers-container {
 
-        height: 520px;
+        height: 460px;
         width: 100%;
         display: block;
         overflow-y: auto;
+        margin-top: 20px;
 
         span.layer {
 
@@ -6246,14 +6295,14 @@ div#layers-order {
             span.caption {
 
                 display: inline-block;
-                min-width: 95px;
+                min-width: 90px;
                 color: white;
 
             }
 
             span.application_type {
 
-                font-size: 0.9em;
+                font-size: 0.8em;
                 color: #acacac;
                 float: right;
                 margin-right: 7px;
@@ -6267,6 +6316,12 @@ div#layers-order {
             border: 1px solid #3d3d3d;
 
         }
+
+    }
+
+    div.layers-container.notSublimated {
+
+        height: 520px;
 
     }
 

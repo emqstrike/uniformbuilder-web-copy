@@ -229,6 +229,11 @@
                 <br /><span>Patterns</span>
             </a>
 
+            <a class="footer-buttons change-view" data-view="layers">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <br /><span>Applications</span>
+            </a>
+
             <a class="footer-buttons change-view" data-view="locations">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -241,10 +246,7 @@
                 <br /><span>Add Location</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="layers">
-                <i class="fa fa-sort" aria-hidden="true"></i>
-                <br /><span>Layers</span>
-            </a>
+
 
             <a class="footer-buttons change-view" data-view="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
