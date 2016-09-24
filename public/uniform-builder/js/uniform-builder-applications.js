@@ -7953,19 +7953,6 @@ $(document).ready(function() {
         var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
         var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
-        
-        // var _b = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
-
-        // if (ub.funcs.getCurrentUniformCategory() === "Football" && !_b) {
-
-        //     _firstID = _.pluck(ub.current_material.settings.applications, 'code')[1];
-
-        // }
-        
-        // _objectPresent = typeof ub.objects[_pView + '_view']['objects_' + _firstID] === "object";
-
-       // if (_objectPresent) {
-
         var _locationsMarkerExists = ub.funcs.locationMarkersExist();
 
         if (!_locationsMarkerExists) {
@@ -8016,12 +8003,6 @@ $(document).ready(function() {
 
     ub.funcs.deleteLocation = function (locationID) {
 
-        if ($('div#layers-order').is(':visible')) { 
-        
-            ub.funcs.showLayerTool(); 
-
-        }
-
         var _appSettings = ub.current_material.settings.applications[locationID];
 
         _.each(_appSettings.application.views, function (view){
@@ -8057,6 +8038,7 @@ $(document).ready(function() {
 
         ub.funcs.deactivateMoveTool(locationID);
         ub.tools.activeTool.deactivate();
+        ub.funcs.updateLayerTool();
 
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
         $('body').css('cursor', 'auto');
@@ -8080,12 +8062,6 @@ $(document).ready(function() {
     ub.funcs.addLocation = function () {
 
         ub.funcs.activateBody(); // Force Activate Body to prevent Select Application type from not being shown
-
-        if ($('div#layers-order').is(':visible')) { 
-        
-            ub.funcs.showLayerTool(); 
-
-        }
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
