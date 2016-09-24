@@ -2462,11 +2462,11 @@ $(document).ready(function() {
 
             ub.funcs.identify(app_id);
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+            //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
                 ub.funcs.runAfterUpdate(app_id);    
                 
-            }
+            //}
             
             return sprite_collection;
 
@@ -8118,7 +8118,22 @@ $(document).ready(function() {
                 _caption = '(UNUSED)';
                 break;
 
+            case 'shoulder_number':
+
+                _caption = app.text;
+                break;
+
             case 'sleeve_number':
+
+                _caption = app.text;
+                break;
+
+            case 'front_number':
+
+                _caption = app.text;
+                break;
+
+            case 'back_number':
 
                 _caption = app.text;
                 break;
@@ -8206,20 +8221,6 @@ $(document).ready(function() {
 
     ub.funcs.updateLayerTool = function () {
 
-        if (typeof ub.sort !== "undefined") {
-
-            if(typeof ub.sort.nativeDraggable === "boolean") {
-
-                // ub.sort.destroy();
-                // delete ub.sort;
-                // ub.sort = undefined;
-
-            }
-
-        }
-
-        // Populate Layer Tool
-
         var _htmlStr = '';
         var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
 
@@ -8235,7 +8236,7 @@ $(document).ready(function() {
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span><span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span><span class="delete-layer"></span></span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span>' + '<span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span>' + '</span>';
 
         });
 
@@ -8249,6 +8250,8 @@ $(document).ready(function() {
             ub.funcs.activateManipulator(_appCode);
 
         });
+
+        if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
 
         ub.sort = $("div.layers-container").sortable({
 
@@ -8294,14 +8297,33 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.hideLayerTool = function () {
+
+        if ($('div#layers-order').is(':visible')) {
+
+            $('div#layers-order').removeClass('on').addClass('off');
+            $('a.change-view[data-view="layers"]').removeClass('active-change-view');
+            
+        }
+
+    }
+
+    ub.is.wrestling = function () {
+
+        return ub.funcs.getCurrentUniformCategory() === "Wrestling";
+
+    }
+
     ub.funcs.showLayerTool = function () {
+
+        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
 
         if ($('div#layers-order').is(':visible')) {
 
             $('div#layers-order').removeClass('on').addClass('off');
             $('a.change-view[data-view="layers"]').removeClass('active-change-view');
 
-            $('div#layers-order > span.close').unbind('click');
+           $('a.change-view[data-view="locations"]').click();
             
         } else {
 
@@ -8313,9 +8335,60 @@ $(document).ready(function() {
         ub.funcs.updateLayerTool();
         // End Populate Layer Tool
 
+        $('div.layers-header > span.close').on('click', function () {
+
+            ub.funcs.hideLayerTool();
+
+           if (ub.showLocation) {
+
+                ub.funcs.removeLocations();
+                $('span.show-locations').find('span.caption').html("Show Location Markers");
+                $('span.show-locations').removeClass('active');
+
+           }
+
+        });
+
+        if (!ub.is.wrestling()) {
+
+            $('span.add-application').hide();
+            $('em.dragMessage').remove();
+            $('div.layers-container').addClass('notSublimated');
+
+        }
+
+        $('span.add-application').unbind('click');
+        $('span.add-application').on('click', function () {
+
+            $('a.change-view[data-view="locations-add"]').click();
+
+        });
+
+        $('span.show-locations').unbind('click');
+        $('span.show-locations').on('click', function () {
+
+           if ($(this).find('span.caption').html() === "Show Location Markers") {
+
+                $(this).find('span.caption').html("Hide Location Markers");
+                $(this).addClass('active');
+                ub.funcs.showLocations();
+                
+           } else {
+
+                $(this).find('span.caption').html("Show Location Markers");
+                $(this).removeClass('active');
+                ub.funcs.removeLocations();
+
+           }
+
+        })
+
+        $('div#layers-order > span.close').unbind('click');
         $('div#layers-order > span.layers-close').on('click', function (){
 
             ub.funcs.showLayerTool();
+
+
             
         });
 
@@ -8325,6 +8398,8 @@ $(document).ready(function() {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
+
+        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
 
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});

@@ -6,6 +6,7 @@ $(document).ready(function() {
     ub.offsetValue = 70;
 
     ub.funcs.ui = {};
+    ub.is = {};
     ub.ui = {};
     ub.ui.drops = {};
     ub.modifiers = {};
