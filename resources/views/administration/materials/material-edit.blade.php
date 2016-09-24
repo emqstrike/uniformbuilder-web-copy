@@ -78,6 +78,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Asset Target</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-asset-target" name="asset_target" id="asset_target">
+                                    <option value="web" @if( $material->asset_target == "web" ) selected="selected"@endif>Web</option>
+                                    <option value="ipad" @if( $material->asset_target == "ipad" ) selected="selected"@endif>iPad</option>
+                                </select>
+                            </div>
+                        </div>
 <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Item ID</label>

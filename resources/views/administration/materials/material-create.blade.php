@@ -79,6 +79,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Asset Target</label>
+                            <div class="col-md-8">
+                                <select class="form-control material-asset-target" name="asset_target" id="asset_target">
+                                    <option value="web">Web</option>
+                                    <option value="ipad">iPad</option>
+                                </select>
+                            </div>
+                        </div>
 <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Code</label>
