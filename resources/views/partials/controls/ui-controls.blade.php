@@ -1103,9 +1103,11 @@
                     
                     <td class="action">
 
-                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design </span>
-                        <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design </span>
-                        
+                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design</span>
+                        <span class="action-button share share-uniform-design" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> Share Via Email</span>
+                        <hr />
+                        <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design</span>
+
                     </td>
 
                 </tr>

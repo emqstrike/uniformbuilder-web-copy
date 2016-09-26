@@ -139,7 +139,6 @@ $(document).ready(function () {
             }
 
             ub.funcs.initToolBars();
-
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
 
@@ -4002,7 +4001,7 @@ $(document).ready(function () {
                 if (view === 'open-design') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only Logged-in users can open their saved designs.')
+                        alert('Only logged-in users can open their saved designs.')
                         return;
                     }
 
@@ -4015,7 +4014,7 @@ $(document).ready(function () {
                 if (view === 'save') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only Logged-in users can save their designs.')
+                        alert('Only logged-in users can save their designs.')
                         return;
                     }
 
@@ -5227,6 +5226,43 @@ $(document).ready(function () {
 
         /// My Saved Designs
 
+        ub.funcs.shareSavedDesign = function (id, name) {
+
+
+
+            // var txt;
+            
+            // var r = confirm("Are you sure you want to share '" + name + "'?");
+            
+            // if (r !== true) { return; }
+
+            // data = {
+            //     emails: 'arthur@qstrike.com',
+            //     id: id,
+            //     sharer_name: 'Arthur Abogadil',
+            //     sharer_message: 'Hey, can you checkout this uniform and tell me your feedback? Thanks!',
+            // }
+
+            // $.ajax({
+
+            //     url: ub.config.api_host + '/api/saved_design/sendToEmails/',
+            //     data: JSON.stringify(data),
+            //     type: "POST", 
+            //     crossDomain: true,
+            //     contentType: 'application/json',
+            //     headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            //     success: function (response) {
+
+            //         console.log(response);
+            //         console.log('Save Design Shared Successfully');
+
+            //     }
+                
+            // });
+   
+        }
+
         ub.funcs.deleteSavedDesign = function (id, name) {
 
             var txt;
@@ -5290,6 +5326,17 @@ $(document).ready(function () {
                         
                   });
 
+                  $('span.action-button.share').on('click', function () {
+
+                        // var _shareDesignID = $(this).data('saved-design-id');
+                        // var _name = $(this).data('name');
+                        
+                        // ub.funcs.shareSavedDesign(_shareDesignID, _name);
+
+                        // $('.share-uniform-design')
+
+                  });
+
                   $('span.action-button.delete').on('click', function () {
 
                         var _deleteDesignID = $(this).data('saved-design-id');
@@ -5300,6 +5347,8 @@ $(document).ready(function () {
 
                   });
 
+                  bindShareDesigns();
+            
                 }
                 
             });
@@ -5886,11 +5935,21 @@ $(document).ready(function () {
     });
 
     $('.share-uniform-design-by-email').on('click', function(){
+        
+        // var data = {
+        //     email_list: $('#share-design-modal .team-email').val(),
+        //     order_id: $(this).data('order-id'),
+        //     sharer_name: ub.user.fullname
+        // };
+
+        var _id = $(this).data('order-id');
+
         var data = {
-            email_list: $('#share-design-modal .team-email').val(),
-            order_id: $(this).data('order-id'),
-            sharer_name: ub.user.fullname
-        };
+            emails: $('#share-design-modal .team-email').val(),
+            id: _id,
+            sharer_name: ub.user.fullname,
+            sharer_message: $('#share-design-modal .message').val(),
+        }
 
         var captcha_response = $('#share-design-modal .g-recaptcha-response').val();
         if (captcha_response.length == 0) {
@@ -5899,7 +5958,8 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: ub.config.api_host + '/api/order/share',
+            //url: ub.config.api_host + '/api/order/share',
+            url: ub.config.api_host + '/api/saved_design/sendToEmails/',
             data: JSON.stringify(data),
             type: 'POST',
             dataType: 'json',
@@ -5920,7 +5980,7 @@ $(document).ready(function () {
 
     function bindShareDesigns() {
         $('.share-uniform-design').on('click', function(){
-            var order_id = $(this).data('order-id');
+            var order_id = $(this).data('saved-design-id');
             $('#open-design-modal').modal('hide');
             $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);
             $('#share-design-modal').modal('show');
