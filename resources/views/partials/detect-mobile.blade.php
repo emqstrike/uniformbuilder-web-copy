@@ -57,8 +57,11 @@
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
  console.log("Mobile");
+ var modal = $("#myModal").html();
 
- $('#myModal').modal({
+ $( "body" ).detach();
+$("html").append(modal);
+$('#myModal').modal({
   backdrop: 'static',
   keyboard: false
 })
