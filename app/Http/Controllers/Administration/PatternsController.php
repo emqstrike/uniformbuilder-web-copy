@@ -58,6 +58,7 @@ class PatternsController extends Controller
     public function store(Request $request)
     {
         $patternName = $request->input('name');
+        $assetTarget = $request->input('asset_target');
         $patternProperties = $request->input('pattern_properties');
         // $team_color_id = $request->input('team_color_id');
         // $layer_1_color = $request->input('layer_1_color');
@@ -67,7 +68,8 @@ class PatternsController extends Controller
 
         $data = [
             'name' => $patternName,
-            'pattern_properties' => $patternProperties
+            'pattern_properties' => $patternProperties,
+            'asset_target' => $assetTarget
             // 'layer_1_default_color' => $layer_1_color,
             // 'layer_2_default_color' => $layer_2_color,
             // 'layer_3_default_color' => $layer_3_color,
