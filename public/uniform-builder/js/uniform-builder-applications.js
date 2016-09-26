@@ -8236,7 +8236,12 @@ $(document).ready(function() {
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span>' + '<span class="caption">' + _caption + '</span><span class="application_type">(' + _applicationType + ')</span>' + '</span>';
+            var _primaryView = ub.funcs.getPrimaryView(app.application);
+
+            var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
+            var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
+
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span>' + '<span class="caption">' + _caption + '</span>' + _perspectivePart + _applicationTypePart + '</span>';
 
         });
 
