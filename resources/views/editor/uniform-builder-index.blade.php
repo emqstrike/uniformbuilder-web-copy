@@ -251,10 +251,17 @@
                 <br /><span>Save Design</span>
             </a>
 
+            <a class="footer-buttons change-view" data-view="open-design">
+                <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                <br /><span>Open Design</span>
+            </a>
+
+            <!--
             <a class="footer-buttons change-view" data-view="start-over">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
                 <br /><span>Start Over</span>
             </a>
+            -->
 
             <a class="footer-buttons change-view" data-view="home">
                 <i class="fa fa-home" aria-hidden="true"></i>

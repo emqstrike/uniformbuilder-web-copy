@@ -131,6 +131,10 @@ $(document).ready(function () {
                 $('a.change-view[data-view="save"]').css('color','lightgray');
                 $('a.change-view[data-view="save"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
+
+                $('a.change-view[data-view="open-design"]').css('color','lightgray');
+                $('a.change-view[data-view="open-design"]').css('cursor','not-allowed');
+                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
                 
             }
 
@@ -3994,9 +3998,24 @@ $(document).ready(function () {
 
                 }
 
+
+                if (view === 'open-design') {
+
+                    if(typeof (window.ub.user.id) === "undefined") {
+                        alert('Only Logged-in users can open their saved designs.')
+                        return;
+                    }
+
+                    window.location.href = window.ub.config.host + '/my-saved-designs';
+                    return;
+
+                }
+
+
                 if (view === 'save') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
+                        alert('Only Logged-in users can save their designs.')
                         return;
                     }
 
