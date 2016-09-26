@@ -5927,6 +5927,7 @@ $(document).ready(function() {
 
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
 
     }
 
@@ -6471,6 +6472,7 @@ $(document).ready(function() {
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
 
         if (ub.funcs.isBitFieldOn()) { 
 
@@ -7573,9 +7575,6 @@ $(document).ready(function() {
         }
 
        // ub.updateLayersOrder(ub[_perspective]);
-
-       ub.funcs.activateLayer(application_id);
-
     }
 
     ub.funcs.deactivateMoveTool = function () {
@@ -8478,6 +8477,7 @@ $(document).ready(function() {
             $('div#changeApplicationUI').remove();
 
         });
+        ub.funcs.activateLayer(application_id);
 
     };
 
