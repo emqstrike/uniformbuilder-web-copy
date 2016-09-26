@@ -265,7 +265,7 @@
 
             <a class="footer-buttons change-view" data-view="team-info">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <br /><span>Order Now</span>
+                <br /><span>ORDER NOW!</span>
             </a>
 
         </div>  
