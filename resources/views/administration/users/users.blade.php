@@ -58,10 +58,12 @@
                                     </a>
                                 </td>
                                 <td>
+                                    @if (1 == 0)
                                     <a href="/administration/user/edit/{{ $user->id }}" class="btn btn-primary btn-xs edit-user" data-user-id="{{ $user->id }}" role="button">
                                         <i class="glyphicon glyphicon-edit"></i>
                                         Edit
                                     </a>
+                                    @endif
                                     @if ($user->email != Session::get('email'))
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-user" data-user-id="{{ $user->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
