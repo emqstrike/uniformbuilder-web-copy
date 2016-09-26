@@ -527,6 +527,12 @@ $(document).ready(function() {
 
         });
 
+        $('span.cancel-btn').on('click', function () {
+
+            $('div.feedback-form').remove();
+
+        });
+
     }
 
     ub.funcs.freeFeedbackForm = function () {
@@ -551,6 +557,12 @@ $(document).ready(function() {
                     ub.funcs.submitFeedback(_message);
 
                 }
+
+                $('div.free-feedback-form').remove();
+
+            });
+
+            $('span.cancel-btn').on('click', function () {
 
                 $('div.free-feedback-form').remove();
 
