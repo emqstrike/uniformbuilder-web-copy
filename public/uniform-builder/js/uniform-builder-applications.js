@@ -1847,7 +1847,15 @@ $(document).ready(function() {
 
             if (typeof material_option === 'undefined') {
 
-                util.error('Material Option for Application ID ' + app_id + ' Not Found!');    
+                if (parseInt(app_id) > 70) {
+
+                    material_option = "Body";
+
+                } else {
+
+                    util.error('Material Option for Application ID ' + app_id + ' Not Found!');    
+
+                }
 
             }
             
@@ -2014,8 +2022,12 @@ $(document).ready(function() {
             var sprite_collection   = [];
             var mat_option          = ub.funcs.getApplicationMatOption(app_id);
             var marker_name         = "objects_" + app_id;
-            var views               = ub.data.applications_transformed[mat_option][app_id].views;
-            var _applicationObj     = ub.data.applications_transformed[mat_option][app_id];
+            var views;    
+            var _applicationObj;
+
+            views = ub.current_material.settings.applications[app_id].application.views;
+            _applicationObj = ub.current_material.settings.applications[app_id].application;
+
             var _settingsObject     = ub.funcs.getSettingsObject(app_id);
             
             _.each(ub.views, function(_view){
