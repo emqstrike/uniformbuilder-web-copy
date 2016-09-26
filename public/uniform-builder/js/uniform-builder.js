@@ -75,8 +75,6 @@ $(document).ready(function () {
 
         }
 
-        ub.data.afterLoadCalled = 0;
-
         ub.funcs.getPrice = function (material) {
 
             var _web_price_sale = parseFloat(material.web_price_sale);
@@ -96,7 +94,8 @@ $(document).ready(function () {
             return _price;
 
         }
-        
+
+        ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
             if (ub.data.afterLoadCalled > 0) {return;}
@@ -151,11 +150,8 @@ $(document).ready(function () {
         ub.funcs.initToolBars = function () {
 
             if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                //$('a.change-view[data-view="locations-add"]').show();
+                
                 $('a.change-view[data-view="layers"]').show();
-                $('a.change-view[data-view="save"]').hide();
-                $('a.change-view[data-view="start-over"]').hide();
 
             } else {
 
@@ -288,6 +284,7 @@ $(document).ready(function () {
             if (ok) {
 
                 ub.load_assets();
+
                 ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
@@ -1770,12 +1767,12 @@ $(document).ready(function () {
                 if (typeof window.ub.temp !== 'undefined') { 
 
                     ub.funcs.getCustomizations(window.ub.temp);
-                   
+                    
                 }
                 else {
 
                     ub.loadDefaulUniformStyle(ub.data.defaultUniformStyle);
-
+                    
                 }
 
             }

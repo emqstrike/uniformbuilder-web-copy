@@ -149,6 +149,9 @@ $(document).ready(function () {
 
     ub.funcs.restoreTeamColorSelections = function () {
 
+        // if coming from saved customizations skip
+        if (typeof window.ub.temp === "string") { return; }
+
         var _teamColorObject    = ub.current_material.settings.team_colors;
         var _teamColorSize      = _.size(ub.current_material.settings.team_colors);
 
@@ -255,6 +258,9 @@ $(document).ready(function () {
     }
 
     ub.funcs.init_team_colors = function () {
+
+        // Cancel if loading from a saved order or design
+        if (typeof window.ub.temp === "string") { return; }
 
         var $teamColorPicker = $('div.team_color_picker_options');
         var selector = 'div.team_color_picker_item';
@@ -701,21 +707,6 @@ $(document).ready(function () {
                 }
 
             });
-
-            // colors_btn.each(function(index){
-
-            //     var _color_code = $(this).data('color-label');
-            //     var _match = typeof _.find(ub.current_material.settings.team_colors, {color_code: _color_code}) === 'object'
-                
-            //     if (_match){
-                    
-            //         $(this).first().data('status','unselected');
-            //         $(this).first().html(s);
-            //         s += 1;
-
-            //     }
-
-            // });
 
         }
     }
