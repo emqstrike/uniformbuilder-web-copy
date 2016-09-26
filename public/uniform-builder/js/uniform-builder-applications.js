@@ -2965,6 +2965,14 @@ $(document).ready(function() {
         $("span.nOf").html(_group_id + ' of ' + _.size(ub.data.modifierLabels));
 
     }
+
+    ub.funcs.clickOutside = function () {
+
+        ub.states.canDoubleClick = false;
+        ub.funcs.resetHighlights();
+        ub.funcs.deactivateMoveTool();
+
+    }
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -3078,9 +3086,7 @@ $(document).ready(function() {
             }
             else {
 
-                ub.states.canDoubleClick = false;
-
-                ub.funcs.resetHighlights();
+                ub.funcs.clickOutside();
 
             }
 
