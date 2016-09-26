@@ -6471,9 +6471,7 @@ $(document).ready(function() {
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
-        ub.funcs.activateMoveTool(application_id);
-        ub.funcs.activateLayer(application_id);
-
+        
         if (ub.funcs.isBitFieldOn()) { 
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
@@ -7326,6 +7324,7 @@ $(document).ready(function() {
 
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
 
     }
 
@@ -8218,6 +8217,12 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.setActiveView = function (view) {
+
+        $('a.change-view[data-view="' + view + '"]').trigger('click');
+
+    }
+
     ub.funcs.updateLayerTool = function () {
 
         var _htmlStr = '';
@@ -8251,6 +8256,15 @@ $(document).ready(function() {
 
         $('span.layer').unbind('click');
         $('span.layer').on('click', function () {
+
+            if ($(this).hasClass('active')) {
+
+                ub.funcs.deactivateMoveTool();
+                ub.funcs.activateBody();
+                
+                return;
+
+            }
 
             var _appCode = $(this).data('location-id');
             ub.funcs.activateManipulator(_appCode);
