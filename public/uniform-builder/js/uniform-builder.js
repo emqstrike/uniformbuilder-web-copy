@@ -4002,7 +4002,7 @@ $(document).ready(function () {
                 if (view === 'open-design') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only Logged-in users can open their saved designs.')
+                        alert('Only logged-in users can open their saved designs.')
                         return;
                     }
 
@@ -4015,7 +4015,7 @@ $(document).ready(function () {
                 if (view === 'save') {
 
                     if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only Logged-in users can save their designs.')
+                        alert('Only logged-in users can save their designs.')
                         return;
                     }
 
