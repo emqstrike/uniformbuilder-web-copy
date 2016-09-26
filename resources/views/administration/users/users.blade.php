@@ -64,16 +64,18 @@
                                         Edit
                                     </a>
                                     @endif
-                                    @if ($user->email != Session::get('email'))
-                                    <a href="#" class="btn btn-danger pull-right btn-xs delete-user" data-user-id="{{ $user->id }}" role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        Remove
-                                    </a>
-                                    @else
-                                    <a href="#" class="btn btn-warning pull-right btn-xs" role="button">
-                                        <i class="fa fa-diamond"></i>
-                                        This is YOU
-                                    </a>
+                                    @if (1 == 0)
+                                        @if ($user->email != Session::get('email'))
+                                        <a href="#" class="btn btn-danger pull-right btn-xs delete-user" data-user-id="{{ $user->id }}" role="button">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            Remove
+                                        </a>
+                                        @else
+                                        <a href="#" class="btn btn-warning pull-right btn-xs" role="button">
+                                            <i class="fa fa-diamond"></i>
+                                            This is YOU
+                                        </a>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>
