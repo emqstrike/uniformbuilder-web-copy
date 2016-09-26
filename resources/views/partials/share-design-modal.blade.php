@@ -4,7 +4,7 @@
         <div class="modal-content"> 
             <div class="modal-header"> 
                 <button type="button" class="close" data-dismiss="modal">×</button> 
-                <h4 class="modal-title">Share this design to my team</h4> 
+                <h4 class="modal-title">Share this design via email</h4> 
             </div> 
             <div class="modal-body">
                 <form class='form-vertical'>
@@ -12,16 +12,20 @@
                         <label>Email Addresses</label>
                         <textarea class='form-control team-email'></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea class='form-control message'>Hello!, Please checkout this uniform i created using Prolook Uniform Customizer.</textarea>
+                    </div>
                     <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-primary share-uniform-design-by-email">
+                <button class="btn share-uniform-design-by-email">
                     <span class='fa fa-send-o'></span>
                     Send Email
                 </button>
-                <button class="btn btn-default close-share-uniform-design-modal" data-dismiss="modal">Close</button>
+                <button class="btn close-share-uniform-design-modal" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

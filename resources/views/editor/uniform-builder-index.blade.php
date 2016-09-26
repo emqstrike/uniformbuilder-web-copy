@@ -229,21 +229,21 @@
                 <br /><span>Patterns</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="locations">
+            <a class="footer-buttons change-view" data-view="layers">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <br /><span>Applications</span>
+            </a>
+
+            <a class="footer-buttons change-view" data-view="locations" style="display: none;">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <br /><span>Locations</span>
                 
             </a>
 
-            <a class="footer-buttons change-view" data-view="locations-add">
+            <a class="footer-buttons change-view" data-view="locations-add" style="display: none;">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                 <br /><span>Add Location</span>
-            </a>
-
-            <a class="footer-buttons change-view" data-view="layers">
-                <i class="fa fa-sort" aria-hidden="true"></i>
-                <br /><span>Layers</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="save">
@@ -251,14 +251,21 @@
                 <br /><span>Save Design</span>
             </a>
 
+            <a class="footer-buttons change-view" data-view="open-design">
+                <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                <br /><span>Open Design</span>
+            </a>
+
+            <!--
             <a class="footer-buttons change-view" data-view="start-over">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
                 <br /><span>Start Over</span>
             </a>
+            -->
 
-            <a class="footer-buttons change-view" data-view="home">
-                <i class="fa fa-home" aria-hidden="true"></i>
-                <br /><span>Home</span>
+            <a class="footer-buttons change-view" data-view="team-info">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <br /><span>ORDER NOW!</span>
             </a>
 
         </div>  
@@ -290,9 +297,9 @@
                 <br /><span>Zoom</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="team-info">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <br /><span>Order Now</span>
+            <a class="footer-buttons change-view" data-view="home">
+                <i class="fa fa-home" aria-hidden="true"></i>
+                <br /><span>Home</span>
             </a>
 
 

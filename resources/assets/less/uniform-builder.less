@@ -5744,7 +5744,7 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #3d3d3d;
+                        background-color: #acacac;
                         color: white;
 
                         td {
@@ -5760,7 +5760,7 @@ div.header-container.main {
                         td {
 
                             text-align: center;
-                            border: solid 1px #3d3d3d;
+                            border: solid 1px #acacac;
                             padding: 7px;
 
                             em {
@@ -5804,8 +5804,8 @@ div.header-container.main {
                             span.action-button {
 
                                 padding: 7px;
-                                background-color: #acacac;
-                                color: white;
+                                background-color: white;
+                                color: #acacac;
                                 width: 120px;
                                 margin: 7px;
                                 display: inline-block;
@@ -5816,7 +5816,8 @@ div.header-container.main {
 
                             span.action-button:hover {
 
-                                background-color: #3d3d3d;
+                                background-color: #acacac;
+                                color: white;
 
                             }
 
@@ -6182,42 +6183,119 @@ div#layers-order {
 
     position: absolute;
     display: none;
-    width: 260px;
+    width: 270px;
     height: 661px;
     background-color: #acacac;
-    margin-left: -270px;
+    margin-left: -280px;
     padding: 10px;
 
     -moz-transition: all .2s;
     -webkit-transition: all .2s;
     transition: all .2s;
-
     text-align: center;
 
-    span.add-layer {
+    div.tools {
 
-        display: block;
-        background-color: #3d3d3d;
+
+        span.add-application, span.show-locations {
+
+        display: table-cell;
+        background-color: #888888;
         color: white;
+        width: 100px;
+        height: 70px;
+        font-size: 0.8em;
+        padding: 9px;
+        vertical-align: bottom;
+        border: 3px solid #acacac;
+        cursor: pointer;
+        float: right;
+        vertical-align: bottom;
+
+        }
+
+        span.show-locations {
+
+            background-color: #acacac;
+            float: left;
+            color: #3d3d3d;
+            width: 150px;
+            margin-top: 50px;
+            height: 10px;
+            text-align: left;
+            padding: 0px;
+
+        }
+
+        span.add-application.inactive {
+
+            cursor: not-allowed;
+            background-color: #888888;
+            opacity: 0.2;
+
+        } 
+
+        span.show-locations.active {
+
+            color: white;
+
+        }
+
+        span.add-application:hover {
+
+            background-color: #3d3d3d;
+
+        }
+
+        span.show-locations:hover {
+
+            color: white;
+
+        }
 
     }
+    
 
-    span.layers-header {
+    div.layers-header {
 
         text-transform: uppercase;
         display: block;
         margin-bottom: 10px;
         font-family: 'Avenir Next LT W04 Bold';
         font-size: 0.9em;
+        width: 100%;
+
+        span.header-text {
+
+            float: left;
+            font-size: 1.2em;
+
+        }
+
+        span.close {
+
+            cursor: pointer;
+            color: #3d3d3d;
+            float: right;
+
+        }
+
+        span.close:hover {
+
+            color: #3d3d3d;
+            float: right;
+
+        }
 
     }
 
     div.layers-container {
 
-        height: 520px;
+        height: 460px;
         width: 100%;
         display: block;
         overflow-y: auto;
+        margin-top: 20px;
 
         span.layer {
 
@@ -6246,17 +6324,24 @@ div#layers-order {
             span.caption {
 
                 display: inline-block;
-                min-width: 95px;
+                min-width: 90px;
                 color: white;
 
             }
 
-            span.application_type {
+            span.perspective, span.application_type {
 
-                font-size: 0.9em;
+                font-size: 0.8em;
                 color: #acacac;
                 float: right;
                 margin-right: 7px;
+                margin-top: 2px;
+
+            }
+
+            span.perspective {
+
+                color: white;
 
             }
 
@@ -6264,9 +6349,15 @@ div#layers-order {
 
         span.layer:hover {
 
-            border: 1px solid #3d3d3d;
+            border: 1px solid white;
 
         }
+
+    }
+
+    div.layers-container.notSublimated {
+
+        height: 520px;
 
     }
 
@@ -6334,3 +6425,12 @@ div#layers-order.off {
     user-select: none;
 }
 
+
+
+.modal-content {
+
+    border-radius: 0px;    
+    padding: 10px;    
+
+
+}
