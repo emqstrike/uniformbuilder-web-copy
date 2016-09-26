@@ -29,7 +29,7 @@
         </span>
 
         <span class="show-locations">
-            <i class="fa fa-eye" aria-hidden="true"></i><br />
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
             <span class="caption">Show Location Markers</span>
         </span>
     </div>

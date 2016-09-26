@@ -8240,8 +8240,10 @@ $(document).ready(function() {
 
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
             var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
+            var _captionPart = '<span class="caption">' + _caption + '</span>';
+            var _codePart = '<span class="code"> #' + app.code + '</span>';
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + '<span class="code"> #' + app.code + '</span>' + '<span class="caption">' + _caption + '</span>' + _perspectivePart + _applicationTypePart + '</span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _caption + _perspectivePart + _applicationTypePart + '</span>';
 
         });
 

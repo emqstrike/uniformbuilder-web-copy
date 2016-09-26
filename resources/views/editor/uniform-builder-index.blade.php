@@ -234,19 +234,17 @@
                 <br /><span>Applications</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="locations">
+            <a class="footer-buttons change-view" data-view="locations" style="display: none;">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <br /><span>Locations</span>
                 
             </a>
 
-            <a class="footer-buttons change-view" data-view="locations-add">
+            <a class="footer-buttons change-view" data-view="locations-add" style="display: none;">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                 <br /><span>Add Location</span>
             </a>
-
-
 
             <a class="footer-buttons change-view" data-view="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
