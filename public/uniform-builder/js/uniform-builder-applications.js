@@ -2465,7 +2465,7 @@ $(document).ready(function() {
             //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
                 ub.funcs.runAfterUpdate(app_id);    
-                
+
             //}
             
             return sprite_collection;
@@ -8177,7 +8177,7 @@ $(document).ready(function() {
         }
 
         $locationLayer.find('span.caption').html(_caption);
-        $locationLayer.find('span.application_type').html('(' +_applicationType + ')');
+        $locationLayer.find('span.application_type').html(_applicationType);
 
     }
 
@@ -8247,7 +8247,7 @@ $(document).ready(function() {
             var _captionPart = '<span class="caption">' + _caption + '</span>';
             var _codePart = '<span class="code"> #' + app.code + '</span>';
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _caption + _perspectivePart + _applicationTypePart + '</span>';
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _captionPart + _perspectivePart + _applicationTypePart + '</span>';
 
         });
 
