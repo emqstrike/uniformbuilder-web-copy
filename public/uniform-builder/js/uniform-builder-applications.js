@@ -3876,8 +3876,6 @@ $(document).ready(function() {
 
         });
 
-
-
     }
 
     ub.funcs.getTeamColorObjByIndex = function (index) {
