@@ -36,6 +36,16 @@ select:hover {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Asset Target</label>
+                            <div class="col-md-6">
+                                <select class="form-control pattern-asset-target" name="asset_target" id="asset_target">
+                                    <option value="web">Web</option>
+                                    <option value="ipad">iPad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
