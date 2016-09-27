@@ -261,3 +261,5 @@ Route::group(array('prefix' => 'administration'), function() {
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');
+
+Route::post('mobile_notification', 'MobileNotification\MobileNotificationController@store');
