@@ -54,7 +54,12 @@
 
 <script>
 
- if( $(window).width() <= "650"){
+var ua = navigator.userAgent.toLowerCase();
+
+console.log("agent:"+ua);
+if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) ){
+	// Do something!
+	// Redirect to Android-site?
 	console.log("true");
 	var modal = $("#myModal").html();
 
@@ -64,12 +69,24 @@
 	backdrop: 'static',
 	keyboard: false
 	})
+}
+ // if( $(window).width() <= "650"){
+	// console.log("true");
+	// var modal = $("#myModal").html();
 
-  }
- else {
+	// $( "body" ).detach();
+	// $("html").append(modal);
+	// $('#myModal').modal({
+	// backdrop: 'static',
+	// keyboard: false
+	// })
+
+ //  }
+
+ // else {
  
-     console.log("false");
-  }
+ //     console.log("false");
+ //  }
 // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 //  console.log("Mobile responsive");
 //  var modal = $("#myModal").html();
@@ -84,7 +101,6 @@
 // }else{
 // 	 console.log("desktop");
 // }
-
 
 
 
