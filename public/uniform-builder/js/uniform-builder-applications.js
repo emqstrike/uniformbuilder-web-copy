@@ -8421,11 +8421,7 @@ $(document).ready(function() {
 
         $('div#layers-order > span.close').unbind('click');
         $('div#layers-order > span.layers-close').on('click', function (){
-
-            ub.funcs.showLayerTool();
-
-
-            
+            ub.funcs.showLayerTool();   
         });
 
     }
