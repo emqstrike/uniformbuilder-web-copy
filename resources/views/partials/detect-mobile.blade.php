@@ -9,12 +9,12 @@
     <div class="modal-content">
       <div class="modal-header">
 <!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-        <h4 class="modal-title">The customizer is only available on Desktop view.</h4>
+        <h4 class="modal-title">Prolook Uniform Customizer is currently only available for Desktop and Laptop Computers.</h4>
       </div>
       <div class="modal-body">
 <form data-toggle="validator" role="form" method="POST" action="/mobile_notification";>
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
- 	<h6>We will notify you when the mobile view is available fill the following fields.</h6>
+ 	<h6>We are currently developing an iPad mobile app. Please enter your personal details so that we can notify you once it becomes available on the Apple App Store.</h6>
   <div class="form-group">
     <label for="inputName" class="control-label">Name</label>
     <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
