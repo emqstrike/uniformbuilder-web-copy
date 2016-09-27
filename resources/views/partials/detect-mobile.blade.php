@@ -56,7 +56,7 @@
 
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
- console.log("Mobile");
+ console.log("Mobile responsive");
  var modal = $("#myModal").html();
 
  $( "body" ).detach();
