@@ -54,21 +54,36 @@
 
 <script>
 
+ if( $(window).width() <= "650"){
+	console.log("true");
+	var modal = $("#myModal").html();
 
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
- console.log("Mobile responsive");
- var modal = $("#myModal").html();
+	$( "body" ).detach();
+	$("html").append(modal);
+	$('#myModal').modal({
+	backdrop: 'static',
+	keyboard: false
+	})
 
- $( "body" ).detach();
-$("html").append(modal);
-$('#myModal').modal({
-  backdrop: 'static',
-  keyboard: false
-})
+  }
+ else {
+ 
+     console.log("false");
+  }
+// if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+//  console.log("Mobile responsive");
+//  var modal = $("#myModal").html();
 
-}else{
-	 console.log("desktop");
-}
+//  $( "body" ).detach();
+// $("html").append(modal);
+// $('#myModal').modal({
+//   backdrop: 'static',
+//   keyboard: false
+// })
+
+// }else{
+// 	 console.log("desktop");
+// }
 
 
 
