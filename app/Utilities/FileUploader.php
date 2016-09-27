@@ -197,7 +197,7 @@ class FileUploader
         if( ! \File::isDirectory($destinationFolder) ) {
 
             \File::makeDirectory($destinationFolder, 493, true);
-            
+
         }
 
         // Upload thumbnail to S3

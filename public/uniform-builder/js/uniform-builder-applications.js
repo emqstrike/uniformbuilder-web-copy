@@ -7583,11 +7583,11 @@ $(document).ready(function() {
         
         ub.funcs.createDraggable(_spriteDelete, _applicationObj, ub[_perspective], _perspective);
 
-        if (parseInt(application_id) < 70) {
+        //if (parseInt(application_id) < 70) {
 
-            _spriteDelete.alpha = 0;
+        //    _spriteDelete.alpha = 0;
 
-        }
+        //}
 
        // ub.updateLayersOrder(ub[_perspective]);
     }
@@ -8028,7 +8028,8 @@ $(document).ready(function() {
             ub[view.perspective + '_view'].removeChild(_lObj);
             
             delete ub.objects[view.perspective + '_view']['objects_' + locationID];
-            delete ub.objects[view.perspective + '_view']['locations_' + locationID];
+            delete ub.objects[view.perspective + '_view']['locations_' + locationID]; 
+            ub.activeApplication = undefined;
 
         });
 
@@ -8421,11 +8422,7 @@ $(document).ready(function() {
 
         $('div#layers-order > span.close').unbind('click');
         $('div#layers-order > span.layers-close').on('click', function (){
-
-            ub.funcs.showLayerTool();
-
-
-            
+            ub.funcs.showLayerTool();   
         });
 
     }

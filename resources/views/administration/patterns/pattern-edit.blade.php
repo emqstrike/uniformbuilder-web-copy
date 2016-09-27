@@ -32,6 +32,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Asset Target</label>
+                            <div class="col-md-6">
+                                <select class="form-control pattern-asset-target" name="asset_target" id="asset_target">
+                                    <option value="web" @if( $pattern->asset_target == "web" ) selected="selected"@endif>Web</option>
+                                    <option value="ipad" @if( $pattern->asset_target == "ipad" ) selected="selected"@endif>iPad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
