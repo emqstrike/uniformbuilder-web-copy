@@ -94,6 +94,7 @@ $(document).ready(function () {
         ub.hide_all_views();
         $('a.change-view[data-view="zoom"]').addClass('zoom_on');
         ub.zoom = true;
+        ub.states.canDoubleClick = false;
 
     };
 
