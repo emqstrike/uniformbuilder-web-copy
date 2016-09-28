@@ -778,11 +778,6 @@ $(document).ready(function() {
         sprite.originalZIndex = layer_order * (-1);
         sprite.zIndex = layer_order * (-1);
 
-        console.log('zIndex: ');
-        console.log('Original');
-        console.log(sprite.originalZIndex);
-        console.log(sprite.zIndex);
-
         settings_obj.layer_order = layer_order;
     
         ub.updateLayersOrder(view);
@@ -3885,9 +3880,6 @@ $(document).ready(function() {
 
         var _index      = parseInt(index);
         var _colorObj   = ub.current_material.settings.team_colors[_index - 1];
-
-        console.log('Index: ' + _index);
-        console.log('Index after -1: ' + (_index - 1))
 
         if (typeof _colorObj === "undefined") {
 
