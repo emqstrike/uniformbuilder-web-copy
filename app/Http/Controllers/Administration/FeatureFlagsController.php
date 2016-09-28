@@ -35,24 +35,19 @@ class FeatureFlagsController extends Controller
         ]);
     }
 
-    // public function editForm($id)
-    // {
-    //     $block_pattern = $this->client->getBlockPattern($id);
-    //     $uniform_categories = $this->featureFlagsClient->getUniformCategories();
+    public function editForm($id)
+    {
+        $feature_flag = $this->client->getFeatureFlag($id);
 
-    //     return view('administration.block-patterns.block-pattern-edit', [
-    //         'block_pattern' => $block_pattern,
-    //         'uniform_categories' => $uniform_categories
-    //     ]);
-    // }
+        return view('administration.feature-flags.feature-flag-edit', [
+            'feature_flag' => $feature_flag
+        ]);
+    }
+
     public function addForm()
     {
-        // $feature_flags = $this->client->getFeatureFlags();
-
-        // return view('administration.feature-flags.feature-flag-create', [
-        //     'feature_flags' => $feature_flags
-        // ]);
-        return view('administration.feature-flags.feature-flag-create'); }
+        return view('administration.feature-flags.feature-flag-create');
+    }
 
     public function store(Request $request)
     {
@@ -81,7 +76,7 @@ class FeatureFlagsController extends Controller
             $id = $request->input('feature_flag_id');
             $data['id'] = $id;
         }
-
+// dd(json_encode($data));
         $response = null;
         if (!empty($request->input('feature_flag_id')))
         {
