@@ -141,6 +141,7 @@ $(document).ready(function () {
             ub.funcs.initToolBars();
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
+            ub.funcs.initTeamColors();
 
             // window.onbeforeunload = function (e) {
                 
@@ -1087,7 +1088,7 @@ $(document).ready(function () {
 
     }
 
-    ub.loadSettings = function (settings) { 
+    ub.loadSettings = function (settings) {
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
