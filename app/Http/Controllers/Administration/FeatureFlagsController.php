@@ -45,114 +45,66 @@ class FeatureFlagsController extends Controller
     //         'uniform_categories' => $uniform_categories
     //     ]);
     // }
+    public function addForm()
+    {
+        // $feature_flags = $this->client->getFeatureFlags();
 
-    // public function addForm()
-    // {
-    //     $uniform_categories = $this->featureFlagsClient->getUniformCategories();
+        // return view('administration.feature-flags.feature-flag-create', [
+        //     'feature_flags' => $feature_flags
+        // ]);
+        return view('administration.feature-flags.feature-flag-create'); }
 
-    //     return view('administration.block-patterns.block-pattern-create', [
-    //         'uniform_categories' => $uniform_categories
-    //     ]);
-    // }
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+        $group = $request->input('group');
+        $category = $request->input('category');
+        $description = $request->input('description');
+        $active = $request->input('active');
+        $user_types = explode(",", $request->input('users_value'));
+        $switch = $request->input('switch');
+        $state = $request->input('state');
+        $data = [
+            'name' => $name,
+            'group' => $group,
+            'category' => $category,
+            'description' => $description,
+            'active' => $active,
+            'user_types' => $user_types,
+            'switch' => $switch,
+            'state' => $state
+        ];
 
-    // public function store(Request $request)
-    // {
-    //     $name = $request->input('name');
-    //     $uniformCategoryID = $request->input('uniform_category_id');
-    //     $neckOptions = $request->input('neck_options');
-    //     $data = [
-    //         'name' => $name,
-    //         'uniform_category_id' => $uniformCategoryID
-    //     ];
+        $id = null;
+        if (!empty($request->input('feature_flag_id')))
+        {
+            $id = $request->input('feature_flag_id');
+            $data['id'] = $id;
+        }
 
-    //     $id = null;
-    //     if (!empty($request->input('block_pattern_id')))
-    //     {
-    //         $id = $request->input('block_pattern_id');
-    //         $data['id'] = $id;
-    //     }
+        $response = null;
+        if (!empty($request->input('feature_flag_id')))
+        {
+            Log::info('Attempts to update Feature Flag' . $id);
+            $response = $this->client->updateFeatureFlag($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new Feature Flag ' . json_encode($data));
+            $response = $this->client->createFeatureFlag($data);
+        }
 
-    //     try {
-    //         // Thumbnail Files
-    //         $thumbnailFile = $request->file('thumbnail_file');
-    //         if (isset($thumbnailFile))
-    //         {
-    //             if ($thumbnailFile->isValid())
-    //             {
-    //                 $data['thumbnail_path'] = FileUploader::upload(
-    //                                                 $thumbnailFile,
-    //                                                 $name,
-    //                                                 'thumbnail',
-    //                                                 "block_pattern/{name}/thumbnail.png"
-    //                                             );
-    //             }
-    //         }
-
-    //     }
-    //     catch (S3Exception $e)
-    //     {
-    //         $message = $e->getMessage();
-    //         return Redirect::to('/administration/block_patterns')
-    //                         ->with('message', 'There was a problem uploading your files');
-    //     }
-
-    //     $myJson = json_decode($neckOptions, true);
-    //     // Upload Neck Options Thumbnails
-    //     try
-    //     {
-    //         $neckOptionsFiles = $request->file('neck_option_image');
-    //         $ctr = 1;
-    //         foreach ($neckOptionsFiles as $neckOptionsFile) {
-    //             if (!is_null($neckOptionsFile))
-    //             {
-    //                 if ($neckOptionsFile->isValid())
-    //                 {
-    //                     // $filename = Random::randomize(12);
-    //                     $filename = $myJson[(string)$ctr]['name'];
-    //                     $filename = str_replace(' ', '', $filename);
-    //                     $myJson[(string)$ctr]['thumbnail_path'] = FileUploader::upload(
-    //                                                                 $neckOptionsFile,
-    //                                                                 $name,
-    //                                                                 'material_option',
-    //                                                                 "materials",
-    //                                                                 "{$name}/{$filename}.png"
-    //                                                             );
-    //                 }
-    //             }
-    //             $ctr++;
-    //         }
-    //     }
-    //     catch (S3Exception $e)
-    //     {
-    //         $message = $e->getMessage();
-    //         return Redirect::to('/administration/block_patterns')
-    //                         ->with('message', 'There was a problem uploading your files');
-    //     }
-    //     $data['neck_options'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
-    //     $response = null;
-    //     if (!empty($id))
-    //     {
-    //         Log::info('Attempts to update Block Pattern #' . $id);
-    //         $response = $this->client->updateBlockPattern($data);
-    //     }
-    //     else
-    //     {
-    //         Log::info('Attempts to create a new Block Pattern ' . json_encode($data));
-    //         $response = $this->client->createBlockPattern($data);
-    //     }
-
-    //     if ($response->success)
-    //     {
-    //         Log::info('Success');
-    //         return Redirect::to('administration/block_patterns')
-    //                         ->with('message', 'Successfully saved changes');
-    //     }
-    //     else
-    //     {
-    //         Log::info('Failed');
-    //         return Redirect::to('administration/block_patterns')
-    //                         ->with('message', $response->message);
-    //     }
-    // }
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/feature_flags')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/feature_flags')
+                            ->with('message', $response->message);
+        }
+    }
 }

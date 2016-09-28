@@ -69,7 +69,6 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <!-- <span class="glyphicon glyphicon-star"></span> -->
                         <i class="fa fa-bookmark"></i>
                         Feature Flags
                         <br />
