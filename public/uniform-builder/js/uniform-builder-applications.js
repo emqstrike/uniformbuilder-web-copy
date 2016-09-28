@@ -5470,6 +5470,8 @@ $(document).ready(function() {
 
         }
 
+        if (!ub.funcs.okToStart()) { return; }
+
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
         ub.funcs.activateMoveTool(application_id);
@@ -6486,10 +6488,40 @@ $(document).ready(function() {
 
     }
 
+
+    ub.funcs.okToStart = function () {
+
+        var ok = true;
+
+        var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
+ 
+        if (_sizeOfTeamColors < _sizeOfColorsUsed || _sizeOfTeamColors > 8) { 
+            
+            //if(_sizeOfTeamColors < _sizeOfColorsUsed){
+            if(_sizeOfTeamColors < 2){
+                ub.startModal(1);
+                ok = false;;     
+            }
+
+            if(_sizeOfTeamColors > 8){
+                ub.startModal(2);
+                ok = false;     
+            }
+            
+        }
+
+        return ok;
+
+    }
+
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
+
+        if (!ub.funcs.okToStart()) { return; }
         
         if (ub.funcs.isBitFieldOn()) { 
 
@@ -8442,7 +8474,10 @@ $(document).ready(function() {
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
+        if (!ub.funcs.okToStart()) { return; }
+
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+
 
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
