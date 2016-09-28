@@ -124,10 +124,12 @@
 
                     }
 
+                    var _index = ub.current_material.settings.team_colors.length + 1;
+
                     $(this).first().data('status','selected');
                     $(this).first().html('<i class="fa fa-check" aria-hidden="true"></i>');
-                    $(this).first().html(ub.current_material.settings.team_colors.length + 1);
-
+                    $(this).first().html(_index);
+     
                     if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {
                         
                         $(this).first().css('color', '#3d3d3d');
@@ -139,16 +141,24 @@
 
                 } else {
 
+                    var _index = ub.current_material.settings.team_colors.length;
+
                     $(this).first().data('status','unselected');
                     $(this).first().html('');
 
                     ub.funcs.removeColorFromTeamColors(_colorObj);
-                    var s = 1;
-                    colors_btn.each(function(){
+                    var s = undefined;
+                    
+                    colors_btn.each( function() {
                         
-                        if ($(this).data('status') === 'selected'){
+                        if ($(this).data('status') === 'selected') {
+
+                            var _colorID = $(this).data('color-id');
+                            s = ub.funcs.getTeamColorIndexByColorID(_colorID);
+                            s = parseInt(s) + 1;
+
                             $(this).first().html(s);
-                            s+=1;
+
                         }
 
                     });

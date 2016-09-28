@@ -643,7 +643,7 @@ $(document).ready(function() {
     };
 
     ub.funcs.angleRadians = function (point1, point2) {
-        
+
         return Math.atan2(point2.y - point1.y, point2.x - point1.x);
 
     };
@@ -1057,8 +1057,11 @@ $(document).ready(function() {
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
 
                         application_obj.rotation = angleRadians;
-                        
                         sprite.angleRadians = angleRadians;
+
+                        console.log('Angle: ' + angleRadians);
+                        console.log('Center Point: ' + move_point.position.x + ' ' +  move_point.position.y);
+                        console.log('Rotation Point: ' + rotation_point.position.x + ' ' +  rotation_point.position.y);
 
                         view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180;
@@ -3881,11 +3884,14 @@ $(document).ready(function() {
     ub.funcs.getTeamColorObjByIndex = function (index) {
 
         var _index      = parseInt(index);
-        var _colorObj   = ub.current_material.settings.team_colors[_index];
+        var _colorObj   = ub.current_material.settings.team_colors[_index - 1];
+
+        console.log('Index: ' + _index);
+        console.log('Index after -1: ' + (_index - 1))
 
         if (typeof _colorObj === "undefined") {
 
-            _colorObj = ub.data.colors[0];
+            _colorObj = undefined;
 
         }
 
@@ -3902,8 +3908,13 @@ $(document).ready(function() {
         _.each (_patternObject.layers, function (layer)  {
 
             var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
-            layer.default_color = team_color.hex_code;
 
+            if (typeof team_color !== 'undefined') {
+
+                layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+            }
+            
         });
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
@@ -4332,8 +4343,8 @@ $(document).ready(function() {
             return undefined;
         }
 
-
         var _materialOption = materialOption;
+
         var _patternObject  = {
                 pattern_id: _patternObject.code,
                 scale: 0,
@@ -4362,6 +4373,7 @@ $(document).ready(function() {
                 default_color: _defaultColor.hex_code,
                 color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
                 layer_no:_property.layer, 
+                team_color_id: _property.team_color_id,
                 filename: _property.file_path,
                 color: parseInt(_defaultColor.hex_code, 16),
                 container_position: {
@@ -6486,7 +6498,6 @@ $(document).ready(function() {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
-
         
         if (ub.funcs.isBitFieldOn()) { 
 
@@ -6520,6 +6531,13 @@ $(document).ready(function() {
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
             _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
         }
+        else {
+
+            console.warn('no sizes setting defaulting to generic');
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+
+        }
+
 
         if (_applicationType === 'mascot') {
 
