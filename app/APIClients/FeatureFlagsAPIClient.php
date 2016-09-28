@@ -8,16 +8,16 @@ class FeatureFlagsAPIClient extends APIClient
         parent::__construct();
     }
 
-    // public function getBlockPattern($id)
-    // {
-    //     $response = $this->get('block_pattern/' . $id);
-    //     $result = $this->decoder->decode($response->getBody());
-    //     if ($result->success)
-    //     {
-    //         return $result->block_pattern;
-    //     }
-    //     return null;
-    // }
+    public function getFeatureFlag($id)
+    {
+        $response = $this->get('feature/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->feature;
+        }
+        return null;
+    }
 
     public function getFeatureFlags()
     {
@@ -35,6 +35,15 @@ class FeatureFlagsAPIClient extends APIClient
     public function createFeatureFlag($data)
     {
         $response = $this->post('feature', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function updateFeatureFlag($data)
+    {
+        $response = $this->post('feature/update', [
             'json' => $data
         ]);
 

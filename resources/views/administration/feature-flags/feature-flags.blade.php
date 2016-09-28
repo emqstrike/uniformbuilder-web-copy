@@ -123,16 +123,16 @@
                         <td>
                             {{ $feature_flag->state }}
                         </td>
-                        <!-- <td>
-                            <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-block-pattern" data-block-pattern-id="{{ $feature_flag->id }}" role="button">
+                        <td>
+                            <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
-                            <a href="#" class="btn btn-danger pull-right btn-xs delete-block-pattern" data-block-pattern-id="{{ $feature_flag->id }}" data-block-pattern-name="{{ $feature_flag->name }}" role="button">
+                            <!-- <a href="#" class="btn btn-danger pull-right btn-xs delete-block-pattern" data-block-pattern-id="{{ $feature_flag->id }}" data-block-pattern-name="{{ $feature_flag->name }}" role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Remove
-                            </a>
-                        </td> -->
+                            </a> -->
+                        </td>
                     </tr>
 
                 @empty
