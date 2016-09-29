@@ -400,7 +400,6 @@ $(document).ready(function () {
 
         var start = polarToCartesian(x, y, radius, endAngle);
         var end = polarToCartesian(x, y, radius, startAngle);
-
         var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
 
         var d = [
@@ -450,28 +449,51 @@ $(document).ready(function () {
 
     ub.funcs.updatePatterns = function () {
 
+        if (ub.data.afterLoadCalled !== 1) {return;}
+
         var _patterns = [];
         _materialOptionsWithPattern = ub.funcs.getMaterialOptionsWithPattern();
 
         _.each (_materialOptionsWithPattern, function (_materialOption) {
 
-            _.each(_materialOption.pattern.pattern_obj.layers, function (layer){
+            var _mCode = '';
+            _mCode = _materialOption.code;
 
-                var _teamColorID = parseInt(layer.team_color_id);
-                var _teamColor = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+            _.each(_materialOption.pattern.pattern_obj.layers, function (layer, idx) {
 
-                if (typeof _teamColor !== "undefined") {
-                    
-                    console.log('ID: ' + _teamColorID);
-                    console.log(_teamColor);
+                var _teamColorID    = parseInt(layer.team_color_id);
+                var _teamColor      = ub.funcs.getTeamColorObjByIndex(_teamColorID);
 
-                } else {
+                if (typeof _teamColor === "undefined") {
 
-                    console.error('Undefined: ' + _teamColorID);
-                    console.error(layer);
+                    _teamColor = ub.funcs.getColorObjByHexCode(layer.default_color);
 
-                }
+                } 
                 
+                var _uniformType = ub.current_material.material.type;
+                var _titleCode = _materialOption.code.toTitleCase();
+                var _rootContainer = ub.current_material.containers[_uniformType][_titleCode];
+
+                if (typeof _rootContainer !== 'undefined') {
+
+                    if (typeof _rootContainer.containers !== 'undefined') {
+                        
+                        _container = _rootContainer.containers;  
+                        
+                        _.each(_container, function (val){
+
+                            layer.color = parseInt(_teamColor.hex_code, 16);
+                            layer.color_code = _teamColor.color_code;
+                            layer.default_color = _teamColor.hex_code;
+
+                            val.container.children[idx].tint = layer.color;
+
+                        });
+
+                    }
+
+                } 
+ 
             });
 
         });
@@ -652,12 +674,16 @@ $(document).ready(function () {
     ub.funcs.getColorObjByHexCode = function (hexCode) {
         
         var _baseColors = ub.funcs.getBaseColors();
-        var _colorObj   = _.find(_baseColors, {hex_code: hexCode.lpad("0",6).toString()});
+        var _colorObj;
 
         if (typeof hexCode === 'undefined') {
 
             _colorObj = ub.funcs.getBaseColors()[0];
             
+        } else {
+
+            _colorObj   = _.find(_baseColors, {hex_code: hexCode.lpad("0",6).toString()});
+
         }
 
         return _colorObj;

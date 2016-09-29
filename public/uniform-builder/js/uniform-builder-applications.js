@@ -4443,12 +4443,13 @@ $(document).ready(function() {
         _.each (patternObject.layers, function (_property) {
 
             var _defaultColor = _property.default_color;
-            
+
             var _layer = { 
                 default_color: _defaultColor,
                 color_code: ub.funcs.getColorObjByHexCode(_defaultColor).color_code,
                 layer_no:_property.layer_no.toString(), 
                 filename: _property.filename,
+                team_color_id: _property.team_color_id,
                 color: parseInt(_defaultColor, 16),
                 container_position: {
                     x: 248 + ub.offset.x * 0.9,
