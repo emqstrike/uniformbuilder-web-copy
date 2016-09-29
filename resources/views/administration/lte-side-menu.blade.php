@@ -15,10 +15,24 @@
         <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
     </a>
   </li>
-  <li data-step="2" data-intro="Configure functionalities in the customizer." data-position='right'>
-    <a href="/administration/feature_flags" >
-        <i class="fa fa-bookmark"></i> <span>Feature Flags</span>
+  <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
+    <a href="#" >
+      <i class="fa fa-bookmark"></i>
+      <span>Features and Helpers</span>
+      <i class="fa fa-angle-left pull-right"></i>
     </a>
+    <ul class="treeview-menu">
+      <li data-step="4" data-intro="Configure features." data-position='right'>
+        <a href="/administration/feature_flags">
+          <i class="fa fa-bookmark"></i> <span>Feature Flags</span>
+        </a>
+      </li>
+      <li  data-step="5" data-intro="Helper information">
+        <a href="/administration/helpers">
+          <i class="fa fa-info"></i> <span>Helpers</span>
+        </a>
+      </li>
+    </ul>
   </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >

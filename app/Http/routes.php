@@ -266,13 +266,18 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feature_flag/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@editForm']);
     Route::post('feature_flag/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@store']);
 
-        // NewsLetters
+    // Helpers
+    Route::get('helpers', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@index']);
+    Route::get('helper/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@addForm']);
+    Route::post('helper/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
+    Route::get('helper/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@editForm']);
+    Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
+
+    // NewsLetters
     Route::get('newsletters', 'MobileNotificationController@index');
     // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
     // Route::post('newsletter', 'NewsLettersController@store');
     // Route::post('newsletter/delete', 'NewsLettersController@delete');
-
-
 
 });
 
