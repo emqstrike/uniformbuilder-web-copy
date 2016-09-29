@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\MobileNotification;
+namespace App\Http\Controllers\Administration;
 
 use Illuminate\Http\Request;
 
@@ -7,9 +7,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 
-use App\APIClients\MobileNotificationsAPIClient as APIClient;
+use App\APIClients\NewsLettersAPIClient as APIClient;
 
-class MobileNotificationController extends Controller
+class NewsLettersController extends Controller
 {
     protected $client;
     /**
@@ -17,16 +17,16 @@ class MobileNotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-       public function __construct(APIClient $mobileNotificationClient)
+       public function __construct(APIClient $newsLettersClient)
     {
 
-        $this->client = $mobileNotificationClient;
+        $this->client = $newsLettersClient;
 
 
     }
     public function index()
     {
-
+   
   
         $news_letters = $this->client->getNewsLetters();
         
@@ -56,24 +56,7 @@ class MobileNotificationController extends Controller
     {
 
 
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $contact = $request->input('contact');
-        $zip = $request->input('zip');
-   
 
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'contact' => $contact,
-            'zip' => $zip,
-            'catyegory' => 'Mobile Launching'
-        ];
-        
-        $response = $this->client->createMobileNotification($data);
-
-
-        return redirect()->away('http://www.prolook.com/');
       
     }
 

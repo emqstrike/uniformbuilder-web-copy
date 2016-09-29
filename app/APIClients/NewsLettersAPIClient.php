@@ -1,21 +1,21 @@
 <?php
 namespace App\APIClients;
 
-class MobileNotificationsAPIClient extends APIClient
+class NewsLettersAPIClient extends APIClient
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function createMobileNotification($data)
-    {
+    // public function createMobileNotification($data)
+    // {
 
-        $response = $this->post('newsletter', [
-            'json' => $data
-        ]);
-        return $this->decoder->decode($response->getBody());
-    }
+    //     $response = $this->post('newsletter', [
+    //         'json' => $data
+    //     ]);
+    //     return $this->decoder->decode($response->getBody());
+    // }
 
        public function getNewsLetters()
     {
