@@ -1054,10 +1054,6 @@ $(document).ready(function() {
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
 
-                        console.log('Angle: ' + angleRadians);
-                        console.log('Center Point: ' + move_point.position.x + ' ' +  move_point.position.y);
-                        console.log('Rotation Point: ' + rotation_point.position.x + ' ' +  rotation_point.position.y);
-
                         view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180;
 
@@ -4422,12 +4418,13 @@ $(document).ready(function() {
         _.each (patternObject.layers, function (_property) {
 
             var _defaultColor = _property.default_color;
-            
+
             var _layer = { 
                 default_color: _defaultColor,
                 color_code: ub.funcs.getColorObjByHexCode(_defaultColor).color_code,
                 layer_no:_property.layer_no.toString(), 
                 filename: _property.filename,
+                team_color_id: _property.team_color_id,
                 color: parseInt(_defaultColor, 16),
                 container_position: {
                     x: 248 + ub.offset.x * 0.9,
