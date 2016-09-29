@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
@@ -390,6 +391,7 @@ class MaterialsController extends Controller
 
             if (env('BUILDER_APPROACH') == '2D')
             {
+                $randstr = Random::randomize(12);
                 // Front View File
                 $frontViewFile = $request->file('front_view_path');
                 if (isset($frontViewFile))
@@ -398,7 +400,7 @@ class MaterialsController extends Controller
                     {
                         $data['front_view_path'] = FileUploader::upload(
                                                         $frontViewFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_view',
                                                         'perspective',
                                                         'front_view.png'
@@ -413,7 +415,7 @@ class MaterialsController extends Controller
                     {
                         $data['front_view_shape'] = FileUploader::upload(
                                                         $frontShapeFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_shape',
                                                         'perspective',
                                                         'front_shape.png'
@@ -428,7 +430,7 @@ class MaterialsController extends Controller
                     {
                         $data['back_view_path'] = FileUploader::upload(
                                                         $backViewFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_view',
                                                         'perspective',
                                                         'back_view.png'
@@ -443,7 +445,7 @@ class MaterialsController extends Controller
                     {
                         $data['back_view_shape'] = FileUploader::upload(
                                                         $backShapeFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_shape',
                                                         'perspective',
                                                         'back_shape.png'
@@ -458,7 +460,7 @@ class MaterialsController extends Controller
                     {
                         $data['right_side_view_path'] = FileUploader::upload(
                                                         $rightSideViewFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_view',
                                                         'perspective',
                                                         'right_side_view.png'
@@ -473,7 +475,7 @@ class MaterialsController extends Controller
                     {
                         $data['right_side_view_shape'] = FileUploader::upload(
                                                         $rightShapeFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_shape',
                                                         'perspective',
                                                         'right_side_shape.png'
@@ -488,7 +490,7 @@ class MaterialsController extends Controller
                     {
                         $data['left_side_view_path'] = FileUploader::upload(
                                                         $leftSideViewFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_view',
                                                         'perspective',
                                                         'left_side_view.png'
@@ -503,7 +505,7 @@ class MaterialsController extends Controller
                     {
                         $data['left_side_view_shape'] = FileUploader::upload(
                                                         $leftShapeFile,
-                                                        $materialName,
+                                                        $materialName.$randstr,
                                                         'material_perspective_shape',
                                                         'perspective',
                                                         'left_side_shape.png'
