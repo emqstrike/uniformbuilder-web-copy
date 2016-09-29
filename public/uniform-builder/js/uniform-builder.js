@@ -4218,13 +4218,10 @@ $(document).ready(function () {
                 }
 
             }
-            
 
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _adjustment = {x: 0, y: 0}; }
 
         return _adjustment;
-
-
-
 
     }
 

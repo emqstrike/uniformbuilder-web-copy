@@ -1068,8 +1068,8 @@ $(document).ready(function() {
                         delete_point.alpha      = 0;
                      
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                 
-                       var angleRadians = ub.funcs.objectFocusRotation(application_obj);
+                        var angleRadians = ub.funcs.objectFocusRotation(application_obj);
+
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
 
@@ -3143,8 +3143,6 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
-
-
         if (ub.tools.activeTool.active()) {
 
             $('body').css('cursor', 'pointer');
@@ -3161,28 +3159,22 @@ $(document).ready(function() {
 
         }
         
-        if ($('div#primaryMascotPopup').is(":visible") ) { 
-            
-            return; 
+        if ($('div#primaryMascotPopup').is(":visible") ) { return; }
 
-        }
+        var current_coodinates = mousedata.data.global;
 
-  var current_coodinates = mousedata.data.global;
+        ub.mouse = {
+            x: mousedata.data.global.x, 
+            y: mousedata.data.global.y
+        };
 
-        ub.mouse ={x: mousedata.data.global.x,y: mousedata.data.global.y, } ;
-
-        if (ub.status.manipulatorDown) {
-
-            return;
-
-        }
+        if (ub.status.manipulatorDown) { return; }
 
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
 
             ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-
             return;
 
         }
