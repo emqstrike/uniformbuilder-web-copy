@@ -86,7 +86,7 @@ class FeatureFlagsController extends Controller
             $id = $request->input('feature_flag_id');
             $data['id'] = $id;
         }
-// dd(json_encode($data));
+// dd($data);
         $response = null;
         if (!empty($request->input('feature_flag_id')))
         {

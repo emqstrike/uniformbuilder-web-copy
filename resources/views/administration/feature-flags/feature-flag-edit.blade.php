@@ -107,7 +107,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sports</label>
                             <div class="col-md-6">
-                                <input type="hidden" name="sports" id="sports" value="{{ $feature_flag->sports }}">
+                                <input type="hidden" name="sports_value" id="sports" value="{{ $feature_flag->sports }}">
                                 <select name="sports[]" class="form-control sports" multiple="multiple">
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
