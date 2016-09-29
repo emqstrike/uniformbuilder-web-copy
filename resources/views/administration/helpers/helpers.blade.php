@@ -108,7 +108,7 @@
                         <td>
                             {{ $helper->category }}
                         </td>
-                        <td>
+                        <td class='sports-list'>
                             {{ $helper->sports }}
                         </td>
                         <td>
@@ -168,6 +168,38 @@ $(document).ready(function(){
     //     "info": true,
     //     "autoWidth": false
     // });
+var sports_icons = {
+    "Baseball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
+    "Fastpitch" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
+    "Basketball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/basketball.png",
+    "Apparel" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/apparel.png",
+    "Football" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/football.png",
+    "Golf" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/golf.png",
+    "Hockey" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/hockey.png",
+    "Lacrosse" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/lacrosse.jpg",
+    "Soccer" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/soccer.png",
+    "Tennis" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/tennis.gif",
+    "Volleyball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/volleyball.png",
+    "Wrestling" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/wrestling.png"
+};
+
+$(".sports-list").each(function(i) {
+    var x = null;
+    try {
+        x = JSON.parse($(this).html());
+        // console.log(x[0]);
+        $(this).html('');
+         for(item in x) {
+          // console.log(item);
+          s = x[item];
+          // console.log(s);
+          $(this).append('<img src="' + sports_icons[s] + '" style="height: 30px; width: 30px; margin-right: 5px;" alt="' + s + '">');
+        }
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+});
 });
 </script>
 @endsection
