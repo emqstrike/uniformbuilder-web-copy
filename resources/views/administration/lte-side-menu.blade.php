@@ -77,7 +77,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials">
+        <a href="/administration/news_letters">
           <i class="fa fa-cubes"></i> <span>News Letters</span>
         </a>
       </li>
