@@ -57,7 +57,7 @@
 var ua = navigator.userAgent.toLowerCase();
 
 console.log("agent:"+ua);
-if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) ){
+if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) || (ua.indexOf("ipod") >= 0) ){
 	// Do something!
 	// Redirect to Android-site?
 	console.log("true");

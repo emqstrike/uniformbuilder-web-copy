@@ -648,6 +648,25 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.objectFocusRotation = function (application_obj) {
+
+        var obj_x = application_obj.worldTransform.tx - ub[ub.active_view + '_view'].x;
+        var point_x = ub.mouse.x - ub[ub.active_view + '_view'].x;
+
+        var obj_y = application_obj.worldTransform.ty - ub[ub.active_view + '_view'].y;
+        var point_y = ub.mouse.y - ub[ub.active_view + '_view'].y;
+
+
+        var deltaX = point_x - obj_x;
+        var deltaY = point_y - obj_y;
+        var rad = Math.atan2(deltaY, deltaX); 
+        return rad;
+
+
+      
+
+    };
+
     ub.funcs.removeUIHandles = function () {
 
         _.each(ub.data.views, function (view) {
@@ -1049,7 +1068,12 @@ $(document).ready(function() {
                         delete_point.alpha      = 0;
                      
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                        var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+                       // var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+
+                       var angleRadians = ub.funcs.objectFocusRotation(application_obj);
+
+                  
+
 
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
@@ -1066,6 +1090,30 @@ $(document).ready(function() {
                         ub.objects.front_view.manipulatorTool.rotation = angleRadians;
 
                     }
+
+                    // if(sprite.ubName === "Rotate Tool") {
+
+                    //     move_point.alpha        = 0;
+                    //     scale_point.alpha       = 0;
+                    //     reset_point.alpha       = 0;
+                    //     delete_point.alpha      = 0;
+                     
+                    //     var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
+                    //     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
+
+                    //     application_obj.rotation = angleRadians;
+                        
+                    //     sprite.angleRadians = angleRadians;
+
+                    //     view.application.rotation = angleRadians;
+                    //     view.application.rotation = (angleRadians / Math.PI) * 180;
+
+                    //     move_point.rotation = angleRadians;
+                    //     scale_point.rotation = angleRadians;
+                    //     ub.objects.front_view.manipulatorTool.rotation = angleRadians;
+
+                    // }
+
 
                     if(sprite.ubName === "Scale Tool") {
 
@@ -3128,6 +3176,8 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+
+
         if (ub.tools.activeTool.active()) {
 
             $('body').css('cursor', 'pointer');
@@ -3149,6 +3199,10 @@ $(document).ready(function() {
             return; 
 
         }
+
+  var current_coodinates = mousedata.data.global;
+
+        ub.mouse ={x: mousedata.data.global.x,y: mousedata.data.global.y, } ;
 
         if (ub.status.manipulatorDown) {
 
@@ -7402,6 +7456,8 @@ $(document).ready(function() {
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
+              ub.focusObject =  ub.objects[_perspective]["locations_" + application_id];
+              ub.targetObj = ub.objects[_perspective]["objects_" + application_id];
 
         if (ub.current_material.material.uniform_category !== "Wrestling") { return; }
 
@@ -7490,7 +7546,8 @@ $(document).ready(function() {
                     position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
                 },
             ];
-
+           
+            
             _.each(_corners, function (corner) {
 
                 var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
@@ -7500,7 +7557,13 @@ $(document).ready(function() {
                 _sprite.position.x = corner.position.x;
                 _sprite.position.y = corner.position.y;
 
+                 
+           
+            
+
                 _tools.addChild(_sprite);
+
+
 
             });
 
@@ -7544,6 +7607,8 @@ $(document).ready(function() {
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
+
+
 
         // --- Rotate --- ///
 
