@@ -105,6 +105,22 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Sports</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="sports-val" name="sports_value">
+                                <select name="sports[]" id="users" class="form-control sports" multiple="multiple">
+                                    @foreach ($sports as $sport)
+                                        @if ($sport->active)
+                                        <option value='{{ $sport->name }}'>
+                                            {{ $sport->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
@@ -138,10 +154,19 @@ $(document).ready(function(){
         multiple: true,
         allowClear: true
     });
-    // console.log('select2');
+
     $(".users").change(function() {
-        // console.log($(this).val());
         $('.users-val').val($(this).val());
+    });
+
+    $('.sports').select2({
+        placeholder: "Select Sports",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".sports").change(function() {
+        $('.sports-val').val($(this).val());
     });
 });
 </script>

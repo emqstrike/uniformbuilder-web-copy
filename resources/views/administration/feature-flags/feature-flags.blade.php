@@ -92,6 +92,7 @@
                                 <th>Active</th>
                                 <th>User Types</th>
                                 <th>State</th>
+                                <th>Sports</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -122,6 +123,9 @@
                         </td>
                         <td>
                             {{ $feature_flag->state }}
+                        </td>
+                        <td>
+                            {{ $feature_flag->sports }}
                         </td>
                         <td>
                             <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}" role="button">

@@ -10,19 +10,23 @@ use App\Utilities\FileUploader;
 use App\Utilities\Random;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
+use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\FeatureFlagsAPIClient as APIClient;
 
 class FeatureFlagsController extends Controller
 {
     protected $client;
+    protected $categoriesClient;
     // protected $featureFlagsClient;
 
     public function __construct(
-        APIClient $apiClient
+        APIClient $apiClient,
+        UniformCategoriesAPIClient $categoriesClient
         // FeatureFlagsAPIClient $featureFlagsClient
     )
     {
         $this->client = $apiClient;
+        $this->categoriesClient = $categoriesClient;
         // $this->featureFlagsClient = $FeatureFlagsAPIClient;
     }
 
@@ -38,15 +42,19 @@ class FeatureFlagsController extends Controller
     public function editForm($id)
     {
         $feature_flag = $this->client->getFeatureFlag($id);
-
+        $sports = $this->categoriesClient->getUniformCategories();
         return view('administration.feature-flags.feature-flag-edit', [
-            'feature_flag' => $feature_flag
+            'feature_flag' => $feature_flag,
+            'sports' => $sports
         ]);
     }
 
     public function addForm()
     {
-        return view('administration.feature-flags.feature-flag-create');
+        $sports = $this->categoriesClient->getUniformCategories();
+        return view('administration.feature-flags.feature-flag-create', [
+            'sports' => $sports
+        ]);
     }
 
     public function store(Request $request)
@@ -57,6 +65,7 @@ class FeatureFlagsController extends Controller
         $description = $request->input('description');
         $active = $request->input('active');
         $user_types = explode(",", $request->input('users_value'));
+        $sports = explode(",", $request->input('sports_value'));
         $switch = $request->input('switch');
         $state = $request->input('state');
         $data = [
@@ -67,7 +76,8 @@ class FeatureFlagsController extends Controller
             'active' => $active,
             'user_types' => $user_types,
             'switch' => $switch,
-            'state' => $state
+            'state' => $state,
+            'sports' => $sports
         ];
 
         $id = null;
