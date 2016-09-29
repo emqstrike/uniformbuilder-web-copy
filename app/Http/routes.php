@@ -273,8 +273,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('helper/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@editForm']);
     Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
 
-    // NewsLetters
-    Route::get('newsletters', 'MobileNotificationController@index');
+
+        // NewsLetters
+    Route::get('news_letters', 'Administration\NewsLettersController@index');
+
     // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
     // Route::post('newsletter', 'NewsLettersController@store');
     // Route::post('newsletter/delete', 'NewsLettersController@delete');
