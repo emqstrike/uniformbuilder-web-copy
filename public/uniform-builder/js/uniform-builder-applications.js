@@ -1068,52 +1068,19 @@ $(document).ready(function() {
                         delete_point.alpha      = 0;
                      
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                       // var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-
+                 
                        var angleRadians = ub.funcs.objectFocusRotation(application_obj);
-
-                  
-
-
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
-
-                        console.log('Angle: ' + angleRadians);
-                        console.log('Center Point: ' + move_point.position.x + ' ' +  move_point.position.y);
-                        console.log('Rotation Point: ' + rotation_point.position.x + ' ' +  rotation_point.position.y);
 
                         view.application.rotation = angleRadians;
                         view.application.rotation = (angleRadians / Math.PI) * 180;
 
                         move_point.rotation = angleRadians;
                         scale_point.rotation = angleRadians;
-                        ub.objects.front_view.manipulatorTool.rotation = angleRadians;
+                        ub.objects[view.perspective + '_view'].manipulatorTool.rotation = angleRadians;
 
                     }
-
-                    // if(sprite.ubName === "Rotate Tool") {
-
-                    //     move_point.alpha        = 0;
-                    //     scale_point.alpha       = 0;
-                    //     reset_point.alpha       = 0;
-                    //     delete_point.alpha      = 0;
-                     
-                    //     var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
-                    //     var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-
-                    //     application_obj.rotation = angleRadians;
-                        
-                    //     sprite.angleRadians = angleRadians;
-
-                    //     view.application.rotation = angleRadians;
-                    //     view.application.rotation = (angleRadians / Math.PI) * 180;
-
-                    //     move_point.rotation = angleRadians;
-                    //     scale_point.rotation = angleRadians;
-                    //     ub.objects.front_view.manipulatorTool.rotation = angleRadians;
-
-                    // }
-
 
                     if(sprite.ubName === "Scale Tool") {
 
