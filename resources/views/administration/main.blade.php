@@ -124,13 +124,13 @@
 <!-- Scripts -->
 @if (Session::get('accessToken'))
 <script type="text/javascript">
-    
+
     window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
     window.api_host = "{{ env('API_HOST') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif
-    
+
 </script>
 @endif
 <script type="text/javascript" src="/jquery/jquery-2.1.4.min.js"></script>

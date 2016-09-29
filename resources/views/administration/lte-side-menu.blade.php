@@ -15,6 +15,11 @@
         <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
     </a>
   </li>
+  <li data-step="2" data-intro="Configure functionalities in the customizer." data-position='right'>
+    <a href="/administration/feature_flags" >
+        <i class="fa fa-bookmark"></i> <span>Feature Flags</span>
+    </a>
+  </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-gear"></i>
@@ -55,6 +60,11 @@
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/materials">
           <i class="fa fa-cubes"></i> <span>Materials</span>
+        </a>
+      </li>
+      <li data-step="9" data-intro="For Materials settings.">
+        <a href="/administration/materials">
+          <i class="fa fa-cubes"></i> <span>News Letters</span>
         </a>
       </li>
       <li  data-step="10" data-intro="For Factories settings.">
