@@ -65,8 +65,8 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Switch</label>
                             <div class="col-md-6">
                                 <select name='switch' class="form-control">
-                                    <option value='enable' @if ($feature_flag == "enable") selected="selected"@endif>Enable</option>
-                                    <option value='disable' @if ($feature_flag == "disable") selected="selected"@endif>Disable</option>
+                                    <option value='enable' @if ($feature_flag->switch == "enable") selected="selected"@endif>Enable</option>
+                                    <option value='disable' @if ($feature_flag->switch == "disable") selected="selected"@endif>Disable</option>
                                 </select>
                             </div>
                         </div>
@@ -75,8 +75,8 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Active</label>
                             <div class="col-md-6">
                                 <select name='active' class="form-control">
-                                    <option value='1' @if ($feature_flag == "1") selected="selected"@endif>YES</option>
-                                    <option value='0' @if ($feature_flag == "0") selected="selected"@endif>NO</option>
+                                    <option value='1' @if ($feature_flag->active == "1") selected="selected"@endif>YES</option>
+                                    <option value='0' @if ($feature_flag->active == "0") selected="selected"@endif>NO</option>
                                 </select>
                             </div>
                         </div>
@@ -101,6 +101,22 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">State</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control" name="state" value="{{ $feature_flag->state }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sports</label>
+                            <div class="col-md-6">
+                                <input type="hidden" name="sports_value" id="sports" value="{{ $feature_flag->sports }}">
+                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                    @foreach ($sports as $sport)
+                                        @if ($sport->active)
+                                        <option value='{{ $sport->name }}'>
+                                            {{ $sport->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -143,6 +159,21 @@ $(document).ready(function(){
     });
 
     $('.users').select2('val', user_types);
+
+    var sports = JSON.parse($('#sports').val());
+
+    $('.sports').select2({
+        placeholder: "Select user types",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".sports").change(function() {
+        // console.log($(this).val());
+        $('#sports').val($(this).val());
+    });
+
+    $('.sports').select2('val', sports);
 });
 </script>
 @endsection
