@@ -76,6 +76,11 @@
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
+      <li data-step="9" data-intro="For Materials settings.">
+        <a href="/administration/materials">
+          <i class="fa fa-cubes"></i> <span>News Letters</span>
+        </a>
+      </li>
       <li  data-step="10" data-intro="For Factories settings.">
         <a href="/administration/factories">
           <i class="fa fa-building-o"></i> <span>Factories</span>
