@@ -102,6 +102,13 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Index</label>
+                            <div class="col-md-6">
+                                <input type="number" step="0.001" class="form-control" name="index" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-helper">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
