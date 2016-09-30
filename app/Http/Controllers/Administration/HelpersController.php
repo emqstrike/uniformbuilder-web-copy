@@ -67,6 +67,7 @@ class HelpersController extends Controller
         $gif_url = $request->input('gif_url');
         $pdf_url = $request->input('pdf_url');
         $active = $request->input('active');
+        $index = $request->input('index');
         $data = [
             'feature' => $feature,
             'group' => $group,
@@ -75,7 +76,8 @@ class HelpersController extends Controller
             'video_url' => $video_url,
             'gif_url' => $gif_url,
             'pdf_url' => $pdf_url,
-            'active' => $active
+            'active' => $active,
+            'index' => $index
         ];
 
         $id = null;

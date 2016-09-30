@@ -36,7 +36,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="feature" value="{{ $helper->id }}">
+                                <input type="name" class="form-control" name="feature" value="{{ $helper->feature }}">
                             </div>
                         </div>
 
@@ -98,6 +98,13 @@ li.select2-selection__choice {
                                     <option value='1' @if ($helper->active == "1") selected="selected"@endif>YES</option>
                                     <option value='0' @if ($helper->active == "0") selected="selected"@endif>NO</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Index</label>
+                            <div class="col-md-6">
+                                <input type="number" step="0.001" class="form-control" name="index" value="{{ $helper->index }}">
                             </div>
                         </div>
 
