@@ -73,9 +73,10 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
-                                <th>Layer #</th>
-                                <th>Default Color</th>
-                                <th>Pattern File</th>
+                                <th>Thumbnail</th>
+                                <th>Pattern</th>
+                                <th>Asset Target</th>
+                                <th>Active</th>
                                 <th>Actions</th>
                                 <th></th>
                             </tr>
@@ -94,6 +95,9 @@
                         </td>
                         <td>
                             {{ $pattern->name }}
+                        </td>
+                        <td>
+                            {{ $pattern->asset_target }}
                         </td>
                         <td>
                             <div class="onoffswitch">
