@@ -118,9 +118,10 @@ class PatternsController extends Controller
             {
                 if ($thumbnailFile->isValid())
                 {
+                    $randstr = Random::randomize(12);
                     $data['thumbnail_path'] = FileUploader::upload(
                         $thumbnailFile,
-                        $patternName,
+                        $patternName.$randstr,
                         'pattern_thumbnail',
                         'patterns'
                     );
