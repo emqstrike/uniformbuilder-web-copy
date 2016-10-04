@@ -3410,7 +3410,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
                     });
            
-// a
+// 
                 var mascotFilterIndex=$(".mascotFilter").index(this);
                     if($(this).val()){             
                    
