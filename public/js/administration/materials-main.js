@@ -6,6 +6,10 @@ $(document).ready(function() {
 	      category: '[data-category]'
 	    }
 	});
+      $('#filtersFlatforms').on( 'click', 'button', function() {
+        var filterValue = $( this ).attr('data-filter');
+        $container.isotope({ filter: filterValue });
+    });
 
     $('#filters').on( 'click', 'button', function() {
     	var filterValue = $( this ).attr('data-filter');
