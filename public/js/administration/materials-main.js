@@ -6,20 +6,31 @@ $(document).ready(function() {
 	      category: '[data-category]'
 	    }
 	});
-      $('#filtersFlatforms').on( 'click', 'button', function() {
-        var filterValue = $( this ).attr('data-filter');
-        $container.isotope({ filter: filterValue });
+
+    var filtersFlatforms="";
+
+    $('#filtersFlatforms').on( 'click', 'button', function() {
+
+     filtersFlatforms = $( this ).attr('data-filter');
+
+     materials_button_filters();
     });
 
-    $('#filters').on( 'click', 'button', function() {
-    	var filterValue = $( this ).attr('data-filter');
-    	$container.isotope({ filter: filterValue });
-    });
-
+    var filtersCategory="";
     $('#filtersCategory').on( 'click', 'button', function() {
-        var filterValue = $( this ).attr('data-filter');
-        $container.isotope({ filter: filterValue });
+        filtersCategory = $( this ).attr('data-filter');
+        materials_button_filters();
     });
+    var filters="";
+    $('#filters').on( 'click', 'button', function() {
+    	filters = $( this ).attr('data-filter');
+        materials_button_filters();
+    });
+
+ function materials_button_filters(){
+        console.log(filtersFlatforms + "" + filtersCategory + "" + filters);
+        $container.isotope({ filter: filtersFlatforms + "" + filtersCategory + "" + filters});
+ }
 
 	$('.button-group').each( function( i, buttonGroup ) {
 	    var $buttonGroup = $( buttonGroup );
@@ -130,12 +141,14 @@ $(document).ready(function() {
 
 
     $(document).on('click', '#filtersCategory button', function() {
-        $("#filters button").hide();
-     
+        $("#filters button[data-category]").hide().removeClass("btn-primary");
+        $("#filters button:first-child").addClass("btn-primary");
        console.log($(this).text());
         if($(this).text() == "All"){
             $("#filters button").show();
-        }else{
+        }
+        else{
+           
             $("#filters button[data-category='"+ $(this).text() +"']").show();
         }
 
