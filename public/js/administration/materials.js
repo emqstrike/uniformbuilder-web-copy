@@ -3458,5 +3458,19 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
    
 
+    $(document).on('keyup','#filter_boundary',function(){
 
+
+        var str2 = $(this).val();
+         $( ".load-boundaries-template option" ).hide();
+        $( ".load-boundaries-template option" ).each(function( index ) {
+          var str1 = $( this ).text();
+            
+            if(str1.indexOf(str2) != -1){
+                $(this).show();
+            }
+        });
+
+    });
+   
 });
