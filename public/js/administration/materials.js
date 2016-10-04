@@ -3458,18 +3458,24 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
    
 
-    $(document).on('keyup','#filter_boundary',function(){
+    $(document).on('click','select.load-boundaries-template',function(){
 
 
-        var str2 = $(this).val();
-         $( ".load-boundaries-template option" ).hide();
-        $( ".load-boundaries-template option" ).each(function( index ) {
-          var str1 = $( this ).text();
-            
-            if(str1.indexOf(str2) != -1){
-                $(this).show();
-            }
+        var str2 = $("#filter_boundary").val().toLowerCase();
+       str2 = str2.split(' ');
+       console.log(str2);
+        $( ".load-boundaries-template option" ).hide();
+
+        $.each(str2, function( index, value ) {
+           $( ".load-boundaries-template option" ).each(function( index ) {
+              var str1 = $( this ).text().toLowerCase();
+                
+                if(str1.indexOf(value) != -1){
+                    $(this).show();
+                }
+            });
         });
+           
 
     });
    
