@@ -21,7 +21,7 @@
     </h1>
 </div>
 <div id="filtersFlatforms" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="*">All</button>
+<button class="button btn-primary" data-filter="">All</button>
 
 <button class="button" data-filter=".web" >Web</button>
 <button class="button" data-filter=".ipad" >Ipad</button>
@@ -31,7 +31,7 @@
 </div>
 
 <div id="filtersCategory" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="*">All</button>
+<button class="button btn-primary" data-filter="">All</button>
 
 <?php $lCategory = ""; ?>
 @foreach ($block_patterns as $block_pattern)
@@ -44,7 +44,7 @@
 @endforeach
 </div>
 <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="*">All</button>
+<button class="button btn-primary" data-filter="">All</button>
 @foreach ($block_patterns as $block_pattern)
     <button class="button" data-filter=".{{ $block_pattern->id }}" data-category="{{ $block_pattern->uniform_category }}">{{ $block_pattern->name }}</button>
 @endforeach
