@@ -1091,41 +1091,36 @@ $(document).ready(function() {
 
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
-                        //var application_type = view.application.type;
-
                         var application_type = _application.application_type;
                         var distance = ub.funcs.lineDistance(center_point.position, scale_point.position);
 
                         percentage = distance / 100;
 
-                        if (application_type === 'mascot') {
+                        var flip = 1;
 
-                            var flip = 1;
+                        if (typeof view.application.flip !== 'undefined') {
 
-                            if (typeof view.application.flip !== 'undefined') {
+                            if (view.application.flip === 1) {
 
-                                if (view.application.flip === 1) {
+                                flip = -1;
 
-                                    flip = -1;
+                            }
+                            else {
 
-                                }
-                                else {
-
-                                    flip = 1;
-
-                                }
+                                flip = 1;
 
                             }
 
-                            application_obj.scale = { x: percentage * flip, y: percentage};
-
-                            view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-                            sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
-
-                            ub.appObj = application_obj;
-                            ub.appObjSettings = view.application;
-
                         }
+
+                        application_obj.scale = { x: percentage * flip, y: percentage};
+
+                        view.application.scale = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
+                        sprite.scaleSetting = {x: application_obj.scale.x * flip, y: application_obj.scale.y};
+
+                        ub.appObj = application_obj;
+                        ub.appObjSettings = view.application;
+
 
                     }
 
@@ -6192,6 +6187,9 @@ $(document).ready(function() {
     ub.funcs.getSampleTeamName = function () {
 
         var _sampleTeamName = 'Mustangs';
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _sampleTeamName = 'Tigers'; }
+
         return _sampleTeamName;
 
     }
@@ -6199,6 +6197,9 @@ $(document).ready(function() {
     ub.funcs.getSamplePlayerName = function () {
 
         var _samplePlayerName = 'Grizzlies';
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _samplePlayerName = 'Tiger'; }
+
         return _samplePlayerName;
 
     }
@@ -6290,6 +6291,13 @@ $(document).ready(function() {
             _settingsObject.size             = 2.5;
             _settingsObject.font_size        = 2.5;
 
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                _settingsObject.size             = 4;
+                _settingsObject.font_size        = 4;                
+
+            }
+
             _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
             _settingsObject.text             = ub.funcs.getSamplePlayerName();
             _settingsObject.application_type = _applicationType;
@@ -6337,6 +6345,13 @@ $(document).ready(function() {
 
                 _applicationType = 'sleeve_number';
                 _settingsObject.size = 2;
+
+            }
+
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                _settingsObject.size             = 4;
+                _settingsObject.font_size        = 4;                
 
             }
 
@@ -6396,6 +6411,13 @@ $(document).ready(function() {
             var _applicationType             = 'team_name';
             _settingsObject.size             = 2;
             _settingsObject.font_size        = 2;
+
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+                _settingsObject.size             = 4;
+                _settingsObject.font_size        = 4;                
+
+            }
 
             _settingsObject.text             = ub.funcs.getSampleTeamName();
             
@@ -7517,13 +7539,7 @@ $(document).ready(function() {
                 _sprite.position.x = corner.position.x;
                 _sprite.position.y = corner.position.y;
 
-                 
-           
-            
-
                 _tools.addChild(_sprite);
-
-
 
             });
 
@@ -7604,9 +7620,6 @@ $(document).ready(function() {
         _spriteScale.ubName = 'Scale Tool';
 
         var _x = _xAnchor;
-        if (_applicationObj.application_type !=="mascot") {
-            _x = -1000
-        }    
 
         _spriteScale.anchor.set(_x, -2);
         _spriteScale.zIndex = -1000;
