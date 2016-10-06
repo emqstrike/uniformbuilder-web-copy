@@ -1322,7 +1322,7 @@ $(document).ready(function() {
 
             _size           = $(this).data('size');
 
-            if (!ub.funcs.currentSport('Wrestling')) {
+            if (!ub.funcs.isCurrentSport('Wrestling')) {
 
                 _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
 
