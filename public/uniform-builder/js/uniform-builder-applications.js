@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    ub.funcs.currentSport = function (sport) {
+    ub.funcs.isCurrentSport = function (sport) {
 
         return ub.current_material.material.uniform_category === sport;
 
@@ -793,7 +793,7 @@ $(document).ready(function() {
         sprite.position = new PIXI.Point(x,y);
         sprite.rotation = application.rotation;
 
-        if(sprite.width === 1) {
+        if (sprite.width === 1) {
         
             sprite.position.x -= (sprite.width / 2);
             sprite.position.y -= (sprite.height / 2);
@@ -6536,7 +6536,6 @@ $(document).ready(function() {
 
     }
 
-
     ub.funcs.okToStart = function () {
 
         var ok = true;
@@ -6562,7 +6561,6 @@ $(document).ready(function() {
         return ok;
 
     }
-
 
     ub.funcs.activateApplications = function (application_id) {
 
@@ -7060,6 +7058,10 @@ $(document).ready(function() {
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
+                var oldScale = ub.funcs.clearScale(_settingsObject);
+                _settingsObject.oldScale = oldScale;
+
                 ub.funcs.changeSize(_selectedSize, _settingsObject);
 
                 if (_settingsObject.code === "32") {
