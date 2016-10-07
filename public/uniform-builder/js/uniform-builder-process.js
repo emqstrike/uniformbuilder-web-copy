@@ -1528,6 +1528,8 @@ $(document).ready(function() {
                 user_id: _userID.toString(),
                 name: _designName,
                 material_id: _materialID,
+                material_name: ub.current_material.material.name,
+                user: ub.user.fullname,
                 builder_customizations: _builderCustomizations,
                 sport: _sport,
                 front_thumbnail: _frontView,

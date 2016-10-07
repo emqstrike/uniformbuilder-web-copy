@@ -3465,9 +3465,9 @@ div.header-container.main {
             z-index: 1000;
             background-color: white;
 
-            -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
-            -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
-            box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
+            -moz-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
+            box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
 
             div.footer {
 
@@ -3977,7 +3977,8 @@ div.header-container.main {
                     cursor: pointer;
                     padding-bottom: 3px;
                     font-weight: bold;
-                    width: 12%;
+                    font-size: 1em;
+                    width: 8%;
                     background-color: white;
                     margin-right: 10px;
                     display: inline-block;
@@ -4006,6 +4007,75 @@ div.header-container.main {
                     -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                     box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                     
+                }
+
+                span.font_size.custom {
+
+                    width: 13%;
+                    margin-left: 30px;
+
+                    img.scale-caption { 
+
+                        margin-left: -30px;
+                        width: 20px;
+                        display: inline-block;
+                        margin-right: 10px;
+                        opacity: 0.7;
+
+                    }
+
+                    span.custom_text {
+
+                        font-size: 0.8em;
+
+                    }
+
+                }
+
+                img.scale_caption { 
+
+                    cursor: auto;
+                    padding-bottom: 3px;
+                    
+                    margin-right: 10px;
+                    display: inline-block;
+                    padding: 3px;
+                    
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                }
+
+                div.slider-container {
+
+                    display: none;
+
+                    height: 110px;
+                    padding: 30px;
+                    background-color: #3d3d3d;
+                    margin-top: 10px;
+                    position: absolute;
+                    width: 86%;
+                    z-index: 100;
+                    
+                    -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+                    box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+                    div#slider {
+
+                        display: block;
+
+                        .noUi-value {
+                            position: absolute;
+                            text-align: center;
+                            font-size: 0.7em;
+                            margin-top: 7px;
+                        }
+
+                    }
+
                 }
 
                 span.flipButton {
