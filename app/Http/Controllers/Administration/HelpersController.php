@@ -43,17 +43,21 @@ class HelpersController extends Controller
     {
         $helper = $this->client->getHelper($id);
         $sports = $this->categoriesClient->getUniformCategories();
+        $helpers = $this->client->getHelpers();
         return view('administration.helpers.helper-edit', [
             'helper' => $helper,
-            'sports' => $sports
+            'sports' => $sports,
+            'helpers' => $helpers
         ]);
     }
 
     public function addForm()
     {
         $sports = $this->categoriesClient->getUniformCategories();
+        $helpers = $this->client->getHelpers();
         return view('administration.helpers.helper-create', [
-            'sports' => $sports
+            'sports' => $sports,
+            'helpers' => $helpers
         ]);
     }
 
@@ -68,6 +72,8 @@ class HelpersController extends Controller
         $pdf_url = $request->input('pdf_url');
         $active = $request->input('active');
         $index = $request->input('index');
+        $description = $request->input('description');
+        $related_fields = explode(",", $request->input('related_value'));
         $data = [
             'feature' => $feature,
             'group' => $group,
@@ -77,7 +83,9 @@ class HelpersController extends Controller
             'gif_url' => $gif_url,
             'pdf_url' => $pdf_url,
             'active' => $active,
-            'index' => $index
+            'index' => $index,
+            'description' => $description,
+            'related_fields' => $related_fields
         ];
 
         $id = null;
