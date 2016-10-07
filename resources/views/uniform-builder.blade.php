@@ -25,6 +25,10 @@
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css{{$asset_version}}">
 
+<link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css{{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css{{$asset_version}}">
+
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
@@ -212,6 +216,8 @@
 <script src="{{$asset_storage}}/sortable/Sortable.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js{{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/noUiSlider/nouislider.js{{$asset_version}}"></script>
 
 
 <!-- End Third Party Scripts -->

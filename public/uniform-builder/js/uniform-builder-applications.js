@@ -824,6 +824,61 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.updateScaleViaSlider = function (_application, value) {
+
+        var _divisor = 100;
+        if (_application.application_type !== "mascot") {
+
+            _divisor  = 10;
+
+        }
+
+        scaleSetting = {x:  value * 3 / _divisor, y: value * 3 / _divisor};
+
+        var _valStr = (value / 100).toString().substr(0,4);
+        if (_valStr === '1' || _valStr === '0') { _valStr += '.00'; }
+
+        $('span.custom_text').html(_valStr);
+
+        var application = _application;
+
+        _.each (_application.application.views, function (view) {
+
+            var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+            var flip = 1;
+
+            if (typeof view.application.flip !== 'undefined') {
+
+                if (view.application.flip === 1) {
+
+                    flip = -1;
+
+                } else {
+
+                    flip = 1;
+
+                }
+
+            }
+
+            application_obj.scale = {x: scaleSetting.x * flip, y: scaleSetting.y};
+            view.application.scale   = {x: scaleSetting.x * flip, y: scaleSetting.y};
+
+            if (_application.application_type !== "mascot") {
+
+                application.actualPixelSize  = application_obj.children[0].height * scaleSetting.x;
+                application.estimatedMeasure = ((application.actualPixelSize - 49) / 16);
+                application.estimatedMeasure = application.estimatedMeasure / 2 + 1;
+
+            }
+
+           
+        });
+
+        ub.funcs.activateMoveTool(application.code);
+
+    };
+
     ub.funcs.createDraggable = function (sprite, application, view, viewName) {
 
         var _application = application;
@@ -890,21 +945,21 @@ $(document).ready(function() {
 
                     var application_obj      = ub.objects[view.perspective + '_view']['objects_' + application.code];
 
-                            var flip = 1;
+                    var flip = 1;
 
-                            if (typeof view.application.flip !== 'undefined') {
+                    if (typeof view.application.flip !== 'undefined') {
 
-                                if (view.application.flip === 1) {
+                        if (view.application.flip === 1) {
 
-                                    flip = -1;
+                            flip = -1;
 
-                                } else {
+                        } else {
 
-                                    flip = 1;
+                            flip = 1;
 
-                                }
+                        }
 
-                            }
+                    }
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
@@ -1121,6 +1176,25 @@ $(document).ready(function() {
                         ub.appObj = application_obj;
                         ub.appObjSettings = view.application;
 
+                        var _start;
+                        if (application_type !== "mascot") {
+
+                            _start = (10 * application_obj.scale.x) / 3;
+                            _start = _start / 100;
+                            
+                        } else {
+
+                            _start = (10 * application_obj.scale.x) / 3;
+                            _start = _start / 10;
+                            
+                        }
+
+                        
+                        _start = _start.toString().substr(0,4);
+
+                        if (_start === '1' || _start === '0') { _start += '.00'; }
+                        
+                        $('span.custom_text').html(_start);
 
                     }
 
@@ -2981,6 +3055,12 @@ $(document).ready(function() {
         ub.funcs.deactivateMoveTool();
 
     }
+
+    ub.funcs.hideVisiblePopups = function () {
+
+        if ($('div.slider-container').is(':visible')) { $('div.slider-container').hide(); }
+
+    }
     
     ub.funcs.transformedBoundaries = function () {
 
@@ -3044,6 +3124,8 @@ $(document).ready(function() {
                 return;
 
             }
+
+            ub.funcs.hideVisiblePopups();
 
             if(typeof ub.activeApplication !== "undefined") { return; }
 
@@ -5609,9 +5691,27 @@ $(document).ready(function() {
 
             }
 
-            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
-        });                    
+        });   
+
+        // Custom Size
+        if (ub.funcs.isCurrentSport('Wrestling')) {
+
+            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+            _start = _start / 10;
+            _start = _start.toString().substr(0,4);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+
+            _additionalClass = '';
+            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
+
+        }
+        // End Custom Size 
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
@@ -5848,6 +5948,63 @@ $(document).ready(function() {
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
+                var _isCustom = $(this).hasClass('custom');
+                
+                if (_isCustom) {
+
+                    var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+                    var _start = (100 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+                    if ($('div.slider-container').is(':visible'))
+                    {
+
+                        $('div.slider-container').hide();
+                        return;
+
+                    }
+                    
+                    $('div.slider-container').show();
+
+                    var softSlider = document.getElementById('slider');
+                    if (typeof softSlider.noUiSlider === "object") { 
+
+                        softSlider.noUiSlider.set(_start);
+                        return; 
+
+                    }
+
+                    noUiSlider.create(softSlider, {
+                        start: _start,
+                        range: {
+                            min: 1,
+                            max: 100,
+                        },
+                        pips: {
+                            mode: 'values',
+                            values: [0, 25, 50, 75, 100],
+                            density: 4
+                        }
+                    });
+
+                    softSlider.noUiSlider.on('update', function ( values, handle ) {
+                        
+                        var _value = values[0];
+                        ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+
+                    });
+                    
+                    // Handle Click on Parent but cancel when on child 
+                    $('div.body').unbind('mousedown');
+                    $('div.body').on('mousedown', function () {
+                        ub.funcs.hideVisiblePopups();
+                    }).on('mousedown','div.slider-container',function(e) {
+                        e.stopPropagation();
+                    });
+
+                    return;
+
+                }
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
@@ -6689,10 +6846,30 @@ $(document).ready(function() {
                 _additionalClass = 'active';
 
             }
-            
-            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" style="font-size: 1.2em;" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
-        });                    
+            
+            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+        });
+
+        // Custom Size
+        if (ub.funcs.isCurrentSport('Wrestling')) {
+
+            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+            _start = _start / 100;
+            _start = _start.toString().substr(0,4);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            _additionalClass = '';    
+            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
+
+        }
+        // End Custom Size 
+
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
@@ -7046,6 +7223,61 @@ $(document).ready(function() {
                 var _selectedSize = $(this).data('size');
                 $('.font_size').removeClass('active');
                 $(this).addClass('active');
+
+                var _isCustom = $(this).hasClass('custom');
+                if (_isCustom) {
+
+                    var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+                    var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+                    if ($('div.slider-container').is(':visible'))
+                    {
+
+                        $('div.slider-container').hide();
+                        return;
+
+                    }
+
+                    $('div.slider-container').show();
+
+                    var softSlider = document.getElementById('slider');
+                    if (typeof softSlider.noUiSlider === "object") { 
+
+                        softSlider.noUiSlider.set(_start);
+                        return; 
+                    }
+
+                    noUiSlider.create(softSlider, {
+                        start: _start,
+                        range: {
+                            min: 1,
+                            max: 100,
+                        },
+                        pips: {
+                            mode: 'values',
+                            values: [0, 25, 50, 75, 100],
+                            density: 4
+                        }
+                    });
+
+                    softSlider.noUiSlider.on('update', function ( values, handle ) {
+                        
+                        var _value = values[0];
+                        ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+
+                    });
+
+                    // Handle Click on Parent but cancel when on child 
+                    $('div.body').unbind('mousedown');
+                    $('div.body').on('mousedown', function () {
+                        ub.funcs.hideVisiblePopups();
+                    }).on('mousedown','div.slider-container',function(e) {
+                        e.stopPropagation();
+                    });
+
+                    return;
+
+                }
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
