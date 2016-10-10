@@ -3956,7 +3956,7 @@ $(document).ready(function() {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.save-design');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 
@@ -3975,6 +3975,10 @@ $(document).ready(function() {
             left: _left,
 
         });
+
+        var $layerTool = $popup;
+        $layerTool.unbind('mousedown');
+        $layerTool.mousedown(ub.funcs.handle_mousedown);
 
     }
 
@@ -4597,6 +4601,8 @@ $(document).ready(function() {
 
         } 
 
+        ub.funcs.centerPatternPopup();
+
         var _wWidth     = window.innerWidth;
         var _wHeight    = window.innerHeight;
         var _pWidth     = $popup.width();
@@ -4728,6 +4734,8 @@ $(document).ready(function() {
 
         $popup = $('div#primaryFontPopup');
         $popup.fadeIn();
+
+        ub.funcs.centerPatternPopup();
 
           $('div.fontPopupResults > div.item').hover(
 
@@ -8616,10 +8624,24 @@ $(document).ready(function() {
 
         if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
 
+        ub.data.sorting = false;
+
         ub.sort = $("div.layers-container").sortable({
 
           handle: '.layer',
           animation: 150,
+          onStart: function (evt) {
+
+            ub.data.sorting = true;
+            ub.data.justSorted = true;
+
+          },
+          onEnd: function (evt) {
+
+            ub.data.sorting = false;
+            ub.data.justSorted = true;
+
+          },
           onUpdate: function (evt) { 
             
             $.each($('span.layer'), function(key, value) {
@@ -8643,6 +8665,7 @@ $(document).ready(function() {
 
                     
                });
+
 
             });
 
@@ -8694,6 +8717,10 @@ $(document).ready(function() {
             $('a.change-view[data-view="layers"]').addClass('active-change-view');
 
         }
+
+        var $layerTool = $('div#layers-order');
+        $layerTool.unbind('mousedown');
+        $layerTool.mousedown(ub.funcs.handle_mousedown);
 
         ub.funcs.updateLayerTool();
         // End Populate Layer Tool
