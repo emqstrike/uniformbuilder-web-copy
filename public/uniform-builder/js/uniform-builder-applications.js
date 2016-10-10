@@ -5598,7 +5598,7 @@ $(document).ready(function() {
 
         });
 
-        var _divisor = 100; // For Mascots
+        var _divisor = 10; // For Mascots
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
