@@ -26,6 +26,7 @@
                     <table class='data-table table table-bordered table-hover users-table display' cellspacing="0">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Account Type</th>
                                 <th>Email</th>
@@ -38,6 +39,9 @@
                         @forelse ($users as $user)
 
                             <tr class='user-{{ $user->id }} {{ (!$user->active) ? ' inactive' : '' }}'>
+                                <td>
+                                    {{ $user->id }}
+                                </td>
                                 <td>
                                     {{ $user->first_name }} {{ $user->last_name }}
                                 </td>
