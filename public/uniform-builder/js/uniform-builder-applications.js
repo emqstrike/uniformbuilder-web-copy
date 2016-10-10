@@ -5675,7 +5675,6 @@ $(document).ready(function() {
 
             drag: function (args) {
                 
-                console.log(args);
                 ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
 
             }
@@ -5765,7 +5764,7 @@ $(document).ready(function() {
             _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
 
 
-            /// Move
+            // /// Move
             
             // var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
@@ -5778,8 +5777,7 @@ $(document).ready(function() {
             // _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
             // _htmlBuilder    += '<div class="slider-container move"><div id="move-slider"></div></div>';
 
-
-             /// Scale
+            /// Scale
 
             var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
@@ -6192,8 +6190,6 @@ $(document).ready(function() {
                     return;
 
                 }
-
-
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
@@ -7386,9 +7382,27 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 var _isCustom = $(this).hasClass('custom');
-                if (_isCustom) {
+                var _isScale = $(this).hasClass('scale');
+                var _isRotate = $(this).hasClass('rotate');
+                var _isMove = $(this).hasClass('move');
+                
+                if (_isCustom && _isScale) {
 
                     ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isMove) {
+
+                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isRotate) {
+
+                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
                     return;
 
                 }
