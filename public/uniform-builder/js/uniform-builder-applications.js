@@ -5572,6 +5572,62 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.initializeScalePanel = function (_settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") { _multiplier = 10};
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+        if ($('div.slider-container').is(':visible'))
+        {
+
+            $('div.slider-container').hide();
+            return;
+
+        }
+        
+        $('div.slider-container').show();
+
+        var softSlider = document.getElementById('scale-slider');
+        if (typeof softSlider.noUiSlider === "object") { 
+
+            softSlider.noUiSlider.set(_start);
+            return; 
+
+        }
+
+        noUiSlider.create(softSlider, {
+            start: _start,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 25, 50, 75, 100],
+                density: 4,
+            }
+        });
+
+        softSlider.noUiSlider.on('update', function ( values, handle ) {
+            
+            var _value = values[0];
+            ub.funcs.updateScaleViaSlider(_settingsObject, _value);
+
+        });
+        
+        // Handle Click on Parent but cancel when on child 
+        $('div.body').unbind('mousedown');
+        $('div.body').on('mousedown', function () {
+            ub.funcs.hideVisiblePopups();
+        }).on('mousedown','div.slider-container',function(e) {
+            e.stopPropagation();
+        });
+
+    }
+
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
         var _htmlBuilder = '';
@@ -5614,7 +5670,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    += '<div class="slider-container"><div id="slider"></div></div>';
+            _htmlBuilder    += '<div class="slider-container"><div id="scale-slider"></div></div>';
 
         }
 
@@ -5992,55 +6048,7 @@ $(document).ready(function() {
                 var _isCustom = $(this).hasClass('custom');
                 if (_isCustom) {
 
-                    var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-                    var _start = (100 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
-                    if ($('div.slider-container').is(':visible'))
-                    {
-
-                        $('div.slider-container').hide();
-                        return;
-
-                    }
-                    
-                    $('div.slider-container').show();
-
-                    var softSlider = document.getElementById('slider');
-                    if (typeof softSlider.noUiSlider === "object") { 
-
-                        softSlider.noUiSlider.set(_start);
-                        return; 
-
-                    }
-
-                    noUiSlider.create(softSlider, {
-                        start: _start,
-                        range: {
-                            min: 1,
-                            max: 100,
-                        },
-                        pips: {
-                            mode: 'values',
-                            values: [0, 25, 50, 75, 100],
-                            density: 4,
-                        }
-                    });
-
-                    softSlider.noUiSlider.on('update', function ( values, handle ) {
-                        
-                        var _value = values[0];
-                        ub.funcs.updateScaleViaSlider(_settingsObject, _value);
-
-                    });
-                    
-                    // Handle Click on Parent but cancel when on child 
-                    $('div.body').unbind('mousedown');
-                    $('div.body').on('mousedown', function () {
-                        ub.funcs.hideVisiblePopups();
-                    }).on('mousedown','div.slider-container',function(e) {
-                        e.stopPropagation();
-                    });
-
+                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
                     return;
 
                 }
@@ -7235,55 +7243,7 @@ $(document).ready(function() {
                 var _isCustom = $(this).hasClass('custom');
                 if (_isCustom) {
 
-                    var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-                    var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
-                    if ($('div.slider-container').is(':visible'))
-                    {
-
-                        $('div.slider-container').hide();
-                        return;
-
-                    }
-
-                    $('div.slider-container').show();
-
-                    var softSlider = document.getElementById('slider');
-                    if (typeof softSlider.noUiSlider === "object") { 
-
-                        softSlider.noUiSlider.set(_start);
-                        return;
-
-                    }
-
-                    noUiSlider.create(softSlider, {
-                        start: _start,
-                        range: {
-                            min: 1,
-                            max: 100,
-                        },
-                        pips: {
-                            mode: 'values',
-                            values: [0, 25, 50, 75, 100],
-                            density: 4
-                        }
-                    });
-
-                    softSlider.noUiSlider.on('update', function ( values, handle ) {
-                        
-                        var _value = values[0];
-                        ub.funcs.updateScaleViaSlider(_settingsObject, _value);
-
-                    });
-
-                    // Handle Click on Parent but cancel when on child 
-                    $('div.body').unbind('mousedown');
-                    $('div.body').on('mousedown', function () {
-                        ub.funcs.hideVisiblePopups();
-                    }).on('mousedown','div.slider-container',function(e) {
-                        e.stopPropagation();
-                    });
-
+                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
                     return;
 
                 }
