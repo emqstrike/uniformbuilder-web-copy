@@ -5711,7 +5711,19 @@ $(document).ready(function() {
 
             }
 
-            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+            if (ub.funcs.isCurrentSport('Wrestling')) {
+
+                if (_additionalClass === "active") { 
+                
+                    _htmlBuilder    += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';    
+                
+                }
+
+            } else {
+
+                _htmlBuilder    += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';    
+
+            }
 
         });   
 
@@ -6867,8 +6879,19 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport('Wrestling')) {
+
+                if (_additionalClass === "active") { 
             
-            _htmlBuilder    +=              '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+                    _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
+
+                }
+
+            } else {
+
+                _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+            }
 
         });
 
