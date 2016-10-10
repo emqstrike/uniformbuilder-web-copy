@@ -838,7 +838,7 @@ $(document).ready(function() {
         var _valStr = (value / 100).toString().substr(0,4);
         if (_valStr === '1' || _valStr === '0') { _valStr += '.00'; }
 
-        $('span.custom_text').html(_valStr);
+        $('span.custom_text.scale').html(_valStr);
 
         var application = _application;
 
@@ -1194,7 +1194,7 @@ $(document).ready(function() {
 
                         if (_start === '1' || _start === '0') { _start += '.00'; }
                         
-                        $('span.custom_text').html(_start);
+                        $('span.custom_text.scale').html(_start);
 
                     }
 
@@ -5568,15 +5568,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        if ($('div.slider-container').is(':visible'))
-        {
-
-            $('div.slider-container').hide();
-            return;
-
-        }
-        
-        $('div.slider-container').show();
+        $('div.slider-container').hide();
+        $('div.slider-container.scale').show();
 
         var softSlider = document.getElementById('scale-slider');
         if (typeof softSlider.noUiSlider === "object") { 
@@ -5614,7 +5607,102 @@ $(document).ready(function() {
             e.stopPropagation();
         });
 
+    };
+
+    ub.funcs.initializeMovePanel = function (_settingsObject, applicationType) {
+
+        console.log('Move Panel');
+
     }
+
+    ub.funcs.initializeRotatePanel = function (_settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") { _multiplier = 10};
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+
+        $('div.slider-container').hide();
+        $('div.slider-container.rotate').show();
+
+        // var softSlider = document.getElementById('rotate-slider');
+        // if (typeof softSlider.noUiSlider === "object") { 
+
+        //     softSlider.noUiSlider.set(_start);
+        //     return; 
+
+        // }
+
+        // noUiSlider.create(softSlider, {
+        //     start: _start,
+        //     range: {
+        //         min: 0,
+        //         max: 100,
+        //     },
+        //     pips: {
+        //         mode: 'values',
+        //         values: [0, 25, 50, 75, 100],
+        //         density: 4,
+        //     }
+        // });
+
+        // softSlider.noUiSlider.on('update', function ( values, handle ) {
+            
+        //     var _value = values[0];
+
+        // });
+
+        $("#rotate-slider").roundSlider({
+            sliderType: "min-range",
+            handleShape: "round",
+            width: 22,
+            radius: 100,
+            value: _start,
+            startAngle: 90,
+
+            drag: function (args) {
+                
+                console.log(args);
+                ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
+
+            }
+
+        });
+        
+        // Handle Click on Parent but cancel when on child 
+        $('div.body').unbind('mousedown');
+        $('div.body').on('mousedown', function () {
+            ub.funcs.hideVisiblePopups();
+        }).on('mousedown','div.slider-container',function(e) {
+            e.stopPropagation();
+        });
+
+    }
+
+    ub.funcs.updateRotationViaSlider = function (_application, value) {
+
+        var _val = (value / 100 * 360);
+        var _valStr = (value / 100 * 6.28);
+
+        $('span.custom_text.rotate').html(_val.toString().substring(0,5));
+
+        var application = _application;
+
+        _.each (_application.application.views, function (view) {
+
+            var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+
+            var angleRadians = _valStr;
+
+            application_obj.rotation = angleRadians;
+            view.application.rotation = (angleRadians / Math.PI) * 180;
+           
+        });
+
+        ub.funcs.activateMoveTool(application.code);
+
+    };
 
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
@@ -5636,7 +5724,7 @@ $(document).ready(function() {
 
             } else {
 
-                _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+                _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
             }
 
@@ -5649,6 +5737,38 @@ $(document).ready(function() {
         if (ub.funcs.isCurrentSport('Wrestling')) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
+     
+            
+            /// Rotate
+
+            var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
+
+            _start = _start;
+            _start = _start.toString().substr(0,5);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            _additionalClass = '';    
+            _htmlBuilder    += '<span class="applicationLabels font_size custom rotate ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/rotate-caption.png'>" + '<span class="custom_text rotate">' + _start + '</span>°' + '</span>';
+            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
+
+
+            /// Move
+            
+            // var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
+
+            // _start = _start / _divisor;
+            // _start = _start.toString().substr(0,4);
+
+            // if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            // _additionalClass = '';    
+            // _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
+            // _htmlBuilder    += '<div class="slider-container move"><div id="move-slider"></div></div>';
+
+
+             /// Scale
+
             var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
             _start = _start / _divisor;
@@ -5657,8 +5777,8 @@ $(document).ready(function() {
             if (_start === '1' || _start === '0') { _start += '.00'; }
             
             _additionalClass = '';    
-            _htmlBuilder    += '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    += '<div class="slider-container"><div id="scale-slider"></div></div>';
+            _htmlBuilder    += '<span class="applicationLabels font_size custom scale ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text scale">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider"></div></div>';
 
         }
 
@@ -6036,12 +6156,32 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 var _isCustom = $(this).hasClass('custom');
-                if (_isCustom) {
+                var _isScale = $(this).hasClass('scale');
+                var _isRotate = $(this).hasClass('rotate');
+                var _isMove = $(this).hasClass('move');
+                
+                if (_isCustom && _isScale) {
 
                     ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
                     return;
 
                 }
+
+                if (_isCustom && _isMove) {
+
+                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isRotate) {
+
+                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+
 
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
