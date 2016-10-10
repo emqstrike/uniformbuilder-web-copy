@@ -168,6 +168,8 @@ $(document).ready(function() {
 
     ub.data                         = {};
     ub.data.views                   = ['front', 'back', 'left', 'right'];
+    ub.data.sorting                 = false; // Use as flag when an element in the layers tool is being dragged see ub.funcs.updateLayerTool
+    ub.data.justSorted              = false; // Use as flag so that mouseup from layer drag can cancel mouseup from draggable window
 
     ub.data.design_sets             = undefined;
     ub.data.materials               = undefined;

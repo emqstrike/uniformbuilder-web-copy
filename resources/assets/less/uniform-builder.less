@@ -59,6 +59,14 @@ html, body {
 
 /* Navbar */
 
+nav {
+
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+}
+
 div.navbar-header {
 
     position: absolute;
@@ -414,6 +422,10 @@ div.options_panel  {
 
     div.options_panel_header {
 
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
         z-index: 300;
      
         background-color: @customizer_bg;
@@ -542,6 +554,10 @@ div.options_panel  {
         -moz-transition: all .2s;
         -webkit-transition: all .2s;
         transition: all .2s;
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
 
         span.text {
             
@@ -3119,6 +3135,8 @@ div.header-container.main {
 
         div#primaryMascotPopup {
 
+            cursor: grab;
+
             padding: 10px;
 
             display: none;
@@ -3128,7 +3146,7 @@ div.header-container.main {
             height: 550px;
             top: 300px;
             left: 300px;
-            z-index: 1000;
+            z-index: 3100;
             background-color: white;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -3453,6 +3471,7 @@ div.header-container.main {
 
         div#primaryPatternPopup {
 
+            cursor: grab;
             padding: 10px;
 
             display: none;
@@ -3462,7 +3481,7 @@ div.header-container.main {
             height: 550px;
             top: 300px;
             left: 300px;
-            z-index: 1000;
+            z-index: 3100;
             background-color: white;
 
             -webkit-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
@@ -3547,6 +3566,7 @@ div.header-container.main {
 
         div#primaryAccentPopup {
 
+            cursor: grab;
             padding: 10px;
 
             display: none;
@@ -3556,7 +3576,7 @@ div.header-container.main {
             height: 550px;
             top: 300px;
             left: 300px;
-            z-index: 1000;
+            z-index: 3100;
             background-color: @customizer_bg;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -4205,6 +4225,9 @@ div.header-container.main {
 
          div#primaryFontPopup {
 
+            z-index: 3100;
+            cursor: grab;
+
             padding: 10px;
 
             display: none;
@@ -4214,7 +4237,7 @@ div.header-container.main {
             height: 550px;
             top: 300px;
             left: 300px;
-            z-index: 1000;
+            
             background-color: @customizer_bg;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -5982,6 +6005,8 @@ div.header-container.main {
 
         div.free-feedback-form{
 
+            cursor: grab;
+
             padding: 20px;
             display: none;
             position: absolute;
@@ -6053,6 +6078,8 @@ div.header-container.main {
     /* Save Design */ 
 
         div.save-design {
+
+            cursor: grab;
 
             padding: 30px;
             display: none;
@@ -6252,6 +6279,7 @@ strong.hello {
 
 div#layers-order {
 
+    cursor: grab;
     position: absolute;
     display: none;
     width: 270px;
@@ -6264,9 +6292,21 @@ div#layers-order {
     -webkit-transition: all .2s;
     transition: all .2s;
     text-align: center;
+    z-index: 3000;
+
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    em.dragMessage {
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+    }
 
     div.tools {
-
 
         span.add-application, span.show-locations {
 
@@ -6340,6 +6380,10 @@ div#layers-order {
 
             float: left;
             font-size: 1.2em;
+
+            -webkit-user-select: none; /* Chrome/Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
 
         }
 
