@@ -5760,7 +5760,9 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+        var _label = 'Size';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">' + _label + '</label>'; 
 
         var _inputSizes;
 
@@ -6855,7 +6857,10 @@ $(document).ready(function() {
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+
+        var _label = 'Size';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">' + _label + '</label>'; 
 
         if (typeof _settingsObject.font_size === 'undefined') {
 
