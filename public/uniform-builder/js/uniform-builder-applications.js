@@ -5572,6 +5572,65 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.generateSizes = function (applicationType, sizes, _settingsObject, _id) {
+
+        var _htmlBuilder = '';
+
+        _.each(sizes, function (size) {
+
+            var _additionalClass = '';
+
+            if (size.size === _settingsObject.font_size) {
+
+                _additionalClass = 'active';
+
+            }
+
+            if (ub.funcs.isCurrentSport('Wrestling')) {
+
+                if (_additionalClass === "active") { 
+            
+                    _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
+
+                }
+
+            } else {
+
+                _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+
+            }
+
+        });
+
+        var _divisor = 100; // For Mascots
+
+        if (applicationType !== "mascot") {
+
+            _divisor = 10; // For Text Applications
+
+        }
+
+        // Custom Size
+        if (ub.funcs.isCurrentSport('Wrestling')) {
+
+            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+            _start = _start / _divisor;
+            _start = _start.toString().substr(0,4);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            _additionalClass = '';    
+            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
+
+        }
+
+        return _htmlBuilder;
+
+    }
+
 
     ub.funcs.activateMascots = function (application_id) {
 
@@ -5700,50 +5759,8 @@ $(document).ready(function() {
 
 
         }
-
-        _.each(_inputSizes, function (size) {
-
-            var _additionalClass = '';
-
-            if (size.size === _settingsObject.size || _id === '4' ) {
-
-                _additionalClass = 'active';
-
-            }
-
-            if (ub.funcs.isCurrentSport('Wrestling')) {
-
-                if (_additionalClass === "active") { 
-                
-                    _htmlBuilder    += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';    
-                
-                }
-
-            } else {
-
-                _htmlBuilder    += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';    
-
-            }
-
-        });   
-
-        // Custom Size
-        if (ub.funcs.isCurrentSport('Wrestling')) {
-
-            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
-            _start = _start / 10;
-            _start = _start.toString().substr(0,4);
-
-            if (_start === '1' || _start === '0') { _start += '.00'; }
-
-            _additionalClass = '';
-            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
-
-        }
-        // End Custom Size 
+   
+        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
@@ -6869,49 +6886,7 @@ $(document).ready(function() {
 
         }
 
-        _.each(_sizes.sizes, function (size) {
-
-            var _additionalClass = '';
-
-            if (size.size === _settingsObject.font_size) {
-
-                _additionalClass = 'active';
-
-            }
-
-            if (ub.funcs.isCurrentSport('Wrestling')) {
-
-                if (_additionalClass === "active") { 
-            
-                    _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
-
-                }
-
-            } else {
-
-                _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
-
-            }
-
-        });
-
-        // Custom Size
-        if (ub.funcs.isCurrentSport('Wrestling')) {
-
-            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
-
-            _start = _start / 100;
-            _start = _start.toString().substr(0,4);
-
-            if (_start === '1' || _start === '0') { _start += '.00'; }
-            
-            _additionalClass = '';    
-            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
-
-        }
-        // End Custom Size 
+        _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
 
         _htmlBuilder        +=          '</div>';
