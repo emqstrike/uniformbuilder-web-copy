@@ -10,13 +10,13 @@ $(document).ready(function () {
 
         function handle_dragging (e) {
             
-            // if a layer is being dragged in the layer tool cancel event
+            // if a layer is being dragged in the layer tool cancel event via create sortable in uba@ub.funcs.updateLayerTool
             if (ub.data.sorting) { 
             
                 $('body').off('mousemove', handle_dragging).off('mouseup', handle_mouseup);
                 return; 
 
-            } 
+            }
 
             if (ub.data.justSorted) {
 
