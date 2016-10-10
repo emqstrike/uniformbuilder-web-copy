@@ -5560,7 +5560,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.generateSizes = function (applicationType, sizes, _settingsObject, _id) {
+    ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
         var _htmlBuilder = '';
 
@@ -5568,11 +5568,7 @@ $(document).ready(function() {
 
             var _additionalClass = '';
 
-            if (size.size === _settingsObject.font_size) {
-
-                _additionalClass = 'active';
-
-            }
+            if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
             if (ub.funcs.isCurrentSport('Wrestling')) {
 
@@ -5591,18 +5587,13 @@ $(document).ready(function() {
         });
 
         var _divisor = 100; // For Mascots
-
-        if (applicationType !== "mascot") {
-
-            _divisor = 10; // For Text Applications
-
-        }
+        if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
         if (ub.funcs.isCurrentSport('Wrestling')) {
 
-            var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-            var _start = (10 * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+            var _v = ub.funcs.getPrimaryView(settingsObject.application);
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
             _start = _start / _divisor;
             _start = _start.toString().substr(0,4);
@@ -5610,8 +5601,8 @@ $(document).ready(function() {
             if (_start === '1' || _start === '0') { _start += '.00'; }
             
             _additionalClass = '';    
-            _htmlBuilder    +=              '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    +=              '<div class="slider-container"><div id="slider"></div></div>';
+            _htmlBuilder    += '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    += '<div class="slider-container"><div id="slider"></div></div>';
 
         }
 
@@ -5987,7 +5978,6 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 var _isCustom = $(this).hasClass('custom');
-                
                 if (_isCustom) {
 
                     var _v = ub.funcs.getPrimaryView(_settingsObject.application);
@@ -6020,7 +6010,7 @@ $(document).ready(function() {
                         pips: {
                             mode: 'values',
                             values: [0, 25, 50, 75, 100],
-                            density: 4
+                            density: 4,
                         }
                     });
 
@@ -7250,7 +7240,8 @@ $(document).ready(function() {
                     if (typeof softSlider.noUiSlider === "object") { 
 
                         softSlider.noUiSlider.set(_start);
-                        return; 
+                        return;
+
                     }
 
                     noUiSlider.create(softSlider, {
