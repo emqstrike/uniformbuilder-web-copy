@@ -41,7 +41,7 @@ $(document).ready(function () {
         $('body').on('mouseup', handle_mouseup).on('mousemove', handle_dragging).on('mouseup','span.layer',function(e) {
             e.stopPropagation();
             $('body').off('mousemove', handle_dragging).off('mouseup', handle_mouseup);
-        }).on('mousemove','span.layer',function(e) {
+        }).on('mousedown','span.layer',function(e) {
             e.stopPropagation();
             $('body').off('mousemove', handle_dragging).off('mouseup', handle_mouseup);
         });
