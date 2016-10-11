@@ -84,6 +84,7 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Idx</th>
                                 <th>Feature</th>
                                 <th>Group</th>
@@ -100,6 +101,9 @@
 
                  @forelse ($helpers as $helper)
                     <tr class='feature-flag-{{ $helper->id }}'>
+                        <td>
+                            {{ $helper->id }}
+                        </td>
                         <td>
                             {{ $helper->index }}
                         </td>

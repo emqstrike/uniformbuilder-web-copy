@@ -633,12 +633,22 @@ $(document).ready(function() {
         var ys = 0;
 
         xs = point2.x - point1.x;
-        xs = xs * xs;
+        if(xs > 0){
+            xs = xs * xs;
+        }else{
+            xs = 1;
+        }   
 
         ys = point2.y - point1.y;
-        ys = ys * ys;
+        if(ys > 0){
+            ys = ys * ys;
+        }else{
+            ys = 1;
+        }
+    
 
         return Math.sqrt(xs + ys);
+    
 
     };
 
@@ -1179,9 +1189,11 @@ $(document).ready(function() {
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.angleRadians(move_point.position, rotation_point.position);
                         var application_type = _application.application_type;
+                      
                         var distance = ub.funcs.lineDistance(center_point.position, scale_point.position);
-
                         percentage = distance / 100;
+                        ub.mascotPreviousSize = percentage;
+                      
 
                         var flip = 1;
 
@@ -3282,9 +3294,11 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
-
-            ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-            return;
+     
+                ub[ub.active_view + '_view'].position.set( -ub.offset.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+          
+             
+            
 
         }
 

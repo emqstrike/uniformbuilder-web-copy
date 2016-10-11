@@ -71,6 +71,30 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Description</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control helper-description" name=""></textarea>
+                                <input type="hidden" name="description" id="description" value="{{ $helper->description }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Related Field</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="related-val" id="related_value" name="related_value" value="{{ $helper->related_fields }}">
+                                <select name="related[]" class="form-control related" multiple="multiple">
+                                    @foreach ($helpers as $helper)
+                                        @if ($helper->active)
+                                        <option value='{{ $helper->id }}'>
+                                            [{{ $helper->id }}]-{{ $helper->feature }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Video URL</label>
                             <div class="col-md-6">
                                 <textarea class="form-control" name="video_url">{{ $helper->video_url }}</textarea>
@@ -134,11 +158,12 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/feature-flags.js"></script> -->
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     var sports = JSON.parse($('#sports_value').val());
-
+    var related = JSON.parse($('#related_value').val());
+console.log(related);
     $('.sports').select2({
         placeholder: "Select user types",
         multiple: true,
@@ -151,6 +176,43 @@ $(document).ready(function(){
     });
 
     $('.sports').select2('val', sports);
+
+    $('.related').select2({
+        placeholder: "Select related fields",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".related").change(function() {
+        // console.log($(this).val());
+        $('#related_value').val($(this).val());
+    });
+
+    $('.related').select2('val', related);
+
+    tinymce.init({ 
+        selector:'textarea.helper-description'
+    });
+
+    loadEditor();
+    function loadEditor(){
+        setTimeout(function(){
+            window.mce = $('#description').val();
+            tinymce.editors[0].setContent(window.mce);
+            $('#description').val('');
+        }, 1000);
+    }
+
+    $('.update-helper').on('click', function(){
+        saveEditor();
+    });
+
+    function saveEditor(){
+        window.mce = tinyMCE.activeEditor.getContent();
+        console.log('MCE: ' + window.mce);
+        $('#description').val(window.mce);
+    }
+
 });
 </script>
 @endsection
