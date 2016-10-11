@@ -3294,11 +3294,15 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
-     
-                ub[ub.active_view + '_view'].position.set( -ub.offset.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+            console.log("zoo");
+            if(current_coodinates.x < (ub.front_view.width/2)){
+                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
           
              
+            }else{
+                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
             
+            }
 
         }
 
