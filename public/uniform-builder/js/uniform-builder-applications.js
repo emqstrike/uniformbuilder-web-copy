@@ -879,6 +879,30 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.updatePositionViaSlider = function (_application, value, axis) {
+
+        var _val = (value / 100 * 360);
+        var _valStr = (value / 100 * 6.28);
+
+        $('span.custom_text.rotate').html(_val.toString().substring(0,5));
+
+        var application = _application;
+
+        _.each (_application.application.views, function (view) {
+
+            var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+
+            var angleRadians = _valStr;
+
+            application_obj.rotation = angleRadians;
+            view.application.rotation = (angleRadians / Math.PI) * 180;
+           
+        });
+
+        ub.funcs.activateMoveTool(application.code);
+
+    };
+
     ub.funcs.createDraggable = function (sprite, application, view, viewName) {
 
         var _application = application;
@@ -5611,7 +5635,78 @@ $(document).ready(function() {
 
     ub.funcs.initializeMovePanel = function (_settingsObject, applicationType) {
 
-        console.log('Move Panel');
+        var _multiplier = 100;
+        if (applicationType !== "mascot") { _multiplier = 10};
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+
+        $('div.slider-container').hide();
+        $('div.slider-container.move').show();
+
+        var softSliderX = document.getElementById('move-slider-x');
+        if (typeof softSliderX.noUiSlider === "object") { 
+
+            softSliderX.noUiSlider.set(_start);
+            return; 
+
+        }
+
+        noUiSlider.create(softSliderX, {
+            start: _start,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 25, 50, 75, 100],
+                density: 4,
+            }
+        });
+
+        softSliderX.noUiSlider.on('update', function ( values, handle ) {
+            
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'X');
+
+        });
+
+        var softSliderY = document.getElementById('move-slider-y');
+        if (typeof softSliderY.noUiSlider === "object") { 
+
+            softSliderY.noUiSlider.set(_start);
+            return; 
+
+        }
+
+        noUiSlider.create(softSliderY, {
+            start: _start,
+            range: {
+                min: 1,
+                max: 100,
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 25, 50, 75, 100],
+                density: 4,
+            }
+        });
+
+        softSliderY.noUiSlider.on('update', function ( values, handle ) {
+            
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'Y');
+
+        });
+        
+        // Handle Click on Parent but cancel when on child 
+        $('div.body').unbind('mousedown');
+        $('div.body').on('mousedown', function () {
+            ub.funcs.hideVisiblePopups();
+        }).on('mousedown','div.slider-container',function(e) {
+            e.stopPropagation();
+        });
 
     }
 
@@ -5717,13 +5812,13 @@ $(document).ready(function() {
 
                 if (_additionalClass === "active") { 
             
-                    _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
+                    _htmlBuilder += '<span class="applicationLabels font_size' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
 
                 }
 
             } else {
 
-                _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+                _htmlBuilder     += '<span class="applicationLabels font_size' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
             }
 
@@ -5752,7 +5847,7 @@ $(document).ready(function() {
             _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
 
 
-            // /// Move
+            /// Move
             
             // var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
@@ -5763,7 +5858,7 @@ $(document).ready(function() {
             
             // _additionalClass = '';    
             // _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            // _htmlBuilder    += '<div class="slider-container move"><div id="move-slider"></div></div>';
+            // _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
 
             /// Scale
 
@@ -5879,8 +5974,9 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="ui-row">';
 
         var _label = 'Size';
-        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; }
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">' + _label + '</label>'; 
+        var _class = '';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
 
@@ -6995,8 +7091,9 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="ui-row">';
 
         var _label = 'Size';
-        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; }
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">' + _label + '</label>'; 
+        var _class = '';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         if (typeof _settingsObject.font_size === 'undefined') {
 

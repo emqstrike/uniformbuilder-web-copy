@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     ub.funcs.transformPatterns = function (inputPatternsObject) {
 
-        var _inputPatternsObject = inputPatternsObject;
+        var _inputPatternsObject = _.filter(inputPatternsObject, {asset_target: 'web'});
         var _container           = [];
 
         _.each(_inputPatternsObject, function (_object, index) {
