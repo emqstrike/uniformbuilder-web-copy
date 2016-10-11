@@ -5860,9 +5860,10 @@ $(document).ready(function() {
             /// Move
             
             var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
+            var _start = '';
 
-            _start = _start / _divisor;
-            _start = _start.toString().substr(0,4);
+            // _start = _start / _divisor;
+            // _start = _start.toString().substr(0,4);
 
             if (_start === '1' || _start === '0') { _start += '.00'; }
             
@@ -6991,7 +6992,11 @@ $(document).ready(function() {
     ub.funcs.updateCoordinates = function (_settingsObject) {
 
         var _primaryViewObj = ub.funcs.getPrimaryViewObject(_settingsObject.application);
-        $('span.custom_text.move').html('x: ' + _primaryViewObj.application.center.x.toString().substr(0,3) + ' y: ' + _primaryViewObj.application.center.y.toString().substr(0,3));
+
+        var _x = Math.round(_primaryViewObj.application.center.x);
+        var _y = Math.round(_primaryViewObj.application.center.y);
+
+        $('span.custom_text.move').html(_x.toString().substr(0,4) + ', ' + _y.toString().substr(0,4));
 
     }
 
