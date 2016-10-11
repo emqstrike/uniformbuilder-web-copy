@@ -3294,9 +3294,11 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
-
-            ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-            return;
+     
+                ub[ub.active_view + '_view'].position.set( -ub.offset.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+          
+             
+            
 
         }
 
