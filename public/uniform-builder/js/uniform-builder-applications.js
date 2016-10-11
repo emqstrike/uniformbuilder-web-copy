@@ -881,24 +881,30 @@ $(document).ready(function() {
 
     ub.funcs.updatePositionViaSlider = function (_application, value, axis) {
 
-        var _val = (value / 100 * 360);
-        var _valStr = (value / 100 * 6.28);
+        var _max = ub.dimensions.width;
 
-        $('span.custom_text.rotate').html(_val.toString().substring(0,5));
+        if (axis === 'y')  { _max = ub.dimensions.height; }
+
+        var _val = (value / 100 * _max);
+        var _valStr = (value / 100 * _max);
 
         var application = _application;
+        var _primaryViewObj = ub.funcs.getPrimaryViewObject(_application.application);
+        var _center = _primaryViewObj.application.center[axis] - _val;
+        var _pivot = _primaryViewObj.application.pivot[axis] - _val;
 
         _.each (_application.application.views, function (view) {
 
             var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
-
             var angleRadians = _valStr;
 
-            application_obj.rotation = angleRadians;
-            view.application.rotation = (angleRadians / Math.PI) * 180;
+            application_obj.position[axis] -= _center;
+            view.application.center[axis] -= _center;
+            view.application.pivot[axis] -= _pivot;
            
         });
 
+        ub.funcs.updateCoordinates(_application);
         ub.funcs.activateMoveTool(application.code);
 
     };
@@ -1136,6 +1142,8 @@ $(document).ready(function() {
 
                         var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
                         _locationMarker.position = _obj.position;
+
+                        ub.funcs.updateCoordinates(_application);
 
                     }
 
@@ -5584,6 +5592,21 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.hidePanelHandler = function () {
+
+        $('div.options_panel_section, div.body, div.header').unbind('mousedown');
+        $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
+
+           ub.funcs.hideVisiblePopups();
+           
+        }).on('mousedown','div.slider-container',function(e) {
+
+            e.stopPropagation();
+
+        });
+
+    }
+
     ub.funcs.initializeScalePanel = function (_settingsObject, applicationType) {
 
         var _multiplier = 100;
@@ -5623,23 +5646,18 @@ $(document).ready(function() {
 
         });
         
-        // Handle Click on Parent but cancel when on child 
-        $('div.body').unbind('mousedown');
-        $('div.body').on('mousedown', function () {
-            ub.funcs.hideVisiblePopups();
-        }).on('mousedown','div.slider-container',function(e) {
-            e.stopPropagation();
-        });
+        ub.funcs.hidePanelHandler();
 
     };
 
     ub.funcs.initializeMovePanel = function (_settingsObject, applicationType) {
 
-        var _multiplier = 100;
         if (applicationType !== "mascot") { _multiplier = 10};
 
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
-        var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
+        var _startX = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.x;
+
+        _startX = _startX / ub.dimensions.width * 100;
 
         $('div.slider-container').hide();
         $('div.slider-container.move').show();
@@ -5647,15 +5665,15 @@ $(document).ready(function() {
         var softSliderX = document.getElementById('move-slider-x');
         if (typeof softSliderX.noUiSlider === "object") { 
 
-            softSliderX.noUiSlider.set(_start);
+            softSliderX.noUiSlider.set(_startX);
             return; 
 
         }
 
         noUiSlider.create(softSliderX, {
-            start: _start,
+            start: _startX,
             range: {
-                min: 1,
+                min: 0,
                 max: 100,
             },
             pips: {
@@ -5668,22 +5686,26 @@ $(document).ready(function() {
         softSliderX.noUiSlider.on('update', function ( values, handle ) {
             
             var _value = values[0];
-            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'X');
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
 
         });
+
+        var _startY = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.y;
+
+        _startY = _startY / ub.dimensions.height * 100;
 
         var softSliderY = document.getElementById('move-slider-y');
         if (typeof softSliderY.noUiSlider === "object") { 
 
-            softSliderY.noUiSlider.set(_start);
+            softSliderY.noUiSlider.set(_startY);
             return; 
 
         }
 
         noUiSlider.create(softSliderY, {
-            start: _start,
+            start: _startY,
             range: {
-                min: 1,
+                min: 0,
                 max: 100,
             },
             pips: {
@@ -5696,17 +5718,11 @@ $(document).ready(function() {
         softSliderY.noUiSlider.on('update', function ( values, handle ) {
             
             var _value = values[0];
-            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'Y');
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
 
         });
         
-        // Handle Click on Parent but cancel when on child 
-        $('div.body').unbind('mousedown');
-        $('div.body').on('mousedown', function () {
-            ub.funcs.hideVisiblePopups();
-        }).on('mousedown','div.slider-container',function(e) {
-            e.stopPropagation();
-        });
+        ub.funcs.hidePanelHandler();
 
     }
 
@@ -5764,13 +5780,7 @@ $(document).ready(function() {
 
         });
         
-        // Handle Click on Parent but cancel when on child 
-        $('div.body').unbind('mousedown');
-        $('div.body').on('mousedown', function () {
-            ub.funcs.hideVisiblePopups();
-        }).on('mousedown','div.slider-container',function(e) {
-            e.stopPropagation();
-        });
+        ub.funcs.hidePanelHandler();
 
     }
 
@@ -5849,16 +5859,16 @@ $(document).ready(function() {
 
             /// Move
             
-            // var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
-            // _start = _start / _divisor;
-            // _start = _start.toString().substr(0,4);
+            _start = _start / _divisor;
+            _start = _start.toString().substr(0,4);
 
-            // if (_start === '1' || _start === '0') { _start += '.00'; }
+            if (_start === '1' || _start === '0') { _start += '.00'; }
             
-            // _additionalClass = '';    
-            // _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            // _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
+            _additionalClass = '';    
+            _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '<span class="custom_text move">' + _start + '</span>' + '</span>';
+            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
 
             /// Scale
 
@@ -6072,6 +6082,8 @@ $(document).ready(function() {
                 $('span.flipButton').hide();
 
             } else {
+
+                ub.funcs.updateCoordinates(_settingsObject);
 
                 var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
@@ -6976,6 +6988,13 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.updateCoordinates = function (_settingsObject) {
+
+        var _primaryViewObj = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+        $('span.custom_text.move').html('x: ' + _primaryViewObj.application.center.x.toString().substr(0,3) + ' y: ' + _primaryViewObj.application.center.y.toString().substr(0,3));
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
@@ -7160,8 +7179,10 @@ $(document).ready(function() {
             if (ub.current_material.material.uniform_category !== "Wrestling") {
 
                 $('span.flipButton').hide();
-
+                
             } else {
+
+                ub.funcs.updateCoordinates(_settingsObject);
 
                 var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);

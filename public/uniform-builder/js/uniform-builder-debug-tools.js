@@ -12,14 +12,13 @@ $(document).ready(function () {
 
         ub.uiVersion = 'v2';
 
-        ub.dimensions.width = 563;
-        ub.dimensions.height = 616;
+        ub.dimensions.width = 1000;
+        ub.dimensions.height = 1100;
 
         $('a.mod_primary').click();
 
         $('#design_name_container').css({'text-align':'center','width':'100%'});
         $('div.main_steps_bar').show();
-        //$('#change-views').css('margin-left', '0px');
         $('div#right-sidebar > a.sidebar-buttons').hide();
         $('div#right-main-window').css('float', 'left');
         $('div#right-main-window.team-color-pane').show();
@@ -48,7 +47,6 @@ $(document).ready(function () {
         $('div.special_modifiers').hide();
         $('#design_name_container').css({'float':'right','width':'90%'});
         $('div.main_steps_bar').hide();
-        //$('#change-views').css('margin-left', '70px');
         $('div#right-sidebar > a.sidebar-buttons').show();
         $('div#right-main-window').css('float', 'right');
         $('div#right-main-window').css('width','470px');
@@ -61,16 +59,11 @@ $(document).ready(function () {
         $('div#right-main-window').css('overflow','hidden !important');
         $("div.pane-main-window").css('overflow','scroll');
 
-        //$('div#change-views').css('left','710px !important');
-
-
         var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
         $sidebar_buttons.show();
 
         $('a.colors').click();
         $(window).trigger('resize');
-
-//        $('div#change-views').hide();
 
     };
     
