@@ -37,6 +37,7 @@ class AuthenticationController extends Controller
             ]);
 
             $decoder = new JsonDecoder();
+       
             $result = $decoder->decode($response->getBody());
 
             // Only 'administrator' Account Type can login

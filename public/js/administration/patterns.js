@@ -297,8 +297,8 @@ $(document).ready(function(){
 
     $('#confirmation-modal-delete-thumbnail .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        // var url = "//" + api_host + "/api/pattern/delete/";
-        var url = "//localhost:8888/api/pattern/deleteThumbnail/";
+         var url = "//" + api_host + "/api/pattern/delete/";
+      //  var url = "//localhost:8888/api/pattern/deleteThumbnail/";
         $.ajax({
             url: url,
             type: "POST",
@@ -324,10 +324,10 @@ $(document).ready(function(){
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
          var id = $(this).data('value');
-       // var url = "//" + api_host + "/api/pattern/delete/";
+        var url = "//" + api_host + "/api/pattern/delete/";
 
 
-        var url = "//localhost:8888/api/pattern/delete/";
+        //var url = "//localhost:8888/api/pattern/delete/";
 
         $.ajax({
             url: url,
