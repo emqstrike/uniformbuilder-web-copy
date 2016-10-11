@@ -5812,13 +5812,13 @@ $(document).ready(function() {
 
                 if (_additionalClass === "active") { 
             
-                    _htmlBuilder += '<span class="applicationLabels font_size' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
+                    _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
 
                 }
 
             } else {
 
-                _htmlBuilder     += '<span class="applicationLabels font_size' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+                _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
             }
 
