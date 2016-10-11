@@ -282,7 +282,11 @@ $(document).ready(function(){
     });
 
     $('.delete-pattern').on('click', function(){
-        var id = $(this).data('pattern-id');
+
+        var id = [];
+        id.push( $(this).data('pattern-id'));
+        
+     
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', id);
     });
 
@@ -293,11 +297,12 @@ $(document).ready(function(){
 
     $('#confirmation-modal-delete-thumbnail .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/pattern/deleteThumbnail";
+        // var url = "//" + api_host + "/api/pattern/delete/";
+        var url = "//localhost:8888/api/pattern/deleteThumbnail/";
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id}),
+            data: JSON.stringify({id: $(this).data('value')}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -318,12 +323,16 @@ $(document).ready(function(){
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/pattern/delete/";
+         var id = $(this).data('value');
+       // var url = "//" + api_host + "/api/pattern/delete/";
+
+
+        var url = "//localhost:8888/api/pattern/delete/";
+
         $.ajax({
             url: url,
             type: "POST",
-            data: JSON.stringify({id: id}),
+            data: JSON.stringify({id:  $(this).data('value')}),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
@@ -337,7 +346,15 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-                    $('.pattern-' + id).fadeOut();
+                   $.each(id, function (index, value) {
+                      console.log(value);
+                      $('.pattern-' + value).fadeOut();
+
+                      // Will stop running after "three"
+                      
+                    });
+                    
+
                 }
             }
         });
@@ -451,4 +468,88 @@ $(document).ready(function(){
         $(this).parent().parent().remove();
         layerNumbers();
     });
+    var multipleRemove=[];
+    $(document).on('click', '#multipleDelete', function() {
+        if($(this).is(':checked')){
+            multipleRemove.push($(this).data("pattern-id"));
+       
+ 
+        }else{
+           multipleRemove.splice( $.inArray($(this).data("pattern-id"),multipleRemove) ,1 );
+
+        }
+       multipleRemove = multipleRemove.sort();
+
+ 
+    });
+
+    $(document).on('click', '.multiple-delete-pattern', function() {
+     
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', multipleRemove);
+ 
+
+    });
+    //   var id = multipleRemove;
+    //    // var url = "//" + api_host + "/api/pattern/deleteThumbnail";
+    //    var url = "//localhost:8888/api/pattern/deleteThumbnail";
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: JSON.stringify({id: id}),
+    //         dataType: "json",
+    //         crossDomain: true,
+    //         contentType: 'application/json',
+    //         headers: {"accessToken": atob(headerValue)},
+    //         success: function(response){
+    //             if (response.success) {
+    //                 new PNotify({
+    //                     title: 'Success',
+    //                     text: response.message,
+    //                     type: 'success',
+    //                     hide: true
+    //                 });
+    //                 $('#confirmation-modal-delete-thumbnail').modal('hide');
+    //                 $('.thumbnail_path').fadeOut();
+    //             }
+    //         }
+    //     });
+
+    //  });
+
+    //  $(document).on('click', '.multiple-delete-pattern', function() {
+    //     var id = multipleRemove;
+        
+
+    //     console.log(id);
+
+    //    // var url = "//" + api_host + "/api/pattern/delete/";
+
+
+    //     var url = "//localhost:8888/api/pattern/delete/";
+
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: JSON.stringify({id: id}),
+    //         dataType: "json",
+    //         crossDomain: true,
+    //         contentType: 'application/json',
+    //         headers: {"accessToken": atob(headerValue)},
+    //         success: function(response){
+    //             if (response.success) {
+    //                 new PNotify({
+    //                     title: 'Success',
+    //                     text: response.message,
+    //                     type: 'success',
+    //                     hide: true
+    //                 });
+    //                 $('#confirmation-modal').modal('hide');
+    //                 $('.pattern-' + id).fadeOut();
+    //             }
+    //         }
+    //     });
+    // });
+
+
+
 });
