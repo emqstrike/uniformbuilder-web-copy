@@ -6113,19 +6113,17 @@ $(document).ready(function() {
                 var _hexCode = layer.default_color;
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
 
-                console.log(layer);
-
                 var _layerNo = parseInt(layer.layer_number) - 1;
                 _color = _settingsObject.color_array[_layerNo];
 
 
-                // Use default color if team color is short
-                if (typeof _color === 'undefined') {
+                // // Use default color if team color is short
+                // if (typeof _color === 'undefined') {
 
-                    var _hexCode = layer.default_color;
-                    var _color   = ub.funcs.getColorByColorCode(_hexCode);
+                //     var _hexCode = layer.default_color;
+                //     var _color   = ub.funcs.getColorByColorCode(_hexCode);
 
-                }
+                // }
 
                 if (typeof _color !== 'undefined') {
 
@@ -7260,13 +7258,13 @@ $(document).ready(function() {
 
             if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
 
-            // Use default color if team color is short
-            if (_color === "undefined") {
+            // // Use default color if team color is short
+            // if (_color === "undefined") {
 
-                _hexCode = layer.default_color;
-                _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+            //     _hexCode = layer.default_color;
+            //     _color   = ub.funcs.getColorObjByHexCode(_hexCode);
 
-            }
+            // }
 
             if (typeof _color !== 'undefined') {
 
