@@ -286,7 +286,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateApplicationsTable ($applications) {
+    function generateApplicationsTable ($applications, $uniform_category) {
 
         $html = '';
         $html .= '<br /><br />';
@@ -347,17 +347,51 @@ class UniformBuilderController extends Controller
             }
 
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+                
                 $html .=   '<td align="center">';
-                $html .=   'Size: ' . $application['font_size'] . '" <br />';
+                
+                if ($uniform_category == "Wrestling") {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                } else {
+
+                    if (isset($application['font_size'])) {
+                        $html .=   $application['font_size'] . '" <br />';    
+                    } elseif (isset($application['size'])) {
+                        $html .=   $application['size'] . '" <br />';    
+                    }
+                    
+                }
+                
                 $html .=   '</td>';
+
             } else if ($appType == "MASCOT" ) {
+                
                 $html .=   '<td align="center">';
-                $html .=   '<strong></strong>';
+                
+                if ($uniform_category == "Wrestling") {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                } else {
+
+                    if (isset($application['size'])) {
+                        $html .=   $application['size'] . '" <br />';    
+                    } elseif (isset($application['font_size'])) {
+                        $html .=   $application['font_size'] . '" <br />';    
+                    }
+
+                }
+
                 $html .=   '</td>';                
+
             } else {
+
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
                 $html .=   '</td>';                
+
             }
 
             $html .=   '<td align="center">';
@@ -889,6 +923,8 @@ class UniformBuilderController extends Controller
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
 
+        $uniform_category = $bc['uniform_category'];
+        
         // dd($bc['builder_customizations']['roster']);
         // $body_color = $bc->upper->Body->color;
         // $body_color_hex = dechex($body_color);
@@ -921,7 +957,7 @@ class UniformBuilderController extends Controller
         $html  = '';
         $html .= $style;
         $html .= '<div style ="width: 100%; text-align: center;">';
-        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h3>';
+        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM (' . $uniform_category . ')</h3>';
         $html .= '</div>';
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
@@ -1013,7 +1049,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateApplicationsTable($applications);
+        $html .=            $this->generateApplicationsTable($applications, $uniform_category);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
