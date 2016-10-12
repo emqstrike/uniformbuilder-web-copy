@@ -1083,7 +1083,7 @@ $(document).ready(function() {
 
         _htmlBuilder += '<tr class="items">';
         _htmlBuilder +=     '<td align="right">';
-        _htmlBuilder +=        '<strong>TOTAL: </strong>';
+        _htmlBuilder +=        '<strong>TOTAL</strong>';
         _htmlBuilder +=     '</td>';
         _htmlBuilder +=     '<td align="right">';
         _htmlBuilder +=        '<strong>' + _total + '</strong>';

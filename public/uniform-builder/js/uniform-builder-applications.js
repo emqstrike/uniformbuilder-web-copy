@@ -911,6 +911,9 @@ $(document).ready(function() {
             application_obj.position[axis] -= _center;
             view.application.center[axis] -= _center;
             view.application.pivot[axis] -= _pivot;
+
+            var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + application.code];
+            _locationMarker.position = application_obj.position;
            
         });
 
@@ -2837,6 +2840,18 @@ $(document).ready(function() {
                 }   
 
             }
+
+        });
+
+    };
+
+    ub.funcs.fullResetHighlights = function () {
+
+        _.each(ub.current_material.materials_options, function (mo){
+    
+            var _moName = mo.name.toCodeCase();
+            var _obj = ub.objects[mo.perspective + '_view'][_moName];
+            _obj.alpha = ub.ALPHA_ON;
 
         });
 
@@ -9205,7 +9220,7 @@ $(document).ready(function() {
 
      ub.uploadThumbnail = function (view) {
 
-        ub.funcs.resetHighlights();
+        ub.funcs.fullResetHighlights();
 
         var _dataUrl = ub.getThumbnailImage(view);
 
