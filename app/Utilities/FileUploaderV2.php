@@ -67,11 +67,12 @@ class FileUploaderV2
         $objectName,
         $type = 'material',
         $s3folder = 'materials',
-        $filename = 'material.jpg')
+        // $filename = 'material.jpg')
+        $filename = 'test.test')
     {
         $folder = $s3folder . '/' . env('APP_ENV');
 
-        // Prepare PATH        
+        // Prepare PATH
         $s3TargetPath = "{$folder}/{$filename}";
 
         // Upload to S3

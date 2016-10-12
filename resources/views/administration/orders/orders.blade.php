@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <div>
-                                    {{ $order->user_id }}
+                                    {{ $order->first_name }} {{ $order->last_name }}[{{ $order->user_id }}]
                                 </div>
                             </td>
                             <td>
