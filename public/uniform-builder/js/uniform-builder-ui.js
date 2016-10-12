@@ -114,7 +114,7 @@ $(document).ready(function () {
 
     };
 
-    ub.zoom_on = function (override) {
+    ub.zoom_on = function (override) { 
 
         if (typeof override === 'undefined') {
             if (ub.status.onText) { return; }

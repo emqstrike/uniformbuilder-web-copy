@@ -9,12 +9,12 @@
     <div class="modal-content">
       <div class="modal-header">
 <!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-        <h4 class="modal-title">The customizer is only available on Desktop view.</h4>
+        <h4 class="modal-title">Prolook Uniform Customizer is currently only available for web browsers on Desktops and Laptops.</h4>
       </div>
       <div class="modal-body">
 <form data-toggle="validator" role="form" method="POST" action="/mobile_notification";>
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
- 	<h6>We will notify you when the mobile view is available fill the following fields.</h6>
+ 	<h6>We are currently developing an iPad mobile app. Please enter your personal details so that we can notify you once it becomes available on the Apple App Store.</h6>
   <div class="form-group">
     <label for="inputName" class="control-label">Name</label>
     <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
@@ -56,19 +56,21 @@
 
 var ua = navigator.userAgent.toLowerCase();
 
-console.log("agent:"+ua);
 if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("ipad") >= 0) || (ua.indexOf("ipod") >= 0) ){
 	// Do something!
 	// Redirect to Android-site?
-	console.log("true");
-	var modal = $("#myModal").html();
 
-	$( "body" ).detach();
-	$("html").append(modal);
-	$('#myModal').modal({
-	backdrop: 'static',
-	keyboard: false
-	})
+	  var modal = $("#myModal").html();
+
+  	$("body").detach();
+  	$("html").append(modal);
+  	$('#myModal').modal({
+
+  	   backdrop: 'static',
+  	   keyboard: false
+
+  	});
+
 }
  // if( $(window).width() <= "650"){
 	// console.log("true");
@@ -101,9 +103,6 @@ if((ua.indexOf("android") >= 0) || (ua.indexOf("iphone") >= 0) || (ua.indexOf("i
 // }else{
 // 	 console.log("desktop");
 // }
-
-
-
 
 </script>
 

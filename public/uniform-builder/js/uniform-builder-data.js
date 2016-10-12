@@ -12,8 +12,8 @@ $(document).ready(function() {
     ub.modifiers = {};
     ub.tethers = {}; 
     ub.dimensions = {};
-    ub.dimensions.width = 563;
-    ub.dimensions.height = 616;
+    ub.dimensions.width = 1000;
+    ub.dimensions.height = 1100;
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};

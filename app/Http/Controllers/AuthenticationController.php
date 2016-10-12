@@ -29,6 +29,7 @@ class AuthenticationController extends AdminAuthController
             ]);
             $decoder = new JsonDecoder();
             $result = $decoder->decode($response->getBody());
+   
 
             if ($result->success)
             {

@@ -482,4 +482,5 @@ window.__lc.license = 7737151;
 </script>
 
 @include('partials.detect-mobile')
+
 </html>

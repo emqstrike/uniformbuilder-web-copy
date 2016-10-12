@@ -848,7 +848,7 @@ $(document).ready(function() {
         var _valStr = (value / 100).toString().substr(0,4);
         if (_valStr === '1' || _valStr === '0') { _valStr += '.00'; }
 
-        $('span.custom_text').html(_valStr);
+        $('span.custom_text.scale').html(_valStr);
 
         var application = _application;
 
@@ -885,6 +885,36 @@ $(document).ready(function() {
            
         });
 
+        ub.funcs.activateMoveTool(application.code);
+
+    };
+
+    ub.funcs.updatePositionViaSlider = function (_application, value, axis) {
+
+        var _max = ub.dimensions.width;
+
+        if (axis === 'y')  { _max = ub.dimensions.height; }
+
+        var _val = (value / 100 * _max);
+        var _valStr = (value / 100 * _max);
+
+        var application = _application;
+        var _primaryViewObj = ub.funcs.getPrimaryViewObject(_application.application);
+        var _center = _primaryViewObj.application.center[axis] - _val;
+        var _pivot = _primaryViewObj.application.pivot[axis] - _val;
+
+        _.each (_application.application.views, function (view) {
+
+            var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+            var angleRadians = _valStr;
+
+            application_obj.position[axis] -= _center;
+            view.application.center[axis] -= _center;
+            view.application.pivot[axis] -= _pivot;
+           
+        });
+
+        ub.funcs.updateCoordinates(_application);
         ub.funcs.activateMoveTool(application.code);
 
     };
@@ -1123,6 +1153,8 @@ $(document).ready(function() {
                         var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
                         _locationMarker.position = _obj.position;
 
+                        ub.funcs.updateCoordinates(_application);
+
                     }
 
                     if(sprite.ubName === "Rotate Tool") {
@@ -1206,7 +1238,7 @@ $(document).ready(function() {
 
                         if (_start === '1' || _start === '0') { _start += '.00'; }
                         
-                        $('span.custom_text').html(_start);
+                        $('span.custom_text.scale').html(_start);
 
                     }
 
@@ -3232,6 +3264,13 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        if (ub.data.rosterInitialized) { 
+        
+            ub.funcs.resetHighlights(); 
+            return; 
+
+        }
+
         if (ub.tools.activeTool.active()) {
 
             $('body').css('cursor', 'pointer');
@@ -3253,8 +3292,10 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         ub.mouse = {
+
             x: mousedata.data.global.x, 
-            y: mousedata.data.global.y
+            y: mousedata.data.global.y,
+
         };
 
         if (ub.status.manipulatorDown) { return; }
@@ -3263,8 +3304,15 @@ $(document).ready(function() {
 
         if (ub.zoom) {
 
-            ub[ub.active_view + '_view'].position.set(-current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-            return;
+            if (current_coodinates.x < (ub.front_view.width/2)) {
+
+                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+             
+            } else {
+
+                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
+            
+            }
 
         }
 
@@ -4698,6 +4746,7 @@ $(document).ready(function() {
         /// Set Default Colors 
 
         settingsObj.font_size = parseFloat(size);
+        settingsObj.size = parseFloat(size);
         ub.create_application(settingsObj, undefined);
 
     }
@@ -5038,6 +5087,8 @@ $(document).ready(function() {
         }
 
         settingsObj.size = parseFloat(size);
+        settingsObj.font_size = parseFloat(size);
+
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
     }
@@ -5572,6 +5623,21 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.hidePanelHandler = function () {
+
+        $('div.options_panel_section, div.body, div.header').unbind('mousedown');
+        $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
+
+           ub.funcs.hideVisiblePopups();
+           
+        }).on('mousedown','div.slider-container',function(e) {
+
+            e.stopPropagation();
+
+        });
+
+    }
+
     ub.funcs.initializeScalePanel = function (_settingsObject, applicationType) {
 
         var _multiplier = 100;
@@ -5580,15 +5646,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        if ($('div.slider-container').is(':visible'))
-        {
-
-            $('div.slider-container').hide();
-            return;
-
-        }
-        
-        $('div.slider-container').show();
+        $('div.slider-container').hide();
+        $('div.slider-container.scale').show();
 
         var softSlider = document.getElementById('scale-slider');
         if (typeof softSlider.noUiSlider === "object") { 
@@ -5618,15 +5677,167 @@ $(document).ready(function() {
 
         });
         
-        // Handle Click on Parent but cancel when on child 
-        $('div.body').unbind('mousedown');
-        $('div.body').on('mousedown', function () {
-            ub.funcs.hideVisiblePopups();
-        }).on('mousedown','div.slider-container',function(e) {
-            e.stopPropagation();
+        ub.funcs.hidePanelHandler();
+
+    };
+
+    ub.funcs.initializeMovePanel = function (_settingsObject, applicationType) {
+
+        if (applicationType !== "mascot") { _multiplier = 10};
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _startX = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.x;
+
+        _startX = _startX / ub.dimensions.width * 100;
+
+        $('div.slider-container').hide();
+        $('div.slider-container.move').show();
+
+        var softSliderX = document.getElementById('move-slider-x');
+        if (typeof softSliderX.noUiSlider === "object") { 
+
+            softSliderX.noUiSlider.set(_startX);
+            return; 
+
+        }
+
+        noUiSlider.create(softSliderX, {
+            start: _startX,
+            range: {
+                min: 0,
+                max: 100,
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 25, 50, 75, 100],
+                density: 4,
+            }
         });
 
+        softSliderX.noUiSlider.on('update', function ( values, handle ) {
+            
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'x');
+
+        });
+
+        var _startY = ub.objects[_v + '_view']['objects_' + _settingsObject.code].position.y;
+
+        _startY = _startY / ub.dimensions.height * 100;
+
+        var softSliderY = document.getElementById('move-slider-y');
+        if (typeof softSliderY.noUiSlider === "object") { 
+
+            softSliderY.noUiSlider.set(_startY);
+            return; 
+
+        }
+
+        noUiSlider.create(softSliderY, {
+            start: _startY,
+            range: {
+                min: 0,
+                max: 100,
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 25, 50, 75, 100],
+                density: 4,
+            }
+        });
+
+        softSliderY.noUiSlider.on('update', function ( values, handle ) {
+            
+            var _value = values[0];
+            ub.funcs.updatePositionViaSlider(_settingsObject, _value, 'y');
+
+        });
+        
+        ub.funcs.hidePanelHandler();
+
     }
+
+    ub.funcs.initializeRotatePanel = function (_settingsObject, applicationType) {
+
+        var _multiplier = 100;
+        if (applicationType !== "mascot") { _multiplier = 10};
+
+        var _v = ub.funcs.getPrimaryView(_settingsObject.application);
+        var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
+
+        $('div.slider-container').hide();
+        $('div.slider-container.rotate').show();
+
+        // var softSlider = document.getElementById('rotate-slider');
+        // if (typeof softSlider.noUiSlider === "object") { 
+
+        //     softSlider.noUiSlider.set(_start);
+        //     return; 
+
+        // }
+
+        // noUiSlider.create(softSlider, {
+        //     start: _start,
+        //     range: {
+        //         min: 0,
+        //         max: 100,
+        //     },
+        //     pips: {
+        //         mode: 'values',
+        //         values: [0, 25, 50, 75, 100],
+        //         density: 4,
+        //     }
+        // });
+
+        // softSlider.noUiSlider.on('update', function ( values, handle ) {
+            
+        //     var _value = values[0];
+
+        // });
+
+        $("#rotate-slider").roundSlider({
+            sliderType: "min-range",
+            handleShape: "round",
+            width: 22,
+            radius: 100,
+            value: _start,
+            startAngle: 90,
+
+            drag: function (args) {
+                
+                ub.funcs.updateRotationViaSlider(_settingsObject, args.value);
+
+            }
+
+        });
+        
+        ub.funcs.hidePanelHandler();
+
+    }
+
+    ub.funcs.updateRotationViaSlider = function (_application, value) {
+
+        var _val = (value / 100 * 360);
+        var _valStr = (value / 100 * 6.28);
+
+        $('span.custom_text.rotate').html(_val.toString().substring(0,5));
+
+        var application = _application;
+
+        _.each (_application.application.views, function (view) {
+
+            var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
+
+            var angleRadians = _valStr;
+
+            application_obj.rotation = angleRadians;
+            view.application.rotation = (angleRadians / Math.PI) * 180;
+           
+        });
+
+        ub.funcs.activateMoveTool(application.code);
+
+    };
 
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
@@ -5648,7 +5859,7 @@ $(document).ready(function() {
 
             } else {
 
-                _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
+                _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
 
             }
 
@@ -5661,6 +5872,38 @@ $(document).ready(function() {
         if (ub.funcs.isCurrentSport('Wrestling')) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
+     
+            
+            /// Rotate
+
+            var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
+
+            _start = _start;
+            _start = _start.toString().substr(0,5);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            _additionalClass = '';    
+            _htmlBuilder    += '<span class="applicationLabels font_size custom rotate ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/rotate-caption.png'>" + '<span class="custom_text rotate">' + _start + '</span>°' + '</span>';
+            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
+
+
+            /// Move
+            
+            var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
+            var _start = '';
+
+            // _start = _start / _divisor;
+            // _start = _start.toString().substr(0,4);
+
+            if (_start === '1' || _start === '0') { _start += '.00'; }
+            
+            _additionalClass = '';    
+            _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '<span class="custom_text move">' + _start + '</span>' + '</span>';
+            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
+
+            /// Scale
+
             var _start = (10 * ub.objects[_v + '_view']['objects_' + settingsObject.code].scale.x) / 3;
 
             _start = _start / _divisor;
@@ -5669,8 +5912,8 @@ $(document).ready(function() {
             if (_start === '1' || _start === '0') { _start += '.00'; }
             
             _additionalClass = '';    
-            _htmlBuilder    += '<span class="applicationLabels font_size custom ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    += '<div class="slider-container"><div id="scale-slider"></div></div>';
+            _htmlBuilder    += '<span class="applicationLabels font_size custom scale ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text scale">' + _start + '</span>%' + '</span>';
+            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider"></div></div>';
 
         }
 
@@ -5772,7 +6015,10 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+        var _label = 'Size';
+        var _class = '';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
 
@@ -5868,6 +6114,8 @@ $(document).ready(function() {
                 $('span.flipButton').hide();
 
             } else {
+
+                ub.funcs.updateCoordinates(_settingsObject);
 
                 var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
@@ -6046,9 +6294,27 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 var _isCustom = $(this).hasClass('custom');
-                if (_isCustom) {
+                var _isScale = $(this).hasClass('scale');
+                var _isRotate = $(this).hasClass('rotate');
+                var _isMove = $(this).hasClass('move');
+                
+                if (_isCustom && _isScale) {
 
                     ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isMove) {
+
+                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isRotate) {
+
+                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
                     return;
 
                 }
@@ -6433,12 +6699,13 @@ $(document).ready(function() {
 
             var _applicationType = 'mascot';
 
+            var _mascotID = '181';
             ub.funcs.deActivateApplications();
 
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
-            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '181'});
+            _settingsObject.mascot              = _.find(ub.data.mascots, { id: _mascotID });
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
@@ -6450,7 +6717,8 @@ $(document).ready(function() {
             if (_id === 4) { _settingsObject.size = 0.5; }
 
             if (_id !== 1 || _id !== 2 || _id !== 5 || _id !== 4) {
-                _settingsObject.size = 5;
+                _settingsObject.size = 4;
+                _settingsObject.font_size = 4;
             }
 
             var _matchingID;
@@ -6468,8 +6736,10 @@ $(document).ready(function() {
                 _matchingSide.application_type  = _applicationType;
                 _matchingSide.type              = _applicationType;
                 _matchingSide.object_type       = _applicationType;
+                _matchingSide.size              = _settingsObject.size;      
+                _matchingSide.font_size         = _settingsObject.font_size;      
                 _matchingSide.color_array       = ub.funcs.getDefaultColors();
-                _matchingSide.mascot            = _.find(ub.data.mascots, {id: '182'});
+                _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
                 if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
 
@@ -6529,26 +6799,32 @@ $(document).ready(function() {
 
                 _applicationType = 'front_number';
                 _settingsObject.size = 8;
+                _settingsObject.font_size = 8;
 
             } else if (_id === 5) {
 
                 _applicationType = 'back_number';
                 _settingsObject.size = 8;
+                _settingsObject.font_size = 8;
 
             } else if (_id === 32 || _id === 33) {
 
                 _applicationType = 'shoulder_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
 
             } else if (_id === 9 || _id === 10) {
 
                 _applicationType = 'sleeve_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
+
 
             } else {
 
                 _applicationType = 'sleeve_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
 
             }
 
@@ -6572,8 +6848,14 @@ $(document).ready(function() {
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
 
-            if (_id === 2) { _settingsObject.size = 8; }
-            if (_id === 5) { _settingsObject.size = 10; }
+            if (_id === 2) { 
+                _settingsObject.size = 8; 
+                _settingsObject.font_size = 8; 
+            }
+            if (_id === 5) { 
+                _settingsObject.size = 10; 
+                _settingsObject.font_size = 10; 
+            }
 
             var _matchingID;
             var _matchingSide;
@@ -6594,6 +6876,9 @@ $(document).ready(function() {
                 _matchingSide.object_type       = 'text object';
                 _matchingSide.font_obj          = ub.funcs.getSampleFont();
                 _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                _matchingSide.size              = _settingsObject.size; 
+                _matchingSide.font_size         = _settingsObject.size; 
 
                 _matchingSide.application.name  = _applicationType.toTitleCase();
                 _matchingSide.application.type  = _applicationType;
@@ -6754,6 +7039,17 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.updateCoordinates = function (_settingsObject) {
+
+        var _primaryViewObj = ub.funcs.getPrimaryViewObject(_settingsObject.application);
+
+        var _x = Math.round(_primaryViewObj.application.center.x);
+        var _y = Math.round(_primaryViewObj.application.center.y);
+
+        $('span.custom_text.move').html(_x.toString().substr(0,4) + ', ' + _y.toString().substr(0,4));
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
@@ -6867,7 +7163,11 @@ $(document).ready(function() {
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+
+        var _label = 'Size';
+        var _class = '';
+        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+        _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         if (typeof _settingsObject.font_size === 'undefined') {
 
@@ -6934,8 +7234,10 @@ $(document).ready(function() {
             if (ub.current_material.material.uniform_category !== "Wrestling") {
 
                 $('span.flipButton').hide();
-
+                
             } else {
+
+                ub.funcs.updateCoordinates(_settingsObject);
 
                 var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
@@ -7241,9 +7543,27 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 var _isCustom = $(this).hasClass('custom');
-                if (_isCustom) {
+                var _isScale = $(this).hasClass('scale');
+                var _isRotate = $(this).hasClass('rotate');
+                var _isMove = $(this).hasClass('move');
+                
+                if (_isCustom && _isScale) {
 
                     ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isMove) {
+
+                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    return;
+
+                }
+
+                if (_isCustom && _isRotate) {
+
+                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
                     return;
 
                 }
@@ -8884,6 +9204,8 @@ $(document).ready(function() {
     /// End Locations and Free Application Types
 
      ub.uploadThumbnail = function (view) {
+
+        ub.funcs.resetHighlights();
 
         var _dataUrl = ub.getThumbnailImage(view);
 

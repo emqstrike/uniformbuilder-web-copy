@@ -73,6 +73,12 @@
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
                             <tr>
+                                <th>
+                                    <a href="#" class="btn btn-danger btn-xs multiple-delete-pattern" role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Remove
+                                    </a>
+                                </th>
                                 <th>Thumbnail</th>
                                 <th>Pattern</th>
                                 <th>Asset Target</th>
@@ -86,6 +92,11 @@
                 @forelse ($patterns as $pattern)
 
                     <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
+                        <td>
+                            <div class="checkbox">
+                              <input type="checkbox" id="multipleDelete" name="remove[]" data-pattern-id="{{ $pattern->id }}" value="">
+                            </div>
+                        </td>
                         <td>
                             @if ($pattern->thumbnail_path)
                             <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
