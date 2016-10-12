@@ -3264,6 +3264,13 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        if (ub.data.rosterInitialized) { 
+        
+            ub.funcs.resetHighlights(); 
+            return; 
+
+        }
+
         if (ub.tools.activeTool.active()) {
 
             $('body').css('cursor', 'pointer');
@@ -3285,8 +3292,10 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         ub.mouse = {
+
             x: mousedata.data.global.x, 
-            y: mousedata.data.global.y
+            y: mousedata.data.global.y,
+
         };
 
         if (ub.status.manipulatorDown) { return; }
@@ -3294,12 +3303,13 @@ $(document).ready(function() {
         var current_coodinates = mousedata.data.global;
 
         if (ub.zoom) {
-            console.log("zoo");
-            if(current_coodinates.x < (ub.front_view.width/2)){
+
+            if (current_coodinates.x < (ub.front_view.width/2)) {
+
                 ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-          
              
-            }else{
+            } else {
+
                 ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
             
             }
@@ -4736,6 +4746,7 @@ $(document).ready(function() {
         /// Set Default Colors 
 
         settingsObj.font_size = parseFloat(size);
+        settingsObj.size = parseFloat(size);
         ub.create_application(settingsObj, undefined);
 
     }
@@ -5076,6 +5087,8 @@ $(document).ready(function() {
         }
 
         settingsObj.size = parseFloat(size);
+        settingsObj.font_size = parseFloat(size);
+
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
     }
@@ -6686,12 +6699,13 @@ $(document).ready(function() {
 
             var _applicationType = 'mascot';
 
+            var _mascotID = '181';
             ub.funcs.deActivateApplications();
 
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
-            _settingsObject.mascot              = _.find(ub.data.mascots, {id: '181'});
+            _settingsObject.mascot              = _.find(ub.data.mascots, { id: _mascotID });
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
@@ -6703,7 +6717,8 @@ $(document).ready(function() {
             if (_id === 4) { _settingsObject.size = 0.5; }
 
             if (_id !== 1 || _id !== 2 || _id !== 5 || _id !== 4) {
-                _settingsObject.size = 5;
+                _settingsObject.size = 4;
+                _settingsObject.font_size = 4;
             }
 
             var _matchingID;
@@ -6721,8 +6736,10 @@ $(document).ready(function() {
                 _matchingSide.application_type  = _applicationType;
                 _matchingSide.type              = _applicationType;
                 _matchingSide.object_type       = _applicationType;
+                _matchingSide.size              = _settingsObject.size;      
+                _matchingSide.font_size         = _settingsObject.font_size;      
                 _matchingSide.color_array       = ub.funcs.getDefaultColors();
-                _matchingSide.mascot            = _.find(ub.data.mascots, {id: '182'});
+                _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
                 if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
 
@@ -6782,26 +6799,32 @@ $(document).ready(function() {
 
                 _applicationType = 'front_number';
                 _settingsObject.size = 8;
+                _settingsObject.font_size = 8;
 
             } else if (_id === 5) {
 
                 _applicationType = 'back_number';
                 _settingsObject.size = 8;
+                _settingsObject.font_size = 8;
 
             } else if (_id === 32 || _id === 33) {
 
                 _applicationType = 'shoulder_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
 
             } else if (_id === 9 || _id === 10) {
 
                 _applicationType = 'sleeve_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
+
 
             } else {
 
                 _applicationType = 'sleeve_number';
-                _settingsObject.size = 2;
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
 
             }
 
@@ -6825,8 +6848,14 @@ $(document).ready(function() {
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
 
-            if (_id === 2) { _settingsObject.size = 8; }
-            if (_id === 5) { _settingsObject.size = 10; }
+            if (_id === 2) { 
+                _settingsObject.size = 8; 
+                _settingsObject.font_size = 8; 
+            }
+            if (_id === 5) { 
+                _settingsObject.size = 10; 
+                _settingsObject.font_size = 10; 
+            }
 
             var _matchingID;
             var _matchingSide;
@@ -6847,6 +6876,9 @@ $(document).ready(function() {
                 _matchingSide.object_type       = 'text object';
                 _matchingSide.font_obj          = ub.funcs.getSampleFont();
                 _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                _matchingSide.size              = _settingsObject.size; 
+                _matchingSide.font_size         = _settingsObject.size; 
 
                 _matchingSide.application.name  = _applicationType.toTitleCase();
                 _matchingSide.application.type  = _applicationType;
@@ -9172,6 +9204,8 @@ $(document).ready(function() {
     /// End Locations and Free Application Types
 
      ub.uploadThumbnail = function (view) {
+
+        ub.funcs.resetHighlights();
 
         var _dataUrl = ub.getThumbnailImage(view);
 

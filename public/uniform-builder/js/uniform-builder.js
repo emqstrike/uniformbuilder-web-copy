@@ -1886,6 +1886,8 @@ $(document).ready(function () {
 
             ub.getThumbnailImage = function (view, rotate) {
 
+                ub.funcs.resetHighlights();
+
                 var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
                 

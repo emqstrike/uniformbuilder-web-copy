@@ -1274,9 +1274,10 @@ $(document).ready(function() {
 
     }
 
+    ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function () {
 
-        ub.funcs.resetHighlights();
+        ub.data.rosterInitialized = true;
 
         if (ub.funcs.initRosterCalled) { return; }
         if (typeof ub.user.id === "undefined") { return; }
