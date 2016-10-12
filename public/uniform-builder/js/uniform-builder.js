@@ -6,6 +6,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            ub.funcs.beforeLoad();
             ub.config.print_version();
 
             /// Initialize Assets
@@ -95,6 +96,12 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.beforeLoad = function () {
+
+            $('a.change-view[data-view="team-info"]').addClass('disabled');
+
+        }
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -128,20 +135,23 @@ $(document).ready(function () {
 
             if(typeof (window.ub.user.id) === "undefined") {
 
-                $('a.change-view[data-view="save"]').css('color','lightgray');
-                $('a.change-view[data-view="save"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
 
-                $('a.change-view[data-view="open-design"]').css('color','lightgray');
-                $('a.change-view[data-view="open-design"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
                 
+            } else {
+
+                $('a.change-view[data-view="save"]').removeClass('disabled');
+                $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
             }
 
             ub.funcs.initToolBars();
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
             ub.funcs.initTeamColors();
+
+            $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
             // window.onbeforeunload = function (e) {
                 
