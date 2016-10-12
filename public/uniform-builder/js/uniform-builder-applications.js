@@ -2845,6 +2845,18 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.fullResetHighlights = function () {
+
+        _.each(ub.current_material.materials_options, function (mo){
+    
+            var _moName = mo.name.toCodeCase();
+            var _obj = ub.objects[mo.perspective + '_view'][_moName];
+            _obj.alpha = ub.ALPHA_ON;
+
+        });
+
+    };
+
     ub.funcs.resetHighlights = function () {
 
         ub.funcs.resetInteracted();
@@ -9208,7 +9220,7 @@ $(document).ready(function() {
 
      ub.uploadThumbnail = function (view) {
 
-        ub.funcs.resetHighlights();
+        ub.funcs.fullResetHighlights();
 
         var _dataUrl = ub.getThumbnailImage(view);
 
