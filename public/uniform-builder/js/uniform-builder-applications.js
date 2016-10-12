@@ -911,6 +911,9 @@ $(document).ready(function() {
             application_obj.position[axis] -= _center;
             view.application.center[axis] -= _center;
             view.application.pivot[axis] -= _pivot;
+
+            var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + application.code];
+            _locationMarker.position = application_obj.position;
            
         });
 
@@ -2840,6 +2843,38 @@ $(document).ready(function() {
 
         });
 
+    };
+
+    ub.funcs.fullResetHighlights = function () {
+
+        _.each(ub.current_material.materials_options, function (mo){
+    
+            var _moName = mo.name.toCodeCase();
+            var _obj = ub.objects[mo.perspective + '_view'][_moName];
+            _obj.alpha = ub.ALPHA_ON;
+
+        });
+
+        _.each(ub.views, function (_view){
+
+            _.each (ub.objects[_view + "_view"], function (object) {
+
+                if (typeof object !== "undefined") {
+
+                    if (object.name === null) { return; }
+
+                    if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
+
+                        object.alpha = ub.ALPHA_ON;
+
+                    }
+
+                }
+                
+            });
+
+        });
+        
     };
 
     ub.funcs.resetHighlights = function () {
@@ -9205,7 +9240,7 @@ $(document).ready(function() {
 
      ub.uploadThumbnail = function (view) {
 
-        ub.funcs.resetHighlights();
+        ub.funcs.fullResetHighlights();
 
         var _dataUrl = ub.getThumbnailImage(view);
 
