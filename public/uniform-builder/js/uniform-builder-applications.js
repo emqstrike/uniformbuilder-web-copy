@@ -911,6 +911,9 @@ $(document).ready(function() {
             application_obj.position[axis] -= _center;
             view.application.center[axis] -= _center;
             view.application.pivot[axis] -= _pivot;
+
+            var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + application.code];
+            _locationMarker.position = application_obj.position;
            
         });
 
