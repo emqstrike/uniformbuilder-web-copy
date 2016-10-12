@@ -2855,6 +2855,26 @@ $(document).ready(function() {
 
         });
 
+        _.each(ub.views, function (_view){
+
+            _.each (ub.objects[_view + "_view"], function (object) {
+
+                if (typeof object !== "undefined") {
+
+                    if (object.name === null) { return; }
+
+                    if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
+
+                        object.alpha = ub.ALPHA_ON;
+
+                    }
+
+                }
+                
+            });
+
+        });
+        
     };
 
     ub.funcs.resetHighlights = function () {
