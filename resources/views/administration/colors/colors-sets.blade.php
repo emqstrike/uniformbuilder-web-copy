@@ -169,8 +169,8 @@ $(document).ready(function(){
 
   $('.toggle-color-set').on('click', function(){
             var id = $(this).data('color-set-id');
-           // var url = "//" + api_host + "/api/color_set/toggle/";
-            var url = "//localhost:8888/api/color_set/toggle/";
+            var url = "//" + api_host + "/api/color_set/toggle/";
+           // var url = "//localhost:8888/api/color_set/toggle/";
   
             $.ajax({
                 url: url,
@@ -197,8 +197,8 @@ $(document).ready(function(){
 
       $('.delete-color-set').on('click', function(){
             var id = $(this).data('color-set-id');
-           // var url = "//" + api_host + "/api/color_set/toggle/";
-            var url = "//localhost:8888/api/color_set/delete";
+            var url = "//" + api_host + "/api/color_set/toggle/";
+           // var url = "//localhost:8888/api/color_set/delete";
         
             $.ajax({
                 url: url,
