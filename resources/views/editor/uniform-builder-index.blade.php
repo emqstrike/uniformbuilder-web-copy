@@ -246,12 +246,12 @@
                 <br /><span>Add Location</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="save">
+            <a class="footer-buttons change-view disabled" data-view="save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 <br /><span>Save Design</span>
             </a>
 
-            <a class="footer-buttons change-view" data-view="open-design">
+            <a class="footer-buttons change-view disabled" data-view="open-design">
                 <i class="fa fa-folder-open-o" aria-hidden="true"></i>
                 <br /><span>Open Design</span>
             </a>
@@ -263,7 +263,7 @@
             </a>
             -->
 
-            <a class="footer-buttons change-view" data-view="team-info">
+            <a class="footer-buttons change-view disabled" data-view="team-info">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 <br /><span>ORDER NOW!</span>
             </a>
