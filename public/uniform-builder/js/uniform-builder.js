@@ -805,10 +805,10 @@ $(document).ready(function () {
             $('input[name="design_name"]').val(material_name);
 
             ub.funcs.showViewports();
-            
+
             $('#main-row').fadeIn();
             $('div#design_name_container').fadeIn();
-            
+
         }
 
         /// Main Render Loop
@@ -823,7 +823,6 @@ $(document).ready(function () {
             // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
             //     // ub.refresh_thumbnails();
             // }   
-
             
             var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
@@ -961,6 +960,34 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getColorObjArrayByCodes = function (colorCodesArray, _id) {
+
+        var _result = [];
+        
+        _.each(colorCodesArray, function (code, index) {
+
+            var _r = ub.funcs.getColorByColorCode(code);
+           
+            _result.push(_r);
+
+            if (_id === "13") {
+                console.log(code);
+                console.log(_r);
+            }
+
+        });
+
+        if (_id === "13") {
+    
+            console.log('Result: ' + _result.length);
+            console.log(_result);
+
+        }
+
+        return _result;
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -969,16 +996,18 @@ $(document).ready(function () {
 
         _.each (_one_dimensional, function (_application) {
 
-            _.each(_application.views, function (view) {
-
+           _.each(_application.views, function (view) {
+        
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
                 var _colorArray         = view.application.colors.split(',');
                 var _outputColorArray   = []; 
+                var _outputColorArrayM  = []; 
+                var _outputColorArrayF  = []; 
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
-                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
+                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
                     _.each(_accentObj.layers, function (layer, index) {
 
@@ -990,9 +1019,21 @@ $(document).ready(function () {
                         var _color              = _resultColorObj.hex_code;
                         layer.default_color     = _color;
 
-                        _outputColorArray.push(_resultColorObj);
+                        // _outputColorArray.push(_resultColorObj);
 
                     });
+
+                    //_outputColorArray = ub.funcs.getColorObjArrayByCodes(_colorArray, _application.id);
+
+                    _outputColorArray = _.map(_colorArray, function (code) {return ub.funcs.getColorByColorCode(code);});
+
+                    if (_application.id === '13') {
+
+                        console.log(' ');
+                        console.log(_colorArray);
+                        console.log(_outputColorArray);
+
+                    }
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
 
@@ -1015,6 +1056,20 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
+
+
+                    if (_application.id === "13") {
+
+                        // console.log('Application: ');
+                        // console.log(_application);
+                        // console.log('Source Color Array: ');
+                        // console.log(_colorArray);
+                        // console.log('Output Color Array: ');
+                        // console.log(_outputColorArray);
+                        // console.log('Output Color Array 2: ');
+                        // console.log(_outputColorArray2);
+
+                    }
                     
                 } 
 
@@ -1030,7 +1085,7 @@ $(document).ready(function () {
                         var _color = _resultColorObj.hex_code;
                         layer.default_color = _colorArray[index - 1];
 
-                        _outputColorArray.push(_resultColorObj);
+                        _outputColorArrayM.push(_resultColorObj);
 
                     });
 
@@ -1039,7 +1094,7 @@ $(document).ready(function () {
                         application_type: _application.type,
                         application: _application,
                         code: _application.id,
-                        color_array: _outputColorArray,
+                        color_array: _outputColorArrayM,
                         size: parseFloat(_fontSizesArray[0]),
                         font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
@@ -1077,7 +1132,7 @@ $(document).ready(function () {
                 /// TODO: This is being executed multiple times
 
             });
-    
+            
         });
 
         ub.funcs.initzIndex();
