@@ -59,16 +59,15 @@ class FileUploaderV2
      * @param String $filePath Source File
      * @param String $objectName
      * @param String $type 'material' or 'bump' | 'thumbnail'
-     * @param String $s3folder 'materials'
+     * @param String $s3folder 'uploaded_files'
      * @return String URL of uploaded file
      */
     public static function uploadToS3(
         $filePath,
         $objectName,
         $type = 'material',
-        $s3folder = 'materials',
-        // $filename = 'material.jpg')
-        $filename = 'test.test')
+        $s3folder = 'uploaded_files',
+        $filename = 'material.jpg')
     {
         $folder = $s3folder . '/' . env('APP_ENV');
 
@@ -87,12 +86,4 @@ class FileUploaderV2
         }
         return null;
     }
-
-    /**
-     * Upload texture file to S3
-     * @param UploadedFile $uploadedFile
-     * @param String $objectName
-     * @param String $type 'material' or 'bump' | 'thumbnail'
-     * @return String URL of the uploade file or null
-     */
 }
