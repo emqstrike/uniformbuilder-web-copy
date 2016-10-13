@@ -9,15 +9,6 @@ use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
-// use App\APIClients\ColorsAPIClient;
-// use App\APIClients\FactoriesAPIClient;
-// use App\APIClients\GradientsAPIClient;
-// use App\APIClients\ApplicationsAPIClient;
-// use App\APIClients\BoundariesAPIClient;
-// use App\APIClients\FontsAPIClient;
-// use App\APIClients\BlockPatternsAPIClient;
-// use App\APIClients\MaterialsOptionsAPIClient;
-// use App\APIClients\MaterialsAPIClient as APIClient;
 
 class TestsController extends Controller
 {
