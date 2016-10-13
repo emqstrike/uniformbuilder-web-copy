@@ -31,7 +31,7 @@ class ColorsSetsController extends Controller
     {
         $colors_sets = $this->client->getColorsSets();
         $colors = $this->colorsClient->getColors();
-
+        
         return view('administration.colors.colors-sets', [
             'colors_sets' => $colors_sets,
             'colors' => $colors
