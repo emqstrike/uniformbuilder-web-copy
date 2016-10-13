@@ -66,8 +66,7 @@ class FileUploaderV2
         $filePath,
         $objectName,
         $type = 'material',
-        $s3folder = 'uploaded_files',
-        $filename = 'material.jpg')
+        $s3folder = 'uploaded_files')
     {
         // $folder = $s3folder . '/' . env('APP_ENV');
         $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
