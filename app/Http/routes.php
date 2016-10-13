@@ -258,7 +258,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@editForm']);
     Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
 
-
     // Feature Flags
     Route::get('feature_flags', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@index']);
     Route::get('feature_flag/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@addForm']);
@@ -280,6 +279,9 @@ Route::group(array('prefix' => 'administration'), function() {
     // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
     // Route::post('newsletter', 'NewsLettersController@store');
     // Route::post('newsletter/delete', 'NewsLettersController@delete');
+
+    Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
+    Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
 
 });
 
