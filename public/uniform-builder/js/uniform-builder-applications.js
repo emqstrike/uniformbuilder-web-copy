@@ -2595,9 +2595,14 @@ $(document).ready(function() {
 
                 }
 
-
-                
                 /// End Sublimation Override - Wrestling ///
+
+                if (ub.funcs.isCurrentSport('Football') && _applicationObj.type === 'mascot') {
+
+                    ub.funcs.adjustMascotPerBlockPattern(app_id, point, view.perspective);
+                        
+                }
+                
 
             });
 
@@ -2611,6 +2616,50 @@ $(document).ready(function() {
             
             return sprite_collection;
 
+        };
+
+        ub.funcs.adjustMascotPerBlockPattern = function (id, sprite, perspective) {
+
+            if (ub.current_material.material.block_pattern === "INFUSED 14") {
+
+                if ((id === '9' || id === '10') && (perspective === "front" || perspective === "back")) {
+
+                    if (perspective === 'front') {
+
+                        if (id === '9') {
+
+                            sprite.position.x += 3;
+                            
+                        }
+
+                        if (id === '10') {
+
+                            sprite.position.x -= 2;
+                            
+                        }
+
+                    }
+
+                    if (perspective === 'back') {
+
+                        if (id === '10') {
+
+                            sprite.position.x += 18;
+
+                        }
+
+                        if (id === '9') {
+
+                            sprite.position.x -= 13;
+
+                        }
+
+                    }
+            
+                }
+
+            }
+            
         };
 
         // End Render Application
@@ -6113,18 +6162,6 @@ $(document).ready(function() {
                 var _hexCode = layer.default_color;
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
 
-                var _layerNo = parseInt(layer.layer_number) - 1;
-                _color = _settingsObject.color_array[_layerNo];
-
-
-                // // Use default color if team color is short
-                // if (typeof _color === 'undefined') {
-
-                //     var _hexCode = layer.default_color;
-                //     var _color   = ub.funcs.getColorByColorCode(_hexCode);
-
-                // }
-
                 if (typeof _color !== 'undefined') {
 
                     _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color);
@@ -6764,9 +6801,28 @@ $(document).ready(function() {
             if (_id === 5) { _settingsObject.size = 10; }
             if (_id === 4) { _settingsObject.size = 0.5; }
 
-            if (_id !== 1 || _id !== 2 || _id !== 5 || _id !== 4) {
-                _settingsObject.size = 4;
-                _settingsObject.font_size = 4;
+            if (_id === 2 || _id === 5 || _id > 70) {
+                
+                _settingsObject.size = 8;
+                _settingsObject.font_size = 8;
+
+            } else if (_id === 9 || _id === 10 || _id === 32 || _id === 33) {
+
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;
+
+            } else {
+
+                _settingsObject.size = 2;
+                _settingsObject.font_size = 2;                
+
+            }
+
+            if (ub.funcs.isCurrentSport('Wrestling')) {
+
+                _settingsObject.size = 5;
+                _settingsObject.font_size = 5;                
+
             }
 
             var _matchingID;
