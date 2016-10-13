@@ -8,6 +8,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class FileUploaderV2
 {
+    protected $file_name;
     /**
      * Upload texture file to S3
      * @param UploadedFile $uploadedFile
@@ -42,6 +43,7 @@ class FileUploaderV2
     public static function moveToTemporaryFolder(uploadedfile $uploadedFile, $objectName)
     {
         $filename = $uploadedFile->getClientOriginalName();
+        $file_name = $filename;
         if (is_null($objectName))
         {
             throw new Exception('Material name cannot be null');
@@ -72,7 +74,7 @@ class FileUploaderV2
         $folder = $s3folder . '/' . env('APP_ENV') . '/' . self::makeSlug($objectName);
 
         // Prepare PATH
-        $s3TargetPath = "{$folder}/{$filename}";
+        $s3TargetPath = "{$folder}/{$file_name}";
 
         // Upload to S3
         $s3 = Storage::disk('s3');
