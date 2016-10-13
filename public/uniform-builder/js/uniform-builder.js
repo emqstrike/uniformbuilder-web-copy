@@ -978,8 +978,6 @@ $(document).ready(function () {
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
-
-
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
 
                     _.each(_accentObj.layers, function (layer, index) {
@@ -1043,6 +1041,7 @@ $(document).ready(function () {
                         code: _application.id,
                         color_array: _outputColorArray,
                         size: parseFloat(_fontSizesArray[0]),
+                        font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
