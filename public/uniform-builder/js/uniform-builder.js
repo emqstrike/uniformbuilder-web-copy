@@ -151,6 +151,10 @@ $(document).ready(function () {
             ub.funcs.initUndo();
             ub.funcs.initTeamColors();
 
+            if (typeof ub.temp === 'undefined') {
+                ub.funcs.colorArrayFix();
+            }
+            
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
             // window.onbeforeunload = function (e) {
@@ -970,19 +974,7 @@ $(document).ready(function () {
            
             _result.push(_r);
 
-            if (_id === "13") {
-                console.log(code);
-                console.log(_r);
-            }
-
         });
-
-        if (_id === "13") {
-    
-            console.log('Result: ' + _result.length);
-            console.log(_result);
-
-        }
 
         return _result;
 
@@ -1009,6 +1001,8 @@ $(document).ready(function () {
 
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
+                    _output             = {};
+
                     _.each(_accentObj.layers, function (layer, index) {
 
                         if (typeof _colorArray[index - 1] === 'undefined') {
@@ -1019,38 +1013,15 @@ $(document).ready(function () {
                         var _color              = _resultColorObj.hex_code;
                         layer.default_color     = _color;
 
-                        // _outputColorArray.push(_resultColorObj);
-
                     });
 
-                    //_outputColorArray = ub.funcs.getColorObjArrayByCodes(_colorArray, _application.id);
+                    _outputColorArray = _.map(_colorArray, function (code) { 
 
-                    _outputColorArray = _.map(_colorArray, function (code) { console.log( 'Code: ' + code); return ub.funcs.getColorByColorCode(code);});
+                        var _ub = ub.funcs.getColorByColorCode(code);
 
-                    if (_application.id === '13') {
+                        return _ub;
 
-                        console.log(' ');
-                        console.log('Input Color Array: ');
-                        console.log(_colorArray);
-
-                        console.log('Output Color Array: ');
-                        console.log(_outputColorArray);
-
-                        ub.data.colorArraySet = {
-
-                            _colorArray: _colorArray,
-                            _outputColorArray: _outputColorArray,
-
-                        }
-
-                        ub.data.colorArraySet.watch('_outputColorArray', function (id, oldval, newval) {
-
-                            console.log('o.' + id + ' changed from ' + oldval + ' to ' + newval);
-                            return newval;
-
-                        });
-
-                    }
+                    });
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
 
@@ -1060,7 +1031,8 @@ $(document).ready(function () {
                         application_type: _application.type,
                         application: _application,
                         code: _application.id,
-                        color_array: _outputColorArray,
+                        colorArrayText: _colorArray,
+                        color_array: JSON.parse(JSON.stringify(_outputColorArray)),
                         font_obj: _fontObj,
                         font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
@@ -1073,26 +1045,15 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-
-
-                    if (_application.id === "1") {
-
-                        // console.log('Application: ');
-                        // console.log(_application);
-                        // console.log('Source Color Array: ');
-                        // console.log(_colorArray);
-                        // console.log('Output Color Array: ');
-                        // console.log(_outputColorArray);
-                        // console.log('Output Color Array 2: ');
-                        // console.log(_outputColorArray2);
-
-                    }
                     
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _mascotObj  = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _colorArray = view.application.colors.split(',');
+
+                    _output             = {};
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
@@ -1102,7 +1063,15 @@ $(document).ready(function () {
                         var _color = _resultColorObj.hex_code;
                         layer.default_color = _colorArray[index - 1];
 
-                        _outputColorArrayM.push(_resultColorObj);
+                        //_outputColorArrayM.push(_resultColorObj);
+
+                    });
+
+                    _outputColorArrayM = _.map(_colorArray, function (code) { 
+
+                        var _ub = ub.funcs.getColorByColorCode(code);
+
+                        return _ub;
 
                     });
 
@@ -1112,6 +1081,7 @@ $(document).ready(function () {
                         application: _application,
                         code: _application.id,
                         color_array: _outputColorArrayM,
+                        colorArrayText: _colorArray,
                         size: parseFloat(_fontSizesArray[0]),
                         font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
@@ -1126,6 +1096,7 @@ $(document).ready(function () {
                 }
 
                 if (_application.type === "free" && typeof view.application !== "undefined") {
+                    _output             = {};
 
                     _output = {
 
@@ -1143,8 +1114,8 @@ $(document).ready(function () {
                 // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
                 // will be used to count be able to determine the sequence id to be assigned to new applications
                 _output.configurationSource = 'Default'; 
-
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
+
 
                 /// TODO: This is being executed multiple times
 
@@ -1155,6 +1126,25 @@ $(document).ready(function () {
         ub.funcs.initzIndex();
 
     };
+
+    ub.funcs.colorArrayFix = function () {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            if (application.type !== 'mascot' && application.type !== 'free') {
+
+                application.color_array =  _.map(application.colorArrayText, function (code) { 
+
+                    var _ub = ub.funcs.getColorByColorCode(code);
+                    return _ub;
+
+                });
+    
+            }
+            
+        });
+
+    }
 
     ub.funcs.initzIndex = function () {
 
@@ -1204,9 +1194,9 @@ $(document).ready(function () {
                     }
                     
                 }
-                
+
             }
-            
+
             ub.change_material_option_color16(e.code, e.color);
             
             if (typeof e.color !== 'undefined') {
@@ -1253,7 +1243,6 @@ $(document).ready(function () {
 
         /// End Transform Applications
 
-
         /// Load Applications, Text Type
 
         var font_families = [];
@@ -1281,7 +1270,7 @@ $(document).ready(function () {
                 }
 
             }
-            
+
             if (application_obj.type === "mascot"){
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
@@ -3373,8 +3362,6 @@ $(document).ready(function () {
                 var app = ub.current_material.settings.applications[application_obj.application.id];
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
-
-
                 if (typeof app_containers[application_obj.id] === 'undefined') {
     
                     app_containers[application_obj.id] = {};
@@ -4308,6 +4295,24 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getMaxTeamColorID = function () {
+
+        max = _.max(_.pluck(ub.data.colorsUsed, 'teamColorID'));
+
+        _.each(ub.data.colorsUsed, function (cu) {
+
+            if(typeof cu.teamColorID !== 'undefined') {
+
+                if(cu.teamColorID > max) { max = cu.teamColorID; }
+          
+            }
+
+        });
+
+        return max;
+
+    };
+
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
 
         var uniform_type = ub.current_material.material.type;
@@ -4356,6 +4361,16 @@ $(document).ready(function () {
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
+
+                ///
+                var _hexCode = (sprite.tint).toString(16);
+                var _paddedHex = util.padHex(_hexCode, 6);
+
+                if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tine, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                }
+                ///
+
                 sprite.anchor.set(0.5,0.5);
 
                 sprite.tint = clone.layers[index].color
