@@ -1025,13 +1025,30 @@ $(document).ready(function () {
 
                     //_outputColorArray = ub.funcs.getColorObjArrayByCodes(_colorArray, _application.id);
 
-                    _outputColorArray = _.map(_colorArray, function (code) {return ub.funcs.getColorByColorCode(code);});
+                    _outputColorArray = _.map(_colorArray, function (code) { console.log( 'Code: ' + code); return ub.funcs.getColorByColorCode(code);});
 
                     if (_application.id === '13') {
 
                         console.log(' ');
+                        console.log('Input Color Array: ');
                         console.log(_colorArray);
+
+                        console.log('Output Color Array: ');
                         console.log(_outputColorArray);
+
+                        ub.data.colorArraySet = {
+
+                            _colorArray: _colorArray,
+                            _outputColorArray: _outputColorArray,
+
+                        }
+
+                        ub.data.colorArraySet.watch('_outputColorArray', function (id, oldval, newval) {
+
+                            console.log('o.' + id + ' changed from ' + oldval + ' to ' + newval);
+                            return newval;
+
+                        });
 
                     }
 
@@ -1058,7 +1075,7 @@ $(document).ready(function () {
                     };
 
 
-                    if (_application.id === "13") {
+                    if (_application.id === "1") {
 
                         // console.log('Application: ');
                         // console.log(_application);

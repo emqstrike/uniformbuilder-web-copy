@@ -704,7 +704,7 @@ $(document).ready(function () {
             _colorObj.forecolor = 'ffffff';
 
         }
-
+        
         return _colorObj;
 
     }

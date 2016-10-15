@@ -7290,7 +7290,6 @@ $(document).ready(function() {
 
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
-
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -7307,7 +7306,6 @@ $(document).ready(function() {
 
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
-
 
             var _layerNo = layer.layer_no - 1;
             _color = _settingsObject.color_array[_layerNo];
