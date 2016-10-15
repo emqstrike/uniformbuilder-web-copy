@@ -711,12 +711,12 @@ $(document).ready(function () {
 
     ub.funcs.moveToColorPickerByIndex = function (index) {
 
-        $('div#single_team-color-picker').hide();
+        $('div#single_team-color-picker').hide(); 
         $('div#cw').fadeIn();
 
         if (index === -1) { return; }
 
-        var _index = index + 1;
+        var _index              = index + 1;
         var _modifier           = ub.funcs.getModifierByIndex(_index);
         var _materialSettings   = ub.funcs.getSettingsByMaterialOptionCode(_modifier.fullname);
         var _intColor           = _materialSettings.color;
@@ -771,7 +771,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.initTeamColors = function () {
-
         
         var _colorSet       = '';
         _colorSet           = ub.funcs.getBaseColors();
