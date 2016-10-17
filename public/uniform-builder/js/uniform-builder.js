@@ -822,6 +822,9 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
 
+            ub.funcs.fixAlignments();
+
+
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
             // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
