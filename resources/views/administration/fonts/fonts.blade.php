@@ -36,6 +36,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Font Name</th>
+                            <th>Sports</th>
                             <th>Sample</th>
                             <th>Active Status</th>
                             <th>Actions</th>
@@ -58,6 +59,9 @@
                                 @endif
                                     {{ $font->type }}
                                 </span>
+                            </td>
+                            <td>
+                                {{ $font->sports }}
                             </td>
                             <td>
                                 <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
