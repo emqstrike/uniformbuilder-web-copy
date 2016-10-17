@@ -230,8 +230,8 @@ $(".sports-list").each(function(i) {
 
   $('.toggle-helpers').on('click', function(){
             var id = $(this).data('helpers-id');
-            //var url = "//" + api_host + "/api/color_set/toggle/";
-            var url = "//localhost:8888/api/helper/toggle/";
+            var url = "//" + api_host + "/api/helper/toggle/";
+            //var url = "//localhost:8888/api/helper/toggle/";
   
             $.ajax({
                 url: url,
@@ -260,8 +260,8 @@ $(".sports-list").each(function(i) {
 
       $('.delete-helper').on('click', function(){
             var id = $(this).data('helper-id');
-         //   var url = "//" + api_host + "/api/color_set/toggle/";
-            var url = "//localhost:8888/api/helper/delete";
+           var url = "//" + api_host + "/api/helper/delete/";
+            //var url = "//localhost:8888/api/helper/delete";
         
             $.ajax({
                 url: url,
