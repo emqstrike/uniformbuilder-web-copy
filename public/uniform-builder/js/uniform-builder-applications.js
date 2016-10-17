@@ -2665,7 +2665,7 @@ $(document).ready(function() {
         // End Render Application
         // Init Click
 
-        $('#init_applications').on("click", function(e){
+        $('#init_applications').on("click", function (e) {
             
             ub.funcs.transformedApplications();
 
@@ -2678,10 +2678,10 @@ $(document).ready(function() {
 
             ub.data.applications_transformed = {};
 
-            var material_options        = ub.current_material.materials_options;
-            var shapes                  = _.filter(material_options, {setting_type: 'shape'});
-            var apps_transformed        = ub.data.applications_transformed;
-            var apps_one_dimensional    = ub.data.applications_transformed_one_dimensional;
+            var material_options                             = ub.current_material.materials_options;
+            var shapes                                       = _.filter(material_options, {setting_type: 'shape'});
+            var apps_transformed                             = ub.data.applications_transformed;
+            var apps_one_dimensional                         = ub.data.applications_transformed_one_dimensional;
 
             _.each(shapes, function(shape) {
 
@@ -2707,7 +2707,7 @@ $(document).ready(function() {
                         
                         apps_transformed[shape.name][obj.id].views.push({ 
                             perspective: shape.perspective,
-                            application: obj
+                            application: obj,
                         });
 
                         apps_one_dimensional.push(apps_transformed[shape.name][obj.id]);
@@ -2717,6 +2717,8 @@ $(document).ready(function() {
                 }
 
             });
+
+            ub.data.applications_transformed_one_dimensional = _.uniq(ub.data.applications_transformed_one_dimensional);
 
         }
 
@@ -7290,7 +7292,6 @@ $(document).ready(function() {
 
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
-
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -7307,7 +7308,6 @@ $(document).ready(function() {
 
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
-
 
             var _layerNo = layer.layer_no - 1;
             _color = _settingsObject.color_array[_layerNo];

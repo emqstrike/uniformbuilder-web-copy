@@ -19,6 +19,7 @@ class ColorsSetsAPIClient extends APIClient
         {
             $colors_sets = $result->colors_sets;
         }
+
         return $colors_sets;
     }
 
