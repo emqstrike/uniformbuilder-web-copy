@@ -227,7 +227,7 @@ $(".sports-list").each(function(i) {
 
       $('.toggle-feature-flag').on('click', function(){
             var id = $(this).data('feature-flag-id');
-            var url = "//" + api_host + "/api/color_set/toggle/";
+            var url = "//" + api_host + "/api/feature/toggle/";
            // var url = "//localhost:8888/api/feature/toggle/";
      
             $.ajax({
@@ -257,7 +257,7 @@ $(".sports-list").each(function(i) {
 
       $('.delete-feature-flag').on('click', function(){
             var id = $(this).data('feature-flag-id');
-         var url = "//" + api_host + "/api/color_set/toggle/";
+         var url = "//" + api_host + "/api/feature/delete/";
          //   var url = "//localhost:8888/api/feature/delete";
 
         
