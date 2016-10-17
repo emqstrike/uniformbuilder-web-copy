@@ -1,5 +1,15 @@
 @extends('administration.lte-main')
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+li.select2-selection__choice {
+    color: black !important;
+}
+</style>
+@endsection
+
 @section('custom-styles')
 
 @foreach ($fonts as $fontItem)
@@ -85,6 +95,22 @@
                                 @foreach ($fonts as $fontItem)
                                     <option value='{{ $fontItem->id }}' style="font-family: '{{ $fontItem->name }}'; font-size: 30px;" @if ($font->parent_id == $fontItem->id) selected @endif>{{ $fontItem->name }}</option>
                                 @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Sports</label>
+                            <div class="col-md-4">
+                                <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $font->sports }}">
+                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                    @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -197,9 +223,25 @@
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $( "#static_row" ).hide();
+
+    var sports = JSON.parse($('#sports_value').val());
+
+    $('.sports').select2({
+        placeholder: "Select sports",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".sports").change(function() {
+        // console.log($(this).val());
+        $('#sports_value').val($(this).val());
+    });
+
+    $('.sports').select2('val', sports);
 
     $(document).on('change', 'input, select', function() {
         var newLength = $('.layers-row').length;

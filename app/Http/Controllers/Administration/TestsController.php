@@ -13,10 +13,10 @@ use App\Http\Controllers\Controller;
 class TestsController extends Controller
 {
 
-    public function __construct()
-    {
+    // public function __construct()
+    // {
 
-    }
+    // }
 
     public function uploadFileForm()
     {

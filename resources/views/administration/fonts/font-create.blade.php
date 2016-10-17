@@ -1,5 +1,15 @@
 @extends('administration.lte-main')
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+li.select2-selection__choice {
+    color: black !important;
+}
+</style>
+@endsection
+
 @section('custom-styles')
 
 @foreach ($fonts as $fontItem)
@@ -65,6 +75,21 @@
                                 @foreach ($fonts as $font)
                                     <option value='{{ $font->id }}' style="font-family: '{{ $font->name }}'; font-size: 30px;">{{ $font->name }}</option>
                                 @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Sports</label>
+                            <div class="col-md-4">
+                                <input type="hidden" class="sports-val" name="sports_value">
+                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                    @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -163,8 +188,19 @@
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('.sports').select2({
+        placeholder: "Select Sports",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".sports").change(function() {
+        $('.sports-val').val($(this).val());
+    });
 
     $(document).on('change', 'input, select', function() {
         var newLength = $('.layers-row').length;

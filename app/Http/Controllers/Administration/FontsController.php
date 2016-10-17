@@ -35,9 +35,12 @@ class FontsController extends Controller
     public function addFontForm()
     {
         $fonts = $this->client->getDefaultFonts();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         return view('administration.fonts.font-create', [
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -45,10 +48,13 @@ class FontsController extends Controller
     {
         $font = $this->client->getFont($id);
         $fonts = $this->client->getDefaultFonts();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         return view('administration.fonts.font-edit', [
             'fonts' => $fonts,
-            'font' => $font
+            'font' => $font,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -60,6 +66,7 @@ class FontsController extends Controller
         $fontProperties = $request->input('font_properties');
         $oldFontPath = $request->input('old_font_path');
         $fontSizeTable = $request->input('font_size_table');
+        $sports = explode(",", $request->input('sports_value'));
 
         $myJson = json_decode($fontProperties, true);
 
@@ -78,7 +85,8 @@ class FontsController extends Controller
 
         $data = [
             'name' => $fontName,
-            'font_size_table' => $fontSizeTable
+            'font_size_table' => $fontSizeTable,
+            'sports' => $sports
         ];
 
         if ($fontType != 'default')
@@ -86,7 +94,7 @@ class FontsController extends Controller
             $data['type'] = $fontType;
             $data['parent_id'] = $fontParent;
         }
-
+// dd($data);
         try
         {
             $fontFile = $request->file('font_path');
