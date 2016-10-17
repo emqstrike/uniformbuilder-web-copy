@@ -21,6 +21,8 @@ $(document).ready(function() {
 
     ub.uiTools = {};
 
+    ub.totalWidth = 1000;
+
     /// Search
 
     ub.searchResults = {};
