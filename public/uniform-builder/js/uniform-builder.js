@@ -1048,6 +1048,20 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
+
+
+                    if (_application.id === "13") {
+
+                        console.log('Application: ');
+                        console.log(_application);
+                        console.log('Source Color Array: ');
+                        console.log(_colorArray);
+                        console.log('Output Color Array: ');
+                        console.log(_outputColorArray);
+                        console.log('Output Color Array 2: ');
+                        console.log(_outputColorArray2);
+
+                    }
                     
                 } 
 
