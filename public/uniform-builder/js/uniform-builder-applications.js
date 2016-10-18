@@ -2159,12 +2159,16 @@ $(document).ready(function() {
 
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
-                    _totalWidthFront     = 1000;
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = ub.data.blockPatternLengths;
                     _totalWidthBack      = 993;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 1") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
 
                     _totalWidthFront     = ub.totalWidth;
                     _totalWidthBack      = ub.totalWidth;
@@ -2180,12 +2184,16 @@ $(document).ready(function() {
 
                 if (ub.current_material.material.block_pattern === "PRO COMBAT") {
 
+                    ub.objects.back_view.objects_10.position.x = 115;
+
                     _totalWidthFront     = 1007;
                     _totalWidthBack      = 993;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "TEXAS TECH 14") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
 
                     _totalWidthFront     = 1003;
                     _totalWidthBack      = 1004;
@@ -2201,6 +2209,8 @@ $(document).ready(function() {
 
                 if (ub.current_material.material.block_pattern === "USC") {
 
+                    ub.objects.back_view.objects_10.position.x = 115;
+
                     _totalWidthFront     = ub.totalWidth;
                     _totalWidthBack      = 1002;
 
@@ -2208,12 +2218,13 @@ $(document).ready(function() {
 
                 if (ub.current_material.material.block_pattern === "UTAH") {
 
+                    ub.objects.back_view.objects_10.position.x = 115;
+
                     _totalWidthFront     = 999;
                     _totalWidthBack      = 1001;
 
                 }
 
-                
                 ub.objects.back_view.objects_9.rotation     = ub.objects.back_view.objects_10.rotation * -1;
                 ub.objects.front_view.objects_10.rotation   = ub.objects.front_view.objects_9.rotation * -1;
 
