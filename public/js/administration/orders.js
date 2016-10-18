@@ -397,7 +397,9 @@ $('.send-to-factory').on('click', function(e){
         });
 
         var bc = JSON.parse(entry.builder_customizations);
-        // console.log(bc);
+
+        var position = upperOrLower(bc);
+        console.log("Uniform :"+position);
         var questionsValues = extractPartValues(bc);
         var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
@@ -455,7 +457,7 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
+    console.log(strResult);
 
     // console.log(orderEntire['orderParts']);
 
@@ -534,8 +536,22 @@ function translatePattern(body_pattern_raw){
     return pattern;
 }
 
+function upperOrLower(bc){
+    var test;
+    try {
+        test = bc['upper']['Body']['colorObj']['color_code'];
+        if(test !== null){
+            return 'upper'; 
+        }
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    return 'lower';
+}
+
 function extractPartValues(bc){ // get values for builder customizations
-console.log(bc);
+// console.log(bc);
     var color_code = bc['upper']['Body']['colorObj']['color_code'];
     var color_name = bc['upper']['Body']['colorObj']['name'];
     var body_color = color_name + " " + "(" + color_code + ")";
@@ -546,7 +562,7 @@ console.log(bc);
         var right_sleeve_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -555,7 +571,7 @@ console.log(bc);
         var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -564,7 +580,7 @@ console.log(bc);
         var right_side_panel_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -573,7 +589,7 @@ console.log(bc);
         var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -582,7 +598,7 @@ console.log(bc);
         var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -591,7 +607,7 @@ console.log(bc);
         var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -600,7 +616,7 @@ console.log(bc);
         var left_sleeve_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -609,7 +625,7 @@ console.log(bc);
         var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -618,7 +634,7 @@ console.log(bc);
         var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -627,7 +643,7 @@ console.log(bc);
         var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -641,7 +657,7 @@ console.log(bc);
         var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
         var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
     }catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
     var questionsValues = {
         "body_color" : body_color,
