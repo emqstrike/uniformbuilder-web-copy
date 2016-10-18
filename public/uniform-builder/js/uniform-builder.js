@@ -1046,7 +1046,6 @@ $(document).ready(function () {
 
                     };
 
-
                     if (_application.id === "13") {
 
                         console.log('Application: ');
@@ -1059,7 +1058,7 @@ $(document).ready(function () {
                         console.log(_outputColorArray2);
 
                     }
-                    
+
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {

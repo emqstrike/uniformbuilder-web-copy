@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\FontsAPIClient as APIClient;
@@ -97,6 +98,7 @@ class FontsController extends Controller
 // dd($data);
         try
         {
+            $randstr = Random::randomize(4);
             $fontFile = $request->file('font_path');
             if (isset($fontFile))
             {
@@ -104,7 +106,7 @@ class FontsController extends Controller
                 {
                     $data['font_path'] = FileUploader::upload(
                         $fontFile,
-                        $fontName,
+                        $fontName.$randstr,
                         'font',
                         'fonts'
                     );
@@ -139,10 +141,11 @@ class FontsController extends Controller
                     {
                         if ($fontLayerFile->isValid())
                         {
+                            $randstr2 = Random::randomize(4);
                             $fontPropName = $fontName."_".$myJson[(string)$ctr]['name'];
                             $myJson[(string)$ctr]['font_path'] = FileUploader::upload(
                                                                                 $fontLayerFile,
-                                                                                $fontPropName,
+                                                                                $fontPropName.$randstr2,
                                                                                 'font',
                                                                                 'fonts'
                                                                             );
