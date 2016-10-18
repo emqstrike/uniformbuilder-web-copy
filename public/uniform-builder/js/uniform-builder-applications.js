@@ -2148,16 +2148,14 @@ $(document).ready(function() {
 
         ub.funcs.fixAlignments = function () {
 
-            if (typeof ub.objects.back_view.objects_10 !== 'undefined' &&  ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
+            if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
 
                 var _totalWidthFront = ub.totalWidth; 
                 var _totalWidthBack = ub.totalWidth;
 
-                if (ub.current_material.settings.applications[9].application_type === 'mascot' || ub.current_material.settings.applications[9].application_type === 'free') {
+                var _application9 = ub.current_material.settings.applications[9];
 
-                    return;
-
-                }
+                if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
 
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
@@ -2165,7 +2163,6 @@ $(document).ready(function() {
                     _totalWidthBack      = 993;
 
                 }
-
 
                 if (ub.current_material.material.block_pattern === "DELUXE 1") {
 
@@ -2223,8 +2220,8 @@ $(document).ready(function() {
                 ub.objects.front_view.objects_10.position.x = _totalWidthFront - ub.objects.front_view.objects_9.position.x;
                 ub.objects.back_view.objects_9.position.x   = _totalWidthBack - ub.objects.back_view.objects_10.position.x;
                 
-                ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
                 ub.objects.front_view.objects_10.position.y = ub.objects.front_view.objects_9.position.y;
+                ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
 
             }
 
@@ -2717,45 +2714,12 @@ $(document).ready(function() {
 
                 if ((id === '9' || id === '10') && (perspective === "back")) {
 
-                    if (id === '9') {
-
-                        //sprite.position.x = 882;
-                        console.log('9: ' + ub.objects.back_view.objects_9.position.x);
-
-                    }
-
-                    if (id === '10') {
-
-                        //sprite.position.x = 107;
-                        console.log('10: ' + ub.objects.back_view.objects_10.position.x);
-
-                    }
+                    if (id === '9') {}
+                    if (id === '10') {}
 
                 }
 
             }
-
-            // if (ub.current_material.material.block_pattern === "ARIZONA") {
-
-                if ((id === '9' || id === '10') && (perspective === "back")) {
-
-                    if (id === '9') {
-
-                        console.log('9: ' + sprite.position.x);
-
-                    }
-
-                    if (id === '10') {
-
-                        console.log('10: ' + sprite.position.x);
-
-                    }
-
-                }
-
-            // }
-
-
             
         };
 

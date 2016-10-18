@@ -1119,7 +1119,6 @@ $(document).ready(function () {
                 _output.configurationSource = 'Default'; 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
-
                 /// TODO: This is being executed multiple times
 
             });
