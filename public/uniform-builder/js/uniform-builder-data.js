@@ -21,6 +21,8 @@ $(document).ready(function() {
 
     ub.uiTools = {};
 
+    ub.totalWidth = 1000;
+
     /// Search
 
     ub.searchResults = {};
@@ -6431,6 +6433,9 @@ ub.funcs.fontOffSets = [
             });
 
         }
+
+        /// Load all other Fonts 
+        // moved to afterLoad Event
         
     };
 
@@ -6463,8 +6468,59 @@ ub.funcs.fontOffSets = [
         }
     ];
 
-
     /// End Placeholder Application
 
+    /// Block Pattern Lengths 
+
+    ub.data.blockPatternLengths = {
+
+        items: [
+
+            {
+
+                blockPattern: 'ARIZONA',
+                widthFront: 1000,
+                widthBack: 993,
+
+            },
+            {
+
+                blockPattern: 'DELUXE 1',
+                widthFront: ub.totalWidth,
+                widthBack: ub.totalWidth,
+
+            },
+            {
+
+                blockPattern: 'DELUXE 2',
+                widthFront: 998,
+                widthBack: 1007,
+
+            },
+            {
+
+                blockPattern: 'PRO COMBAT',
+                widthFront: 1007,
+                widthBack: 993,
+
+            },
+            {
+
+                blockPattern: 'TEXAS TECH 14',
+                widthFront: 1007,
+                widthBack: 993,
+
+            },
+
+        ],
+        getSettings: function (blockPattern) {
+
+            return _.find(this.items, {blockPattern: blockPattern});
+
+        }
+
+    };
+
+    /// End Block Pattern Lengths
 
 });

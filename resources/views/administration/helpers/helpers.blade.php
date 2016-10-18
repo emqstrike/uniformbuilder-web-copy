@@ -94,6 +94,7 @@
                                 <th>GIF</th>
                                 <th>PDF</th>
                                 <th>Active</th>
+                                <th>Action</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -128,9 +129,22 @@
                         <td>
                             {{ $helper->pdf_url }}
                         </td>
+
+                           
+                            <td>
+                            <div class="onoffswitch">
+                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-helpers" id="switch-{{ $helper->id }}" data-helpers-id="{{ $helper->id }}" {{ ($helper->active) ? 'checked' : '' }}>
+                                   <label class="onoffswitch-label" for="switch-{{ $helper->id }}">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </td>  
                         <td>
-                            {{ $helper->active }}
-                        </td>
+                                <a href="#" class="btn btn-danger delete-helper" data-helper-id="{{ $helper->id }}">Remove</a>
+                            </td>
+
+
                         <td>
                             <a href="/administration/helper/edit/{{ $helper->id }}" class="btn btn-primary btn-xs edit-helper" data-helper-id="{{ $helper->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -208,6 +222,76 @@ $(".sports-list").each(function(i) {
         console.log(err.message);
     }
 });
+
+
+
+
+
+
+  $('.toggle-helpers').on('click', function(){
+            var id = $(this).data('helpers-id');
+            var url = "//" + api_host + "/api/helper/toggle/";
+            //var url = "//localhost:8888/api/helper/toggle/";
+  
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                      
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        console.log(response.message);
+                    }
+                }
+            });
+        }); 
+
+
+
+      $('.delete-helper').on('click', function(){
+            var id = $(this).data('helper-id');
+           var url = "//" + api_host + "/api/helper/delete/";
+            //var url = "//localhost:8888/api/helper/delete";
+        
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                      
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+
+                        $( ".data-table" ).load( location+" .data-table" );
+                     
+                    }
+                }
+            });
+        }); 
+
+
+
+
+
 });
 </script>
 @endsection

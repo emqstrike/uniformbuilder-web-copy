@@ -2146,6 +2146,98 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.fixAlignments = function () {
+
+            if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
+
+                var _totalWidthFront = ub.totalWidth; 
+                var _totalWidthBack = ub.totalWidth;
+
+                var _application9 = ub.current_material.settings.applications[9];
+
+                if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
+
+                if (ub.current_material.material.block_pattern === "ARIZONA") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = 1000;
+                    _totalWidthBack      = 993;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "DELUXE 1") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = ub.totalWidth;
+                    _totalWidthBack      = ub.totalWidth;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "DELUXE 2") {
+
+                    _totalWidthFront     = 998;
+                    _totalWidthBack      = 1007;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "PRO COMBAT") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = 1007;
+                    _totalWidthBack      = 993;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "TEXAS TECH 14") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = 1003;
+                    _totalWidthBack      = 1004;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "UA") {
+
+                    _totalWidthFront     = ub.totalWidth;
+                    _totalWidthBack      = ub.totalWidth;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "USC") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = ub.totalWidth;
+                    _totalWidthBack      = 1002;
+
+                }
+
+                if (ub.current_material.material.block_pattern === "UTAH") {
+
+                    ub.objects.back_view.objects_10.position.x = 115;
+
+                    _totalWidthFront     = 999;
+                    _totalWidthBack      = 1001;
+
+                }
+
+                ub.objects.back_view.objects_9.rotation     = ub.objects.back_view.objects_10.rotation * -1;
+                ub.objects.front_view.objects_10.rotation   = ub.objects.front_view.objects_9.rotation * -1;
+
+                ub.objects.front_view.objects_10.position.x = _totalWidthFront - ub.objects.front_view.objects_9.position.x;
+                ub.objects.back_view.objects_9.position.x   = _totalWidthBack - ub.objects.back_view.objects_10.position.x;
+                
+                ub.objects.front_view.objects_10.position.y = ub.objects.front_view.objects_9.position.y;
+                ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
+
+            }
+
+        }
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection   = [];
@@ -2210,8 +2302,6 @@ $(document).ready(function() {
                     point.zIndex = -50;
 
                 }
-
-                
 
                 point.ubType = "object";
                 point.ubAppID = app_id;
@@ -2454,6 +2544,62 @@ $(document).ready(function() {
                             }
                         }
 
+                        //if (ub.current_material.material.block_pattern === "INFUSED 14") {
+
+                            // if (app_id === "33" && view.perspective === "front")
+                            // {
+
+                            //     if (typeof ub.objects.front_view.objects_32 !== "undefined") {
+
+                            //         point.rotation = ub.objects.front_view.objects_32.rotation * -1;
+                            //         point.position.y = ub.objects.front_view.objects_32.position.y;
+                            //         point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
+
+                            //     }
+
+                            // }
+
+                            // if (app_id === "33" && view.perspective === "back")
+                            // {
+
+                            //     if (typeof ub.objects.back_view.objects_32 !== "undefined") {
+
+                            //         point.rotation = ub.objects.back_view.objects_32.rotation * -1;
+                            //         point.position.y = ub.objects.back_view.objects_32.position.y;
+                            //         point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
+
+                            //     }
+
+                            // }
+
+                            // if (app_id === "9" && view.perspective === "front")
+                            // {
+
+                            //     if (typeof ub.objects.front_view.objects_10 !== "undefined") {
+
+                            //         point.rotation = ub.objects.front_view.objects_10.rotation * -1;
+                            //         point.position.y = ub.objects.front_view.objects_10.position.y;
+                            //         point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
+
+                            //     }
+
+                            // }
+
+                            // if (app_id === "9" && view.perspective === "back")
+                            // {
+
+                            //     if (typeof ub.objects.back_view.objects_10 !== "undefined") {
+
+                            //         point.rotation = ub.objects.back_view.objects_10.rotation * -1;
+                            //         point.position.y = ub.objects.back_view.objects_10.position.y;
+                            //         point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
+
+                            //     }
+
+                            // }
+
+//                        }
+
                         var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, _proxyPerspective, _proxyId);
 
                         if (_fontOffsets.offsetX > 0) {
@@ -2507,58 +2653,6 @@ $(document).ready(function() {
 
                         /// Calculated Mirror and Override
 
-                        if (app_id === "33" && view.perspective === "front")
-                        {
-
-                            if (typeof ub.objects.front_view.objects_32 !== "undefined") {
-
-                                point.rotation = ub.objects.front_view.objects_32.rotation * -1;
-                                point.position.y = ub.objects.front_view.objects_32.position.y;
-                                point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
-
-                            }
-
-                        }
-
-                        if (app_id === "33" && view.perspective === "back")
-                        {
-
-                            if (typeof ub.objects.back_view.objects_32 !== "undefined") {
-
-                                point.rotation = ub.objects.back_view.objects_32.rotation * -1;
-                                point.position.y = ub.objects.back_view.objects_32.position.y;
-                                point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
-
-                            }
-
-                        }
-
-                        if (app_id === "9" && view.perspective === "front")
-                        {
-
-                            if (typeof ub.objects.front_view.objects_10 !== "undefined") {
-
-                                point.rotation = ub.objects.front_view.objects_10.rotation * -1;
-                                point.position.y = ub.objects.front_view.objects_10.position.y;
-                                point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
-
-                            }
-
-                        }
-
-                        if (app_id === "9" && view.perspective === "back")
-                        {
-
-                            if (typeof ub.objects.back_view.objects_10 !== "undefined") {
-
-                                point.rotation = ub.objects.back_view.objects_10.rotation * -1;
-                                point.position.y = ub.objects.back_view.objects_10.position.y;
-                                point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
-
-                            }
-
-                        }
-
                     }
 
                 }
@@ -2600,10 +2694,15 @@ $(document).ready(function() {
                 if (ub.funcs.isCurrentSport('Football') && _applicationObj.type === 'mascot') {
 
                     ub.funcs.adjustMascotPerBlockPattern(app_id, point, view.perspective);
+
+                }
+
+                if (ub.funcs.isCurrentSport('Football') && _applicationObj.type !== 'mascot') {
+
+                    ub.funcs.adjustFontPerBlockPattern(app_id, point, view.perspective);
                         
                 }
                 
-
             });
 
             ub.funcs.identify(app_id);
@@ -2618,47 +2717,62 @@ $(document).ready(function() {
 
         };
 
-        ub.funcs.adjustMascotPerBlockPattern = function (id, sprite, perspective) {
+        ub.funcs.adjustFontPerBlockPattern = function (id, sprite, perspective) {
 
-            if (ub.current_material.material.block_pattern === "INFUSED 14") {
+            if (ub.current_material.material.block_pattern === "ARIZONA") {
 
-                if ((id === '9' || id === '10') && (perspective === "front" || perspective === "back")) {
+                if ((id === '9' || id === '10') && (perspective === "back")) {
 
-                    if (perspective === 'front') {
+                    if (id === '9') {}
+                    if (id === '10') {}
 
-                        if (id === '9') {
-
-                            sprite.position.x += 3;
-                            
-                        }
-
-                        if (id === '10') {
-
-                            sprite.position.x -= 2;
-                            
-                        }
-
-                    }
-
-                    if (perspective === 'back') {
-
-                        if (id === '10') {
-
-                            sprite.position.x += 18;
-
-                        }
-
-                        if (id === '9') {
-
-                            sprite.position.x -= 13;
-
-                        }
-
-                    }
-            
                 }
 
             }
+            
+        };
+
+        ub.funcs.adjustMascotPerBlockPattern = function (id, sprite, perspective) {
+
+            // if (ub.current_material.material.block_pattern === "INFUSED 14") {
+
+            //     if ((id === '9' || id === '10') && (perspective === "front" || perspective === "back")) {
+
+            //         if (perspective === 'front') {
+
+            //             if (id === '9') {
+
+            //                 sprite.position.x += 3;
+                            
+            //             }
+
+            //             if (id === '10') {
+
+            //                 sprite.position.x -= 2;
+                            
+            //             }
+
+            //         }
+
+            //         if (perspective === 'back') {
+
+            //             if (id === '10') {
+
+            //                 sprite.position.x += 18;
+
+            //             }
+
+            //             if (id === '9') {
+
+            //                 sprite.position.x -= 13;
+
+            //             }
+
+            //         }
+            
+            //     }
+
+            // }
             
         };
 
@@ -5081,15 +5195,15 @@ $(document).ready(function() {
     ub.funcs.getFontAtIndex = function (index) {
 
         /// Todo: put index in initial load
-
         var _fontList  = _.filter(_.sortBy(ub.data.fonts,'name'), {active: "1"});
         var _fontMatch = undefined;
 
-        _.each(_fontList, function (font, fontIndex){ 
+        _.each(_fontList, function (font, fontIndex) { 
 
             if (fontIndex === index) {
 
                 _fontMatch = font;
+                return _fontMatch;
 
             }
 
@@ -7521,7 +7635,7 @@ $(document).ready(function() {
 
             // Font Left and Right
 
-                $('span.fontLeft, span.fontRight').on('click', function (e) {
+                $('span.fontLeft, span.fontRight').on('click', function (e) { 
 
                     var _direction  = $(this).data('direction');
                     var _newFont    =  ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
@@ -7530,6 +7644,12 @@ $(document).ready(function() {
 
                         ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
                         ub.funcs.activateApplications(_settingsObject.code)
+
+                    }
+                    else {
+
+                        // No Font!
+                        return;
 
                     }
 

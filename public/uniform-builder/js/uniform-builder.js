@@ -157,12 +157,34 @@ $(document).ready(function () {
             
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
+            ub.funcs.loadOtherFonts();
+
             // window.onbeforeunload = function (e) {
                 
             //     return false;
 
             // };
             
+        };
+
+        ub.funcs.loadOtherFonts = function () {
+
+            _.each (ub.data.fonts, function (font, index) {
+
+                if (index === 0) { return; }
+
+                WebFont.load({
+
+                    custom: {
+                      families: [font.name],
+                    },
+
+                });
+
+            });
+
+            console.log('Loading all other fonts...');
+
         };
 
         ub.funcs.initToolBars = function () {
@@ -822,6 +844,9 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
 
+            ub.funcs.fixAlignments();
+
+
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
             // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
@@ -922,6 +947,7 @@ $(document).ready(function () {
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
 
         } else {
+
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
 
@@ -1046,18 +1072,18 @@ $(document).ready(function () {
 
                     };
 
-                    if (_application.id === "13") {
 
-                        console.log('Application: ');
-                        console.log(_application);
-                        console.log('Source Color Array: ');
-                        console.log(_colorArray);
-                        console.log('Output Color Array: ');
-                        console.log(_outputColorArray);
-                        console.log('Output Color Array 2: ');
-                        console.log(_outputColorArray2);
+                    // if (_application.id === "13") {
+                    //     console.log('Application: ');
+                    //     console.log(_application);
+                    //     console.log('Source Color Array: ');
+                    //     console.log(_colorArray);
+                    //     console.log('Output Color Array: ');
+                    //     console.log(_outputColorArray);
+                    //     console.log('Output Color Array 2: ');
+                    //     console.log(_outputColorArray2);
 
-                    }
+                    // }
 
                 } 
 
@@ -1128,7 +1154,6 @@ $(document).ready(function () {
                 // will be used to count be able to determine the sequence id to be assigned to new applications
                 _output.configurationSource = 'Default'; 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
-
 
                 /// TODO: This is being executed multiple times
 

@@ -89,10 +89,12 @@
                                 <th>Category</th>
                                 <th>Description</th>
                                 <th>Switch</th>
-                                <th>Active</th>
+                            
                                 <th>User Types</th>
                                 <th>State</th>
                                 <th>Sports</th>
+                                 <th>Active</th>
+                                <th>Action</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -115,9 +117,7 @@
                         <td>
                             {{ $feature_flag->switch }}
                         </td>
-                        <td>
-                            {{ $feature_flag->active }}
-                        </td>
+               
                         <td>
                             {{ $feature_flag->user_types }}
                         </td>
@@ -127,8 +127,23 @@
                         <td class='sports-list'>
                             {{ $feature_flag->sports }}
                         </td>
+
+                                 <td>
+                            <div class="onoffswitch">
+                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-feature-flag" id="switch-{{ $feature_flag->id }}" data-feature-flag-id="{{ $feature_flag->id }}" {{ ($feature_flag->active) ? 'checked' : '' }}>
+                                   <label class="onoffswitch-label" for="switch-{{ $feature_flag->id }}">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </td>  
                         <td>
-                            <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}" role="button">
+                            <a href="#" class="btn btn-danger delete-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}">Remove</a>
+                        </td>
+
+
+                        <td>
+                            <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag-flag" data-feature-flag-flag-id="{{ $feature_flag->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
@@ -209,6 +224,70 @@ $(".sports-list").each(function(i) {
     //     "info": true,
     //     "autoWidth": false
     // });
+
+      $('.toggle-feature-flag').on('click', function(){
+            var id = $(this).data('feature-flag-id');
+            var url = "//" + api_host + "/api/feature/toggle/";
+           // var url = "//localhost:8888/api/feature/toggle/";
+     
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                      
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        console.log(response.message);
+                    }
+                }
+            });
+        }); 
+
+
+
+      $('.delete-feature-flag').on('click', function(){
+            var id = $(this).data('feature-flag-id');
+         var url = "//" + api_host + "/api/feature/delete/";
+         //   var url = "//localhost:8888/api/feature/delete";
+
+        
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                      
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+
+                        $( ".data-table" ).load( location+" .data-table" );
+                     
+                    }
+                }
+            });
+        }); 
 });
+
+
+
 </script>
 @endsection
