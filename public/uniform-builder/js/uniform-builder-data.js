@@ -6509,8 +6509,6 @@ ub.funcs.fontOffSets = [
 
             },
 
-
-
         ],
         getSettings: function (blockPattern) {
 
