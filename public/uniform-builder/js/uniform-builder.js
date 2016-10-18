@@ -1050,18 +1050,18 @@ $(document).ready(function () {
                     };
 
 
-                    if (_application.id === "13") {
+                    // if (_application.id === "13") {
 
-                        console.log('Application: ');
-                        console.log(_application);
-                        console.log('Source Color Array: ');
-                        console.log(_colorArray);
-                        console.log('Output Color Array: ');
-                        console.log(_outputColorArray);
-                        console.log('Output Color Array 2: ');
-                        console.log(_outputColorArray2);
+                    //     console.log('Application: ');
+                    //     console.log(_application);
+                    //     console.log('Source Color Array: ');
+                    //     console.log(_colorArray);
+                    //     console.log('Output Color Array: ');
+                    //     console.log(_outputColorArray);
+                    //     console.log('Output Color Array 2: ');
+                    //     console.log(_outputColorArray2);
 
-                    }
+                    // }
                     
                 } 
 
@@ -1132,7 +1132,6 @@ $(document).ready(function () {
                 // will be used to count be able to determine the sequence id to be assigned to new applications
                 _output.configurationSource = 'Default'; 
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
-
 
                 /// TODO: This is being executed multiple times
 
