@@ -157,12 +157,34 @@ $(document).ready(function () {
             
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
+            ub.funcs.loadOtherFonts();
+
             // window.onbeforeunload = function (e) {
                 
             //     return false;
 
             // };
             
+        };
+
+        ub.funcs.loadOtherFonts = function () {
+
+            _.each (ub.data.fonts, function (font, index) {
+
+                if (index === 0) { return; }
+
+                WebFont.load({
+
+                    custom: {
+                      families: [font.name],
+                    },
+
+                });
+
+            });
+
+            console.log('Loading all other fonts...');
+
         };
 
         ub.funcs.initToolBars = function () {
@@ -925,6 +947,7 @@ $(document).ready(function () {
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
 
         } else {
+
             
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
 

@@ -2161,7 +2161,7 @@ $(document).ready(function() {
 
                     ub.objects.back_view.objects_10.position.x = 115;
 
-                    _totalWidthFront     = ub.data.blockPatternLengths;
+                    _totalWidthFront     = 1000;
                     _totalWidthBack      = 993;
 
                 }
@@ -2302,8 +2302,6 @@ $(document).ready(function() {
                     point.zIndex = -50;
 
                 }
-
-                
 
                 point.ubType = "object";
                 point.ubAppID = app_id;
@@ -5197,15 +5195,15 @@ $(document).ready(function() {
     ub.funcs.getFontAtIndex = function (index) {
 
         /// Todo: put index in initial load
-
         var _fontList  = _.filter(_.sortBy(ub.data.fonts,'name'), {active: "1"});
         var _fontMatch = undefined;
 
-        _.each(_fontList, function (font, fontIndex){ 
+        _.each(_fontList, function (font, fontIndex) { 
 
             if (fontIndex === index) {
 
                 _fontMatch = font;
+                return _fontMatch;
 
             }
 
@@ -7637,7 +7635,7 @@ $(document).ready(function() {
 
             // Font Left and Right
 
-                $('span.fontLeft, span.fontRight').on('click', function (e) {
+                $('span.fontLeft, span.fontRight').on('click', function (e) { 
 
                     var _direction  = $(this).data('direction');
                     var _newFont    =  ub.funcs.getFontObj(_direction, _settingsObject.font_obj);
@@ -7646,6 +7644,12 @@ $(document).ready(function() {
 
                         ub.funcs.changeFontFromPopup(_newFont.id, _settingsObject);
                         ub.funcs.activateApplications(_settingsObject.code)
+
+                    }
+                    else {
+
+                        // No Font!
+                        return;
 
                     }
 
