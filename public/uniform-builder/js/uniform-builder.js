@@ -948,7 +948,6 @@ $(document).ready(function () {
 
         } else {
 
-            
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
 
             _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});

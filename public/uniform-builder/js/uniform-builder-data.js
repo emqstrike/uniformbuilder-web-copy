@@ -6521,6 +6521,74 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.macFonts = {
+        
+        items: [
+            {
+                fontName: 'Yard Line',
+                size: 8,
+                yOffset: -39,
+                scale: { x: 0.92, y: 1.02 }
+            },
+            {
+                fontName: 'Yard Line',
+                size: 10,
+                yOffset: -40,
+                scale: {x: 0.92, y: 1.04}
+            },
+            {
+                fontName: 'Yard Line',
+                size: 12,
+                yOffset: -45,
+                scale: {x: 0.84, y: 1.02}
+            },
+            {
+                fontName: 'HAWKS',
+                size: 8,
+                yOffset: -33,
+                scale: {x: 0.75, y: 1.04},
+            },
+            {
+                fontName: 'HAWKS',
+                size: 10,
+                yOffset: -35,
+                scale: {x: 0.75, y: 1.03},
+            },
+            {
+                fontName: 'HAWKS',
+                size: 12,
+                yOffset: -38,
+                scale: {x: 0.69, y: 1.03},
+            },    
+
+            {
+                fontName: 'Spartans',
+                size: 8,
+                yOffset: -30,
+                scale: {x: 0.8, y: 1.04},
+            },
+            {
+                fontName: 'Spartans',
+                size: 10,
+                yOffset: -34,
+                scale: {x: 0.8, y: 1.03},
+            },
+            {
+                fontName: 'Spartans',
+                size: 12,
+                yOffset: -33,
+                scale: {x: 0.76, y: 1.04},
+            },        
+        ],
+
+        getSettings: function (fontName, size) {
+
+            return _.find(this.items, {fontName: fontName, size: size});
+
+        },
+
+    };
+
     /// End Block Pattern Lengths
 
 });
