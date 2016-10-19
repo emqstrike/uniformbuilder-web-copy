@@ -2290,7 +2290,7 @@ $(document).ready(function() {
 
                 }
 
-                point.rotation = (view.application.rotation * Math.PI) / 180;   
+                point.rotation = (view.application.rotation * Math.PI) / 180;
 
                 if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
@@ -2701,6 +2701,41 @@ $(document).ready(function() {
 
                     ub.funcs.adjustFontPerBlockPattern(app_id, point, view.perspective);
                         
+                }
+
+                if (ub.funcs.isMacintosh()) {
+
+                    if (ub.funcs.getCurrentUniformCategory() === 'Football') {
+
+                        if (app_id === '2' || app_id === '5') {
+
+                            if (_applicationObj.type !== 'mascot' && _applicationObj.type !== 'free') {
+
+                                var _fontArrayToBeAdjusted = ['Yard Line', 'HAWKS', 'Spartans'];
+
+                                if (_.includes(_fontArrayToBeAdjusted, args.font_name)) {
+
+                                    var _macFontSettings = ub.data.macFonts.getSettings(args.font_name, args.fontSize);
+
+                                    if (typeof _macFontSettings !== 'undefined') {
+
+                                        if (args.font_name === args.font_name) {
+                                            
+                                            point.position.y   += _macFontSettings.yOffset;
+                                            point.scale         = _macFontSettings.scale;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 }
                 
             });
@@ -7428,13 +7463,13 @@ $(document).ready(function() {
 
             if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
 
-            // // Use default color if team color is short
-            // if (_color === "undefined") {
+            // Use default color if team color is short
+            if (typeof _color === "undefined") {
 
-            //     _hexCode = layer.default_color;
-            //     _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+                _hexCode = layer.default_color;
+                _color   = ub.funcs.getColorObjByHexCode(_hexCode);
 
-            // }
+            }
 
             if (typeof _color !== 'undefined') {
 
