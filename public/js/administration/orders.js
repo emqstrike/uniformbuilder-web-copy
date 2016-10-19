@@ -400,7 +400,7 @@ $('.send-to-factory').on('click', function(e){
 
         var position = upperOrLower(bc);
         console.log("Uniform :"+position);
-        var questionsValues = extractPartValues(bc);
+        var questionsValues = extractPartValues(bc, position);
         var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
@@ -459,7 +459,7 @@ $('.send-to-factory').on('click', function(e){
     strResult = JSON.stringify(orderEntire);
     console.log(strResult);
 
-    // console.log(orderEntire['orderParts']);
+    console.log(orderEntire['orderParts']);
 
     $.ajax({
         url: url,
@@ -550,8 +550,21 @@ function upperOrLower(bc){
     return 'lower';
 }
 
-function extractPartValues(bc){ // get values for builder customizations
-// console.log(bc);
+function extractPartValues(bc, position){ // get values for builder customizations
+
+    var questionsValues;
+
+    if(position == "upper"){
+        questionsValues = extractUpper(bc);
+    } else {
+        questionsValues = extractLower(bc);
+    }
+
+    return questionsValues;
+
+}
+
+function extractUpper(bc){
     var color_code = bc['upper']['Body']['colorObj']['color_code'];
     var color_name = bc['upper']['Body']['colorObj']['name'];
     var body_color = color_name + " " + "(" + color_code + ")";
@@ -678,6 +691,9 @@ function extractPartValues(bc){ // get values for builder customizations
     };
     // console.log(questionsValues);
     return questionsValues;
+}
+
+function extractLower(bc){
 
 }
 
