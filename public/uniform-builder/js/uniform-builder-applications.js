@@ -9378,14 +9378,14 @@ $(document).ready(function() {
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
+
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         if (!ub.funcs.okToStart()) { return; }
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
-
-
+        if ($('div#parts_dropdown').is(':visible')) { $('div.pd-dropdown-links[data-name="Body"]').trigger('click'); }
+        
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
         var _validApplicationTypes  = _settingsObject.validApplicationTypes;
