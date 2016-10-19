@@ -183,8 +183,6 @@ $(document).ready(function () {
 
             });
 
-            console.log('Loading all other fonts...');
-
         };
 
         ub.funcs.initToolBars = function () {
