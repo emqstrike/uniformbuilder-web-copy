@@ -6156,6 +6156,31 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getRotatedValue = function (length, index) {
+
+       var rows   = Math.ceil(index / length);
+       var subt = rows - 1;
+       var result = index - (subt * length);
+
+       return result; 
+
+    }
+
+    ub.data.forRotating = [];
+
+    ub.funcs.useRotated = function () {
+
+        _.each (ub.data.forRotating, function (_rotate) {
+
+            console.log(_rotate);
+
+            $("span.colorItem[data-layer-no='" +  _rotate.layerNumber + "'][data-color-code='" + _rotate.colorOBJ.color_code + "']").trigger('click');
+
+        });
+
+        ub.data.forRotating = [];
+
+    }
 
     ub.funcs.activateMascots = function (application_id) {
 
@@ -6306,12 +6331,42 @@ $(document).ready(function() {
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
 
+        console.clear();
+
         if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
             _.each(_settingsObject.mascot.layers_properties, function (layer) {
 
                 var _hexCode = layer.default_color;
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
+                var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
+
+                if (typeof exists === 'undefined') {
+
+                    var _teamColorID = parseInt(layer.team_color_id);
+                    _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+
+                    if (typeof _color !== "undefined") {
+
+                        ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+                    }
+
+                } else {
+
+                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+                }
+
+                if (typeof _color === 'undefined') {
+
+                    var _teamColorLength = ub.current_material.settings.team_colors.length;
+                    var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
+
+                    _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
+                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                    
+                }
 
                 if (typeof _color !== 'undefined') {
 
@@ -6657,6 +6712,8 @@ $(document).ready(function() {
                 }
                 
             });
+
+            ub.funcs.useRotated();
 
         // End Small Color Pickers
 
@@ -7350,7 +7407,6 @@ $(document).ready(function() {
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
-
 
         if (_applicationType === 'mascot') {
 
