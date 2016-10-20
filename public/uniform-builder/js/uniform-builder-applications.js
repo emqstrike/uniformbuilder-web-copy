@@ -2152,7 +2152,6 @@ $(document).ready(function() {
 
                 var _totalWidthFront = ub.totalWidth; 
                 var _totalWidthBack = ub.totalWidth;
-
                 var _application9 = ub.current_material.settings.applications[9];
                 var is9BuffsBold;
 
@@ -2172,12 +2171,16 @@ $(document).ready(function() {
 
                 }
 
+                if (typeof ub.data.blockPatternLength !== 'undefined') {
+
+                    _totalWidthFront    = ub.data.blockPatternLength.widthFront;
+                    _totalWidthBack     = ub.data.blockPatternLength.widthBack;
+
+                }
+
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = 1000;
-                    _totalWidthBack      = 993;
 
                 }
 
@@ -2185,24 +2188,15 @@ $(document).ready(function() {
 
                     ub.objects.back_view.objects_10.position.x = 115;
 
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = ub.totalWidth;
-
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 2") {
-
-                    _totalWidthFront     = 998;
-                    _totalWidthBack      = 1007;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "PRO COMBAT") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = 1007;
-                    _totalWidthBack      = 993;
 
                 }
 
@@ -2215,28 +2209,17 @@ $(document).ready(function() {
 
                 }
 
-                if (ub.current_material.material.block_pattern === "UA") {
-
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = ub.totalWidth;
-
-                }
+                if (ub.current_material.material.block_pattern === "UA") {}
 
                 if (ub.current_material.material.block_pattern === "USC") {
-
+                    
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = 1002;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "UTAH") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = 999;
-                    _totalWidthBack      = 1001;
 
                 }
 

@@ -6500,17 +6500,39 @@ ub.funcs.fontOffSets = [
             {
 
                 blockPattern: 'PRO COMBAT',
-                widthFront: 1007,
+                widthFront: 998,
                 widthBack: 993,
 
             },
             {
 
                 blockPattern: 'TEXAS TECH 14',
-                widthFront: 1007,
-                widthBack: 993,
+                widthFront: 1003,
+                widthBack: 1004,
 
             },
+            {
+
+                blockPattern: 'UA',
+                widthFront: ub.totalWidth,
+                widthBack: ub.totalWidth,
+                
+            },
+            {
+
+                blockPattern: 'USC',
+                widthFront: ub.totalWidth,
+                widthBack: 1002,
+
+            },
+            {
+             
+                blockPattern: 'UTAH',
+                widthFront: 999,
+                widthBack: 1001,
+
+            },
+
 
         ],
         getSettings: function (blockPattern) {
@@ -6520,6 +6542,8 @@ ub.funcs.fontOffSets = [
         }
 
     };
+
+    ub.data.blockPatternLength = undefined;
 
     ub.data.buffsBoldAdjustments = {
 
@@ -6572,7 +6596,7 @@ ub.funcs.fontOffSets = [
 
     }
 
-    ub.data.buffsBoldAdjustment;
+    ub.data.buffsBoldAdjustment = undefined;
 
     ub.data.macFonts = {
         

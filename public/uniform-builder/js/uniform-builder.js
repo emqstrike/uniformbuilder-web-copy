@@ -160,11 +160,20 @@ $(document).ready(function () {
             ub.funcs.loadOtherFonts();
 
 
+            var _blockPattern = ub.current_material.material.block_pattern;
+
             // Get Buffs Bold Adjustment
             var _blockPattern = ub.current_material.material.block_pattern;
             var _result = ub.data.buffsBoldAdjustments.getSettings(_blockPattern);
 
             ub.data.buffsBoldAdjustment = _result;
+            // End Buffs Bold Adjustment
+
+            // Block Pattern Widths
+            var _result = ub.data.blockPatternLengths.getSettings(_blockPattern);
+            ub.data.blockPatternLength = _result;
+            // End Block Pattern Widths
+
 
             // window.onbeforeunload = function (e) {
                 
