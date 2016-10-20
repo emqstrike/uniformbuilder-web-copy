@@ -4871,10 +4871,21 @@ $(document).ready(function () {
 
             var template = $('#m-picker-items-uniforms').html();
 
+            ub.tempItems = _.sortBy(items, function(item) { 
+
+                if(item.type === 'upper') { 
+                    return 1; 
+                } 
+                else {
+                    return 2;
+                }
+
+            });
+
             var data = {
 
                 picker_type: type,
-                picker_items: items,
+                picker_items: ub.tempItems,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
               
                 uniform_type: function () {

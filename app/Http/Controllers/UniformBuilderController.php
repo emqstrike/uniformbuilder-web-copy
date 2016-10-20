@@ -1064,7 +1064,7 @@ class UniformBuilderController extends Controller
         $user = Session::get('userId');
         $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
 
-        if( isset($user) ){
+        if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
@@ -1081,7 +1081,6 @@ class UniformBuilderController extends Controller
     public function generateOrderForm(Request $request){
 
         $r = $request->all();
-
         $fname = $this->generatePDF($r);
 
         return response()->json(['success' => true, 'filename' => $fname ]);

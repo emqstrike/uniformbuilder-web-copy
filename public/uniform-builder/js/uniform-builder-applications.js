@@ -5538,7 +5538,7 @@ $(document).ready(function() {
 
                     $('div.categories').hide();
                     $('div.groups_categories').fadeIn();
-
+                    
                     $('div.popup_header').html('MASCOTS');
 
                     return;
@@ -5639,7 +5639,13 @@ $(document).ready(function() {
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
 
+                    // console.log('This Files: ');
+                    // console.log(this.files);
+
                     reader.onload = function (e) {
+
+                        // console.log('Uploaded (e): ');
+                        // console.log(e);
                         
                         $('img#preview').attr('src', e.target.result);
                         ub.uploadLogo(e.target.result);
