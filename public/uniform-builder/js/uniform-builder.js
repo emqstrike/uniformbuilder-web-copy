@@ -159,6 +159,13 @@ $(document).ready(function () {
 
             ub.funcs.loadOtherFonts();
 
+
+            // Get Buffs Bold Adjustment
+            var _blockPattern = ub.current_material.material.block_pattern;
+            var _result = ub.data.buffsBoldAdjustments.getSettings(_blockPattern);
+
+            ub.data.buffsBoldAdjustment = _result;
+
             // window.onbeforeunload = function (e) {
                 
             //     return false;
