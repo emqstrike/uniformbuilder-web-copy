@@ -388,7 +388,7 @@ $('.send-to-factory').on('click', function(e){
         }
 
         var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
-        $.each(entryQuestions, function(i, item) {
+        $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
             if( item.QuestionID == 267 ){
                 utpi = "fbij";
             } else if( item.QuestionID == 14 ){
