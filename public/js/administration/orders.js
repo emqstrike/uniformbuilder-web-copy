@@ -392,11 +392,12 @@ $('.send-to-factory').on('click', function(e){
             if( item.QuestionID == 267 ){
                 utpi = "fbij";
             } else if( item.QuestionID == 14 ){
-                 utpi = "fbgj";
+                utpi = "fbgj";
             }
         });
 
         var bc = JSON.parse(entry.builder_customizations);
+        delete bc.attached_files;
 
         var position = upperOrLower(bc);
         console.log("Uniform :"+position);
@@ -457,9 +458,9 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    console.log(strResult);
+    // console.log(strResult);
 
-    console.log(orderEntire['orderParts']);
+    console.log(JSON.stringify(orderEntire['orderParts']));
 
     $.ajax({
         url: url,
@@ -538,7 +539,7 @@ function translatePattern(body_pattern_raw){
 
 function upperOrLower(bc){
     var test;
-    try {
+    try { // check if the BC is upper
         test = bc['upper']['Body']['colorObj']['color_code'];
         if(test !== null){
             return 'upper'; 
@@ -738,7 +739,7 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 282,
                 "Value": questionsValues.neck_trim_pattern
             }];
-    } else if( utpi == "fbgj" ){
+    } else if( utpi == "fbgj" || utpi = "fbdj" || utpi = "fbgp" ){
         questions = [{
                 "QuestionID": 14,
                 "Value": questionsValues.body_color
@@ -764,33 +765,34 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 18, //    Base Material 2 Color 1
                 "Value": questionsValues.bottom_body_insert_color
             }];
-    } else if( utpi == "fbdj" ){
-        questions = [{
-                "QuestionID": 14,
-                "Value": questionsValues.body_color
-            }, {
-                "QuestionID": 219,
-                "Value": questionsValues.right_sleeve_color
-            }, {
-                "QuestionID": 38,
-                "Value": questionsValues.right_shoulder_cowl_color
-            }, {
-                "QuestionID": 68,
-                "Value": questionsValues.right_arm_trim_color
-            }, {
-                "QuestionID": 62,
-                "Value": questionsValues.right_side_panel_color
-            }, {
-                "QuestionID": 66, // Insert and Trim Color 3
-                "Value": questionsValues.back_body_yoke_insert_color
-            }, {
-                "QuestionID": 64, // Insert and Trim Color 2
-                "Value": questionsValues.bottom_right_side_panel_insert_color
-            }, {
-                "QuestionID": 18, //    Base Material 2 Color 1
-                "Value": questionsValues.bottom_body_insert_color
-            }];
-    }
+        }
+    // } else if( utpi == "fbdj" ){
+    //     questions = [{
+    //             "QuestionID": 14,
+    //             "Value": questionsValues.body_color
+    //         }, {
+    //             "QuestionID": 219,
+    //             "Value": questionsValues.right_sleeve_color
+    //         }, {
+    //             "QuestionID": 38,
+    //             "Value": questionsValues.right_shoulder_cowl_color
+    //         }, {
+    //             "QuestionID": 68,
+    //             "Value": questionsValues.right_arm_trim_color
+    //         }, {
+    //             "QuestionID": 62,
+    //             "Value": questionsValues.right_side_panel_color
+    //         }, {
+    //             "QuestionID": 66, // Insert and Trim Color 3
+    //             "Value": questionsValues.back_body_yoke_insert_color
+    //         }, {
+    //             "QuestionID": 64, // Insert and Trim Color 2
+    //             "Value": questionsValues.bottom_right_side_panel_insert_color
+    //         }, {
+    //             "QuestionID": 18, //    Base Material 2 Color 1
+    //             "Value": questionsValues.bottom_body_insert_color
+    //         }];
+    // }
 
     return questions;
 }
