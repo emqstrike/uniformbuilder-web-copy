@@ -2181,16 +2181,21 @@ $(document).ready(function() {
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
+                    ub.objects.front_view.objects_9.position.x = 118
+
 
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 1") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
+                    ub.objects.front_view.objects_9.position.x = 115
 
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 2") {
+
+                    ub.objects.front_view.objects_9.position.x = 110
 
                 }
 
@@ -9376,13 +9381,14 @@ $(document).ready(function() {
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
-
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         if (!ub.funcs.okToStart()) { return; }
 
         if ($('div#parts_dropdown').is(':visible')) { $('div.pd-dropdown-links[data-name="Body"]').trigger('click'); }
+        if ($('div.ubColorPicker').is(':visible')) { $('div.pd-dropdown-links[data-name="Body"]').trigger('click'); }
+
         
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
