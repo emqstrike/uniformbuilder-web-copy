@@ -766,33 +766,6 @@ function buildQuestions( utpi, questionsValues ){
                 "Value": questionsValues.bottom_body_insert_color
             }];
         }
-    // } else if( utpi == "fbdj" ){
-    //     questions = [{
-    //             "QuestionID": 14,
-    //             "Value": questionsValues.body_color
-    //         }, {
-    //             "QuestionID": 219,
-    //             "Value": questionsValues.right_sleeve_color
-    //         }, {
-    //             "QuestionID": 38,
-    //             "Value": questionsValues.right_shoulder_cowl_color
-    //         }, {
-    //             "QuestionID": 68,
-    //             "Value": questionsValues.right_arm_trim_color
-    //         }, {
-    //             "QuestionID": 62,
-    //             "Value": questionsValues.right_side_panel_color
-    //         }, {
-    //             "QuestionID": 66, // Insert and Trim Color 3
-    //             "Value": questionsValues.back_body_yoke_insert_color
-    //         }, {
-    //             "QuestionID": 64, // Insert and Trim Color 2
-    //             "Value": questionsValues.bottom_right_side_panel_insert_color
-    //         }, {
-    //             "QuestionID": 18, //    Base Material 2 Color 1
-    //             "Value": questionsValues.bottom_body_insert_color
-    //         }];
-    // }
 
     return questions;
 }
