@@ -6175,8 +6175,6 @@ $(document).ready(function() {
 
         _.each (ub.data.forRotating, function (_rotate) {
 
-            console.log(_rotate);
-
             $("span.colorItem[data-layer-no='" +  _rotate.layerNumber + "'][data-color-code='" + _rotate.colorOBJ.color_code + "']").trigger('click');
 
         });
@@ -6194,6 +6192,8 @@ $(document).ready(function() {
         }
 
         if (!ub.funcs.okToStart()) { return; }
+
+        ub.funcs.activatePanelGuard();
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
@@ -6333,8 +6333,6 @@ $(document).ready(function() {
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
-
-        console.clear();
 
         if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
@@ -7365,13 +7363,25 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.activatePanelGuard = function () {
+
+        if ($('div#parts_dropdown').is(':visible') ||$('div#single_team-color-picker').is(':visible')){
+
+            ub.funcs.activateBody();
+
+        }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         if (!ub.funcs.okToStart()) { return; }
-        
+
+        ub.funcs.activatePanelGuard();
+
         if (ub.funcs.isBitFieldOn()) { 
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
@@ -9386,9 +9396,7 @@ $(document).ready(function() {
 
         if (!ub.funcs.okToStart()) { return; }
 
-        if ($('div#parts_dropdown').is(':visible')) { $('div.pd-dropdown-links[data-name="Body"]').trigger('click'); }
-        if ($('div.ubColorPicker').is(':visible')) { $('div.pd-dropdown-links[data-name="Body"]').trigger('click'); }
-
+        ub.funcs.activatePanelGuard();
         
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
