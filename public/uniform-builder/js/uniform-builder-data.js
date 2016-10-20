@@ -6521,6 +6521,59 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.buffsBoldAdjustments = {
+
+        items: [
+
+            {
+                blockPattern: "ARIZONA",
+                x: 118,
+            },
+            {
+                blockPattern: "DELUXE 1",
+                x: 115,
+            },
+            {
+                blockPattern: "DELUXE 2",
+                x: 110,
+            },
+            {
+                blockPattern: "PRO COMBAT",
+                x: 120,
+            },
+            {
+                blockPattern: "TEXAS TECH 14",
+                x: 115,
+            },
+            {
+                blockPattern: "UA",
+                x: 115,
+            },
+            {
+                blockPattern: "USC",
+                x: 115,
+            },
+            {
+                blockPattern: "UTAH",
+                x: 115,
+            },
+            {
+                blockPattern: "INFUSED 14",
+                x: 115,
+            },
+
+        ],
+
+        getSettings: function (blockPattern) {
+
+            return _.find(this.items, { blockPattern: blockPattern });
+
+        }
+
+    }
+
+    ub.data.buffsBoldAdjustment;
+
     ub.data.macFonts = {
         
         items: [

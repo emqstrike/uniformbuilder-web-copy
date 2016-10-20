@@ -2154,8 +2154,23 @@ $(document).ready(function() {
                 var _totalWidthBack = ub.totalWidth;
 
                 var _application9 = ub.current_material.settings.applications[9];
+                var is9BuffsBold;
 
                 if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
+
+                is9BuffsBold = ub.current_material.settings.applications[9].font_obj.name === 'Buffs Bold';
+
+                if (is9BuffsBold) {
+
+                    var _result = ub.data.buffsBoldAdjustment;
+
+                    if (typeof _result !== 'undefined') {
+
+                        ub.objects.front_view.objects_9.position.x = _result.x;
+
+                    }
+
+                }
 
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
