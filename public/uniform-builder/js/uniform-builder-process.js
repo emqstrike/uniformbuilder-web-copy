@@ -714,6 +714,7 @@ $(document).ready(function() {
                 client: _clientName,  
                 submitted: '1',
                 user_id: _user_id,
+                user_name: ub.user.fullname,
             },
             athletic_director: {
 
@@ -892,6 +893,7 @@ $(document).ready(function() {
                 sku: "B-M-FBIJ-INF14-01-F01-17",
                 material_id: ub.current_material.material.id,
                 url: ub.config.host + window.document.location.pathname,
+                user_name: ub.user.fullname,
             },
             athletic_director: {
 

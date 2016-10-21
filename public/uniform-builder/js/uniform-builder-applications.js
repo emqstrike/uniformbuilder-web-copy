@@ -2152,42 +2152,56 @@ $(document).ready(function() {
 
                 var _totalWidthFront = ub.totalWidth; 
                 var _totalWidthBack = ub.totalWidth;
-
                 var _application9 = ub.current_material.settings.applications[9];
+                var is9BuffsBold;
 
                 if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
+
+                is9BuffsBold = ub.current_material.settings.applications[9].font_obj.name === 'Buffs Bold';
+
+                if (is9BuffsBold) {
+
+                    var _result = ub.data.buffsBoldAdjustment;
+
+                    if (typeof _result !== 'undefined') {
+
+                        ub.objects.front_view.objects_9.position.x = _result.x;
+
+                    }
+
+                }
+
+                if (typeof ub.data.blockPatternLength !== 'undefined') {
+
+                    _totalWidthFront    = ub.data.blockPatternLength.widthFront;
+                    _totalWidthBack     = ub.data.blockPatternLength.widthBack;
+
+                }
 
                 if (ub.current_material.material.block_pattern === "ARIZONA") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
+                    ub.objects.front_view.objects_9.position.x = 118
 
-                    _totalWidthFront     = 1000;
-                    _totalWidthBack      = 993;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 1") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = ub.totalWidth;
+                    ub.objects.front_view.objects_9.position.x = 115
 
                 }
 
                 if (ub.current_material.material.block_pattern === "DELUXE 2") {
 
-                    _totalWidthFront     = 998;
-                    _totalWidthBack      = 1007;
+                    ub.objects.front_view.objects_9.position.x = 110
 
                 }
 
                 if (ub.current_material.material.block_pattern === "PRO COMBAT") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = 1007;
-                    _totalWidthBack      = 993;
 
                 }
 
@@ -2200,28 +2214,17 @@ $(document).ready(function() {
 
                 }
 
-                if (ub.current_material.material.block_pattern === "UA") {
-
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = ub.totalWidth;
-
-                }
+                if (ub.current_material.material.block_pattern === "UA") {}
 
                 if (ub.current_material.material.block_pattern === "USC") {
-
+                    
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = ub.totalWidth;
-                    _totalWidthBack      = 1002;
 
                 }
 
                 if (ub.current_material.material.block_pattern === "UTAH") {
 
                     ub.objects.back_view.objects_10.position.x = 115;
-
-                    _totalWidthFront     = 999;
-                    _totalWidthBack      = 1001;
 
                 }
 
@@ -5535,7 +5538,7 @@ $(document).ready(function() {
 
                     $('div.categories').hide();
                     $('div.groups_categories').fadeIn();
-
+                    
                     $('div.popup_header').html('MASCOTS');
 
                     return;
@@ -5636,7 +5639,13 @@ $(document).ready(function() {
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
 
+                    // console.log('This Files: ');
+                    // console.log(this.files);
+
                     reader.onload = function (e) {
+
+                        // console.log('Uploaded (e): ');
+                        // console.log(e);
                         
                         $('img#preview').attr('src', e.target.result);
                         ub.uploadLogo(e.target.result);
@@ -6156,6 +6165,29 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getRotatedValue = function (length, index) {
+
+       var rows   = Math.ceil(index / length);
+       var subt = rows - 1;
+       var result = index - (subt * length);
+
+       return result; 
+
+    }
+
+    ub.data.forRotating = [];
+
+    ub.funcs.useRotated = function () {
+
+        _.each (ub.data.forRotating, function (_rotate) {
+
+            $("span.colorItem[data-layer-no='" +  _rotate.layerNumber + "'][data-color-code='" + _rotate.colorOBJ.color_code + "']").trigger('click');
+
+        });
+
+        ub.data.forRotating = [];
+
+    }
 
     ub.funcs.activateMascots = function (application_id) {
 
@@ -6166,6 +6198,8 @@ $(document).ready(function() {
         }
 
         if (!ub.funcs.okToStart()) { return; }
+
+        ub.funcs.activatePanelGuard();
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
@@ -6312,6 +6346,34 @@ $(document).ready(function() {
 
                 var _hexCode = layer.default_color;
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
+                var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
+
+                if (typeof exists === 'undefined') {
+
+                    var _teamColorID = parseInt(layer.team_color_id);
+                    _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+
+                    if (typeof _color !== "undefined") {
+
+                        ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+                    }
+
+                } else {
+
+                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+
+                }
+
+                if (typeof _color === 'undefined') {
+
+                    var _teamColorLength = ub.current_material.settings.team_colors.length;
+                    var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
+
+                    _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
+                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                    
+                }
 
                 if (typeof _color !== 'undefined') {
 
@@ -6657,6 +6719,8 @@ $(document).ready(function() {
                 }
                 
             });
+
+            ub.funcs.useRotated();
 
         // End Small Color Pickers
 
@@ -7305,13 +7369,25 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.activatePanelGuard = function () {
+
+        if ($('div#parts_dropdown').is(':visible') ||$('div#single_team-color-picker').is(':visible')){
+
+            ub.funcs.activateBody();
+
+        }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
 
         if (!ub.funcs.okToStart()) { return; }
-        
+
+        ub.funcs.activatePanelGuard();
+
         if (ub.funcs.isBitFieldOn()) { 
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
@@ -7350,7 +7426,6 @@ $(document).ready(function() {
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
-
 
         if (_applicationType === 'mascot') {
 
@@ -9327,9 +9402,8 @@ $(document).ready(function() {
 
         if (!ub.funcs.okToStart()) { return; }
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
-
-
+        ub.funcs.activatePanelGuard();
+        
         var _id                     = application_id.toString();
         var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
         var _validApplicationTypes  = _settingsObject.validApplicationTypes;
