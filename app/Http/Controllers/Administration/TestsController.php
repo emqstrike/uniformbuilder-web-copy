@@ -25,7 +25,7 @@ class TestsController extends Controller
 
     public function store(Request $request)
     {
-        $folder_name = $request->input('folder_name');
+        $folder_name = "uploaded_files";
         $data = [];
 
         try {
