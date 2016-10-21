@@ -44,7 +44,7 @@ class TestsController extends Controller
                                                 );
                 }
             }
-            dd($data['file_path']);
+            return $data['file_path'];
 
         }
         catch (S3Exception $e)
