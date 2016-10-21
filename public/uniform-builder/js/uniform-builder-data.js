@@ -6666,6 +6666,16 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.pantLocations = {
+        items : [40, 39, 38, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12],
+        isValidLocation: function (location) {
+
+            return _.includes(this.items, location);
+
+        }
+    }
+
+
     /// End Block Pattern Lengths
 
 });
