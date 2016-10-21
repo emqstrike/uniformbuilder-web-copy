@@ -2469,7 +2469,7 @@ $(document).ready(function() {
                 
                 // Lower Uniform Application Scales
 
-                var _isValidPantLocation = ub.data.pantLocations.isValidLocation(app_id);
+                var _isValidPantLocation = ub.data.pantLocations.isValidLocation(parseInt(app_id));
                 var _isFootballUniform = ub.current_material.material.uniform_category === 'Football';
                 var _isPant = ub.current_material.material.type === 'lower';
                 var _isMascot = _applicationObj.type === 'mascot';
@@ -2488,6 +2488,7 @@ $(document).ready(function() {
                 }
 
                 // End Lower Uniform Application Scales
+
 
 
                 /// Font Overrides
