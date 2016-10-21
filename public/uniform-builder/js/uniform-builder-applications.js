@@ -2466,10 +2466,29 @@ $(document).ready(function() {
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
-                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 4) { point.scale.x = 0.4; point.scale.y = 0.4 }
-                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 3) { point.scale.x = 0.33; point.scale.y = 0.33 }
-                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 2) { point.scale.x = 0.29; point.scale.y = 0.29 }
-                if ((app_id === '38' || app_id === '20' || app_id === '21') && _applicationObj.type === 'mascot' && _size === 1) { point.scale.x = 0.20; point.scale.y = 0.20}
+                
+                // Lower Uniform Application Scales
+
+                var _isValidPantLocation = ub.data.pantLocations.isValidLocation(app_id);
+                var _isFootballUniform = ub.current_material.material.uniform_category === 'Football';
+                var _isPant = ub.current_material.material.type === 'lower';
+                var _isMascot = _applicationObj.type === 'mascot';
+                
+                if ( _isValidPantLocation && _isFootballUniform && _isPant && _isMascot) {
+
+                    var _scale = point.scale;
+
+                    if (_size === 4) { _scale = 0.4  }
+                    if (_size === 3) { _scale = 0.33 }
+                    if (_size === 2) { _scale = 0.29 }
+                    if (_size === 1) { _scale = 0.20 }
+
+                    point.scale = { x: _scale, y: _scale }
+
+                }
+
+                // End Lower Uniform Application Scales
+
 
                 /// Font Overrides
 
