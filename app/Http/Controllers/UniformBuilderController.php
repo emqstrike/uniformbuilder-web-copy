@@ -15,7 +15,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
 use App\Utilities\S3Uploader;
-
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
@@ -234,6 +235,7 @@ class UniformBuilderController extends Controller
      * @param Integer $designSetId
      * @param Integer $materialId
      */
+
     public function loadDesignSet($designSetId = null, $materialId = null)
     {
         $config = [
@@ -241,6 +243,55 @@ class UniformBuilderController extends Controller
             'material_id' => $materialId
         ];
         return $this->showBuilder($config);
+
+    }
+
+    public function fileUpload (Request $request) {
+
+        $data = [];
+        $folder_name = "uploaded_files";
+
+        try {
+            
+            $newFile = $request->file('file');
+
+            if (isset($newFile))
+            {
+
+                if ($newFile->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['file_path'] = FileUploaderV2::upload(
+                                                    $newFile,
+                                                    $randstr,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+
+            return [
+                'success' => true,
+                'message' => 'File Uploaded',
+                'filename' => $data['file_path'],
+            ];
+
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+
+            return [
+                'success' => false,
+                'message' => $message,
+                'filename' => $data['file_path'],
+            ];
+            // return Redirect::to('/administration/test/create')
+            //                 ->with('message', 'There was a problem uploading your files');
+        }
+
+
     }
 
     public function saveLogo(Request $request){

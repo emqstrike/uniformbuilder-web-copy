@@ -83,11 +83,13 @@ class FileUploaderV2
         $s3 = Storage::disk('s3');
         if ($s3->put($s3TargetPath, file_get_contents($filePath)))
         {
+            
             // Build the Path
             $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
             $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
             $bucket = $s3->getDriver()->getAdapter()->getBucket();
             return "{$protocol}://{$host}/{$bucket}/{$s3TargetPath}";
+
         }
         return null;
     }

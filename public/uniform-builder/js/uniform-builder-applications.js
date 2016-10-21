@@ -5656,23 +5656,30 @@ $(document).ready(function() {
 
             $("input#custom-artwork").change( function() {
 
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
+                // if (this.files && this.files[0]) {
 
-                    // console.log('This Files: ');
-                    // console.log(this.files);
+                //     var reader = new FileReader();
 
-                    reader.onload = function (e) {
+                //     console.log('This Files: ');
+                //     console.log(this.files);
 
-                        // console.log('Uploaded (e): ');
-                        // console.log(e);
+                //     reader.onload = function (e) {
+
+                //         console.log('Uploaded (e): ');
+                //         console.log(e);
                         
-                        $('img#preview').attr('src', e.target.result);
-                        ub.uploadLogo(e.target.result);
+                //         $('img#preview').attr('src', e.target.result);
+                //         ub.uploadLogo(e.target.result);
 
-                    }
+                //     }
 
-                    reader.readAsDataURL(this.files[0]);
+                //     reader.readAsDataURL(this.files[0]);
+
+                // }
+
+                if (this.files && this.files[0]) {
+
+                    ub.funcs.fileUpload(this.files[0]);
 
                 }
 
@@ -9616,8 +9623,58 @@ $(document).ready(function() {
 
     }
 
-    ub.uploadLogo = function (dUrl) {
+    ub.funcs.fileUpload  = function (file) {
 
+        var _file = file;
+        var formData = new FormData();
+
+        formData.append('file', file);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: formData,
+            url: ub.config.host + "/fileUpload",
+            type: "POST", 
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,
+            crossDomain: true,
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    window.uploaded_filename = response.filename;
+
+                    $('span.ok_btn').css('background-color', '#acacac');
+                    $('span.ok_btn').html('Submit Logo');
+                    $('span.ok_btn').attr('data-status','ok');
+                    $('span.ok_btn').css('display', 'inline-block');
+                    $('span.ok_btn').css('border', '1px solid #3d3d3d');
+                    $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
+                    
+                }
+                else{
+
+                    console.log('Error Uploading Custom Artwork');
+                    console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
+
+    }
+
+
+    ub.uploadLogo = function (dUrl) {
         
         $('span.ok_btn').css('color', '#3d3d3d');
         $('span.ok_btn').html('Processing...  <img src="/images/loading.gif" />');
