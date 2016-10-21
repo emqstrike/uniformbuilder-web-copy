@@ -670,7 +670,7 @@ function extractUpper(bc){
         var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
         var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
         var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
-    }catch(err) {
+    } catch(err) {
         // console.log(err.message);
     }
     var questionsValues = {
