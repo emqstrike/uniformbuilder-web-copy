@@ -389,8 +389,32 @@ class UniformBuilderController extends Controller
             } else if ($appType == "MASCOT" ) {
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
-                $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
-                $html .=   '</td>';                
+                
+                if ($application['mascot']['name'] == 'Custom Logo') {
+
+                    $html .=   '<a href="' . $application['customFilename'] . '">Link To Uploaded File</a> <br />';
+                    
+                    $userfile_name = $application['customFilename'];
+                    $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
+
+                    if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg') {
+
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
+
+                    } else {
+
+                        $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+
+                    }
+
+                } else {
+
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+
+                }
+
+                $html .=   '</td>';
+
             } else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
@@ -414,7 +438,7 @@ class UniformBuilderController extends Controller
                     }
                     
                 }
-                
+
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {

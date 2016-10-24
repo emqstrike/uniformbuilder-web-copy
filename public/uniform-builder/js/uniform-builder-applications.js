@@ -2148,6 +2148,8 @@ $(document).ready(function() {
 
         ub.funcs.fixAlignments = function () {
 
+            if (ub.data.rosterInitialized) { return; }
+
             if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
 
                 var _totalWidthFront = ub.totalWidth; 
@@ -5387,18 +5389,38 @@ $(document).ready(function() {
       };
     };
 
-    ub.funcs.changeMascotByID = function (mascotID, settingsObj) {
+    ub.funcs.changeMascotByID = function (mascotID, settingsObj, customFilename) {
         
         var _id = mascotID;
 
         ub.funcs.changeMascotFromPopup(_id, settingsObj);
         $popup.remove();
-        ub.funcs.activateMascots(settingsObj.code)
+        ub.funcs.activateMascots(settingsObj.code);
 
+
+        /// Uploaded Artwork
+        var _customLogo = false;
+        var _customFilename = '';
+
+        if (typeof customFilename !== 'undefined') {
+            
+            _customLogo = true;
+            _customFilename = customFilename;
+
+        }
+
+        settingsObj.customLogo = _customLogo;
+        settingsObj.customFilename = _customFilename;
+
+        /// Uploaded Artwork
+        
         if (settingsObj.code === "9") {
 
             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            _matchingSettingsObject.customLogo = _customLogo;
+            _matchingSettingsObject.customFilename = _customFilename;
 
         }
 
@@ -5407,6 +5429,9 @@ $(document).ready(function() {
             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
+            _matchingSettingsObject.customLogo = _customLogo;
+            _matchingSettingsObject.customFilename = _customFilename;
+
         }
 
         if (settingsObj.code === "32") {
@@ -5414,12 +5439,18 @@ $(document).ready(function() {
             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
+            _matchingSettingsObject.customLogo = _customLogo;
+            _matchingSettingsObject.customFilename = _customFilename;
+
         }
 
         if (settingsObj.code === "33") {
 
             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+            _matchingSettingsObject.customLogo = _customLogo;
+            _matchingSettingsObject.customFilename = _customFilename;
             
         }
 
@@ -5679,8 +5710,12 @@ $(document).ready(function() {
 
                 if (this.files && this.files[0]) {
 
-                    ub.funcs.fileUpload(this.files[0]);
+                    var _filename = ub.funcs.fileUpload(this.files[0], function (filename) {
 
+                        // TODO: Implement Assignment here to remove global variable [window.uploaded_filename]
+
+                    });
+                    
                 }
 
             });
@@ -5693,7 +5728,7 @@ $(document).ready(function() {
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
-                    ub.funcs.changeMascotByID('1038', settingsObj);
+                    ub.funcs.changeMascotByID('1038', settingsObj, window.uploaded_filename);
 
                 }
                 
@@ -7553,7 +7588,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
 
         _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer"><br />';
+        _htmlBuilder        +=                 '<div class="colorContainer">';
 
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
@@ -9623,7 +9658,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.fileUpload  = function (file) {
+    ub.funcs.fileUpload  = function (file, callback) {
 
         var _file = file;
         var formData = new FormData();
@@ -9652,6 +9687,8 @@ $(document).ready(function() {
 
                     window.uploaded_filename = response.filename;
 
+                    callback(response.filename);
+
                     $('span.ok_btn').css('background-color', '#acacac');
                     $('span.ok_btn').html('Submit Logo');
                     $('span.ok_btn').attr('data-status','ok');
@@ -9660,7 +9697,7 @@ $(document).ready(function() {
                     $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
                     
                 }
-                else{
+                else {
 
                     console.log('Error Uploading Custom Artwork');
                     console.log(response.message);
