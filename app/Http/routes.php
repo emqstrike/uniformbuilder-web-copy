@@ -273,7 +273,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
 
 
-        // NewsLetters
+    // NewsLetters
     Route::get('news_letters', 'Administration\NewsLettersController@index');
 
     // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');

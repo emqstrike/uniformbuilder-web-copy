@@ -17,7 +17,7 @@
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-aqua">
       <div class="inner">
-        <h3 class='new-orders-count'>{{ $newOrdersCount }}</h3>
+        <h3 class='new-orders-count'></h3>
         <p>New Orders</p>
       </div>
       <div class="icon">
