@@ -53,7 +53,7 @@ class AdministrationController extends Controller
             {
                 // return view('administration.lte-dashboard');
                 return view('administration.lte-dashboard', [
-                    'newOrdersCount' => $newOrdersCount,
+                    // 'newOrdersCount' => $newOrdersCount,
                     'pendingOrdersCount' => $pendingOrdersCount
                 ]);
             }
