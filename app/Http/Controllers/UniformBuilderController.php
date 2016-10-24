@@ -15,7 +15,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
 use App\Utilities\S3Uploader;
-
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
@@ -234,6 +235,7 @@ class UniformBuilderController extends Controller
      * @param Integer $designSetId
      * @param Integer $materialId
      */
+
     public function loadDesignSet($designSetId = null, $materialId = null)
     {
         $config = [
@@ -241,6 +243,55 @@ class UniformBuilderController extends Controller
             'material_id' => $materialId
         ];
         return $this->showBuilder($config);
+
+    }
+
+    public function fileUpload (Request $request) {
+
+        $data = [];
+        $folder_name = "uploaded_files";
+
+        try {
+            
+            $newFile = $request->file('file');
+
+            if (isset($newFile))
+            {
+
+                if ($newFile->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['file_path'] = FileUploaderV2::upload(
+                                                    $newFile,
+                                                    $randstr,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+
+            return [
+                'success' => true,
+                'message' => 'File Uploaded',
+                'filename' => $data['file_path'],
+            ];
+
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+
+            return [
+                'success' => false,
+                'message' => $message,
+                'filename' => $data['file_path'],
+            ];
+            // return Redirect::to('/administration/test/create')
+            //                 ->with('message', 'There was a problem uploading your files');
+        }
+
+
     }
 
     public function saveLogo(Request $request){
@@ -338,8 +389,32 @@ class UniformBuilderController extends Controller
             } else if ($appType == "MASCOT" ) {
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
-                $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
-                $html .=   '</td>';                
+                
+                if ($application['mascot']['name'] == 'Custom Logo') {
+
+                    $html .=   '<a href="' . $application['customFilename'] . '">Link To Uploaded File</a> <br />';
+                    
+                    $userfile_name = $application['customFilename'];
+                    $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
+
+                    if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg') {
+
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
+
+                    } else {
+
+                        $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+
+                    }
+
+                } else {
+
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+
+                }
+
+                $html .=   '</td>';
+
             } else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
@@ -363,7 +438,7 @@ class UniformBuilderController extends Controller
                     }
                     
                 }
-                
+
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {
