@@ -38,8 +38,8 @@ class AdministrationController extends Controller
             // $orders = $this->ordersClient->countNewOrders();
             if(isset($orders)){
                 // $newOrdersCount = $orders->count;
-                $pendingOrders = $this->ordersClient->countPendingOrders();
-                $pendingOrdersCount = $pendingOrders->count;
+                // $pendingOrders = $this->ordersClient->countPendingOrders();
+                // $pendingOrdersCount = $pendingOrders->count;
             }
         } catch (QueryException $e) {
             // $error = $e->getMessage();
@@ -54,7 +54,7 @@ class AdministrationController extends Controller
                 // return view('administration.lte-dashboard');
                 return view('administration.lte-dashboard', [
                     // 'newOrdersCount' => $newOrdersCount,
-                    'pendingOrdersCount' => $pendingOrdersCount
+                    // 'pendingOrdersCount' => $pendingOrdersCount
                 ]);
             }
         }
