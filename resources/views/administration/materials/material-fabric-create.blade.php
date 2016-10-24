@@ -24,26 +24,34 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascots_categories/add" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/materials_fabric/add" enctype="multipart/form-data" id='create-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="layers_properties" id="layers-properties">
+                       
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Mascot Name</label>
+                            <label class="col-md-4 control-label">Material Id</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-name" name="name" value="{{ old('name') }}">
+                                <input type="number" class="form-control material-id" name="material_id" value="{{ old('material_id') }}">
                             </div>
                         </div>
-                         <label class="col-md-4 control-label">Mascot Group</label>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Materials</label>
                             <div class="col-md-6">
-                            <select  class="form-control mascot-group-category-name" name="group" >
-                                @foreach ($mascots_groups_categories as $mascots_groups_category)
-                                    <option value="{{$mascots_groups_category->id }}">{{$mascots_groups_category->name }}</option>
-                                @endforeach
-
-                            </select>
-
+                                <input type="name" class="form-control material-name" name="material_name" value="{{ old('material-name') }}">
                             </div>
-
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Factorys</label>
+                            <div class="col-md-6">
+                                <select name='factory_id' class="form-control factory-code">
+                                    @foreach ($factories as $factory)
+                                        @if ($factory->active)
+                                            <option value='{{ $factory->id }}'>{{ $factory->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-mascot">
@@ -71,6 +79,7 @@ select:hover {
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
+
     $('.ma-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
