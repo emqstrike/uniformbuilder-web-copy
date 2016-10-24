@@ -739,7 +739,7 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 282,
                 "Value": questionsValues.neck_trim_pattern
             }];
-    } else if( utpi == "fbgj" || utpi = "fbdj" || upti = "fbbj" ){
+    } else if( utpi == "fbgj" || utpi == "fbdj" || upti == "fbbj" ){
         questions = [{
                 "QuestionID": 14,
                 "Value": questionsValues.body_color
