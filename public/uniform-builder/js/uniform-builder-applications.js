@@ -9750,7 +9750,6 @@ $(document).ready(function() {
         $('span.ok_btn').attr('data-status','processing');
         $('span.ok_btn').css('border', 'none');
 
-
         var _dataUrl = dUrl;
 
         $.ajaxSetup({

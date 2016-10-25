@@ -6227,4 +6227,73 @@ $(document).ready(function () {
     // Initial Roster Item
     createNewRosterRecordForm();
 
+    // lrest
+
+    ub.funcs.lRest = function (e, p) {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ email: e, password: p }),
+            url: ub.config.host + "/lrest",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response) {
+
+                if(response.success) {
+
+                    window.ub.user = {
+
+                        id: response.userId,
+                        fullname: response.fullname,
+                        email: response.email,
+                        headerValue: response.accessToken,
+                        firstName: response.firstName,
+
+                    };
+
+                    var template = $('#m-loggedInNavbar').html();
+                    var data = { firstName: response.firstName, }
+                    var markup = Mustache.render(template, data);
+
+                    $('div.user-profile.pull-right').html(markup);
+                    $.smkAlert({text: response.message, type:'success', time: 2});
+                    
+                } else {
+
+                    $.smkAlert({text: response.message, type:'warning', time: 2});
+
+                }
+
+            }
+        
+        });
+
+    }
+
+    $("form.loginRest").submit( function( event ) { event.preventDefault(); });
+
+    $('button.loginRest').unbind('click');
+    $('button.loginRest').on('click', function () {
+
+        var _e = $('input[type="email"]').val();
+        var _p = $('input[type="password"]').val();
+
+        ub.funcs.lRest(_e, _p);
+
+    });
+
+    // End lrest
+
+
+
 });
