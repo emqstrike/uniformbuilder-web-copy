@@ -6401,6 +6401,13 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
         _htmlBuilder        +=                  '<br />';        
 
+        if (_settingsObject.mascot.name === 'Custom Logo') {
+
+            _htmlBuilder        +=                  '<a class="view-file" href="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<br />';
+
+        }
+
         _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
 
         // In-place editing, Hide this for now
@@ -6480,6 +6487,30 @@ $(document).ready(function() {
         // Events 
 
             // In-place preview 
+
+            if (_settingsObject.mascot.name === 'Custom Logo') {
+
+
+                var _filename  = _settingsObject.customFilename;
+                var _extension = _filename.split('.').pop();
+
+                $prevImage = $('span.accentThumb > img');
+    
+                if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
+
+                    $prevImage.attr('src', _filename);                        
+
+                } else if (_extension === 'pdf') {
+
+                    $prevImage.attr('src', '/images/uiV1/pdf.png');
+
+                } else if (_extension === 'ai') {
+
+                    $prevImage.attr('src', '/images/uiV1/ai.png');
+
+                } 
+
+            }
 
             $('span.inPlacePreviewButton').unbind('click');
             $('span.inPlacePreviewButton').on('click', function (){
