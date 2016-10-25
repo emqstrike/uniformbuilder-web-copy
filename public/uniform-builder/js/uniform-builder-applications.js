@@ -5644,8 +5644,7 @@ $(document).ready(function() {
 
         ub.funcs.centerPatternPopup();
 
-
-        $('div.close-popup').on('click', function (){
+        $('div.close-popup, span.close-popup').on('click', function (){
 
             $popup.remove();
             ub.status.mascotPopupVisible = false;
@@ -5710,7 +5709,7 @@ $(document).ready(function() {
 
                 if (this.files && this.files[0]) {
 
-                    var _filename = ub.funcs.fileUpload(this.files[0], function (filename) {
+                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) {
 
                         // TODO: Implement Assignment here to remove global variable [window.uploaded_filename]
 
@@ -5725,6 +5724,10 @@ $(document).ready(function() {
                 if ($(this).attr('data-status') === "ok") {
 
                     ub.current_material.settings.custom_artwork = window.uploaded_filename;
+
+                    settingsObj.customLogo = true;
+                    settingsObj.customFilename = window.uploaded_filename;
+
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
@@ -6381,12 +6384,12 @@ $(document).ready(function() {
 
             }
 
-
         }
    
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -6397,7 +6400,14 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
         _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';        
+
+        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
+
+        // In-place editing, Hide this for now
+        // if (_settingsObject.mascot.name === 'Custom Logo') {
+        //     _htmlBuilder    +=                  '<span class="inPlacePreviewButton">In Place Preview</span>';
+        // }
+
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
@@ -6469,6 +6479,25 @@ $(document).ready(function() {
 
         // Events 
 
+            // In-place preview 
+
+            $('span.inPlacePreviewButton').unbind('click');
+            $('span.inPlacePreviewButton').on('click', function (){
+
+                if (!$(this).hasClass('active')){
+
+                    $(this).addClass('active');
+
+                } else {
+
+                    $(this).removeClass('active');
+
+                }
+                
+            });
+
+            // End In-place preview
+
             if (ub.current_material.material.uniform_category !== "Wrestling") {
 
                 $('span.flipButton').hide();
@@ -6477,7 +6506,7 @@ $(document).ready(function() {
 
                 ub.funcs.updateCoordinates(_settingsObject);
 
-                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var s       = ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
 
                 if (typeof sObj.application.flip !== "undefined") {
@@ -9658,7 +9687,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.fileUpload  = function (file, callback) {
+    ub.funcs.fileUpload  = function (file, settingsObj, callback) {
 
         var _file = file;
         var formData = new FormData();
@@ -9689,6 +9718,7 @@ $(document).ready(function() {
 
                     callback(response.filename);
 
+                    $('img#preview').attr('src', response.filename);
                     $('span.ok_btn').css('background-color', '#acacac');
                     $('span.ok_btn').html('Submit Logo');
                     $('span.ok_btn').attr('data-status','ok');
@@ -9719,7 +9749,6 @@ $(document).ready(function() {
         $('span.ok_btn').fadeIn();
         $('span.ok_btn').attr('data-status','processing');
         $('span.ok_btn').css('border', 'none');
-
 
         var _dataUrl = dUrl;
 

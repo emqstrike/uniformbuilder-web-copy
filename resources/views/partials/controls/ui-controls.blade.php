@@ -1254,6 +1254,48 @@
     </script>   
 
 <!-- End Save Design -->
+
+<!-- Logged In Nav -->
+
+    <script type="text/mustache" id="m-loggedInNavbar">
+
+        <a href="#" id="feedback">
+
+            <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
+
+        </a>
+
+         <div class = "btn-group">
+
+            <button type = "button" class = "btn">
+
+                <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
+
+            </button>
+
+            <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
+
+                <span class = "caret"></span>
+                <span class = "sr-only">Toggle Dropdown</span>
+
+            </button>
+
+            <ul class = "dropdown-menu" role="menu">
+
+                <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
+                <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                <li class="divider"></li>
+                <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
+
+            </ul>
+
+        </div>
+
+     </script>
+
+<!-- End Logged In Nav -->
             
 
 

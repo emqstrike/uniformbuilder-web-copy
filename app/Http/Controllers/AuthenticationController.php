@@ -29,10 +29,9 @@ class AuthenticationController extends AdminAuthController
             ]);
             $decoder = new JsonDecoder();
             $result = $decoder->decode($response->getBody());
-   
 
-            if ($result->success)
-            {
+            if ($result->success) {
+
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
@@ -40,17 +39,18 @@ class AuthenticationController extends AdminAuthController
                 Session::put('first_name', $result->user->first_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
-                Session::put('accessToken', $result->access_token);
+                Session::put('accessToken', base64_encode($result->access_token));
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
                 Log::info('Successful User Login', 'FRONT END');
                 return Redirect::to('/index')
                                 ->with('message', 'Welcome back ' . $fullname);
-            }
-            else
-            {
+
+            } else {
+
                 Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 Session::flash('flash_message', $result->message);
+
             }
 
         }
@@ -62,6 +62,79 @@ class AuthenticationController extends AdminAuthController
 
         return Redirect::to('/index')
                         ->with('message', "The email and password you entered don't match.");
+    }
+
+    public function lrest(Request $request) {
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        try {
+
+            $response = $this->client->post('user/login', [
+                'json' => [
+                    'email' => $email,
+                    'password' => $password
+                ],
+            ]);
+
+            $decoder = new JsonDecoder();
+            $result = $decoder->decode($response->getBody());
+   
+            if ($result->success) {
+
+                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+                Session::put('userId', $result->user->id);
+                Session::put('isLoggedIn', $result->success);
+                Session::put('fullname', $fullname);
+                Session::put('first_name', $result->user->first_name);
+                Session::put('email', $result->user->email);
+                Session::put('accountType', $result->user->type);
+                Session::put('accessToken', $result->access_token);
+                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                return [
+                    'success' => true, 
+                    'message' => 'Login Succesfully, Welcome Back ' . $result->user->first_name,
+                    'userId' => $result->user->id,
+                    'firstName' => $result->user->first_name,
+                    'fullname' => $fullname,
+                    'email' => $result->user->email,
+                    'accountType' => $result->user->type,
+                    'accessToken' => base64_encode($result->access_token),
+                ];
+
+            } else {
+                // Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
+                // Session::flash('flash_message', $result->message);
+
+                return [
+
+                    'sucess' => false, 
+                    'message' => 'Login Unsucessful',
+
+                ];
+
+            }
+
+        }
+        catch (ClientException $e)
+        {
+            return [
+
+                'sucess' => false, 
+                'message' => 'Invalid Email / Password',
+
+            ];
+        }
+
+        return [
+
+            'sucess' => false, 
+            'message' => 'Invalid Email / Password',
+
+        ];
+
     }
 
     public function logout()
