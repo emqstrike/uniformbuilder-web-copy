@@ -4467,6 +4467,14 @@ $(document).ready(function () {
 
         });
 
+        if (clone.code === 'stripe') {
+
+            if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined') {  ub.objects['back_view']['pattern_' + target].position.y -= 70; }
+            if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined') {  ub.objects['left_view']['pattern_' + target].position.y -= 70; }
+            if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') {  ub.objects['right_view']['pattern_' + target].position.y -= 70; }
+                
+        }
+
     }
 
     $('input[name="design_name"]').on('change', function () {
