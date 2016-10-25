@@ -95,7 +95,7 @@ class AuthenticationController extends AdminAuthController
 
                 return [
                     'success' => true, 
-                    'message' => 'Login Succesfully, Welcome Back ' . $result->user->first_name,
+                    'message' => 'Welcome back ' . $result->user->first_name,
                     'userId' => $result->user->id,
                     'firstName' => $result->user->first_name,
                     'fullname' => $fullname,

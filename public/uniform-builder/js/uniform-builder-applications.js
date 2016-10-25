@@ -9689,6 +9689,9 @@ $(document).ready(function() {
 
     ub.funcs.fileUpload  = function (file, settingsObj, callback) {
 
+        $('span.ok_btn').attr('data-status', 'processing');
+        $('em.unsupported-file').html('');
+
         var _file = file;
         var formData = new FormData();
 
@@ -9714,17 +9717,37 @@ $(document).ready(function() {
                 
                 if(response.success) {
 
+                    var _extension = response.filename.split('.').pop();
                     window.uploaded_filename = response.filename;
-
                     callback(response.filename);
 
-                    $('img#preview').attr('src', response.filename);
+                    if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
+
+                        $('img#preview').attr('src', response.filename);                        
+
+                    } else if (_extension === 'pdf') {
+
+                        $('img#preview').attr('src', '/images/uiV1/pdf.png');
+
+                    } else if (_extension === 'ai') {
+
+                        $('img#preview').attr('src', '/images/uiV1/ai.png');
+
+                    } else {
+
+                        $('em.unsupported-file').html('Unsupported File Type: (' + _extension + ')!');
+                        $('span.ok_btn').css('display', 'none');
+                        return;
+
+                    }
+
+                    $('em.unsupported-file').html('Uploaded File is ok! (' + _extension + ')');
                     $('span.ok_btn').css('background-color', '#acacac');
-                    $('span.ok_btn').html('Submit Logo');
+                    $('span.ok_btn').html('Submit Logo (' + _extension + ')');
                     $('span.ok_btn').attr('data-status','ok');
-                    $('span.ok_btn').css('display', 'inline-block');
                     $('span.ok_btn').css('border', '1px solid #3d3d3d');
                     $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
+                    $('span.ok_btn').css('display', 'inline-block');
                     
                 }
                 else {
