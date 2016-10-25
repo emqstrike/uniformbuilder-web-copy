@@ -346,7 +346,7 @@
 
         @if (Session::has('message'))
 
-            $.smkAlert({text: "{{ Session::get('message') }}", type: 'info', permanent: false, time: 5, marginTop: '90px'});
+            $.smkAlert({text: "{{ Session::get('message') }}", type: 'info', permanent: false, time: 5, marginTop: '140px'});
 
         @endif
 
