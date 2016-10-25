@@ -6266,11 +6266,11 @@ $(document).ready(function () {
                     var markup = Mustache.render(template, data);
 
                     $('div.user-profile.pull-right').html(markup);
-                    $.smkAlert({text: response.message, type:'success', time: 2});
+                    $.smkAlert({text: response.message, type:'success', time: 2, marginTop: '70px' });
                     
                 } else {
 
-                    $.smkAlert({text: response.message, type:'warning', time: 2});
+                    $.smkAlert({text: response.message, type:'warning', time: 2, marginTop: '70px'});
 
                 }
 

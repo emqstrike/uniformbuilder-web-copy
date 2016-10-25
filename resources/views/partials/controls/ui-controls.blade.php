@@ -776,6 +776,8 @@
 
                             </span>
 
+                            <em class="unsupported-file"></em>
+
                         </div>
 
                         <div class="col-md-6 col2">
