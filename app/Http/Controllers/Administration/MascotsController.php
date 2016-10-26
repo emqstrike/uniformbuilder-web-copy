@@ -224,16 +224,16 @@ class MascotsController extends Controller
 
         try
         {
-            $ai_file = $request->file('ai_file');
-            if (!is_null($ai_file))
+            $newFile = $request->file('ai_file');
+            if (!is_null($newFile))
             {
-                if ($ai_file->isValid())
+                if ($newFile->isValid())
                 {
 
                     $randstr = Random::randomize(12);
-                    $data['ai_file'] = FileUploaderV2::upload(
-                                                    $mascotName,
-                                                    $ai_file,
+                    $data['newFile'] = FileUploaderV2::upload(
+                                                    $newFile,
+                                                    $randstr,
                                                     'file',
                                                     $folder_name
                                                 );
@@ -247,6 +247,12 @@ class MascotsController extends Controller
             return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
+
+
+
+
+
+
 
 
         $response = null;
