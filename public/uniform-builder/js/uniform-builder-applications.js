@@ -5644,8 +5644,7 @@ $(document).ready(function() {
 
         ub.funcs.centerPatternPopup();
 
-
-        $('div.close-popup').on('click', function (){
+        $('div.close-popup, span.close-popup').on('click', function (){
 
             $popup.remove();
             ub.status.mascotPopupVisible = false;
@@ -5710,7 +5709,7 @@ $(document).ready(function() {
 
                 if (this.files && this.files[0]) {
 
-                    var _filename = ub.funcs.fileUpload(this.files[0], function (filename) {
+                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) {
 
                         // TODO: Implement Assignment here to remove global variable [window.uploaded_filename]
 
@@ -5725,6 +5724,10 @@ $(document).ready(function() {
                 if ($(this).attr('data-status') === "ok") {
 
                     ub.current_material.settings.custom_artwork = window.uploaded_filename;
+
+                    settingsObj.customLogo = true;
+                    settingsObj.customFilename = window.uploaded_filename;
+
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
@@ -6381,12 +6384,12 @@ $(document).ready(function() {
 
             }
 
-
         }
    
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -6397,7 +6400,21 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
         _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';        
+
+        if (_settingsObject.mascot.name === 'Custom Logo') {
+
+            _htmlBuilder        +=                  '<a class="view-file" href="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<br />';
+
+        }
+
+        _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
+
+        // In-place editing, Hide this for now
+        // if (_settingsObject.mascot.name === 'Custom Logo') {
+        //     _htmlBuilder    +=                  '<span class="inPlacePreviewButton">In Place Preview</span>';
+        // }
+
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
@@ -6469,6 +6486,49 @@ $(document).ready(function() {
 
         // Events 
 
+            // In-place preview 
+
+            if (_settingsObject.mascot.name === 'Custom Logo') {
+
+
+                var _filename  = _settingsObject.customFilename;
+                var _extension = _filename.split('.').pop();
+
+                $prevImage = $('span.accentThumb > img');
+    
+                if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
+
+                    $prevImage.attr('src', _filename);                        
+
+                } else if (_extension === 'pdf') {
+
+                    $prevImage.attr('src', '/images/uiV1/pdf.png');
+
+                } else if (_extension === 'ai') {
+
+                    $prevImage.attr('src', '/images/uiV1/ai.png');
+
+                } 
+
+            }
+
+            $('span.inPlacePreviewButton').unbind('click');
+            $('span.inPlacePreviewButton').on('click', function (){
+
+                if (!$(this).hasClass('active')){
+
+                    $(this).addClass('active');
+
+                } else {
+
+                    $(this).removeClass('active');
+
+                }
+                
+            });
+
+            // End In-place preview
+
             if (ub.current_material.material.uniform_category !== "Wrestling") {
 
                 $('span.flipButton').hide();
@@ -6477,7 +6537,7 @@ $(document).ready(function() {
 
                 ub.funcs.updateCoordinates(_settingsObject);
 
-                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var s       = ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
 
                 if (typeof sObj.application.flip !== "undefined") {
@@ -9658,7 +9718,10 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.fileUpload  = function (file, callback) {
+    ub.funcs.fileUpload  = function (file, settingsObj, callback) {
+
+        $('span.ok_btn').attr('data-status', 'processing');
+        $('em.unsupported-file').html('');
 
         var _file = file;
         var formData = new FormData();
@@ -9685,16 +9748,37 @@ $(document).ready(function() {
                 
                 if(response.success) {
 
+                    var _extension = response.filename.split('.').pop();
                     window.uploaded_filename = response.filename;
-
                     callback(response.filename);
 
+                    if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
+
+                        $('img#preview').attr('src', response.filename);                        
+
+                    } else if (_extension === 'pdf') {
+
+                        $('img#preview').attr('src', '/images/uiV1/pdf.png');
+
+                    } else if (_extension === 'ai') {
+
+                        $('img#preview').attr('src', '/images/uiV1/ai.png');
+
+                    } else {
+
+                        $('em.unsupported-file').html('Unsupported File Type: (' + _extension + ')!');
+                        $('span.ok_btn').css('display', 'none');
+                        return;
+
+                    }
+
+                    $('em.unsupported-file').html('Uploaded File is ok! (' + _extension + ')');
                     $('span.ok_btn').css('background-color', '#acacac');
-                    $('span.ok_btn').html('Submit Logo');
+                    $('span.ok_btn').html('Submit Logo (' + _extension + ')');
                     $('span.ok_btn').attr('data-status','ok');
-                    $('span.ok_btn').css('display', 'inline-block');
                     $('span.ok_btn').css('border', '1px solid #3d3d3d');
                     $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
+                    $('span.ok_btn').css('display', 'inline-block');
                     
                 }
                 else {
@@ -9719,7 +9803,6 @@ $(document).ready(function() {
         $('span.ok_btn').fadeIn();
         $('span.ok_btn').attr('data-status','processing');
         $('span.ok_btn').css('border', 'none');
-
 
         var _dataUrl = dUrl;
 

@@ -397,7 +397,7 @@ class UniformBuilderController extends Controller
                     $userfile_name = $application['customFilename'];
                     $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
 
-                    if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg') {
+                    if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
                         $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
 
