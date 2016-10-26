@@ -216,8 +216,6 @@ class MascotsController extends Controller
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
       
 
-
-
              // Upload Ai File
 
         $folder_name = "mascot_ai_files";
@@ -231,7 +229,7 @@ class MascotsController extends Controller
                 {
 
                     $randstr = Random::randomize(12);
-                    $data['newFile'] = FileUploaderV2::upload(
+                    $data['ai_file'] = FileUploaderV2::upload(
                                                     $newFile,
                                                     $randstr,
                                                     'file',
