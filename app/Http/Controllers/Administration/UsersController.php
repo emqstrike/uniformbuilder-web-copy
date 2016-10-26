@@ -22,6 +22,10 @@ class UsersController extends Controller
     public function index()
     {
         $users = $this->client->getUsers();
+        foreach($users as $user)
+        {
+            $user->created_at = date('M-d-Y', strtotime($user->created_at));
+        }
 
         return view('administration.users.users', [
             'users' => $users

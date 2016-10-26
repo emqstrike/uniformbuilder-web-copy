@@ -1757,7 +1757,7 @@ $(document).ready(function() {
     });
 
     $('#save_app_template').on('click', function(){
-            updateApplicationsJSON();
+        updateApplicationsJSON();
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
         var perspective = $('#app-saved-perspective').val();
@@ -1778,7 +1778,7 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-         
+
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 

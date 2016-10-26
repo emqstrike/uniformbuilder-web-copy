@@ -17,6 +17,7 @@ Route::get('/', function () {
     
 });
 
+Route::post('lrest', 'AuthenticationController@lrest');
 Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
