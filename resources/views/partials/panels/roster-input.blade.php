@@ -40,11 +40,47 @@
         </div>
 
         <div id="size-tabs">
-            <br/><br/>
+
+            <div class="defaultTypes">
+                
+                <div class="controls">
+                    
+                    <label>Default Sleeve Type</label>
+                    <select class="default-sleeve-type">
+                        
+                        <option value="Motion Cut">Motion Cut</option>   
+                        <option value="Quarterback Cut">Quarterback Cut</option>   
+                        <option value="Lineman Cut">Lineman Cut</option>   
+
+                    </select><br />
+
+                    <label>Default Last Name Application</label>
+                    <select class="default-lastname-application">
+                        
+                        <option value="None">None</option>   
+                        <option value="Directly To Jersey">Directly To Jersey</option>   
+                        <option value="Nameplate">Nameplate</option>   
+
+                    </select><br />
+
+                </div>
+
+                <div class="notes">
+                    
+                    <em>
+                        Selected value will be used as default when adding new players. To instead change all of the previously added entries to the selected value, click the button below.
+                    </em> <br /><br />
+
+                    <button class="change-all">Change All</button>
+
+                </div>
+
+            </div>
+
             <span class="header">
                 2. ADD PLAYER INFO
             </span>
-            
+
             <div class="tabButtonsContainer">
 
                 <span class='adult-header'>Adult Sizes: </span>

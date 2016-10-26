@@ -249,7 +249,7 @@
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
             };
 
-              $('button#change-password-submit').on('click', function() {
+              $('button#change-password-submit').on('click', function () {
 
                 if($('input#old-password').val() === ""){
 
