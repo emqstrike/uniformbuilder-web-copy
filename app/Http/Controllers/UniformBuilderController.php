@@ -385,15 +385,15 @@ class UniformBuilderController extends Controller
                 $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
                 $html .=   '</td>';
-           
+
             } else if ($appType == "MASCOT" ) {
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
-                
+
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
                     $html .=   '<a href="' . $application['customFilename'] . '">Link To Uploaded File</a> <br />';
-                    
+
                     $userfile_name = $application['customFilename'];
                     $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
 
@@ -422,9 +422,9 @@ class UniformBuilderController extends Controller
             }
 
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
-                
+
                 $html .=   '<td align="center">';
-                
+
                 if ($uniform_category == "Wrestling") {
 
                     $html .=   'Refer to Thumbnail<br />';    
@@ -436,15 +436,15 @@ class UniformBuilderController extends Controller
                     } elseif (isset($application['size'])) {
                         $html .=   $application['size'] . '" <br />';    
                     }
-                    
+
                 }
 
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {
-                
+
                 $html .=   '<td align="center">';
-                
+
                 if ($uniform_category == "Wrestling") {
 
                     $html .=   'Refer to Thumbnail<br />';    
@@ -470,7 +470,7 @@ class UniformBuilderController extends Controller
             }
 
             $html .=   '<td align="center">';
-                
+
                 $colors = '';
                 foreach ($application['color_array'] as &$color) {
                     $colors .= $color['color_code'] . ",";
@@ -502,7 +502,7 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
-        
+
         $html .=   '<td align="center">';
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
@@ -613,13 +613,13 @@ class UniformBuilderController extends Controller
             $code = $this->toTitleCase($part['code']);
 
             Log::info('---' . $code);
-            
+
             $html .= '<tr>';
             $html .=   '<td align="right">';
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
-            
+
             if (array_key_exists('colorObj', $part)) {
                 $html .=   $part['colorObj']['color_code'];
             } else {
@@ -634,7 +634,7 @@ class UniformBuilderController extends Controller
             if (array_key_exists('pattern', $part)) {
 
                 if ($part['pattern']['pattern_id'] != '') {
-                    
+
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
 
                         $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
@@ -643,7 +643,7 @@ class UniformBuilderController extends Controller
                         foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
                             $colors .= $layer['color_code'] . ',';
                         }
-                        
+
                         $colorsTrimmed = rtrim($colors, ",");
 
                         $html .= '<strong>' . $colorsTrimmed . '</strong>';
@@ -902,16 +902,16 @@ class UniformBuilderController extends Controller
 
         $table .= '</table>';
         $total  = 0;
-        
+
         return $table;
 
     }
 
     function generateItemTable ($itemData, $fname) {
-        
+
         $html = '';
         $html .= "<table>";
-        
+
         $html .= "<tr>";
         $html .=     "<td width='30%'>";
         $html .=        "UNIFORM NAME:<br />";
@@ -999,7 +999,7 @@ class UniformBuilderController extends Controller
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
 
         $uniform_category = $bc['uniform_category'];
-        
+
         // dd($bc['builder_customizations']['roster']);
         // $body_color = $bc->upper->Body->color;
         // $body_color_hex = dechex($body_color);
@@ -1100,7 +1100,7 @@ class UniformBuilderController extends Controller
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
-        
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
         $roster = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['roster'];
@@ -1164,7 +1164,7 @@ class UniformBuilderController extends Controller
 
     function createPDF ($builder_customizations) {
 
-        $pdf = new TCPDF(); 
+        $pdf = new TCPDF();
 
         $filename = $this->getGUID(); 
         $path = storage_path('app/design_sheets/' . $filename . '.pdf');
