@@ -82,6 +82,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">File</label>
+                            <div class="col-md-6 front-view">
+                                <a href="{{ $mascot->ai_file }}"> {{ $mascot->ai_file }} </a>
+                                <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Layers
                             <div>
                                 <a class="btn btn-primary clone-row-mascot btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
