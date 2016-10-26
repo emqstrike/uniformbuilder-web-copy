@@ -209,12 +209,7 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-
-
-
-
-
-        // Upload images from the layers
+        // Upload Ai File
         try
         {
             $mascotLayerFiles = $request->file('ma_image');

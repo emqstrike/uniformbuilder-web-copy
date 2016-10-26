@@ -79,6 +79,7 @@
                                     @else
                                         <img src="http://dummyimage.com/100" width="100px" height="100px">
                                     @endif
+                                    
                                     <div>
                                         <a href="/administration/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs edit-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
                                             <i class="glyphicon glyphicon-edit"></i>
