@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderv2;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
@@ -123,7 +124,7 @@ class MascotsController extends Controller
     {
         $mascotName = $request->input('name');
         $code = $request->input('code');
-        $tags = $request->input('code');
+        // $tags = $request->input('code');
         $category = $request->input('category');
         // $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
@@ -161,6 +162,13 @@ class MascotsController extends Controller
                                                             "materials",
                                                             "{$materialFolder}/{$filename}.png"
                                                         );
+                    // $randstr = Random::randomize(12);
+                    // $data['ai_file'] = FileUploaderV2::upload(
+                    //                                 $newFile,
+                    //                                 $randstr,
+                    //                                 'file',
+                    //                                 $folder_name
+                    //                             );
                 }
             }
         }
@@ -172,6 +180,40 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         
+
+        $folder_name = "mascot_ai_files";
+
+            try
+        {
+            $materialOptionFile = $request->file('ai_file');
+            if (!is_null($materialOptionFile))
+            {
+                if ($materialOptionFile->isValid())
+                {
+
+                    $randstr = Random::randomize(12);
+                    $data['ai_file'] = FileUploaderV2::upload(
+                                                    $mascotName,
+                                                    $materialOptionFile,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+            return Redirect::to('/administration/mascots')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+
+
+
+
+
         // Upload images from the layers
         try
         {
