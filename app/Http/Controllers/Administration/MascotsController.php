@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
-use App\Utilities\FileUploaderv2;
+use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
@@ -179,37 +179,9 @@ class MascotsController extends Controller
             return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
-        
+     
 
-        $folder_name = "mascot_ai_files";
-
-            try
-        {
-            $materialOptionFile = $request->file('ai_file');
-            if (!is_null($materialOptionFile))
-            {
-                if ($materialOptionFile->isValid())
-                {
-
-                    $randstr = Random::randomize(12);
-                    $data['ai_file'] = FileUploaderV2::upload(
-                                                    $mascotName,
-                                                    $materialOptionFile,
-                                                    'file',
-                                                    $folder_name
-                                                );
-                }
-            }
-        }
-        catch (S3Exception $e)
-        {
-
-            $message = $e->getMessage();
-            return Redirect::to('/administration/mascots')
-                            ->with('message', 'There was a problem uploading your files');
-        }
-
-        // Upload Ai File
+      
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
@@ -240,8 +212,42 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
+
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
       
+
+
+
+             // Upload Ai File
+
+        $folder_name = "mascot_ai_files";
+
+        try
+        {
+            $ai_file = $request->file('ai_file');
+            if (!is_null($ai_file))
+            {
+                if ($ai_file->isValid())
+                {
+
+                    $randstr = Random::randomize(12);
+                    $data['ai_file'] = FileUploaderV2::upload(
+                                                    $mascotName,
+                                                    $ai_file,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+            return Redirect::to('/administration/mascots')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
 
         $response = null;
 
