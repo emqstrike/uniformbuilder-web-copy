@@ -855,11 +855,12 @@ $(document).ready(function () {
 
         window.ub.render_frames = function () {
 
+            if (ub.data.rosterInitialized) { return }
+
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
 
             ub.funcs.fixAlignments();
-
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
@@ -6278,7 +6279,7 @@ $(document).ready(function () {
                     
                 } else {
 
-                    $.smkAlert({text: response.message, type:'warning', time: 3, marginTop: '140px'});
+                    $.smkAlert({text: response.message, type:'warning', time: 3, marginTop: '260px'});
 
                 }
 
