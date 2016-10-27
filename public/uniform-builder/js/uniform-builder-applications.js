@@ -4324,7 +4324,6 @@ $(document).ready(function() {
         });
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
-
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
 
