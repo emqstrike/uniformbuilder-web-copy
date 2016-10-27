@@ -4324,7 +4324,6 @@ $(document).ready(function() {
         });
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
-
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
 
@@ -5144,12 +5143,26 @@ $(document).ready(function() {
 
     }
 
+
+
     ub.status.accentPopupVisible = false;
     ub.funcs.createAccentPopup = function (settingsObj) {
 
         var data = {
            accents: ub.data.accents.items,
        }
+
+       if (ub.current_material.material.price_item_code === "FBBJ" || ub.current_material.material.price_item_code === "FBDJ") {
+
+            data.accents = _.filter(data.accents, function (accent) {
+
+                return accent.title !== 'Three Color with Drop Shadow' && accent.title !== 'Three Color';
+
+            });
+
+       }
+
+       if (ub.current_material.material.price_item_code === "") {}
 
        ub.status.accentPopupVisible = true;
 
@@ -7654,8 +7667,18 @@ $(document).ready(function() {
 
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
-
             var _layerNo = layer.layer_no - 1;
+
+            var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
+
+            if (!exists && _color.color_code !== 'SG') {
+
+                $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
+
+                ub.funcs.activateApplications(application_id);
+
+            }
+
             _color = _settingsObject.color_array[_layerNo];
 
             if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
