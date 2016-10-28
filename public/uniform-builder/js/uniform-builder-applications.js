@@ -7669,6 +7669,12 @@ $(document).ready(function() {
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
             var _layerNo = layer.layer_no - 1;
 
+            if (typeof _color === 'undefined') {
+
+                _color = _settingsObject.color_array[_layerNo];
+
+            }
+
             var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
 
             if (!exists && _color.color_code !== 'SG') {
