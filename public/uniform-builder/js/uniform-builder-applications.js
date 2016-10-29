@@ -7686,6 +7686,9 @@ $(document).ready(function() {
                 $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
                 _settingsObject.color_array[_layerNo] = _color;
                 _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+
+                var _matchingCode = undefined;
+                var _matchingSettingsObject = undefined;
                 ub.funcs.activateApplications(application_id);
 
             }
@@ -7701,6 +7704,24 @@ $(document).ready(function() {
                 }
 
                 _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+
+            }
+
+            if (_settingsObject.code === '9')  { _matchingCode = '10' }
+            if (_settingsObject.code === '10') { _matchingCode = '9' } 
+            if (_settingsObject.code === '32') { _matchingCode = '33' } 
+            if (_settingsObject.code === '33') { _matchingCode = '32' } 
+
+            if (typeof _matchingCode !== 'undefined') {
+
+                _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode);
+
+                if (typeof _matchingSettingsObject !== 'undefined') {
+
+                    _matchingSettingsObject.color_array = _settingsObject.color_array;
+                    _matchingSettingsObject.colorArrayText = _settingsObject.colorArrayText;
+
+                }
 
             }
 
