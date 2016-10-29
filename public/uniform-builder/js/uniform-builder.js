@@ -3925,14 +3925,48 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.quickRegistration = function () {
+    ub.funcs.createQuickRegistrationPopup = function () {
 
-            var _email = window.prompt("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.","");
+        ub.status.quickRegistrationPopup = true;
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        var data = {
+
+        };
+
+        var template = $('#m-quick-registration-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryQuickRegistrationPopup');
+        $popup.fadeIn();
+
+        ub.funcs.centerPatternPopup();
+
+        $('span.next').unbind('click');
+        $('span.next').on('click', function () {
+
+            $('em.message').html('Logging In...');
+
+            if ($('input.quickRegistrationPassword').is(':visible')) {
+
+                var _e = $('input.quickRegistrationEmail').val();
+                var _p = $('input.quickRegistrationPassword').val();
+
+                ub.funcs.lRest(_e, _p, true);
+
+            }
+
+            //var _email = window.prompt("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.","");
+            var _email = $('input.quickRegistrationEmail').val();
             var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-            
+
             if (!email_regex.test(_email)) { 
 
-                alert('Please enter a valid email: ');
+                $('em.message').html('Please enter a valid email: ');
                 return false;
 
             } else {
@@ -3957,13 +3991,17 @@ $(document).ready(function () {
                                 headerValue: response.accessToken,
                             };
 
+                            $popup.remove();
+                            ub.status.quickRegistrationPopup = false;
+
                             ub.funcs.initRoster();
                             return true;
 
                         }
                         else{
 
-                            alert('Email address is already in use. Use Login instead.');
+                            $('a.login-link').trigger('click');
+
                             return false;
 
                         }
@@ -3976,8 +4014,74 @@ $(document).ready(function () {
 
             }
 
+        });
 
-        }
+
+        $('a.login-link').unbind('click');
+        $('a.login-link').on('click', function () {
+
+            if ($('label.quickRegistrationPassword').is(':visible')) {
+
+                $('em.instructions').fadeOut();
+                $('em.instructions').html("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.");
+                $('em.instructions').fadeIn();
+
+                $('span.text').html('Quick Registration');
+
+                $('a.login-link').html('Already have an account?');
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword').hide();
+
+                
+            } else {
+                
+                $('em.instructions').fadeOut();
+                $('em.instructions').html("You already have an account, please enter your password below to login. Click the back link below to use another email to register.");
+                $('em.instructions').fadeIn();
+
+                $('em.message').html('');
+
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword').show();
+                $('input.quickRegistrationPassword').focus();
+                $('span.text').html('Login');
+                $('a.login-link').html('< back to Quick Registration');
+
+            }
+
+        });
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+            ub.status.quickRegistrationPopup = false;
+
+        });
+
+        // $popup.bind('clickoutside', function () {
+
+        //     var _status = $(this).data('status');
+
+        //     if (_status === 'hidden') {
+
+        //         $(this).data('status', 'visible');
+        //         return;
+
+        //     }
+
+        //     $(this).data('status', 'hidden');
+        //     $(this).hide();
+        //     $(this).remove();
+        //     ub.status.quickRegistrationPopup = false;
+
+        // });
+
+
+    }
+
+    ub.funcs.quickRegistration = function () {
+
+        ub.funcs.createQuickRegistrationPopup();
+
+    }
 
 
         /// End Utilities ///
@@ -6238,7 +6342,7 @@ $(document).ready(function () {
 
     // lrest
 
-    ub.funcs.lRest = function (e, p) {
+    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
 
         $.ajaxSetup({
             headers: {
@@ -6276,10 +6380,25 @@ $(document).ready(function () {
 
                     $('div.user-profile.pull-right').html(markup);
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
-                    
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+
+                        $('div#primaryQuickRegistrationPopup').remove();
+                        ub.funcs.initRoster();
+
+                    }
+
                 } else {
 
-                    $.smkAlert({text: response.message, type:'warning', time: 3, marginTop: '260px'});
+                    if (typeof fromMiddleScreen !== 'undefined') {
+                        
+                        $('em.message').html(response.message);
+
+                    } else {
+
+                        $.smkAlert({text: response.message, type:'warning', time: 3, marginTop: '260px'});
+
+                    }
 
                 }
 
