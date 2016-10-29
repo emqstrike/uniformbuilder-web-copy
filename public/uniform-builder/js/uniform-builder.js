@@ -6184,9 +6184,9 @@ $(document).ready(function () {
         });
 
         $('.roster-list').html(''); // Clear current roster list
-        $.each(roster, function(i, template_data){
+        $.each(roster, function(i, template_data) {
             var template = $('#roster-list').html();
-            var row = Mustache.to_html(template, template_data)
+            var row = Mustache.to_html(template, template_data);
             $('.roster-list').append(row);
         });
 
