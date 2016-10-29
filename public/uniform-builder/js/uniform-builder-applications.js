@@ -7669,6 +7669,8 @@ $(document).ready(function() {
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
             var _layerNo = layer.layer_no - 1;
 
+            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
+
             if (typeof _color === 'undefined') {
 
                 _color = _settingsObject.color_array[_layerNo];
@@ -7677,17 +7679,25 @@ $(document).ready(function() {
 
             var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
 
-            if (!exists && _color.color_code !== 'SG') {
+            // Auto Add Black
+            if (!exists && _color.color_code !== 'SG' && _settingsObject.accent_obj.name !== 'Drop Shadow' && layer.name !== 'Base Color') {
 
                 $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
-
+                $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
+                _settingsObject.color_array[_layerNo] = _color;
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
                 ub.funcs.activateApplications(application_id);
 
             }
 
-            _color = _settingsObject.color_array[_layerNo];
+            if (_settingsObject.color_array.length < 2 && layer.layer_no === 2) {
 
-            if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
+                _settingsObject.color_array[_layerNo] = _color;
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+
+            }
+
+            _color = _settingsObject.color_array[_layerNo];
 
             // Use default color if team color is short
             if (typeof _color === "undefined") {

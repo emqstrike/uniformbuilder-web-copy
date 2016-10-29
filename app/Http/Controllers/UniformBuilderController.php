@@ -1135,7 +1135,6 @@ class UniformBuilderController extends Controller
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
 
-
         $user = Session::get('userId');
         $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
 
@@ -1145,9 +1144,8 @@ class UniformBuilderController extends Controller
             $last_name = Session::get('last_name');
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
-        // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
 
-        Slack::send($message);
+        // Slack::send($message);
 
         return $transformedPath;
 
