@@ -590,6 +590,56 @@
 
 <!-- End Pattern Picker -->
 
+<!-- Quick Registration Popup -->
+    
+    <script type="text/mustache" id="m-quick-registration-popup">
+
+        <div id="primaryQuickRegistrationPopup" data-status="hidden">
+
+            <div class="header">
+
+                <span class="text">Quick Registration</span>
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+
+                <br />
+
+                <em class="instructions">You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.</em> <br /><br />
+
+                <label class="quickRegistrationEmail">Email:</label>
+                <input type="email" name="quickRegistrationEmail" class="quickRegistrationEmail" /><br />
+
+                <label class="quickRegistrationPassword">Password:</label>
+                <input type="password" name="quickRegistrationPassword" class="quickRegistrationPassword" /><br />
+
+                <em class="message"></em>
+
+                <br /><br /><br /><br />
+                
+
+            </div>
+
+            <div class="footer">
+
+                <span class="login-here"><a class="login-link">Already have an account?</a></span> <span class="next">Next</span>
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Quick Registration Popup -->
+
 <!-- Pattern Picker -->
     
     <script type="text/mustache" id="m-accent-popup">
