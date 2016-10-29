@@ -7684,8 +7684,16 @@ $(document).ready(function() {
 
                 $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
                 $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
-
+                _settingsObject.color_array[_layerNo] = _color;
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
                 ub.funcs.activateApplications(application_id);
+
+            }
+
+            if (_settingsObject.color_array.length < 2 && layer.layer_no === 2) {
+
+                _settingsObject.color_array[_layerNo] = _color;
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
 
             }
 
