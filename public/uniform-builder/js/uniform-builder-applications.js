@@ -7690,9 +7690,16 @@ $(document).ready(function() {
 
             }
 
-            if (_settingsObject.color_array.length < 2 && layer.layer_no === 2) {
+            if (_settingsObject.color_array.length < layer.layer_no) {
 
                 _settingsObject.color_array[_layerNo] = _color;
+
+                if (typeof _settingsObject.colorArrayText === 'undefined') {
+
+                    _settingsObject.colorArrayText = [_settingsObject.color_array[0].color_code];
+
+                }
+
                 _settingsObject.colorArrayText[_layerNo] = _color.color_code;
 
             }
