@@ -614,11 +614,18 @@
 
                 <em class="instructions">You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.</em> <br /><br />
 
-                <label class="quickRegistrationEmail">Email:</label>
-                <input type="email" name="quickRegistrationEmail" class="quickRegistrationEmail" /><br />
+                <!-- <label class="quickRegistrationEmail">Email:</label>
+                <input type="email" name="quickRegistrationEmail" class="quickRegistrationEmail" /><br /> -->
 
-                <label class="quickRegistrationPassword">Password:</label>
-                <input type="password" name="quickRegistrationPassword" class="quickRegistrationPassword" /><br />
+                <div class="form-group form-group-sm input-group quickEmailContainer">
+                    <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    <input type="email" name="quickRegistrationEmail" class="form-control col-sm-2 quickRegistrationEmail" placeholder="Email Address">
+                </div>
+
+                <div class="form-group form-group-sm input-group quickPasswordContainer">
+                    <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                    <input type="password" name="quickRegistrationPassword" class="form-control col-sm-2 quickRegistrationPassword">
+                </div>
 
                 <em class="message"></em>
 
