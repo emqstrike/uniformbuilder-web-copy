@@ -4264,7 +4264,7 @@ $(document).ready(function() {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 
@@ -4324,7 +4324,6 @@ $(document).ready(function() {
         });
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
-
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
 
@@ -5144,12 +5143,26 @@ $(document).ready(function() {
 
     }
 
+
+
     ub.status.accentPopupVisible = false;
     ub.funcs.createAccentPopup = function (settingsObj) {
 
         var data = {
            accents: ub.data.accents.items,
        }
+
+       if (ub.current_material.material.price_item_code === "FBBJ" || ub.current_material.material.price_item_code === "FBDJ") {
+
+            data.accents = _.filter(data.accents, function (accent) {
+
+                return accent.title !== 'Three Color with Drop Shadow' && accent.title !== 'Three Color';
+
+            });
+
+       }
+
+       if (ub.current_material.material.price_item_code === "") {}
 
        ub.status.accentPopupVisible = true;
 
@@ -7654,11 +7667,65 @@ $(document).ready(function() {
 
             var _hexCode = layer.default_color;
             var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
-
             var _layerNo = layer.layer_no - 1;
-            _color = _settingsObject.color_array[_layerNo];
 
             if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
+
+            if (typeof _color === 'undefined') {
+
+                _color = _settingsObject.color_array[_layerNo];
+
+            }
+
+            var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
+
+            // Auto Add Black
+            if (!exists && _color.color_code !== 'SG' && _settingsObject.accent_obj.name !== 'Drop Shadow' && layer.name !== 'Base Color') {
+
+                $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
+                $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
+                _settingsObject.color_array[_layerNo] = _color;
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+
+                var _matchingCode = undefined;
+                var _matchingSettingsObject = undefined;
+                ub.funcs.activateApplications(application_id);
+
+            }
+
+            if (_settingsObject.color_array.length < layer.layer_no) {
+
+                _settingsObject.color_array[_layerNo] = _color;
+
+                if (typeof _settingsObject.colorArrayText === 'undefined') {
+
+                    _settingsObject.colorArrayText = [_settingsObject.color_array[0].color_code];
+
+                }
+
+                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+
+            }
+
+            if (_settingsObject.code === '9')  { _matchingCode = '10' }
+            if (_settingsObject.code === '10') { _matchingCode = '9' } 
+            if (_settingsObject.code === '32') { _matchingCode = '33' } 
+            if (_settingsObject.code === '33') { _matchingCode = '32' } 
+
+            if (typeof _matchingCode !== 'undefined') {
+
+                _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode);
+
+                if (typeof _matchingSettingsObject !== 'undefined') {
+
+                    _matchingSettingsObject.color_array = _settingsObject.color_array;
+                    _matchingSettingsObject.colorArrayText = _settingsObject.colorArrayText;
+
+                }
+
+            }
+
+            _color = _settingsObject.color_array[_layerNo];
 
             // Use default color if team color is short
             if (typeof _color === "undefined") {

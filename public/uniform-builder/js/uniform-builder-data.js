@@ -1549,7 +1549,7 @@ $(document).ready(function() {
                     },
                     {
                         name: 'Shadow',
-                        default_color: 'bdc4c7',
+                        default_color: '1e1e1e',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,

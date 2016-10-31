@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).ready(function() {                    
+
 
     ub.funcs.fadeOutCustomizer = function () {
 
@@ -6,6 +7,20 @@ $(document).ready(function() {
         $('div#left-pane-column').fadeOut();
 
         $('div#roster-input').fadeIn();
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
+
+            $('div.defaultTypes').hide();
+
+        }
+
+        $('button.change-all').unbind('click');
+        $('button.change-all').on('click', function () {
+
+            $('select.sleeve-type').val($('select.default-sleeve-type').val());
+            $('select.lastname-application').val($('select.default-lastname-application').val());
+                
+        });
 
     }
 
@@ -141,6 +156,15 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.updateSelect = function (_size, _length) {
+
+        var $trRow = $('tr.roster-row[data-size="' + _size + '"][data-index="' + _length + '"]');
+
+        $trRow.find('select.sleeve-type').val($('select.default-sleeve-type').val());
+        $trRow.find('select.lastname-application').val($('select.default-lastname-application').val());
+
+    }
+
     ub.funcs.createNumbersSelectionPopup = function (_size) {
 
         $('body').scrollTo(0);
@@ -245,7 +269,7 @@ $(document).ready(function() {
                 template = $('#m-roster-table-field').html();
                 markup = Mustache.render(template, data);
 
-                $rosterTable.append(markup);
+                $.when($rosterTable.append(markup)).then(ub.funcs.updateSelect(_size, _length));
 
                 _length += 1;
 
