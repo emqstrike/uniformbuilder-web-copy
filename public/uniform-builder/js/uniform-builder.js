@@ -136,7 +136,6 @@ $(document).ready(function () {
             if(typeof (window.ub.user.id) === "undefined") {
 
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
                 
             } else {
@@ -4017,7 +4016,6 @@ $(document).ready(function () {
 
         });
 
-
         $('a.login-link').unbind('click');
         $('a.login-link').on('click', function () {
 
@@ -6382,6 +6380,9 @@ $(document).ready(function () {
                     $('div.user-profile.pull-right').html(markup);
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
 
+                    $('a.change-view[data-view="save"]').removeClass('disabled');
+                    $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
                     if (typeof fromMiddleScreen !== 'undefined') {
 
                         $('div#primaryQuickRegistrationPopup').remove();
@@ -6398,7 +6399,7 @@ $(document).ready(function () {
 
                     } else {
 
-                        $.smkAlert({text: response.message, type:'warning', time: 3, marginTop: '260px'});
+                        $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
 
                     }
 
@@ -6419,6 +6420,8 @@ $(document).ready(function () {
         var _p = $('input[type="password"]').val();
 
         ub.funcs.lRest(_e, _p);
+
+
 
     });
 
