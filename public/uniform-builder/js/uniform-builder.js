@@ -3942,6 +3942,8 @@ $(document).ready(function () {
         $('body').append(markup);
 
         $popup = $('div#primaryQuickRegistrationPopup');
+
+        $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
         $popup.fadeIn();
 
         ub.funcs.centerPatternPopup();
@@ -3960,7 +3962,6 @@ $(document).ready(function () {
 
             }
 
-            //var _email = window.prompt("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.","");
             var _email = $('input.quickRegistrationEmail').val();
             var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
@@ -4020,7 +4021,7 @@ $(document).ready(function () {
         $('a.login-link').unbind('click');
         $('a.login-link').on('click', function () {
 
-            if ($('label.quickRegistrationPassword').is(':visible')) {
+            if ($('div.quickPasswordContainer').is(':visible')) {
 
                 $('em.instructions').fadeOut();
                 $('em.instructions').html("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.");
@@ -4029,7 +4030,7 @@ $(document).ready(function () {
                 $('span.text').html('Quick Registration');
 
                 $('a.login-link').html('Already have an account?');
-                $('label.quickRegistrationPassword, input.quickRegistrationPassword').hide();
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
 
                 
             } else {
@@ -4040,7 +4041,7 @@ $(document).ready(function () {
 
                 $('em.message').html('');
 
-                $('label.quickRegistrationPassword, input.quickRegistrationPassword').show();
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').show();
                 $('input.quickRegistrationPassword').focus();
                 $('span.text').html('Login');
                 $('a.login-link').html('< back to Quick Registration');
@@ -6392,7 +6393,8 @@ $(document).ready(function () {
 
                     if (typeof fromMiddleScreen !== 'undefined') {
                         
-                        $('em.message').html(response.message);
+                        var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
+                        $('em.message').html(response.message + ", " + _forgotPasswordLink);
 
                     } else {
 
