@@ -2859,9 +2859,9 @@ $(document).ready(function() {
 
             _.each(shapes, function(shape) {
 
-                console.log(shape);
+                if (shape.applications_properties === null) { return };
+                if (shape.applications_properties === "")   { return };
 
-                if(shape.applications_properties === null) { return };
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
                 if (app_properties !== null) {
