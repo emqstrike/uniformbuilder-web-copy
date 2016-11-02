@@ -952,7 +952,9 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateSizeBreakDownTable ($sizeBreakDown) {
+    function generateSizeBreakDownTable ($firstOrderItem) {
+
+        $sizeBreakDown = $firstOrderItem['builder_customizations']['size_breakdown'];
 
         $table = '<strong>SIZES BREAKDOWN</strong><br /><br />';
 
@@ -986,7 +988,14 @@ class UniformBuilderController extends Controller
 
         $table .= '</table>';
 
+        $table .= '<br /><br />';
+        $table .= '<strong>ADDITIONAL NOTES</strong>';
+        $table .= '<p style="font-size: 0.8em">';
+        $table .= $firstOrderItem['notes'];
+        $table .= '</p>';
+
         return $table;
+
     }
 
     function generatePDF ($builder_customizations) {
@@ -1051,7 +1060,7 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .=   '<td width="30%">';
         $html .=   '<br /><br />';
-        $html .=   $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
+        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
         $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '</tr>';
@@ -1145,7 +1154,7 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
-        Slack::send($message);
+        // Slack::send($message);
 
         return $transformedPath;
 

@@ -5,7 +5,6 @@ $(document).ready(function() {
 
         $('div#right-pane-column').fadeOut();        
         $('div#left-pane-column').fadeOut();
-
         $('div#roster-input').fadeIn();
 
         if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
@@ -642,6 +641,9 @@ $(document).ready(function() {
 
         }
 
+        var _notes                  = $('textarea#additional-notes').val();
+        var _attachments            = [];
+
         var _factoryCode            = ub.current_material.material.factory_code;
         var _sleeveCut              = '';
         var _lastnameApplication    = '';
@@ -787,6 +789,7 @@ $(document).ready(function() {
                     attached_files: ub.current_material.settings.custom_artwork,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    notes: _notes,
 
                 },
             ]
@@ -830,7 +833,11 @@ $(document).ready(function() {
 
     };
 
+    // This is a dublicate of the Submit Order Form, refactor this
     ub.funcs.prepareData = function () {
+
+        var _notes                  = $('textarea#additional-notes').val();
+        var _attachments            = [];
 
         var _factoryCode            = ub.current_material.material.factory_code;
         var _sleeveCut              = '';
@@ -968,6 +975,7 @@ $(document).ready(function() {
                     attached_files: ub.current_material.settings.custom_artwork,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    notes: _notes,
                 },
             ]
         };        

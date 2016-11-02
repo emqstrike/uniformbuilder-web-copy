@@ -3939,13 +3939,49 @@ $(document).ready(function () {
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
-
+        
         $popup = $('div#primaryQuickRegistrationPopup');
 
         $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
         $popup.fadeIn();
+        $('input.quickRegistrationEmail').focus();
 
         ub.funcs.centerPatternPopup();
+
+        // convenience method
+        $('input.quickRegistrationEmail').on('keypress', function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            
+            if (code == 13) { 
+
+                if (!$('input.quickRegistrationPassword').is(':visible')){
+
+                    $('span.next').trigger('click');
+
+                } else {
+
+                    $('div.quickRegistrationPassword').focus();
+
+                }
+
+                e.preventDefault();
+
+            }
+
+        });
+
+        $('input.quickRegistrationPassword').on('keypress', function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            
+            if (code == 13) { 
+
+                $('span.next').trigger('click');
+                e.preventDefault();
+
+            }
+
+        });
+        // end convenience method
 
         $('span.next').unbind('click');
         $('span.next').on('click', function () {
