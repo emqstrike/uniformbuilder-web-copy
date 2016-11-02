@@ -49,7 +49,7 @@
             <div class="order-tab-button active-tab" data-name="client-info">Client / Organization Info</div>
             <div class="order-tab-button" data-name="billing-info">Billing Info</div>
             <div class="order-tab-button" data-name="shipping-info">Shipping Info</div>
-            <div class="order-tab-button" data-name="notes-and-attachments-info">Notes and Attachments</div>
+            <div class="order-tab-button" data-name="notes-and-attachments-info"> Additional Notes and Attachment</div>
 
         </div>
 
@@ -212,12 +212,25 @@
 
             <div class="order-tab" data-name="notes-and-attachments-info">
 
-                <h2>Additional Notes and Attachnments</h2>
+                <h2>Additional Notes and Attachment</h2>
 
                 <div class="form-group">
                     <label for="client-name">Additional Notes</label>
-                    <textarea class="form-control" id="additional-notes" placeholder="Enter additional notes you have for this order..." name="additional-notes" rows=7></textarea>
+                    <textarea class="form-control" id="additional-notes" placeholder="Enter additional notes you have for this order..." name="additional-notes" rows="7" maxlength="300"></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="client-name">Attachment</label>                    
+                    <input id="additional-attachment" name="additional-attachment" type="file" multiple />
+                </div>
+
+                <div class="form-group">
+                    
+                    <label for="client-name"></label>
+                    <span class="additional-attachment-message"></span>
+
+                </div>
+
 
             </div>
 
