@@ -7693,6 +7693,8 @@ $(document).ready(function() {
 
                 var _matchingCode = undefined;
                 var _matchingSettingsObject = undefined;
+    
+                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
                 ub.funcs.activateApplications(application_id);
 
             }
