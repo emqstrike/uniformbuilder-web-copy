@@ -6447,6 +6447,19 @@ $(document).ready(function () {
 
     }
 
+    $('input#login-email').on('keypress', function (e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if (code == 13) { 
+            
+            $('input#login-password').focus();
+            e.preventDefault();
+
+        }
+
+    });
+
     $("form.loginRest").submit( function( event ) { event.preventDefault(); });
 
     $('button.loginRest').unbind('click');
