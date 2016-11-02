@@ -49,6 +49,7 @@
             <div class="order-tab-button active-tab" data-name="client-info">Client / Organization Info</div>
             <div class="order-tab-button" data-name="billing-info">Billing Info</div>
             <div class="order-tab-button" data-name="shipping-info">Shipping Info</div>
+            <div class="order-tab-button" data-name="notes-and-attachments-info">Notes and Attachments</div>
 
         </div>
 
@@ -156,7 +157,6 @@
                     <input type="checkbox" id="shipping-checkbox" value="second_checkbox" checked> <label for="shipping-checkbox">Same as Client Info</label>
                 </div>
 
-
                 <div class="form-group">
                     <label for="client-name">Organization</label>
                     <input type="text" class="form-control" id="shipping-organization" placeholder="Organization" name="shipping-organization">
@@ -206,6 +206,17 @@
                 <div class="form-group">
                     <label for="zip">ZIP</label>
                     <input type="text" class="form-control" id="shipping-zip" placeholder="Zip" name="shipping-zip">
+                </div>
+
+            </div>
+
+            <div class="order-tab" data-name="notes-and-attachments-info">
+
+                <h2>Additional Notes and Attachnments</h2>
+
+                <div class="form-group">
+                    <label for="client-name">Additional Notes</label>
+                    <textarea class="form-control" id="additional-notes" placeholder="Enter additional notes you have for this order..." name="additional-notes" rows=7></textarea>
                 </div>
 
             </div>
