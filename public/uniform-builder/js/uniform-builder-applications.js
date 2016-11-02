@@ -2859,6 +2859,9 @@ $(document).ready(function() {
 
             _.each(shapes, function(shape) {
 
+                if (shape.applications_properties === null) { return };
+                if (shape.applications_properties === "")   { return };
+
                 var app_properties = JSON.parse(shape.applications_properties.slice(1, -1));
                 
                 if (app_properties !== null) {
@@ -7084,7 +7087,7 @@ $(document).ready(function() {
 
     ub.funcs.getSampleAccent = function () {
 
-        var _accent = ub.funcs.getAccentByName('Outlined');
+        var _accent = ub.funcs.getAccentByName('Default');
         return _accent;
 
     }
@@ -7663,6 +7666,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=                 '<div class="colorContainer">';
 
+
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
             var _hexCode = layer.default_color;
@@ -7685,10 +7689,12 @@ $(document).ready(function() {
                 $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
                 $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
                 _settingsObject.color_array[_layerNo] = _color;
-                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
+                _settingsObject.colorArrayText = _.pluck(_settingsObject.color_array, 'color_code');
 
                 var _matchingCode = undefined;
                 var _matchingSettingsObject = undefined;
+    
+                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
                 ub.funcs.activateApplications(application_id);
 
             }
