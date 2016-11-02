@@ -4034,7 +4034,7 @@ $(document).ready(function () {
             } else {
                 
                 $('em.instructions').fadeOut();
-                $('em.instructions').html("You already have an account, please enter your password below to login. Click the back link below to use another email to register.");
+                $('em.instructions').html("You already have an account, please enter your password below to login.");
                 $('em.instructions').fadeIn();
 
                 $('em.message').html('');
@@ -4042,7 +4042,7 @@ $(document).ready(function () {
                 $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').show();
                 $('input.quickRegistrationPassword').focus();
                 $('span.text').html('Login');
-                $('a.login-link').html('< back to Quick Registration');
+                $('a.login-link').html('');
 
             }
 
