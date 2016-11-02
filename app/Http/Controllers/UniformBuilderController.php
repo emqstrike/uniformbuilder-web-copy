@@ -993,7 +993,15 @@ class UniformBuilderController extends Controller
         $table .= '<p style="font-size: 0.8em">';
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
-
+        
+        if ($firstOrderItem['attached_files'] !== "") {
+            $table .= '<br /><br />';
+            $table .= '<strong>ATTACHMENT</strong>';
+            $table .= '<p>'; 
+            $table .= '<a href="' . $firstOrderItem['attached_files'] . '">Open Attachment</a>';    
+            $table .= '</p>'; 
+        }
+        
         return $table;
 
     }

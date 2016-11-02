@@ -6675,6 +6675,18 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.uploading = false;
+    ub.data.orderAttachment = "";
+
+    ub.data.validDocumentTypesForUpload = {
+        items : ['gif', 'jpg', 'bmp', 'docx', 'doc', 'png', 'jpeg', 'tga', 'pdf', 'ppt', 'pptx'],
+        isValidDocument: function (extension) {
+
+            return _.includes(this.items, extension);
+
+        }
+    }
+
 
     /// End Block Pattern Lengths
 
