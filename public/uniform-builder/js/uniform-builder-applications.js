@@ -6504,8 +6504,7 @@ $(document).ready(function() {
 
             // In-place preview 
 
-            if (_settingsObject.mascot.name === 'Custom Logo') {
-
+            if (_settingsObject.mascot.name === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
 
                 var _filename  = _settingsObject.customFilename;
                 var _extension = _filename.split('.').pop();

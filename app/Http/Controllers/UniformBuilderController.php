@@ -387,6 +387,7 @@ class UniformBuilderController extends Controller
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {
+
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
 
@@ -400,10 +401,6 @@ class UniformBuilderController extends Controller
                     if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
                         $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
-
-                    } else {
-
-                        $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
 
                     }
 
