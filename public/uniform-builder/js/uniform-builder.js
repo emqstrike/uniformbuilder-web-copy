@@ -4007,6 +4007,10 @@ $(document).ready(function () {
 
             } else {
 
+                if (typeof $.ajaxSettings.headers !== "undefined") {
+                    delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+                }
+        
                 $.ajax({
                     data: JSON.stringify({ email: _email }),
                     url: ub.config.api_host + "/api/user/quickRegistration",
