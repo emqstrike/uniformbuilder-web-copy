@@ -9801,16 +9801,16 @@ $(document).ready(function() {
 
         formData.append('file', file);
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
 
         $.ajax({
 
             data: formData,
-            url: ub.config.host + "/fileUpload",
+            url: ub.config.api_host + "/api/fileUpload",
             type: "POST", 
             processData: false,  // tell jQuery not to process the data
             contentType: false,
@@ -9886,7 +9886,7 @@ $(document).ready(function() {
         $.ajax({
 
             data: formData,
-            url: ub.config.host + "/fileUpload",
+            url: ub.config.api_host + "/api/fileUpload",
             type: "POST", 
             processData: false,  // tell jQuery not to process the data
             contentType: false,

@@ -221,7 +221,7 @@
 
                 <div class="form-group">
                     <label for="client-name">Attachment</label>                    
-                    <input id="additional-attachment" name="additional-attachment" type="file" multiple />
+                    <input id="additional-attachment" name="additional-attachment" type="file" />
                 </div>
 
                 <div class="form-group">
@@ -230,7 +230,6 @@
                     <span class="additional-attachment-message"></span>
 
                 </div>
-
 
             </div>
 
