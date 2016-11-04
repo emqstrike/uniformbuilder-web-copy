@@ -1035,6 +1035,42 @@
 
 <!-- End Orders Table -->
 
+<!-- Messages Table -->
+
+    <script type="text/mustache" id="m-messages-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Type</td>
+                <td>Date</td>
+                <td>Order Code</td>
+                <td>Subject</td>
+                <td>Content</td>
+                <td>Status</td>
+            </tr>
+
+            @{{#messages}}
+
+                <tr>
+                    <td>Type</td>
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_code}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{content}}</td>
+                    <td>@{{read}}</td> 
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Messages Table -->
+
 <!-- Order Submitted -->
 
     <script type="text/mustache" id="m-feedback-form">
@@ -1317,6 +1353,12 @@
 <!-- Logged In Nav -->
 
     <script type="text/mustache" id="m-loggedInNavbar">
+
+        <a href="/messages" id="messages">
+
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> My Messages <span class="badge"></span>
+
+        </a>
 
         <a href="#" id="feedback">
 

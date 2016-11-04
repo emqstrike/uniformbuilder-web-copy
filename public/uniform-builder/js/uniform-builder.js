@@ -96,9 +96,70 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.createMessage = function (order_code, content) {
+
+            var _postData = {
+
+                "subject": "Order Notes",
+                "order_code": order_code,
+                "content": content,
+                "type": "notes",
+                "recipient_id": ub.user.id,
+                "sender_id": ub.user.id,
+                "read": "0",
+
+            }
+
+            var _url = 'http://api-dev.qstrike.com/api/message';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    console.log(response);
+
+                }
+                        
+            });
+
+        }
+
+        ub.funcs.updateMessageCount = function () {
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/messages/' + 0,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    var _items = _.filter(response.messsages, {read: '0'});
+                    var _count = _.size(_items);
+
+                    $('a#messages > span.badge').html(_count);
+
+                }
+                
+            });
+
+        };
+
         ub.funcs.beforeLoad = function () {
 
             $('a.change-view[data-view="team-info"]').addClass('disabled');
+
+            console.log('before load running...')
+
+            if (typeof ub.user.id === 'number')  { ub.funcs.updateMessageCount(); }
 
         }
 
@@ -173,13 +234,12 @@ $(document).ready(function () {
             ub.data.blockPatternLength = _result;
             // End Block Pattern Widths
 
-
             // window.onbeforeunload = function (e) {
-                
+
             //     return false;
 
             // };
-            
+
         };
 
         ub.funcs.loadOtherFonts = function () {
@@ -5735,6 +5795,54 @@ $(document).ready(function () {
 
         }
 
+
+        ub.funcs.messagesCallBack = function (messageBlock) {
+
+            $('div.my-messages-loading').hide();
+
+            var $container  = $('div.message-list');
+            var _template   = $('#m-messages-table').html();
+            var _markup     = '';
+            var data        = { messages: ub.funcs.parseJSON(messageBlock), }
+
+            _markup         = Mustache.render(_template, data);
+            $container.html(_markup);
+
+        }
+
+        ub.funcs.displayMyMessages = function () {
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/messages/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    ub.funcs.messagesCallBack(response.messsages);
+
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-messages') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyMessages();
+
+        }
+
     /// End Orders
 
     /// Profile
@@ -6379,6 +6487,8 @@ $(document).ready(function () {
     // Initial Roster Item
     createNewRosterRecordForm();
 
+    
+
     // lrest
 
     ub.funcs.lRest = function (e, p, fromMiddleScreen) {
@@ -6419,6 +6529,8 @@ $(document).ready(function () {
 
                     $('div.user-profile.pull-right').html(markup);
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
+                    ub.funcs.updateMessageCount();
 
                     $('a.change-view[data-view="save"]').removeClass('disabled');
                     $('a.change-view[data-view="open-design"]').removeClass('disabled');

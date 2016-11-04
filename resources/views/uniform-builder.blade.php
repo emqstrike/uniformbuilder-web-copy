@@ -152,6 +152,7 @@
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('my-messages')
 @yield('my-profile')
 @yield('signup')
 @yield('forgot-password')

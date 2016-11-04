@@ -51,6 +51,12 @@
             
             @else
 
+            <a href="/messages" id="messages">
+
+                <i class="fa fa-envelope-o" aria-hidden="true"></i> My Messages <span class="badge"></span>
+
+            </a>
+
             <a href="#" id="feedback">
 
                 <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?

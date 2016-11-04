@@ -485,7 +485,7 @@ $(document).ready(function() {
 
         }
 
-        var _postData   = {
+        var _postData = {
 
             "subject" : "Feedback",
             "order_code" : "",
@@ -509,7 +509,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function (response){
+            success: function (response) {
 
                 console.log(response);
 
