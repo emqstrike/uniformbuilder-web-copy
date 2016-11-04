@@ -34,6 +34,11 @@
       </li>
     </ul>
   </li>
+  <li data-position='right'>
+    <a href="/administration/artwork_requests" >
+      <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests</span>
+    </a>
+  </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-gear"></i>

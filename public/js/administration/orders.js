@@ -357,7 +357,8 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        // console.log(JSON.stringify(bcx));
+        // console.log(JSON.parse(bcx.order_items));
+        console.log(bcx.applications);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
@@ -460,7 +461,7 @@ $('.send-to-factory').on('click', function(e){
     strResult = JSON.stringify(orderEntire);
     // console.log(strResult);
 
-    console.log(JSON.stringify(orderEntire['orderParts']));
+    // console.log(JSON.stringify(orderEntire['orderParts']));
 
     $.ajax({
         url: url,

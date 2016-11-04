@@ -284,15 +284,17 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
     Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
 
-   // Materials Fabric
+    // Materials Fabric
     Route::get('materials_fabrics', 'Administration\MaterialsFabricsController@index');
     Route::post('materials_fabric/add', 'Administration\MaterialsFabricsController@store');
     Route::get('materials_fabric/add', 'Administration\MaterialsFabricsController@create');
     Route::get('materials_fabric/edit/{id}', 'Administration\MaterialsFabricsController@editMaterialFabricForm');
-  
     Route::post('materials_fabric/delete', 'Administration\MaterialsFabricsController@delete');
     Route::get('materials_fabric/{id}', 'Administration\MaterialsFabricsController@show');
     Route::post('materials_fabric/update', 'Administration\MaterialsFabricsController@update');
+
+    // Artworks
+    Route::get('artwork_requests', 'Administration\ArtworksController@index');
 
 });
 

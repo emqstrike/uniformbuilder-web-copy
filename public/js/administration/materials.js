@@ -2911,7 +2911,7 @@ canvas.observe('object:rotating', function (e) {
 canvas.observe('object:moving', function (e) {
     var p = e.target;
     console.log('Moving ' + p.name);
-    
+
     if (p.hasOwnProperty("text") === true) {
         //move text label to new circle location
         p.text.set({
@@ -2919,7 +2919,7 @@ canvas.observe('object:moving', function (e) {
             'top': p.top - 10
         });
     }
-    
+
     if (p.hasOwnProperty("inPath") === true) {
         //inpaths - paths end at circle
         for (var i = 0; i < p.inPath.length; i++) {

@@ -9,7 +9,9 @@
 <section class="content">
 <!-- <a href="#" class="btn btn-success update-from-factory">TEST</a> -->
 <!-- <a href="#" class="btn btn-success updatePart">Update Part</a> -->
+<h1>Artwork Requests</h1>
     <div class="row">
+        <input type="hidden" class="a-type" value="{{ $account_type }}">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -21,17 +23,13 @@
                             <th>Order code</th>
                             <th>Client</th>
                             <th>User ID</th>
-                            <th></th>
                             <th>Rep</th>
                             <th>Items</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                            <th>FOID</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($orders as $order)
-
                         <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
                             <td>
                                 <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
@@ -49,64 +47,29 @@
                                     {{ $order->first_name }} {{ $order->last_name }}[{{ $order->user_id }}]
                                 </div>
                             </td>
-                            <td>
-                                <button class='btn btn-default btn-xs btn-info view-order-details'
-                                    style="color: #fff;"
-                                    data-order-id="{{ $order->id }}"
-                                    data-client="{{ $order->client }}"
-                                    data-email="{{ $order->email }}"
-                                    data-uniform-type="{{ $order->uniform_type }}"
-                                    data-director-organization="{{ $order->director_organization }}"
-                                    data-director-contact-person="{{ $order->director_contact_person }}"
-                                    data-bill-id="{{ $order->bill_id }}"
-                                    data-bill-organization="{{ $order->bill_organization }}"
-                                    data-bill-contact-person="{{ $order->bill_contact_person }}"
-                                    data-bill-email="{{ $order->bill_email }}"
-                                    data-bill-address="{{ $order->bill_address }}"
-                                    data-bill-city="{{ $order->bill_city }}"
-                                    data-bill-state="{{ $order->bill_state }}"
-                                    data-bill-zip="{{ $order->bill_zip }}"
-                                    data-bill-phone="{{ $order->bill_phone }}"
-                                    data-bill-fax="{{ $order->bill_fax }}"
-                                    data-ship-id="{{ $order->ship_id }}"
-                                    data-ship-organization="{{ $order->ship_organization }}"
-                                    data-ship-contact-person="{{ $order->ship_contact_person }}"
-                                    data-ship-address="{{ $order->ship_address }}"
-                                    data-ship-city="{{ $order->ship_city }}"
-                                    data-ship-state="{{ $order->ship_state }}"
-                                    data-ship-zip="{{ $order->ship_zip }}"
-                                    data-ship-phone="{{ $order->ship_phone }}"
-                                    data-status="{{ $order->status }}"
-                                    data-upper-front-view="{{ $order->upper_front_thumbnail_path }}"
-                                    data-upper-back-view="{{ $order->upper_back_thumbnail_path }}"
-                                    data-upper-right-view="{{ $order->upper_right_thumbnail_path }}"
-                                    data-upper-left-view="{{ $order->upper_left_thumbnail_path }}">
-                                    <!-- View Order Details -->
-                                    Info
-                                </button>
-                            </td>
                             <td></td>
                             <td>
-                                @foreach( $order->items as $item )
+                                @if ( isset($order->artworks) )
+                                    @foreach( $order->artworks as $art )
+                                        <div>Application #{{ $art['code'] }}
+                                            <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
+                                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
+                                        </div><br>
+                                    @endforeach
+                                @endif
+                                {{-- @foreach( $order->items as $item )
                                 <a href="#" class="btn btn-default btn-xs" style="width: 200px; text-align: left;">{{ $item->item_id }} - {{ $item->description }}</a>
                                 <a href="#" class="btn btn-default btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
                                 <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-default btn-xs pdf-link">PDF</a></br>
                                 <!-- <a href="#" class="btn btn-warning bc-display" data-bc="{{ $item->builder_customizations }}">BC</a> -->
-                                @endforeach
-                            </td>
-                            <td>
-                                <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
-                                @foreach ($order_statuses as $status)
-                                    <option value="{{ $status }}"@if ($status == $order->status) selected @endif>{{ ucfirst($status) }}</option>
-                                @endforeach
-                                </select>
+                                @endforeach --}}
                             </td>
                             <td>
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
-                                   class="btn btn-primary btn-xs send-to-factory"
+                                   class="btn btn-primary btn-xs assign-artwork"
                                    data-order-id="{{ $order->id }}"
-                                   data-api-order-id="{{ $order->order_id }}"
+                                   data-order-code="{{ $order->order_id }}"
                                    data-client="{{ $order->client }}"
                                    data-ship-contact="{{ $order->ship_contact }}"
                                    data-ship-address="{{ $order->ship_address }}"
@@ -121,15 +84,10 @@
                                    data-bill-email="{{ $order->bill_email }}"
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
-                                   >Send to Edit</a>
-                                    <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        Remove
-                                    </a>
+                                   data-artwork-json="{{ json_encode($order->artworks) }}"
+                                   data-user-id="{{ $user_id }}"
+                                   >Assign</a>
                                 {{-- @endif --}}
-                            </td>
-                            <td>
-                                {{ $order->factory_order_id }}
                             </td>
                         </tr>
 
@@ -164,7 +122,7 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/orders.js"></script>
+<script type="text/javascript" src="/js/administration/artworks.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
