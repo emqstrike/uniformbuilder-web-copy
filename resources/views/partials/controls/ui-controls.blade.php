@@ -1037,6 +1037,42 @@
 
 <!-- Messages Table -->
 
+    <script type="text/mustache" id="messages-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Type</td>
+                <td>Date</td>
+                <td>Order Code</td>
+                <td>Subject</td>
+                <td>Content</td>
+                <td>Action</td>
+            </tr>
+
+            @{{#messages}}
+
+                <tr>
+                    <td>Type</td>
+                    <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
+                    <td><strong> @{{order_code}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{content}}</td>
+                    <td class="action"><span class="action-button">View</span></td> 
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Messages Table -->
+
+<!-- Right Pane Messages Table -->
+
     <script type="text/mustache" id="m-messages-table">
 
         <br />
@@ -1069,7 +1105,7 @@
 
     </script>   
 
-<!-- End Messages Table -->
+<!-- End Right Pane Messages Table -->
 
 <!-- Order Submitted -->
 

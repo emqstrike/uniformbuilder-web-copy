@@ -1044,8 +1044,6 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
-
-
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
         $('#app_option_id').val($(this).data('material-option-id'));
@@ -1062,8 +1060,6 @@ $(document).ready(function() {
         apps = apps.substring(1, apps.length-1);
         var app_properties = JSON.parse(apps);
         appendApplications(app_properties);
-
-
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);

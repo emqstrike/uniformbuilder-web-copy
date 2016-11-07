@@ -1547,13 +1547,7 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
-
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
             $.ajax({
 

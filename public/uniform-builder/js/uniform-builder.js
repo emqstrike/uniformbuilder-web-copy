@@ -133,16 +133,18 @@ $(document).ready(function () {
 
         ub.funcs.updateMessageCount = function () {
 
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
             $.ajax({
             
-                url: ub.config.api_host + '/api/messages/' + 0,
+                url: ub.config.api_host + '/api/messages/recipient/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    var _items = _.filter(response.messsages, {read: '0'});
+                    var _items = _.filter(response.messages, {read: '0'});
                     var _count = _.size(_items);
 
                     $('a#messages > span.badge').html(_count);
@@ -5795,33 +5797,60 @@ $(document).ready(function () {
 
         }
 
-
         ub.funcs.messagesCallBack = function (messageBlock) {
+
+            var _items = _.filter(messageBlock, {read: "0"});
+            var _count = _.size(_items);
 
             $('div.my-messages-loading').hide();
 
-            var $container  = $('div.message-list');
-            var _template   = $('#m-messages-table').html();
-            var _markup     = '';
-            var data        = { messages: ub.funcs.parseJSON(messageBlock), }
+            $('div.messages-loading').hide();
 
-            _markup         = Mustache.render(_template, data);
+            var $container          = $('div.message-list');
+            var _template           = $('#m-messages-table').html();
+            var _markup             = '';
+            var data                = { messages: ub.funcs.parseJSON(_items), }
+
+            var $messagesContainer  = $('div.message-list.right-pane');
+            var _messagesTemplate   = $('#messages-table').html();
+
+            _markup                 = Mustache.render(_template, data);
+            _messagesMarkup         = Mustache.render(_messagesTemplate, data);
+
             $container.html(_markup);
+            $.when(
+                $messagesContainer.html(_messagesMarkup)
+            ).then (function () {
+
+                $.each($('td.time'), function (index, value){
+
+                    var _utcDate = $(value).data('time');
+                    var date = new Date(_utcDate);
+
+                    var _d = moment.utc('2016-11-04 05:57:54').tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+
+                    $(value).html(_d);
+
+                });
+
+            });
 
         }
 
         ub.funcs.displayMyMessages = function () {
 
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
             $.ajax({
             
-                url: ub.config.api_host + '/api/messages/' + ub.user.id,
+                url: ub.config.api_host + '/api/messages/recipient/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    ub.funcs.messagesCallBack(response.messsages);
+                    ub.funcs.messagesCallBack(response.messages);
 
                 }
                 
