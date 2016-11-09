@@ -137,14 +137,14 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: ub.config.api_host + '/api/messages/recipient/' + ub.user.id,
+                url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    var _items = _.filter(response.messages, {read: '0'});
+                    var _items = response.messages;
                     var _count = _.size(_items);
 
                     $('a#messages > span.badge').html(_count);
@@ -5799,7 +5799,7 @@ $(document).ready(function () {
 
         ub.funcs.messagesCallBack = function (messageBlock) {
 
-            var _items = _.filter(messageBlock, {read: "0"});
+            var _items = messageBlock;
             var _count = _.size(_items);
 
             $('div.my-messages-loading').hide();
@@ -5827,7 +5827,7 @@ $(document).ready(function () {
                     var _utcDate = $(value).data('time');
                     var date = new Date(_utcDate);
 
-                    var _d = moment.utc('2016-11-04 05:57:54').tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+                    var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
 
                     $(value).html(_d);
 
@@ -5843,7 +5843,7 @@ $(document).ready(function () {
 
             $.ajax({
             
-                url: ub.config.api_host + '/api/messages/recipient/' + ub.user.id,
+                url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
