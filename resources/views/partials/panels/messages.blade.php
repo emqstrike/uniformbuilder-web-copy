@@ -1,22 +1,22 @@
 
 <div class="messages-right-pane">
     
-    <span class="link" data-id="pm">Unread</span> <br />
+    <span class="link message-type" data-type="unread">Unread</span> <br />
     
-    <span class="link" data-id="pm">Prolook</span>
-    <span class="link" data-type="orders">Orders</span>
-    <span class="link" data-id="pm">PM</span>
-    <span class="link" data-id="feedback">Feedback</span>
+    <span class="link message-type" data-type="prolook">Prolook</span>
+    <span class="link message-type" data-type="orders">Orders</span>
+    <span class="link message-type" data-type="pm">PM</span>
+    <span class="link message-type" data-type="feedback">Feedback</span>
 
 </div>
 
 <div id="messages">
 
-    <span class='header'>Unread Messages</span>
+    <span class='header'>Unread</span>
 
     <div class="messages-loading" style="text-align: center;">
 
-        Loading Messages Info... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
+        Loading Messages... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
 
     </div>
 

@@ -5869,6 +5869,37 @@ $(document).ready(function () {
 
             });
 
+            var $msgType = $('span.message-type');
+            $msgType.unbind('click');
+            $msgType.on('click', function () {
+
+                var _type = $(this).data('type');
+                $('div#messages > span.header').html(_type);
+
+                $('tr.message-row').remove();
+                $('div.messages-loading').fadeIn();
+
+                console.log(_type);
+                ub.funcs.filterMessages(_type);
+
+            });
+
+        }
+
+        ub.funcs.filterMessages = function (type) {
+
+            $('div#messages > span.header').html(type);
+
+            if (type !== "unread") {
+
+                ub.funcs.displayMyMessages(type);
+                    
+            } else {
+
+                ub.funcs.displayMyMessages();
+
+            }
+            
         }
 
         ub.funcs.markAsRead = function (messageId) {
@@ -5893,21 +5924,42 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.displayMyMessages = function () {
+        ub.funcs.displayMyMessages = function (type) {
 
             if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
+            var _url = ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id;
+
+            if (typeof type !== 'undefined') {
+
+               _url = ub.config.api_host + '/api/messages/recipient/' + ub.user.id
+
+            }
+
             $.ajax({
             
-                url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
+                url: _url,
                 type: "GET", 
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    ub.funcs.messagesCallBack(response.messages);
+                    if (typeof type === 'undefined') {
 
+                        ub.funcs.messagesCallBack(response.messages);
+
+                    } else {
+
+                        var _typeConverted = type.toTitleCase();
+
+                        if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
+
+                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        ub.funcs.messagesCallBack(_filteredMessages);
+
+                    }
+                    
                 }
                 
             });
