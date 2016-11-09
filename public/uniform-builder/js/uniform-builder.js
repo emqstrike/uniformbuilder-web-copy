@@ -5807,17 +5807,27 @@ $(document).ready(function () {
             $('div.messages-loading').hide();
 
             var $container          = $('div.message-list');
-            var _template           = $('#m-messages-table').html();
-            var _markup             = '';
-            var data                = { messages: ub.funcs.parseJSON(_items), }
+            var _messages           = ub.funcs.parseJSON(_items);
 
+            _messages               = _.map(_messages, function (item) { 
+                                            item.numericId = parseInt(item.id);
+                                            return item; 
+                                        });
+
+            _messages               = _.sortBy(_messages, function (item){
+
+                                        return item.numericId * -1;
+
+                                    });
+
+            console.log(_messages);
+            
+            var data                = { messages: _messages, };
             var $messagesContainer  = $('div.message-list.right-pane');
             var _messagesTemplate   = $('#messages-table').html();
 
-            _markup                 = Mustache.render(_template, data);
             _messagesMarkup         = Mustache.render(_messagesTemplate, data);
 
-            $container.html(_markup);
             $.when(
                 $messagesContainer.html(_messagesMarkup)
             ).then (function () {

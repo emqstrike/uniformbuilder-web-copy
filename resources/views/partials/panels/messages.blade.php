@@ -1,9 +1,12 @@
-<hr />
 
 <div class="messages-right-pane">
     
-    <span class="link" data-id="0">Prolook</span>
-    <span class="link" data-id="1">Coach One</span>
+    <span class="link" data-id="pm">Unread</span> <br />
+    
+    <span class="link" data-id="pm">Prolook</span>
+    <span class="link" data-type="orders">Orders</span>
+    <span class="link" data-id="pm">PM</span>
+    <span class="link" data-id="feedback">Feedback</span>
 
 </div>
 

@@ -1044,9 +1044,11 @@
         <table>
            
             <tr class="header">
+                <td>ID</td>
                 <td>Type</td>
                 <td>Date</td>
                 <td>Order Code</td>
+                <td>From</td>
                 <td>Subject</td>
                 <td>Content</td>
                 <td>Action</td>
@@ -1055,9 +1057,11 @@
             @{{#messages}}
 
                 <tr>
+                    <td>@{{id}}</td>
                     <td>Type</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
                     <td><strong> @{{order_code}}</strong></td>
+                    <td><strong> @{{sender_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{content}}</td>
                     <td class="action"><span class="action-button">View</span></td> 
