@@ -159,8 +159,6 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').addClass('disabled');
 
-            console.log('before load running...')
-
             if (typeof ub.user.id === 'number')  { ub.funcs.updateMessageCount(); }
 
         }
@@ -5809,19 +5807,11 @@ $(document).ready(function () {
             var $container          = $('div.message-list');
             var _messages           = ub.funcs.parseJSON(_items);
 
-            _messages               = _.map(_messages, function (item) { 
-                                            item.numericId = parseInt(item.id);
-                                            return item; 
-                                        });
+            _messages               = _.chain(_messages)
+                                        .map(function (item) { item.numericId = parseInt(item.id); return item; })
+                                        .sortBy(function (item) { return item.numericId * -1; })
+                                        .value();
 
-            _messages               = _.sortBy(_messages, function (item){
-
-                                        return item.numericId * -1;
-
-                                    });
-
-            console.log(_messages);
-            
             var data                = { messages: _messages, };
             var $messagesContainer  = $('div.message-list.right-pane');
             var _messagesTemplate   = $('#messages-table').html();
