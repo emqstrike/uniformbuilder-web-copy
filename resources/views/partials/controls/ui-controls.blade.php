@@ -1035,6 +1035,48 @@
 
 <!-- End Orders Table -->
 
+<!-- Message Popup -->
+
+    <script type="text/mustache" id="m-message-popup">
+
+        <div id="primaryMessagePopup" data-status="hidden">
+
+            <div class="header">
+
+                Message
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="label">Type: </div>
+                <div class="value">@{{type}}</div>
+                <div class="label">From: </div>
+                <div class="value">@{{sender_name}}</div>
+                <div class="label">Message: </div>
+                <div class="value">@{{content}}</div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Message Popup -->
+
 <!-- Messages Table -->
 
     <script type="text/mustache" id="messages-table">
@@ -1044,7 +1086,6 @@
         <table>
            
             <tr class="header">
-                <td>ID</td>
                 <td>Type</td>
                 <td>Date</td>
                 <td>Order Code</td>
@@ -1056,15 +1097,14 @@
 
             @{{#messages}}
 
-                <tr>
-                    <td>@{{id}}</td>
-                    <td>Type</td>
+                <tr class="message-row" data-id="@{{id}}">
+                    <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
-                    <td><strong> @{{order_code}}</strong></td>
-                    <td><strong> @{{sender_name}}</strong></td>
+                    <td><strong>@{{order_code}}</strong></td>
+                    <td><strong>@{{sender_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{content}}</td>
-                    <td class="action"><span class="action-button">View</span></td> 
+                    <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
                 </tr>
 
             @{{/messages}}

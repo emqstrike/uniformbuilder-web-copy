@@ -6687,7 +6687,12 @@ ub.funcs.fontOffSets = [
         }
     }
 
-
     /// End Block Pattern Lengths
+
+    /// Messages
+
+        ub.data.unreadMessages = undefined;
+
+    /// End Messages 
 
 });

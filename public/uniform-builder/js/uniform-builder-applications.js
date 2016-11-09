@@ -4267,7 +4267,7 @@ $(document).ready(function() {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 

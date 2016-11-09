@@ -147,7 +147,9 @@ $(document).ready(function () {
                     var _items = response.messages;
                     var _count = _.size(_items);
 
+                    $('a#messages > span.badge').hide();
                     $('a#messages > span.badge').html(_count);
+                    $('a#messages > span.badge').fadeIn();
 
                 }
                 
@@ -5801,14 +5803,13 @@ $(document).ready(function () {
             var _count = _.size(_items);
 
             $('div.my-messages-loading').hide();
-
             $('div.messages-loading').hide();
 
             var $container          = $('div.message-list');
             var _messages           = ub.funcs.parseJSON(_items);
 
             _messages               = _.chain(_messages)
-                                        .map(function (item) { item.numericId = parseInt(item.id); return item; })
+                                        .map(function (item)    { item.numericId = parseInt(item.id); return item; })
                                         .sortBy(function (item) { return item.numericId * -1; })
                                         .value();
 
@@ -5833,6 +5834,58 @@ $(document).ready(function () {
 
                 });
 
+            });
+
+            var $viewMessageButton = $('span.action-button.view-message');
+            
+            $viewMessageButton.unbind('click');
+            $viewMessageButton.on('click', function () {
+
+                var _id             = $(this).data('id');
+                var _type           = $(this).data('type');
+                var _messagePopup   = $('#m-message-popup').html();
+                var _message        = _.find(_messages, {id: _id.toString()});
+
+                _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
+
+                $('#primaryMessagePopup').remove();
+                $('body').append(_messagesPopupMarkup);
+
+                $('#primaryMessagePopup').fadeIn();
+                ub.funcs.centerPatternPopup();
+
+                /// Mark as read 
+                ub.funcs.markAsRead(_id);
+
+                $('div.close-popup').unbind('click');
+                $('div.close-popup').on('click', function () {
+
+                    $('#primaryMessagePopup').remove();
+
+                });
+
+            });
+
+        }
+
+        ub.funcs.markAsRead = function (messageId) {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/message/' + messageId,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    ub.funcs.updateMessageCount();
+                    $('tr.message-row[data-id="' +  messageId + '"]').remove();
+                    
+                }
+                
             });
 
         }
