@@ -96,16 +96,17 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.createMessage = function (order_code, content) {
+        ub.funcs.createMessage = function (type, order_code, subject, content) {
 
             var _postData = {
 
-                "subject": "Order Notes",
+                "type": type,
+                "subject": subject,
                 "order_code": order_code,
                 "content": content,
-                "type": "notes",
                 "recipient_id": ub.user.id,
                 "sender_id": ub.user.id,
+                "sender_name": ub.user.fullname,
                 "read": "0",
 
             }
@@ -146,6 +147,8 @@ $(document).ready(function () {
 
                     var _items = response.messages;
                     var _count = _.size(_items);
+
+                    ub.data.unreadMessages = response.messages;
 
                     $('a#messages > span.badge').hide();
                     $('a#messages > span.badge').html(_count);

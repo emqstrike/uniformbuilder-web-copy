@@ -1043,7 +1043,7 @@
 
             <div class="header">
 
-                Message
+                Message (@{{type}})
 
                 <div class="close-popup">
                         
@@ -1055,8 +1055,6 @@
             
             <div class="main-content">
                 
-                <div class="label">Type: </div>
-                <div class="value">@{{type}}</div>
                 <div class="label">From: </div>
                 <div class="value">@{{sender_name}}</div>
                 <div class="label">Message: </div>
@@ -1086,25 +1084,27 @@
         <table>
            
             <tr class="header">
+
                 <td>Type</td>
                 <td>Date</td>
-                <td>Order Code</td>
                 <td>From</td>
                 <td>Subject</td>
                 <td>Content</td>
                 <td>Action</td>
+
             </tr>
 
             @{{#messages}}
 
                 <tr class="message-row" data-id="@{{id}}">
+
                     <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
-                    <td><strong>@{{order_code}}</strong></td>
                     <td><strong>@{{sender_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{content}}</td>
                     <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+                    
                 </tr>
 
             @{{/messages}}
