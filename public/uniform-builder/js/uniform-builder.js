@@ -5812,7 +5812,7 @@ $(document).ready(function () {
             var _messages           = ub.funcs.parseJSON(_items);
 
             _messages               = _.chain(_messages)
-                                        .map(function (item)    { item.numericId = parseInt(item.id); return item; })
+                                        .map(function (item)    { item.contentPreview = item.content.substring(0,33) + '...'; item.numericId = parseInt(item.id); return item; })
                                         .sortBy(function (item) { return item.numericId * -1; })
                                         .value();
 
@@ -5879,7 +5879,6 @@ $(document).ready(function () {
                 $('tr.message-row').remove();
                 $('div.messages-loading').fadeIn();
 
-                console.log(_type);
                 ub.funcs.filterMessages(_type);
 
             });
@@ -5916,8 +5915,13 @@ $(document).ready(function () {
                 success: function (response){
 
                     ub.funcs.updateMessageCount();
-                    $('tr.message-row[data-id="' +  messageId + '"]').remove();
-                    
+
+                    if ($('div#messages > span.header').html() === "unread") {
+
+                        $('tr.message-row[data-id="' +  messageId + '"]').remove();
+
+                    }
+
                 }
                 
             });

@@ -1096,15 +1096,15 @@
 
             @{{#messages}}
 
-                <tr class="message-row" data-id="@{{id}}">
+                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">
 
                     <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
                     <td><strong>@{{sender_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
-                    <td class="message-info">@{{content}}</td>
+                    <td class="message-info">@{{contentPreview}}</td>
                     <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
-                    
+
                 </tr>
 
             @{{/messages}}
