@@ -132,6 +132,24 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.updateMessageBadges = function (type) {
+
+            var $badge  = $('span.badge.badge-' + type);
+            var _filter = type.toTitleCase();
+
+            if (_filter === "Pm") {
+
+                _filter = "PM";
+
+            }
+
+            var _count = _.chain(ub.data.unreadMessages).filter({type: _filter}).size().value();
+
+            _countStr = _count !== 0 ? _count: '';
+            $badge.html(_countStr);
+
+        }
+
         ub.funcs.updateMessageCount = function () {
 
             if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
@@ -153,6 +171,14 @@ $(document).ready(function () {
                     $('a#messages > span.badge').hide();
                     $('a#messages > span.badge').html(_count);
                     $('a#messages > span.badge').fadeIn();
+
+                    // $('span.badge.badge-prolook').html
+
+                    ub.funcs.updateMessageBadges('unread');
+                    ub.funcs.updateMessageBadges('orders');
+                    ub.funcs.updateMessageBadges('prolook');
+                    ub.funcs.updateMessageBadges('feedback');
+                    ub.funcs.updateMessageBadges('pm');
 
                 }
                 
@@ -5812,7 +5838,12 @@ $(document).ready(function () {
             var _messages           = ub.funcs.parseJSON(_items);
 
             _messages               = _.chain(_messages)
-                                        .map(function (item)    { item.contentPreview = item.content.substring(0,33) + '...'; item.numericId = parseInt(item.id); return item; })
+                                        .map(function (item)    { 
+                                            item.statusPreview = (item.read === '0') ? "New!": ""; 
+                                            item.contentPreview = item.content.substring(0,33) + '...'; 
+                                            item.numericId = parseInt(item.id); 
+                                            return item; 
+                                        })
                                         .sortBy(function (item) { return item.numericId * -1; })
                                         .value();
 

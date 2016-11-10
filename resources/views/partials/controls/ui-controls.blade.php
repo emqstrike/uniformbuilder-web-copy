@@ -1085,11 +1085,12 @@
            
             <tr class="header">
 
+                <td></td>
                 <td>Type</td>
                 <td>Date</td>
                 <td>From</td>
                 <td>Subject</td>
-                <td>Content</td>
+                <td>Message</td>
                 <td>Action</td>
 
             </tr>
@@ -1097,10 +1098,10 @@
             @{{#messages}}
 
                 <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">
-
+                    <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
                     <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
-                    <td><strong>@{{sender_name}}</strong></td>
+                    <td class="from"><strong>@{{sender_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{contentPreview}}</td>
                     <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
