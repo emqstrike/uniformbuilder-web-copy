@@ -1,12 +1,18 @@
 
 <div class="messages-right-pane">
     
-    <span class="link message-type" data-type="unread">Unread </span> <br />
+    <span class="link message-type" data-type="unread">Unread </span>
+
+    <br />
     
     <span class="link message-type" data-type="prolook">Prolook <span class="badge badge-prolook"></span></span>
     <span class="link message-type" data-type="orders">Orders <span class="badge badge-orders"></span></span>
     <span class="link message-type" data-type="pm">PM <span class="badge badge-pm"></span></span>
     <span class="link message-type" data-type="feedback">Feedback <span class="badge badge-feedback"></span></span>
+
+    <br />
+
+    <span class="link message-type" data-type="sent">Sent </span> 
 
 </div>
 

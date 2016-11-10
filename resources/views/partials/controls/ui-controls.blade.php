@@ -1060,6 +1060,20 @@
                 <div class="label">Message: </div>
                 <div class="value">@{{content}}</div>
 
+                <div class="reply-box">
+                    
+                    <div class="label">Reply: </div>
+                    <div class="inputbox">
+                        
+                        <textarea name="reply" rows="10">
+                            
+                        </textarea>
+
+                    </div>
+
+
+                </div>
+
             </div>
 
             <div class="footer">

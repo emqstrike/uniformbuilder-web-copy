@@ -172,8 +172,6 @@ $(document).ready(function () {
                     $('a#messages > span.badge').html(_count);
                     $('a#messages > span.badge').fadeIn();
 
-                    // $('span.badge.badge-prolook').html
-
                     ub.funcs.updateMessageBadges('unread');
                     ub.funcs.updateMessageBadges('orders');
                     ub.funcs.updateMessageBadges('prolook');
@@ -5839,10 +5837,19 @@ $(document).ready(function () {
 
             _messages               = _.chain(_messages)
                                         .map(function (item)    { 
+
+                                            console.log(item);
                                             item.statusPreview = (item.read === '0') ? "New!": ""; 
-                                            item.contentPreview = item.content.substring(0,33) + '...'; 
+                                            
+                                            if (typeof item.content !== "undefined" && item.content !== null) {
+
+                                                item.contentPreview = item.content.substring(0,33) + '...'; 
+                                                
+                                            }
+                                            
                                             item.numericId = parseInt(item.id); 
                                             return item; 
+
                                         })
                                         .sortBy(function (item) { return item.numericId * -1; })
                                         .value();
@@ -5971,6 +5978,12 @@ $(document).ready(function () {
 
             }
 
+            if (type === 'sent') {
+
+                _url = ub.config.api_host + '/api/messages/sender/' + ub.user.id; 
+
+            }
+
             $.ajax({
             
                 url: _url,
@@ -5980,7 +5993,7 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    if (typeof type === 'undefined') {
+                    if (typeof type === 'undefined' || type === 'sent') {
 
                         ub.funcs.messagesCallBack(response.messages);
 
