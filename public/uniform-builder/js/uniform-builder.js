@@ -96,7 +96,7 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.createMessage = function (type, order_code, subject, content) {
+        ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
 
             var _postData = {
 
@@ -104,8 +104,9 @@ $(document).ready(function () {
                 "subject": subject,
                 "order_code": order_code,
                 "content": content,
-                "recipient_id": ub.user.id,
+                "recipient_id": 0,
                 "sender_id": ub.user.id,
+                "parent_id": parent_id,
                 "sender_name": ub.user.fullname,
                 "read": "0",
 
@@ -124,6 +125,7 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response) {
 
+                    $.smkAlert({text: 'Message Sent!', type:'warning', time: 3, marginTop: '80px'});
                     console.log(response);
 
                 }
@@ -5838,14 +5840,9 @@ $(document).ready(function () {
             _messages               = _.chain(_messages)
                                         .map(function (item)    { 
 
-                                            console.log(item);
                                             item.statusPreview = (item.read === '0') ? "New!": ""; 
                                             
-                                            if (typeof item.content !== "undefined" && item.content !== null) {
-
-                                                item.contentPreview = item.content.substring(0,33) + '...'; 
-                                                
-                                            }
+                                            if (typeof item.content !== "undefined" && item.content !== null) { item.contentPreview = item.content.substring(0,33) + '...'; }
                                             
                                             item.numericId = parseInt(item.id); 
                                             return item; 
@@ -5893,10 +5890,37 @@ $(document).ready(function () {
                 $('body').append(_messagesPopupMarkup);
 
                 $('#primaryMessagePopup').fadeIn();
+                $('body').scrollTop(0);
+
                 ub.funcs.centerPatternPopup();
 
-                /// Mark as read 
-                ub.funcs.markAsRead(_id);
+                if ($('div#messages > span.header').html() === "sent") {
+
+                    $('div.reply-box').hide();
+
+                } else {
+
+                    // mark as read if the one viewwing the message is not the one who sent it....
+                    ub.funcs.markAsRead(_id);
+
+                }
+
+                $('span.submit-reply').unbind('click');
+                $('span.submit-reply').on('click', function () {
+
+                    var _messageEntered = $('textarea[name="reply"]').val();
+
+                    if(_messageEntered === "") { 
+
+                        $.smkAlert({text: 'Please put in a message.', type:'warning', time: 3, marginTop: '80px'});
+                        return; 
+
+                    }
+
+                    ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
+                    $('#primaryMessagePopup').remove();
+
+                });
 
                 $('div.close-popup').unbind('click');
                 $('div.close-popup').on('click', function () {

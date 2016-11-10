@@ -1057,6 +1057,8 @@
                 
                 <div class="label">From: </div>
                 <div class="value">@{{sender_name}}</div>
+                <div class="label">Subject: </div>
+                <div class="value">@{{subject}}</div>
                 <div class="label">Message: </div>
                 <div class="value">@{{content}}</div>
 
@@ -1065,12 +1067,15 @@
                     <div class="label">Reply: </div>
                     <div class="inputbox">
                         
-                        <textarea name="reply" rows="10">
-                            
-                        </textarea>
+                        <textarea name="reply" rows="10" cols="100" maxlength="500"></textarea>
 
                     </div>
 
+                    <div class="command-bar">
+                        
+                        <span class="submit-reply" data-message-id="@{{id}}">Submit</span>
+
+                    </div>
 
                 </div>
 
@@ -1096,13 +1101,14 @@
         <br />
 
         <table>
-           
+
             <tr class="header">
 
                 <td></td>
                 <td>Type</td>
                 <td>Date</td>
                 <td>From</td>
+                <td>To</td>
                 <td>Subject</td>
                 <td>Message</td>
                 <td>Action</td>
@@ -1116,6 +1122,7 @@
                     <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
                     <td class="from"><strong>@{{sender_name}}</strong></td>
+                    <td class="from"><strong>@{{recepient_name}}</strong></td>
                     <td class="subject">@{{subject}}</td>
                     <td class="message-info">@{{contentPreview}}</td>
                     <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
