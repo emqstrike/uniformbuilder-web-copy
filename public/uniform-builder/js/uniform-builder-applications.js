@@ -6504,8 +6504,7 @@ $(document).ready(function() {
 
             // In-place preview 
 
-            if (_settingsObject.mascot.name === 'Custom Logo') {
-
+            if (_settingsObject.mascot.name === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
 
                 var _filename  = _settingsObject.customFilename;
                 var _extension = _filename.split('.').pop();
@@ -9801,16 +9800,14 @@ $(document).ready(function() {
 
         formData.append('file', file);
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        if (typeof $.ajaxSettings.headers !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+        }
 
         $.ajax({
 
             data: formData,
-            url: ub.config.host + "/fileUpload",
+            url: ub.config.api_host + "/api/fileUpload",
             type: "POST", 
             processData: false,  // tell jQuery not to process the data
             contentType: false,
@@ -9858,6 +9855,59 @@ $(document).ready(function() {
 
                     console.log('Error Uploading Custom Artwork');
                     console.log(response.message);
+                    
+                }
+
+            }
+        
+        });
+
+    }
+
+     ub.funcs.fileUploadAttachment = function (file, callback) {
+
+        $('span.ok_btn').attr('data-status', 'processing');
+        $('em.unsupported-file').html('');
+
+        var _file = file;
+        var formData = new FormData();
+
+        formData.append('file', file);
+
+        if (typeof $.ajaxSettings.headers !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+        }
+        
+        $.ajax({
+
+            data: formData,
+            url: ub.config.api_host + "/api/fileUpload",
+            type: "POST", 
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,
+            crossDomain: true,
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response){
+                
+                if(response.success) {
+
+                    var _extension = response.filename.split('.').pop();
+                    
+                    if (ub.data.validDocumentTypesForUpload.isValidDocument(_extension)) {
+
+                        callback(response.filename, _extension, true);
+
+                    } else {
+
+                        callback(response.filename, _extension, false);
+
+                    }
+                    
+                }
+                else {
+
+                    callback(undefined, undefined, undefined);
                     
                 }
 

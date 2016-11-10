@@ -786,9 +786,9 @@ $(document).ready(function() {
                     factory_order_id: '',
                     design_sheet : ub.current_material.settings.pdfOrderForm,
                     roster: _transformedRoster,
-                    attached_files: ub.current_material.settings.custom_artwork,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    attached_files: ub.data.orderAttachment,
                     notes: _notes,
 
                 },
@@ -972,9 +972,9 @@ $(document).ready(function() {
                     sku: ub.current_material.material.sku,
                     material_id: ub.current_material.material.id,
                     url: ub.config.host + window.document.location.pathname,
-                    attached_files: ub.current_material.settings.custom_artwork,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    attached_files: ub.data.orderAttachment,
                     notes: _notes,
                 },
             ]
@@ -1133,7 +1133,54 @@ $(document).ready(function() {
 
         });
 
+        $("input#additional-attachment").change( function() {
+
+                ub.data.uploading = true;
+                ub.data.orderAttachment = "";
+                $('span.additional-attachment-message').html('Uploading...' + '<img src="/images/loading.gif" />');
+
+                if (this.files && this.files[0]) {
+
+                    var _filename = ub.funcs.fileUploadAttachment(this.files[0], function (filename, extension, valid) {
+
+                        if (typeof filename === 'undefined') {
+
+                            $.smkAlert({text: 'Error Uploading File', type:'warning', time: 3, marginTop: '80px'});
+                            $('span.additional-attachment-message').html('Error Uploading File');
+
+                            return;
+
+                        }
+
+                        if (valid){
+
+                            ub.data.orderAttachment = filename;
+                            $('span.additional-attachment-message').html('Upload ok! Please click on the [Continue] button to proceed.');
+
+                        } else {
+
+                            $('span.additional-attachment-message').html('Invalid File Type: ' + extension);
+                            $.smkAlert({text: 'Invalid File Type: ' + extension, type:'warning', time: 3, marginTop: '80px'});
+
+                        }
+
+                        ub.data.uploading = false;
+
+
+                    });
+                    
+                }
+
+        });
+
         $('span.submit-order').on('click', function () {
+
+            if(ub.data.uploading) {  
+
+                $.smkAlert({text: 'Please wait for uploading to finish.', type:'warning', time: 3, marginTop: '80px'});
+                return;
+
+            }
 
             ub.funcs.validateOrderForm();
 

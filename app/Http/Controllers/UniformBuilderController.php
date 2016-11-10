@@ -387,6 +387,7 @@ class UniformBuilderController extends Controller
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {
+
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
 
@@ -400,10 +401,6 @@ class UniformBuilderController extends Controller
                     if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
                         $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
-
-                    } else {
-
-                        $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
 
                     }
 
@@ -993,7 +990,15 @@ class UniformBuilderController extends Controller
         $table .= '<p style="font-size: 0.8em">';
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
-
+        
+        if ($firstOrderItem['attached_files'] !== "") {
+            $table .= '<br /><br />';
+            $table .= '<strong>ATTACHMENT</strong>';
+            $table .= '<p>'; 
+            $table .= '<a href="' . $firstOrderItem['attached_files'] . '">Open Attachment</a>';    
+            $table .= '</p>'; 
+        }
+        
         return $table;
 
     }
