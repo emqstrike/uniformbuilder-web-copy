@@ -393,7 +393,7 @@ class UniformBuilderController extends Controller
 
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
-                    $html .=   '<a href="' . $application['customFilename'] . '">Link To Uploaded File</a> <br />';
+                    $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
 
                     $userfile_name = $application['customFilename'];
                     $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
@@ -995,7 +995,7 @@ class UniformBuilderController extends Controller
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
             $table .= '<p>'; 
-            $table .= '<a href="' . $firstOrderItem['attached_files'] . '">Open Attachment</a>';    
+            $table .= '<a href="' . $firstOrderItem['attached_files'] . '" target="_new">Open Attachment</a>';    
             $table .= '</p>'; 
         }
         
@@ -1094,9 +1094,6 @@ class UniformBuilderController extends Controller
 
         $pdf->AddPage("L");
         $pdf->writeHTML($html, true, false, true, false, '');
-
-        //$pdf->Image($outputFilenameFront, 1, 12, 200);
-        //$pdf->Write(0, $bc['roster'][0]['size']);
 
         $pdf->AddPage("L");
 
@@ -1401,6 +1398,26 @@ class UniformBuilderController extends Controller
         ];
 
         return view('editor.my-saved-designs', $params);
+
+    }
+
+    public function myMessages(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-messages',
+        ];
+
+        return view('editor.my-messages', $params);
 
     }
 

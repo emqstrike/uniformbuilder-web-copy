@@ -6687,7 +6687,13 @@ ub.funcs.fontOffSets = [
         }
     }
 
-
     /// End Block Pattern Lengths
+
+    /// Messages
+
+        ub.data.messageTypes = ['unread', 'orders', 'prolook', 'feedback', 'pm'];
+        ub.data.unreadMessages = undefined;
+
+    /// End Messages 
 
 });

@@ -96,9 +96,97 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
+
+            var _postData = {
+
+                "type": type,
+                "subject": subject,
+                "order_code": order_code,
+                "content": content,
+                "recipient_id": 0,
+                "sender_id": ub.user.id,
+                "parent_id": parent_id,
+                "sender_name": ub.user.fullname,
+                "read": "0",
+
+            }
+
+            var _url = ub.config.api_host + '/api/message';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Message Sent!', type:'warning', time: 3, marginTop: '80px'});
+                    console.log(response);
+
+                }
+                        
+            });
+
+        }
+
+        ub.funcs.updateMessageBadges = function (type) {
+
+            var $badge  = $('span.badge.badge-' + type);
+            var _filter = type.toTitleCase();
+
+            if (_filter === "Pm") {
+
+                _filter = "PM";
+
+            }
+
+            var _count = _.chain(ub.data.unreadMessages).filter({type: _filter}).size().value();
+
+            _countStr = _count !== 0 ? _count: '';
+            $badge.html(_countStr);
+
+        }
+
+        ub.funcs.updateMessageCount = function () {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    var _items = response.messages;
+                    var _count = _.size(_items);
+
+                    ub.data.unreadMessages = response.messages;
+
+                    $('a#messages > span.badge').hide();
+                    $('a#messages > span.badge').html(_count);
+                    $('a#messages > span.badge').fadeIn();
+
+                    _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
+
+                }
+                
+            });
+
+        };
+
         ub.funcs.beforeLoad = function () {
 
             $('a.change-view[data-view="team-info"]').addClass('disabled');
+
+            if (typeof ub.user.id === 'number')  { ub.funcs.updateMessageCount(); }
 
         }
 
@@ -173,13 +261,12 @@ $(document).ready(function () {
             ub.data.blockPatternLength = _result;
             // End Block Pattern Widths
 
+            window.onbeforeunload = function (e) {
 
-            // window.onbeforeunload = function (e) {
-                
-            //     return false;
+                return "Please save your work first before going to another page so that your work might not be lost.";
 
-            // };
-            
+            };
+
         };
 
         ub.funcs.loadOtherFonts = function () {
@@ -5735,6 +5822,232 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.messagesCallBack = function (messageBlock) {
+
+            var _items = messageBlock;
+            var _count = _.size(_items);
+
+            $('div.my-messages-loading').hide();
+            $('div.messages-loading').hide();
+
+            var $container          = $('div.message-list');
+            var _messages           = ub.funcs.parseJSON(_items);
+
+            _messages               = _.chain(_messages)
+                                        .map(function (item)    { 
+
+                                            item.statusPreview = (item.read === '0') ? "New!": ""; 
+                                            
+                                            if (typeof item.content !== "undefined" && item.content !== null) { item.contentPreview = item.content.substring(0,33) + '...'; }
+                                            
+                                            item.numericId = parseInt(item.id); 
+                                            return item; 
+
+                                        })
+                                        .sortBy(function (item) { return item.numericId * -1; })
+                                        .value();
+
+            var data                = { messages: _messages, };
+            var $messagesContainer  = $('div.message-list.right-pane');
+            var _messagesTemplate   = $('#messages-table').html();
+
+            _messagesMarkup         = Mustache.render(_messagesTemplate, data);
+
+            $.when(
+                $messagesContainer.html(_messagesMarkup)
+            ).then (function () {
+
+                $.each($('td.time'), function (index, value){
+
+                    var _utcDate = $(value).data('time');
+                    var date = new Date(_utcDate);
+
+                    var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+
+                    $(value).html(_d);
+
+                });
+
+            });
+
+            var $viewMessageButton = $('span.action-button.view-message');
+            
+            $viewMessageButton.unbind('click');
+            $viewMessageButton.on('click', function () {
+
+                var _id             = $(this).data('id');
+                var _type           = $(this).data('type');
+                var _messagePopup   = $('#m-message-popup').html();
+                var _message        = _.find(_messages, {id: _id.toString()});
+
+                _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
+
+                $('#primaryMessagePopup').remove();
+                $('body').append(_messagesPopupMarkup);
+
+                $('#primaryMessagePopup').fadeIn();
+                $('body').scrollTop(0);
+
+                ub.funcs.centerPatternPopup();
+
+                if ($('div#messages > span.header').html() === "sent") {
+
+                    $('div.reply-box').hide();
+
+                } else {
+
+                    // mark as read if the one viewwing the message is not the one who sent it....
+                    ub.funcs.markAsRead(_id);
+
+                }
+
+                $('span.submit-reply').unbind('click');
+                $('span.submit-reply').on('click', function () {
+
+                    var _messageEntered = $('textarea[name="reply"]').val();
+
+                    if(_messageEntered === "") { 
+
+                        $.smkAlert({text: 'Please put in a message.', type:'warning', time: 3, marginTop: '80px'});
+                        return; 
+
+                    }
+
+                    ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
+                    $('#primaryMessagePopup').remove();
+
+                });
+
+                $('div.close-popup').unbind('click');
+                $('div.close-popup').on('click', function () {
+
+                    $('#primaryMessagePopup').remove();
+
+                });
+
+            });
+
+            var $msgType = $('span.message-type');
+            $msgType.unbind('click');
+            $msgType.on('click', function () {
+
+                var _type = $(this).data('type');
+                $('div#messages > span.header').html(_type);
+
+                $('tr.message-row').remove();
+                $('div.messages-loading').fadeIn();
+
+                ub.funcs.filterMessages(_type);
+
+            });
+
+        }
+
+        ub.funcs.filterMessages = function (type) {
+
+            $('div#messages > span.header').html(type);
+
+            if (type !== "unread") {
+
+                ub.funcs.displayMyMessages(type);
+                    
+            } else {
+
+                ub.funcs.displayMyMessages();
+
+            }
+            
+        }
+
+        ub.funcs.markAsRead = function (messageId) {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/message/' + messageId,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    ub.funcs.updateMessageCount();
+
+                    if ($('div#messages > span.header').html() === "unread") {
+
+                        $('tr.message-row[data-id="' +  messageId + '"]').remove();
+
+                    }
+
+                }
+                
+            });
+
+        }
+
+        ub.funcs.displayMyMessages = function (type) {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            var _url = ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id;
+
+            if (typeof type !== 'undefined') {
+
+               _url = ub.config.api_host + '/api/messages/recipient/' + ub.user.id
+
+            }
+
+            if (type === 'sent') {
+
+                _url = ub.config.api_host + '/api/messages/sender/' + ub.user.id; 
+
+            }
+
+            $.ajax({
+            
+                url: _url,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (typeof type === 'undefined' || type === 'sent') {
+
+                        ub.funcs.messagesCallBack(response.messages);
+
+                    } else {
+
+                        var _typeConverted = type.toTitleCase();
+
+                        if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
+
+                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        ub.funcs.messagesCallBack(_filteredMessages);
+
+                    }
+                    
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-messages') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyMessages();
+
+        }
+
     /// End Orders
 
     /// Profile
@@ -6379,6 +6692,8 @@ $(document).ready(function () {
     // Initial Roster Item
     createNewRosterRecordForm();
 
+    
+
     // lrest
 
     ub.funcs.lRest = function (e, p, fromMiddleScreen) {
@@ -6419,6 +6734,8 @@ $(document).ready(function () {
 
                     $('div.user-profile.pull-right').html(markup);
                     $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
+                    ub.funcs.updateMessageCount();
 
                     $('a.change-view[data-view="save"]').removeClass('disabled');
                     $('a.change-view[data-view="open-design"]').removeClass('disabled');

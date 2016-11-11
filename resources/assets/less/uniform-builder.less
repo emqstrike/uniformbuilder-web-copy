@@ -5880,6 +5880,32 @@ div.header-container.main {
 
     }
 
+    a#messages {
+
+        color: #acacac;
+        background-color: #fcfcfc;
+
+        min-width: 30px;
+        text-align: center;
+        margin-right: 10px;
+        text-decoration: none;
+
+        span.badge {
+
+            background-color: #3d3d3d;
+
+        }
+
+    }
+
+    a#messages:hover {
+
+        color: #3d3d3d;
+        
+    }
+
+ 
+
     a#feedback {
 
         color: #acacac;
@@ -6079,6 +6105,420 @@ div.header-container.main {
         }
 
     /* End My Profile */
+
+     /* Messages */
+
+        /* Left Pane */ 
+
+        div.messages-right-pane {
+
+            width: 27%;
+            float: left;
+            margin-top: 30px;
+
+            border-right: solid 1px #acacac;
+            margin-right: 10px;
+            min-height: 700px;
+
+            span.link {
+
+                display: block;
+                cursor: pointer;
+                color: white;
+                background-color: #acacac;
+                padding: 7px;
+                margin-left: 100px;
+                margin-right: 30px;
+                margin-bottom: 2px;
+                text-transform: uppercase;
+
+            }
+
+            span.link:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+        }
+
+        /* Right Pane */
+
+        div#messages {
+
+            float: right;
+
+            width: 64%;
+            height: auto;
+            background-color: white;
+            padding: 30px;
+            margin: 0 auto;
+            margin-right: 100px;
+            margin-top: 30px;
+            
+            span.header {
+        
+                font-size: 2em;
+                text-align: center;
+                width: 100%;
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
+
+            }
+
+            div.message-list {
+
+                table {
+
+                    width: 100%;
+                    margin: 0 auto;
+
+                    tr.header {
+
+                        text-transform: uppercase;
+                        font-weight: bold;
+                        background-color: #acacac;
+                        color: white;
+
+                        td {
+
+                            text-align: center;
+
+                        }
+
+                    }
+
+                    tr {
+
+                        td {
+
+                            text-align: center;
+                            border: solid 1px #acacac;
+                            padding: 7px;
+
+                        }
+
+                        td.order-info {
+
+                            padding: 30px;
+
+                            text-align: center;
+                            label {
+
+                                width: 30%;
+
+                            }
+
+                            img.thumbs {
+
+                                width: 100px;
+
+                            }
+
+                        }
+
+                        td.status-preview {
+
+                            width: 40px;
+                            color: #acacac;
+
+                        }
+
+                        td.from {
+
+                            color: #acacac;                            
+
+                        }
+
+                        td.action {
+
+                            width: 20%;
+
+                            span.action-button {
+
+                                padding: 7px;
+                                background-color: #acacac;
+                                color: white;
+                                width: 120px;
+                                margin: 7px;
+                                display: inline-block;
+                                cursor: pointer;
+                                font-size: 0.8em;
+
+                            }
+
+                            span.action-button:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+
+                        }
+
+                    }
+
+                    tr.message-row {
+
+
+
+                    }
+
+                    tr.message-row:hover {
+
+                        background-color: #eee;
+
+                    }
+
+                }
+
+                tr[data-read="0"] {
+
+                    background-color: #eee;
+
+                }
+
+            }
+
+        }
+
+
+        /* Pattern Popup */
+
+        div#primaryMessagePopup {
+
+            cursor: grab;
+            padding: 10px;
+
+            display: none;
+            position: absolute;
+
+            width: 930px;
+            height: 650px;
+            top: 300px;
+            left: 300px;
+            z-index: 3100;
+            background-color: white;
+
+            -webkit-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
+            -moz-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
+            box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
+
+            div.footer {
+
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 40px;
+                color: white;
+                background-color: #808080;
+                left: 0;
+                padding: 10px;
+
+            }
+
+            div.header {
+                    
+                text-align: center;
+                font-size: 1.3em;
+                padding: 20px;
+                margin-top: 20px;
+
+            }
+
+            div.main-content {
+
+                width: 100%;
+                height: 480px;
+                overflow-y: hidden;
+                padding: 20px;
+                padding-top: 30px;
+                padding-bottom: 50px;
+                border-top: solid 1px @customizer_forecolor;
+
+                div.label {
+
+                    color: #acacac;
+                    font-size: 1em;
+
+                }
+
+                div.value {
+
+                    color: #3d3d3d;
+                    font-size: 1.2em;
+                    margin-bottom: 30px;
+                    
+                }
+
+                div.reply-box {
+
+                    div.label {
+
+                        margin-bottom: 7px;
+
+                    }
+
+                    div.inputbox {
+
+                        margin-top: 10px;
+
+                        textarea[name="reply"] {
+
+                            width: 100%;
+                            height: 150px;
+                            padding: 10px;
+
+                        }
+
+                    }
+
+                    div.command-bar {
+
+                        span.submit-reply {
+
+                            background-color: #acacac;
+                            color: white;
+                            float: right;
+                            width: 100px;
+                            height: 30px;
+                            padding: 5px;
+                            text-align: center;
+                            cursor: pointer;
+
+                        }
+
+                        span.submit-reply:hover {
+
+                            background-color: #3d3d3d;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        .pullUp {
+
+
+        }
+
+        /* End Message Popup */
+
+    /* End Messages */  
+
+     /* My Messages */
+
+        div#my-messages {
+
+            width: 90%;
+            height: auto;
+            background-color: white;
+            padding: 30px;
+            margin: 0 auto;
+            margin-top: 30px;
+
+            span.header {
+        
+                font-size: 2em;
+                text-align: center;
+                width: 100%;
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
+
+            }
+
+            div.message-list {
+
+                table {
+
+                    width: 100%;
+                    margin: 0 auto;
+
+                    tr.header {
+
+                        text-transform: uppercase;
+                        font-weight: bold;
+                        background-color: #acacac;
+                        color: white;
+
+                        td {
+
+                            text-align: center;
+
+                        }
+
+                    }
+
+                    tr {
+
+                        td {
+
+                            text-align: center;
+                            border: solid 1px #acacac;
+                            padding: 7px;
+
+                        }
+
+                        td.order-info {
+
+                            padding: 30px;
+
+                            text-align: center;
+                            label {
+
+                                width: 30%;
+
+                            }
+
+                            img.thumbs {
+
+                                width: 100px;
+
+                            }
+
+                        }
+
+                        td.action {
+
+                            width: 20%;
+
+                            span.action-button {
+
+                                padding: 7px;
+                                background-color: #acacac;
+                                color: white;
+                                width: 120px;
+                                margin: 7px;
+                                display: inline-block;
+                                cursor: pointer;
+                                font-size: 0.8em;
+
+                            }
+
+                            span.action-button:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+    /* End My Messages */   
 
     /* My Orders */
 
