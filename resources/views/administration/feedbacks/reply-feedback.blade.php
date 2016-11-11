@@ -91,8 +91,7 @@ $('.reply-feedback').on('click', function(){
     var reply_content = $('.reply-content').val();
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
-    // var url = "//api-dev.qstrike.com/api/message";
-    var url = "//localhost:8888/api/message";
+    var url = "//api-dev.qstrike.com/api/message";
 
     var data = {
         subject: subject,
@@ -101,7 +100,7 @@ $('.reply-feedback').on('click', function(){
         content: reply_content,
         sender_id: "0",
         sender_name: "Prolook Admin",
-        type: "feedback"
+        type: "Feedback"
     };
 
     console.log(data);
