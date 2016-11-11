@@ -4267,7 +4267,7 @@ $(document).ready(function() {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 
@@ -4982,7 +4982,7 @@ $(document).ready(function() {
 
             if (ub.current_material.settings.team_colors.length >= 3) {
                 _color = ub.current_material.settings.team_colors[2].hex_code;
-            } 
+            }
 
             _secondLayer.default_color = _color;
 
@@ -5193,7 +5193,7 @@ $(document).ready(function() {
 
             ub.funcs.changeAccentFromPopup(_id, settingsObj);
             $popup.remove();
-            ub.funcs.activateApplications(settingsObj.code)
+            ub.funcs.activateApplications(settingsObj.code);
 
             if (settingsObj.code === "32") {
 
@@ -7520,6 +7520,9 @@ $(document).ready(function() {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible')) { return; }
+
+        // Remove Change Application UI
+        $('div#changeApplicationUI').remove();
 
         if (!ub.funcs.okToStart()) { return; }
 

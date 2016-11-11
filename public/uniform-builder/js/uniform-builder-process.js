@@ -485,7 +485,7 @@ $(document).ready(function() {
 
         }
 
-        var _postData   = {
+        var _postData = {
 
             "subject" : "Feedback",
             "order_code" : "",
@@ -509,7 +509,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function (response){
+            success: function (response) {
 
                 console.log(response);
 
@@ -1547,13 +1547,7 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
-
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
             $.ajax({
 

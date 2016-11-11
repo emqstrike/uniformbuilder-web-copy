@@ -298,7 +298,10 @@ Route::group(array('prefix' => 'administration'), function() {
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
+
 });
+
+Route::get('/messages', 'UniformBuilderController@myMessages');
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');

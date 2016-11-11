@@ -1021,7 +1021,7 @@
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
                         
                     </td>
 
@@ -1034,6 +1034,144 @@
     </script>   
 
 <!-- End Orders Table -->
+
+<!-- Message Popup -->
+
+    <script type="text/mustache" id="m-message-popup">
+
+        <div id="primaryMessagePopup" data-status="hidden">
+
+            <div class="header">
+
+                Message (@{{type}})
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="label">From: </div>
+                <div class="value">@{{sender_name}}</div>
+                <div class="label">Subject: </div>
+                <div class="value">@{{subject}}</div>
+                <div class="label">Message: </div>
+                <div class="value">@{{content}}</div>
+
+                <div class="reply-box">
+                    
+                    <div class="label">Reply: </div>
+                    <div class="inputbox">
+                        
+                        <textarea name="reply" rows="10" cols="100" maxlength="500"></textarea>
+
+                    </div>
+
+                    <div class="command-bar">
+                        
+                        <span class="submit-reply" data-message-id="@{{id}}">Submit</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Message Popup -->
+
+<!-- Messages Table -->
+
+    <script type="text/mustache" id="messages-table">
+
+        <br />
+
+        <table>
+
+            <tr class="header">
+
+                <td></td>
+                <td>Type</td>
+                <td>Date</td>
+                <td>From</td>
+                <td>To</td>
+                <td>Subject</td>
+                <td>Message</td>
+                <td>Action</td>
+
+            </tr>
+
+            @{{#messages}}
+
+                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
+                    <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
+                    <td>@{{type}}</td>
+                    <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
+                    <td class="from"><strong>@{{sender_name}}</strong></td>
+                    <td class="from"><strong>@{{recepient_name}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{contentPreview}}</td>
+                    <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Messages Table -->
+
+<!-- Right Pane Messages Table -->
+
+    <script type="text/mustache" id="m-messages-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Type</td>
+                <td>Date</td>
+                <td>Order Code</td>
+                <td>Subject</td>
+                <td>Content</td>
+                <td>Status</td>
+            </tr>
+
+            @{{#messages}}
+
+                <tr>
+                    <td>Type</td>
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_code}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{content}}</td>
+                    <td>@{{read}}</td> 
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Right Pane Messages Table -->
 
 <!-- Order Submitted -->
 
@@ -1317,6 +1455,12 @@
 <!-- Logged In Nav -->
 
     <script type="text/mustache" id="m-loggedInNavbar">
+
+        <a href="/messages" id="messages">
+
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> My Messages <span class="badge"></span>
+
+        </a>
 
         <a href="#" id="feedback">
 

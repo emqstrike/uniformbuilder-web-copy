@@ -152,6 +152,7 @@
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('my-messages')
 @yield('my-profile')
 @yield('signup')
 @yield('forgot-password')
@@ -217,8 +218,12 @@
 <script src="{{$asset_storage}}/sortable/jquery.binding.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js{{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/noUiSlider/nouislider.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/moment/moment.js{{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js{{$asset_version}}"></script>
+
+
+<script src="{{$asset_storage}}/noUiSlider/nouislider.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
