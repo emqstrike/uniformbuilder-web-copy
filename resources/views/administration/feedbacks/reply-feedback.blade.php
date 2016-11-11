@@ -89,7 +89,7 @@ $('.reply-feedback').on('click', function(){
     var feedback_id = $('.feedback-id').val();
     var reply_content = $('.reply-content').val();
     var subject = $('.subject').val();
-    var url = "//localhost:8888/api/message";
+    var url = "//api-dev.qstrike.com/api/message";
 
     var data = {
         subject: subject,
