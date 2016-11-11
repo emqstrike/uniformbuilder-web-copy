@@ -7,39 +7,32 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\APIClients\PriceItemsAPIClient as APIClient;
+use App\APIClients\MessagesAPIClient as APIClient;
+use Session;
 
 class MessagesController extends Controller
 {
     protected $client;
 
-    // public function __construct(APIClient $apiClient)
-    // {
-    //     $this->client = $apiClient;
-    // }
-
-    /**
-     * Price Items
-     */
-    public function index()
+    public function __construct(APIClient $apiClient)
     {
-        // $price_items = $this->client->getAllPriceItems();
+        $this->client = $apiClient;
+    }
 
-        return view('administration.messages.messages', [
-            'messages' => null
-        ]);
+    public function getUserMessages()
+    {
+        $user_id = Session::get('userId');
+        $messages = $this->client->getByRecipient($user_id);
+
+        return $messages;
+        // return view('administration.messages.messages', [
+        //     'messages' => $messages
+        // ]);
     }
 
     public function composeForm()
     {
-        // $price_items = $this->client->getAllPriceItems();
-
         return view('administration.messages.message-compose');
     }
-
-    // public function materialsTable()
-    // {
-    //     return view('administration.price-items.list-materials');
-    // }
 
 }
