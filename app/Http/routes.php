@@ -273,7 +273,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('helper/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@editForm']);
     Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
 
-
     // NewsLetters
     Route::get('news_letters', 'Administration\NewsLettersController@index');
 
@@ -295,6 +294,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
+
+    // Feedbacks
+    Route::get('feedbacks', 'Administration\FeedbacksController@index');
+    Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
 
 });
 

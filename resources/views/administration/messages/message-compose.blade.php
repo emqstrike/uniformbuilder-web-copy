@@ -141,7 +141,7 @@ $(document).ready(function(){
     function getAdmins(callback){
         var admins;
         // var url = "//api-dev.qstrike.com/api/users/admins";
-        var url = "//localhost:8888/api/users/admins";
+        var url = "//" + api_host + "/api/users/admins";
         $.ajax({
             url: url,
             async: false,
@@ -149,6 +149,7 @@ $(document).ready(function(){
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
             success: function(data){
                 admins = data['users'];
                 if(typeof callback === "function") callback(admins);

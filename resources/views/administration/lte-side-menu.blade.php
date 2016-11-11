@@ -158,4 +158,9 @@
       <i class="glyphicon glyphicon-user"></i> <span>Users</span>
     </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/feedbacks" >
+      <i class="glyphicon glyphicon-envelope"></i> <span>Feedbacks</span>
+    </a>
+  </li>
 </ul>

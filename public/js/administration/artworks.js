@@ -20,6 +20,10 @@ $('.file-link').on('click', function(e){
     OpenInNewTab(url);
 });
 
+$('.upload-mascot').on('click', function(e){
+    e.preventDefault();
+});
+
 function insertAR(data){
     $.ajax({
         url: '//' + api_host + '/api/artwork_request',
@@ -30,7 +34,6 @@ function insertAR(data){
             alert('Artwork Request Inserted!');
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
         }
     });
 }
