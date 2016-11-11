@@ -54,6 +54,7 @@
                                         <div>Application #{{ $art['code'] }}
                                             <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
                                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
+                                            <a href="#" class="upload-mascot">Upload Mascot</a>
                                         </div><br>
                                     @endforeach
                                 @endif

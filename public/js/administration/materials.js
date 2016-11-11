@@ -1854,7 +1854,7 @@ $(document).ready(function() {
 
             console.log(myData);
             console.log('"'+JSON.stringify(data)+'"');
-         
+
             $.ajax({
                 url: url,
                 type: "POST",

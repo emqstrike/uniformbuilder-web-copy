@@ -24,7 +24,8 @@
                             <th></th>
                             <th>Rep</th>
                             <th>Items</th>
-                            <th>Status</th>
+                            <th>Artwork Status</th>
+                            <th>Order Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
                         </tr>
@@ -93,6 +94,9 @@
                                 <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-default btn-xs pdf-link">PDF</a></br>
                                 <!-- <a href="#" class="btn btn-warning bc-display" data-bc="{{ $item->builder_customizations }}">BC</a> -->
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ $order->artwork_status }}
                             </td>
                             <td>
                                 <select class="form-control change-order-status" data-order-id="{{ $order->id }}">
