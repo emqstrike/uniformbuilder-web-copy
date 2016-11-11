@@ -32,6 +32,7 @@ li.select2-selection__choice {
                     <form class="form-horizontal" role="form" method="POST" action="/administration/feedback/reply" enctype="multipart/form-data" id='edit-feature_flag-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" class="feedback-id" value="{{ $feedback->id }}">
+                        <input type="hidden" class="user-id" value="{{ $feedback->user_id }}">
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
@@ -88,12 +89,15 @@ $('.reply-feedback').on('click', function(){
 
     var feedback_id = $('.feedback-id').val();
     var reply_content = $('.reply-content').val();
+    var user_id = $('.user-id').val();
     var subject = $('.subject').val();
-    var url = "//api-dev.qstrike.com/api/message";
+    // var url = "//api-dev.qstrike.com/api/message";
+    var url = "//localhost:8888/api/message";
 
     var data = {
         subject: subject,
         feedback_id: feedback_id,
+        recipient_id: user_id,
         content: reply_content,
         sender_id: "0",
         sender_name: "Prolook Admin",
@@ -111,15 +115,15 @@ $('.reply-feedback').on('click', function(){
         // headers: {"accessToken": atob(headerValue)},
         success: function(response){
             console.log(response);
-            // if (response.success) {
-            //     new PNotify({
-            //         title: 'Success',
-            //         text: response.message,
-            //         type: 'success',
-            //         hide: true
-            //     });
-            //     window.location.reload();
-            // }
+            if (response.success) {
+                new PNotify({
+                    title: 'Success',
+                    text: response.message,
+                    type: 'success',
+                    hide: true
+                });
+                window.location.reload();
+            }
         }
     });
 
