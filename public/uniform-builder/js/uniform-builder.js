@@ -261,11 +261,11 @@ $(document).ready(function () {
             ub.data.blockPatternLength = _result;
             // End Block Pattern Widths
 
-            // window.onbeforeunload = function (e) {
+            window.onbeforeunload = function (e) {
 
-            //     return false;
+                return "Please save your work first before going to another page so that your work might not be lost.";
 
-            // };
+            };
 
         };
 
