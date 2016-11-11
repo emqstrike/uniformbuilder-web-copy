@@ -1021,7 +1021,7 @@
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
                         
                     </td>
 
@@ -1117,7 +1117,7 @@
 
             @{{#messages}}
 
-                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">
+                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
                     <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
                     <td>@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>

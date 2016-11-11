@@ -6691,6 +6691,7 @@ ub.funcs.fontOffSets = [
 
     /// Messages
 
+        ub.data.messageTypes = ['unread', 'orders', 'prolook', 'feedback', 'pm'];
         ub.data.unreadMessages = undefined;
 
     /// End Messages 

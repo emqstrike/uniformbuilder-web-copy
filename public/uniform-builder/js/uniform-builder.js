@@ -112,7 +112,7 @@ $(document).ready(function () {
 
             }
 
-            var _url = 'http://api-dev.qstrike.com/api/message';
+            var _url = ub.config.api_host + '/api/message';
 
             $.ajax({
                         
@@ -174,11 +174,7 @@ $(document).ready(function () {
                     $('a#messages > span.badge').html(_count);
                     $('a#messages > span.badge').fadeIn();
 
-                    ub.funcs.updateMessageBadges('unread');
-                    ub.funcs.updateMessageBadges('orders');
-                    ub.funcs.updateMessageBadges('prolook');
-                    ub.funcs.updateMessageBadges('feedback');
-                    ub.funcs.updateMessageBadges('pm');
+                    _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
 
                 }
                 
