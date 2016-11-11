@@ -101,7 +101,7 @@ $('.reply-feedback').on('click', function(){
         content: reply_content,
         sender_id: "0",
         sender_name: "Prolook Admin",
-        type: "feedback-reply"
+        type: "feedback"
     };
 
     console.log(data);
