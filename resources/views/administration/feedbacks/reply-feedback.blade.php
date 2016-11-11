@@ -7,6 +7,12 @@
 li.select2-selection__choice {
     color: black !important;
 }
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
 </style>
 @endsection
 
@@ -39,7 +45,7 @@ li.select2-selection__choice {
                                 <label>{{ $feedback->sender_name }}'s Feedback</label>
                             </div>
                             <div class="col-md-8 col-md-offset-2">
-                                <textarea class="form-control" disabled>{{ $feedback->content }}</textarea>
+                                <textarea class="form-control animated" disabled>{{ $feedback->content }}</textarea>
                             </div>
                         </div>
 
@@ -51,7 +57,7 @@ li.select2-selection__choice {
                                 Subject: <input type="text" class="form-control subject"></br>
                             </div>
                             <div class="col-md-8 col-md-offset-2">
-                                Content: <textarea class="form-control reply-content"></textarea>
+                                Content: <textarea class="form-control reply-content animated"></textarea>
                             </div>
                         </div>
 
@@ -82,8 +88,11 @@ li.select2-selection__choice {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script>
 $(document).ready(function(){
+
+$('.animated').autosize({append: "\n"});
 
 $('.reply-feedback').on('click', function(){
 
