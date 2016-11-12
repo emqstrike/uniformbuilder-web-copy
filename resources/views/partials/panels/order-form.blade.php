@@ -1,6 +1,6 @@
 <div id="order-form">
 
-    <span class="back-to-roster-form-button" style="display: none">
+    <span class="back-to-roster-form-button">
         <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Roster Input
     </span>
 

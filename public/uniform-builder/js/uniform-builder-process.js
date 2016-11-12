@@ -1,6 +1,6 @@
 $(document).ready(function() {                    
 
-
+    
     ub.funcs.fadeOutCustomizer = function () {
 
         $('div#right-pane-column').fadeOut();        
@@ -820,6 +820,7 @@ $(document).ready(function() {
 
         $('div#validate-order-form > span.processing').fadeOut();
 
+        $('span.submit-confirmed-order').unbind('click');
         $('span.submit-confirmed-order').on('click', function () {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
@@ -995,6 +996,14 @@ $(document).ready(function() {
 
         }
 
+        $('span.processing-pdf').fadeIn();
+        $('span.previewFormPdf').fadeIn();
+        $('iframe#pdfViewer').attr('src', '')
+        $('a.previewPDFLink').attr('href', '');
+        $('span.submit-confirmed-order').fadeOut();
+
+        ub.funcs.pushState({data: 'generate-pdf', title: 'Generate PDF', url: '?generate-pdf'});
+
         var _bc = ub.current_material.settings;
         var _input = ub.funcs.prepareData();
 
@@ -1017,7 +1026,6 @@ $(document).ready(function() {
                 
                 if(response.success) {
                     ub.funcs.displayLinks(response.filename);
-                    console.log('pdf filename: ' + response.filename);
                 }
                 else{
                     console.log('error: ');
@@ -1050,6 +1058,13 @@ $(document).ready(function() {
     ub.funcs.showValidateOrderForm = function () {
 
         $("div#validate-order-form").fadeIn();
+
+        $('span.back-to-roster-form-button').unbind('click');
+        $('span.back-to-roster-form-button').on('click', function () {
+
+            ub.funcs.reShowOrderFrom();
+
+        });
 
     }
 
@@ -1094,6 +1109,8 @@ $(document).ready(function() {
 
     ub.funcs.showOrderForm = function () {
 
+        ub.funcs.pushState({data: 'order-form', title: 'Order Form', url: '?order-form'});
+
         $('div#roster-input').fadeOut();
         window.scrollTo(0,0);
         $('div#order-form').fadeIn();
@@ -1104,7 +1121,7 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         _.each (ub.current_material.settings.size_breakdown, function (row) {
 
-            _htmlBuilder += '<tr>';
+            _htmlBuilder += '<tr class="tr-size-row">';
             _htmlBuilder +=     '<td>';
             _htmlBuilder +=        row.size;
             _htmlBuilder +=     '</td>';
@@ -1124,6 +1141,7 @@ $(document).ready(function() {
         _htmlBuilder +=     '</td>';
         _htmlBuilder += '</tr>';
 
+        $('table#size-breakdown').find('tr.tr-size-row').remove();
         $('table#size-breakdown').find('tr.items').remove();
         $('table#size-breakdown').append(_htmlBuilder);
 
@@ -1173,6 +1191,7 @@ $(document).ready(function() {
 
         });
 
+        $('span.submit-order').unbind('click');
         $('span.submit-order').on('click', function () {
 
             if(ub.data.uploading) {  
@@ -1203,6 +1222,9 @@ $(document).ready(function() {
 
         });
 
+
+
+
     }
 
     ub.funcs.submitUniform = function () {
@@ -1210,8 +1232,8 @@ $(document).ready(function() {
         if ($('tr.roster-row').length === 0) { 
             
             $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-
-            return; 
+            return;
+            
         }
 
         var _validate = ub.funcs.rosterValid();
@@ -1250,8 +1272,6 @@ $(document).ready(function() {
 
     ub.funcs.AddRosterRow = function (_size) {
 
-        console.log('Size: ');
-        console.log(_size);
 
         var _returnValue = [];
         var _currentCount = $('tr.roster-row').length;
@@ -1363,6 +1383,9 @@ $(document).ready(function() {
         if (ub.funcs.initRosterCalled) { return; }
         if (typeof ub.user.id === "undefined") { return; }
 
+        ub.data.orderFormInitialized = true;
+        ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
+
         ub.funcs.prepareUniformSizes();
 
         $('span.undo-btn').hide();
@@ -1422,6 +1445,7 @@ $(document).ready(function() {
 
         });
 
+        $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
 
             ub.funcs.submitUniform();
