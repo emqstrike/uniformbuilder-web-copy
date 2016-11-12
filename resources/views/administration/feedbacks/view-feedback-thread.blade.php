@@ -125,27 +125,27 @@ $('.reply-feedback').on('click', function(){
     };
 
     console.log(data);
-    // $.ajax({
-    //     url: url,
-    //     type: "POST",
-    //     data: JSON.stringify(data),
-    //     dataType: "json",
-    //     crossDomain: true,
-    //     contentType: 'application/json',
-    //     // headers: {"accessToken": atob(headerValue)},
-    //     success: function(response){
-    //         console.log(response);
-    //         if (response.success) {
-    //             new PNotify({
-    //                 title: 'Success',
-    //                 text: response.message,
-    //                 type: 'success',
-    //                 hide: true
-    //             });
-    //             window.location.reload();
-    //         }
-    //     }
-    // });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        // headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            console.log(response);
+            if (response.success) {
+                new PNotify({
+                    title: 'Success',
+                    text: response.message,
+                    type: 'success',
+                    hide: true
+                });
+                window.location.reload();
+            }
+        }
+    });
 
 });
 
