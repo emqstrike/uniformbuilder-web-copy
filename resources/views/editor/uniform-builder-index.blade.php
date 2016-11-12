@@ -263,7 +263,7 @@
             </a>
             -->
 
-            <a class="footer-buttons change-view disabled" data-view="team-info">
+            <a class="footer-buttons change-view disabled" data-view="team-info" name="team-info">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 <br /><span>ORDER NOW!</span>
             </a>

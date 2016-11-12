@@ -190,6 +190,86 @@ $(document).ready(function () {
 
         }
 
+        // {data: '', title: '', url: ''}
+        ub.funcs.pushState = function (stateObject) {
+
+            history.pushState(stateObject.data, stateObject.title, stateObject.url);
+
+        };
+
+        ///
+
+        ub.data.orderFormInitialized = undefined;
+        ub.funcs.reShowCustomizer = function () {
+
+            ub.data.rosterInitialized = false;
+
+            $('div#right-pane-column').fadeIn();        
+            $('div#left-pane-column').fadeIn();
+            $('div#roster-input').fadeOut();
+
+        }
+
+        ub.funcs.reShowRosterInput = function () {
+
+            $('div#order-form').fadeIn();
+            $('div#roster-input').fadeIn();
+
+        }
+
+        ub.funcs.reShowOrderFrom = function () {
+
+            $('div#roster-input').fadeOut();
+            $('div#validate-order-form').fadeOut();
+            $('div#order-form').fadeIn();
+
+            $('span.back-to-roster-form-button').unbind('click');
+            $('span.back-to-roster-form-button').on('click', function () {
+
+                ub.funcs.reShowRosterInput();
+
+            });
+            
+        }
+
+        ///
+
+        ub.funcs.setupEventHandlers = function () {
+
+            //Handle History Change
+            window.addEventListener('popstate', function (e) {
+
+                if (e.state === "customize-uniform") {
+
+                    $.smkAlert({text: 'Ability to go back to the cuztomizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
+
+                }
+
+                if (e.state === "roster-form") {
+
+                    ub.funcs.reShowRosterInput();
+
+                }
+
+                if (e.state === "order-form") {
+
+                    
+                    
+                    ub.funcs.reShowOrderFrom();
+
+                }
+
+            });
+
+            // Handle Page Change
+            window.onbeforeunload = function (e) {
+
+                return "Please save your work first before going to another page so that your work might not be lost.";
+
+            };
+
+        };
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -261,11 +341,9 @@ $(document).ready(function () {
             ub.data.blockPatternLength = _result;
             // End Block Pattern Widths
 
-            window.onbeforeunload = function (e) {
+            ub.funcs.setupEventHandlers();
 
-                return "Please save your work first before going to another page so that your work might not be lost.";
-
-            };
+            ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
 
         };
 
@@ -4203,6 +4281,7 @@ $(document).ready(function () {
 
     }
 
+
     ub.funcs.quickRegistration = function () {
 
         ub.funcs.createQuickRegistrationPopup();
@@ -4336,6 +4415,14 @@ $(document).ready(function () {
                 if (view === 'team-info') {
 
                     ub.funcs.resetHighlights();
+
+                    // if(ub.data.orderFormInitialized) {
+
+                    //     ub.funcs.reShowRosterInput();
+                    //     return;
+
+                    // }
+
                     if(typeof (window.ub.user.id) === "undefined") {
 
                         ub.funcs.quickRegistration();
