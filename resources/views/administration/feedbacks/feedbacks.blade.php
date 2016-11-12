@@ -33,7 +33,6 @@
                                 <th>Email</th>
                                 <th>User ID</th>
                                 <th>Action</th>
-                                <th>Thread</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,10 +58,11 @@
                             {{ $feedback->user_id }}
                         </td>
                         <td>
+                            @if($feedback->reply == null)
                             <a href="feedback/reply/{{ $feedback->id }}" class="btn btn-primary btn-xs">Reply</a>
-                        </td>
-                        <td>
-                            <a href="feedback/thread/{{ $feedback->id }}" class="btn btn-success btn-xs">View</a>
+                            @else
+                            <a href="feedback/thread/{{ $feedback->id }}" class="btn btn-success btn-xs">Thread</a>
+                            @endif
                         </td>
                     </tr>
 
@@ -89,7 +89,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript">
