@@ -155,7 +155,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@updateMaterialOptions']);
 
     // Messages
-    Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@index']);
+    Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@getUserMessages']);
     Route::get('message/compose', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@composeForm']);
 
     // Base Models
@@ -298,6 +298,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
+    Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
 });
 

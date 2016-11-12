@@ -80,7 +80,7 @@ class AuthenticationController extends AdminAuthController
 
             $decoder = new JsonDecoder();
             $result = $decoder->decode($response->getBody());
-   
+
             if ($result->success) {
 
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
@@ -105,7 +105,7 @@ class AuthenticationController extends AdminAuthController
                 ];
 
             } else {
-                
+
                 // Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 // Session::flash('flash_message', $result->message);
 
