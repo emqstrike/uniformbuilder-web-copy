@@ -41,6 +41,15 @@ class FeedbacksController extends Controller
         ]);
     }
 
+    public function viewThread($id)
+    {
+        $feedback = $this->client->getFeedback($id);
+        // dd($feedback);
+        return view('administration.feedbacks.view-feedback-thread', [
+            'feedback' => $feedback
+        ]);
+    }
+
 //     public function addForm()
 //     {
 //         $sports = $this->categoriesClient->getUniformCategories();

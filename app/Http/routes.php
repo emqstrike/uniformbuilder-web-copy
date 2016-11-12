@@ -298,6 +298,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
+    Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
 });
 
