@@ -49,7 +49,6 @@
             <div class="order-tab-button active-tab" data-name="client-info">Client / Organization Info</div>
             <div class="order-tab-button" data-name="billing-info">Billing Info</div>
             <div class="order-tab-button" data-name="shipping-info">Shipping Info</div>
-            <div class="order-tab-button" data-name="notes-and-attachments-info"> Additional Notes and Attachment</div>
 
         </div>
 
@@ -210,30 +209,36 @@
 
             </div>
 
-            <div class="order-tab" data-name="notes-and-attachments-info">
+        </div>
 
-                <h2>Additional Notes and Attachment</h2>
+    </div>
 
-                <div class="form-group">
-                    <label for="client-name">Additional Notes</label>
-                    <textarea class="form-control" id="additional-notes" placeholder="Enter additional notes you have for this order..." name="additional-notes" rows="7" maxlength="300"></textarea>
-                </div>
+    <div class="additional-notes">
 
-                <div class="form-group">
-                    <label for="client-name">Attachment</label>                    
-                    <input id="additional-attachment" name="additional-attachment" type="file" />
-                </div>
+        <hr />
+        
+        <h2>Additional Notes and Attachment</h2>
+        <em>If you have any information or guidelines to add that can help us meet what you need, please enter it on the form below.<br /> You can also upload an attachment if you have a file (document, or reference image) that might be able help us.</em> 
+        <br /><br />
 
-                <div class="form-group">
-                    
-                    <label for="client-name"></label>
-                    <span class="additional-attachment-message"></span>
+        <div class="form-group">
+            <label for="client-name" class="additional-notes-label">ADDITIONAL NOTES</label>
+            <textarea class="form-control" id="additional-notes" placeholder="Enter additional notes you have for this order..." name="additional-notes" rows="7" maxlength="300"></textarea>
+        </div>
 
-                </div>
+        <div class="form-group">
+            <label for="client-name" class="additional-notes-label">ATTACHMENT</label>                    
+            <input id="additional-attachment" name="additional-attachment" type="file" />
+        </div>
 
-            </div>
+        <div class="form-group">
+            
+            <label for="client-name"></label>
+            <span class="additional-attachment-message"></span>
 
         </div>
+
+        <hr />
 
     </div>
 
@@ -241,10 +246,8 @@
 
     <div class="order-details-block">
         
-        <br /><br />
-
         <span class="submit-order">
-            Continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            Preview Order <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </span>
 
         <span class="processing">
