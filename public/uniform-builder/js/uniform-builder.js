@@ -4468,8 +4468,6 @@ $(document).ready(function () {
                 var w = window.innerWidth * 2;
                 var _newX  = w;
 
-                // var _newX = ub.dimensions.width + ub.offset.x;
-
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
                 ub.front_view.position.x    = _newX;
@@ -4482,6 +4480,13 @@ $(document).ready(function () {
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
+
+                if (e.altKey) {
+
+                    ub.showThumbnail2();
+                    $.smkAlert({text: 'Thumbnail Generated for [' + ub.active_view + ' view]' , type:'warning', time: 3, marginTop: '80px'});
+
+                }
 
             });
 

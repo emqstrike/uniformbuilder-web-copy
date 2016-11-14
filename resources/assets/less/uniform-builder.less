@@ -5070,7 +5070,7 @@ div.header-container.main {
         display: none;
 
         width: 80%;
-        height: 1500px;
+        min-height: 1500px;
         background-color: white;
         padding: 30px;
         margin: 0 auto;
@@ -5219,8 +5219,8 @@ div.header-container.main {
 
         div.order-details-block {
 
-            padding: 30px;
             text-align: center;
+            margin-bottom: 30px;
 
             span.processing {
 
@@ -5240,16 +5240,17 @@ div.header-container.main {
             span.submit-order {
 
                 background-color: @forecolor;
-                width: 250px;
-                height: 50px;
-                display: inline-block;
-                padding: 13px;
-                cursor: pointer;
-                color: white;
-                font-size: 1.2em;
                 text-align: center;
                 margin: 0 auto;
                 display: none;
+
+                width: 250px;
+                height: 60px;
+                display: inline-block;
+                padding: 18px;
+                cursor: pointer;
+                color: white;
+                font-size: 1.3em;
 
             }
 
@@ -5291,6 +5292,38 @@ div.header-container.main {
                         text-align: center;
                         
                     }
+
+                }
+
+            }
+
+        }
+
+        div.additional-notes {
+
+            padding: 30px;
+            text-align: center;
+
+            div.form-group {
+
+                label.additional-notes-label {
+
+                    font-family: "Avenir Next LT W04 Bold";
+
+                }
+
+            }
+
+            span.processing {
+
+                display: block;
+                width: 100%;
+                text-align: center;
+
+                img {
+
+                    width: 50px;
+                    height: 50px;
 
                 }
 
@@ -5452,12 +5485,12 @@ div.header-container.main {
 
                 background-color: #acacac;
                 width: 250px;
-                height: 50px;
+                height: 60px;
                 display: inline-block;
-                padding: 13px;
+                padding: 18px;
                 cursor: pointer;
                 color: white;
-                font-size: 1.2em;
+                font-size: 1.3em;
 
             }
 
