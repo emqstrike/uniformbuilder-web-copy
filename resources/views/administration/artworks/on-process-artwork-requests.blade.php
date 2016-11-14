@@ -9,7 +9,7 @@
 <section class="content">
 <!-- <a href="#" class="btn btn-success update-from-factory">TEST</a> -->
 <!-- <a href="#" class="btn btn-success updatePart">Update Part</a> -->
-<div><h1 style="display: inline;">New Artwork Requests</h1><a href="artwork_requests/processing" class="btn btn-primary pull-right">View "On Process" Artworks</a>
+<div><h1 style="display: inline;">"On Process" Artwork Requests</h1><a href="../artwork_requests" class="btn btn-primary pull-right">View "New" Artworks</a>
 </div>
     <div class="row">
         <input type="hidden" class="a-type" value="{{ $account_type }}">

@@ -21,15 +21,8 @@ class ArtworksController extends Controller
 
     public function index(Request $request)
     {
-        $status = $request->get('status');
-        if (is_null($status))
-        {
-            $orders = $this->client->getOrdersArtwork();
-        }
-        else
-        {
-            $orders = $this->client->getOrdersArtwork($status);
-        }
+        $orders = $this->client->getOrdersArtwork();
+
         $ctr = 0;
         foreach($orders as $order)
         {
@@ -40,7 +33,6 @@ class ArtworksController extends Controller
                 {
                     $order->artworks = $data;
                 } else {
-                    // $order->artworks = null;
                     unset($orders[$ctr]);
                 }
             } catch (Exception $e) {
@@ -48,11 +40,42 @@ class ArtworksController extends Controller
             }
             $ctr++;
         }
-        // dd($orders);
+
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
 
         return view('administration.artworks.artwork_requests', [
+            'orders' => $orders,
+            'account_type' => $account_type,
+            'user_id' => $user_id
+        ]);
+    }
+
+    public function processing(Request $request)
+    {
+        $orders = $this->client->getOrdersArtwork('processing');
+
+        $ctr = 0;
+        foreach($orders as $order)
+        {
+
+            $data = json_decode($order->items[0]->attached_files, 1);
+            try {
+                if(isset($data[0]['code']) && $order->status === "processing")
+                {
+                    $order->artworks = $data;
+                } else {
+                    unset($orders[$ctr]);
+                }
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+            }
+            $ctr++;
+        }
+        $account_type = Session::get('accountType');
+        $user_id = Session::get('userId');
+
+        return view('administration.artworks.on-process-artwork-requests', [
             'orders' => $orders,
             'account_type' => $account_type,
             'user_id' => $user_id

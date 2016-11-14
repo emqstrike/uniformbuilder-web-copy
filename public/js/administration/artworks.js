@@ -7,6 +7,7 @@ $('.assign-artwork').on('click', function(e){
     var data = {};
     data.artworks = $(this).data('artwork-json');
     data.ga_id = $(this).data('user-id');
+    data.order_id = $(this).data('order-id');
     data.order_code = $(this).data('order-code');
     data.approve = false;
     data.item = "Uniform name";
@@ -32,6 +33,7 @@ function insertAR(data){
         contentType: 'application/json;',
         success: function (data) {
             alert('Artwork Request Inserted!');
+            window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }

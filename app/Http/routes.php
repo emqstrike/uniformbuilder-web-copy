@@ -294,6 +294,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
+    Route::get('artwork_requests/processing', 'Administration\ArtworksController@processing');
 
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
