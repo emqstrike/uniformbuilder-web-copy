@@ -60,21 +60,21 @@ class ArtworksController extends Controller
         {
 
             $data = json_decode($order->items[0]->attached_files, 1);
-            try {
-                if(isset($data[0]['code']) && $order->status === "processing")
-                {
+        //     try {
+        //         if(isset($data[0]['code']) && $order->status === "processing")
+        //         {
                     $order->artworks = $data;
-                } else {
-                    unset($orders[$ctr]);
-                }
-            } catch (Exception $e) {
-                error_log($e->getMessage());
-            }
-            $ctr++;
+        //         } else {
+        //             unset($orders[$ctr]);
+        //         }
+        //     } catch (Exception $e) {
+        //         error_log($e->getMessage());
+        //     }
+        //     $ctr++;
         }
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
-
+// dd($orders);
         return view('administration.artworks.on-process-artwork-requests', [
             'orders' => $orders,
             'account_type' => $account_type,
