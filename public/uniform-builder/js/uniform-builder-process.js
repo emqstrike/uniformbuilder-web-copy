@@ -1372,11 +1372,65 @@ $(document).ready(function() {
 
         // });
 
+    }
+
+    ub.funcs.addPlayerToRoster = function (player) {
+
+        var _markup         = '';
+        var $rosterTable    = $('table.roster-table[data-size="' + player.Size + '"] > tbody');
+        var _length         = $rosterTable.find('tr').length;
+
+        data = {
+            index: _length,
+            size: player.Size,
+            number: player.Number,
+            name: player.Name,
+        };
+
+        console.log('Player Name: ' + player.Name);
+
+        template = $('#m-roster-table-field').html();
+        markup = Mustache.render(template, data);
+
+        $.when($rosterTable.append(markup)).then(ub.funcs.updateSelect(player.Size, _length));
+
+        _length += 1;
+
+    };
+
+    ub.funcs.prepopulateRoster = function (orderInfo) {
+
+        var _roster = orderInfo.roster; 
+        console.log(_roster);
+
+        _.each(_roster, function (player) {
+
+            console.log(player)
+            var _size = player.Size;
+            var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
+
+            console.log(_status);
+            console.log(_size);
+
+            if (_status === "off") {
+                ub.funcs.addSizesTabs(_size);    
+            }
+
+            ub.funcs.addPlayerToRoster(player);
+            $('span.tabButton[data-size="' + player.Size + '"]').trigger('click');
+            
+        });
 
     }
 
     ub.data.rosterInitialized = false;
-    ub.funcs.initRoster = function () {
+    ub.funcs.initRoster = function (orderInfo) {
+
+        if (typeof orderInfo !== "undefined") {
+
+            orderInfo.items[0].roster =  JSON.parse(orderInfo.items[0].roster);
+
+        }
 
         ub.data.rosterInitialized = true;
 
@@ -1419,6 +1473,9 @@ $(document).ready(function() {
 
         $('div.tabsContainer').append(markup);
         ub.funcs.hideColumns();
+
+        ub.funcs.prepopulateRoster(orderInfo.items[0])
+
 
         $('span.add-player').on('click', function () {
 

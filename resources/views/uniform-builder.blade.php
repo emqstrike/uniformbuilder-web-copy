@@ -243,6 +243,7 @@
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
+
         };
 
         @if (Session::get('isLoggedIn'))
@@ -276,6 +277,7 @@
             });
 
         @else
+
 
             window.ub.user = false;
             $('.register').on('click', function(){
@@ -361,6 +363,18 @@
         var s = "{{ $builder_customizations }}";
 
         if(s.length > 0) {
+
+            ub.config.pageType = "{{ isset($type) ? $type : 'undefined'}}";
+
+            if (ub.config.pageType == "Order") {
+
+                ub.config.orderCode       = "{{ isset($orderCode) ? $orderCode: 'undefined' }}";
+                ub.config.orderID         = "{{ isset($orderIdShort) ? $orderIdShort: 'undefined' }}";
+
+                console.log('Order Code: ' + ub.config.orderCode);
+                console.log('Order ID: ' + ub.config.orderID);
+              
+            }
 
             window.ub.temp = s;
 

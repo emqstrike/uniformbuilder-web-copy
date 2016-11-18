@@ -4281,13 +4281,26 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getOrderAndDetailsInfo = function () {
+
+        var _url = window.ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id;
+
+        ub.loader(_url, 'orders', function (result) {
+
+            var _orderInfo = _.find(result, {'order_id': ub.config.orderCode});
+            ub.data.orderInfo = _orderInfo;
+            ub.funcs.initRoster(_orderInfo);
+            
+        });
+
+    }
+
 
     ub.funcs.quickRegistration = function () {
 
         ub.funcs.createQuickRegistrationPopup();
 
     }
-
 
         /// End Utilities ///
 
@@ -4431,7 +4444,16 @@ $(document).ready(function () {
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-                    ub.funcs.initRoster();
+
+                    if (typeof ub.temp !== "undefined") {
+
+                        ub.funcs.getOrderAndDetailsInfo();
+                        
+                    } else {
+
+                        ub.funcs.initRoster();
+
+                    }
 
                     return;
 
