@@ -32,7 +32,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addSizesTabs = function (size) {
+    ub.funcs.addSizesTabs = function (size, cancelNumberPopup) {
 
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
@@ -43,7 +43,12 @@ $(document).ready(function() {
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
             $('span.tabButton[data-size="' + size + '"]').trigger('click');
-            $('span.add-player[data-size="' + size + '"]').trigger('click');
+
+            if (typeof cancelNumberPopup === "undefined") {
+
+                $('span.add-player[data-size="' + size + '"]').trigger('click');
+                    
+            }
 
         }
 
@@ -1387,12 +1392,13 @@ $(document).ready(function() {
             name: player.Name,
         };
 
-        console.log('Player Name: ' + player.Name);
-
         template = $('#m-roster-table-field').html();
         markup = Mustache.render(template, data);
 
-        $.when($rosterTable.append(markup)).then(ub.funcs.updateSelect(player.Size, _length));
+        $.when($rosterTable.append(markup)).then(function () {
+                ub.funcs.updateSelect(player.Size, _length);
+            }
+        );
 
         _length += 1;
 
@@ -1401,25 +1407,24 @@ $(document).ready(function() {
     ub.funcs.prepopulateRoster = function (orderInfo) {
 
         var _roster = orderInfo.roster; 
-        console.log(_roster);
-
+        var _lastSize;
         _.each(_roster, function (player) {
 
-            console.log(player)
             var _size = player.Size;
             var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
 
-            console.log(_status);
-            console.log(_size);
-
             if (_status === "off") {
-                ub.funcs.addSizesTabs(_size);    
+
+                ub.funcs.addSizesTabs(_size, true);    
+
             }
 
             ub.funcs.addPlayerToRoster(player);
-            $('span.tabButton[data-size="' + player.Size + '"]').trigger('click');
+            _lastSize = player.Size;
             
         });
+
+        $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
 
     }
 
@@ -1474,9 +1479,6 @@ $(document).ready(function() {
         $('div.tabsContainer').append(markup);
         ub.funcs.hideColumns();
 
-        ub.funcs.prepopulateRoster(orderInfo.items[0])
-
-
         $('span.add-player').on('click', function () {
 
             var _numbers    = ''; 
@@ -1493,19 +1495,6 @@ $(document).ready(function() {
                 ub.funcs.AddRosterRow(_size);
 
             }
-
-        });
-
-        $('span.back-to-customizer-button').on('click', function (){
-
-            ub.funcs.fadeInCustomizer();
-
-        });
-
-        $('span.add-item-to-order').unbind('click');
-        $('span.add-item-to-order').on('click', function () {
-
-            ub.funcs.submitUniform();
 
         });
 
@@ -1542,6 +1531,21 @@ $(document).ready(function() {
 
             $('div.tabsContainer > div.tab').hide();
             $('div.tab[data-size="' + _size + '"]').fadeIn();
+
+        });
+
+        ub.funcs.prepopulateRoster(orderInfo.items[0])
+
+        $('span.back-to-customizer-button').on('click', function (){
+
+            ub.funcs.fadeInCustomizer();
+
+        });
+
+        $('span.add-item-to-order').unbind('click');
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform();
 
         });
 
