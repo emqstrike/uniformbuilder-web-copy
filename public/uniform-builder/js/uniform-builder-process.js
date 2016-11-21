@@ -1112,13 +1112,61 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.showOrderForm = function () {
+    ub.funcs.setVal = function (name, val) {
+
+        $('input[name="' + name + '"]').val(val);
+
+    }
+
+    ub.funcs.prepareOrderForm = function (orderInfo) {
+
+        $('div#order-form').fadeIn();
+        
+        if (typeof orderInfo === "undefined") { return; }
+
+        // Client Info
+
+        ub.funcs.setVal('client-name', orderInfo.client);
+        ub.funcs.setVal('athletic-director', orderInfo.client);
+        ub.funcs.setVal('client-email', orderInfo.email);
+        ub.funcs.setVal('client-phone', orderInfo.phone);
+        ub.funcs.setVal('client-fax', orderInfo.fax);
+
+        // Billing Info
+
+        ub.funcs.setVal('billing-organization', orderInfo.bill_organization);
+        ub.funcs.setVal('billing-contact-name', orderInfo.bill_contact_person);
+        ub.funcs.setVal('billing-email', orderInfo.bill_email);
+        ub.funcs.setVal('billing-phone', orderInfo.bill_phone);
+
+        ub.funcs.setVal('billing-address', orderInfo.bill_address);
+        ub.funcs.setVal('billing-city', orderInfo.bill_city);
+        ub.funcs.setVal('billing-state', orderInfo.bill_state);
+        ub.funcs.setVal('billing-zip', orderInfo.bill_zip);
+
+        // Ship Info
+
+        ub.funcs.setVal('shipping-organization', orderInfo.ship_organization);
+        ub.funcs.setVal('shipping-contact-name', orderInfo.ship_contact_person);
+        ub.funcs.setVal('shipping-email', orderInfo.ship_email);
+        ub.funcs.setVal('shipping-phone', orderInfo.ship_phone);
+
+        ub.funcs.setVal('shipping-address', orderInfo.ship_address);
+        ub.funcs.setVal('shipping-city', orderInfo.ship_city);
+        ub.funcs.setVal('shipping-state', orderInfo.ship_state);
+        ub.funcs.setVal('shipping-zip', orderInfo.ship_zip);
+
+    };
+
+    ub.funcs.showOrderForm = function (orderInfo) {
 
         ub.funcs.pushState({data: 'order-form', title: 'Order Form', url: '?order-form'});
 
         $('div#roster-input').fadeOut();
         window.scrollTo(0,0);
-        $('div#order-form').fadeIn();
+        
+        ub.funcs.prepareOrderForm(orderInfo);
+
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
         $('td.quantity').html(_total);
@@ -1232,7 +1280,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.submitUniform = function () {
+    ub.funcs.submitUniform = function (orderInfo) {
 
         if ($('tr.roster-row').length === 0) { 
             
@@ -1251,7 +1299,7 @@ $(document).ready(function() {
         }
 
         ub.current_material.settings.roster = _validate.roster;
-        ub.funcs.showOrderForm();
+        ub.funcs.showOrderForm(orderInfo);
 
     };
 
@@ -1422,14 +1470,15 @@ $(document).ready(function() {
 
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
+
+            var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
+            _numberObject.status = "used";
+
             
         });
 
-        setTimeout(function () {
-
-            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
-
-        }, 1000)
+        // Activate last tab
+        setTimeout(function () { $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click'); }, 1000);
 
     }
 
@@ -1546,7 +1595,7 @@ $(document).ready(function() {
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
 
-            ub.funcs.submitUniform();
+            ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
 
