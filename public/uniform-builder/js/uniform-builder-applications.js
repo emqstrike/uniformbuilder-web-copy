@@ -6258,7 +6258,9 @@ $(document).ready(function() {
 
     ub.data.forRotating = [];
 
-    ub.funcs.useRotated = function () {
+    ub.funcs.useRotated = function (status) {
+
+        if (status === "off") { return; }
 
         _.each (ub.data.forRotating, function (_rotate) {
 
@@ -6689,31 +6691,7 @@ $(document).ready(function() {
                 });
 
             });
-
-            $("div.toggleOption").on("click", function () {
-
-                var _currentStatus = $('div.toggle').data('status');
-                var s;
-
-                if(_currentStatus === "on") {
-                    s = 'off';
-                }
-                else {
-                    s = 'on';
-                }
-
-                ub.funcs.toggleApplication(_id,s);    
-
-                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
-            });
-
-            ub.funcs.toggleApplication(_id, _status);
-            
+ 
             if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
@@ -6857,7 +6835,7 @@ $(document).ready(function() {
                 
             });
 
-            ub.funcs.useRotated();
+            ub.funcs.useRotated(_status);
 
         // End Small Color Pickers
 
@@ -6866,6 +6844,31 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
+
+        $("div.toggleOption").unbind('click');
+        $("div.toggleOption").on("click", function () {
+
+            var _currentStatus = $('div.toggle').data('status');
+            var s;
+
+            if(_currentStatus === "on") {
+                s = 'off';
+            }
+            else {
+                s = 'on';
+            }
+
+            ub.funcs.toggleApplication(_id,s);    
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+        });
+
+        ub.funcs.toggleApplication(_id, _status);
 
     }
 
@@ -7911,29 +7914,6 @@ $(document).ready(function() {
 
             });
 
-            $("div.toggleOption").on("click", function () {
-
-                var _currentStatus = $('div.toggle').data('status');
-                var s;
-                if(_currentStatus === "on") {
-                    s = 'off';
-                }
-                else {
-                    s = 'on';
-                }
-
-                ub.funcs.toggleApplication(_id,s);    
-
-                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
-            });
-
-            ub.funcs.toggleApplication(_id, _status);
-
             if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
@@ -8485,6 +8465,30 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
+
+        $("div.toggleOption").unbind('click');
+        $("div.toggleOption").on("click", function () {
+
+            var _currentStatus = $('div.toggle').data('status');
+            var s;
+            if(_currentStatus === "on") {
+                s = 'off';
+            }
+            else {
+                s = 'on';
+            }
+
+            ub.funcs.toggleApplication(_id,s);    
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+        });
+
+        ub.funcs.toggleApplication(_id, _status);
 
     }
 

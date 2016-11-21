@@ -370,9 +370,6 @@
 
                 ub.config.orderCode       = "{{ isset($orderCode) ? $orderCode: 'undefined' }}";
                 ub.config.orderID         = "{{ isset($orderIdShort) ? $orderIdShort: 'undefined' }}";
-
-                console.log('Order Code: ' + ub.config.orderCode);
-                console.log('Order ID: ' + ub.config.orderID);
               
             }
 
