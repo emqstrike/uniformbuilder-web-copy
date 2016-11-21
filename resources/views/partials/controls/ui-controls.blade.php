@@ -944,7 +944,7 @@
                     </td>
                     
                     <td>
-                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                        <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 
                     <td class="PlayerNumberInput">
@@ -977,8 +977,6 @@
                     </td>
 
                 </tr>
-                
-
     </script>   
 
 <!-- End Roster Table Field -->

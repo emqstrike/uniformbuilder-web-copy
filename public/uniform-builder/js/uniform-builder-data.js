@@ -6696,4 +6696,6 @@ ub.funcs.fontOffSets = [
 
     /// End Messages 
 
+    /// All data loaded before scripts are processed is in window.ub.config
+
 });

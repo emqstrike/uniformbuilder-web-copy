@@ -32,7 +32,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addSizesTabs = function (size) {
+    ub.funcs.addSizesTabs = function (size, cancelNumberPopup) {
 
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
@@ -43,7 +43,12 @@ $(document).ready(function() {
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
             $('span.tabButton[data-size="' + size + '"]').trigger('click');
-            $('span.add-player[data-size="' + size + '"]').trigger('click');
+
+            if (typeof cancelNumberPopup === "undefined") {
+
+                $('span.add-player[data-size="' + size + '"]').trigger('click');
+                    
+            }
 
         }
 
@@ -1372,11 +1377,66 @@ $(document).ready(function() {
 
         // });
 
+    }
+
+    ub.funcs.addPlayerToRoster = function (player) {
+
+        var _markup         = '';
+        var $rosterTable    = $('table.roster-table[data-size="' + player.Size + '"] > tbody');
+        var _length         = $rosterTable.find('tr').length;
+
+        data = {
+            index: _length,
+            size: player.Size,
+            number: player.Number,
+            name: player.Name,
+        };
+
+        template = $('#m-roster-table-field').html();
+        markup = Mustache.render(template, data);
+
+        $.when($rosterTable.append(markup)).then(function () {
+                ub.funcs.updateSelect(player.Size, _length);
+            }
+        );
+
+        _length += 1;
+
+    };
+
+    ub.funcs.prepopulateRoster = function (orderInfo) {
+
+        var _roster = orderInfo.roster; 
+        var _lastSize;
+
+        _.each(_roster, function (player) {
+
+            var _size = player.Size;
+            var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
+
+            if (_status === "off") {
+
+                ub.funcs.addSizesTabs(_size, true);    
+
+            }
+
+            ub.funcs.addPlayerToRoster(player);
+            _lastSize = player.Size;
+            
+        });
+
+        setTimeout(function () {
+
+            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
+
+        }, 1000)
 
     }
 
     ub.data.rosterInitialized = false;
-    ub.funcs.initRoster = function () {
+    ub.funcs.initRoster = function (orderInfo) {
+    
+        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
 
         ub.data.rosterInitialized = true;
 
@@ -1439,19 +1499,6 @@ $(document).ready(function() {
 
         });
 
-        $('span.back-to-customizer-button').on('click', function (){
-
-            ub.funcs.fadeInCustomizer();
-
-        });
-
-        $('span.add-item-to-order').unbind('click');
-        $('span.add-item-to-order').on('click', function () {
-
-            ub.funcs.submitUniform();
-
-        });
-
         $('span.size').on('click', function () {
 
             if ($('div#numbersPopup').is(':visible')) { return; }
@@ -1485,6 +1532,21 @@ $(document).ready(function() {
 
             $('div.tabsContainer > div.tab').hide();
             $('div.tab[data-size="' + _size + '"]').fadeIn();
+
+        });
+
+        if (typeof orderInfo !== "undefined") { ub.funcs.prepopulateRoster(orderInfo.items[0]); }
+
+        $('span.back-to-customizer-button').on('click', function (){
+
+            ub.funcs.fadeInCustomizer();
+
+        });
+
+        $('span.add-item-to-order').unbind('click');
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform();
 
         });
 

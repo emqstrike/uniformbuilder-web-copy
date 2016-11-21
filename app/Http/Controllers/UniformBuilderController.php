@@ -106,6 +106,7 @@ class UniformBuilderController extends Controller
         if (isset($config['builder_customizations'])) {
 
             $pageType = Session::get("page-type");
+            $params['type'] = $config['type'];
 
             if($pageType['page'] === "saved-design") {
                 
@@ -138,6 +139,13 @@ class UniformBuilderController extends Controller
 
                 }
 
+            }
+
+            if ($config['type'] == 'Order') {
+
+                $params['orderCode']    = $config['order_code'];
+                $params['orderIdShort'] = $config['order_id_short'];
+                
             }
             
         }
@@ -174,7 +182,8 @@ class UniformBuilderController extends Controller
             {
                 $config = [
                     'material_id' => $material->id,
-                    'order_id' => $orderId
+                    'order_id' => $orderId,
+                    'type' => 'Order Item',
                 ];
                 return $this->showBuilder($config);
             }
@@ -191,6 +200,8 @@ class UniformBuilderController extends Controller
     {
 
         $order = $this->ordersClient->getOrderItems($orderId);
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
 
         if( isset($order[0]) ) {
 
@@ -219,7 +230,10 @@ class UniformBuilderController extends Controller
             $config = [
                 'material_id' => $materialID,
                 'order_id' => $orderId,
+                'order_code' => $orderId,
+                'order_id_short' => $order->id,
                 'builder_customizations' => $orderID,
+                'type' => 'Order',
             ];
             
             return $this->showBuilder($config);
@@ -240,7 +254,8 @@ class UniformBuilderController extends Controller
     {
         $config = [
             'design_set_id' => $designSetId,
-            'material_id' => $materialId
+            'material_id' => $materialId,
+            'type' => 'Design Set',
         ];
         return $this->showBuilder($config);
 
@@ -1371,6 +1386,7 @@ class UniformBuilderController extends Controller
                 'material_id' => $materialID,
                 'id' => $savedDesignID,
                 'builder_customizations' => $savedDesignID,
+                'type' => 'Saved Design',
             ];
             
             return $this->showBuilder($config);
@@ -1395,6 +1411,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-saved-designs',
+            'type' => 'my-saved-designs',
         ];
 
         return view('editor.my-saved-designs', $params);
@@ -1415,6 +1432,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-messages',
+            'type' => 'my-messages',
         ];
 
         return view('editor.my-messages', $params);
@@ -1435,6 +1453,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-orders',
+            'type' => 'my-orders',
         ];
 
         return view('editor.my-orders', $params);
@@ -1455,6 +1474,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-profile',
+            'type' => 'my-profile',
         ];
 
         return view('editor.my-profile', $params);
