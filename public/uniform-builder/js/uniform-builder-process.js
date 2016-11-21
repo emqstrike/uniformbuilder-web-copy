@@ -1422,14 +1422,15 @@ $(document).ready(function() {
 
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
+
+            var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
+            _numberObject.status = "used";
+
             
         });
 
-        setTimeout(function () {
-
-            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
-
-        }, 1000)
+        // Activate last tab
+        setTimeout(function () { $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click'); }, 1000);
 
     }
 
