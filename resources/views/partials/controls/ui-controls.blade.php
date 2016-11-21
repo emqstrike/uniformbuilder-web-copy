@@ -977,8 +977,6 @@
                     </td>
 
                 </tr>
-                
-
     </script>   
 
 <!-- End Roster Table Field -->

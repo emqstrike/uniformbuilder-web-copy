@@ -1408,6 +1408,7 @@ $(document).ready(function() {
 
         var _roster = orderInfo.roster; 
         var _lastSize;
+
         _.each(_roster, function (player) {
 
             var _size = player.Size;
@@ -1424,18 +1425,18 @@ $(document).ready(function() {
             
         });
 
-        $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
+        setTimeout(function () {
+
+            $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click');
+
+        }, 1000)
 
     }
 
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
-
-        if (typeof orderInfo !== "undefined") {
-
-            orderInfo.items[0].roster =  JSON.parse(orderInfo.items[0].roster);
-
-        }
+    
+        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
 
         ub.data.rosterInitialized = true;
 
@@ -1534,7 +1535,7 @@ $(document).ready(function() {
 
         });
 
-        ub.funcs.prepopulateRoster(orderInfo.items[0])
+        if (typeof orderInfo !== "undefined") { ub.funcs.prepopulateRoster(orderInfo.items[0]); }
 
         $('span.back-to-customizer-button').on('click', function (){
 
