@@ -4295,7 +4295,6 @@ $(document).ready(function () {
 
     }
 
-
     ub.funcs.quickRegistration = function () {
 
         ub.funcs.createQuickRegistrationPopup();
@@ -5852,7 +5851,6 @@ $(document).ready(function () {
 
                         var _deleteDesignID = $(this).data('saved-design-id');
                         var _name = $(this).data('name');
-                        console.log('ID: ' + _deleteDesignID);
 
                         ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
@@ -6172,11 +6170,14 @@ $(document).ready(function () {
           
             var template = $('#m-profile-page').html();
             var data = {
+                email: ub.user.email,
+                firstName: ub.user.firstName,
+                lastName: ub.user.lastName,
                 application_id: '1',
             }
 
             var markup = Mustache.render(template, data);
-            
+
             $container.html(markup);
 
         }
@@ -6830,15 +6831,19 @@ $(document).ready(function () {
         
             success: function (response) {
 
+                console.log('User Detail:');
+                console.log(response);
+
                 if(response.success) {
 
                     window.ub.user = {
 
                         id: response.userId,
                         fullname: response.fullname,
+                        firstname: response.firstName,
+                        lastname: response.lastName,
                         email: response.email,
                         headerValue: response.accessToken,
-                        firstName: response.firstName,
 
                     };
 
@@ -6905,12 +6910,32 @@ $(document).ready(function () {
 
         ub.funcs.lRest(_e, _p);
 
-
-
     });
 
     // End lrest
 
+
+    ub.funcs.getUsers = function () {
+
+        var _url = 'http://api-dev.qstrike.com/api/users/';
+
+        $.ajax({
+            
+            url: _url,
+            type: "GET", 
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function (response){
+
+                console.log("Response");
+                console.log(response);
+                
+            }
+            
+        });
+
+    };
 
 
 });
