@@ -762,7 +762,7 @@ $(document).ready(function() {
 
             order: {
                 client: _clientName,  
-                submitted: 0,
+                submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
             },
