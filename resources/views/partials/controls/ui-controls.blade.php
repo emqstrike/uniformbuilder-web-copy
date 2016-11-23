@@ -1332,6 +1332,15 @@
             <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}">
         </div>
 
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="@{{email}}" disabled>
+        </div>
+
+        <div class="form-group btn-footer">
+            <span class="btn">Update</span>
+        </div>
+
     </script>   
 
 <!-- End Profile -->

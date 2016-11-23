@@ -126,7 +126,6 @@ $(document).ready(function () {
                 success: function (response) {
 
                     $.smkAlert({text: 'Message Sent!', type:'warning', time: 3, marginTop: '80px'});
-                    console.log(response);
 
                 }
                         
@@ -5891,8 +5890,6 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                    console.log(response);
-
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
@@ -5913,7 +5910,6 @@ $(document).ready(function () {
                         var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
-                        console.log('ID: ' + _ID);
 
                     });
 
@@ -6197,6 +6193,8 @@ $(document).ready(function () {
                 lastName: ub.user.lastName,
                 application_id: '1',
             }
+
+            console.log(data);
 
             var markup = Mustache.render(template, data);
 
@@ -6853,17 +6851,14 @@ $(document).ready(function () {
         
             success: function (response) {
 
-                console.log('User Detail:');
-                console.log(response);
-
                 if(response.success) {
 
                     window.ub.user = {
 
                         id: response.userId,
                         fullname: response.fullname,
-                        firstname: response.firstName,
-                        lastname: response.lastName,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
                         email: response.email,
                         headerValue: response.accessToken,
 
@@ -6935,29 +6930,5 @@ $(document).ready(function () {
     });
 
     // End lrest
-
-
-    ub.funcs.getUsers = function () {
-
-        var _url = 'http://api-dev.qstrike.com/api/users/';
-
-        $.ajax({
-            
-            url: _url,
-            type: "GET", 
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function (response){
-
-                console.log("Response");
-                console.log(response);
-                
-            }
-            
-        });
-
-    };
-
 
 });

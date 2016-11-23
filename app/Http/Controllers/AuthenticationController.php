@@ -36,8 +36,8 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
-                Session::put('first_name', $result->user->first_name);
-                Session::put('last_name', $result->user->last_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', base64_encode($result->access_token));
@@ -88,8 +88,8 @@ class AuthenticationController extends AdminAuthController
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
-                Session::put('first_name', $result->user->first_name);
-                Session::put('last_name', $result->user->last_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
