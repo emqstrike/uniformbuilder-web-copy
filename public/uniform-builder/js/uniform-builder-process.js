@@ -538,6 +538,11 @@ $(document).ready(function() {
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
+
+        if (markup.indexOf('saved') > -1) {
+            $('div.feedback-form').find('h4').html('Order Saved Successfully!');
+        }
+
         $('div.feedback-form').fadeIn();
         ub.funcs.centerPatternPopup();
 
@@ -626,7 +631,14 @@ $(document).ready(function() {
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
 
-                ub.funcs.feedbackForm('Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.', ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
+
+                var _message = "'Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.'";
+
+                if (data.order.submitted === 0) {
+                    _message = "'Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.'";
+                }
+
+                ub.funcs.feedbackForm(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
                 ub.funcs.initGenderPicker();
 
             }
@@ -635,7 +647,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.submitOrderForm = function () {
+    ub.funcs.submitOrderForm = function (save) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
         
@@ -739,11 +751,18 @@ $(document).ready(function() {
 
         }
 
+        var _submitted = '1';
+        if (typeof save === "number") {
+
+            _submitted = 0;
+
+        }
+
         var orderInput = {
 
             order: {
                 client: _clientName,  
-                submitted: '1',
+                submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
             },
@@ -817,6 +836,7 @@ $(document).ready(function() {
         $('span.processing-pdf').fadeOut();
         $('span.previewFormPdf').fadeIn();
         $('span.submit-confirmed-order').fadeIn();
+        $('span.save-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -834,6 +854,18 @@ $(document).ready(function() {
 
             ub.funcs.submitOrderForm();
             $('span.submit-confirmed-order').html('Submitting Order...');
+
+        });
+
+        $('span.save-order').unbind('click');
+        $('span.save-order').on('click', function () {
+
+            if ($('span.submit-confirmed-order').html() === 'Saving Order...') {
+                return;
+            }
+
+            ub.funcs.submitOrderForm(0);
+            $('span.save-order').html('Saving Order...');
 
         });
 
@@ -1006,6 +1038,7 @@ $(document).ready(function() {
         $('iframe#pdfViewer').attr('src', '')
         $('a.previewPDFLink').attr('href', '');
         $('span.submit-confirmed-order').fadeOut();
+        $('span.save-order').fadeOut();
 
         ub.funcs.pushState({data: 'generate-pdf', title: 'Generate PDF', url: '?generate-pdf'});
 
@@ -1155,6 +1188,9 @@ $(document).ready(function() {
         ub.funcs.setVal('shipping-city', orderInfo.ship_city);
         ub.funcs.setVal('shipping-state', orderInfo.ship_state);
         ub.funcs.setVal('shipping-zip', orderInfo.ship_zip);
+
+        // Notes
+        $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
 
     };
 
