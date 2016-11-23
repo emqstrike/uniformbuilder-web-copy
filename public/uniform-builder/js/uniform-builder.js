@@ -5891,28 +5891,50 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                  $('div.my-orders-loading').hide();
+                    console.log(response);
 
-                  var $container = $('div.order-list');
-          
-                  var template = $('#m-orders-table').html();
-                  var data = {
-                    orders: ub.funcs.parseJSON(response.orders),
-                  }
+                    $('div.my-orders-loading').hide();
 
-                  var markup = Mustache.render(template, data);
-                    
-                  $container.html(markup);
+                    var $containerSaved         = $('div.order-list.saved');
+                    var template                = $('#m-orders-table').html();
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };
+                    var markup = Mustache.render(template, dataSaved);
+                    $containerSaved.html(markup);
 
-                  $('span.action-button').on('click', function () {
+                    var $containerSubmitted     = $('div.order-list.submitted');
+                    var template                = $('#m-orders-table').html();
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var markup                  = Mustache.render(template, dataSubmitted);
+                    $containerSubmitted.html(markup);
+
+                    $('span.action-button').on('click', function () {
 
                         var _dataID = $(this).data('order-id');
-                        var _ID = $(this).data('id');
+                        var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
                         console.log('ID: ' + _ID);
 
-                  });
+                    });
+
+                    $('div.order-tabs > span.tab').unbind('click');
+                    $('div.order-tabs > span.tab').on('click', function () {
+
+                        var _type = $(this).data('type');
+
+                        $('div.order-list').hide();
+                        $('div.order-list.' + _type).fadeIn();
+
+                        $('span.tab').removeClass('active');
+                        $(this).addClass('active');
+
+                        $('span.orders.header').html('My Orders - ' + _type);
+
+                    });
+
+                    // Init 
+
+                    $('div.order-list.submitted').hide();
 
                 }
                 

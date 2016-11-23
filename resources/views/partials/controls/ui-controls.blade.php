@@ -995,6 +995,7 @@
                 <td>Order Info</td>
                 <td>Client</td>
                 <td>Status</td>
+                <td>Submitted</td>
                 <td>&nbsp;</td>
             </tr>
 
@@ -1016,6 +1017,7 @@
                     </td>
                     <td>@{{client}}</td>
                     <td>@{{status}}</td> 
+                    <td>@{{submitted}}</td> 
                     
                     <td class="action">
 
