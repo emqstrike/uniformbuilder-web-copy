@@ -10,6 +10,7 @@ use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\UniformDesignSetsAPIClient;
 use App\APIClients\OrdersAPIClient;
+use App\APIClients\UsersAPIClient;
 use App\APIClients\SavedDesignsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -28,13 +29,15 @@ class UniformBuilderController extends Controller
     protected $designSetClient;
     protected $ordersClient;
     protected $savedDesignsClient;
+    protected $usersAPIClient;
 
     public function __construct(
         MaterialsAPIClient $materialsClient,
         ColorsAPIClient $colorsClient,
         UniformDesignSetsAPIClient $designSetClient,
         OrdersAPIClient $ordersClient,
-        SavedDesignsAPIClient $savedDesignsClient
+        SavedDesignsAPIClient $savedDesignsClient,
+        UsersAPIClient $usersAPIClient
     )
     {
         $this->materialsClient = $materialsClient;
@@ -42,6 +45,7 @@ class UniformBuilderController extends Controller
         $this->designSetClient = $designSetClient;
         $this->ordersClient = $ordersClient;
         $this->savedDesignsClient = $savedDesignsClient;
+        $this->usersAPIClient = $usersAPIClient;
     }
 
     public function showBuilder($config = [])
@@ -1462,6 +1466,13 @@ class UniformBuilderController extends Controller
 
     public function myProfile(Request $request) {
 
+        $user = $this->usersAPIClient->getUser(Session::get('userId'));
+
+        Session::put('fullname', $user->first_name . ' ' . $user->last_name);
+        Session::put('first_name', $user->first_name);
+        Session::put('firstName', $user->first_name);
+        Session::put('lastName', $user->last_name);
+        
         $materialId = -1;
         $categoryId = -1;
 
