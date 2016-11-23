@@ -6194,6 +6194,8 @@ $(document).ready(function () {
                 application_id: '1',
             }
 
+            console.log(data);
+
             var markup = Mustache.render(template, data);
 
             $container.html(markup);
@@ -6855,8 +6857,8 @@ $(document).ready(function () {
 
                         id: response.userId,
                         fullname: response.fullname,
-                        firstname: response.firstName,
-                        lastname: response.lastName,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
                         email: response.email,
                         headerValue: response.accessToken,
 
