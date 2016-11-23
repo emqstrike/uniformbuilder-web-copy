@@ -22,6 +22,33 @@
 
 @main_window_pane_height: 550px;
 
+.pagePanelShadow() {
+    
+    -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+
+}
+
+.pagePanelHeader() {
+
+    span.header {
+
+        font-size: 2em;
+        text-align: center;
+        width: 100%;
+        display: block;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        padding: 30px;
+        margin-bottom: 40px;
+        border-bottom: dashed 1px #acacac;
+
+    }
+
+}
+
 /* Fonts */ 
 
 /* @import url("https://fast.fonts.net/lt/1.css?apiType=css&c=162ce2f8-58f0-4707-bf31-993c0c21a677&fontids=1437336,1437556"); */
@@ -6136,25 +6163,8 @@ div.header-container.main {
             margin-top: 30px;
             padding-top: 0px;
 
-            -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
-            -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
-            box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
-
-
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-                padding: 30px;
-                margin-bottom: 40px;
-                border-bottom: dashed 1px #acacac;
-
-            }
+            .pagePanelShadow;
+            .pagePanelHeader;
 
             div.profile-container {
 
@@ -6511,16 +6521,8 @@ div.header-container.main {
             margin: 0 auto;
             margin-top: 30px;
 
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
+            .pagePanelShadow;
+            .pagePanelHeader;
 
             div.message-list {
 
@@ -6620,17 +6622,9 @@ div.header-container.main {
             margin: 0 auto;
             margin-top: 30px;
 
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
-
+            .pagePanelShadow;
+            .pagePanelHeader;
+            
             div.order-tabs {
 
                 span.tab {
@@ -6762,17 +6756,9 @@ div.header-container.main {
             margin: 0 auto;
             margin-top: 30px;
 
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
-
+            .pagePanelShadow;
+            .pagePanelHeader;
+            
             div.saved-designs-list {
 
                 table {
