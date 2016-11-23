@@ -6182,6 +6182,39 @@ $(document).ready(function () {
 
     /// Profile
 
+        ub.funcs.updateProfile = function (firstName, lastName) {
+
+            var _postData = {
+                id: ub.user.id,
+                first_name: firstName,
+                last_name: lastName,
+            }
+
+            var _url = ub.config.api_host + '/api/user/update';
+
+            $.ajax({
+                
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response){
+
+                    ub.user.firstName = firstName;
+                    ub.user.lastName = lastName;
+
+                    window.location.href = '/my-profile';
+
+                }
+                
+            });
+
+        };
+
         ub.funcs.displayMyProfile = function () {
 
             var $container = $('div.profile-container');
@@ -6194,11 +6227,18 @@ $(document).ready(function () {
                 application_id: '1',
             }
 
-            console.log(data);
-
             var markup = Mustache.render(template, data);
-
             $container.html(markup);
+
+            $('span.update-profile').unbind('click');
+            $('span.update-profile').on('click', function () {
+
+                var _firstName = $('input[name="first-name"]').val();
+                var _lastName = $('input[name="last-name"]').val();
+
+                ub.funcs.updateProfile(_firstName, _lastName);
+
+            });
 
         }
 

@@ -1338,7 +1338,7 @@
         </div>
 
         <div class="form-group btn-footer">
-            <span class="btn">Update</span>
+            <span class="btn update-profile">Update</span>
         </div>
 
     </script>   
