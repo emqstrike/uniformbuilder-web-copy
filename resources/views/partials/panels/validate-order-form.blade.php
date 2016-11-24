@@ -2,8 +2,8 @@
 
     <div>
     
-        <span class="back-to-roster-form-button" style="display: none">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Roster Input
+        <span class="back-to-roster-form-button">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Order Form
         </span>
 
         <span class="previewFormPdf">
@@ -12,7 +12,11 @@
 
 
     </div>
-    
+
+    <span class="save-order">
+        Save Order <i class="fa fa-save" aria-hidden="true"></i>
+    </span>
+
     <span class="submit-confirmed-order">
         Submit Order <i class="fa fa-arrow-right" aria-hidden="true"></i>
     </span>

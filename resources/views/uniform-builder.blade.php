@@ -152,6 +152,7 @@
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('my-messages')
 @yield('my-profile')
 @yield('signup')
 @yield('forgot-password')
@@ -217,8 +218,12 @@
 <script src="{{$asset_storage}}/sortable/jquery.binding.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js{{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/noUiSlider/nouislider.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/moment/moment.js{{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js{{$asset_version}}"></script>
+
+
+<script src="{{$asset_storage}}/noUiSlider/nouislider.js{{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
@@ -238,18 +243,21 @@
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
+
         };
 
         @if (Session::get('isLoggedIn'))
 
             window.ub.user = {
                 id: {{ Session::get('userId') }}, 
-                fullname: "{{ Session::get('fullname') }}", 
+                fullname: "{{ Session::get('fullname') }}",
+                firstName: "{{ Session::get('firstName') }}",
+                lastName: "{{ Session::get('lastName') }}",
                 email: "{{ Session::get('email') }}",
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
             };
 
-              $('button#change-password-submit').on('click', function() {
+              $('button#change-password-submit').on('click', function () {
 
                 if($('input#old-password').val() === ""){
 
@@ -271,6 +279,7 @@
             });
 
         @else
+
 
             window.ub.user = false;
             $('.register').on('click', function(){
@@ -346,7 +355,7 @@
 
         @if (Session::has('message'))
 
-            $.smkAlert({text: "{{ Session::get('message') }}", type: 'info', permanent: false, time: 5, marginTop: '90px'});
+            $.smkAlert({text: "{{ Session::get('message') }}", type: 'info', permanent: false, time: 5, marginTop: '140px'});
 
         @endif
 
@@ -356,6 +365,15 @@
         var s = "{{ $builder_customizations }}";
 
         if(s.length > 0) {
+
+            ub.config.pageType = "{{ isset($type) ? $type : 'undefined'}}";
+
+            if (ub.config.pageType == "Order") {
+
+                ub.config.orderCode       = "{{ isset($orderCode) ? $orderCode: 'undefined' }}";
+                ub.config.orderID         = "{{ isset($orderIdShort) ? $orderIdShort: 'undefined' }}";
+              
+            }
 
             window.ub.temp = s;
 
@@ -406,6 +424,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js{{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 

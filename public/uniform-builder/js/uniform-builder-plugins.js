@@ -1152,7 +1152,19 @@
                     var color_array_size = _.size(array);
                     var code = ub.current_material.settings.applications[application.id].color_array[index];
 
-                    if (typeof code !== 'undefined') { child.tint = parseInt(code.hex_code, 16); }
+                    if (typeof code !== 'undefined') { 
+                        child.tint = parseInt(code.hex_code, 16); 
+
+                        ///
+                        var _hexCode = (child.tint).toString(16);
+                        var _paddedHex = util.padHex(_hexCode, 6);
+                        if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                            ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                        }
+                        
+                        ///
+
+                    }
 
                 }
 
@@ -1412,11 +1424,11 @@
         var colors_obj = get_colors_obj(application.layer);
         var color_array = [];
 
-        if(typeof settings.applications[application.id] !== 'undefined') {
+        // if(typeof settings.applications[application.id] !== 'undefined') {
                     
-            color_array = settings.applications[application.id].color_array;
+        //     color_array = settings.applications[application.id].color_array;
 
-        }    
+        // }    
 
         children.reverse();
 
@@ -1433,6 +1445,15 @@
                 if (typeof code !== 'undefined') {
                     child.tint = parseInt(code.hex_code, 16);
                     child.oldTint = child.tint;
+
+                    ///
+                    var _hexCode = (child.tint).toString(16);
+                    var _paddedHex = util.padHex(_hexCode, 6);
+                    
+                    if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1 };
+                    }
+                    ///
 
                 }
 

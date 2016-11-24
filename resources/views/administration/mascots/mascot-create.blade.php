@@ -47,6 +47,12 @@ select:hover {
                                 <input type="file" class="form-control icon" name="icon" accept="image/*">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">File</label>
+                            <div class="col-md-6 front-view">
+                                <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
@@ -58,6 +64,7 @@ select:hover {
                                 </select>
                             </div>
                         </div>
+
 
 <!--                         <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>

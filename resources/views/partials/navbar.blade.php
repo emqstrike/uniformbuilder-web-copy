@@ -23,7 +23,7 @@
                         <li>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">
+                                    <form class="form loginRest" role="form" accept-charset="UTF-8" id="login-nav">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="form-group form-group-sm input-group">
                                             <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
@@ -34,7 +34,7 @@
                                             <input type="password" name="password" class="form-control col-sm-3" id="login-password" placeholder="Password">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-block">
+                                            <button type="submit" class="btn btn-block loginRest">
                                                 <i class="fa fa-sign-in"></i>
                                                 Sign in
                                             </button>
@@ -50,6 +50,12 @@
             </ul>
             
             @else
+
+            <a href="/messages" id="messages">
+
+                <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications <span class="badge"></span>
+
+            </a>
 
             <a href="#" id="feedback">
 
@@ -71,6 +77,8 @@
               <ul class = "dropdown-menu" role="menu">
 
                   <!-- <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li> -->
+                  <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+                  <li class="divider"></li>
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
                   <li class="divider"></li>

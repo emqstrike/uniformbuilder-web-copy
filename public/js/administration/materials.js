@@ -1044,8 +1044,6 @@ $(document).ready(function() {
             $('.a-prop').prop("value", va_prop_val);
         }
 
-
-
         var perspective = material.option.perspective;
         var material_option_shape = material.option.path;
         $('#app_option_id').val($(this).data('material-option-id'));
@@ -1062,8 +1060,6 @@ $(document).ready(function() {
         apps = apps.substring(1, apps.length-1);
         var app_properties = JSON.parse(apps);
         appendApplications(app_properties);
-
-
 
         if($('.a-prop').val() != "\"{}\""){
             var ap_out = va_prop_val.substring(1, va_prop_val.length-1);
@@ -1757,7 +1753,7 @@ $(document).ready(function() {
     });
 
     $('#save_app_template').on('click', function(){
-            updateApplicationsJSON();
+        updateApplicationsJSON();
         var name = $('#app_template_name').val();
         var block_pattern = $('#material_block_pattern').val();
         var perspective = $('#app-saved-perspective').val();
@@ -1778,7 +1774,7 @@ $(document).ready(function() {
         };
 
         if($(this).attr('disabled') != 'disabled'){
-         
+
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
@@ -1854,7 +1850,7 @@ $(document).ready(function() {
 
             console.log(myData);
             console.log('"'+JSON.stringify(data)+'"');
-         
+
             $.ajax({
                 url: url,
                 type: "POST",
@@ -2911,7 +2907,7 @@ canvas.observe('object:rotating', function (e) {
 canvas.observe('object:moving', function (e) {
     var p = e.target;
     console.log('Moving ' + p.name);
-    
+
     if (p.hasOwnProperty("text") === true) {
         //move text label to new circle location
         p.text.set({
@@ -2919,7 +2915,7 @@ canvas.observe('object:moving', function (e) {
             'top': p.top - 10
         });
     }
-    
+
     if (p.hasOwnProperty("inPath") === true) {
         //inpaths - paths end at circle
         for (var i = 0; i < p.inPath.length; i++) {

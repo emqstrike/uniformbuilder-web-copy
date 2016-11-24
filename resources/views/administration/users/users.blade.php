@@ -29,6 +29,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Account Type</th>
+                                <th>Date registered</th>
                                 <th>Email</th>
                                 <th>Active Status</th>
                                 <th></th>
@@ -49,6 +50,9 @@
                                     <span class="label label-{{ ($user->type == 'administrator') ? 'danger' : 'info' }}">{{ ucfirst($user->type) }}</span>
                                 </td>
                                 <td>
+                                    {{ $user->created_at }}
+                                </td>
+                                <td>
                                     <span class="label label-primary">{{ $user->email }}</span>
                                 </td>
                                 <td>
@@ -62,12 +66,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if (1 == 0)
                                     <a href="/administration/user/edit/{{ $user->id }}" class="btn btn-primary btn-xs edit-user" data-user-id="{{ $user->id }}" role="button">
                                         <i class="glyphicon glyphicon-edit"></i>
                                         Edit
                                     </a>
-                                    @endif
                                     @if (1 == 0)
                                         @if ($user->email != Session::get('email'))
                                         <a href="#" class="btn btn-danger pull-right btn-xs delete-user" data-user-id="{{ $user->id }}" role="button">

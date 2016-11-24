@@ -12,14 +12,16 @@ $(document).ready(function() {
     ub.modifiers = {};
     ub.tethers = {}; 
     ub.dimensions = {};
-    ub.dimensions.width = 563;
-    ub.dimensions.height = 616;
+    ub.dimensions.width = 1000;
+    ub.dimensions.height = 1100;
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
     ub.status = {};
 
     ub.uiTools = {};
+
+    ub.totalWidth = 1000;
 
     /// Search
 
@@ -1547,7 +1549,7 @@ $(document).ready(function() {
                     },
                     {
                         name: 'Shadow',
-                        default_color: 'bdc4c7',
+                        default_color: '1e1e1e',
                         layer_no: 2,
                         increment_x: 0.06, 
                         increment_y: 0.06,
@@ -6431,6 +6433,9 @@ ub.funcs.fontOffSets = [
             });
 
         }
+
+        /// Load all other Fonts 
+        // moved to afterLoad Event
         
     };
 
@@ -6463,8 +6468,234 @@ ub.funcs.fontOffSets = [
         }
     ];
 
-
     /// End Placeholder Application
 
+    /// Block Pattern Lengths 
+
+    ub.data.blockPatternLengths = {
+
+        items: [
+
+            {
+
+                blockPattern: 'ARIZONA',
+                widthFront: 1000,
+                widthBack: 993,
+
+            },
+            {
+
+                blockPattern: 'DELUXE 1',
+                widthFront: ub.totalWidth,
+                widthBack: ub.totalWidth,
+
+            },
+            {
+
+                blockPattern: 'DELUXE 2',
+                widthFront: 998,
+                widthBack: 1007,
+
+            },
+            {
+
+                blockPattern: 'PRO COMBAT',
+                widthFront: 998,
+                widthBack: 993,
+
+            },
+            {
+
+                blockPattern: 'TEXAS TECH 14',
+                widthFront: 1003,
+                widthBack: 1004,
+
+            },
+            {
+
+                blockPattern: 'UA',
+                widthFront: ub.totalWidth,
+                widthBack: ub.totalWidth,
+                
+            },
+            {
+
+                blockPattern: 'USC',
+                widthFront: ub.totalWidth,
+                widthBack: 1002,
+
+            },
+            {
+             
+                blockPattern: 'UTAH',
+                widthFront: 999,
+                widthBack: 1001,
+
+            },
+
+
+        ],
+        getSettings: function (blockPattern) {
+
+            return _.find(this.items, {blockPattern: blockPattern});
+
+        }
+
+    };
+
+    ub.data.blockPatternLength = undefined;
+
+    ub.data.buffsBoldAdjustments = {
+
+        items: [
+
+            {
+                blockPattern: "ARIZONA",
+                x: 118,
+            },
+            {
+                blockPattern: "DELUXE 1",
+                x: 115,
+            },
+            {
+                blockPattern: "DELUXE 2",
+                x: 110,
+            },
+            {
+                blockPattern: "PRO COMBAT",
+                x: 120,
+            },
+            {
+                blockPattern: "TEXAS TECH 14",
+                x: 115,
+            },
+            {
+                blockPattern: "UA",
+                x: 115,
+            },
+            {
+                blockPattern: "USC",
+                x: 115,
+            },
+            {
+                blockPattern: "UTAH",
+                x: 115,
+            },
+            {
+                blockPattern: "INFUSED 14",
+                x: 115,
+            },
+
+        ],
+
+        getSettings: function (blockPattern) {
+
+            return _.find(this.items, { blockPattern: blockPattern });
+
+        }
+
+    }
+
+    ub.data.buffsBoldAdjustment = undefined;
+
+    ub.data.macFonts = {
+        
+        items: [
+            {
+                fontName: 'Yard Line',
+                size: 8,
+                yOffset: -39,
+                scale: { x: 0.92, y: 1.02 }
+            },
+            {
+                fontName: 'Yard Line',
+                size: 10,
+                yOffset: -40,
+                scale: {x: 0.92, y: 1.04}
+            },
+            {
+                fontName: 'Yard Line',
+                size: 12,
+                yOffset: -45,
+                scale: {x: 0.84, y: 1.02}
+            },
+            {
+                fontName: 'HAWKS',
+                size: 8,
+                yOffset: -33,
+                scale: {x: 0.75, y: 1.04},
+            },
+            {
+                fontName: 'HAWKS',
+                size: 10,
+                yOffset: -35,
+                scale: {x: 0.75, y: 1.03},
+            },
+            {
+                fontName: 'HAWKS',
+                size: 12,
+                yOffset: -38,
+                scale: {x: 0.69, y: 1.03},
+            },    
+
+            {
+                fontName: 'Spartans',
+                size: 8,
+                yOffset: -30,
+                scale: {x: 0.8, y: 1.04},
+            },
+            {
+                fontName: 'Spartans',
+                size: 10,
+                yOffset: -34,
+                scale: {x: 0.8, y: 1.03},
+            },
+            {
+                fontName: 'Spartans',
+                size: 12,
+                yOffset: -33,
+                scale: {x: 0.76, y: 1.04},
+            },        
+        ],
+
+        getSettings: function (fontName, size) {
+
+            return _.find(this.items, {fontName: fontName, size: size});
+
+        },
+
+    };
+
+    ub.data.pantLocations = {
+        items : [40, 39, 38, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12],
+        isValidLocation: function (location) {
+
+            return _.includes(this.items, location);
+
+        }
+    }
+
+    ub.data.uploading = false;
+    ub.data.orderAttachment = "";
+
+    ub.data.validDocumentTypesForUpload = {
+        items : ['gif', 'jpg', 'bmp', 'docx', 'doc', 'png', 'jpeg', 'tga', 'pdf', 'ppt', 'pptx'],
+        isValidDocument: function (extension) {
+
+            return _.includes(this.items, extension);
+
+        }
+    }
+
+    /// End Block Pattern Lengths
+
+    /// Messages
+
+        ub.data.messageTypes = ['unread', 'orders', 'prolook', 'feedback', 'pm'];
+        ub.data.unreadMessages = undefined;
+
+    /// End Messages 
+
+    /// All data loaded before scripts are processed is in window.ub.config
 
 });

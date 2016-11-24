@@ -10,12 +10,14 @@ use App\APIClients\ColorsAPIClient;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\UniformDesignSetsAPIClient;
 use App\APIClients\OrdersAPIClient;
+use App\APIClients\UsersAPIClient;
 use App\APIClients\SavedDesignsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
 use App\Utilities\S3Uploader;
-
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
@@ -27,13 +29,15 @@ class UniformBuilderController extends Controller
     protected $designSetClient;
     protected $ordersClient;
     protected $savedDesignsClient;
+    protected $usersAPIClient;
 
     public function __construct(
         MaterialsAPIClient $materialsClient,
         ColorsAPIClient $colorsClient,
         UniformDesignSetsAPIClient $designSetClient,
         OrdersAPIClient $ordersClient,
-        SavedDesignsAPIClient $savedDesignsClient
+        SavedDesignsAPIClient $savedDesignsClient,
+        UsersAPIClient $usersAPIClient
     )
     {
         $this->materialsClient = $materialsClient;
@@ -41,6 +45,7 @@ class UniformBuilderController extends Controller
         $this->designSetClient = $designSetClient;
         $this->ordersClient = $ordersClient;
         $this->savedDesignsClient = $savedDesignsClient;
+        $this->usersAPIClient = $usersAPIClient;
     }
 
     public function showBuilder($config = [])
@@ -105,6 +110,7 @@ class UniformBuilderController extends Controller
         if (isset($config['builder_customizations'])) {
 
             $pageType = Session::get("page-type");
+            $params['type'] = $config['type'];
 
             if($pageType['page'] === "saved-design") {
                 
@@ -137,6 +143,13 @@ class UniformBuilderController extends Controller
 
                 }
 
+            }
+
+            if ($config['type'] == 'Order') {
+
+                $params['orderCode']    = $config['order_code'];
+                $params['orderIdShort'] = $config['order_id_short'];
+                
             }
             
         }
@@ -176,7 +189,8 @@ class UniformBuilderController extends Controller
             {
                 $config = [
                     'material_id' => $material->id,
-                    'order_id' => $orderId
+                    'order_id' => $orderId,
+                    'type' => 'Order Item',
                 ];
                 return $this->showBuilder($config);
             }
@@ -193,6 +207,8 @@ class UniformBuilderController extends Controller
     {
 
         $order = $this->ordersClient->getOrderItems($orderId);
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
 
         if( isset($order[0]) ) {
 
@@ -221,7 +237,10 @@ class UniformBuilderController extends Controller
             $config = [
                 'material_id' => $materialID,
                 'order_id' => $orderId,
+                'order_code' => $orderId,
+                'order_id_short' => $order->id,
                 'builder_customizations' => $orderID,
+                'type' => 'Order',
             ];
             
             return $this->showBuilder($config);
@@ -237,13 +256,64 @@ class UniformBuilderController extends Controller
      * @param Integer $designSetId
      * @param Integer $materialId
      */
+
     public function loadDesignSet($designSetId = null, $materialId = null)
     {
         $config = [
             'design_set_id' => $designSetId,
-            'material_id' => $materialId
+            'material_id' => $materialId,
+            'type' => 'Design Set',
         ];
         return $this->showBuilder($config);
+
+    }
+
+    public function fileUpload (Request $request) {
+
+        $data = [];
+        $folder_name = "uploaded_files";
+
+        try {
+            
+            $newFile = $request->file('file');
+
+            if (isset($newFile))
+            {
+
+                if ($newFile->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['file_path'] = FileUploaderV2::upload(
+                                                    $newFile,
+                                                    $randstr,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+
+            return [
+                'success' => true,
+                'message' => 'File Uploaded',
+                'filename' => $data['file_path'],
+            ];
+
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+
+            return [
+                'success' => false,
+                'message' => $message,
+                'filename' => $data['file_path'],
+            ];
+            // return Redirect::to('/administration/test/create')
+            //                 ->with('message', 'There was a problem uploading your files');
+        }
+
+
     }
 
     public function saveLogo(Request $request){
@@ -289,7 +359,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateApplicationsTable ($applications) {
+    function generateApplicationsTable ($applications, $uniform_category) {
 
         $html = '';
         $html .= '<br /><br />';
@@ -337,12 +407,33 @@ class UniformBuilderController extends Controller
                 $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
                 $html .=   '</td>';
-           
+
             } else if ($appType == "MASCOT" ) {
+
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
-                $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
-                $html .=   '</td>';                
+
+                if ($application['mascot']['name'] == 'Custom Logo') {
+
+                    $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
+
+                    $userfile_name = $application['customFilename'];
+                    $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
+
+                    if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
+
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
+
+                    }
+
+                } else {
+
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+
+                }
+
+                $html .=   '</td>';
+
             } else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
@@ -350,21 +441,55 @@ class UniformBuilderController extends Controller
             }
 
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+
                 $html .=   '<td align="center">';
-                $html .=   'Size: ' . $application['font_size'] . '" <br />';
+
+                if ($uniform_category == "Wrestling") {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                } else {
+
+                    if (isset($application['font_size'])) {
+                        $html .=   $application['font_size'] . '" <br />';    
+                    } elseif (isset($application['size'])) {
+                        $html .=   $application['size'] . '" <br />';    
+                    }
+
+                }
+
                 $html .=   '</td>';
+
             } else if ($appType == "MASCOT" ) {
+
                 $html .=   '<td align="center">';
-                $html .=   '<strong></strong>';
+
+                if ($uniform_category == "Wrestling") {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                } else {
+
+                    if (isset($application['size'])) {
+                        $html .=   $application['size'] . '" <br />';    
+                    } elseif (isset($application['font_size'])) {
+                        $html .=   $application['font_size'] . '" <br />';    
+                    }
+
+                }
+
                 $html .=   '</td>';                
+
             } else {
+
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
                 $html .=   '</td>';                
+
             }
 
             $html .=   '<td align="center">';
-                
+
                 $colors = '';
                 foreach ($application['color_array'] as &$color) {
                     $colors .= $color['color_code'] . ",";
@@ -396,7 +521,7 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
-        
+
         $html .=   '<td align="center">';
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
@@ -507,13 +632,13 @@ class UniformBuilderController extends Controller
             $code = $this->toTitleCase($part['code']);
 
             Log::info('---' . $code);
-            
+
             $html .= '<tr>';
             $html .=   '<td align="right">';
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
-            
+
             if (array_key_exists('colorObj', $part)) {
                 $html .=   $part['colorObj']['color_code'];
             } else {
@@ -528,7 +653,7 @@ class UniformBuilderController extends Controller
             if (array_key_exists('pattern', $part)) {
 
                 if ($part['pattern']['pattern_id'] != '') {
-                    
+
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
 
                         $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
@@ -537,7 +662,7 @@ class UniformBuilderController extends Controller
                         foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
                             $colors .= $layer['color_code'] . ',';
                         }
-                        
+
                         $colorsTrimmed = rtrim($colors, ",");
 
                         $html .= '<strong>' . $colorsTrimmed . '</strong>';
@@ -796,16 +921,16 @@ class UniformBuilderController extends Controller
 
         $table .= '</table>';
         $total  = 0;
-        
+
         return $table;
 
     }
 
     function generateItemTable ($itemData, $fname) {
-        
+
         $html = '';
         $html .= "<table>";
-        
+
         $html .= "<tr>";
         $html .=     "<td width='30%'>";
         $html .=        "UNIFORM NAME:<br />";
@@ -846,7 +971,9 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateSizeBreakDownTable ($sizeBreakDown) {
+    function generateSizeBreakDownTable ($firstOrderItem) {
+
+        $sizeBreakDown = $firstOrderItem['builder_customizations']['size_breakdown'];
 
         $table = '<strong>SIZES BREAKDOWN</strong><br /><br />';
 
@@ -880,7 +1007,22 @@ class UniformBuilderController extends Controller
 
         $table .= '</table>';
 
+        $table .= '<br /><br />';
+        $table .= '<strong>ADDITIONAL NOTES</strong>';
+        $table .= '<p style="font-size: 0.8em">';
+        $table .= $firstOrderItem['notes'];
+        $table .= '</p>';
+        
+        if ($firstOrderItem['attached_files'] !== "") {
+            $table .= '<br /><br />';
+            $table .= '<strong>ATTACHMENT</strong>';
+            $table .= '<p>'; 
+            $table .= '<a href="' . $firstOrderItem['attached_files'] . '" target="_new">Open Attachment</a>';    
+            $table .= '</p>'; 
+        }
+        
         return $table;
+
     }
 
     function generatePDF ($builder_customizations) {
@@ -891,6 +1033,8 @@ class UniformBuilderController extends Controller
         $path = public_path('design_sheets/' . $filename . '.pdf');
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+
+        $uniform_category = $bc['uniform_category'];
 
         // dd($bc['builder_customizations']['roster']);
         // $body_color = $bc->upper->Body->color;
@@ -924,7 +1068,7 @@ class UniformBuilderController extends Controller
         $html  = '';
         $html .= $style;
         $html .= '<div style ="width: 100%; text-align: center;">';
-        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h3>';
+        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM (' . $uniform_category . ')</h3>';
         $html .= '</div>';
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
@@ -943,7 +1087,7 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .=   '<td width="30%">';
         $html .=   '<br /><br />';
-        $html .=   $this->generateSizeBreakDownTable($firstOrderItem['builder_customizations']['size_breakdown']);
+        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
         $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '</tr>';
@@ -973,9 +1117,6 @@ class UniformBuilderController extends Controller
         $pdf->AddPage("L");
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        //$pdf->Image($outputFilenameFront, 1, 12, 200);
-        //$pdf->Write(0, $bc['roster'][0]['size']);
-
         $pdf->AddPage("L");
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0];
@@ -992,7 +1133,7 @@ class UniformBuilderController extends Controller
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
-        
+
         $pdf->writeHTML($html, true, false, true, false, '');
 
         $roster = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['roster'];
@@ -1016,7 +1157,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateApplicationsTable($applications);
+        $html .=            $this->generateApplicationsTable($applications, $uniform_category);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
@@ -1027,17 +1168,15 @@ class UniformBuilderController extends Controller
 
         $transformedPath = '/design_sheets/' . $filename . '.pdf';
 
-
         $user = Session::get('userId');
         $message = 'Anonymous user has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
 
-        if( isset($user) ){
+        if ( isset($user) ) {
             $user_id = Session::get('userId');
             $first_name = Session::get('first_name');
             $last_name = Session::get('last_name');
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
-        // $message = $user.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem;
 
         Slack::send($message);
 
@@ -1048,7 +1187,6 @@ class UniformBuilderController extends Controller
     public function generateOrderForm(Request $request){
 
         $r = $request->all();
-
         $fname = $this->generatePDF($r);
 
         return response()->json(['success' => true, 'filename' => $fname ]);
@@ -1057,7 +1195,7 @@ class UniformBuilderController extends Controller
 
     function createPDF ($builder_customizations) {
 
-        $pdf = new TCPDF(); 
+        $pdf = new TCPDF();
 
         $filename = $this->getGUID(); 
         $path = storage_path('app/design_sheets/' . $filename . '.pdf');
@@ -1255,6 +1393,7 @@ class UniformBuilderController extends Controller
                 'material_id' => $materialID,
                 'id' => $savedDesignID,
                 'builder_customizations' => $savedDesignID,
+                'type' => 'Saved Design',
             ];
             
             return $this->showBuilder($config);
@@ -1279,9 +1418,31 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-saved-designs',
+            'type' => 'my-saved-designs',
         ];
 
         return view('editor.my-saved-designs', $params);
+
+    }
+
+    public function myMessages(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-messages',
+            'type' => 'my-messages',
+        ];
+
+        return view('editor.my-messages', $params);
 
     }
 
@@ -1299,6 +1460,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-orders',
+            'type' => 'my-orders',
         ];
 
         return view('editor.my-orders', $params);
@@ -1307,6 +1469,13 @@ class UniformBuilderController extends Controller
 
     public function myProfile(Request $request) {
 
+        $user = $this->usersAPIClient->getUser(Session::get('userId'));
+
+        Session::put('fullname', $user->first_name . ' ' . $user->last_name);
+        Session::put('first_name', $user->first_name);
+        Session::put('firstName', $user->first_name);
+        Session::put('lastName', $user->last_name);
+        
         $materialId = -1;
         $categoryId = -1;
 
@@ -1319,6 +1488,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'my-profile',
+            'type' => 'my-profile',
         ];
 
         return view('editor.my-profile', $params);

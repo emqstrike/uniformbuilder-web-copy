@@ -34,6 +34,11 @@
       </li>
     </ul>
   </li>
+  <li data-position='right'>
+    <a href="/administration/artwork_requests" >
+      <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests</span>
+    </a>
+  </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-gear"></i>
@@ -74,6 +79,11 @@
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/materials">
           <i class="fa fa-cubes"></i> <span>Materials</span>
+        </a>
+      </li>
+      <li data-step="9" data-intro="For Materials Fabric settings.">
+        <a href="/administration/materials_fabrics">
+          <i class="fa fa-cubes"></i> <span>Materials Fabrics</span>
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
@@ -146,6 +156,11 @@
   <li  data-step="21" data-intro="For User settings.">
     <a href="/administration/users">
       <i class="glyphicon glyphicon-user"></i> <span>Users</span>
+    </a>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/feedbacks" >
+      <i class="glyphicon glyphicon-envelope"></i> <span>Feedbacks</span>
     </a>
   </li>
 </ul>

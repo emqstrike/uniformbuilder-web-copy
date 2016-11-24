@@ -39,12 +39,12 @@ class AdministrationController extends Controller
     {
         try
         {
-            $orders = $this->ordersClient->countNewOrders();
+            // $orders = $this->ordersClient->countNewOrders();
             if(isset($orders)){
-                $newOrdersCount = $orders->count;
-                $pendingOrders = $this->ordersClient->countPendingOrders();
-                $pendingOrdersCount = $pendingOrders->count;
-            }            
+                // $newOrdersCount = $orders->count;
+                // $pendingOrders = $this->ordersClient->countPendingOrders();
+                // $pendingOrdersCount = $pendingOrders->count;
+            }
         } catch (QueryException $e) {
             // $error = $e->getMessage();
         } catch (Exception $e) {
@@ -60,14 +60,12 @@ class AdministrationController extends Controller
                 $users = json_decode($users);
 
                 return view('administration.lte-dashboard', [
-<<<<<<< Updated upstream
-                    'newOrdersCount' => $newOrdersCount,
-                    'pendingOrdersCount' => $pendingOrdersCount
-=======
                      'users' => $users
                     // 'newOrdersCount' => $newOrdersCount,
                     // 'pendingOrdersCount' => $pendingOrdersCount
->>>>>>> Stashed changes
+                    // 'newOrdersCount' => $newOrdersCount,
+                    // 'pendingOrdersCount' => $pendingOrdersCount
+
                 ]);
             }
         }

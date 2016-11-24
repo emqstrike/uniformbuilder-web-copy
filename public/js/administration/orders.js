@@ -357,7 +357,8 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        // console.log(JSON.stringify(bcx));
+        // console.log(JSON.parse(bcx.order_items));
+        console.log(bcx.applications);
         entry.orderPart = {
             "ID" : entry.id,
             "ItemID" : entry.item_id,
@@ -388,17 +389,20 @@ $('.send-to-factory').on('click', function(e){
         }
 
         var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
-        $.each(entryQuestions, function(i, item) {
+        $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
             if( item.QuestionID == 267 ){
                 utpi = "fbij";
             } else if( item.QuestionID == 14 ){
-                 utpi = "fbgj";
+                utpi = "fbgj";
             }
         });
 
         var bc = JSON.parse(entry.builder_customizations);
-        // console.log(bc);
-        var questionsValues = extractPartValues(bc);
+        delete bc.attached_files;
+
+        var position = upperOrLower(bc);
+        console.log("Uniform :"+position);
+        var questionsValues = extractPartValues(bc, position);
         var questions_valid = buildQuestions(utpi, questionsValues);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
@@ -457,7 +461,7 @@ $('.send-to-factory').on('click', function(e){
     strResult = JSON.stringify(orderEntire);
     // console.log(strResult);
 
-    // console.log(orderEntire['orderParts']);
+    // console.log(JSON.stringify(orderEntire['orderParts']));
 
     $.ajax({
         url: url,
@@ -534,8 +538,35 @@ function translatePattern(body_pattern_raw){
     return pattern;
 }
 
-function extractPartValues(bc){ // get values for builder customizations
-console.log(bc);
+function upperOrLower(bc){
+    var test;
+    try { // check if the BC is upper
+        test = bc['upper']['Body']['colorObj']['color_code'];
+        if(test !== null){
+            return 'upper'; 
+        }
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    return 'lower';
+}
+
+function extractPartValues(bc, position){ // get values for builder customizations
+
+    var questionsValues;
+
+    if(position == "upper"){
+        questionsValues = extractUpper(bc);
+    } else {
+        questionsValues = extractLower(bc);
+    }
+
+    return questionsValues;
+
+}
+
+function extractUpper(bc){
     var color_code = bc['upper']['Body']['colorObj']['color_code'];
     var color_name = bc['upper']['Body']['colorObj']['name'];
     var body_color = color_name + " " + "(" + color_code + ")";
@@ -546,7 +577,7 @@ console.log(bc);
         var right_sleeve_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -555,7 +586,7 @@ console.log(bc);
         var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -564,7 +595,7 @@ console.log(bc);
         var right_side_panel_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -573,7 +604,7 @@ console.log(bc);
         var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -582,7 +613,7 @@ console.log(bc);
         var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -591,7 +622,7 @@ console.log(bc);
         var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -600,7 +631,7 @@ console.log(bc);
         var left_sleeve_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -609,7 +640,7 @@ console.log(bc);
         var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -618,7 +649,7 @@ console.log(bc);
         var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -627,7 +658,7 @@ console.log(bc);
         var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     try {
@@ -640,8 +671,8 @@ console.log(bc);
         var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
         var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
         var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
-    }catch(err) {
-        console.log(err.message);
+    } catch(err) {
+        // console.log(err.message);
     }
     var questionsValues = {
         "body_color" : body_color,
@@ -662,6 +693,9 @@ console.log(bc);
     };
     // console.log(questionsValues);
     return questionsValues;
+}
+
+function extractLower(bc){
 
 }
 
@@ -706,7 +740,7 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 282,
                 "Value": questionsValues.neck_trim_pattern
             }];
-    } else if( utpi == "fbgj" ){
+    } else if( utpi == "fbgj" || utpi == "fbdj" || upti == "fbbj" ){
         questions = [{
                 "QuestionID": 14,
                 "Value": questionsValues.body_color
@@ -732,33 +766,7 @@ function buildQuestions( utpi, questionsValues ){
                 "QuestionID": 18, //    Base Material 2 Color 1
                 "Value": questionsValues.bottom_body_insert_color
             }];
-    } else if( utpi == "fbdj" ){
-        questions = [{
-                "QuestionID": 14,
-                "Value": questionsValues.body_color
-            }, {
-                "QuestionID": 219,
-                "Value": questionsValues.right_sleeve_color
-            }, {
-                "QuestionID": 38,
-                "Value": questionsValues.right_shoulder_cowl_color
-            }, {
-                "QuestionID": 68,
-                "Value": questionsValues.right_arm_trim_color
-            }, {
-                "QuestionID": 62,
-                "Value": questionsValues.right_side_panel_color
-            }, {
-                "QuestionID": 66, // Insert and Trim Color 3
-                "Value": questionsValues.back_body_yoke_insert_color
-            }, {
-                "QuestionID": 64, // Insert and Trim Color 2
-                "Value": questionsValues.bottom_right_side_panel_insert_color
-            }, {
-                "QuestionID": 18, //    Base Material 2 Color 1
-                "Value": questionsValues.bottom_body_insert_color
-            }];
-    }
+        }
 
     return questions;
 }

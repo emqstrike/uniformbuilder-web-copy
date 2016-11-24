@@ -71,7 +71,6 @@ select:hover {
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
-
     $('.ma-default-color').change(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);

@@ -590,6 +590,63 @@
 
 <!-- End Pattern Picker -->
 
+<!-- Quick Registration Popup -->
+    
+    <script type="text/mustache" id="m-quick-registration-popup">
+
+        <div id="primaryQuickRegistrationPopup" data-status="hidden">
+
+            <div class="header">
+
+                <span class="text">Quick Registration</span>
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+
+                <br />
+
+                <em class="instructions">You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.</em> <br /><br />
+
+                <!-- <label class="quickRegistrationEmail">Email:</label>
+                <input type="email" name="quickRegistrationEmail" class="quickRegistrationEmail" /><br /> -->
+
+                <div class="form-group form-group-sm input-group quickEmailContainer">
+                    <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    <input type="email" name="quickRegistrationEmail" class="form-control col-sm-2 quickRegistrationEmail" placeholder="Email Address">
+                </div>
+
+                <div class="form-group form-group-sm input-group quickPasswordContainer">
+                    <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                    <input type="password" name="quickRegistrationPassword" class="form-control col-sm-2 quickRegistrationPassword">
+                </div>
+
+                <em class="message"></em>
+
+                <br /><br /><br /><br />
+                
+
+            </div>
+
+            <div class="footer">
+
+                <span class="login-here"><a class="login-link">Already have an account?</a></span> <span class="next">Next</span>
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Quick Registration Popup -->
+
 <!-- Pattern Picker -->
     
     <script type="text/mustache" id="m-accent-popup">
@@ -776,6 +833,8 @@
 
                             </span>
 
+                            <em class="unsupported-file"></em>
+
                         </div>
 
                         <div class="col-md-6 col2">
@@ -885,7 +944,7 @@
                     </td>
                     
                     <td>
-                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                        <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 
                     <td class="PlayerNumberInput">
@@ -918,8 +977,6 @@
                     </td>
 
                 </tr>
-                
-
     </script>   
 
 <!-- End Roster Table Field -->
@@ -938,6 +995,7 @@
                 <td>Order Info</td>
                 <td>Client</td>
                 <td>Status</td>
+                <td>Submitted</td>
                 <td>&nbsp;</td>
             </tr>
 
@@ -959,10 +1017,11 @@
                     </td>
                     <td>@{{client}}</td>
                     <td>@{{status}}</td> 
+                    <td>@{{submitted}}</td> 
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}"data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
                         
                     </td>
 
@@ -975,6 +1034,144 @@
     </script>   
 
 <!-- End Orders Table -->
+
+<!-- Message Popup -->
+
+    <script type="text/mustache" id="m-message-popup">
+
+        <div id="primaryMessagePopup" data-status="hidden">
+
+            <div class="header">
+
+                Message (@{{type}})
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="label">From: </div>
+                <div class="value">@{{sender_name}}</div>
+                <div class="label">Subject: </div>
+                <div class="value">@{{subject}}</div>
+                <div class="label">Message: </div>
+                <div class="value">@{{content}}</div>
+
+                <div class="reply-box">
+                    
+                    <div class="label">Reply: </div>
+                    <div class="inputbox">
+                        
+                        <textarea name="reply" rows="10" cols="100" maxlength="500"></textarea>
+
+                    </div>
+
+                    <div class="command-bar">
+                        
+                        <span class="submit-reply" data-message-id="@{{id}}">Submit</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+
+<!-- End Message Popup -->
+
+<!-- Messages Table -->
+
+    <script type="text/mustache" id="messages-table">
+
+        <br />
+
+        <table>
+
+            <tr class="header">
+
+                <td></td>
+                <td>Type</td>
+                <td>Date</td>
+                <td>From</td>
+                <td>To</td>
+                <td>Subject</td>
+                <td>Message</td>
+                <td>Action</td>
+
+            </tr>
+
+            @{{#messages}}
+
+                <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
+                    <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
+                    <td>@{{type}}</td>
+                    <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
+                    <td class="from"><strong>@{{sender_name}}</strong></td>
+                    <td class="from"><strong>@{{recepient_name}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{contentPreview}}</td>
+                    <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Messages Table -->
+
+<!-- Right Pane Messages Table -->
+
+    <script type="text/mustache" id="m-messages-table">
+
+        <br />
+
+        <table>
+           
+            <tr class="header">
+                <td>Type</td>
+                <td>Date</td>
+                <td>Order Code</td>
+                <td>Subject</td>
+                <td>Content</td>
+                <td>Status</td>
+            </tr>
+
+            @{{#messages}}
+
+                <tr>
+                    <td>Type</td>
+                    <td>@{{created_at}}</td>
+                    <td><strong> @{{order_code}}</strong></td>
+                    <td class="subject">@{{subject}}</td>
+                    <td class="message-info">@{{content}}</td>
+                    <td>@{{read}}</td> 
+                </tr>
+
+            @{{/messages}}
+
+        </table>
+
+    </script>   
+
+<!-- End Right Pane Messages Table -->
 
 <!-- Order Submitted -->
 
@@ -1125,6 +1322,25 @@
 
     <script type="text/mustache" id="m-profile-page">
 
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}">
+        </div>
+
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="@{{email}}" disabled>
+        </div>
+
+        <div class="form-group btn-footer">
+            <span class="btn update-profile">Update</span>
+        </div>
+
     </script>   
 
 <!-- End Profile -->
@@ -1254,6 +1470,57 @@
     </script>   
 
 <!-- End Save Design -->
+
+<!-- Logged In Nav -->
+
+    <script type="text/mustache" id="m-loggedInNavbar">
+
+        <a href="/messages" id="messages">
+
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications <span class="badge"></span>
+
+        </a>
+
+        <a href="#" id="feedback">
+
+            <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
+
+        </a>
+
+         <div class = "btn-group">
+
+            <button type = "button" class = "btn">
+
+                <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
+
+            </button>
+
+            <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">
+
+                <span class = "caret"></span>
+                <span class = "sr-only">Toggle Dropdown</span>
+
+            </button>
+
+            <ul class = "dropdown-menu" role="menu">
+                
+                <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+                <li class="divider"></li>
+
+                <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
+                <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
+                <li class="divider"></li>
+                <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> LOG OUT</a></li>
+
+            </ul>
+
+        </div>
+
+     </script>
+
+<!-- End Logged In Nav -->
             
 
 

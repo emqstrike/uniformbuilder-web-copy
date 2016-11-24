@@ -19,6 +19,7 @@ Route::get('/', function () {
     
 });
 
+Route::post('lrest', 'AuthenticationController@lrest');
 Route::post('login', 'AuthenticationController@login');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
@@ -156,7 +157,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@updateMaterialOptions']);
 
     // Messages
-    Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@index']);
+    Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@getUserMessages']);
     Route::get('message/compose', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@composeForm']);
 
     // Base Models
@@ -260,7 +261,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('block_pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@editForm']);
     Route::post('block_pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\BlockPatternsController@store']);
 
-
     // Feature Flags
     Route::get('feature_flags', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@index']);
     Route::get('feature_flag/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeatureFlagsController@addForm']);
@@ -275,17 +275,38 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('helper/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@editForm']);
     Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
 
-
-        // NewsLetters
+    // NewsLetters
     Route::get('news_letters', 'Administration\NewsLettersController@index');
 
     // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
     // Route::post('newsletter', 'NewsLettersController@store');
     // Route::post('newsletter/delete', 'NewsLettersController@delete');
 
+    Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
+    Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
+
+    // Materials Fabric
+    Route::get('materials_fabrics', 'Administration\MaterialsFabricsController@index');
+    Route::post('materials_fabric/add', 'Administration\MaterialsFabricsController@store');
+    Route::get('materials_fabric/add', 'Administration\MaterialsFabricsController@create');
+    Route::get('materials_fabric/edit/{id}', 'Administration\MaterialsFabricsController@editMaterialFabricForm');
+    Route::post('materials_fabric/delete', 'Administration\MaterialsFabricsController@delete');
+    Route::get('materials_fabric/{id}', 'Administration\MaterialsFabricsController@show');
+    Route::post('materials_fabric/update', 'Administration\MaterialsFabricsController@update');
+
+    // Artworks
+    Route::get('artwork_requests', 'Administration\ArtworksController@index');
+
+    // Feedbacks
+    Route::get('feedbacks', 'Administration\FeedbacksController@index');
+    Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
+    Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
+
 });
+
+Route::get('/messages', 'UniformBuilderController@myMessages');
 
 Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');
-
+Route::post('/fileUpload', 'UniformBuilderController@fileUpload');
 Route::post('mobile_notification', 'MobileNotification\MobileNotificationController@store');

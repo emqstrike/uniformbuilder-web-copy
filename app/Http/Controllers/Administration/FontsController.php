@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\FontsAPIClient as APIClient;
@@ -35,9 +36,12 @@ class FontsController extends Controller
     public function addFontForm()
     {
         $fonts = $this->client->getDefaultFonts();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         return view('administration.fonts.font-create', [
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -45,10 +49,13 @@ class FontsController extends Controller
     {
         $font = $this->client->getFont($id);
         $fonts = $this->client->getDefaultFonts();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         return view('administration.fonts.font-edit', [
             'fonts' => $fonts,
-            'font' => $font
+            'font' => $font,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -60,6 +67,7 @@ class FontsController extends Controller
         $fontProperties = $request->input('font_properties');
         $oldFontPath = $request->input('old_font_path');
         $fontSizeTable = $request->input('font_size_table');
+        $sports = explode(",", $request->input('sports_value'));
 
         $myJson = json_decode($fontProperties, true);
 
@@ -78,7 +86,8 @@ class FontsController extends Controller
 
         $data = [
             'name' => $fontName,
-            'font_size_table' => $fontSizeTable
+            'font_size_table' => $fontSizeTable,
+            'sports' => $sports
         ];
 
         if ($fontType != 'default')
@@ -86,9 +95,10 @@ class FontsController extends Controller
             $data['type'] = $fontType;
             $data['parent_id'] = $fontParent;
         }
-
+// dd($data);
         try
         {
+            $randstr = Random::randomize(4);
             $fontFile = $request->file('font_path');
             if (isset($fontFile))
             {
@@ -96,7 +106,7 @@ class FontsController extends Controller
                 {
                     $data['font_path'] = FileUploader::upload(
                         $fontFile,
-                        $fontName,
+                        $fontName.$randstr,
                         'font',
                         'fonts'
                     );
@@ -131,10 +141,11 @@ class FontsController extends Controller
                     {
                         if ($fontLayerFile->isValid())
                         {
+                            $randstr2 = Random::randomize(4);
                             $fontPropName = $fontName."_".$myJson[(string)$ctr]['name'];
                             $myJson[(string)$ctr]['font_path'] = FileUploader::upload(
                                                                                 $fontLayerFile,
-                                                                                $fontPropName,
+                                                                                $fontPropName.$randstr2,
                                                                                 'font',
                                                                                 'fonts'
                                                                             );

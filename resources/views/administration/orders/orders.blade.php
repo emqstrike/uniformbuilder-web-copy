@@ -24,8 +24,8 @@
                             <th></th>
                             <th>Rep</th>
                             <th>Items</th>
-                            <th>Artwork Requests</th>
-                            <th>Status</th>
+                            <th>Artwork Status</th>
+                            <th>Order Status</th>
                             <th>Actions</th>
                             <th>FOID</th>
                         </tr>
@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <div>
-                                    {{ $order->user_id }}
+                                    {{ $order->first_name }} {{ $order->last_name }}[{{ $order->user_id }}]
                                 </div>
                             </td>
                             <td>
@@ -96,7 +96,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                null
+                                {{ $order->artwork_status }}
                             </td>
                             <td>
                                 <select class="form-control change-order-status" data-order-id="{{ $order->id }}">

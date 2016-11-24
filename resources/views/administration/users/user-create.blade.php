@@ -64,7 +64,11 @@
                             <div class="col-md-6">
                                 <select name='type' class="form-control user-type">
                                     <option value='normal'>Normal</option>
+                                    <option value='qa'>QA</option>
+                                    <option value='ga'>GA</option>
+                                    <option value='rep'>Rep</option>
                                     <option value='dealer'>Dealer</option>
+                                    <option value='manager'>Manager</option>
                                     <option value='administrator'>Administrator</option>
                                 </select>
                             </div>

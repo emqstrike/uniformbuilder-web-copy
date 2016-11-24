@@ -6,6 +6,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            ub.funcs.beforeLoad();
             ub.config.print_version();
 
             /// Initialize Assets
@@ -95,6 +96,179 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
+
+            var _postData = {
+
+                "type": type,
+                "subject": subject,
+                "order_code": order_code,
+                "content": content,
+                "recipient_id": 0,
+                "sender_id": ub.user.id,
+                "parent_id": parent_id,
+                "sender_name": ub.user.fullname,
+                "read": "0",
+
+            }
+
+            var _url = ub.config.api_host + '/api/message';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Message Sent!', type:'warning', time: 3, marginTop: '80px'});
+
+                }
+                        
+            });
+
+        }
+
+        ub.funcs.updateMessageBadges = function (type) {
+
+            var $badge  = $('span.badge.badge-' + type);
+            var _filter = type.toTitleCase();
+
+            if (_filter === "Pm") {
+
+                _filter = "PM";
+
+            }
+
+            var _count = _.chain(ub.data.unreadMessages).filter({type: _filter}).size().value();
+
+            _countStr = _count !== 0 ? _count: '';
+            $badge.html(_countStr);
+
+        }
+
+        ub.funcs.updateMessageCount = function () {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    var _items = response.messages;
+                    var _count = _.size(_items);
+
+                    ub.data.unreadMessages = response.messages;
+
+                    $('a#messages > span.badge').hide();
+                    $('a#messages > span.badge').html(_count);
+                    $('a#messages > span.badge').fadeIn();
+
+                    _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
+
+                }
+                
+            });
+
+        };
+
+        ub.funcs.beforeLoad = function () {
+
+            $('a.change-view[data-view="team-info"]').addClass('disabled');
+
+            if (typeof ub.user.id === 'number')  { ub.funcs.updateMessageCount(); }
+
+        }
+
+        // {data: '', title: '', url: ''}
+        ub.funcs.pushState = function (stateObject) {
+
+            history.pushState(stateObject.data, stateObject.title, stateObject.url);
+
+        };
+
+        ///
+
+        ub.data.orderFormInitialized = undefined;
+        ub.funcs.reShowCustomizer = function () {
+
+            ub.data.rosterInitialized = false;
+
+            $('div#right-pane-column').fadeIn();        
+            $('div#left-pane-column').fadeIn();
+            $('div#roster-input').fadeOut();
+
+        }
+
+        ub.funcs.reShowRosterInput = function () {
+
+            $('div#order-form').fadeIn();
+            $('div#roster-input').fadeIn();
+
+        }
+
+        ub.funcs.reShowOrderFrom = function () {
+
+            $('div#roster-input').fadeOut();
+            $('div#validate-order-form').fadeOut();
+            $('div#order-form').fadeIn();
+
+            $('span.back-to-roster-form-button').unbind('click');
+            $('span.back-to-roster-form-button').on('click', function () {
+
+                ub.funcs.reShowRosterInput();
+
+            });
+            
+        }
+
+        ///
+
+        ub.funcs.setupEventHandlers = function () {
+
+            //Handle History Change
+            window.addEventListener('popstate', function (e) {
+
+                if (e.state === "customize-uniform") {
+
+                    $.smkAlert({text: 'Ability to go back to the cuztomizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
+
+                }
+
+                if (e.state === "roster-form") {
+
+                    ub.funcs.reShowRosterInput();
+
+                }
+
+                if (e.state === "order-form") {
+
+                    
+                    
+                    ub.funcs.reShowOrderFrom();
+
+                }
+
+            });
+
+            // Handle Page Change
+            window.onbeforeunload = function (e) {
+
+                return "Please save your work first before going to another page so that your work might not be lost.";
+
+            };
+
+        };
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -128,14 +302,14 @@ $(document).ready(function () {
 
             if(typeof (window.ub.user.id) === "undefined") {
 
-                $('a.change-view[data-view="save"]').css('color','lightgray');
-                $('a.change-view[data-view="save"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-
-                $('a.change-view[data-view="open-design"]').css('color','lightgray');
-                $('a.change-view[data-view="open-design"]').css('cursor','not-allowed');
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
                 
+            } else {
+
+                $('a.change-view[data-view="save"]').removeClass('disabled');
+                $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
             }
 
             ub.funcs.initToolBars();
@@ -143,12 +317,51 @@ $(document).ready(function () {
             ub.funcs.initUndo();
             ub.funcs.initTeamColors();
 
-            // window.onbeforeunload = function (e) {
-                
-            //     return false;
-
-            // };
+            if (typeof ub.temp === 'undefined') {
+                ub.funcs.colorArrayFix();
+            }
             
+            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
+            ub.funcs.loadOtherFonts();
+
+
+            var _blockPattern = ub.current_material.material.block_pattern;
+
+            // Get Buffs Bold Adjustment
+            var _blockPattern = ub.current_material.material.block_pattern;
+            var _result = ub.data.buffsBoldAdjustments.getSettings(_blockPattern);
+
+            ub.data.buffsBoldAdjustment = _result;
+            // End Buffs Bold Adjustment
+
+            // Block Pattern Widths
+            var _result = ub.data.blockPatternLengths.getSettings(_blockPattern);
+            ub.data.blockPatternLength = _result;
+            // End Block Pattern Widths
+
+            ub.funcs.setupEventHandlers();
+
+            ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
+
+        };
+
+        ub.funcs.loadOtherFonts = function () {
+
+            _.each (ub.data.fonts, function (font, index) {
+
+                if (index === 0) { return; }
+
+                WebFont.load({
+
+                    custom: {
+                      families: [font.name],
+                    },
+
+                });
+
+            });
+
         };
 
         ub.funcs.initToolBars = function () {
@@ -795,25 +1008,28 @@ $(document).ready(function () {
             $('input[name="design_name"]').val(material_name);
 
             ub.funcs.showViewports();
-            
+
             $('#main-row').fadeIn();
             $('div#design_name_container').fadeIn();
-            
+
         }
 
         /// Main Render Loop
 
         window.ub.render_frames = function () {
 
+            if (ub.data.rosterInitialized) { return }
+
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
+
+            ub.funcs.fixAlignments();
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
             // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
             //     // ub.refresh_thumbnails();
             // }   
-
             
             var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
@@ -909,7 +1125,7 @@ $(document).ready(function () {
             _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
 
         } else {
-            
+
             _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
 
             _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
@@ -951,6 +1167,22 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getColorObjArrayByCodes = function (colorCodesArray, _id) {
+
+        var _result = [];
+        
+        _.each(colorCodesArray, function (code, index) {
+
+            var _r = ub.funcs.getColorByColorCode(code);
+           
+            _result.push(_r);
+
+        });
+
+        return _result;
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -959,18 +1191,20 @@ $(document).ready(function () {
 
         _.each (_one_dimensional, function (_application) {
 
-            _.each(_application.views, function (view) {
-
+           _.each(_application.views, function (view) {
+        
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
                 var _colorArray         = view.application.colors.split(',');
                 var _outputColorArray   = []; 
+                var _outputColorArrayM  = []; 
+                var _outputColorArrayF  = []; 
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
 
+                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
-
-                if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free") {
+                    _output             = {};
 
                     _.each(_accentObj.layers, function (layer, index) {
 
@@ -982,7 +1216,13 @@ $(document).ready(function () {
                         var _color              = _resultColorObj.hex_code;
                         layer.default_color     = _color;
 
-                        _outputColorArray.push(_resultColorObj);
+                    });
+
+                    _outputColorArray = _.map(_colorArray, function (code) { 
+
+                        var _ub = ub.funcs.getColorByColorCode(code);
+
+                        return _ub;
 
                     });
 
@@ -994,7 +1234,8 @@ $(document).ready(function () {
                         application_type: _application.type,
                         application: _application,
                         code: _application.id,
-                        color_array: _outputColorArray,
+                        colorArrayText: _colorArray,
+                        color_array: JSON.parse(JSON.stringify(_outputColorArray)),
                         font_obj: _fontObj,
                         font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
@@ -1007,12 +1248,28 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-                    
+
+
+                    // if (_application.id === "13") {
+                    //     console.log('Application: ');
+                    //     console.log(_application);
+                    //     console.log('Source Color Array: ');
+                    //     console.log(_colorArray);
+                    //     console.log('Output Color Array: ');
+                    //     console.log(_outputColorArray);
+                    //     console.log('Output Color Array 2: ');
+                    //     console.log(_outputColorArray2);
+
+                    // }
+
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotObj = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _mascotObj  = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _colorArray = view.application.colors.split(',');
+
+                    _output             = {};
 
                     _.each(_mascotObj.layers_properties, function (layer, index) {
 
@@ -1022,7 +1279,15 @@ $(document).ready(function () {
                         var _color = _resultColorObj.hex_code;
                         layer.default_color = _colorArray[index - 1];
 
-                        _outputColorArray.push(_resultColorObj);
+                        //_outputColorArrayM.push(_resultColorObj);
+
+                    });
+
+                    _outputColorArrayM = _.map(_colorArray, function (code) { 
+
+                        var _ub = ub.funcs.getColorByColorCode(code);
+
+                        return _ub;
 
                     });
 
@@ -1031,8 +1296,10 @@ $(document).ready(function () {
                         application_type: _application.type,
                         application: _application,
                         code: _application.id,
-                        color_array: _outputColorArray,
+                        color_array: _outputColorArrayM,
+                        colorArrayText: _colorArray,
                         size: parseFloat(_fontSizesArray[0]),
+                        font_size: parseFloat(_fontSizesArray[0]),
                         scaleXOverride: parseFloat(_fontSizesArray[1]),
                         scaleYOverride: parseFloat(_fontSizesArray[2]),
                         mascot: _mascotObj,
@@ -1045,6 +1312,7 @@ $(document).ready(function () {
                 }
 
                 if (_application.type === "free" && typeof view.application !== "undefined") {
+                    _output             = {};
 
                     _output = {
 
@@ -1062,18 +1330,36 @@ $(document).ready(function () {
                 // This has two valid values, "Default" for applications configured from the backend, "Added" for locations added manually by the users,
                 // will be used to count be able to determine the sequence id to be assigned to new applications
                 _output.configurationSource = 'Default'; 
-
                 ub.current_material.settings.applications[parseInt(_application.id)] = _output;
 
                 /// TODO: This is being executed multiple times
 
             });
-    
+            
         });
 
         ub.funcs.initzIndex();
 
     };
+
+    ub.funcs.colorArrayFix = function () {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            if (application.type !== 'mascot' && application.type !== 'free') {
+
+                application.color_array =  _.map(application.colorArrayText, function (code) { 
+
+                    var _ub = ub.funcs.getColorByColorCode(code);
+                    return _ub;
+
+                });
+    
+            }
+            
+        });
+
+    }
 
     ub.funcs.initzIndex = function () {
 
@@ -1123,9 +1409,9 @@ $(document).ready(function () {
                     }
                     
                 }
-                
+
             }
-            
+
             ub.change_material_option_color16(e.code, e.color);
             
             if (typeof e.color !== 'undefined') {
@@ -1172,7 +1458,6 @@ $(document).ready(function () {
 
         /// End Transform Applications
 
-
         /// Load Applications, Text Type
 
         var font_families = [];
@@ -1200,7 +1485,7 @@ $(document).ready(function () {
                 }
 
             }
-            
+
             if (application_obj.type === "mascot"){
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
@@ -1885,6 +2170,8 @@ $(document).ready(function () {
 
 
             ub.getThumbnailImage = function (view, rotate) {
+
+                ub.funcs.resetHighlights();
 
                 var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
                 texture.render(ub[view]);
@@ -3290,8 +3577,6 @@ $(document).ready(function () {
                 var app = ub.current_material.settings.applications[application_obj.application.id];
                 var app_containers = ub.current_material.containers[uniform_type].application_containers;
 
-
-
                 if (typeof app_containers[application_obj.id] === 'undefined') {
     
                     app_containers[application_obj.id] = {};
@@ -3803,18 +4088,93 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.quickRegistration = function () {
+    ub.funcs.createQuickRegistrationPopup = function () {
 
-            var _email = window.prompt("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.","");
-            var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+        ub.status.quickRegistrationPopup = true;
+
+        var sampleSize = '1.9em';
+        var paddingTop = '40px';
+
+        var data = {
+
+        };
+
+        var template = $('#m-quick-registration-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+        
+        $popup = $('div#primaryQuickRegistrationPopup');
+
+        $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
+        $popup.fadeIn();
+        $('input.quickRegistrationEmail').focus();
+
+        ub.funcs.centerPatternPopup();
+
+        // convenience method
+        $('input.quickRegistrationEmail').on('keypress', function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
             
+            if (code == 13) { 
+
+                if (!$('input.quickRegistrationPassword').is(':visible')){
+
+                    $('span.next').trigger('click');
+
+                } else {
+
+                    $('div.quickRegistrationPassword').focus();
+
+                }
+
+                e.preventDefault();
+
+            }
+
+        });
+
+        $('input.quickRegistrationPassword').on('keypress', function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            
+            if (code == 13) { 
+
+                $('span.next').trigger('click');
+                e.preventDefault();
+
+            }
+
+        });
+        // end convenience method
+
+        $('span.next').unbind('click');
+        $('span.next').on('click', function () {
+
+            $('em.message').html('Logging In...');
+
+            if ($('input.quickRegistrationPassword').is(':visible')) {
+
+                var _e = $('input.quickRegistrationEmail').val();
+                var _p = $('input.quickRegistrationPassword').val();
+
+                ub.funcs.lRest(_e, _p, true);
+
+            }
+
+            var _email = $('input.quickRegistrationEmail').val();
+            var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
             if (!email_regex.test(_email)) { 
 
-                alert('Please enter a valid email: ');
+                $('em.message').html('Please enter a valid email: ');
                 return false;
 
             } else {
 
+                if (typeof $.ajaxSettings.headers !== "undefined") {
+                    delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+                }
+        
                 $.ajax({
                     data: JSON.stringify({ email: _email }),
                     url: ub.config.api_host + "/api/user/quickRegistration",
@@ -3835,13 +4195,17 @@ $(document).ready(function () {
                                 headerValue: response.accessToken,
                             };
 
+                            $popup.remove();
+                            ub.status.quickRegistrationPopup = false;
+
                             ub.funcs.initRoster();
                             return true;
 
                         }
                         else{
 
-                            alert('Email address is already in use. Use Login instead.');
+                            $('a.login-link').trigger('click');
+
                             return false;
 
                         }
@@ -3854,9 +4218,87 @@ $(document).ready(function () {
 
             }
 
+        });
 
-        }
+        $('a.login-link').unbind('click');
+        $('a.login-link').on('click', function () {
 
+            if ($('div.quickPasswordContainer').is(':visible')) {
+
+                $('em.instructions').fadeOut();
+                $('em.instructions').html("You're not logged in, please enter your email so we can create an account for you. A temporary password will be emailed to you.");
+                $('em.instructions').fadeIn();
+
+                $('span.text').html('Quick Registration');
+
+                $('a.login-link').html('Already have an account?');
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').hide();
+
+                
+            } else {
+                
+                $('em.instructions').fadeOut();
+                $('em.instructions').html("You already have an account, please enter your password below to login.");
+                $('em.instructions').fadeIn();
+
+                $('em.message').html('');
+
+                $('label.quickRegistrationPassword, input.quickRegistrationPassword, div.quickPasswordContainer').show();
+                $('input.quickRegistrationPassword').focus();
+                $('span.text').html('Login');
+                $('a.login-link').html('');
+
+            }
+
+        });
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+            ub.status.quickRegistrationPopup = false;
+
+        });
+
+        // $popup.bind('clickoutside', function () {
+
+        //     var _status = $(this).data('status');
+
+        //     if (_status === 'hidden') {
+
+        //         $(this).data('status', 'visible');
+        //         return;
+
+        //     }
+
+        //     $(this).data('status', 'hidden');
+        //     $(this).hide();
+        //     $(this).remove();
+        //     ub.status.quickRegistrationPopup = false;
+
+        // });
+
+
+    }
+
+    ub.funcs.getOrderAndDetailsInfo = function () {
+
+        var _url = window.ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id;
+
+        ub.loader(_url, 'orders', function (result) {
+
+            var _orderInfo = _.find(result, {'order_id': ub.config.orderCode});
+            ub.data.orderInfo = _orderInfo;
+            ub.funcs.initRoster(_orderInfo);
+            
+        });
+
+    }
+
+    ub.funcs.quickRegistration = function () {
+
+        ub.funcs.createQuickRegistrationPopup();
+
+    }
 
         /// End Utilities ///
 
@@ -3984,6 +4426,14 @@ $(document).ready(function () {
                 if (view === 'team-info') {
 
                     ub.funcs.resetHighlights();
+
+                    // if(ub.data.orderFormInitialized) {
+
+                    //     ub.funcs.reShowRosterInput();
+                    //     return;
+
+                    // }
+
                     if(typeof (window.ub.user.id) === "undefined") {
 
                         ub.funcs.quickRegistration();
@@ -3992,7 +4442,16 @@ $(document).ready(function () {
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-                    ub.funcs.initRoster();
+
+                    if (typeof ub.temp !== "undefined") {
+
+                        ub.funcs.getOrderAndDetailsInfo();
+                        
+                    } else {
+
+                        ub.funcs.initRoster();
+
+                    }
 
                     return;
 
@@ -4029,8 +4488,6 @@ $(document).ready(function () {
                 var w = window.innerWidth * 2;
                 var _newX  = w;
 
-                // var _newX = ub.dimensions.width + ub.offset.x;
-
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
                 ub.front_view.position.x    = _newX;
@@ -4043,6 +4500,13 @@ $(document).ready(function () {
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
+
+                if (e.altKey) {
+
+                    ub.showThumbnail2();
+                    $.smkAlert({text: 'Thumbnail Generated for [' + ub.active_view + ' view]' , type:'warning', time: 3, marginTop: '80px'});
+
+                }
 
             });
 
@@ -4225,6 +4689,24 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getMaxTeamColorID = function () {
+
+        max = _.max(_.pluck(ub.data.colorsUsed, 'teamColorID'));
+
+        _.each(ub.data.colorsUsed, function (cu) {
+
+            if(typeof cu.teamColorID !== 'undefined') {
+
+                if(cu.teamColorID > max) { max = cu.teamColorID; }
+          
+            }
+
+        });
+
+        return max;
+
+    };
+
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
 
         var uniform_type = ub.current_material.material.type;
@@ -4273,6 +4755,16 @@ $(document).ready(function () {
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
+
+                ///
+                var _hexCode = (sprite.tint).toString(16);
+                var _paddedHex = util.padHex(_hexCode, 6);
+
+                if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tine, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                }
+                ///
+
                 sprite.anchor.set(0.5,0.5);
 
                 sprite.tint = clone.layers[index].color
@@ -4317,6 +4809,14 @@ $(document).ready(function () {
             ub.updateLayersOrder(ub[view]);
 
         });
+
+        if (clone.code === 'stripe') {
+
+            if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined') {  ub.objects['back_view']['pattern_' + target].position.y -= 70; }
+            if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined') {  ub.objects['left_view']['pattern_' + target].position.y -= 70; }
+            if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') {  ub.objects['right_view']['pattern_' + target].position.y -= 70; }
+                
+        }
 
     }
 
@@ -4722,10 +5222,21 @@ $(document).ready(function () {
 
             var template = $('#m-picker-items-uniforms').html();
 
+            ub.tempItems = _.sortBy(items, function(item) { 
+
+                if(item.type === 'upper') { 
+                    return 1; 
+                } 
+                else {
+                    return 2;
+                }
+
+            });
+
             var data = {
 
                 picker_type: type,
-                picker_items: items,
+                picker_items: ub.tempItems,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
               
                 uniform_type: function () {
@@ -5339,7 +5850,6 @@ $(document).ready(function () {
 
                         var _deleteDesignID = $(this).data('saved-design-id');
                         var _name = $(this).data('name');
-                        console.log('ID: ' + _deleteDesignID);
 
                         ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
@@ -5380,28 +5890,47 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                  $('div.my-orders-loading').hide();
+                    $('div.my-orders-loading').hide();
 
-                  var $container = $('div.order-list');
-          
-                  var template = $('#m-orders-table').html();
-                  var data = {
-                    orders: ub.funcs.parseJSON(response.orders),
-                  }
+                    var $containerSaved         = $('div.order-list.saved');
+                    var template                = $('#m-orders-table').html();
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };
+                    var markup = Mustache.render(template, dataSaved);
+                    $containerSaved.html(markup);
 
-                  var markup = Mustache.render(template, data);
-                    
-                  $container.html(markup);
+                    var $containerSubmitted     = $('div.order-list.submitted');
+                    var template                = $('#m-orders-table').html();
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var markup                  = Mustache.render(template, dataSubmitted);
+                    $containerSubmitted.html(markup);
 
-                  $('span.action-button').on('click', function () {
+                    $('span.action-button').on('click', function () {
 
                         var _dataID = $(this).data('order-id');
-                        var _ID = $(this).data('id');
+                        var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
-                        console.log('ID: ' + _ID);
 
-                  });
+                    });
+
+                    $('div.order-tabs > span.tab').unbind('click');
+                    $('div.order-tabs > span.tab').on('click', function () {
+
+                        var _type = $(this).data('type');
+
+                        $('div.order-list').hide();
+                        $('div.order-list.' + _type).fadeIn();
+
+                        $('span.tab').removeClass('active');
+                        $(this).addClass('active');
+
+                        $('span.orders.header').html('My Orders - ' + _type);
+
+                    });
+
+                    // Init 
+
+                    $('div.order-list.submitted').hide();
 
                 }
                 
@@ -5423,9 +5952,268 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.messagesCallBack = function (messageBlock) {
+
+            var _items = messageBlock;
+            var _count = _.size(_items);
+
+            $('div.my-messages-loading').hide();
+            $('div.messages-loading').hide();
+
+            var $container          = $('div.message-list');
+            var _messages           = ub.funcs.parseJSON(_items);
+
+            _messages               = _.chain(_messages)
+                                        .map(function (item)    { 
+
+                                            item.statusPreview = (item.read === '0') ? "New!": ""; 
+                                            
+                                            if (typeof item.content !== "undefined" && item.content !== null) { item.contentPreview = item.content.substring(0,33) + '...'; }
+                                            
+                                            item.numericId = parseInt(item.id); 
+                                            return item; 
+
+                                        })
+                                        .sortBy(function (item) { return item.numericId * -1; })
+                                        .value();
+
+            var data                = { messages: _messages, };
+            var $messagesContainer  = $('div.message-list.right-pane');
+            var _messagesTemplate   = $('#messages-table').html();
+
+            _messagesMarkup         = Mustache.render(_messagesTemplate, data);
+
+            $.when(
+                $messagesContainer.html(_messagesMarkup)
+            ).then (function () {
+
+                $.each($('td.time'), function (index, value){
+
+                    var _utcDate = $(value).data('time');
+                    var date = new Date(_utcDate);
+
+                    var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+
+                    $(value).html(_d);
+
+                });
+
+            });
+
+            var $viewMessageButton = $('span.action-button.view-message');
+            
+            $viewMessageButton.unbind('click');
+            $viewMessageButton.on('click', function () {
+
+                var _id             = $(this).data('id');
+                var _type           = $(this).data('type');
+                var _messagePopup   = $('#m-message-popup').html();
+                var _message        = _.find(_messages, {id: _id.toString()});
+
+                _messagesPopupMarkup = Mustache.render(_messagePopup, _message);
+
+                $('#primaryMessagePopup').remove();
+                $('body').append(_messagesPopupMarkup);
+
+                $('#primaryMessagePopup').fadeIn();
+                $('body').scrollTop(0);
+
+                ub.funcs.centerPatternPopup();
+
+                if ($('div#messages > span.header').html() === "sent") {
+
+                    $('div.reply-box').hide();
+
+                } else {
+
+                    // mark as read if the one viewwing the message is not the one who sent it....
+                    ub.funcs.markAsRead(_id);
+
+                }
+
+                $('span.submit-reply').unbind('click');
+                $('span.submit-reply').on('click', function () {
+
+                    var _messageEntered = $('textarea[name="reply"]').val();
+
+                    if(_messageEntered === "") { 
+
+                        $.smkAlert({text: 'Please put in a message.', type:'warning', time: 3, marginTop: '80px'});
+                        return; 
+
+                    }
+
+                    ub.funcs.createMessage(_message.type, 'N/A','Re: ' + _message.subject, _messageEntered, _id);
+                    $('#primaryMessagePopup').remove();
+
+                });
+
+                $('div.close-popup').unbind('click');
+                $('div.close-popup').on('click', function () {
+
+                    $('#primaryMessagePopup').remove();
+
+                });
+
+            });
+
+            var $msgType = $('span.message-type');
+            $msgType.unbind('click');
+            $msgType.on('click', function () {
+
+                var _type = $(this).data('type');
+                $('div#messages > span.header').html(_type);
+
+                $('tr.message-row').remove();
+                $('div.messages-loading').fadeIn();
+
+                ub.funcs.filterMessages(_type);
+
+            });
+
+        }
+
+        ub.funcs.filterMessages = function (type) {
+
+            $('div#messages > span.header').html(type);
+
+            if (type !== "unread") {
+
+                ub.funcs.displayMyMessages(type);
+                    
+            } else {
+
+                ub.funcs.displayMyMessages();
+
+            }
+            
+        }
+
+        ub.funcs.markAsRead = function (messageId) {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            $.ajax({
+            
+                url: ub.config.api_host + '/api/message/' + messageId,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    ub.funcs.updateMessageCount();
+
+                    if ($('div#messages > span.header').html() === "unread") {
+
+                        $('tr.message-row[data-id="' +  messageId + '"]').remove();
+
+                    }
+
+                }
+                
+            });
+
+        }
+
+        ub.funcs.displayMyMessages = function (type) {
+
+            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+
+            var _url = ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id;
+
+            if (typeof type !== 'undefined') {
+
+               _url = ub.config.api_host + '/api/messages/recipient/' + ub.user.id
+
+            }
+
+            if (type === 'sent') {
+
+                _url = ub.config.api_host + '/api/messages/sender/' + ub.user.id; 
+
+            }
+
+            $.ajax({
+            
+                url: _url,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response){
+
+                    if (typeof type === 'undefined' || type === 'sent') {
+
+                        ub.funcs.messagesCallBack(response.messages);
+
+                    } else {
+
+                        var _typeConverted = type.toTitleCase();
+
+                        if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
+
+                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        ub.funcs.messagesCallBack(_filteredMessages);
+
+                    }
+                    
+                }
+                
+            });
+   
+        }
+
+        if (ub.page === 'my-messages') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayMyMessages();
+
+        }
+
     /// End Orders
 
     /// Profile
+
+        ub.funcs.updateProfile = function (firstName, lastName) {
+
+            var _postData = {
+                id: ub.user.id,
+                first_name: firstName,
+                last_name: lastName,
+            }
+
+            var _url = ub.config.api_host + '/api/user/update';
+
+            $.ajax({
+                
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response){
+
+                    ub.user.firstName = firstName;
+                    ub.user.lastName = lastName;
+
+                    window.location.href = '/my-profile';
+
+                }
+                
+            });
+
+        };
 
         ub.funcs.displayMyProfile = function () {
 
@@ -5433,12 +6221,24 @@ $(document).ready(function () {
           
             var template = $('#m-profile-page').html();
             var data = {
+                email: ub.user.email,
+                firstName: ub.user.firstName,
+                lastName: ub.user.lastName,
                 application_id: '1',
             }
 
             var markup = Mustache.render(template, data);
-            
             $container.html(markup);
+
+            $('span.update-profile').unbind('click');
+            $('span.update-profile').on('click', function () {
+
+                var _firstName = $('input[name="first-name"]').val();
+                var _lastName = $('input[name="last-name"]').val();
+
+                ub.funcs.updateProfile(_firstName, _lastName);
+
+            });
 
         }
 
@@ -6015,9 +6815,9 @@ $(document).ready(function () {
         });
 
         $('.roster-list').html(''); // Clear current roster list
-        $.each(roster, function(i, template_data){
+        $.each(roster, function(i, template_data) {
             var template = $('#roster-list').html();
-            var row = Mustache.to_html(template, template_data)
+            var row = Mustache.to_html(template, template_data);
             $('.roster-list').append(row);
         });
 
@@ -6066,5 +6866,109 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
+
+    
+
+    // lrest
+
+    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ email: e, password: p }),
+            url: ub.config.host + "/lrest",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response) {
+
+                if(response.success) {
+
+                    window.ub.user = {
+
+                        id: response.userId,
+                        fullname: response.fullname,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
+                        email: response.email,
+                        headerValue: response.accessToken,
+
+                    };
+
+                    var template = $('#m-loggedInNavbar').html();
+                    var data = { firstName: response.firstName, }
+                    var markup = Mustache.render(template, data);
+
+                    $('div.user-profile.pull-right').html(markup);
+                    $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
+                    ub.funcs.updateMessageCount();
+
+                    $('a.change-view[data-view="save"]').removeClass('disabled');
+                    $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+
+                        $('div#primaryQuickRegistrationPopup').remove();
+                        ub.funcs.initRoster();
+
+                    }
+
+                } else {
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+                        
+                        var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
+                        $('em.message').html(response.message + ", " + _forgotPasswordLink);
+
+                    } else {
+
+                        $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
+
+                    }
+
+                }
+
+            }
+        
+        });
+
+    }
+
+    $('input#login-email').on('keypress', function (e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if (code == 13) { 
+            
+            $('input#login-password').focus();
+            e.preventDefault();
+
+        }
+
+    });
+
+    $("form.loginRest").submit( function( event ) { event.preventDefault(); });
+
+    $('button.loginRest').unbind('click');
+    $('button.loginRest').on('click', function () {
+
+        var _e = $('input[type="email"]').val();
+        var _p = $('input[type="password"]').val();
+
+        ub.funcs.lRest(_e, _p);
+
+    });
+
+    // End lrest
 
 });

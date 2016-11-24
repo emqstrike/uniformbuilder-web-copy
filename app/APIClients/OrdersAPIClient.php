@@ -48,6 +48,24 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getOrdersArtwork($status = null)
+    {
+        $endpoint = 'orders/artworks';
+        if (!is_null($status))
+        {
+            $endpoint .= '/' . $status;
+        }
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
+
     public function getOrderItems($id)
     {
         $response = $this->get('order/items/' . $id);
