@@ -3026,9 +3026,13 @@ $(document).ready(function() {
                if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
+
+                        if (_match === 'body' && object.name === 'pattern_back_body') {  ub.funcs.setAlphaOff(object); return; }
+
                         ub.funcs.setAlphaOn(object);
 
                         return;
+
                     }
 
                     if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
@@ -3200,7 +3204,7 @@ $(document).ready(function() {
 
         if (typeof _object === 'undefined') { return; }
 
-        _object.alpha = ub.ALPHA_ON;
+        _object.alpha = ub.ALPHA_ON; 
 
         var _other_views = _.without(ub.views, ub.active_view);
 
@@ -3251,7 +3255,7 @@ $(document).ready(function() {
 
             ub.interacted = {
 
-                previous: { 
+                previous: {
 
                     name: ub.interacted.current.name,
 
@@ -3528,9 +3532,9 @@ $(document).ready(function() {
     ub.funcs.stageMouseMove = function (mousedata) {
 
         if (ub.data.rosterInitialized) { 
-        
+
             ub.funcs.resetHighlights(); 
-            return; 
+            return;
 
         }
 
