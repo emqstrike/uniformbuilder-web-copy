@@ -4576,7 +4576,7 @@ $(document).ready(function () {
         // End Recalculate Offset
 
 
-        if (target_name === 'Body' ) {
+        if (target_name === 'Body' || target_name === 'Back Body') {
 
 
                 _adjustment = {x: 0, y: ub.front_view.position.y};
