@@ -12,6 +12,9 @@
 @endsection
 
 @section('content')
+
+
+
 <div class="row">
 
   <div class="col-lg-3 col-xs-6">
@@ -39,6 +42,30 @@
       <a href="/administration/orders?status=pending" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
+  <div class="col-lg-12">
+  <div class="box-body">
+    <table data-toggle='table' class='data-table table table-bordered patterns'>
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+      
+          </tr>
+      </thead>
+      <tbody>
+      <!--   @foreach ($users as $user)
+          <tr>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->first_name }}</td>
+            <td>{{ $user->last_name }}</td>  
+          </tr>
+        @endforeach -->
+
+      </tbody>
+    </table>
+  </div>
+
 
   <!-- <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-yellow">

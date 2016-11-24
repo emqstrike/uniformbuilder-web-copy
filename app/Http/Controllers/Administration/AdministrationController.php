@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
 use App\APIClients\OrdersAPIClient;
+use Illuminate\Support\Facades\Redis;
+
+
+
 
 class AdministrationController extends Controller
 {
@@ -52,9 +56,16 @@ class AdministrationController extends Controller
             if (Session::get('isLoggedIn') == true)
             {
                 // return view('administration.lte-dashboard');
+                // $users =  Redis::get('users');
+                // $users = json_decode($users);
+
                 return view('administration.lte-dashboard', [
+                    // 'users' => $users
                     // 'newOrdersCount' => $newOrdersCount,
                     // 'pendingOrdersCount' => $pendingOrdersCount
+                    // 'newOrdersCount' => $newOrdersCount,
+                    // 'pendingOrdersCount' => $pendingOrdersCount
+
                 ]);
             }
         }

@@ -228,6 +228,7 @@ $(document).ready(function(){
     $('.enable-pattern').on('click', function(){
         var id = $(this).data('pattern-id');
         var url = "//" + api_host + "/api/pattern/enable/";
+        //var url = "//localhost:8888/api/pattern/enable/";
         $.ajax({
             url: url,
             type: "POST",
@@ -256,6 +257,7 @@ $(document).ready(function(){
     $('.disable-pattern').on('click', function(){
         var id = $(this).data('pattern-id');
         var url = "//" + api_host + "/api/pattern/disable/";
+        // var url = "//localhost:8888/api/pattern/disable/";
         $.ajax({
             url: url,
             type: "POST",
@@ -280,6 +282,36 @@ $(document).ready(function(){
             }
         });
     });
+
+
+//toggle
+       $('.toggle-pattern').on('click', function(){
+            var id = $(this).data('pattern-id');
+            var url = "//" + api_host + "/api/pattern/toggle/";
+                //var url = "//localhost:8888/api/pattern/toggle/";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        var elem = '.material-' + id;
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                    }
+                }
+            });
+        }); 
+
+
 
     $('.delete-pattern').on('click', function(){
 
