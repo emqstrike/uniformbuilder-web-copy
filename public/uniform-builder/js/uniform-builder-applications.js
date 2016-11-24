@@ -3026,9 +3026,13 @@ $(document).ready(function() {
                if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
+
+                        if (_match === 'body' && object.name === 'pattern_back_body') {  ub.funcs.setAlphaOff(object); return; }
+
                         ub.funcs.setAlphaOn(object);
 
                         return;
+
                     }
 
                     if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
@@ -3200,7 +3204,7 @@ $(document).ready(function() {
 
         if (typeof _object === 'undefined') { return; }
 
-        _object.alpha = ub.ALPHA_ON;
+        _object.alpha = ub.ALPHA_ON; 
 
         var _other_views = _.without(ub.views, ub.active_view);
 
@@ -3251,7 +3255,7 @@ $(document).ready(function() {
 
             ub.interacted = {
 
-                previous: { 
+                previous: {
 
                     name: ub.interacted.current.name,
 
@@ -3528,9 +3532,9 @@ $(document).ready(function() {
     ub.funcs.stageMouseMove = function (mousedata) {
 
         if (ub.data.rosterInitialized) { 
-        
+
             ub.funcs.resetHighlights(); 
-            return; 
+            return;
 
         }
 
@@ -6258,7 +6262,9 @@ $(document).ready(function() {
 
     ub.data.forRotating = [];
 
-    ub.funcs.useRotated = function () {
+    ub.funcs.useRotated = function (status) {
+
+        if (status === "off") { return; }
 
         _.each (ub.data.forRotating, function (_rotate) {
 
@@ -6689,31 +6695,7 @@ $(document).ready(function() {
                 });
 
             });
-
-            $("div.toggleOption").on("click", function () {
-
-                var _currentStatus = $('div.toggle').data('status');
-                var s;
-
-                if(_currentStatus === "on") {
-                    s = 'off';
-                }
-                else {
-                    s = 'on';
-                }
-
-                ub.funcs.toggleApplication(_id,s);    
-
-                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
-            });
-
-            ub.funcs.toggleApplication(_id, _status);
-            
+ 
             if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
@@ -6857,7 +6839,7 @@ $(document).ready(function() {
                 
             });
 
-            ub.funcs.useRotated();
+            ub.funcs.useRotated(_status);
 
         // End Small Color Pickers
 
@@ -6866,6 +6848,31 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
+
+        $("div.toggleOption").unbind('click');
+        $("div.toggleOption").on("click", function () {
+
+            var _currentStatus = $('div.toggle').data('status');
+            var s;
+
+            if(_currentStatus === "on") {
+                s = 'off';
+            }
+            else {
+                s = 'on';
+            }
+
+            ub.funcs.toggleApplication(_id,s);    
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+        });
+
+        ub.funcs.toggleApplication(_id, _status);
 
     }
 
@@ -7911,29 +7918,6 @@ $(document).ready(function() {
 
             });
 
-            $("div.toggleOption").on("click", function () {
-
-                var _currentStatus = $('div.toggle').data('status');
-                var s;
-                if(_currentStatus === "on") {
-                    s = 'off';
-                }
-                else {
-                    s = 'on';
-                }
-
-                ub.funcs.toggleApplication(_id,s);    
-
-                if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-                if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-                if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-                if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
-            });
-
-            ub.funcs.toggleApplication(_id, _status);
-
             if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
@@ -8485,6 +8469,30 @@ $(document).ready(function() {
         $('div#applicationUI').fadeIn();
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
+
+        $("div.toggleOption").unbind('click');
+        $("div.toggleOption").on("click", function () {
+
+            var _currentStatus = $('div.toggle').data('status');
+            var s;
+            if(_currentStatus === "on") {
+                s = 'off';
+            }
+            else {
+                s = 'on';
+            }
+
+            ub.funcs.toggleApplication(_id,s);    
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+        });
+
+        ub.funcs.toggleApplication(_id, _status);
 
     }
 

@@ -944,7 +944,7 @@
                     </td>
                     
                     <td>
-                        <input type="text" name="lastname" value="" class="lastname" maxlength="12" />
+                        <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 
                     <td class="PlayerNumberInput">
@@ -977,8 +977,6 @@
                     </td>
 
                 </tr>
-                
-
     </script>   
 
 <!-- End Roster Table Field -->
@@ -997,6 +995,7 @@
                 <td>Order Info</td>
                 <td>Client</td>
                 <td>Status</td>
+                <td>Submitted</td>
                 <td>&nbsp;</td>
             </tr>
 
@@ -1018,10 +1017,11 @@
                     </td>
                     <td>@{{client}}</td>
                     <td>@{{status}}</td> 
+                    <td>@{{submitted}}</td> 
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Uniform </span>
+                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
                         
                     </td>
 
@@ -1322,6 +1322,25 @@
 
     <script type="text/mustache" id="m-profile-page">
 
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" class="form-control" id="first-name" placeholder="First Name" name="first-name" value="@{{firstName}}">
+        </div>
+
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" class="form-control" id="last-name" placeholder="Last Name" name="last-name" value="@{{lastName}}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="@{{email}}" disabled>
+        </div>
+
+        <div class="form-group btn-footer">
+            <span class="btn update-profile">Update</span>
+        </div>
+
     </script>   
 
 <!-- End Profile -->
@@ -1470,7 +1489,7 @@
 
          <div class = "btn-group">
 
-            <button type = "button" class = "btn">
+            <button type="button" id="firstname" class="btn">
 
                 <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
 
@@ -1484,6 +1503,9 @@
             </button>
 
             <ul class = "dropdown-menu" role="menu">
+                
+                <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+                <li class="divider"></li>
 
                 <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                 <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>

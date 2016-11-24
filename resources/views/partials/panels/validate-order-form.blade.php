@@ -12,7 +12,11 @@
 
 
     </div>
-    
+
+    <span class="save-order">
+        Save Order <i class="fa fa-save" aria-hidden="true"></i>
+    </span>
+
     <span class="submit-confirmed-order">
         Submit Order <i class="fa fa-arrow-right" aria-hidden="true"></i>
     </span>

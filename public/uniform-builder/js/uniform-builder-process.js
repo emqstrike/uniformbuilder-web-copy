@@ -32,7 +32,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addSizesTabs = function (size) {
+    ub.funcs.addSizesTabs = function (size, cancelNumberPopup) {
 
         $('span.tabButton[data-size="' + size + '"]').css('display','inline-block');
         $('span.tabButton:visible').first().trigger('click');
@@ -43,7 +43,12 @@ $(document).ready(function() {
         if ($('tr.roster-row[data-size="' + size + '"]').length === 0) {
 
             $('span.tabButton[data-size="' + size + '"]').trigger('click');
-            $('span.add-player[data-size="' + size + '"]').trigger('click');
+
+            if (typeof cancelNumberPopup === "undefined") {
+
+                $('span.add-player[data-size="' + size + '"]').trigger('click');
+                    
+            }
 
         }
 
@@ -533,6 +538,11 @@ $(document).ready(function() {
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
+
+        if (markup.indexOf('saved') > -1) {
+            $('div.feedback-form').find('h4').html('Order Saved Successfully!');
+        }
+
         $('div.feedback-form').fadeIn();
         ub.funcs.centerPatternPopup();
 
@@ -621,7 +631,14 @@ $(document).ready(function() {
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
 
-                ub.funcs.feedbackForm('Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.', ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
+
+                var _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+
+                if (data.order.submitted === 0) {
+                    _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
+                }
+
+                ub.funcs.feedbackForm(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
                 ub.funcs.initGenderPicker();
 
             }
@@ -630,7 +647,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.submitOrderForm = function () {
+    ub.funcs.submitOrderForm = function (save) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
         
@@ -734,11 +751,18 @@ $(document).ready(function() {
 
         }
 
+        var _submitted = '1';
+        if (typeof save === "number") {
+
+            _submitted = 0;
+
+        }
+
         var orderInput = {
 
             order: {
                 client: _clientName,  
-                submitted: '1',
+                submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
             },
@@ -795,7 +819,7 @@ $(document).ready(function() {
             ]
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/order';
+        var _url =  ub.config.api_host + '/api/order';
 
         ub.funcs.postOrderData(orderInput,_url);
 
@@ -812,6 +836,7 @@ $(document).ready(function() {
         $('span.processing-pdf').fadeOut();
         $('span.previewFormPdf').fadeIn();
         $('span.submit-confirmed-order').fadeIn();
+        $('span.save-order').fadeIn();
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -829,6 +854,18 @@ $(document).ready(function() {
 
             ub.funcs.submitOrderForm();
             $('span.submit-confirmed-order').html('Submitting Order...');
+
+        });
+
+        $('span.save-order').unbind('click');
+        $('span.save-order').on('click', function () {
+
+            if ($('span.submit-confirmed-order').html() === 'Saving Order...') {
+                return;
+            }
+
+            ub.funcs.submitOrderForm(0);
+            $('span.save-order').html('Saving Order...');
 
         });
 
@@ -1001,6 +1038,7 @@ $(document).ready(function() {
         $('iframe#pdfViewer').attr('src', '')
         $('a.previewPDFLink').attr('href', '');
         $('span.submit-confirmed-order').fadeOut();
+        $('span.save-order').fadeOut();
 
         ub.funcs.pushState({data: 'generate-pdf', title: 'Generate PDF', url: '?generate-pdf'});
 
@@ -1107,16 +1145,69 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.showOrderForm = function () {
+    ub.funcs.setVal = function (name, val) {
+
+        $('input[name="' + name + '"]').val(val);
+
+    }
+
+    ub.funcs.prepareOrderForm = function (orderInfo) {
+
+        $('div#order-form').fadeIn();
+        
+        if (typeof orderInfo === "undefined") { return; }
+
+        // Client Info
+
+        ub.funcs.setVal('client-name', orderInfo.client);
+        ub.funcs.setVal('athletic-director', orderInfo.client);
+        ub.funcs.setVal('client-email', orderInfo.email);
+        ub.funcs.setVal('client-phone', orderInfo.phone);
+        ub.funcs.setVal('client-fax', orderInfo.fax);
+
+        // Billing Info
+
+        ub.funcs.setVal('billing-organization', orderInfo.bill_organization);
+        ub.funcs.setVal('billing-contact-name', orderInfo.bill_contact_person);
+        ub.funcs.setVal('billing-email', orderInfo.bill_email);
+        ub.funcs.setVal('billing-phone', orderInfo.bill_phone);
+
+        ub.funcs.setVal('billing-address', orderInfo.bill_address);
+        ub.funcs.setVal('billing-city', orderInfo.bill_city);
+        ub.funcs.setVal('billing-state', orderInfo.bill_state);
+        ub.funcs.setVal('billing-zip', orderInfo.bill_zip);
+
+        // Ship Info
+
+        ub.funcs.setVal('shipping-organization', orderInfo.ship_organization);
+        ub.funcs.setVal('shipping-contact-name', orderInfo.ship_contact_person);
+        ub.funcs.setVal('shipping-email', orderInfo.ship_email);
+        ub.funcs.setVal('shipping-phone', orderInfo.ship_phone);
+
+        ub.funcs.setVal('shipping-address', orderInfo.ship_address);
+        ub.funcs.setVal('shipping-city', orderInfo.ship_city);
+        ub.funcs.setVal('shipping-state', orderInfo.ship_state);
+        ub.funcs.setVal('shipping-zip', orderInfo.ship_zip);
+
+        // Notes
+        $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
+
+    };
+
+    ub.funcs.showOrderForm = function (orderInfo) {
 
         ub.funcs.pushState({data: 'order-form', title: 'Order Form', url: '?order-form'});
 
         $('div#roster-input').fadeOut();
         window.scrollTo(0,0);
-        $('div#order-form').fadeIn();
+        
+        ub.funcs.prepareOrderForm(orderInfo);
+
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
         $('td.quantity').html(_total);
+
+        //$('span.submit-order').hide();
 
         var _htmlBuilder = '';
         _.each (ub.current_material.settings.size_breakdown, function (row) {
@@ -1227,7 +1318,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.submitUniform = function () {
+    ub.funcs.submitUniform = function (orderInfo) {
 
         if ($('tr.roster-row').length === 0) { 
             
@@ -1246,7 +1337,7 @@ $(document).ready(function() {
         }
 
         ub.current_material.settings.roster = _validate.roster;
-        ub.funcs.showOrderForm();
+        ub.funcs.showOrderForm(orderInfo);
 
     };
 
@@ -1372,11 +1463,67 @@ $(document).ready(function() {
 
         // });
 
+    }
+
+    ub.funcs.addPlayerToRoster = function (player) {
+
+        var _markup         = '';
+        var $rosterTable    = $('table.roster-table[data-size="' + player.Size + '"] > tbody');
+        var _length         = $rosterTable.find('tr').length;
+
+        data = {
+            index: _length,
+            size: player.Size,
+            number: player.Number,
+            name: player.Name,
+        };
+
+        template = $('#m-roster-table-field').html();
+        markup = Mustache.render(template, data);
+
+        $.when($rosterTable.append(markup)).then(function () {
+                ub.funcs.updateSelect(player.Size, _length);
+            }
+        );
+
+        _length += 1;
+
+    };
+
+    ub.funcs.prepopulateRoster = function (orderInfo) {
+
+        var _roster = orderInfo.roster; 
+        var _lastSize;
+
+        _.each(_roster, function (player) {
+
+            var _size = player.Size;
+            var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
+
+            if (_status === "off") {
+
+                ub.funcs.addSizesTabs(_size, true);    
+
+            }
+
+            ub.funcs.addPlayerToRoster(player);
+            _lastSize = player.Size;
+
+            var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
+            _numberObject.status = "used";
+
+            
+        });
+
+        // Activate last tab
+        setTimeout(function () { $('span.tabButton[data-size="' + _lastSize + '"]').trigger('click'); }, 1000);
 
     }
 
     ub.data.rosterInitialized = false;
-    ub.funcs.initRoster = function () {
+    ub.funcs.initRoster = function (orderInfo) {
+    
+        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
 
         ub.data.rosterInitialized = true;
 
@@ -1439,19 +1586,6 @@ $(document).ready(function() {
 
         });
 
-        $('span.back-to-customizer-button').on('click', function (){
-
-            ub.funcs.fadeInCustomizer();
-
-        });
-
-        $('span.add-item-to-order').unbind('click');
-        $('span.add-item-to-order').on('click', function () {
-
-            ub.funcs.submitUniform();
-
-        });
-
         $('span.size').on('click', function () {
 
             if ($('div#numbersPopup').is(':visible')) { return; }
@@ -1485,6 +1619,21 @@ $(document).ready(function() {
 
             $('div.tabsContainer > div.tab').hide();
             $('div.tab[data-size="' + _size + '"]').fadeIn();
+
+        });
+
+        if (typeof orderInfo !== "undefined") { ub.funcs.prepopulateRoster(orderInfo.items[0]); }
+
+        $('span.back-to-customizer-button').on('click', function (){
+
+            ub.funcs.fadeInCustomizer();
+
+        });
+
+        $('span.add-item-to-order').unbind('click');
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
 

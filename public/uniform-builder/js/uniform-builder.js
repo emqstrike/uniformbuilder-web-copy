@@ -126,7 +126,6 @@ $(document).ready(function () {
                 success: function (response) {
 
                     $.smkAlert({text: 'Message Sent!', type:'warning', time: 3, marginTop: '80px'});
-                    console.log(response);
 
                 }
                         
@@ -4281,13 +4280,25 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getOrderAndDetailsInfo = function () {
+
+        var _url = window.ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id;
+
+        ub.loader(_url, 'orders', function (result) {
+
+            var _orderInfo = _.find(result, {'order_id': ub.config.orderCode});
+            ub.data.orderInfo = _orderInfo;
+            ub.funcs.initRoster(_orderInfo);
+            
+        });
+
+    }
 
     ub.funcs.quickRegistration = function () {
 
         ub.funcs.createQuickRegistrationPopup();
 
     }
-
 
         /// End Utilities ///
 
@@ -4431,7 +4442,16 @@ $(document).ready(function () {
                     }
 
                     if (ub.data.afterLoadCalled === 0) { return; }
-                    ub.funcs.initRoster();
+
+                    if (typeof ub.temp !== "undefined") {
+
+                        ub.funcs.getOrderAndDetailsInfo();
+                        
+                    } else {
+
+                        ub.funcs.initRoster();
+
+                    }
 
                     return;
 
@@ -4468,8 +4488,6 @@ $(document).ready(function () {
                 var w = window.innerWidth * 2;
                 var _newX  = w;
 
-                // var _newX = ub.dimensions.width + ub.offset.x;
-
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
                 ub.front_view.position.x    = _newX;
@@ -4482,6 +4500,13 @@ $(document).ready(function () {
                 $('#main_view').fadeIn();
 
                 ub.active_view = view;
+
+                if (e.altKey) {
+
+                    ub.showThumbnail2();
+                    $.smkAlert({text: 'Thumbnail Generated for [' + ub.active_view + ' view]' , type:'warning', time: 3, marginTop: '80px'});
+
+                }
 
             });
 
@@ -4551,7 +4576,7 @@ $(document).ready(function () {
         // End Recalculate Offset
 
 
-        if (target_name === 'Body' ) {
+        if (target_name === 'Body' || target_name === 'Back Body') {
 
 
                 _adjustment = {x: 0, y: ub.front_view.position.y};
@@ -5825,7 +5850,6 @@ $(document).ready(function () {
 
                         var _deleteDesignID = $(this).data('saved-design-id');
                         var _name = $(this).data('name');
-                        console.log('ID: ' + _deleteDesignID);
 
                         ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
@@ -5866,28 +5890,47 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
 
-                  $('div.my-orders-loading').hide();
+                    $('div.my-orders-loading').hide();
 
-                  var $container = $('div.order-list');
-          
-                  var template = $('#m-orders-table').html();
-                  var data = {
-                    orders: ub.funcs.parseJSON(response.orders),
-                  }
+                    var $containerSaved         = $('div.order-list.saved');
+                    var template                = $('#m-orders-table').html();
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };
+                    var markup = Mustache.render(template, dataSaved);
+                    $containerSaved.html(markup);
 
-                  var markup = Mustache.render(template, data);
-                    
-                  $container.html(markup);
+                    var $containerSubmitted     = $('div.order-list.submitted');
+                    var template                = $('#m-orders-table').html();
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var markup                  = Mustache.render(template, dataSubmitted);
+                    $containerSubmitted.html(markup);
 
-                  $('span.action-button').on('click', function () {
+                    $('span.action-button').on('click', function () {
 
                         var _dataID = $(this).data('order-id');
-                        var _ID = $(this).data('id');
+                        var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
-                        console.log('ID: ' + _ID);
 
-                  });
+                    });
+
+                    $('div.order-tabs > span.tab').unbind('click');
+                    $('div.order-tabs > span.tab').on('click', function () {
+
+                        var _type = $(this).data('type');
+
+                        $('div.order-list').hide();
+                        $('div.order-list.' + _type).fadeIn();
+
+                        $('span.tab').removeClass('active');
+                        $(this).addClass('active');
+
+                        $('span.orders.header').html('My Orders - ' + _type);
+
+                    });
+
+                    // Init 
+
+                    $('div.order-list.submitted').hide();
 
                 }
                 
@@ -6139,18 +6182,63 @@ $(document).ready(function () {
 
     /// Profile
 
+        ub.funcs.updateProfile = function (firstName, lastName) {
+
+            var _postData = {
+                id: ub.user.id,
+                first_name: firstName,
+                last_name: lastName,
+            }
+
+            var _url = ub.config.api_host + '/api/user/update';
+
+            $.ajax({
+                
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response){
+
+                    ub.user.firstName = firstName;
+                    ub.user.lastName = lastName;
+
+                    window.location.href = '/my-profile';
+
+                }
+                
+            });
+
+        };
+
         ub.funcs.displayMyProfile = function () {
 
             var $container = $('div.profile-container');
           
             var template = $('#m-profile-page').html();
             var data = {
+                email: ub.user.email,
+                firstName: ub.user.firstName,
+                lastName: ub.user.lastName,
                 application_id: '1',
             }
 
             var markup = Mustache.render(template, data);
-            
             $container.html(markup);
+
+            $('span.update-profile').unbind('click');
+            $('span.update-profile').on('click', function () {
+
+                var _firstName = $('input[name="first-name"]').val();
+                var _lastName = $('input[name="last-name"]').val();
+
+                ub.funcs.updateProfile(_firstName, _lastName);
+
+            });
 
         }
 
@@ -6809,9 +6897,10 @@ $(document).ready(function () {
 
                         id: response.userId,
                         fullname: response.fullname,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
                         email: response.email,
                         headerValue: response.accessToken,
-                        firstName: response.firstName,
 
                     };
 
@@ -6878,12 +6967,8 @@ $(document).ready(function () {
 
         ub.funcs.lRest(_e, _p);
 
-
-
     });
 
     // End lrest
-
-
 
 });
