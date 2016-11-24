@@ -1179,7 +1179,6 @@ class UniformBuilderController extends Controller
         }
 
         Slack::send($message);
-
         return $transformedPath;
 
     }
