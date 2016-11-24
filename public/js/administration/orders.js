@@ -308,7 +308,7 @@ function OpenInNewTab(url) {
 $('.send-to-factory').on('click', function(e){
 
     e.preventDefault();
-
+    bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
     console.log('send to edit');
     api_order_id = $(this).data('api-order-id');
@@ -462,7 +462,6 @@ $('.send-to-factory').on('click', function(e){
     // console.log(strResult);
 
     // console.log(JSON.stringify(orderEntire['orderParts']));
-
     $.ajax({
         url: url,
         type: "POST",

@@ -135,6 +135,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
     Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
+    Route::get('upload_artwork', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addArtworkForm']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);

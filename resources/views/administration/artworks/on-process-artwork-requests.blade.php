@@ -22,78 +22,46 @@
                     <thead>
                         <tr>
                             <th>Order code</th>
-                            <th>Client</th>
-                            <th>User ID</th>
-                            <th>Rep</th>
-                            <th>Items</th>
-                            <th>Action</th>
+                            <th>Item</th>
+                            <th>GA ID</th>
+                            <th>Status</th>
+                            <th>Artwork</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($orders as $order)
-                        <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
+                    @forelse ($artworks as $artwork)
+                        <tr>
                             <td>
-                                <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
-                                <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" /> -->
-                                <!-- <br /> -->
-                                <p style="font-size: 17px">{{ $order->order_id }}</p>
+                                <p style="font-size: 17px">{{ $artwork->order_code }}</p>
                             </td>
                             <td>
                                 <div>
-                                    {{ $order->client }}
+                                    {{ $artwork->item }}
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    {{ $order->first_name }} {{ $order->last_name }}[{{ $order->user_id }}]
+                                    {{ $artwork->ga_id }}
                                 </div>
                             </td>
-                            <td></td>
                             <td>
-                                @if ( isset($order->artworks) )
-                                    @foreach( $order->artworks as $art )
-                                        <div>Application #{{ $art['code'] }}
-                                            <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
-                                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
-                                            <a href="#" class="upload-mascot">Upload Mascot</a>
-                                        </div><br>
-                                    @endforeach
-                                @endif
-                                {{-- @foreach( $order->items as $item )
-                                <a href="#" class="btn btn-default btn-xs" style="width: 200px; text-align: left;">{{ $item->item_id }} - {{ $item->description }}</a>
-                                <a href="#" class="btn btn-default btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
-                                <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-default btn-xs pdf-link">PDF</a></br>
-                                <!-- <a href="#" class="btn btn-warning bc-display" data-bc="{{ $item->builder_customizations }}">BC</a> -->
-                                @endforeach --}}
+                                <div>
+                                    {{ $artwork->status }}
+                                </div>
                             </td>
                             <td>
-                                {{-- @if ( !isset($order->factory_order_id) ) --}}
-                                @if ( !isset($order->artwork_status) )
-                                <a href="#"
-                                   class="btn btn-primary btn-xs assign-artwork"
-                                   data-order-id="{{ $order->id }}"
-                                   data-order-code="{{ $order->order_id }}"
-                                   data-client="{{ $order->client }}"
-                                   data-ship-contact="{{ $order->ship_contact }}"
-                                   data-ship-address="{{ $order->ship_address }}"
-                                   data-ship-city="{{ $order->ship_city }}"
-                                   data-ship-state="{{ $order->ship_state }}"
-                                   data-ship-zip="{{ $order->ship_zip }}"
-                                   data-ship-phone="{{ $order->ship_phone }}"
-                                   data-bill-contact="{{ $order->bill_contact }}"
-                                   data-bill-city="{{ $order->bill_city }}"
-                                   data-bill-state="{{ $order->bill_state }}"
-                                   data-bill-zip="{{ $order->bill_zip }}"
-                                   data-bill-email="{{ $order->bill_email }}"
-                                   data-bill-phone="{{ $order->bill_phone }}"
-                                   data-bill-address="{{ $order->bill_address }}"
-                                   data-artwork-json="{{ json_encode($order->artworks) }}"
-                                   data-user-id="{{ $user_id }}"
-                                   >Assign</a>
-                                @else
-                                <p>Assigned to:</p>
-                                @endif
-                                {{-- @endif --}}
+                                <div>
+                                    @if ( isset($artwork->artworks) )
+                                        @foreach ($artwork->artworks as $art)
+                                            Application #{{ $art['code'] }}
+                                            <a href="{{ $art['file'] }}">File</a> <a href="../upload_artwork">Upload Artwork</a></br>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-success btn-xs">Mark Done</a>
                             </td>
                         </tr>
 

@@ -8,9 +8,9 @@ class ArtworksAPIClient extends APIClient
         parent::__construct();
     }
 
-    public function getOrders($status = null)
+    public function getArtworks($status = null)
     {
-        $endpoint = 'orders';
+        $endpoint = 'artwork_requests';
         if (!is_null($status))
         {
             $endpoint .= '/' . $status;
@@ -18,12 +18,12 @@ class ArtworksAPIClient extends APIClient
         $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());
 
-        $orders = [];
+        $artwork_requests = [];
         if ($result->success)
         {
-            $orders = $result->orders;
+            $artwork_requests = $result->artwork_requests;
         }
-        return $orders;
+        return $artwork_requests;
     }
 
     public function countFinishedOrders()

@@ -161,7 +161,7 @@ class UsersController extends Controller
                 }
             }
             return redirect()->back()
-                            ->with('message', 'Successfully updated user information');  
+                            ->with('message', 'Successfully updated user information');
         }
         else
         {

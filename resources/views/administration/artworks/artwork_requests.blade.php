@@ -26,12 +26,13 @@
                             <th>User ID</th>
                             <th>Rep</th>
                             <th>Items</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($orders as $order)
-                        <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
+                        <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }} {{ ($order->artwork_status) == 'rejected' ? ' alert alert-danger' : '' }}'>
                             <td>
                                 <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
                                 <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" /> -->
@@ -55,7 +56,6 @@
                                         <div>Application #{{ $art['code'] }}
                                             <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
                                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
-                                            <a href="#" class="upload-mascot">Upload Mascot</a>
                                         </div><br>
                                     @endforeach
                                 @endif
@@ -65,6 +65,9 @@
                                 <a href="#" data-link="{{ $item->design_sheet }}" class="btn btn-default btn-xs pdf-link">PDF</a></br>
                                 <!-- <a href="#" class="btn btn-warning bc-display" data-bc="{{ $item->builder_customizations }}">BC</a> -->
                                 @endforeach --}}
+                            </td>
+                            <td>
+                                {{ $order->artwork_status }}
                             </td>
                             <td>
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
@@ -90,9 +93,8 @@
                                    data-artwork-json="{{ json_encode($order->artworks) }}"
                                    data-user-id="{{ $user_id }}"
                                    >Assign</a>
-                                @else
-                                <p>Assigned to:</p>
                                 @endif
+                                <a href="#" class="btn btn-danger btn-xs reject-artwork" data-user-id="{{ $order->user_id }}" data-order-code="{{ $order->order_id }}">Reject</a>
                                 {{-- @endif --}}
                             </td>
                         </tr>
@@ -128,17 +130,85 @@
 @section('scripts')
 <!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/js/administration/artworks.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
+
+$('.reject-artwork').on('click', function(e){
+    e.preventDefault();
+
+    var data = {};
+    data.subject = "Custom Artwork: Rejected";
+    data.order_code = $(this).data('order-code');
+    data.status = "rejected";
+    data.type = "PM";
+    data.sender_id = "0";
+    data.recipient_id = $(this).data('user-id').toString();
+
+    // console.log(data);
+
+    bootbox.prompt({ 
+        size: "medium",
+        title: "Reject artwork? Enter note.",
+        message: "Reject artwork?", 
+        buttons: {
+            'cancel': {
+                label: 'Cancel'
+                // className: 'btn-default pull-left'
+            },
+            'confirm': {
+                label: 'Reject Artwork',
+                className: 'btn-danger pull-right'
+            }
+        },
+        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/ 
+            if(result){
+                bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+                data.content = result; // message content
+                console.log(data);
+                insertMessage(data);
+            } else {
+                console.log('Canceled.');
+            }
+        }
     });
+});
+
+function insertMessage(data){
+    var order_code = data.order_code;
+    $.ajax({
+        url: '//localhost:8888/api/message',
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: 'application/json;',
+        success: function (data) {
+            alert(data);
+            rejectArtwork(order_code)
+            // window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+}
+
+function rejectArtwork(order_code){
+    var data = {};
+    data.order_code = order_code;
+    $.ajax({
+        url: '//localhost:8888/api/artwork_request/reject',
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: 'application/json;',
+        success: function (data) {
+            window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+}
+
+
 });
 </script>
 @endsection

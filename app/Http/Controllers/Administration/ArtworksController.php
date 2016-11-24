@@ -8,15 +8,21 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\APIClients\ArtworksAPIClient;
 use App\APIClients\OrdersAPIClient as APIClient;
 
 class ArtworksController extends Controller
 {
     protected $client;
+    protected $artworksClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        ArtworksAPIClient $artworksClient
+    )
     {
         $this->client = $apiClient;
+        $this->artworksClient = $artworksClient;
     }
 
     public function index(Request $request)
@@ -53,30 +59,20 @@ class ArtworksController extends Controller
 
     public function processing(Request $request)
     {
-        $orders = $this->client->getOrdersArtwork('processing');
-
+        $artworks = $this->artworksClient->getArtworks('processing');
+        // dd($artworks);
         $ctr = 0;
-        foreach($orders as $order)
+        foreach($artworks as $artwork)
         {
-
-            $data = json_decode($order->items[0]->attached_files, 1);
-        //     try {
-        //         if(isset($data[0]['code']) && $order->status === "processing")
-        //         {
-                    $order->artworks = $data;
-        //         } else {
-        //             unset($orders[$ctr]);
-        //         }
-        //     } catch (Exception $e) {
-        //         error_log($e->getMessage());
-        //     }
-        //     $ctr++;
+            $data = json_decode($artwork->artworks, 1);
+            $artwork->artworks = $data;
         }
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
-// dd($orders);
+// dd($artworks[0]->artworks);
+        // dd($artworks);
         return view('administration.artworks.on-process-artwork-requests', [
-            'orders' => $orders,
+            'artworks' => $artworks,
             'account_type' => $account_type,
             'user_id' => $user_id
         ]);

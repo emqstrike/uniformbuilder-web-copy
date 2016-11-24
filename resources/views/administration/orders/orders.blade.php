@@ -18,6 +18,7 @@
                     <table class='data-table table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Order code</th>
                             <th>Client</th>
                             <th>User ID</th>
@@ -33,7 +34,10 @@
                     <tbody>
                     @forelse ($orders as $order)
 
-                        <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }}'>
+                        <tr class='order-{{ $order->id }} {{ (!$order->active) ? ' inactive' : '' }} '>
+                            <td>
+                                {{ $order->id }}
+                            </td>
                             <td>
                                 <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
                                 <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" /> -->
@@ -95,7 +99,7 @@
                                 <!-- <a href="#" class="btn btn-warning bc-display" data-bc="{{ $item->builder_customizations }}">BC</a> -->
                                 @endforeach
                             </td>
-                            <td>
+                            <td class='{{ ($order->artwork_status)=='rejected' ? ' alert alert-danger' : '' }}'>
                                 {{ $order->artwork_status }}
                             </td>
                             <td>
@@ -106,26 +110,28 @@
                                 </select>
                             </td>
                             <td>
+                                @if ( $order->artwork_status != "rejected" )
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
-                                   class="btn btn-primary btn-xs send-to-factory"
-                                   data-order-id="{{ $order->id }}"
-                                   data-api-order-id="{{ $order->order_id }}"
-                                   data-client="{{ $order->client }}"
-                                   data-ship-contact="{{ $order->ship_contact }}"
-                                   data-ship-address="{{ $order->ship_address }}"
-                                   data-ship-city="{{ $order->ship_city }}"
-                                   data-ship-state="{{ $order->ship_state }}"
-                                   data-ship-zip="{{ $order->ship_zip }}"
-                                   data-ship-phone="{{ $order->ship_phone }}"
-                                   data-bill-contact="{{ $order->bill_contact }}"
-                                   data-bill-city="{{ $order->bill_city }}"
-                                   data-bill-state="{{ $order->bill_state }}"
-                                   data-bill-zip="{{ $order->bill_zip }}"
-                                   data-bill-email="{{ $order->bill_email }}"
-                                   data-bill-phone="{{ $order->bill_phone }}"
-                                   data-bill-address="{{ $order->bill_address }}"
-                                   >Send to Edit</a>
+                                    class="btn btn-primary btn-xs send-to-factory"
+                                    data-order-id="{{ $order->id }}"
+                                    data-api-order-id="{{ $order->order_id }}"
+                                    data-client="{{ $order->client }}"
+                                    data-ship-contact="{{ $order->ship_contact }}"
+                                    data-ship-address="{{ $order->ship_address }}"
+                                    data-ship-city="{{ $order->ship_city }}"
+                                    data-ship-state="{{ $order->ship_state }}"
+                                    data-ship-zip="{{ $order->ship_zip }}"
+                                    data-ship-phone="{{ $order->ship_phone }}"
+                                    data-bill-contact="{{ $order->bill_contact }}"
+                                    data-bill-city="{{ $order->bill_city }}"
+                                    data-bill-state="{{ $order->bill_state }}"
+                                    data-bill-zip="{{ $order->bill_zip }}"
+                                    data-bill-email="{{ $order->bill_email }}"
+                                    data-bill-phone="{{ $order->bill_phone }}"
+                                    data-bill-address="{{ $order->bill_address }}"
+                                    >Send to Edit</a>
+                                    @endif
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove
@@ -168,6 +174,7 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

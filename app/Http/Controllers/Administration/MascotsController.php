@@ -95,6 +95,28 @@ class MascotsController extends Controller
         ]);
     }
 
+    public function addArtworkForm()
+    {
+        $colors = $this->colorsClient->getColors();
+        $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
+        $mascots_categories = array();
+
+        foreach($raw_mascots_categories as $mascot_category){
+            if($mascot_category->active == 1){
+                $mascots_categories[] = $mascot_category->name;
+            }
+        }
+
+        $mascots_categories = array_sort($mascots_categories, function($value) {
+            return sprintf('%s,%s', $value[0], $value[1]);
+        });
+
+        return view('administration.mascots.upload-artwork', [
+            'colors' => $colors,
+            'mascots_categories' => $mascots_categories
+        ]);
+    }
+
     public function editMascotForm($id)
     {
         $colors = $this->colorsClient->getColors();
