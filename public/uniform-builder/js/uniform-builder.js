@@ -4593,7 +4593,6 @@ $(document).ready(function () {
 
                 }
 
-
             }
 
             if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
