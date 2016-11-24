@@ -5099,6 +5099,8 @@ div.header-container.main {
             margin-bottom: 10px;
             margin-left: 10px;
 
+            .smallButton;
+
             em {
 
                 font-size: 0.8em;
@@ -5110,6 +5112,7 @@ div.header-container.main {
         span.save-order:hover, span.submit-confirmed-order:hover {
 
             background-color: #3d3d3d;
+            .smallButton;
 
         }
 
@@ -5303,11 +5306,14 @@ div.header-container.main {
                 color: white;
                 font-size: 1.3em;
 
+                .smallButton;
+
             }
 
             span.submit-order:hover {
 
                 background-color: @text_color;
+                .smallButtonHover;
 
             }
 
@@ -5466,6 +5472,7 @@ div.header-container.main {
                         padding: 7px;
                         padding-left: 14px;
                         padding-right: 14px;
+                        .smallButton;
 
                     }
 
@@ -5473,6 +5480,8 @@ div.header-container.main {
 
                         background-color: #3d3d3d;
                         color: white;
+
+                        .smallButtonHover;
 
                     }
 
@@ -5543,11 +5552,14 @@ div.header-container.main {
                 color: white;
                 font-size: 1.3em;
 
+                .smallButton;
+
             }
 
             span.add-item-to-order:hover {
 
                 background-color: @text_color;
+                .smallButtonHover;
                
             }
 
@@ -6788,21 +6800,12 @@ div.header-container.main {
             height: auto;
             background-color: white;
             padding: 30px;
+            padding-top: 0px;
             margin: 0 auto;
             margin-top: 30px;
 
             .pagePanelShadow;
-
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
+            .pagePanelHeader;
 
             div.saved-designs-list {
 
@@ -6958,8 +6961,6 @@ div.header-container.main {
 
                 span.ok-btn {
 
-                    background-color: #acacac;
-                    color: white;
                     width: 150px;
                     padding: 10px;
                     cursor: pointer;
@@ -6968,12 +6969,13 @@ div.header-container.main {
                     margin-top: 10px;
                     display: inline-block;
 
+                    .smallButton;
+
                 }
 
                 span.ok-btn:hover {
 
-                    background-color: #3d3d3d;
-                    color: white;
+                    .smallButtonHover;
 
                 }
 
@@ -7561,6 +7563,13 @@ button.btn.btn-primary {
     color: white !important;
 }
 
+button#firstname {
+
+    background-color: #e7e7e7 !important;
+    color: #3d3d3d !important;
+   
+}
+
 /* smkalert overrides */
 
 .alert-info, .alert-success, .alert-warning {
@@ -7592,6 +7601,7 @@ button.btn.btn-primary {
     color: #fff;
 
 }
+
 
 /* end smkalert overrides */
 
