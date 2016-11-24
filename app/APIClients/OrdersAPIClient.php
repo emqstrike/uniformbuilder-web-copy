@@ -55,6 +55,7 @@ class OrdersAPIClient extends APIClient
         {
             $endpoint .= '/' . $status;
         }
+        // dd($endpoint);
         $response = $this->get($endpoint);
         $result = $this->decoder->decode($response->getBody());
 
