@@ -632,10 +632,10 @@ $(document).ready(function() {
                 $('span.processing').fadeOut();
 
 
-                var _message = "'Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.'";
+                var _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
 
                 if (data.order.submitted === 0) {
-                    _message = "'Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.'";
+                    _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
                 }
 
                 ub.funcs.feedbackForm(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
@@ -819,7 +819,7 @@ $(document).ready(function() {
             ]
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/order';
+        var _url =  ub.config.api_host + '/api/order';
 
         ub.funcs.postOrderData(orderInput,_url);
 
@@ -1206,6 +1206,8 @@ $(document).ready(function() {
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
         $('td.quantity').html(_total);
+
+        //$('span.submit-order').hide();
 
         var _htmlBuilder = '';
         _.each (ub.current_material.settings.size_breakdown, function (row) {
