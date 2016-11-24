@@ -5878,6 +5878,38 @@ $(document).ready(function () {
 
     /// End My Saved Designs
 
+        ub.funcs.deleteSavedOrder = function (id, code) {
+
+            var txt;
+            
+            var r = confirm("Are you sure you want to delete saved order [" + code + "]?");
+            
+            if (r !== true) { return; }
+
+            data = {
+                id: id,
+            }
+
+            $.ajax({
+
+                url: ub.config.api_host + '/api/order/delete/',
+                data: JSON.stringify(data),
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $.smkAlert({text: 'Saved Order [' + code + '] Deleted.', type:'success', time: 3, marginTop: '80px'});
+                    $('tr.saved-order-row[data-id="' + id + '"]').fadeOut();
+
+                }
+                
+            });
+   
+        }
+
         ub.funcs.displayMyOrders = function () {
 
             $.ajax({
@@ -5903,12 +5935,25 @@ $(document).ready(function () {
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
-                    $('span.action-button').on('click', function () {
+                    $('div.order-list.submitted').find('span.action-button.delete').hide();
+
+                    $('span.action-button.edit').unbind('click');
+                    $('span.action-button.edit').on('click', function () {
 
                         var _dataID = $(this).data('order-id');
                         var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
+
+                    });
+
+                    $('span.action-button.delete').unbind('click');
+                    $('span.action-button.delete').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID     = $(this).data('id');
+
+                        ub.funcs.deleteSavedOrder(_ID, _dataID);
 
                     });
 
