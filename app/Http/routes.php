@@ -14,6 +14,8 @@
 Route::get('/', function () {
 
     return redirect('/index');
+
+  
     
 });
 

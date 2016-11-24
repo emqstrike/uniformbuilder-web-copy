@@ -141,6 +141,9 @@ class UniformBuilderController extends Controller
             
         }
 
+
+      
+
         return view('editor.uniform-builder-index', $params);
 
     }
