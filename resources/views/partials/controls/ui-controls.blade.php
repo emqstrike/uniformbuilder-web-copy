@@ -1018,7 +1018,7 @@
                             <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
                             <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
                             <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
-                            
+
                             <br />
 
                         @{{/items}}
@@ -1261,7 +1261,7 @@
                 
                 <div class="col-md-12 ok-footer">
                     
-                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
+                     <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
 
                 </div>
                 
