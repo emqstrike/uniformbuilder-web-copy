@@ -1208,7 +1208,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1241,7 +1241,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
