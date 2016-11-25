@@ -1533,10 +1533,13 @@ $(document).ready(function() {
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
 
-            var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
-            _numberObject.status = "used";
+            if (ub.current_material.settings.uniform_category === "Football") {
 
-            
+                var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
+                _numberObject.status = "used";
+
+            }
+
         });
 
         // Activate last tab
