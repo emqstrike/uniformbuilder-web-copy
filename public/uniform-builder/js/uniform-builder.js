@@ -5937,6 +5937,18 @@ $(document).ready(function () {
 
                     $('div.order-list.submitted').find('span.action-button.delete').hide();
 
+                    var $imgThumbs = $('img.thumbs');
+                    
+                    $imgThumbs.unbind('click');
+                    $imgThumbs.on('click', function () {
+
+                        var _file = $(this).data('file');
+                        var _str = "<img src ='" + _file + "' />";
+                        
+                        ub.showModalTool(_str);
+
+                    });
+
                     $('span.action-button.edit').unbind('click');
                     $('span.action-button.edit').on('click', function () {
 
@@ -5971,6 +5983,8 @@ $(document).ready(function () {
                         $('span.orders.header').html('My ' + _type + ' Orders');
 
                     });
+
+
 
                     // Init 
 

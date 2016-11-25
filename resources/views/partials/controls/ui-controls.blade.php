@@ -990,29 +990,38 @@
         <table>
            
             <tr class="header">
+
                 <td>Date</td>
                 <td>Order ID</td>
-                <td>Order Info</td>
+                <td>Thumbnails</td>
                 <td>Client</td>
                 <td>Status</td>
                 <td>Submitted</td>
                 <td>&nbsp;</td>
+
             </tr>
 
             @{{#orders}}
 
                 <tr class="saved-order-row" data-id="@{{id}}"> 
                     <td>@{{created_at}}</td>
-                    <td><strong> @{{order_id}}</strong></td>
+                    <td>
+                        <strong> @{{order_id}}</strong> <br />
+                    </td>
                     <td class="order-info">
 
                         @{{#items}}
 
-                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
-                            <strong> @{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+                            <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
+                            
+                            <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                            <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+                            
+                            <br />
 
                         @{{/items}}
-
 
                     </td>
                     <td>@{{client}}</td>
