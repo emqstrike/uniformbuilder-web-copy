@@ -1497,14 +1497,13 @@ $(document).ready(function() {
 
         _.each(_roster, function (player) {
 
-            var _size = player.Size;
-            var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
+            var _size       = player.Size;
+            var $spanSize   = $('span.size[data-size="' + _size + '"]');
+            var _status     = $spanSize.attr('data-status');
 
-            if (_status === "off") {
-
-                ub.funcs.addSizesTabs(_size, true);    
-
-            }
+            if (_status === "off") { ub.funcs.addSizesTabs(_size, true); } 
+            
+            $spanSize.addClass('active');
 
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
