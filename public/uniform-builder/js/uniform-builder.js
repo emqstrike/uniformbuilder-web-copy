@@ -5968,7 +5968,7 @@ $(document).ready(function () {
                         $('span.tab').removeClass('active');
                         $(this).addClass('active');
 
-                        $('span.orders.header').html('My Orders - ' + _type);
+                        $('span.orders.header').html('My ' + _type + ' Orders');
 
                     });
 

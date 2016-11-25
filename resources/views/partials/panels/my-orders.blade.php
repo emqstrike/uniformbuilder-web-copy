@@ -12,7 +12,7 @@
 
     </div>    
 
-    <span class='orders header'>My Orders - Saved</span>
+    <span class='orders header'>My Saved Orders</span>
 
     <div class="my-orders-loading" style="text-align: center;">
 
