@@ -1016,8 +1016,8 @@
 
                     </td>
                     <td>@{{client}}</td>
-                    <td>@{{status}}</td> 
-                    <td>@{{submitted}}</td> 
+                    <td>@{{status}}</td>
+                    <td>@{{submitted}}</td>
                     
                     <td class="action">
 
