@@ -5827,6 +5827,18 @@ $(document).ready(function () {
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
 
+                  var $imgThumbs = $('img.tview');
+                    
+                    $imgThumbs.unbind('click');
+                    $imgThumbs.on('click', function () {
+
+                        var _file = $(this).data('file');
+                        var _str = "<img src ='" + _file + "' />";
+                        
+                        ub.showModalTool(_str);
+
+                    });
+
                   $('span.action-button.view').on('click', function () {
 
                         var _savedDesignID = $(this).data('saved-design-id');
@@ -5944,7 +5956,7 @@ $(document).ready(function () {
 
                         var _file = $(this).data('file');
                         var _str = "<img src ='" + _file + "' />";
-                        
+
                         ub.showModalTool(_str);
 
                     });

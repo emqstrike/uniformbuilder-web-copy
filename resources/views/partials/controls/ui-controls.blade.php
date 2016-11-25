@@ -1301,10 +1301,10 @@
                     
                     <td>
                     
-                        <img class = "tview" src="@{{front_thumbnail}}" />
-                        <img class = "tview" src="@{{back_thumbnail}}" />
-                        <img class = "tview" src="@{{right_thumbnail}}" />
-                        <img class = "tview" src="@{{left_thumbnail}}" />
+                        <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
+                        <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
+                        <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
+                        <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />
                     
                     </td>
                     
