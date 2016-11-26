@@ -24,9 +24,11 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascot/add" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/artwork/add" enctype="multipart/form-data" id='create-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="layers_properties" id="layers-properties">
+                        <input type="hidden" name="artwork_request_id" value="{{ $artwork_request_id }}">
+                        <input type="hidden" name="artwork_index" value="{{ $artwork_index }}">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
@@ -64,7 +66,6 @@ select:hover {
                                 </select>
                             </div>
                         </div>
-
 
 <!--                         <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
@@ -152,7 +153,7 @@ select:hover {
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Mascot
                                 </button>
-                                <a href="artwork_requests/processing" class="btn btn-danger">
+                                <a href="/administration/artwork_requests/processing" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

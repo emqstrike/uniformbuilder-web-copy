@@ -60,7 +60,7 @@ class ArtworksController extends Controller
     public function processing(Request $request)
     {
         $artworks = $this->artworksClient->getArtworks('processing');
-        // dd($artworks);
+
         $ctr = 0;
         foreach($artworks as $artwork)
         {
@@ -69,8 +69,7 @@ class ArtworksController extends Controller
         }
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
-// dd($artworks[0]->artworks);
-        // dd($artworks);
+
         return view('administration.artworks.on-process-artwork-requests', [
             'artworks' => $artworks,
             'account_type' => $account_type,

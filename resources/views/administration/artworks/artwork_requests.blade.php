@@ -178,12 +178,12 @@ $('.reject-artwork').on('click', function(e){
 function insertMessage(data){
     var order_code = data.order_code;
     $.ajax({
-        url: '//localhost:8888/api/message',
+        url: '//api-dev.qstrike.com/api/message',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
         success: function (data) {
-            alert(data);
+            // alert(data);
             rejectArtwork(order_code)
             // window.location.reload();
         },
@@ -196,7 +196,7 @@ function rejectArtwork(order_code){
     var data = {};
     data.order_code = order_code;
     $.ajax({
-        url: '//localhost:8888/api/artwork_request/reject',
+        url: '//api-dev.qstrike.com/api/artwork_request/reject',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
