@@ -3472,10 +3472,10 @@ $(document).ready(function() {
 
                 var _originalName = _.first(results).name;
 
-                if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
-                if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
-                if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
-                if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+                // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+                // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+                // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+                // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_','left_');
@@ -3488,34 +3488,6 @@ $(document).ready(function() {
             else {
 
                 ub.funcs.clickOutside();
-
-            }
-
-            return;
-
-            if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
-
-                ub.funcs.resetHighlights();
-                ub.active_lock = false;
-
-            }
-            else {
-
-                if (results.length > 0) {
-
-                    var _match = _.first(results).name.toCodeCase();
-                    var _result = _match.replace('right_','left_');
-                    var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
-                    var _index = ub.funcs.getIndexByName(_result);
-                    
-                    ub.funcs.activatePartByIndex(_index);   
-             
-                }
-                else {
-
-                    ub.funcs.resetHighlights();
-
-                }
 
             }
 
@@ -3834,7 +3806,6 @@ $(document).ready(function() {
         var _calledCtr = 0;
 
         $('div.pd-dropdown-links').on('click', function () {
-
 
             var _group_id         = $(this).data('group-id');
             var _fullname         = $(this).data('fullname');
@@ -5379,8 +5350,14 @@ $(document).ready(function() {
         ub.funcs.removeApplicationByID(_id);
 
         var _layer = _.find(settingsObj.mascot.layers_properties, {layer_number: layer_no.toString()});
-        _layer.default_color = colorObj.color_code;
+        
+        if (typeof _laye !== "undefined") {
+            
+            _layer.default_color = colorObj.color_code;
 
+
+        }
+    
         settingsObj.color_array[layer_no - 1] = colorObj;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
@@ -7094,15 +7071,15 @@ $(document).ready(function() {
 
         var _id = parseInt(applicationID);
 
-        var _frontResult    = _.contains(_front, _id);
-        var _backResult     = _.contains(_back, _id);
-        var _leftResult     = _.contains(_left, _id);
-        var _rightResult    = _.contains(_right, _id);
+        // var _frontResult    = _.contains(_front, _id);
+        // var _backResult     = _.contains(_back, _id);
+        // var _leftResult     = _.contains(_left, _id);
+        // var _rightResult    = _.contains(_right, _id);
 
-        if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
-        if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
-        if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
-        if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
+        // if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
+        // if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
+        // if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
+        // if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
 
     }
 
@@ -9421,7 +9398,7 @@ $(document).ready(function() {
     ub.funcs.activateLayer = function (_appID) {
 
         var _view = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_appID].application);
-        $('a.change-view[data-view="' + _view + '"]').trigger('click');
+        //$('a.change-view[data-view="' + _view + '"]').trigger('click');
 
         if (!ub.funcs.isLayersPanelVisible()) { return; }
 
