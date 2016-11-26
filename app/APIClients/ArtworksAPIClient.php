@@ -37,9 +37,19 @@ class ArtworksAPIClient extends APIClient
         return $artwork_requests;
     }
 
-    public function countFinishedOrders()
+    // public function countFinishedOrders()
+    // {
+    //     return $this->countOrdersByStatus('finished');
+    // }
+
+    public function updateArtwork($data)
     {
-        return $this->countOrdersByStatus('finished');
+
+        $response = $this->post('artwork_request/update', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 
 }
