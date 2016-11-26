@@ -53,9 +53,11 @@
                             <td>
                                 <div>
                                     @if ( isset($artwork->artworks) )
+                                        {{--*/ $ctr = 0 /*--}}
                                         @foreach ($artwork->artworks as $art)
                                             Application #{{ $art['code'] }}
-                                            <a href="{{ $art['file'] }}">File</a> <a href="../upload_artwork">Upload Artwork</a></br>
+                                            <a href="{{ $art['file'] }}">File</a> <a href="../upload_artwork/{{ $artwork->id }}/{{ $ctr }}">Upload Artwork</a></br>
+                                        {{--*/ $ctr++ /*--}}
                                         @endforeach
                                     @endif
                                 </div>

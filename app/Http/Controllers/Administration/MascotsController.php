@@ -14,22 +14,26 @@ use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\MascotsCategoriesAPIClient;
+use App\APIClients\ArtworksAPIClient;
 use App\APIClients\MascotsAPIClient as APIClient;
 
 class MascotsController extends Controller
 {
     protected $client;
     protected $colorsClient;
+    protected $artworksClient;
 
     public function __construct(
         APIClient $apiClient,
         ColorsAPIClient $colorsAPIClient,
-        MascotsCategoriesAPIClient $mascotsCategoryAPIClient
+        MascotsCategoriesAPIClient $mascotsCategoryAPIClient,
+        ArtworksAPIClient $artworksAPIClient
     )
     {
         $this->client = $apiClient;
         $this->colorsClient = $colorsAPIClient;
         $this->mascotsCategoryClient = $mascotsCategoryAPIClient;
+        $this->artworksClient = $artworksAPIClient;
     }
 
     public function index()
@@ -95,7 +99,7 @@ class MascotsController extends Controller
         ]);
     }
 
-    public function addArtworkForm()
+    public function addArtworkForm($artwork_request_id, $artwork_index)
     {
         $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
@@ -112,9 +116,14 @@ class MascotsController extends Controller
         });
 
         return view('administration.mascots.upload-artwork', [
+
             'colors' => $colors,
-            'mascots_categories' => $mascots_categories
+            'mascots_categories' => $mascots_categories,
+            'artwork_request_id' => $artwork_request_id,
+            'artwork_index' => $artwork_index
+
         ]);
+
     }
 
     public function editMascotForm($id)
@@ -304,6 +313,147 @@ class MascotsController extends Controller
                             ->with('message', 'Successfully saved changes');
 
 
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/mascots')
+                            ->with('message', $response->message);
+        }
+    }
+
+    public function storeArtwork(Request $request)
+    {
+        $mascotName = $request->input('name');
+        $code = $request->input('code');
+        $category = $request->input('category');
+        $layersProperties = $request->input('layers_properties');
+
+        $artworkRequestID = $request->input('artwork_request_id');
+        $artworkIndex = $request->input('artwork_index');
+        $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
+dd($artwork_request);
+        $data = [
+            'name' => $mascotName,
+            'code' => $code,
+            'category' => $category,
+            'layers_properties' => $layersProperties
+        ];
+
+        $id = null;
+        if (!empty($request->input('mascot_id')))
+        {
+            $id = $request->input('mascot_id');
+            $data['id'] = $id;
+        }
+
+        $myJson = json_decode($layersProperties, true);
+        $materialFolder = $mascotName;
+        try
+        {
+            $materialOptionFile = $request->file('icon');
+            if (!is_null($materialOptionFile))
+            {
+                if ($materialOptionFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['icon'] = FileUploader::upload(
+                                                            $materialOptionFile,
+                                                            $mascotName,
+                                                            'material_option',
+                                                            "materials",
+                                                            "{$materialFolder}/{$filename}.png"
+                                                        );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+            return Redirect::to('/administration/mascots')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        try
+        {
+            $mascotLayerFiles = $request->file('ma_image');
+            $ctr = count($mascotLayerFiles);
+            foreach ($mascotLayerFiles as $mascotLayerFile) {
+                if (!is_null($mascotLayerFile))
+                {
+                    if ($mascotLayerFile->isValid())
+                    {
+                        $filename = Random::randomize(12);
+                        $myJson[(string)$ctr]['filename'] = FileUploader::upload(
+                                                                    $mascotLayerFile,
+                                                                    $mascotName,
+                                                                    'material_option',
+                                                                    "materials",
+                                                                    "{$materialFolder}/{$filename}.png"
+                                                                );
+                    }
+                }
+                $ctr--;
+            }
+        }
+
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/mascots')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+
+        $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+        $folder_name = "mascot_ai_files";
+
+        try // Upload Ai File
+        {
+            $newFile = $request->file('ai_file');
+            if (!is_null($newFile))
+            {
+                if ($newFile->isValid())
+                {
+
+                    $randstr = Random::randomize(12);
+                    $data['ai_file'] = FileUploaderV2::upload(
+                                                    $newFile,
+                                                    $randstr,
+                                                    'file',
+                                                    $folder_name
+                                                );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+
+            $message = $e->getMessage();
+            return Redirect::to('/administration/mascots')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        $response = null;
+
+        if (!empty($id))
+        {
+            Log::info('Attempts to update Mascot#' . $id);
+            $response = $this->client->updateMascot($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new Mascot ' . json_encode($data));
+
+            $response = $this->client->createMascot($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/mascots')
+                            ->with('message', 'Successfully saved changes');
         }
         else
         {

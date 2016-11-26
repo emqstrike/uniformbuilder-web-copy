@@ -25,7 +25,8 @@ $(document).ready(function(){
         });
     });
 
-    $('.delete-order').on('click', function(){
+    $('.delete-order').on('click', function(e){
+        e.preventDefault();
         var id = $(this).data('order-id');
         modalConfirm('Remove Order', 'Are you sure you want to delete the order?', id);
     });

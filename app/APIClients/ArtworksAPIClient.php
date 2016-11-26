@@ -8,6 +8,17 @@ class ArtworksAPIClient extends APIClient
         parent::__construct();
     }
 
+    public function getArtwork($id)
+    {
+        $response = $this->get('artwork_request/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->artwork_request;
+        }
+        return null;
+    }
+
     public function getArtworks($status = null)
     {
         $endpoint = 'artwork_requests';
