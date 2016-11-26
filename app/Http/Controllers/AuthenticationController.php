@@ -71,6 +71,17 @@ class AuthenticationController extends AdminAuthController
         $email = $request->input('email');
         $password = $request->input('password');
 
+        if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0) {
+
+            return [
+
+                'sucess' => false, 
+                'message' => 'Invalid Email / Password Combination',
+
+            ];
+
+        } 
+
         try {
 
             $response = $this->client->post('user/login', [
